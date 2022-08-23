@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AccountCategory index{% endblock %}
+
+{% block body %}
+    <h1>AccountCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>IsInactive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for account_category in account_categories %}
+            <tr>
+                <td>{{ account_category.id }}</td>
+                <td>{{ account_category.code }}</td>
+                <td>{{ account_category.name }}</td>
+                <td>{{ account_category.isInactive ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_master_account_category_show', {'id': account_category.id}) }}">show</a>
+                    <a href="{{ path('app_master_account_category_edit', {'id': account_category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_master_account_category_new') }}">Create new</a>
+{% endblock %}
