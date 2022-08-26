@@ -1,0 +1,28 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title %}Sample List{% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_sample_new') }}">Create new</a>
+{% endblock %}
+
+{% block content %}
+    <div id="grid">
+        {{ include('sample/_list.html.twig') }}
+    </div>
+    <script defer>
+        const b = document.querySelector('body');
+        b.addEventListener('submit', e => {
+            const el = document.querySelector('#data_grid').closest('form');
+            if (el && el.contains(event.target)) {
+                e.preventDefault();
+                const formData = new FormData(el);
+                fetch('{{ path('app_sample_index', {_format: 'json'}) }}', {method: 'POST', body: formData})
+                        .then(response => response.json())
+                        .then(json => {
+                            document.querySelector('#grid').innerHTML = json.gridHtml;
+                });
+            }
+        }, false);
+    </script>
+{% endblock %}

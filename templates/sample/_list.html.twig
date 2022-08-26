@@ -1,0 +1,30 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Submit') }}</button>
+{{ form_end(form) }}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="table-primary">
+            <th>Name</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sample in samples %}
+            <tr>
+                <td data-cs-field="name">{{ sample.name|default }}</td>
+                <td data-cs-field="price">{{ sample.price|default }}</td>
+                <td>
+                    <a class="btn btn-outline-primary btn-sm" href="{{ path('app_sample_show', {'id': sample.id}) }}">Show</a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ path('app_sample_edit', {'id': sample.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No records found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
