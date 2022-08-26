@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('_header.html.twig') }}
+    <div style="height: 75px"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex justify-content-start align-items-center">
+                {% block tooltip %}
+                    <h3>{{ block('title') }}</h3>
+                {% endblock %}
+            </div>
+            <div class="col d-flex justify-content-end align-items-center">
+                {% block toolbar %}{% endblock %}
+            </div>
+        </div>
+        <hr />
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
