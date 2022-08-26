@@ -30,9 +30,13 @@ class AccountCategory
     #[ORM\OneToMany(mappedBy: 'accountCategory', targetEntity: self::class)]
     private Collection $accountCategories;
 
+    #[ORM\OneToMany(mappedBy: 'accountCategory', targetEntity: Account::class)]
+    private Collection $accounts;
+
     public function __construct()
     {
         $this->accountCategories = new ArrayCollection();
+        $this->accounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +116,36 @@ class AccountCategory
             // set the owning side to null (unless already changed)
             if ($accountCategory->getAccountCategory() === $this) {
                 $accountCategory->setAccountCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Account>
+     */
+    public function getAccounts(): Collection
+    {
+        return $this->accounts;
+    }
+
+    public function addAccount(Account $account): self
+    {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts->add($account);
+            $account->setAccountCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccount(Account $account): self
+    {
+        if ($this->accounts->removeElement($account)) {
+            // set the owning side to null (unless already changed)
+            if ($account->getAccountCategory() === $this) {
+                $account->setAccountCategory(null);
             }
         }
 
