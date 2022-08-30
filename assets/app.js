@@ -6,7 +6,7 @@
  */
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap';
+window.bootstrap = require('bootstrap');
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
