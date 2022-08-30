@@ -13,7 +13,7 @@
 
     <hr />
 
-    <button type="button" class="btn btn-sm btn-outline-dark" id="add" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Detail</button>
+    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Detail</button>
 
     <div id="prototype" data-cs-index="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}" data-cs-prototype="{{ form_widget(form.purchaseOrderDetails.vars.prototype)|e }}"></div>
     <div id="ajax">
