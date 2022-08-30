@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Form\Type\Operator;
+namespace App\Common\Data\Operator;
 
-class FilterStringOperators implements FilterOperators
+class FilterNumberOperators implements FilterOperators
 {
     public function getOperatorList(): array
     {
         return [
             FilterEqual::class => true,
             FilterNotEqual::class => true,
-            FilterBetween::class => true,
         ];
     }
 }

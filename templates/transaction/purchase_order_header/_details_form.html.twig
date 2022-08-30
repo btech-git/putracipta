@@ -1,0 +1,66 @@
+<table class="table table-bordered">
+    <thead class="table-secondary">
+        <tr>
+            <th class="d-none">Product Id</th>
+            <th>Product Name</th>
+            <th>Size</th>
+            <th>Brand</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Total</th>
+            <th style="width: 0"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detailForm in form.purchaseOrderDetails %}
+            <tr>
+                <td>{{ form_row(detailForm.product) }}</td>
+                <td>Product Name</td>
+                <td>Size</td>
+                <td>Brand</td>
+                <td>{{ form_row(detailForm.quantity) }}</td>
+                <td>{{ form_row(detailForm.unitPrice) }}</td>
+                <td>{{ form_row(detailForm.discount) }}</td>
+                <td>Total</td>
+                <td style="width: 0"></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8"></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="text-end" colspan="6">Sub Total</td>
+            <td class="text-end">{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-end" colspan="6">
+                <span style="display: inline-block">Discount</span>
+                <span style="display: inline-block">{{ form_widget(form.discountType) }}{{ form_errors(form.discountType) }}</span>
+            </td>
+            <td>{{ form_widget(form.discountValue) }}{{ form_errors(form.discountValue) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-end" colspan="6">
+                <span style="display: inline-block">{{ form_row(form.isTaxApplicable, {'label': false}) }}</span>
+            </td>
+            <td class="text-end">{{ purchaseInvoiceHeader.taxNominal|default|number_format(2) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-end" colspan="6">Ongkos Kirim</td>
+            <td>{{ form_widget(form.shippingFee) }}{{ form_errors(form.shippingFee) }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-end" colspan="6">Grand Total</td>
+            <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>

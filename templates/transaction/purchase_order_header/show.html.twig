@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PurchaseOrderHeader{% endblock %}
+
+{% block body %}
+    <h1>PurchaseOrderHeader</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ purchase_order_header.id }}</td>
+            </tr>
+            <tr>
+                <th>TransactionDate</th>
+                <td>{{ purchase_order_header.transactionDate ? purchase_order_header.transactionDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateTimeApproved</th>
+                <td>{{ purchase_order_header.dateTimeApproved ? purchase_order_header.dateTimeApproved|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DiscountType</th>
+                <td>{{ purchase_order_header.discountType }}</td>
+            </tr>
+            <tr>
+                <th>DiscountValue</th>
+                <td>{{ purchase_order_header.discountValue }}</td>
+            </tr>
+            <tr>
+                <th>IsTaxApplicable</th>
+                <td>{{ purchase_order_header.isTaxApplicable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>TaxNominal</th>
+                <td>{{ purchase_order_header.taxNominal }}</td>
+            </tr>
+            <tr>
+                <th>ShippingFee</th>
+                <td>{{ purchase_order_header.shippingFee }}</td>
+            </tr>
+            <tr>
+                <th>SubTotal</th>
+                <td>{{ purchase_order_header.subTotal }}</td>
+            </tr>
+            <tr>
+                <th>GrandTotal</th>
+                <td>{{ purchase_order_header.grandTotal }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ purchase_order_header.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transaction_purchase_order_header_index') }}">back to list</a>
+
+    <a href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchase_order_header.id}) }}">edit</a>
+
+    {{ include('transaction/purchase_order_header/_delete_form.html.twig') }}
+{% endblock %}

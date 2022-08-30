@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Type\Operator;
+namespace App\Common\Data\Operator;
 
 interface FilterOperator
 {

@@ -2,16 +2,18 @@
 
 {% block body %}
     {{ include('_header.html.twig') }}
-    <div style="height: 75px"></div>
+    <div style="height: 72px"></div>
     <div class="container">
         <div class="row">
-            <div class="col d-flex justify-content-start align-items-center">
+            <div class="col d-flex justify-content-start">
                 {% block tooltip %}
-                    <h3>{{ block('title') }}</h3>
+                    <h4>{{ block('title') }}</h4>
                 {% endblock %}
             </div>
-            <div class="col d-flex justify-content-end align-items-center">
-                {% block toolbar %}{% endblock %}
+            <div class="col d-flex justify-content-end">
+                <div class="d-gap">
+                    {% block toolbar %}{% endblock %}
+                </div>
             </div>
         </div>
         <hr />

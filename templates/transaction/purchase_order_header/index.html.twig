@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PurchaseOrderHeader index{% endblock %}
+
+{% block body %}
+    <h1>PurchaseOrderHeader index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TransactionDate</th>
+                <th>DateTimeApproved</th>
+                <th>DiscountType</th>
+                <th>DiscountValue</th>
+                <th>IsTaxApplicable</th>
+                <th>TaxNominal</th>
+                <th>ShippingFee</th>
+                <th>SubTotal</th>
+                <th>GrandTotal</th>
+                <th>Note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchase_order_header in purchase_order_headers %}
+            <tr>
+                <td>{{ purchase_order_header.id }}</td>
+                <td>{{ purchase_order_header.transactionDate ? purchase_order_header.transactionDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ purchase_order_header.dateTimeApproved ? purchase_order_header.dateTimeApproved|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ purchase_order_header.discountType }}</td>
+                <td>{{ purchase_order_header.discountValue }}</td>
+                <td>{{ purchase_order_header.isTaxApplicable ? 'Yes' : 'No' }}</td>
+                <td>{{ purchase_order_header.taxNominal }}</td>
+                <td>{{ purchase_order_header.shippingFee }}</td>
+                <td>{{ purchase_order_header.subTotal }}</td>
+                <td>{{ purchase_order_header.grandTotal }}</td>
+                <td>{{ purchase_order_header.note }}</td>
+                <td>
+                    <a href="{{ path('app_transaction_purchase_order_header_show', {'id': purchase_order_header.id}) }}">show</a>
+                    <a href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchase_order_header.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transaction_purchase_order_header_new') }}">Create new</a>
+{% endblock %}

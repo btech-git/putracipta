@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}New Sample{% endblock %}
+{% block title 'Add Sample' %}
 
-{% block body %}
-    <h1>Create new Sample</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_sample_index') }}">Manage</a>
+{% endblock %}
 
+{% block content %}
     {{ include('sample/_form.html.twig') }}
-
-    <a href="{{ path('app_sample_index') }}">back to list</a>
 {% endblock %}

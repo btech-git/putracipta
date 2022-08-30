@@ -2,10 +2,13 @@
 
 namespace App\Repository;
 
+use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Criteria\DataCriteriaPagination;
+use App\Common\Data\Operator\FilterEqual;
+use App\Common\Data\Operator\FilterNotEqual;
 use App\Entity\Sample;
-use App\Form\Type\Operator\FilterEqual;
-use App\Form\Type\Operator\FilterNotEqual;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,9 +26,30 @@ class SampleRepository extends ServiceEntityRepository
         parent::__construct($registry, Sample::class);
     }
 
-    public function match(?array $filter, ?array $sort, ?int $pageSize = null, ?int $pageNumber = null): array
+    public function countBy(DataCriteria $criteria): int
     {
-        $builder = $this->createQueryBuilder('p');
+        $alias = 'e';
+        $qb = $this->createQueryBuilderBy($alias, $criteria->getFilter(), null, null);
+        $qb->select("COUNT({$alias})");
+
+        try {
+            $count = $qb->getQuery()->getSingleScalarResult();
+            return $count === null ? 0 : $count;
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    public function matchBy(DataCriteria $criteria): array
+    {
+        $qb = $this->createQueryBuilderBy('e', $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function createQueryBuilderBy(string $alias, ?array $filter, ?array $sort, ?DataCriteriaPagination $pagination): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder($alias);
         if (!empty($filter)) {
             foreach ($filter as $field => $values) {
                 if (empty($values[0])) {
@@ -33,12 +57,12 @@ class SampleRepository extends ServiceEntityRepository
                 }
                 switch ($values[0]) {
                     case FilterEqual::class:
-                        $builder->andWhere("p.{$field} = :{$field}");
-                        $builder->setParameter("{$field}", $values[1]);
+                        $qb->andWhere("{$alias}.{$field} = :{$field}");
+                        $qb->setParameter("{$field}", $values[1]);
                         break;
                     case FilterNotEqual::class:
-                        $builder->andWhere("p.{$field} <> :{$field}");
-                        $builder->setParameter("{$field}", $values[1]);
+                        $qb->andWhere("{$alias}.{$field} <> :{$field}");
+                        $qb->setParameter("{$field}", $values[1]);
                         break;
                 }
             }
@@ -46,13 +70,17 @@ class SampleRepository extends ServiceEntityRepository
         if (!empty($sort)) {
             foreach ($sort as $field => $order) {
                 if (!empty($order)) {
-                    $builder->orderBy("p.{$field}", $order);
+                    $qb->orderBy("{$alias}.{$field}", $order);
                 }
             }
         }
-        $builder->setMaxResults($pageSize ?? 10);
-        $builder->setFirstResult((($pageNumber ?? 1) - 1) * $pageSize);
-        return $builder->getQuery()->getResult();
+        if (!empty($pagination)) {
+            $pageSize = $pagination->getSize();
+            $qb->setMaxResults($pageSize);
+            $qb->setFirstResult(($pagination->getNumber() - 1) * $pageSize);
+        }
+
+        return $qb;
     }
 
     public function add(Sample $entity, bool $flush = false): void

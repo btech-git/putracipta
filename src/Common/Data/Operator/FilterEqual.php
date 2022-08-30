@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Type\Operator;
+namespace App\Common\Data\Operator;
 
-class FilterNotEqual implements FilterOperator
+class FilterEqual implements FilterOperator
 {
     public function getValueCount(): int
     {

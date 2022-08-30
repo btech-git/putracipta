@@ -1,0 +1,51 @@
+{% block filter_row %}
+    <div class="dropdown d-inline">
+        <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Filter
+        </button>
+        <div class="dropdown-menu" style="min-width: 512px">
+            <div class="m-3">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sort_row %}
+    <div class="dropdown d-inline">
+        <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort
+        </button>
+        <div class="dropdown-menu" style="min-width: 256px">
+            <div class="m-3">
+                {% for child in form.children %}
+                    {{ form_label(child) }}
+                    {{ form_widget(child, {'attr': {'class': 'form-select-sm'}}) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block pagination_row %}
+    <div class="dropdown d-inline">
+        <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pagination
+        </button>
+        <div class="dropdown-menu" style="min-width: 128px">
+            <div class="m-3">
+                {% for child in form.children %}
+                    {{ form_label(child) }}
+                    {{ form_widget(child, {'attr': {'class': 'form-select-sm form-control-sm mb-3'}}) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block filter_expression_row %}
+    {{ form_label(form) }}
+    {% for child in form.children %}
+        {{ form_widget(child, {'attr': {'class': 'w-25 d-inline form-select-sm form-control-sm'}}) }}
+    {% endfor %}
+{% endblock %}

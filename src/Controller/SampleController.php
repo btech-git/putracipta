@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Sample;
 use App\Form\SampleType;
-use App\Form\Type\DataGridType;
+use App\Grid\SampleGridType;
 use App\Repository\SampleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,14 +18,15 @@ class SampleController extends AbstractController
     #[Route('/.{_format}', name: 'app_sample_index', methods: ['GET', 'POST'])]
     public function index(Request $request, SampleRepository $sampleRepository, $_format = 'html'): Response
     {
-        $form = $this->createForm(DataGridType::class, []);
+        $criteria = new DataCriteria();
+        $form = $this->createForm(SampleGridType::class, $criteria);
         $form->handleRequest($request);
-        $samples = $sampleRepository->match($form->get('filter')->getData(), $form->get('sort')->getData(), $form->get('pageSize')->getData(), $form->get('pageNumber')->getData());
-        dump($form->getData());
+        dump($form->createView());
 
         return $this->renderForm("sample/index.{$_format}.twig", [
             'form' => $form,
-            'samples' => $samples,
+            'count' => $sampleRepository->countBy($criteria),
+            'samples' => $sampleRepository->matchBy($criteria),
         ]);
     }
 

@@ -1,3 +1,5 @@
 {
-    "gridHtml": "{{ include('sample/_list.html.twig')|replace({'\n': '', '\\': '\\\\', '"': '\\"', '/': '\\/'})|raw }}"
+    "html": {
+        "{{ form.vars.name }}": "{{ include('sample/_list.html.twig')|replace({'\n': '', '\\': '\\\\', '"': '\\"', '/': '\\/'})|raw }}"
+    }
 }

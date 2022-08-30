@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Common\Form\Type;
 
 use App\Form\Type\Operator\FilterOperators;
 use Symfony\Component\Form\AbstractType;

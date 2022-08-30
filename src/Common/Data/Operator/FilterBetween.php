@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Type\Operator;
+namespace App\Common\Data\Operator;
 
-class FilterNotBetween implements FilterOperator
+class FilterBetween implements FilterOperator
 {
     public function getValueCount(): int
     {
