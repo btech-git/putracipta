@@ -7,8 +7,18 @@
 {% endblock %}
 
 {% block content %}
-    {% set options = {name: form.vars.name, url: path('app_sample_index', {_format: 'json'})} %}
-    <div {{ stimulus_controller('data-grid', options) }}>
+    {% for type, flashes in app.session.flashBag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                <strong>{{ flash.title }}</strong> {{ flash.message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div data-controller="list"
+         data-list-name-value="{{ form.vars.name }}"
+         data-list-url-value="{{ path('app_sample_index', {_format: 'json'}) }}">
         {{ include('sample/_list.html.twig') }}
     </div>
 {% endblock %}

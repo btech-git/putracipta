@@ -1,29 +1,33 @@
-{% extends '_layout_datagrid.html.twig' %}
+{% import 'common/grid/datagrid.html.twig' as datagrid %}
 
-{% block datagrid_table %}
-    <table class="table table-bordered table-striped">
-        <thead class="table-primary">
+{{ datagrid.form(form) }}
+
+{{ datagrid.info(form, count, samples) }}
+
+<table class="table table-bordered table-striped">
+    <thead class="table-primary">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sample in samples %}
             <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th></th>
+                <td>{{ sample.name|default }}</td>
+                <td>{{ sample.price|default }}</td>
+                <td>
+                    <a class="btn btn-info btn-sm" href="{{ path('app_sample_show', {'id': sample.id}) }}">Show</a>
+                    <a class="btn btn-warning btn-sm" href="{{ path('app_sample_edit', {'id': sample.id}) }}">Edit</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for sample in samples %}
-                <tr>
-                    <td>{{ sample.name|default }}</td>
-                    <td>{{ sample.price|default }}</td>
-                    <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_sample_show', {'id': sample.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_sample_edit', {'id': sample.id}) }}">Edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="3">No records found</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
+        {% else %}
+            <tr>
+                <td colspan="3">No records found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ datagrid.navigation(form, count, samples) }}

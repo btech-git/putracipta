@@ -1,5 +1,5 @@
 {
     "html": {
-        "ajax": "{{ include('transaction/purchase_order_header/_details_form.html.twig')|replace({'\n': '', '\\': '\\\\', '"': '\\"', '/': '\\/'})|raw }}"
+        "ajax": "{{ include('transaction/purchase_order_header/_details_form.html.twig')|e('js') }}"
     }
 }

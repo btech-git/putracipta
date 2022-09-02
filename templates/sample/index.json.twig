@@ -1,5 +1,5 @@
 {
     "html": {
-        "{{ form.vars.name }}": "{{ include('sample/_list.html.twig')|replace({'\n': '', '\\': '\\\\', '"': '\\"', '/': '\\/'})|raw }}"
+        "{{ form.vars.name }}": "{{ include('sample/_list.html.twig')|e('js') }}"
     }
 }

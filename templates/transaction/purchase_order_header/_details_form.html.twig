@@ -1,4 +1,4 @@
-<table class="table table-bordered">
+<table class="table table-bordered" data-controller="form-collection" data-form-collection-prototype-value="{{ _self.collection_item(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}">
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Product Id</th>
@@ -9,26 +9,29 @@
             <th>Price</th>
             <th>Discount</th>
             <th>Total</th>
-            <th style="width: 0"></th>
+            <th style="width: 0">
+                <button type="button" class="btn btn-outline-dark" data-action="form-collection#addItem">Add</button>
+            </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody data-form-collection-target="rows" data-action="data-table:select@document->form-collection#addItem">
+        {% macro collection_item(detailForm) %}
+            <tr data-form-collection-target="row">
+                <td class="d-none">{{ form_widget(detailForm.product) }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ form_widget(detailForm.quantity) }}</td>
+                <td>{{ form_widget(detailForm.unitPrice) }}</td>
+                <td>{{ form_widget(detailForm.discount) }}</td>
+                <td></td>
+                <td style="width: 0">
+                    <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeItem">Remove</button>
+                </td>
+            </tr>
+        {% endmacro %}
         {% for detailForm in form.purchaseOrderDetails %}
-            <tr>
-                <td>{{ form_row(detailForm.product) }}</td>
-                <td>Product Name</td>
-                <td>Size</td>
-                <td>Brand</td>
-                <td>{{ form_row(detailForm.quantity) }}</td>
-                <td>{{ form_row(detailForm.unitPrice) }}</td>
-                <td>{{ form_row(detailForm.discount) }}</td>
-                <td>Total</td>
-                <td style="width: 0"></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8"></td>
-            </tr>
+            {{ _self.collection_item(detailForm) }}
         {% endfor %}
     </tbody>
     <tfoot>
