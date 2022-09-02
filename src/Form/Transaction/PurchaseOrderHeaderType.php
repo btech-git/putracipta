@@ -2,13 +2,15 @@
 
 namespace App\Form\Transaction;
 
-use App\Common\Form\Type\EntityTextType;
+use App\Entity\Master\Supplier;
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+//use App\Common\Form\Type\EntityTextType;
 
 class PurchaseOrderHeaderType extends AbstractType
 {
@@ -21,7 +23,7 @@ class PurchaseOrderHeaderType extends AbstractType
             ->add('isTaxApplicable')
             ->add('shippingFee')
             ->add('note')
-            ->add('supplier', EntityTextType::class, ['class' => PurchaseOrderHeader::class])
+            ->add('supplier', EntityType::class, ['class' => Supplier::class, 'choice_label' => 'name', 'required' => false, 'choices' => []])
             ->add('purchaseOrderDetails', CollectionType::class, array(
                 'entry_type' => PurchaseOrderDetailType::class,
                 'allow_add' => true,

@@ -53,12 +53,13 @@ class PurchaseOrderHeaderController extends AbstractController
     {
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
+dump($form->get('purchaseOrderDetails')->getData());
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
-
-            return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
-        }
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+//
+//            return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+//        }
 
         return $this->renderForm('transaction/purchase_order_header/edit.html.twig', [
             'purchase_order_header' => $purchaseOrderHeader,

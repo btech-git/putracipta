@@ -80,6 +80,10 @@ class SampleController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$sample->getId(), $request->request->get('_token'))) {
             $sampleRepository->remove($sample, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
         }
 
         return $this->redirectToRoute('app_sample_index', [], Response::HTTP_SEE_OTHER);
