@@ -3,9 +3,9 @@
         <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Filter
         </button>
-        <div class="dropdown-menu" style="min-width: 512px">
+        <div class="dropdown-menu" style="min-width: 512px" data-controller="filter-panel" data-filter-panel-form-target-value="form[name={{ form.parent.vars.name }}]" data-filter-panel-ref-value="{{ {'App\\Common\\Data\\Operator\\FilterEqual': 1, 'App\\Common\\Data\\Operator\\FilterNotEqual': 1, 'App\\Common\\Data\\Operator\\FilterBetween': 2}|json_encode }}">
             <div class="m-3">
-                {{ form_widget(form) }}
+                {{ form_widget(form, {'attr': {'data-action': 'filter-panel:sync->filter-panel#sync:self'}}) }}
             </div>
         </div>
     </div>
@@ -16,12 +16,14 @@
         <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Sort
         </button>
-        <div class="dropdown-menu" style="min-width: 256px">
+        <div class="dropdown-menu" style="min-width: 256px" data-controller="sort-panel" data-sort-panel-form-target-value="form[name={{ form.parent.vars.name }}]">
             <div class="m-3">
-                {% for child in form.children %}
-                    {{ form_label(child) }}
-                    {{ form_widget(child, {'attr': {'class': 'form-select-sm'}}) }}
-                {% endfor %}
+                <div id="{{ form.vars.id }}" data-action="sort-panel:sync->sort-panel#sync:self">
+                    {% for childForm in form.children %}
+                        {{ form_label(childForm) }}
+                        {{ form_widget(childForm, {'attr': {'class': 'form-select-sm', 'data-action': 'sort-panel#normalize', 'data-sort-panel-target': 'widget', 'data-widget-index': 0, 'data-widget-field-name': childForm.vars.name}}) }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
@@ -32,12 +34,14 @@
         <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Pagination
         </button>
-        <div class="dropdown-menu" style="min-width: 128px">
+        <div class="dropdown-menu" style="min-width: 128px" data-controller="pagination-panel" data-pagination-panel-form-target-value="form[name={{ form.parent.vars.name }}]">
             <div class="m-3">
-                {% for child in form.children %}
-                    {{ form_label(child) }}
-                    {{ form_widget(child, {'attr': {'class': 'form-select-sm form-control-sm mb-3'}}) }}
-                {% endfor %}
+                <div id="{{ form.vars.id }}" data-action="pagination-panel:sync->pagination-panel#sync:self">
+                    {{ form_label(form.size) }}
+                    {{ form_widget(form.size, {'attr': {'class': 'form-select-sm form-control-sm mb-3', 'data-pagination-panel-target': 'size'}}) }}
+                    {{ form_label(form.number) }}
+                    {{ form_widget(form.number, {'attr': {'class': 'form-control-sm mb-3', 'data-pagination-panel-target': 'number'}}) }}
+                </div>
             </div>
         </div>
     </div>
@@ -45,7 +49,11 @@
 
 {% block filter_expression_row %}
     {{ form_label(form) }}
-    {% for child in form.children %}
-        {{ form_widget(child, {'attr': {'class': 'w-25 d-inline form-select-sm form-control-sm'}}) }}
+    {% for index, childForm in form.children %}
+        {% set attr = {'class': 'w-25 d-inline form-select-sm form-control-sm', 'data-filter-panel-target': 'widget', 'data-widget-index': childForm.vars.name, 'data-widget-field-name': form.vars.name} %}
+        {% if index == 0 %}
+            {% set attr = attr|merge({'data-action': 'filter-panel#normalize'}) %}
+        {% endif %}
+        {{ form_widget(childForm, {'attr': attr}) }}
     {% endfor %}
 {% endblock %}

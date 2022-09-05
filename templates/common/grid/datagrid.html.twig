@@ -1,5 +1,5 @@
 {% macro form(form, buttonLabel = null) %}
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'data-action': 'content-loader#load:self:prevent', 'data-content-loader-form-target-param': 'form[name=' ~ form.vars.name ~ ']'}}) }}
         {{ form_widget(form, {'attr': {'class': 'd-inline'}}) }}
         <button class="btn btn-outline-dark btn-sm">{{ buttonLabel|default('Submit') }}</button>
     {{ form_end(form) }}
@@ -27,24 +27,24 @@
             {% set current = form.vars.value.pagination.number %}
             {% set offset = 2 %}
 
-            <ul class="pagination pagination-sm justify-content-end" style="margin: 0" data-controller="pagination" data-pagination-form-id-value="{{ form.vars.id }}" data-pagination-field-id-value="{{ form.pagination.number.vars.id }}">
-                <li class="page-item {%- if (current == 1) %} disabled {%- endif %}" data-action="click->pagination#post" data-pagination-number-param="1">
+            <ul class="pagination pagination-sm justify-content-end" style="margin: 0" data-controller="pagination-link" data-pagination-link-panel-target-value="#{{ form.pagination.vars.id }}">
+                <li class="page-item {%- if (current == 1) %} disabled {%- endif %}" data-action="click->pagination-link#post:prevent" data-pagination-link-number-param="1">
                     <a class="page-link" data-ordinal="1" href="#">&laquo; First</a>
                 </li>
-                <li class="page-item {%- if (current == 1) %} disabled {%- endif %}" data-action="click->pagination#post" data-pagination-number-param="{{ current - 1 }}">
+                <li class="page-item {%- if (current == 1) %} disabled {%- endif %}" data-action="click->pagination-link#post:prevent" data-pagination-link-number-param="{{ current - 1 }}">
                     <a class="page-link" data-ordinal="{{ current - 1 }}" href="#">&lsaquo; Previous</a>
                 </li>
                 {% for i in current-offset..current+offset %}
                     {% if (i >= 1 and i <= last) %}
-                        <li class="page-item {%- if (current == i) %} active {%- endif %}" data-action="click->pagination#post" data-pagination-number-param="{{ i }}">
+                        <li class="page-item {%- if (current == i) %} active {%- endif %}" data-action="click->pagination-link#post:prevent" data-pagination-link-number-param="{{ i }}">
                             <a class="page-link" data-ordinal="{{ i }}" href="#">{{ i }}</a>
                         </li>
                     {% endif %}
                 {% endfor %}
-                <li class="page-item {%- if (current == last) %} disabled {%- endif %}" data-action="click->pagination#post" data-pagination-number-param="{{ current + 1 }}">
+                <li class="page-item {%- if (current == last) %} disabled {%- endif %}" data-action="click->pagination-link#post:prevent" data-pagination-link-number-param="{{ current + 1 }}">
                     <a class="page-link" data-ordinal="{{ current + 1 }}" href="#">Next &rsaquo;</a>
                 </li>
-                <li class="page-item {%- if (current == last) %} disabled {%- endif %}" data-action="click->pagination#post" data-pagination-number-param="{{ last }}">
+                <li class="page-item {%- if (current == last) %} disabled {%- endif %}" data-action="click->pagination-link#post:prevent" data-pagination-link-number-param="{{ last }}">
                     <a class="page-link" data-ordinal="{{ last }}" href="#">Last &raquo;</a>
                 </li>
             </ul>
