@@ -76,8 +76,9 @@ class SampleRepository extends ServiceEntityRepository
         }
         if (!empty($pagination)) {
             $pageSize = $pagination->getSize();
+            $pageNumber = $pagination->getNumber();
             $qb->setMaxResults($pageSize);
-            $qb->setFirstResult(($pagination->getNumber() - 1) * $pageSize);
+            $qb->setFirstResult((($pageNumber <= 0 ? 1 : $pageNumber) - 1) * $pageSize);
         }
 
         return $qb;

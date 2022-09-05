@@ -15,19 +15,24 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sample')]
 class SampleController extends AbstractController
 {
-    #[Route('/.{_format}', name: 'app_sample_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, SampleRepository $sampleRepository, $_format = 'html'): Response
+    #[Route('/_list', name: 'app_sample__list', methods: ['GET'])]
+    public function _list(Request $request, SampleRepository $sampleRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(SampleGridType::class, $criteria);
+        $form = $this->createForm(SampleGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
-        dump($form->createView());
 
-        return $this->renderForm("sample/index.{$_format}.twig", [
+        return $this->renderForm("sample/_list.html.twig", [
             'form' => $form,
             'count' => $sampleRepository->countBy($criteria),
             'samples' => $sampleRepository->matchBy($criteria),
         ]);
+    }
+
+    #[Route('/', name: 'app_sample_index', methods: ['GET'])]
+    public function index(): Response
+    {
+        return $this->render("sample/index.html.twig");
     }
 
     #[Route('/new', name: 'app_sample_new', methods: ['GET', 'POST'])]

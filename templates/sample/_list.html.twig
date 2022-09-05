@@ -5,10 +5,24 @@
 {{ datagrid.info(form, count, samples) }}
 
 <table class="table table-bordered table-striped">
-    <thead class="table-primary">
-        <tr>
-            <th>Name</th>
+    <thead>
+        <tr class="table-primary" data-controller="sort-link" data-sort-link-panel-target-value="#{{ form.sort.vars.id }}">
+            <th data-action="click->sort-link#post"
+                data-sort-order="{{ form.sort.name.vars.value|default }}"
+                data-sort-link-field-name-param="name"
+                data-sort-link-value-list-param="{{ ['ASC', 'DESC']|json_encode }}">Name</th>
             <th>Price</th>
+            <th></th>
+        </tr>
+        <tr data-controller="filter-link" data-filter-link-panel-target-value="#{{ form.filter.vars.id }}">
+            <th>
+                <input type="text" value="{{ form.filter.name.1.vars.value|default }}"
+                       data-action="change->filter-link#post"
+                       data-filter-link-field-name-param="name"
+                       data-filter-link-values-map-param="{{ ['App\\Common\\Data\\Operator\\FilterEqual', true]|json_encode }}"
+                       data-filter-link-special-values-map-param="{{ {'': ['']}|json_encode }}" />
+            </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>

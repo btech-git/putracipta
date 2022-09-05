@@ -16,9 +16,7 @@
         {% endfor %}
     {% endfor %}
 
-    <div data-controller="list"
-         data-list-name-value="{{ form.vars.name }}"
-         data-list-url-value="{{ path('app_sample_index', {_format: 'json'}) }}">
-        {{ include('sample/_list.html.twig') }}
+    <div data-controller="content-loader"
+         data-content-loader-url-value="{{ path('app_sample__list') }}">
     </div>
 {% endblock %}
