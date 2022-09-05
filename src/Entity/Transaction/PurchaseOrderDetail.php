@@ -4,6 +4,8 @@ namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,14 @@ class PurchaseOrderDetail
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
     #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseOrderHeader $purchaseOrderHeader = null;
+
+    #[ORM\OneToMany(mappedBy: 'purchaseOrderDetail', targetEntity: ReceiveDetail::class)]
+    private Collection $receiveDetails;
+
+    public function __construct()
+    {
+        $this->receiveDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +103,36 @@ class PurchaseOrderDetail
     public function setPurchaseOrderHeader(?PurchaseOrderHeader $purchaseOrderHeader): self
     {
         $this->purchaseOrderHeader = $purchaseOrderHeader;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReceiveDetail>
+     */
+    public function getReceiveDetails(): Collection
+    {
+        return $this->receiveDetails;
+    }
+
+    public function addReceiveDetail(ReceiveDetail $receiveDetail): self
+    {
+        if (!$this->receiveDetails->contains($receiveDetail)) {
+            $this->receiveDetails->add($receiveDetail);
+            $receiveDetail->setPurchaseOrderDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceiveDetail(ReceiveDetail $receiveDetail): self
+    {
+        if ($this->receiveDetails->removeElement($receiveDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($receiveDetail->getPurchaseOrderDetail() === $this) {
+                $receiveDetail->setPurchaseOrderDetail(null);
+            }
+        }
 
         return $this;
     }

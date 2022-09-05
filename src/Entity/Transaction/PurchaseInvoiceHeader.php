@@ -3,34 +3,37 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Supplier;
-use App\Repository\Transaction\PurchaseOrderHeaderRepository;
+use App\Repository\Transaction\PurchaseInvoiceHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PurchaseOrderHeaderRepository::class)]
-class PurchaseOrderHeader
+#[ORM\Entity(repositoryClass: PurchaseInvoiceHeaderRepository::class)]
+class PurchaseInvoiceHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $transactionDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateTimeApproved = null;
+    #[ORM\Column(length: 60)]
+    private ?string $invoiceTaxCodeNumber = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $supplierInvoiceCodeNumber = null;
 
     #[ORM\Column(length: 20)]
     private ?string $discountType = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $discountValue = null;
+    private ?string $discountNominal = null;
 
     #[ORM\Column]
-    private ?bool $isTaxApplicable = null;
+    private ?int $taxPercentage = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $taxNominal = null;
@@ -44,18 +47,31 @@ class PurchaseOrderHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $totalPayment = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $totalReturn = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $remainingPayment = null;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseOrderHeaders')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
 
-    #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: PurchaseOrderDetail::class)]
-    private Collection $purchaseOrderDetails;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ReceiveHeader $receiveHeader = null;
 
-    #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: ReceiveHeader::class)]
-    private Collection $receiveHeaders;
+    #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchaseInvoiceDetail::class)]
+    private Collection $purchaseInvoiceDetails;
+
+    #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchasePaymentDetail::class)]
+    private Collection $purchasePaymentDetails;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdTransactionDateTime = null;
@@ -68,8 +84,8 @@ class PurchaseOrderHeader
 
     public function __construct()
     {
-        $this->purchaseOrderDetails = new ArrayCollection();
-        $this->receiveHeaders = new ArrayCollection();
+        $this->purchaseInvoiceDetails = new ArrayCollection();
+        $this->purchasePaymentDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,14 +105,26 @@ class PurchaseOrderHeader
         return $this;
     }
 
-    public function getDateTimeApproved(): ?\DateTimeInterface
+    public function getInvoiceTaxCodeNumber(): ?string
     {
-        return $this->dateTimeApproved;
+        return $this->invoiceTaxCodeNumber;
     }
 
-    public function setDateTimeApproved(?\DateTimeInterface $dateTimeApproved): self
+    public function setInvoiceTaxCodeNumber(string $invoiceTaxCodeNumber): self
     {
-        $this->dateTimeApproved = $dateTimeApproved;
+        $this->invoiceTaxCodeNumber = $invoiceTaxCodeNumber;
+
+        return $this;
+    }
+
+    public function getSupplierInvoiceCodeNumber(): ?string
+    {
+        return $this->supplierInvoiceCodeNumber;
+    }
+
+    public function setSupplierInvoiceCodeNumber(string $supplierInvoiceCodeNumber): self
+    {
+        $this->supplierInvoiceCodeNumber = $supplierInvoiceCodeNumber;
 
         return $this;
     }
@@ -113,26 +141,26 @@ class PurchaseOrderHeader
         return $this;
     }
 
-    public function getDiscountValue(): ?string
+    public function getDiscountNominal(): ?string
     {
-        return $this->discountValue;
+        return $this->discountNominal;
     }
 
-    public function setDiscountValue(string $discountValue): self
+    public function setDiscountNominal(string $discountNominal): self
     {
-        $this->discountValue = $discountValue;
+        $this->discountNominal = $discountNominal;
 
         return $this;
     }
 
-    public function isIsTaxApplicable(): ?bool
+    public function getTaxPercentage(): ?int
     {
-        return $this->isTaxApplicable;
+        return $this->taxPercentage;
     }
 
-    public function setIsTaxApplicable(bool $isTaxApplicable): self
+    public function setTaxPercentage(int $taxPercentage): self
     {
-        $this->isTaxApplicable = $isTaxApplicable;
+        $this->taxPercentage = $taxPercentage;
 
         return $this;
     }
@@ -185,6 +213,42 @@ class PurchaseOrderHeader
         return $this;
     }
 
+    public function getTotalPayment(): ?string
+    {
+        return $this->totalPayment;
+    }
+
+    public function setTotalPayment(string $totalPayment): self
+    {
+        $this->totalPayment = $totalPayment;
+
+        return $this;
+    }
+
+    public function getTotalReturn(): ?string
+    {
+        return $this->totalReturn;
+    }
+
+    public function setTotalReturn(string $totalReturn): self
+    {
+        $this->totalReturn = $totalReturn;
+
+        return $this;
+    }
+
+    public function getRemainingPayment(): ?string
+    {
+        return $this->remainingPayment;
+    }
+
+    public function setRemainingPayment(string $remainingPayment): self
+    {
+        $this->remainingPayment = $remainingPayment;
+
+        return $this;
+    }
+
     public function getNote(): ?string
     {
         return $this->note;
@@ -209,30 +273,42 @@ class PurchaseOrderHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, PurchaseOrderDetail>
-     */
-    public function getPurchaseOrderDetails(): Collection
+    public function getReceiveHeader(): ?ReceiveHeader
     {
-        return $this->purchaseOrderDetails;
+        return $this->receiveHeader;
     }
 
-    public function addPurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
+    public function setReceiveHeader(ReceiveHeader $receiveHeader): self
     {
-        if (!$this->purchaseOrderDetails->contains($purchaseOrderDetail)) {
-            $this->purchaseOrderDetails->add($purchaseOrderDetail);
-            $purchaseOrderDetail->setPurchaseOrderHeader($this);
+        $this->receiveHeader = $receiveHeader;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseInvoiceDetail>
+     */
+    public function getPurchaseInvoiceDetails(): Collection
+    {
+        return $this->purchaseInvoiceDetails;
+    }
+
+    public function addPurchaseInvoiceDetail(PurchaseInvoiceDetail $purchaseInvoiceDetail): self
+    {
+        if (!$this->purchaseInvoiceDetails->contains($purchaseInvoiceDetail)) {
+            $this->purchaseInvoiceDetails->add($purchaseInvoiceDetail);
+            $purchaseInvoiceDetail->setPurchaseInvoiceHeader($this);
         }
 
         return $this;
     }
 
-    public function removePurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
+    public function removePurchaseInvoiceDetail(PurchaseInvoiceDetail $purchaseInvoiceDetail): self
     {
-        if ($this->purchaseOrderDetails->removeElement($purchaseOrderDetail)) {
+        if ($this->purchaseInvoiceDetails->removeElement($purchaseInvoiceDetail)) {
             // set the owning side to null (unless already changed)
-            if ($purchaseOrderDetail->getPurchaseOrderHeader() === $this) {
-                $purchaseOrderDetail->setPurchaseOrderHeader(null);
+            if ($purchaseInvoiceDetail->getPurchaseInvoiceHeader() === $this) {
+                $purchaseInvoiceDetail->setPurchaseInvoiceHeader(null);
             }
         }
 
@@ -240,29 +316,29 @@ class PurchaseOrderHeader
     }
 
     /**
-     * @return Collection<int, ReceiveHeader>
+     * @return Collection<int, PurchasePaymentDetail>
      */
-    public function getReceiveHeaders(): Collection
+    public function getPurchasePaymentDetails(): Collection
     {
-        return $this->receiveHeaders;
+        return $this->purchasePaymentDetails;
     }
 
-    public function addReceiveHeader(ReceiveHeader $receiveHeader): self
+    public function addPurchasePaymentDetail(PurchasePaymentDetail $purchasePaymentDetail): self
     {
-        if (!$this->receiveHeaders->contains($receiveHeader)) {
-            $this->receiveHeaders->add($receiveHeader);
-            $receiveHeader->setPurchaseOrderHeader($this);
+        if (!$this->purchasePaymentDetails->contains($purchasePaymentDetail)) {
+            $this->purchasePaymentDetails->add($purchasePaymentDetail);
+            $purchasePaymentDetail->setPurchaseInvoiceHeader($this);
         }
 
         return $this;
     }
 
-    public function removeReceiveHeader(ReceiveHeader $receiveHeader): self
+    public function removePurchasePaymentDetail(PurchasePaymentDetail $purchasePaymentDetail): self
     {
-        if ($this->receiveHeaders->removeElement($receiveHeader)) {
+        if ($this->purchasePaymentDetails->removeElement($purchasePaymentDetail)) {
             // set the owning side to null (unless already changed)
-            if ($receiveHeader->getPurchaseOrderHeader() === $this) {
-                $receiveHeader->setPurchaseOrderHeader(null);
+            if ($purchasePaymentDetail->getPurchaseInvoiceHeader() === $this) {
+                $purchasePaymentDetail->setPurchaseInvoiceHeader(null);
             }
         }
 
