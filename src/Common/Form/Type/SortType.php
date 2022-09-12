@@ -11,9 +11,14 @@ class SortType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $choices = ['Ascending' => 'ASC', 'Descending' => 'DESC'];
+        $operatorsList = $options['field_operators_list'];
+        $operatorOptionsList = $options['field_operator_options_list'];
         foreach ($options['field_names'] as $fieldName) {
-            $builder->add($fieldName, ChoiceType::class, ['choices' => $choices, 'required' => false]);
+            $operators = !isset($operatorsList[$fieldName]) || $operatorsList[$fieldName] === null ? [] : $operatorsList[$fieldName];
+            $operatorLabels = array_map(fn($operator) => (new $operator)->getLabel(), $operators);
+            $choices = array_combine(array_values($operatorLabels), array_values($operators));
+            $operatorOptions = !isset($operatorOptionsList[$fieldName]) || $operatorOptionsList[$fieldName] === null ? ['choices' => $choices, 'required' => false] : $operatorOptionsList[$fieldName];
+            $builder->add($fieldName, ChoiceType::class, $operatorOptions);
         }
     }
 
@@ -21,7 +26,11 @@ class SortType extends AbstractType
     {
         $resolver->setDefaults([
             'field_names' => [],
+            'field_operators_list' => [],
+            'field_operator_options_list' => [],
         ]);
-        $resolver->setAllowedTypes('field_names', ['array']);
+        $resolver->setAllowedTypes('field_names', 'string[]');
+        $resolver->setAllowedTypes('field_operators_list', 'array');
+        $resolver->setAllowedTypes('field_operator_options_list', 'array');
     }
 }

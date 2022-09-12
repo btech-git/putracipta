@@ -37,6 +37,11 @@ class PurchaseOrderDetail
     #[ORM\OneToMany(mappedBy: 'purchaseOrderDetail', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
 
+    public function getTotal(): int
+    {
+        return $this->quantity * $this->unitPrice * (1 - $this->discount / 100);
+    }
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();

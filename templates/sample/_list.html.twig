@@ -1,4 +1,5 @@
 {% import 'common/grid/datagrid.html.twig' as datagrid %}
+{% import 'common/grid/helper.html.twig' as helper %}
 
 {{ datagrid.form(form) }}
 
@@ -7,19 +8,27 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr class="table-primary" data-controller="sort-link" data-sort-link-panel-target-value="#{{ form.sort.vars.id }}">
-            <th data-action="click->sort-link#post"
+            <th data-action="click->sort-link#post" role="button"
                 data-sort-order="{{ form.sort.name.vars.value|default }}"
                 data-sort-link-field-name-param="name"
-                data-sort-link-value-list-param="{{ ['ASC', 'DESC']|json_encode }}">Name</th>
-            <th>Price</th>
+                data-sort-link-reset-field-names-param="{{ ['price']|json_encode }}"
+                data-sort-link-value-list-param="{{ [form.sort.name.vars.choices.0.value, form.sort.name.vars.choices.1.value]|json_encode }}">
+                Name {{ helper.sort(form.sort.name.vars.value) }}
+            </th>
+            <th data-action="click->sort-link#post" role="button"
+                data-sort-order="{{ form.sort.price.vars.value|default }}"
+                data-sort-link-field-name-param="price"
+                data-sort-link-reset-field-names-param="{{ ['name']|json_encode }}"
+                data-sort-link-value-list-param="{{ [form.sort.price.vars.choices.0.value, form.sort.price.vars.choices.1.value]|json_encode }}">
+                Price {{ helper.sort(form.sort.price.vars.value) }}</th>
             <th></th>
         </tr>
-        <tr data-controller="filter-link" data-filter-link-panel-target-value="#{{ form.filter.vars.id }}">
+        <tr class="table-light" data-controller="filter-link" data-filter-link-panel-target-value="#{{ form.filter.vars.id }}">
             <th>
                 <input type="text" value="{{ form.filter.name.1.vars.value|default }}"
                        data-action="change->filter-link#post"
                        data-filter-link-field-name-param="name"
-                       data-filter-link-values-map-param="{{ ['App\\Common\\Data\\Operator\\FilterEqual', true]|json_encode }}"
+                       data-filter-link-values-map-param="{{ [form.filter.name.0.vars.choices.0.value, true]|json_encode }}"
                        data-filter-link-special-values-map-param="{{ {'': ['']}|json_encode }}" />
             </th>
             <th></th>

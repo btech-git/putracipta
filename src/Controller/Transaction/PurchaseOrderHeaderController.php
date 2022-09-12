@@ -5,6 +5,7 @@ namespace App\Controller\Transaction;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Form\Transaction\PurchaseOrderHeaderType;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
+use App\Service\Transaction\PurchaseOrderFormService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,20 +23,22 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_header_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository, $_format = 'html'): Response
+    public function new(Request $request, PurchaseOrderFormService $purchaseOrderFormService, $_format = 'html'): Response
     {
         $purchaseOrderHeader = new PurchaseOrderHeader();
+        $purchaseOrderFormService->initialize($purchaseOrderHeader);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
+        $purchaseOrderFormService->finalize($purchaseOrderHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
-
-            return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
-        }
+//        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+//            $purchaseOrderFormService->save($purchaseOrderHeader);
+//
+//            return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+//        }
 
         return $this->renderForm("transaction/purchase_order_header/new.{$_format}.twig", [
-            'purchase_order_header' => $purchaseOrderHeader,
+            'purchaseOrderHeader' => $purchaseOrderHeader,
             'form' => $form,
         ]);
     }
@@ -48,21 +51,22 @@ class PurchaseOrderHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_purchase_order_header_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_order_header_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderFormService $purchaseOrderFormService, $_format = 'html'): Response
     {
+        $purchaseOrderFormService->initialize($purchaseOrderHeader);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
-dump($form->get('purchaseOrderDetails')->getData());
+        $purchaseOrderFormService->finalize($purchaseOrderHeader);
 
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+//        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+//            $purchaseOrderFormService->save($purchaseOrderHeader);
 //
 //            return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
 //        }
 
-        return $this->renderForm('transaction/purchase_order_header/edit.html.twig', [
-            'purchase_order_header' => $purchaseOrderHeader,
+        return $this->renderForm("transaction/purchase_order_header/edit.{$_format}.twig", [
+            'purchaseOrderHeader' => $purchaseOrderHeader,
             'form' => $form,
         ]);
     }

@@ -1,5 +1,5 @@
 {% macro form(form, buttonLabel = null) %}
-    {{ form_start(form, {'attr': {'data-action': 'content-loader#load:self:prevent', 'data-content-loader-form-target-param': 'form[name=' ~ form.vars.name ~ ']'}}) }}
+    {{ form_start(form, {'attr': {'data-action': 'html-loader#load:self:prevent', 'data-html-loader-form-target-param': "form[name=#{form.vars.name}]"}}) }}
         {{ form_widget(form, {'attr': {'class': 'd-inline'}}) }}
         <button class="btn btn-outline-dark btn-sm">{{ buttonLabel|default('Submit') }}</button>
     {{ form_end(form) }}

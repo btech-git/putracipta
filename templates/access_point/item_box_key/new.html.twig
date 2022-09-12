@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ItemBoxKey{% endblock %}
+
+{% block body %}
+    <h1>Create new ItemBoxKey</h1>
+
+    {{ include('access_point/item_box_key/_form.html.twig') }}
+
+    <a href="{{ path('app_access_point_item_box_key_index') }}">back to list</a>
+{% endblock %}

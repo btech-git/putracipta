@@ -6,6 +6,8 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Criteria\DataCriteriaPagination;
 use App\Common\Data\Operator\FilterEqual;
 use App\Common\Data\Operator\FilterNotEqual;
+use App\Common\Data\Operator\SortAscending;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Sample;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -70,7 +72,14 @@ class SampleRepository extends ServiceEntityRepository
         if (!empty($sort)) {
             foreach ($sort as $field => $order) {
                 if (!empty($order)) {
-                    $qb->orderBy("{$alias}.{$field}", $order);
+                    switch ($order) {
+                        case SortAscending::class:
+                            $qb->orderBy("{$alias}.{$field}", 'ASC');
+                            break;
+                        case SortDescending::class:
+                            $qb->orderBy("{$alias}.{$field}", 'DESC');
+                            break;
+                    }
                 }
             }
         }

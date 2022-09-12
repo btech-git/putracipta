@@ -57,7 +57,7 @@ class PurchaseOrderHeader
     #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdTransactionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

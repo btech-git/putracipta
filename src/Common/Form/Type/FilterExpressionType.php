@@ -12,25 +12,31 @@ class FilterExpressionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $operatorClassNames = array_keys($options['operator_options']);
+        $operators = $options['operators'] === null ? [] : $options['operators'];
+        $operatorLabels = array_map(fn($operator) => (new $operator)->getLabel(), $operators);
+        $choices = array_combine(array_values($operatorLabels), array_values($operators));
+        $operatorOptions = $options['operator_options'] === null ? ['choices' => $choices, 'required' => false] : $options['operator_options'];
+        $builder->add(0, ChoiceType::class, $operatorOptions);
 
-        $operators = array_map(fn(string $className): string => $className, $operatorClassNames);
-        $choices = array_combine(array_values($operators), array_values($operators));
-        $builder->add(0, ChoiceType::class, ['choices' => $choices, 'required' => false]);
-
-        $maxValueCount = max(array_map(fn(string $className): int => (new $className())->getValueCount(), $operatorClassNames));
-        foreach ($options['operator_options'] as $operatorClassName => $valueOption) {
-            for ($i = 0; $i < $maxValueCount; $i++) {
-                $builder->add($i + 1, TextType::class, ['required' => false, 'empty_data' => '']);
-            }
+        $maxValueCount = empty($operators) ? 0 : max(array_map(fn($operator) => (new $operator)->getValueCount(), $operators));
+        for ($i = 1; $i <= $maxValueCount; $i++) {
+            $valueType = $options['value_type'] === null ? TextType::class : $options['value_type'];
+            $valueOptions = $options['value_options'] === null ? ['required' => false, 'empty_data' => ''] : $options['value_options'];
+            $builder->add($i, $valueType, $valueOptions);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'operator_options' => [],
+            'operators' => null,
+            'operator_options' => null,
+            'value_type' => null,
+            'value_options' => null,
         ]);
-        $resolver->setAllowedTypes('operator_options', ['array']);
+        $resolver->setAllowedTypes('operators', ['null', 'string[]']);
+        $resolver->setAllowedTypes('operator_options', ['null', 'array']);
+        $resolver->setAllowedTypes('value_type', ['null', 'string']);
+        $resolver->setAllowedTypes('value_options', ['null', 'array']);
     }
 }

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ItemBoxKey index{% endblock %}
+
+{% block body %}
+    <h1>ItemBoxKey index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Abc</th>
+                <th>Def</th>
+                <th>Ghi</th>
+                <th>Jkl</th>
+                <th>Mno</th>
+                <th>Pqrs</th>
+                <th>Tuv</th>
+                <th>Wxyz</th>
+                <th>Qwerty</th>
+                <th>Dvorak</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item_box_key in item_box_keys %}
+            <tr>
+                <td>{{ item_box_key.id }}</td>
+                <td>{{ item_box_key.abc }}</td>
+                <td>{{ item_box_key.def }}</td>
+                <td>{{ item_box_key.ghi }}</td>
+                <td>{{ item_box_key.jkl ? item_box_key.jkl|date('Y-m-d') : '' }}</td>
+                <td>{{ item_box_key.mno ? item_box_key.mno|date('H:i:s') : '' }}</td>
+                <td>{{ item_box_key.pqrs ? item_box_key.pqrs|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ item_box_key.tuv ? 'Yes' : 'No' }}</td>
+                <td>{{ item_box_key.wxyz }}</td>
+                <td>{{ item_box_key.qwerty ? item_box_key.qwerty|join(', ') : '' }}</td>
+                <td>{{ item_box_key.dvorak }}</td>
+                <td>
+                    <a href="{{ path('app_access_point_item_box_key_show', {'id': item_box_key.id}) }}">show</a>
+                    <a href="{{ path('app_access_point_item_box_key_edit', {'id': item_box_key.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_access_point_item_box_key_new') }}">Create new</a>
+{% endblock %}

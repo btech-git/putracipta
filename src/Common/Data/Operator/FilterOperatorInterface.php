@@ -2,7 +2,9 @@
 
 namespace App\Common\Data\Operator;
 
-interface FilterOperator
+interface FilterOperatorInterface
 {
     public function getValueCount(): int;
+
+    public function getLabel(): string;
 }

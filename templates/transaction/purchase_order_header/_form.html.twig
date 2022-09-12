@@ -1,98 +1,115 @@
-{{ form_start(form) }}
-    <div class="row">
-        <div class="col sm-6">
-            {{ form_row(form.transactionDate) }}
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col sm-6">
+                {{ form_row(form.transactionDate) }}
+            </div>
+            <div class="col sm-6">
+                {{ form_row(form.supplier, {
+                    'attr': {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#supplier-dialog',
+                        'data-controller': 'dom-element',
+                        'data-action': 'mousedown->dom-element#doNothing:prevent supplier-table:data-table:select@document->dom-element#appendHtml supplier-table:data-table:select@document->dom-element#putContent',
+                        'data-dom-element-append-html-template-param': '<option value="${id}">${name}</option>'|e('html_attr'),
+                        'data-dom-element-put-content-template-param': '${id}',
+                    },
+                }) }}
+            </div>
+        </div>
+        <div>
             {{ form_row(form.note) }}
         </div>
-        <div class="col sm-6">
-            {{ form_row(form.supplier, {'attr': {'data-bs-toggle': 'modal', 'data-bs-target': '#supplier-dialog', 'data-controller': 'select', 'data-action': 'mousedown->select#freeze:prevent data-table:select@document->select#makeChoice data-table:select@document->select#setValue', 'data-select-value-name-param': 'id', 'data-select-label-name-param': 'code'}}) }}
-            {#<button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#supplier-dialog">Browse</button>
-            <span id="abc"></span>#}
+
+        <hr />
+
+        <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Detail</button>
+
+        {#<div id="prototype" data-cs-index="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}" data-cs-prototype="{{ form_widget(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"></div>#}
+        <div>
+            {{ include('transaction/purchase_order_header/_details_form.html.twig') }}
         </div>
-    </div>
 
-    <hr />
+        <div class="d-grid">
+            <button class="btn btn-secondary">Save</button>
+        </div>
+    {{ form_end(form) }}
 
-    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Detail</button>
-
-    {#<div id="prototype" data-cs-index="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}" data-cs-prototype="{{ form_widget(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"></div>#}
-    <div id="ajax">
-        {{ include('transaction/purchase_order_header/_details_form.html.twig') }}
-    </div>
-
-    <div class="d-grid">
-        <button class="btn btn-secondary">Save</button>
-    </div>
-{{ form_end(form) }}
-
-<div id="supplier-dialog" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Supplier List</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div id="supplier-grid">
-                    <table class="table table-bordered" data-controller="data-table">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-action="click->data-table#select" data-data-table-id-param="1" data-data-table-code-param="a" data-data-table-name-param="aaa">
-                                <td>a</td>
-                                <td>aaa</td>
-                            </tr>
-                            <tr data-action="click->data-table#select" data-data-table-id-param="2" data-data-table-code-param="b" data-data-table-name-param="bbb">
-                                <td>b</td>
-                                <td>bbb</td>
-                            </tr>
-                            <tr data-action="click->data-table#select" data-data-table-id-param="3" data-data-table-code-param="c" data-data-table-name-param="ccc">
-                                <td>c</td>
-                                <td>ccc</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div id="supplier-dialog" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Supplier List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="supplier-grid">
+                        <table class="table table-bordered" id="supplier-table" data-controller="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 1, 'code': 'a', 'name': 'aaa'}|json_encode }}">
+                                    <td>a</td>
+                                    <td>aaa</td>
+                                </tr>
+                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 2, 'code': 'b', 'name': 'bbb'}|json_encode }}">
+                                    <td>b</td>
+                                    <td>bbb</td>
+                                </tr>
+                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 3, 'code': 'c', 'name': 'ccc'}|json_encode }}">
+                                    <td>c</td>
+                                    <td>ccc</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="product-dialog" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Product List</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div id="product-grid">
-                    <table class="table table-bordered" data-controller="data-table">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-action="click->data-table#select" data-data-table-id-param="1" data-data-table-code-param="a" data-data-table-name-param="aaa">
-                                <td>a</td>
-                                <td>aaa</td>
-                            </tr>
-                            <tr data-action="click->data-table#select" data-data-table-id-param="2" data-data-table-code-param="b" data-data-table-name-param="bbb">
-                                <td>b</td>
-                                <td>bbb</td>
-                            </tr>
-                            <tr data-action="click->data-table#select" data-data-table-id-param="3" data-data-table-code-param="c" data-data-table-name-param="ccc">
-                                <td>c</td>
-                                <td>ccc</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div id="product-dialog" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Product List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="product-grid">
+                        <table class="table table-bordered" id="product-table" data-controller="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 1, 'code': 'a', 'name': 'aaa'}|json_encode }}">
+                                    <td>a</td>
+                                    <td>aaa</td>
+                                </tr>
+                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 2, 'code': 'b', 'name': 'bbb'}|json_encode }}">
+                                    <td>b</td>
+                                    <td>bbb</td>
+                                </tr>
+                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 3, 'code': 'c', 'name': 'ccc'}|json_encode }}">
+                                    <td>c</td>
+                                    <td>ccc</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
