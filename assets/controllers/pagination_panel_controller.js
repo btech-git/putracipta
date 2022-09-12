@@ -14,6 +14,6 @@ export default class extends Controller {
             this.numberTarget.value = event.detail.number;
         }
         const form = document.querySelector(this.formTargetValue);
-        form.dispatchEvent(new Event('submit'));
+        form.dispatchEvent(new Event('submit', { cancelable: true }));
     }
 };

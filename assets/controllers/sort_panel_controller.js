@@ -24,6 +24,6 @@ export default class extends Controller {
             }
         });
         const form = document.querySelector(this.formTargetValue);
-        form.dispatchEvent(new Event('submit'));
+        form.dispatchEvent(new Event('submit', { cancelable: true }));
     }
 };
