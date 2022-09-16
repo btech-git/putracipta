@@ -8,6 +8,9 @@
 import 'bootstrap/dist/css/bootstrap.css';
 window.bootstrap = require('bootstrap');
 
+import 'flatpickr/dist/flatpickr.css';
+import flatpickr from 'flatpickr';
+
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 

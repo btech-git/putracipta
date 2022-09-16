@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}New ItemBoxKey{% endblock %}
+{% block title 'Add Item Box Key' %}
 
-{% block body %}
-    <h1>Create new ItemBoxKey</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_access_point_item_box_key_index') }}">Manage</a>
+{% endblock %}
 
+{% block content %}
     {{ include('access_point/item_box_key/_form.html.twig') }}
-
-    <a href="{{ path('app_access_point_item_box_key_index') }}">back to list</a>
 {% endblock %}

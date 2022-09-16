@@ -5,7 +5,7 @@
         </button>
         <div class="dropdown-menu" style="min-width: 512px" data-controller="filter-panel" data-filter-panel-form-target-value="form[name={{ form.parent.vars.name }}]" data-filter-panel-value-count-reference-value="{{ operator_value_counts|json_encode }}">
             <div class="m-3">
-                {{ form_widget(form, {'attr': {'data-action': 'filter-panel:sync->filter-panel#sync:self'}}) }}
+                {{ form_widget(form, {'attr': {'data-action': 'filter-panel:clear->filter-panel#clear:self filter-panel:sync->filter-panel#sync:self'}}) }}
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
         </button>
         <div class="dropdown-menu" style="min-width: 256px" data-controller="sort-panel" data-sort-panel-form-target-value="form[name={{ form.parent.vars.name }}]">
             <div class="m-3">
-                <div id="{{ form.vars.id }}" data-action="sort-panel:sync->sort-panel#sync:self">
+                <div id="{{ form.vars.id }}" data-action="sort-panel:clear->sort-panel#clear:self sort-panel:sync->sort-panel#sync:self">
                     {% for childForm in form.children %}
                         <div>
                             {{ form_label(childForm) }}

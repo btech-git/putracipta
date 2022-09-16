@@ -1,62 +1,57 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}ItemBoxKey{% endblock %}
+{% block title 'Show Item Box Key' %}
 
-{% block body %}
-    <h1>ItemBoxKey</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_access_point_item_box_key_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_access_point_item_box_key_edit', {'id': itemBoxKey.id}) }}">Edit</a>
+{% endblock %}
 
-    <table class="table">
+{% block content %}
+    <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ item_box_key.id }}</td>
-            </tr>
-            <tr>
                 <th>Abc</th>
-                <td>{{ item_box_key.abc }}</td>
+                <td>{{ itemBoxKey.abc }}</td>
             </tr>
             <tr>
                 <th>Def</th>
-                <td>{{ item_box_key.def }}</td>
+                <td>{{ itemBoxKey.def }}</td>
             </tr>
             <tr>
                 <th>Ghi</th>
-                <td>{{ item_box_key.ghi }}</td>
+                <td>{{ itemBoxKey.ghi }}</td>
             </tr>
             <tr>
                 <th>Jkl</th>
-                <td>{{ item_box_key.jkl ? item_box_key.jkl|date('Y-m-d') : '' }}</td>
+                <td>{{ itemBoxKey.jkl ? itemBoxKey.jkl|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Mno</th>
-                <td>{{ item_box_key.mno ? item_box_key.mno|date('H:i:s') : '' }}</td>
+                <td>{{ itemBoxKey.mno ? itemBoxKey.mno|date('H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Pqrs</th>
-                <td>{{ item_box_key.pqrs ? item_box_key.pqrs|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ itemBoxKey.pqrs ? itemBoxKey.pqrs|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Tuv</th>
-                <td>{{ item_box_key.tuv ? 'Yes' : 'No' }}</td>
+                <td>{{ itemBoxKey.tuv ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Wxyz</th>
-                <td>{{ item_box_key.wxyz }}</td>
+                <td>{{ itemBoxKey.wxyz }}</td>
             </tr>
             <tr>
                 <th>Qwerty</th>
-                <td>{{ item_box_key.qwerty ? item_box_key.qwerty|join(', ') : '' }}</td>
+                <td>{{ itemBoxKey.qwerty ? itemBoxKey.qwerty|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Dvorak</th>
-                <td>{{ item_box_key.dvorak }}</td>
+                <td>{{ itemBoxKey.dvorak }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_access_point_item_box_key_index') }}">back to list</a>
-
-    <a href="{{ path('app_access_point_item_box_key_edit', {'id': item_box_key.id}) }}">edit</a>
 
     {{ include('access_point/item_box_key/_delete_form.html.twig') }}
 {% endblock %}

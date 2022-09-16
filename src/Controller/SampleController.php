@@ -22,10 +22,12 @@ class SampleController extends AbstractController
         $form = $this->createForm(SampleGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
+        list($count, $samples) = $sampleRepository->fetchData($criteria);
+
         return $this->renderForm("sample/_list.html.twig", [
             'form' => $form,
-            'count' => $sampleRepository->countBy($criteria),
-            'samples' => $sampleRepository->matchBy($criteria),
+            'count' => $count,
+            'samples' => $samples,
         ]);
     }
 
@@ -83,7 +85,7 @@ class SampleController extends AbstractController
     #[Route('/{id}', name: 'app_sample_delete', methods: ['POST'])]
     public function delete(Request $request, Sample $sample, SampleRepository $sampleRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sample->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sample->getId(), $request->request->get('_token'))) {
             $sampleRepository->remove($sample, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));

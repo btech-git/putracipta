@@ -1,45 +1,35 @@
-{% import 'common/grid/datagrid.html.twig' as datagrid %}
-{% import 'common/grid/helper.html.twig' as helper %}
+{% import 'app/data_grid.html.twig' as grid %}
 
-{{ datagrid.form(form) }}
+{{ grid.form(form) }}
 
-{{ datagrid.info(form, count, samples) }}
+{{ grid.info(form, count, samples) }}
 
 <table class="table table-bordered table-striped">
     <thead>
-        <tr class="table-primary" data-controller="sort-link" data-sort-link-panel-target-value="#{{ form.sort.vars.id }}">
-            <th data-action="click->sort-link#post" role="button"
-                data-sort-order="{{ form.sort.name.vars.value|default }}"
-                data-sort-link-field-name-param="name"
-                data-sort-link-reset-field-names-param="{{ ['price']|json_encode }}"
-                data-sort-link-value-list-param="{{ [form.sort.name.vars.choices.0.value, form.sort.name.vars.choices.1.value]|json_encode }}">
-                Name {{ helper.sort(form.sort.name.vars.value) }}
+        <tr class="table-primary" {{ grid.sort_link(form) }}>
+            <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                Name {{ grid.sort_char(form.sort.name.vars.value) }}
             </th>
-            <th data-action="click->sort-link#post" role="button"
-                data-sort-order="{{ form.sort.price.vars.value|default }}"
-                data-sort-link-field-name-param="price"
-                data-sort-link-reset-field-names-param="{{ ['name']|json_encode }}"
-                data-sort-link-value-list-param="{{ [form.sort.price.vars.choices.0.value, form.sort.price.vars.choices.1.value]|json_encode }}">
-                Price {{ helper.sort(form.sort.price.vars.value) }}</th>
+            <th role="button" {{ grid.sort_link_item(form, 'price') }}>
+                Price {{ grid.sort_char(form.sort.price.vars.value) }}
+            </th>
             <th></th>
         </tr>
-        <tr class="table-light" data-controller="filter-link" data-filter-link-panel-target-value="#{{ form.filter.vars.id }}">
+        <tr class="table-light" {{ grid.filter_link(form) }}>
             <th>
-                <input type="text" value="{{ form.filter.name.1.vars.value|default }}"
-                       data-action="change->filter-link#post"
-                       data-filter-link-field-name-param="name"
-                       data-filter-link-values-map-param="{{ [form.filter.name.0.vars.choices.0.value, true]|json_encode }}"
-                       data-filter-link-special-values-map-param="{{ {'': ['']}|json_encode }}" />
+                <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
             </th>
-            <th></th>
+            <th>
+                <input type="text" {{ grid.filter_link_item(form, 'price') }} value="{{ form.filter.price.1.vars.value }}" />
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {% for sample in samples %}
             <tr>
-                <td>{{ sample.name|default }}</td>
-                <td>{{ sample.price|default }}</td>
+                <td>{{ sample.name }}</td>
+                <td>{{ sample.price }}</td>
                 <td>
                     <a class="btn btn-info btn-sm" href="{{ path('app_sample_show', {'id': sample.id}) }}">Show</a>
                     <a class="btn btn-warning btn-sm" href="{{ path('app_sample_edit', {'id': sample.id}) }}">Edit</a>
@@ -53,4 +43,4 @@
     </tbody>
 </table>
 
-{{ datagrid.navigation(form, count, samples) }}
+{{ grid.navigation(form, count, samples) }}

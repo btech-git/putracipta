@@ -5,6 +5,11 @@ export default class extends Controller {
         panelTarget: String
     }
 
+    reset(event) {
+        const panel = document.querySelector(this.panelTargetValue);
+        this.dispatch('clear', {prefix: 'filter-panel', target: panel});
+    }
+
     post(event) {
         const currentValue = event.currentTarget.value;
         const panel = document.querySelector(this.panelTargetValue);

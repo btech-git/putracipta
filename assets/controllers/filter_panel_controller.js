@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { putValueContent } from '../helpers';
 
 export default class extends Controller {
     static targets = ['widget']
@@ -22,6 +23,12 @@ export default class extends Controller {
         if (parseInt(element.dataset.widgetIndex) === 0) {
             this.normalizeElement(element, false);
         }
+    }
+
+    clear(event) {
+        this.widgetTargets.forEach(widget => {
+            putValueContent(widget, '');
+        });
     }
 
     sync(event) {

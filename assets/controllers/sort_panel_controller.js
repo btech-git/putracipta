@@ -17,6 +17,12 @@ export default class extends Controller {
         });
     }
 
+    clear(event) {
+        this.widgetTargets.forEach(widget => {
+            widget.value = '';
+        });
+    }
+
     sync(event) {
         Object.entries(event.detail).forEach(([field, values]) => {
             for (let i = 0; i < values.length; i++) {

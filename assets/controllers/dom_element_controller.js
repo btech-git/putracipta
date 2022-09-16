@@ -5,6 +5,12 @@ export default class extends Controller {
     doNothing(event) {
     }
 
+    confirm(event) {
+        if (!window.confirm(event.params.confirmMessage)) {
+            event.preventDefault();
+        }
+    }
+
     appendHtml(event) {
         const doc = new DOMParser().parseFromString(event.params.appendHtmlTemplate, "text/html");
         const html = this.getNormalizedTemplate(doc.documentElement.textContent, event.detail);
