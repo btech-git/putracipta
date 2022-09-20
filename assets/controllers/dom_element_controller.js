@@ -11,6 +11,69 @@ export default class extends Controller {
         }
     }
 
+    bind(event) {
+        const $event = event;
+        const $element = this.element;
+        for (const spec of event.params.bindSpecifications) {
+            if (spec.eventTypes === undefined || spec.eventTypes.includes(event.type)) {
+                const $sources = spec.sourcesTarget === undefined ? [$element] : [...document.querySelectorAll(spec.sourcesTarget)];
+                const $destinations = spec.destinationsTarget === undefined ? [$element] : [...document.querySelectorAll(spec.destinationsTarget)];
+                switch (spec.action) {
+                    case 'putHtmlContent':
+                        const $content = eval(spec.descriptor.content);
+                        for (const $destination of $destinations) {
+                            if (spec.condition === undefined || eval(spec.condition)) {
+                                if (spec.descriptor.mode === undefined || spec.descriptor.mode === 'replace') {
+                                    $destination.innerHTML = $content;
+                                } else if (spec.descriptor.mode === 'prepend') {
+                                    $destination.insertAdjacentHTML('afterbegin', $content);
+                                } else if (spec.descriptor.mode === 'append') {
+                                    $destination.insertAdjacentHTML('beforeend', $content);
+                                }
+                            }
+                        }
+                        break;
+                    case 'setPropertyValue':
+                        const $value = eval(spec.descriptor.value);
+                        for (const $destination of $destinations) {
+                            if (spec.condition === undefined || eval(spec.condition)) {
+                                $destination[spec.descriptor.property] = $value;
+                            }
+                        }
+                        break;
+                    case 'setAttribute':
+                        for (const $destination of $destinations) {
+                            if (spec.condition === undefined || eval(spec.condition)) {
+                                $destination.setAttribute(spec.descriptor.name, spec.descriptor.value === undefined ? spec.descriptor.name : spec.descriptor.value);
+                            }
+                        }
+                        break;
+                    case 'removeAttribute':
+                        for (const $destination of $destinations) {
+                            if (spec.condition === undefined || eval(spec.condition)) {
+                                $destination.removeAttribute(spec.descriptor.name);
+                            }
+                        }
+                        break;
+                    case 'addClass':
+                        for (const $destination of $destinations) {
+                            if (spec.condition === undefined || eval(spec.condition)) {
+                                $destination.classList.add(spec.descriptor.name);
+                            }
+                        }
+                        break;
+                    case 'removeClass':
+                        for (const $destination of $destinations) {
+                            if (spec.condition === undefined || eval(spec.condition)) {
+                                $destination.classList.remove(spec.descriptor.name);
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
     appendHtml(event) {
         const doc = new DOMParser().parseFromString(event.params.appendHtmlTemplate, "text/html");
         const html = this.getNormalizedTemplate(doc.documentElement.textContent, event.detail);

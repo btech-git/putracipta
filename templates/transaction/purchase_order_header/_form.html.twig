@@ -8,11 +8,10 @@
     {{ form_start(form) }}
         <div class="row">
             <div class="col sm-6">
-                {{ form_row(form.transactionDate) }}
-                <input type="text" data-controller="flatpickr-element" />
+                {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
             </div>
             <div class="col sm-6">
-                {{ form_row(form.supplier, {
+                {#{{ form_row(form.supplier, {
                     'attr': {
                         'data-bs-toggle': 'modal',
                         'data-bs-target': '#supplier-dialog',
@@ -20,6 +19,18 @@
                         'data-action': 'mousedown->dom-element#doNothing:prevent supplier-table:data-table:select@document->dom-element#appendHtml supplier-table:data-table:select@document->dom-element#putContent',
                         'data-dom-element-append-html-template-param': '<option value="${id}">${name}</option>'|e('html_attr'),
                         'data-dom-element-put-content-template-param': '${id}',
+                    },
+                }) }}#}
+                {{ form_row(form.supplier, {
+                    'attr': {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#supplier-dialog',
+                        'data-controller': 'dom-element',
+                        'data-action': 'mousedown->dom-element#doNothing:prevent supplier-table:data-table:select@document->dom-element#bind',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.id}">${$event.detail.name}</option>`'}, 'condition': '!$destination.innerHTML.includes($content)'},
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.id'}}
+                        ]|json_encode,
                     },
                 }) }}
             </div>
@@ -91,24 +102,28 @@
                         <table class="table table-bordered" id="product-table" data-controller="data-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 0"></th>
+                                    <th style="width: 0">
+                                        <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
+                                            {'destinationsTarget': '#product-table .check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
+                                        ]|json_encode }}" />
+                                    </th>
                                     <th>Code</th>
                                     <th>Name</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 1, 'code': 'a', 'name': 'aaa'}|json_encode }}">
-                                    <td><input type="checkbox" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
+                                    <td><input type="checkbox" class="check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                                     <td>a</td>
                                     <td>aaa</td>
                                 </tr>
                                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 2, 'code': 'b', 'name': 'bbb'}|json_encode }}">
-                                    <td><input type="checkbox" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
+                                    <td><input type="checkbox" class="check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                                     <td>b</td>
                                     <td>bbb</td>
                                 </tr>
                                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 3, 'code': 'c', 'name': 'ccc'}|json_encode }}">
-                                    <td><input type="checkbox" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
+                                    <td><input type="checkbox" class="check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                                     <td>c</td>
                                     <td>ccc</td>
                                 </tr>
