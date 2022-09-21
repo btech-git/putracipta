@@ -4,6 +4,8 @@ namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
 use App\Repository\Transaction\ReceiveDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceiveDetailRepository::class)]
@@ -31,6 +33,14 @@ class ReceiveDetail
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
     #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseOrderDetail $purchaseOrderDetail = null;
+
+    #[ORM\OneToMany(mappedBy: 'receiveDetail', targetEntity: PurchaseReturnDetail::class)]
+    private Collection $purchaseReturnDetails;
+
+    public function __construct()
+    {
+        $this->purchaseReturnDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +103,36 @@ class ReceiveDetail
     public function setPurchaseOrderDetail(?PurchaseOrderDetail $purchaseOrderDetail): self
     {
         $this->purchaseOrderDetail = $purchaseOrderDetail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseReturnDetail>
+     */
+    public function getPurchaseReturnDetails(): Collection
+    {
+        return $this->purchaseReturnDetails;
+    }
+
+    public function addPurchaseReturnDetail(PurchaseReturnDetail $purchaseReturnDetail): self
+    {
+        if (!$this->purchaseReturnDetails->contains($purchaseReturnDetail)) {
+            $this->purchaseReturnDetails->add($purchaseReturnDetail);
+            $purchaseReturnDetail->setReceiveDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseReturnDetail(PurchaseReturnDetail $purchaseReturnDetail): self
+    {
+        if ($this->purchaseReturnDetails->removeElement($purchaseReturnDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseReturnDetail->getReceiveDetail() === $this) {
+                $purchaseReturnDetail->setReceiveDetail(null);
+            }
+        }
 
         return $this;
     }

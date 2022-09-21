@@ -44,9 +44,13 @@ class ReceiveHeader
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $approvedTransactionDateTime = null;
 
+    #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
+    private Collection $purchaseReturnHeaders;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
+        $this->purchaseReturnHeaders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,6 +180,36 @@ class ReceiveHeader
     public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
     {
         $this->approvedTransactionDateTime = $approvedTransactionDateTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseReturnHeader>
+     */
+    public function getPurchaseReturnHeaders(): Collection
+    {
+        return $this->purchaseReturnHeaders;
+    }
+
+    public function addPurchaseReturnHeader(PurchaseReturnHeader $purchaseReturnHeader): self
+    {
+        if (!$this->purchaseReturnHeaders->contains($purchaseReturnHeader)) {
+            $this->purchaseReturnHeaders->add($purchaseReturnHeader);
+            $purchaseReturnHeader->setReceiveHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseReturnHeader(PurchaseReturnHeader $purchaseReturnHeader): self
+    {
+        if ($this->purchaseReturnHeaders->removeElement($purchaseReturnHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseReturnHeader->getReceiveHeader() === $this) {
+                $purchaseReturnHeader->setReceiveHeader(null);
+            }
+        }
 
         return $this;
     }
