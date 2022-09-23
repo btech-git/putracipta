@@ -11,16 +11,6 @@
                 {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
             </div>
             <div class="col sm-6">
-                {#{{ form_row(form.supplier, {
-                    'attr': {
-                        'data-bs-toggle': 'modal',
-                        'data-bs-target': '#supplier-dialog',
-                        'data-controller': 'dom-element',
-                        'data-action': 'mousedown->dom-element#doNothing:prevent supplier-table:data-table:select@document->dom-element#appendHtml supplier-table:data-table:select@document->dom-element#putContent',
-                        'data-dom-element-append-html-template-param': '<option value="${id}">${name}</option>'|e('html_attr'),
-                        'data-dom-element-put-content-template-param': '${id}',
-                    },
-                }) }}#}
                 {{ form_row(form.supplier, {
                     'attr': {
                         'data-bs-toggle': 'modal',
@@ -43,7 +33,6 @@
 
         <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Detail</button>
 
-        {#<div id="prototype" data-cs-index="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}" data-cs-prototype="{{ form_widget(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"></div>#}
         <div>
             {{ include('transaction/purchase_order_header/_details_form.html.twig') }}
         </div>
@@ -112,23 +101,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 1, 'code': 'a', 'name': 'aaa'}|json_encode }}">
+                                <tr class="checkrow" data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 1, 'code': 'a', 'name': 'aaa'}|json_encode }}">
                                     <td><input type="checkbox" class="check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                                     <td>a</td>
                                     <td>aaa</td>
                                 </tr>
-                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 2, 'code': 'b', 'name': 'bbb'}|json_encode }}">
+                                <tr class="checkrow" data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 2, 'code': 'b', 'name': 'bbb'}|json_encode }}">
                                     <td><input type="checkbox" class="check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                                     <td>b</td>
                                     <td>bbb</td>
                                 </tr>
-                                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 3, 'code': 'c', 'name': 'ccc'}|json_encode }}">
+                                <tr class="checkrow" data-action="click->data-table#select" data-data-table-values-param="{{ {'id': 3, 'code': 'c', 'name': 'ccc'}|json_encode }}">
                                     <td><input type="checkbox" class="check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                                     <td>c</td>
                                     <td>ccc</td>
                                 </tr>
                             </tbody>
                         </table>
+                        <button type="button" class="btn btn-primary btn-sm"
+                                data-action="event-emitter#trigger"
+                                data-event-emitter-trigger-elements-target-param="#product-table .checkrow"
+                                data-event-emitter-trigger-event-type-param="click"
+                                data-event-emitter-trigger-condition-param="$element.querySelector('.check').checked">
+                            Select
+                        </button>
                     </div>
                 </div>
             </div>

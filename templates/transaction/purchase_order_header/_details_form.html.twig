@@ -1,7 +1,8 @@
 <table class="table table-bordered"
        data-controller="form-collection"
-       data-form-collection-prototype-value="{{ _self.collection_row(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"
-       data-action="form-collection:row-removed->json-loader#load:self">
+       data-form-collection-start-index-value="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}"
+       data-form-collection-prototype-value="{{ _self.collection_item(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"
+       data-action="form-collection:collection-item-removed->json-loader#load:self">
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Product Id</th>
@@ -12,30 +13,39 @@
             <th>Price</th>
             <th>Discount</th>
             <th>Total</th>
-            <th style="width: 0">
-                <button type="button" class="btn btn-outline-dark" data-action="form-collection#addRow">Add</button>
-            </th>
+            <th style="width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="rows" data-action="product-table:data-table:select@document->form-collection#addRow">
-        {% macro collection_row(detailForm) %}
-            <tr data-form-collection-target="row">
+    <tbody data-form-collection-target="items" data-action="product-table:data-table:select@document->form-collection#addCollectionItem">
+        {% macro collection_item(detailForm) %}
+            <tr data-form-collection-target="item" data-item-identifier-name="id">
                 <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-field-initializer': 'id'}}) }}</td>
-                <td data-field-initializer="code"></td>
-                <td></td>
+                <td data-item-field-name="code"></td>
+                <td data-item-field-name="name"></td>
                 <td></td>
                 <td>{{ form_widget(detailForm.quantity, {'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
-                <td>{{ form_widget(detailForm.unitPrice, {'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>
+                    {{ form_widget(detailForm.unitPrice, {'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-dom-element-bind-specifications-param': [
+                            {'destinationsTarget': "\##{detailForm.unitPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                        ]|json_encode,
+                    }}) }}
+                    <div id="{{ detailForm.unitPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</div>
+                </td>
                 <td>{{ form_widget(detailForm.discount, {'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td data-json-loader-target="placeholder"
-                    data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.total"></td>
+                    data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.total">
+                    {{ detailForm.vars.value.total|default|number_format(2) }}
+                </td>
                 <td>
-                    <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeRow">Remove</button>
+                    <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
                 </td>
             </tr>
         {% endmacro %}
         {% for detailForm in form.purchaseOrderDetails %}
-            {{ _self.collection_row(detailForm) }}
+            {{ _self.collection_item(detailForm) }}
         {% endfor %}
     </tbody>
     <tfoot>
