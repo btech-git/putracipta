@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import { putValueContent, getPropertyValue } from '../helpers';
+import { putValueContent, getPropertyValue, formatter } from '../helpers';
 
 export default class extends Controller {
     doNothing(event) {
@@ -12,6 +12,7 @@ export default class extends Controller {
     }
 
     bind(event) {
+        const $format = formatter;
         const $event = event;
         const $element = this.element;
         for (const spec of event.params.bindSpecifications) {
