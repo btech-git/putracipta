@@ -2,36 +2,49 @@ import { Controller } from '@hotwired/stimulus';
 import { putValueContent, getPropertyValue } from '../helpers';
 
 export default class extends Controller {
-    static targets = ['rows', 'row']
+    static targets = ['items', 'item']
     static values = {
+        startIndex: Number,
         prototype: String,
-        fieldInitializerName: {type: String, default: 'field-initializer'}
+        itemFieldNameAttributeName: {type: String, default: 'data-item-field-name'},
+        itemIdentifierNameAttributeName: {type: String, default: 'data-item-identifier-name'},
+        itemIdentifierValueAttributeName: {type: String, default: 'data-item-identifier-value'}
     }
 
     connect() {
-        this.index = this.rowTargets.length;
+        this.index = this.startIndexValue;
     }
 
-    addRow(event) {
+    addCollectionItem(event) {
+        for (const itemTarget of this.itemTargets) {
+            const identifierName = itemTarget.getAttribute(this.itemIdentifierNameAttributeNameValue);
+            const identifierValue = itemTarget.getAttribute(this.itemIdentifierValueAttributeNameValue);
+            if (identifierName !== undefined && identifierValue !== undefined && identifierValue === event.detail[identifierName].toString()) {
+                return;
+            }
+        }
         const template = document.createElement('template');
         const rowHtml = this.prototypeValue.replace(/__name__/g, this.index);
         template.innerHTML = rowHtml.trim();
         const row = template.content.firstChild;
-        const items = row.querySelectorAll(`[data-${this.fieldInitializerNameValue}]`);
-        for (const item of items) {
-            putValueContent(item, getPropertyValue(event.detail, item.getAttribute(`data-${this.fieldInitializerNameValue}`)));
+        if (row.getAttribute(this.itemIdentifierNameAttributeNameValue) !== undefined) {
+            row.setAttribute(this.itemIdentifierValueAttributeNameValue, event.detail[row.getAttribute(this.itemIdentifierNameAttributeNameValue)]);
         }
-        this.rowsTarget.appendChild(row);
+        const items = row.querySelectorAll(`[${this.itemFieldNameAttributeNameValue}]`);
+        for (const item of items) {
+            putValueContent(item, getPropertyValue(event.detail, item.getAttribute(`${this.itemFieldNameAttributeNameValue}`)));
+        }
+        this.itemsTarget.appendChild(row);
         this.index++;
-        this.dispatch('row-added');
+        this.dispatch('collection-item-added');
     }
 
-    removeRow(event) {
-        this.rowTargets.forEach(element => {
+    removeCollectionItem(event) {
+        this.itemTargets.forEach(element => {
             if (element.contains(event.target)) {
                 element.remove();
             }
         });
-        this.dispatch('row-removed');
+        this.dispatch('collection-item-removed');
     }
 };
