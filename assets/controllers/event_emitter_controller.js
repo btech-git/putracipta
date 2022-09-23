@@ -9,4 +9,13 @@ export default class extends Controller {
             this.dispatch(event.type, {detail: event.detail, target: event.target, prefix, bubbles: event.bubbles, cancelable: event.cancelable});
         }
     }
+
+    trigger(event) {
+        const elements = document.querySelectorAll(event.params.triggerElementsTarget);
+        for (const $element of elements) {
+            if (event.params.triggerCondition === undefined || eval(event.params.triggerCondition)) {
+                $element.dispatchEvent(new Event(event.params.triggerEventType));
+            }
+        }
+    }
 };
