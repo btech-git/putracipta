@@ -19,7 +19,7 @@
     <tbody data-form-collection-target="items" data-action="product-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="id">
-                <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-field-initializer': 'id'}}) }}</td>
+                <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'id'}}) }}</td>
                 <td data-item-field-name="code"></td>
                 <td data-item-field-name="name"></td>
                 <td></td>

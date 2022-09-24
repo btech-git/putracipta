@@ -19,7 +19,7 @@ export default class extends Controller {
         for (const itemTarget of this.itemTargets) {
             const identifierName = itemTarget.getAttribute(this.itemIdentifierNameAttributeNameValue);
             const identifierValue = itemTarget.getAttribute(this.itemIdentifierValueAttributeNameValue);
-            if (identifierName !== undefined && identifierValue !== undefined && identifierValue === event.detail[identifierName].toString()) {
+            if (identifierName !== null && identifierValue !== null && identifierValue === event.detail[identifierName].toString()) {
                 return;
             }
         }
@@ -27,7 +27,7 @@ export default class extends Controller {
         const rowHtml = this.prototypeValue.replace(/__name__/g, this.index);
         template.innerHTML = rowHtml.trim();
         const row = template.content.firstChild;
-        if (row.getAttribute(this.itemIdentifierNameAttributeNameValue) !== undefined) {
+        if (row.getAttribute(this.itemIdentifierNameAttributeNameValue) !== null) {
             row.setAttribute(this.itemIdentifierValueAttributeNameValue, event.detail[row.getAttribute(this.itemIdentifierNameAttributeNameValue)]);
         }
         const items = row.querySelectorAll(`[${this.itemFieldNameAttributeNameValue}]`);
