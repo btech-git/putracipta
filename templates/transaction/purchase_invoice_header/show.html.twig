@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PurchaseInvoiceHeader{% endblock %}
+
+{% block body %}
+    <h1>PurchaseInvoiceHeader</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>CodeNumberOrdinal</th>
+                <td>{{ purchase_invoice_header.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>CodeNumberMonth</th>
+                <td>{{ purchase_invoice_header.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>CodeNumberYear</th>
+                <td>{{ purchase_invoice_header.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ purchase_invoice_header.id }}</td>
+            </tr>
+            <tr>
+                <th>TransactionDate</th>
+                <td>{{ purchase_invoice_header.transactionDate ? purchase_invoice_header.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>InvoiceTaxCodeNumber</th>
+                <td>{{ purchase_invoice_header.invoiceTaxCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>SupplierInvoiceCodeNumber</th>
+                <td>{{ purchase_invoice_header.supplierInvoiceCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>DiscountType</th>
+                <td>{{ purchase_invoice_header.discountType }}</td>
+            </tr>
+            <tr>
+                <th>DiscountNominal</th>
+                <td>{{ purchase_invoice_header.discountNominal }}</td>
+            </tr>
+            <tr>
+                <th>TaxPercentage</th>
+                <td>{{ purchase_invoice_header.taxPercentage }}</td>
+            </tr>
+            <tr>
+                <th>TaxNominal</th>
+                <td>{{ purchase_invoice_header.taxNominal }}</td>
+            </tr>
+            <tr>
+                <th>ShippingFee</th>
+                <td>{{ purchase_invoice_header.shippingFee }}</td>
+            </tr>
+            <tr>
+                <th>SubTotal</th>
+                <td>{{ purchase_invoice_header.subTotal }}</td>
+            </tr>
+            <tr>
+                <th>GrandTotal</th>
+                <td>{{ purchase_invoice_header.grandTotal }}</td>
+            </tr>
+            <tr>
+                <th>TotalPayment</th>
+                <td>{{ purchase_invoice_header.totalPayment }}</td>
+            </tr>
+            <tr>
+                <th>TotalReturn</th>
+                <td>{{ purchase_invoice_header.totalReturn }}</td>
+            </tr>
+            <tr>
+                <th>RemainingPayment</th>
+                <td>{{ purchase_invoice_header.remainingPayment }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ purchase_invoice_header.note }}</td>
+            </tr>
+            <tr>
+                <th>CreatedTransactionDateTime</th>
+                <td>{{ purchase_invoice_header.createdTransactionDateTime ? purchase_invoice_header.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedTransactionDateTime</th>
+                <td>{{ purchase_invoice_header.modifiedTransactionDateTime ? purchase_invoice_header.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ApprovedTransactionDateTime</th>
+                <td>{{ purchase_invoice_header.approvedTransactionDateTime ? purchase_invoice_header.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_transaction_purchase_invoice_header_index') }}">back to list</a>
+
+    <a href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchase_invoice_header.id}) }}">edit</a>
+
+    {{ include('transaction/purchase_invoice_header/_delete_form.html.twig') }}
+{% endblock %}

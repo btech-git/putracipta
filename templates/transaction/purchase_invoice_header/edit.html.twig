@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PurchaseInvoiceHeader{% endblock %}
+
+{% block body %}
+    <h1>Edit PurchaseInvoiceHeader</h1>
+
+    {{ include('transaction/purchase_invoice_header/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_transaction_purchase_invoice_header_index') }}">back to list</a>
+
+    {{ include('transaction/purchase_invoice_header/_delete_form.html.twig') }}
+{% endblock %}

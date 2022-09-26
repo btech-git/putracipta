@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New PurchaseInvoiceHeader{% endblock %}
+
+{% block body %}
+    <h1>Create new PurchaseInvoiceHeader</h1>
+
+    {{ include('transaction/purchase_invoice_header/_form.html.twig') }}
+
+    <a href="{{ path('app_transaction_purchase_invoice_header_index') }}">back to list</a>
+{% endblock %}
