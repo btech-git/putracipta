@@ -10,15 +10,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseInvoiceHeaderRepository::class)]
-class PurchaseInvoiceHeader
+class PurchaseInvoiceHeader extends TransactionHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(length: 60)]
     private ?string $invoiceTaxCodeNumber = null;
@@ -56,9 +53,6 @@ class PurchaseInvoiceHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $remainingPayment = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
@@ -72,15 +66,6 @@ class PurchaseInvoiceHeader
 
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchasePaymentDetail::class)]
     private Collection $purchasePaymentDetails;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modifiedTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     public function __construct()
     {

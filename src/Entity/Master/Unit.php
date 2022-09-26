@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UnitRepository::class)]
-class Unit
+class Unit extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,9 +17,6 @@ class Unit
 
     #[ORM\Column(length: 60)]
     private ?string $name = null;
-
-    #[ORM\Column]
-    private ?bool $isInactive = null;
 
     #[ORM\OneToMany(mappedBy: 'unit', targetEntity: Product::class)]
     private Collection $products;
@@ -42,18 +39,6 @@ class Unit
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function isIsInactive(): ?bool
-    {
-        return $this->isInactive;
-    }
-
-    public function setIsInactive(bool $isInactive): self
-    {
-        $this->isInactive = $isInactive;
 
         return $this;
     }

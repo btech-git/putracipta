@@ -2,15 +2,13 @@
 
 namespace App\Entity\Master;
 
-use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Repository\Master\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-class Product
+class Product extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,9 +30,6 @@ class Product
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $minimumStock = null;
 
-    #[ORM\Column]
-    private ?bool $isInactive = null;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ProductCategory $productCategory = null;
@@ -46,9 +41,6 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Brand $brand = null;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: PurchaseOrderDetail::class)]
-    private Collection $purchaseOrderDetails;
 
     public function __construct()
     {
@@ -120,18 +112,6 @@ class Product
         return $this;
     }
 
-    public function isIsInactive(): ?bool
-    {
-        return $this->isInactive;
-    }
-
-    public function setIsInactive(bool $isInactive): self
-    {
-        $this->isInactive = $isInactive;
-
-        return $this;
-    }
-
     public function getProductCategory(): ?ProductCategory
     {
         return $this->productCategory;
@@ -164,36 +144,6 @@ class Product
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, PurchaseOrderDetail>
-     */
-    public function getPurchaseOrderDetails(): Collection
-    {
-        return $this->purchaseOrderDetails;
-    }
-
-    public function addPurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
-    {
-        if (!$this->purchaseOrderDetails->contains($purchaseOrderDetail)) {
-            $this->purchaseOrderDetails->add($purchaseOrderDetail);
-            $purchaseOrderDetail->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removePurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
-    {
-        if ($this->purchaseOrderDetails->removeElement($purchaseOrderDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($purchaseOrderDetail->getProduct() === $this) {
-                $purchaseOrderDetail->setProduct(null);
-            }
-        }
 
         return $this;
     }

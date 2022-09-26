@@ -10,27 +10,24 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderHeaderRepository::class)]
-class PurchaseOrderHeader
+class PurchaseOrderHeader extends TransactionHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateTimeApproved = null;
-
     #[ORM\Column(length: 20)]
-    private ?string $discountType = null;
+    private ?string $discountValueType = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $discountValue = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $taxMode = null;
+
     #[ORM\Column]
-    private ?bool $isTaxApplicable = null;
+    private ?int $taxPercentage = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $taxNominal = null;
@@ -44,9 +41,6 @@ class PurchaseOrderHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
-
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderHeaders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
@@ -56,15 +50,6 @@ class PurchaseOrderHeader
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $createdTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modifiedTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     public function __construct()
     {
@@ -89,26 +74,14 @@ class PurchaseOrderHeader
         return $this;
     }
 
-    public function getDateTimeApproved(): ?\DateTimeInterface
+    public function getDiscountValueType(): ?string
     {
-        return $this->dateTimeApproved;
+        return $this->discountValueType;
     }
 
-    public function setDateTimeApproved(?\DateTimeInterface $dateTimeApproved): self
+    public function setDiscountValueType(string $discountValueType): self
     {
-        $this->dateTimeApproved = $dateTimeApproved;
-
-        return $this;
-    }
-
-    public function getDiscountType(): ?string
-    {
-        return $this->discountType;
-    }
-
-    public function setDiscountType(string $discountType): self
-    {
-        $this->discountType = $discountType;
+        $this->discountValueType = $discountValueType;
 
         return $this;
     }
@@ -125,14 +98,26 @@ class PurchaseOrderHeader
         return $this;
     }
 
-    public function isIsTaxApplicable(): ?bool
+    public function getTaxMode(): ?string
     {
-        return $this->isTaxApplicable;
+        return $this->taxMode;
     }
 
-    public function setIsTaxApplicable(bool $isTaxApplicable): self
+    public function setTaxMode(string $taxMode): self
     {
-        $this->isTaxApplicable = $isTaxApplicable;
+        $this->taxMode = $taxMode;
+
+        return $this;
+    }
+
+    public function getTaxPercentage(): ?int
+    {
+        return $this->taxPercentage;
+    }
+
+    public function setTaxPercentage(int $taxPercentage): self
+    {
+        $this->taxPercentage = $taxPercentage;
 
         return $this;
     }
@@ -265,42 +250,6 @@ class PurchaseOrderHeader
                 $receiveHeader->setPurchaseOrderHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->createdTransactionDateTime;
-    }
-
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
-    {
-        $this->createdTransactionDateTime = $createdTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->modifiedTransactionDateTime;
-    }
-
-    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
-    {
-        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->approvedTransactionDateTime;
-    }
-
-    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
-    {
-        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
 
         return $this;
     }

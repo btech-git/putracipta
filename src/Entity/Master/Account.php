@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
-class Account
+class Account extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,9 +20,6 @@ class Account
 
     #[ORM\Column(length: 100)]
     private ?string $name = null;
-
-    #[ORM\Column]
-    private ?bool $isInactive = null;
 
     #[ORM\ManyToOne(inversedBy: 'accounts')]
     #[ORM\JoinColumn(nullable: false)]
@@ -65,18 +62,6 @@ class Account
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function isIsInactive(): ?bool
-    {
-        return $this->isInactive;
-    }
-
-    public function setIsInactive(bool $isInactive): self
-    {
-        $this->isInactive = $isInactive;
 
         return $this;
     }

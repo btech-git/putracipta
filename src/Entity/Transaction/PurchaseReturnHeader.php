@@ -10,21 +10,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseReturnHeaderRepository::class)]
-class PurchaseReturnHeader
+class PurchaseReturnHeader extends TransactionHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $shippingFee = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
 
     #[ORM\Column]
     private ?bool $isTaxApplicable = null;

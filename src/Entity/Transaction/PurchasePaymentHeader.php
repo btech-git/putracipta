@@ -11,18 +11,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchasePaymentHeaderRepository::class)]
-class PurchasePaymentHeader
+class PurchasePaymentHeader extends TransactionHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -34,15 +28,6 @@ class PurchasePaymentHeader
 
     #[ORM\OneToMany(mappedBy: 'purchasePaymentHeader', targetEntity: PurchasePaymentDetail::class)]
     private Collection $purchasePaymentDetails;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modifiedTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     public function __construct()
     {

@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-class Customer
+class Customer extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,9 +37,6 @@ class Customer
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = null;
-
-    #[ORM\Column]
-    private ?bool $isInactive = null;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
     private ?Account $account = null;
@@ -141,18 +138,6 @@ class Customer
     public function setNote(string $note): self
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function isIsInactive(): ?bool
-    {
-        return $this->isInactive;
-    }
-
-    public function setIsInactive(bool $isInactive): self
-    {
-        $this->isInactive = $isInactive;
 
         return $this;
     }

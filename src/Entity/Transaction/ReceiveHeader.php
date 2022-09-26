@@ -9,18 +9,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceiveHeaderRepository::class)]
-class ReceiveHeader
+class ReceiveHeader extends TransactionHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
 
     #[ORM\Column]
     private ?int $totalQuantity = null;
@@ -34,15 +28,6 @@ class ReceiveHeader
 
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modifiedTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
     private Collection $purchaseReturnHeaders;

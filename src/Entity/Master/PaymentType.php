@@ -6,7 +6,7 @@ use App\Repository\Master\PaymentTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentTypeRepository::class)]
-class PaymentType
+class PaymentType extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,9 +15,6 @@ class PaymentType
 
     #[ORM\Column(length: 60)]
     private ?string $name = null;
-
-    #[ORM\Column]
-    private ?bool $isInactive = null;
 
     public function getId(): ?int
     {
@@ -32,18 +29,6 @@ class PaymentType
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function isIsInactive(): ?bool
-    {
-        return $this->isInactive;
-    }
-
-    public function setIsInactive(bool $isInactive): self
-    {
-        $this->isInactive = $isInactive;
 
         return $this;
     }

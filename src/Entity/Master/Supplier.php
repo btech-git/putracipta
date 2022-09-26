@@ -2,15 +2,13 @@
 
 namespace App\Entity\Master;
 
-use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Repository\Master\SupplierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SupplierRepository::class)]
-class Supplier
+class Supplier extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -41,14 +39,8 @@ class Supplier
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = null;
 
-    #[ORM\Column]
-    private ?bool $isInactive = null;
-
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     private ?Account $account = null;
-
-    #[ORM\OneToMany(mappedBy: 'supplier', targetEntity: PurchaseOrderHeader::class)]
-    private Collection $purchaseOrderHeaders;
 
     public function __construct()
     {
@@ -156,18 +148,6 @@ class Supplier
         return $this;
     }
 
-    public function isIsInactive(): ?bool
-    {
-        return $this->isInactive;
-    }
-
-    public function setIsInactive(bool $isInactive): self
-    {
-        $this->isInactive = $isInactive;
-
-        return $this;
-    }
-
     public function getAccount(): ?Account
     {
         return $this->account;
@@ -176,36 +156,6 @@ class Supplier
     public function setAccount(?Account $account): self
     {
         $this->account = $account;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, PurchaseOrderHeader>
-     */
-    public function getPurchaseOrderHeaders(): Collection
-    {
-        return $this->purchaseOrderHeaders;
-    }
-
-    public function addPurchaseOrderHeader(PurchaseOrderHeader $purchaseOrderHeader): self
-    {
-        if (!$this->purchaseOrderHeaders->contains($purchaseOrderHeader)) {
-            $this->purchaseOrderHeaders->add($purchaseOrderHeader);
-            $purchaseOrderHeader->setSupplier($this);
-        }
-
-        return $this;
-    }
-
-    public function removePurchaseOrderHeader(PurchaseOrderHeader $purchaseOrderHeader): self
-    {
-        if ($this->purchaseOrderHeaders->removeElement($purchaseOrderHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($purchaseOrderHeader->getSupplier() === $this) {
-                $purchaseOrderHeader->setSupplier(null);
-            }
-        }
 
         return $this;
     }
