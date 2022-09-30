@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,12 +21,14 @@ class DefaultController extends AbstractController
     }
 
     #[Route('/home_page', name: 'app_home_page', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function homePage(): Response
     {
         return $this->render('default/home_page.html.twig');
     }
 
     #[Route('/login_page', name: 'app_login_page', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_ANONYMOUSLY')]
     public function loginPage(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
