@@ -1,0 +1,53 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, users) }}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="table-primary" {{ grid.sort_link(form) }}>
+            <th role="button" {{ grid.sort_link_item(form, 'username') }}>
+                Username {{ grid.sort_char(form.sort.username.vars.value) }}
+            </th>
+            <th role="button" {{ grid.sort_link_item(form, 'roles') }}>
+                Roles {{ grid.sort_char(form.sort.roles.vars.value) }}
+            </th>
+            <th role="button" {{ grid.sort_link_item(form, 'password') }}>
+                Password {{ grid.sort_char(form.sort.password.vars.value) }}
+            </th>
+            <th></th>
+        </tr>
+        <tr class="table-light" {{ grid.filter_link(form) }}>
+            <th>
+                <input type="text" {{ grid.filter_link_item(form, 'username') }} value="{{ form.filter.username.1.vars.value }}" />
+            </th>
+            <th>
+                <input type="text" {{ grid.filter_link_item(form, 'roles') }} value="{{ form.filter.roles.1.vars.value }}" />
+            </th>
+            <th>
+                <input type="text" {{ grid.filter_link_item(form, 'password') }} value="{{ form.filter.password.1.vars.value }}" />
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td>
+                <td>
+                    <a class="btn btn-info btn-sm" href="{{ path('app_admin_user_show', {'id': user.id}) }}">Show</a>
+                    <a class="btn btn-warning btn-sm" href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No records found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ grid.navigation(form, count, users) }}
