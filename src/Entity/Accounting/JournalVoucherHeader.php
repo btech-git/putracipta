@@ -2,13 +2,14 @@
 
 namespace App\Entity\Accounting;
 
+use App\Entity\AccountingHeader;
 use App\Repository\Accounting\JournalVoucherHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JournalVoucherHeaderRepository::class)]
-class JournalVoucherHeader
+class JournalVoucherHeader extends AccountingHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

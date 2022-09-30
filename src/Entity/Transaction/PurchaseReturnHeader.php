@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Supplier;
+use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseReturnHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,14 +21,18 @@ class PurchaseReturnHeader extends TransactionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $shippingFee = null;
 
-    #[ORM\Column]
-    private ?bool $isTaxApplicable = null;
+    #[ORM\Column(length: 20)]
+    private ?string $taxMode = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column]
     private ?int $taxPercentage = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $taxNominal = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnHeaders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -35,10 +40,6 @@ class PurchaseReturnHeader extends TransactionHeader
 
     #[ORM\OneToMany(mappedBy: 'purchaseReturnHeader', targetEntity: PurchaseReturnDetail::class)]
     private Collection $purchaseReturnDetails;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Supplier $supplier = null;
 
     public function __construct()
     {
@@ -48,18 +49,6 @@ class PurchaseReturnHeader extends TransactionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTransactionDate(): ?\DateTimeInterface
-    {
-        return $this->transactionDate;
-    }
-
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
     }
 
     public function getShippingFee(): ?string
@@ -74,26 +63,14 @@ class PurchaseReturnHeader extends TransactionHeader
         return $this;
     }
 
-    public function getNote(): ?string
+    public function getTaxMode(): ?string
     {
-        return $this->note;
+        return $this->taxMode;
     }
 
-    public function setNote(string $note): self
+    public function setTaxMode(string $taxMode): self
     {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    public function isIsTaxApplicable(): ?bool
-    {
-        return $this->isTaxApplicable;
-    }
-
-    public function setIsTaxApplicable(bool $isTaxApplicable): self
-    {
-        $this->isTaxApplicable = $isTaxApplicable;
+        $this->taxMode = $taxMode;
 
         return $this;
     }
@@ -118,6 +95,18 @@ class PurchaseReturnHeader extends TransactionHeader
     public function setTaxNominal(string $taxNominal): self
     {
         $this->taxNominal = $taxNominal;
+
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): self
+    {
+        $this->supplier = $supplier;
 
         return $this;
     }
@@ -160,18 +149,6 @@ class PurchaseReturnHeader extends TransactionHeader
                 $purchaseReturnDetail->setPurchaseReturnHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getSupplier(): ?Supplier
-    {
-        return $this->supplier;
-    }
-
-    public function setSupplier(?Supplier $supplier): self
-    {
-        $this->supplier = $supplier;
 
         return $this;
     }

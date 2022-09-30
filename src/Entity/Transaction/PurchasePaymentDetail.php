@@ -3,12 +3,13 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Account;
+use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchasePaymentDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchasePaymentDetailRepository::class)]
-class PurchasePaymentDetail
+class PurchasePaymentDetail extends TransactionDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

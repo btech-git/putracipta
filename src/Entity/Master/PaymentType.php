@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Master;
 use App\Repository\Master\PaymentTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,23 +14,8 @@ class PaymentType extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60)]
-    private ?string $name = null;
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 }

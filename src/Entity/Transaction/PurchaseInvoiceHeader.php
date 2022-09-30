@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Supplier;
+use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseInvoiceHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,10 +25,13 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private ?string $supplierInvoiceCodeNumber = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $discountType = null;
+    private ?string $discountValueType = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $discountNominal = null;
+    private ?string $discountValue = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $taxMode = null;
 
     #[ORM\Column]
     private ?int $taxPercentage = null;
@@ -78,18 +82,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
         return $this->id;
     }
 
-    public function getTransactionDate(): ?\DateTimeInterface
-    {
-        return $this->transactionDate;
-    }
-
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
     public function getInvoiceTaxCodeNumber(): ?string
     {
         return $this->invoiceTaxCodeNumber;
@@ -114,26 +106,38 @@ class PurchaseInvoiceHeader extends TransactionHeader
         return $this;
     }
 
-    public function getDiscountType(): ?string
+    public function getDiscountValueType(): ?string
     {
-        return $this->discountType;
+        return $this->discountValueType;
     }
 
-    public function setDiscountType(string $discountType): self
+    public function setDiscountValueType(string $discountValueType): self
     {
-        $this->discountType = $discountType;
+        $this->discountValueType = $discountValueType;
 
         return $this;
     }
 
-    public function getDiscountNominal(): ?string
+    public function getDiscountValue(): ?string
     {
-        return $this->discountNominal;
+        return $this->discountValue;
     }
 
-    public function setDiscountNominal(string $discountNominal): self
+    public function setDiscountValue(string $discountValue): self
     {
-        $this->discountNominal = $discountNominal;
+        $this->discountValue = $discountValue;
+
+        return $this;
+    }
+
+    public function getTaxMode(): ?string
+    {
+        return $this->taxMode;
+    }
+
+    public function setTaxMode(string $taxMode): self
+    {
+        $this->taxMode = $taxMode;
 
         return $this;
     }
@@ -234,18 +238,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
         return $this;
     }
 
-    public function getNote(): ?string
-    {
-        return $this->note;
-    }
-
-    public function setNote(string $note): self
-    {
-        $this->note = $note;
-
-        return $this;
-    }
-
     public function getSupplier(): ?Supplier
     {
         return $this->supplier;
@@ -326,42 +318,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
                 $purchasePaymentDetail->setPurchaseInvoiceHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->createdTransactionDateTime;
-    }
-
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
-    {
-        $this->createdTransactionDateTime = $createdTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->modifiedTransactionDateTime;
-    }
-
-    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
-    {
-        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->approvedTransactionDateTime;
-    }
-
-    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
-    {
-        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
 
         return $this;
     }

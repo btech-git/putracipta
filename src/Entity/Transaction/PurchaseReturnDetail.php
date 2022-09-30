@@ -3,12 +3,13 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
+use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseReturnDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseReturnDetailRepository::class)]
-class PurchaseReturnDetail
+class PurchaseReturnDetail extends TransactionDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,6 +22,10 @@ class PurchaseReturnDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $unitPrice = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
+
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ReceiveDetail $receiveDetail = null;
@@ -28,10 +33,6 @@ class PurchaseReturnDetail
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
     #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseReturnHeader $purchaseReturnHeader = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -62,6 +63,18 @@ class PurchaseReturnDetail
         return $this;
     }
 
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
     public function getReceiveDetail(): ?ReceiveDetail
     {
         return $this->receiveDetail;
@@ -82,18 +95,6 @@ class PurchaseReturnDetail
     public function setPurchaseReturnHeader(?PurchaseReturnHeader $purchaseReturnHeader): self
     {
         $this->purchaseReturnHeader = $purchaseReturnHeader;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }

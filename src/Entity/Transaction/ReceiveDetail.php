@@ -3,13 +3,14 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
+use App\Entity\TransactionDetail;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceiveDetailRepository::class)]
-class ReceiveDetail
+class ReceiveDetail extends TransactionDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

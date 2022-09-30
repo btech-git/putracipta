@@ -2,13 +2,14 @@
 
 namespace App\Entity\Accounting;
 
+use App\Entity\AccountingDetail;
 use App\Entity\Master\Account;
 use App\Repository\Accounting\DepositDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DepositDetailRepository::class)]
-class DepositDetail
+class DepositDetail extends AccountingDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity\Transaction;
+namespace App\Entity;
 
 use App\Entity\Admin\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\MappedSuperclass]
-abstract class TransactionHeader
+abstract class AccountingHeader
 {
     #[ORM\Column]
     private ?int $codeNumberOrdinal = null;
@@ -18,7 +18,7 @@ abstract class TransactionHeader
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $codeNumberYear = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdTransactionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -32,9 +32,11 @@ abstract class TransactionHeader
     private ?User $createdTransactionUser = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $modifiedTransactionUser = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $approvedTransactionUser = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

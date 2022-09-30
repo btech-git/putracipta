@@ -3,12 +3,13 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
+use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseInvoiceDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseInvoiceDetailRepository::class)]
-class PurchaseInvoiceDetail
+class PurchaseInvoiceDetail extends TransactionDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,13 +29,13 @@ class PurchaseInvoiceDetail
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?ReceiveDetail $receiveDetail = null;
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
     public function getId(): ?int
     {
@@ -89,18 +90,6 @@ class PurchaseInvoiceDetail
         return $this;
     }
 
-    public function getPurchaseInvoiceHeader(): ?PurchaseInvoiceHeader
-    {
-        return $this->purchaseInvoiceHeader;
-    }
-
-    public function setPurchaseInvoiceHeader(?PurchaseInvoiceHeader $purchaseInvoiceHeader): self
-    {
-        $this->purchaseInvoiceHeader = $purchaseInvoiceHeader;
-
-        return $this;
-    }
-
     public function getReceiveDetail(): ?ReceiveDetail
     {
         return $this->receiveDetail;
@@ -109,6 +98,18 @@ class PurchaseInvoiceDetail
     public function setReceiveDetail(ReceiveDetail $receiveDetail): self
     {
         $this->receiveDetail = $receiveDetail;
+
+        return $this;
+    }
+
+    public function getPurchaseInvoiceHeader(): ?PurchaseInvoiceHeader
+    {
+        return $this->purchaseInvoiceHeader;
+    }
+
+    public function setPurchaseInvoiceHeader(?PurchaseInvoiceHeader $purchaseInvoiceHeader): self
+    {
+        $this->purchaseInvoiceHeader = $purchaseInvoiceHeader;
 
         return $this;
     }

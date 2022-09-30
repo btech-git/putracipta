@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity\Master;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\MappedSuperclass]
-abstract class Master
+abstract class TransactionDetail
 {
     #[ORM\Column]
     private ?bool $isInactive = null;

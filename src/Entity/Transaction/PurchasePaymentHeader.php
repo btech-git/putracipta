@@ -4,10 +4,10 @@ namespace App\Entity\Transaction;
 
 use App\Entity\Master\PaymentType;
 use App\Entity\Master\Supplier;
+use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchasePaymentHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchasePaymentHeaderRepository::class)]
@@ -37,30 +37,6 @@ class PurchasePaymentHeader extends TransactionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTransactionDate(): ?\DateTimeInterface
-    {
-        return $this->transactionDate;
-    }
-
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    public function getNote(): ?string
-    {
-        return $this->note;
-    }
-
-    public function setNote(string $note): self
-    {
-        $this->note = $note;
-
-        return $this;
     }
 
     public function getSupplier(): ?Supplier
@@ -113,42 +89,6 @@ class PurchasePaymentHeader extends TransactionHeader
                 $purchasePaymentDetail->setPurchasePaymentHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->createdTransactionDateTime;
-    }
-
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
-    {
-        $this->createdTransactionDateTime = $createdTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->modifiedTransactionDateTime;
-    }
-
-    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
-    {
-        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->approvedTransactionDateTime;
-    }
-
-    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
-    {
-        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
 
         return $this;
     }

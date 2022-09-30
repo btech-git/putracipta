@@ -2,10 +2,11 @@
 
 namespace App\Entity\Transaction;
 
+use App\Entity\Master\Supplier;
+use App\Entity\TransactionHeader;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceiveHeaderRepository::class)]
@@ -21,6 +22,10 @@ class ReceiveHeader extends TransactionHeader
 
     #[ORM\Column(length: 60)]
     private ?string $supplierDeliveryCodeNumber = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -43,30 +48,6 @@ class ReceiveHeader extends TransactionHeader
         return $this->id;
     }
 
-    public function getTransactionDate(): ?\DateTimeInterface
-    {
-        return $this->transactionDate;
-    }
-
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    public function getNote(): ?string
-    {
-        return $this->note;
-    }
-
-    public function setNote(string $note): self
-    {
-        $this->note = $note;
-
-        return $this;
-    }
-
     public function getTotalQuantity(): ?int
     {
         return $this->totalQuantity;
@@ -87,6 +68,18 @@ class ReceiveHeader extends TransactionHeader
     public function setSupplierDeliveryCodeNumber(string $supplierDeliveryCodeNumber): self
     {
         $this->supplierDeliveryCodeNumber = $supplierDeliveryCodeNumber;
+
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): self
+    {
+        $this->supplier = $supplier;
 
         return $this;
     }
@@ -129,42 +122,6 @@ class ReceiveHeader extends TransactionHeader
                 $receiveDetail->setReceiveHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->createdTransactionDateTime;
-    }
-
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
-    {
-        $this->createdTransactionDateTime = $createdTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->modifiedTransactionDateTime;
-    }
-
-    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
-    {
-        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->approvedTransactionDateTime;
-    }
-
-    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
-    {
-        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
 
         return $this;
     }

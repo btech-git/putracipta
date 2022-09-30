@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Master;
 use App\Repository\Master\WarehouseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,9 +17,6 @@ class Warehouse extends Master
     #[ORM\Column(length: 20)]
     private ?string $code = null;
 
-    #[ORM\Column(length: 60)]
-    private ?string $name = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -32,18 +30,6 @@ class Warehouse extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

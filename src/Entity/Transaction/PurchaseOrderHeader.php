@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Supplier;
+use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,7 +42,7 @@ class PurchaseOrderHeader extends TransactionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseOrderHeaders')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
 
@@ -60,18 +61,6 @@ class PurchaseOrderHeader extends TransactionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTransactionDate(): ?\DateTimeInterface
-    {
-        return $this->transactionDate;
-    }
-
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
     }
 
     public function getDiscountValueType(): ?string
@@ -166,18 +155,6 @@ class PurchaseOrderHeader extends TransactionHeader
     public function setGrandTotal(string $grandTotal): self
     {
         $this->grandTotal = $grandTotal;
-
-        return $this;
-    }
-
-    public function getNote(): ?string
-    {
-        return $this->note;
-    }
-
-    public function setNote(string $note): self
-    {
-        $this->note = $note;
 
         return $this;
     }

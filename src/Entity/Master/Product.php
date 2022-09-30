@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
@@ -17,9 +18,6 @@ class Product extends Master
 
     #[ORM\Column(length: 20)]
     private ?string $code = null;
-
-    #[ORM\Column(length: 100)]
-    private ?string $name = null;
 
     #[ORM\Column(length: 20)]
     private ?string $size = null;
@@ -60,18 +58,6 @@ class Product extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

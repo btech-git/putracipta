@@ -2,6 +2,7 @@
 
 namespace App\Entity\Accounting;
 
+use App\Entity\AccountingHeader;
 use App\Entity\Master\Account;
 use App\Repository\Accounting\DepositHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DepositHeaderRepository::class)]
-class DepositHeader
+class DepositHeader extends AccountingHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

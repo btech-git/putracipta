@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Master;
 use App\Repository\Master\CustomerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,9 +17,6 @@ class Customer extends Master
 
     #[ORM\Column(length: 20)]
     private ?string $code = null;
-
-    #[ORM\Column(length: 60)]
-    private ?string $name = null;
 
     #[ORM\Column(length: 100)]
     private ?string $company = null;
@@ -54,18 +52,6 @@ class Customer extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

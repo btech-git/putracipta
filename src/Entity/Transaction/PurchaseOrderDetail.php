@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
+use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderDetailRepository::class)]
-class PurchaseOrderDetail
+class PurchaseOrderDetail extends TransactionDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -26,7 +27,7 @@ class PurchaseOrderDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $discount = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
@@ -37,14 +38,14 @@ class PurchaseOrderDetail
     #[ORM\OneToMany(mappedBy: 'purchaseOrderDetail', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
 
-    public function getTotal(): int
-    {
-        return $this->quantity * $this->unitPrice * (1 - $this->discount / 100);
-    }
-
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
+    }
+
+    public function getTotal(): int
+    {
+        return $this->quantity * $this->unitPrice * (1 - $this->discount / 100);
     }
 
     public function getId(): ?int
