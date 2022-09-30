@@ -10,13 +10,25 @@ security:
             entity:
                 class: App\Entity\Admin\User
                 property: username
+        backend_users:
+            memory:
+                users:
+                    a: { password: '$2a$12$rb0GpZKO9F8TJNMYmf8r7.8mdppryJdBzHei0AHwBu8jLqilITGNe', roles: ['ROLE_USER'] }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: app_user_provider
+            provider: backend_users
+            form_login:
+                login_path: app_login_page
+                check_path: app_login
+                default_target_path: app_home_page
+                enable_csrf: true
+            logout:
+                path: app_logout
+                target: app_login_page
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
