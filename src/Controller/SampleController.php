@@ -7,6 +7,7 @@ use App\Entity\Sample;
 use App\Form\SampleType;
 use App\Grid\SampleGridType;
 use App\Repository\SampleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SampleController extends AbstractController
 {
     #[Route('/_list', name: 'app_sample__list', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function _list(Request $request, SampleRepository $sampleRepository): Response
     {
         $criteria = new DataCriteria();
@@ -32,12 +34,14 @@ class SampleController extends AbstractController
     }
 
     #[Route('/', name: 'app_sample_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
         return $this->render("sample/index.html.twig");
     }
 
     #[Route('/new', name: 'app_sample_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, SampleRepository $sampleRepository): Response
     {
         $sample = new Sample();
@@ -47,7 +51,7 @@ class SampleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sampleRepository->add($sample, true);
 
-            return $this->redirectToRoute('app_sample_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sample_show', ['id' => $sample->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sample/new.html.twig', [
@@ -57,6 +61,7 @@ class SampleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sample_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(Sample $sample): Response
     {
         return $this->render('sample/show.html.twig', [
@@ -65,6 +70,7 @@ class SampleController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sample_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Sample $sample, SampleRepository $sampleRepository): Response
     {
         $form = $this->createForm(SampleType::class, $sample);
@@ -73,7 +79,7 @@ class SampleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sampleRepository->add($sample, true);
 
-            return $this->redirectToRoute('app_sample_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sample_show', ['id' => $sample->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sample/edit.html.twig', [
@@ -82,7 +88,8 @@ class SampleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sample_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_sample_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Sample $sample, SampleRepository $sampleRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $sample->getId(), $request->request->get('_token'))) {
