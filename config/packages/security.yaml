@@ -14,6 +14,9 @@ security:
             memory:
                 users:
                     a: { password: '$2a$12$rb0GpZKO9F8TJNMYmf8r7.8mdppryJdBzHei0AHwBu8jLqilITGNe', roles: ['ROLE_USER'] }
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_MASTER, ROLE_TRANSACTION]
+        ROLE_TRANSACTION: [ROLE_PURCHASE, ROLE_SALE]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
