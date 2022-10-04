@@ -8,19 +8,19 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AccountingDetail
 {
     #[ORM\Column]
-    private ?bool $isInactive = null;
+    protected ?bool $isCanceled = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $memo = null;
+    protected ?string $memo = null;
 
-    public function isIsInactive(): ?bool
+    public function isIsCanceled(): ?bool
     {
-        return $this->isInactive;
+        return $this->isCanceled;
     }
 
-    public function setIsInactive(bool $isInactive): self
+    public function setIsCanceled(bool $isCanceled): self
     {
-        $this->isInactive = $isInactive;
+        $this->isCanceled = $isCanceled;
 
         return $this;
     }

@@ -10,40 +10,55 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AccountingHeader
 {
     #[ORM\Column]
-    private ?int $codeNumberOrdinal = null;
+    protected ?bool $isCanceled = null;
+
+    #[ORM\Column]
+    protected ?int $codeNumberOrdinal = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $codeNumberMonth = null;
+    protected ?int $codeNumberMonth = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $codeNumberYear = null;
+    protected ?int $codeNumberYear = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $createdTransactionDateTime = null;
+    protected ?\DateTimeInterface $createdTransactionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modifiedTransactionDateTime = null;
+    protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $approvedTransactionDateTime = null;
+    protected ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $createdTransactionUser = null;
+    protected ?User $createdTransactionUser = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $modifiedTransactionUser = null;
+    protected ?User $modifiedTransactionUser = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $approvedTransactionUser = null;
+    protected ?User $approvedTransactionUser = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
+    protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
+    protected ?string $note = null;
+
+    public function isIsCanceled(): ?bool
+    {
+        return $this->isCanceled;
+    }
+
+    public function setIsCanceled(bool $isCanceled): self
+    {
+        $this->isCanceled = $isCanceled;
+
+        return $this;
+    }
 
     public function getCodeNumberOrdinal(): ?int
     {
