@@ -45,7 +45,7 @@ class UserController extends AbstractController
     public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['security_roles' => $this->getParameter('security.role_hierarchy.roles')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -73,7 +73,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['security_roles' => $this->getParameter('security.role_hierarchy.roles')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

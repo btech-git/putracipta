@@ -1,5 +1,9 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.username) }}
+    <hr />
+    {{ form_row(form.plainPassword) }}
+    <hr />
+    {{ form_row(form.roles) }}
     <div class="d-grid">
         <button class="btn btn-secondary"
                 data-controller="dom-element"

@@ -1,0 +1,14 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Profile' %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
