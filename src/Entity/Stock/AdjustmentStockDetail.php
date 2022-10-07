@@ -7,6 +7,7 @@ use App\Repository\Stock\AdjustmentStockDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdjustmentStockDetailRepository::class)]
+#[ORM\Table(name: 'stock_adjustment_stock_detail')]
 class AdjustmentStockDetail
 {
     #[ORM\Id]

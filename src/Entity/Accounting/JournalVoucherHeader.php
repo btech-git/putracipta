@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JournalVoucherHeaderRepository::class)]
+#[ORM\Table(name: 'accounting_journal_voucher_header')]
 class JournalVoucherHeader extends AccountingHeader
 {
     #[ORM\Id]

@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DepositHeaderRepository::class)]
+#[ORM\Table(name: 'accounting_deposit_header')]
 class DepositHeader extends AccountingHeader
 {
     #[ORM\Id]

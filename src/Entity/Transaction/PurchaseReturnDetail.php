@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseReturnDetailRepository::class)]
+#[ORM\Table(name: 'transaction_purchase_return_detail')]
 class PurchaseReturnDetail extends TransactionDetail
 {
     #[ORM\Id]

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductCategoryRepository::class)]
+#[ORM\Table(name: 'master_product_category')]
 class ProductCategory extends Master
 {
     #[ORM\Id]

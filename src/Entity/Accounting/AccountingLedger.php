@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccountingLedgerRepository::class)]
+#[ORM\Table(name: 'accounting_accounting_ledger')]
 class AccountingLedger
 {
     #[ORM\Id]

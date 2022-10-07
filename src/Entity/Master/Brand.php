@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
+#[ORM\Table(name: 'master_brand')]
 class Brand extends Master
 {
     #[ORM\Id]

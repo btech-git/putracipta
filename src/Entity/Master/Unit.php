@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UnitRepository::class)]
+#[ORM\Table(name: 'master_unit')]
 class Unit extends Master
 {
     #[ORM\Id]

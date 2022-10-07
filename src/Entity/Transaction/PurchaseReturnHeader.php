@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseReturnHeaderRepository::class)]
+#[ORM\Table(name: 'transaction_purchase_return_header')]
 class PurchaseReturnHeader extends TransactionHeader
 {
     #[ORM\Id]

@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceiveDetailRepository::class)]
+#[ORM\Table(name: 'transaction_receive_detail')]
 class ReceiveDetail extends TransactionDetail
 {
     #[ORM\Id]

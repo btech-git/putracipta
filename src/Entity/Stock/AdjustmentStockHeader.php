@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdjustmentStockHeaderRepository::class)]
+#[ORM\Table(name: 'stock_adjustment_stock_header')]
 class AdjustmentStockHeader
 {
     #[ORM\Id]

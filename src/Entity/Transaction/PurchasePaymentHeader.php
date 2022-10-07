@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchasePaymentHeaderRepository::class)]
+#[ORM\Table(name: 'transaction_purchase_payment_header')]
 class PurchasePaymentHeader extends TransactionHeader
 {
     #[ORM\Id]

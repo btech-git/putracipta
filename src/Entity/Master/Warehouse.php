@@ -7,6 +7,7 @@ use App\Repository\Master\WarehouseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WarehouseRepository::class)]
+#[ORM\Table(name: 'master_warehouse')]
 class Warehouse extends Master
 {
     #[ORM\Id]

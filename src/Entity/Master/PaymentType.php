@@ -7,6 +7,7 @@ use App\Repository\Master\PaymentTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentTypeRepository::class)]
+#[ORM\Table(name: 'master_payment_type')]
 class PaymentType extends Master
 {
     #[ORM\Id]

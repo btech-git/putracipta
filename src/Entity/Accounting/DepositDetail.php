@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DepositDetailRepository::class)]
+#[ORM\Table(name: 'accounting_deposit_detail')]
 class DepositDetail extends AccountingDetail
 {
     #[ORM\Id]

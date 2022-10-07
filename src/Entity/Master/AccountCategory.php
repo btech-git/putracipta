@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccountCategoryRepository::class)]
+#[ORM\Table(name: 'master_account_category')]
 class AccountCategory extends Master
 {
     #[ORM\Id]
