@@ -1,9 +1,26 @@
 {{ form_start(form) }}
-    {{ form_row(form.username) }}
-    <hr />
-    {{ form_row(form.plainPassword) }}
-    <hr />
-    {{ form_row(form.roles) }}
+    <div class="pb-3">
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Username</legend>
+            {{ form_row(form.username) }}
+        </fieldset>
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Password</legend>
+            {{ form_row(form.plainPassword) }}
+        </fieldset>
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Profile</legend>
+            {{ form_row(form.name) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.address) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.note) }}
+        </fieldset>
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Roles</legend>
+            {{ include('admin/user/_roles_form.html.twig') }}
+        </fieldset>
+    </div>
     <div class="d-grid">
         <button class="btn btn-secondary"
                 data-controller="dom-element"
