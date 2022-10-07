@@ -1,6 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['app/form_grid_type.html.twig', 'bootstrap_5_layout.html.twig']
+    globals:
+        role_ref: '@App\Util\RoleReference'
 
 when@test:
     twig:
