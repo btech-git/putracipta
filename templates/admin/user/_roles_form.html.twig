@@ -1,0 +1,39 @@
+{% macro form_check(variables, name, label) %}
+    {% set childForm = variables.form.roles.children[variables.roleIndexes[name]] %}
+    {% set labelText = label ? childForm.vars.label : ' ' %}
+    {{ form_widget(childForm, {'label': labelText, 'attr': {
+        'data-controller': 'dom-element',
+        'data-action': 'dom-element#bind',
+        'data-dom-element-bind-specifications-param': [
+            {
+                'destinationsTarget': "[data-role-parent*=#{childForm.vars.value}]",
+                'action': 'setPropertyValue',
+                'descriptor': {'property': 'checked', 'value': 'false'},
+                'condition': '$element.checked',
+            },
+            {
+                'destinationsTarget': "[data-role-parent*=#{childForm.vars.value}]",
+                'action': 'setPropertyValue',
+                'descriptor': {'property': 'disabled', 'value': '$element.checked'},
+            },
+        ]|json_encode,
+        'data-role-parent': role_ref.data[childForm.vars.value]|join(' '),
+    }}) }}
+{% endmacro %}
+
+{% set roleIndexes = {} %}
+{% for index, childForm in form.roles.children %}
+    {% set roleIndexes = roleIndexes|merge({(childForm.vars.value): index}) %}
+{% endfor %}
+
+<table class="table table-bordered table-striped">
+    <tbody>
+        <tr>
+            <td>{{ _self.form_check(_context, 'ROLE_SALE', true) }}</td>
+            <td>{{ _self.form_check(_context, 'ROLE_PURCHASE', true) }}</td>
+            <td>{{ _self.form_check(_context, 'ROLE_TRANSACTION', true) }}</td>
+            <td>{{ _self.form_check(_context, 'ROLE_MASTER', true) }}</td>
+            <td>{{ _self.form_check(_context, 'ROLE_ADMIN', true) }}</td>
+        </tr>
+    </tbody>
+</table>
