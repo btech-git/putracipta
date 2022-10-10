@@ -61,14 +61,14 @@
         <tr>
             <td class="text-end" colspan="6">
                 <span class="d-inline-block">Discount</span>
-                <span class="d-inline-block">{{ form_widget(form.discountType) }}{{ form_errors(form.discountType) }}</span>
+                <span class="d-inline-block">{{ form_widget(form.discountValueType) }}{{ form_errors(form.discountValueType) }}</span>
             </td>
             <td>{{ form_widget(form.discountValue) }}{{ form_errors(form.discountValue) }}</td>
             <td></td>
         </tr>
         <tr>
             <td class="text-end" colspan="6">
-                <span class="d-inline-block">{{ form_row(form.isTaxApplicable, {'label': false}) }}</span>
+                <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false}) }}</span>
             </td>
             <td class="text-end"
                 data-json-loader-target="placeholder"

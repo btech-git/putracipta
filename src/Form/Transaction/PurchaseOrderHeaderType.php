@@ -17,11 +17,11 @@ class PurchaseOrderHeaderType extends AbstractType
     {
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
-            ->add('discountType')
-            ->add('discountValue')
-            ->add('isTaxApplicable')
-            ->add('shippingFee')
             ->add('note')
+            ->add('discountValueType')
+            ->add('discountValue')
+            ->add('taxMode')
+            ->add('shippingFee')
             ->add('supplier', EntityType::class, ['class' => Supplier::class, 'choice_label' => 'name', 'required' => false, 'choices' => []])
             ->add('purchaseOrderDetails', CollectionType::class, array(
                 'entry_type' => PurchaseOrderDetailType::class,
