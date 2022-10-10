@@ -55,12 +55,33 @@ class PurchaseOrderFormService
 
     private function sync(PurchaseOrderHeader $purchaseOrderHeader): void
     {
+        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            $purchaseOrderDetail->setIsCanceled($purchaseOrderHeader->isIsCanceled());
+        }
         $subTotal = '0.00';
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $subTotal += $purchaseOrderDetail->getTotal();
+            if (!$purchaseOrderDetail->isIsCanceled()) {
+                $subTotal += $purchaseOrderDetail->getTotal();
+            }
+        }
+        $subTotalAfterTaxInclusion = $subTotal;
+        $taxPercentage = '0.00';
+        $taxNominal = '0.00';
+        $discountNominal = $purchaseOrderHeader->discountValueType === PurchaseOrderHeader::DISCOUNT_VALUE_TYPE_NOMINAL ? $purchaseOrderHeader->discountValue : $subTotal * $purchaseOrderHeader->discountValue / 100;
+        $subTotalAfterDiscount = $subTotal - $discountNominal;
+        $taxMode = $purchaseOrderHeader->getTaxMode();
+        if ($taxMode !== PurchaseOrderHeader::TAX_MODE_NON_TAX) {
+            $taxPercentage = PurchaseOrderHeader::VAT_PERCENTAGE;
+            if ($taxMode === PurchaseOrderHeader::TAX_MODE_TAX_INCLUSION) {
+                $subTotalAfterTaxInclusion /= 1 + $taxPercentage / 100;
+            }
+            $taxNominal = $subTotalAfterDiscount * $taxPercentage / 100;
         }
         $purchaseOrderHeader->setSubTotal($subTotal);
-        $purchaseOrderHeader->setTaxNominal('0.00');
-        $purchaseOrderHeader->setGrandTotal($subTotal);
+        $purchaseOrderHeader->setSubTotalAfterTaxInclusion($subTotalAfterTaxInclusion);
+        $purchaseOrderHeader->setTaxPercentage($taxPercentage);
+        $purchaseOrderHeader->setTaxNominal($taxNominal);
+        $grandTotal = $subTotalAfterDiscount + $taxNominal + $purchaseOrderHeader->getShippingFee();
+        $purchaseOrderHeader->setGrandTotal($grandTotal);
     }
 }
