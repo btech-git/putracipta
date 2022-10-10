@@ -47,6 +47,9 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private ?string $subTotal = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $subTotalAfterTaxInclusion = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
@@ -187,6 +190,18 @@ class PurchaseInvoiceHeader extends TransactionHeader
     public function setSubTotal(string $subTotal): self
     {
         $this->subTotal = $subTotal;
+
+        return $this;
+    }
+
+    public function getSubTotalAfterTaxInclusion(): ?string
+    {
+        return $this->subTotalAfterTaxInclusion;
+    }
+
+    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
+    {
+        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
 
         return $this;
     }

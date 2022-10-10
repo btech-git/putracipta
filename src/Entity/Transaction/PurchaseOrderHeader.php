@@ -14,6 +14,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'transaction_purchase_order_header')]
 class PurchaseOrderHeader extends TransactionHeader
 {
+    public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
+    public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
+    public const TAX_MODE_NON_TAX = 'non_tax';
+    public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
+    public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
+    public const VAT_PERCENTAGE = '11.00';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -39,6 +46,9 @@ class PurchaseOrderHeader extends TransactionHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $subTotal = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $subTotalAfterTaxInclusion = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = null;
@@ -144,6 +154,18 @@ class PurchaseOrderHeader extends TransactionHeader
     public function setSubTotal(string $subTotal): self
     {
         $this->subTotal = $subTotal;
+
+        return $this;
+    }
+
+    public function getSubTotalAfterTaxInclusion(): ?string
+    {
+        return $this->subTotalAfterTaxInclusion;
+    }
+
+    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
+    {
+        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
 
         return $this;
     }
