@@ -120,7 +120,7 @@ class PurchaseOrderHeader extends TransactionHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotal - $this->getDiscountNominal();
+        return $this->subTotalAfterTaxInclusion - $this->getDiscountNominal();
     }
 
     public function getId(): ?int

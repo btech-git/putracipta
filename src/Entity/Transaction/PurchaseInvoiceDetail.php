@@ -38,6 +38,22 @@ class PurchaseInvoiceDetail extends TransactionDetail
     #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
+    public function sync(): void
+    {
+        $this->isCanceled = $this->getSyncIsCanceled();
+    }
+
+    private function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->purchaseInvoiceHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
+    public function getTotal(): int
+    {
+        return $this->quantity * $this->unitPrice * (1 - $this->discount / 100);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

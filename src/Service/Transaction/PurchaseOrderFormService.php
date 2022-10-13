@@ -38,9 +38,9 @@ class PurchaseOrderFormService
 
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $purchaseOrderDetail->setPurchaseOrderHeader($purchaseOrderHeader);
-        }
+//        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+//            $purchaseOrderDetail->setPurchaseOrderHeader($purchaseOrderHeader);
+//        }
         $this->sync($purchaseOrderHeader);
     }
 
