@@ -26,13 +26,13 @@ class PurchaseOrderFormService
 //        list($month, $year, $staff) = array($params['month'], $params['year'], $params['staff']);
         
         if (empty($purchaseOrderHeader->getId())) {
-//            $lastPurchaseInvoiceHeader = $this->purchaseInvoiceHeaderRepository->findRecentBy($year, $month);
-//            $currentPurchaseInvoiceHeader = ($lastPurchaseInvoiceHeader === null) ? $purchaseInvoiceHeader : $lastPurchaseInvoiceHeader;
-//            $purchaseInvoiceHeader->setCodeNumberToNext($currentPurchaseInvoiceHeader->getCodeNumber(), $year, $month);
+//            $lastPurchaseOrderHeader = $this->purchaseOrderHeaderRepository->findRecentBy($year, $month);
+//            $currentPurchaseOrderHeader = ($lastPurchaseOrderHeader === null) ? $purchaseOrderHeader : $lastPurchaseOrderHeader;
+//            $purchaseOrderHeader->setCodeNumberToNext($currentPurchaseOrderHeader->getCodeNumber(), $year, $month);
             
-//            $purchaseInvoiceHeader->setStaffCreated($staff);
-//            $purchaseInvoiceHeader->setTotalPayment(0.00);
-//            $purchaseInvoiceHeader->setTotalReturn(0.00);
+//            $purchaseOrderHeader->setStaffCreated($staff);
+//            $purchaseOrderHeader->setTotalPayment(0.00);
+//            $purchaseOrderHeader->setTotalReturn(0.00);
         }
     }
 
@@ -53,7 +53,7 @@ class PurchaseOrderFormService
         $this->entityManager->flush();
     }
 
-    private function sync(PurchaseOrderHeader $purchaseOrderHeader): void
+    public function sync(PurchaseOrderHeader $purchaseOrderHeader): void
     {
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $purchaseOrderDetail->sync();
