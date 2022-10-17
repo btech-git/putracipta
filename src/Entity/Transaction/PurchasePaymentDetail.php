@@ -35,6 +35,17 @@ class PurchasePaymentDetail extends TransactionDetail
     #[ORM\JoinColumn(nullable: false)]
     private ?PurchasePaymentHeader $purchasePaymentHeader = null;
 
+    public function sync(): void
+    {
+        $this->isCanceled = $this->getSyncIsCanceled();
+    }
+
+    private function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->purchasePaymentHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

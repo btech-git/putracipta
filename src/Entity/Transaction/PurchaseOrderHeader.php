@@ -73,8 +73,8 @@ class PurchaseOrderHeader extends TransactionHeader
     {
         $this->subTotal = $this->getSyncSubTotal();
         $this->taxPercentage = $this->getSyncTaxPercentage();
-        $this->taxNominal = $this->getSyncTaxNominal();
         $this->subTotalAfterTaxInclusion = $this->getSyncSubTotalAfterTaxInclusion();
+        $this->taxNominal = $this->getSyncTaxNominal();
         $this->grandTotal = $this->getSyncGrandTotal();
     }
 

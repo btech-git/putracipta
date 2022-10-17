@@ -85,8 +85,8 @@ class PurchaseInvoiceHeader extends TransactionHeader
     {
         $this->subTotal = $this->getSyncSubTotal();
         $this->taxPercentage = $this->getSyncTaxPercentage();
-        $this->taxNominal = $this->getSyncTaxNominal();
         $this->subTotalAfterTaxInclusion = $this->getSyncSubTotalAfterTaxInclusion();
+        $this->taxNominal = $this->getSyncTaxNominal();
         $this->grandTotal = $this->getSyncGrandTotal();
     }
 
@@ -105,9 +105,9 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private function getSyncSubTotal(): string
     {
         $subTotal = '0.00';
-        foreach ($this->purchaseInvoiceDetails as $purchaseOrderDetail) {
-            if (!$purchaseOrderDetail->isIsCanceled()) {
-                $subTotal += $purchaseOrderDetail->getTotal();
+        foreach ($this->purchaseInvoiceDetails as $purchaseInvoiceDetail) {
+            if (!$purchaseInvoiceDetail->isIsCanceled()) {
+                $subTotal += $purchaseInvoiceDetail->getTotal();
             }
         }
         return $subTotal;
