@@ -1,0 +1,25 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Adjustment Stock Header' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_adjustment_stock_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_header_edit', {'id': adjustmentStockHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ adjustmentStockHeader.transactionDate ? adjustmentStockHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ adjustmentStockHeader.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('stock/adjustment_stock_header/_delete_form.html.twig') }}
+{% endblock %}

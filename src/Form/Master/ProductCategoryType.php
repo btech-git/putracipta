@@ -12,8 +12,8 @@ class ProductCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
             ->add('isInactive')
+            ->add('name')
         ;
     }
 

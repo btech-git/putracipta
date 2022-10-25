@@ -1,0 +1,48 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, adjustmentStockDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button" {{ grid.sort_link_item(form, 'currentQuantity') }}>
+                    Current Quantity {{ grid.sort_char(form.sort.currentQuantity.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'adjustedQuantity') }}>
+                    Adjusted Quantity {{ grid.sort_char(form.sort.adjustedQuantity.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'currentQuantity') }} value="{{ form.filter.currentQuantity.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'adjustedQuantity') }} value="{{ form.filter.adjustedQuantity.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for adjustmentStockDetail in adjustmentStockDetails %}
+                <tr>
+                    <td>{{ adjustmentStockDetail.currentQuantity }}</td>
+                    <td>{{ adjustmentStockDetail.adjustedQuantity }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_stock_adjustment_stock_detail_show', {'id': adjustmentStockDetail.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_detail_edit', {'id': adjustmentStockDetail.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, adjustmentStockDetails) }}

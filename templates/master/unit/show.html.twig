@@ -1,0 +1,25 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Unit' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_unit_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_unit_edit', {'id': unit.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Is Inactive</th>
+                <td>{{ unit.isInactive ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ unit.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('master/unit/_delete_form.html.twig') }}
+{% endblock %}

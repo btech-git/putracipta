@@ -1,0 +1,11 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Add Purchase Return Header' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_return_header_index') }}">Manage</a>
+{% endblock %}
+
+{% block content %}
+    {{ include('transaction/purchase_return_header/_form.html.twig') }}
+{% endblock %}

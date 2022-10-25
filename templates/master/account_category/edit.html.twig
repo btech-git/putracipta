@@ -1,13 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}Edit AccountCategory{% endblock %}
+{% block title 'Edit Account Category' %}
 
-{% block body %}
-    <h1>Edit AccountCategory</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_account_category_index') }}">Manage</a>
+    <a class="btn btn-info btn-sm" href="{{ path('app_master_account_category_show', {'id': accountCategory.id}) }}">Show</a>
+{% endblock %}
 
-    {{ include('master/account_category/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_master_account_category_index') }}">back to list</a>
-
-    {{ include('master/account_category/_delete_form.html.twig') }}
+{% block content %}
+    {{ include('master/account_category/_form.html.twig') }}
 {% endblock %}

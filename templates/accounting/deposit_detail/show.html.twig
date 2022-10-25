@@ -1,0 +1,33 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Deposit Detail' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_deposit_detail_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_deposit_detail_edit', {'id': depositDetail.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Description</th>
+                <td>{{ depositDetail.description }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ depositDetail.amount }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ depositDetail.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Memo</th>
+                <td>{{ depositDetail.memo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('accounting/deposit_detail/_delete_form.html.twig') }}
+{% endblock %}

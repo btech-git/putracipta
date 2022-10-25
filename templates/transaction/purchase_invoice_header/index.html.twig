@@ -1,73 +1,23 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}PurchaseInvoiceHeader index{% endblock %}
+{% block title 'Manage Purchase Invoice Header' %}
 
-{% block body %}
-    <h1>PurchaseInvoiceHeader index</h1>
+{% block toolbar %}
+    <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_invoice_header_new') }}">Add</a>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>CodeNumberOrdinal</th>
-                <th>CodeNumberMonth</th>
-                <th>CodeNumberYear</th>
-                <th>Id</th>
-                <th>TransactionDate</th>
-                <th>InvoiceTaxCodeNumber</th>
-                <th>SupplierInvoiceCodeNumber</th>
-                <th>DiscountType</th>
-                <th>DiscountNominal</th>
-                <th>TaxPercentage</th>
-                <th>TaxNominal</th>
-                <th>ShippingFee</th>
-                <th>SubTotal</th>
-                <th>GrandTotal</th>
-                <th>TotalPayment</th>
-                <th>TotalReturn</th>
-                <th>RemainingPayment</th>
-                <th>Note</th>
-                <th>CreatedTransactionDateTime</th>
-                <th>ModifiedTransactionDateTime</th>
-                <th>ApprovedTransactionDateTime</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for purchase_invoice_header in purchase_invoice_headers %}
-            <tr>
-                <td>{{ purchase_invoice_header.codeNumberOrdinal }}</td>
-                <td>{{ purchase_invoice_header.codeNumberMonth }}</td>
-                <td>{{ purchase_invoice_header.codeNumberYear }}</td>
-                <td>{{ purchase_invoice_header.id }}</td>
-                <td>{{ purchase_invoice_header.transactionDate ? purchase_invoice_header.transactionDate|date('Y-m-d') : '' }}</td>
-                <td>{{ purchase_invoice_header.invoiceTaxCodeNumber }}</td>
-                <td>{{ purchase_invoice_header.supplierInvoiceCodeNumber }}</td>
-                <td>{{ purchase_invoice_header.discountType }}</td>
-                <td>{{ purchase_invoice_header.discountNominal }}</td>
-                <td>{{ purchase_invoice_header.taxPercentage }}</td>
-                <td>{{ purchase_invoice_header.taxNominal }}</td>
-                <td>{{ purchase_invoice_header.shippingFee }}</td>
-                <td>{{ purchase_invoice_header.subTotal }}</td>
-                <td>{{ purchase_invoice_header.grandTotal }}</td>
-                <td>{{ purchase_invoice_header.totalPayment }}</td>
-                <td>{{ purchase_invoice_header.totalReturn }}</td>
-                <td>{{ purchase_invoice_header.remainingPayment }}</td>
-                <td>{{ purchase_invoice_header.note }}</td>
-                <td>{{ purchase_invoice_header.createdTransactionDateTime ? purchase_invoice_header.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ purchase_invoice_header.modifiedTransactionDateTime ? purchase_invoice_header.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ purchase_invoice_header.approvedTransactionDateTime ? purchase_invoice_header.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_transaction_purchase_invoice_header_show', {'id': purchase_invoice_header.id}) }}">show</a>
-                    <a href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchase_invoice_header.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="22">no records found</td>
-            </tr>
+{% block content %}
+    {% for type, flashes in app.session.flashBag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                <strong>{{ flash.title }}</strong> {{ flash.message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    {% endfor %}
 
-    <a href="{{ path('app_transaction_purchase_invoice_header_new') }}">Create new</a>
+    <div data-controller="html-loader"
+         data-html-loader-url-value="{{ path('app_transaction_purchase_invoice_header__list') }}"
+         data-html-loader-auto-load-value="true">
+    </div>
 {% endblock %}

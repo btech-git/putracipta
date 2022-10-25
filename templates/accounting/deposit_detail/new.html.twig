@@ -1,0 +1,11 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Add Deposit Detail' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_deposit_detail_index') }}">Manage</a>
+{% endblock %}
+
+{% block content %}
+    {{ include('accounting/deposit_detail/_form.html.twig') }}
+{% endblock %}

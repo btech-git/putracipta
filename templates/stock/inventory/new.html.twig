@@ -1,0 +1,11 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Add Inventory' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_inventory_index') }}">Manage</a>
+{% endblock %}
+
+{% block content %}
+    {{ include('stock/inventory/_form.html.twig') }}
+{% endblock %}

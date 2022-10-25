@@ -1,34 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}AccountCategory{% endblock %}
+{% block title 'Show Account Category' %}
 
-{% block body %}
-    <h1>AccountCategory</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_account_category_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_account_category_edit', {'id': accountCategory.id}) }}">Edit</a>
+{% endblock %}
 
-    <table class="table">
+{% block content %}
+    <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ account_category.id }}</td>
+                <th>Code</th>
+                <td>{{ accountCategory.code }}</td>
             </tr>
             <tr>
-                <th>Code</th>
-                <td>{{ account_category.code }}</td>
+                <th>Is Inactive</th>
+                <td>{{ accountCategory.isInactive ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Name</th>
-                <td>{{ account_category.name }}</td>
-            </tr>
-            <tr>
-                <th>IsInactive</th>
-                <td>{{ account_category.isInactive ? 'Yes' : 'No' }}</td>
+                <td>{{ accountCategory.name }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_master_account_category_index') }}">back to list</a>
-
-    <a href="{{ path('app_master_account_category_edit', {'id': account_category.id}) }}">edit</a>
 
     {{ include('master/account_category/_delete_form.html.twig') }}
 {% endblock %}

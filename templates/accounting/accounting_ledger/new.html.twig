@@ -1,0 +1,11 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Add Accounting Ledger' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_accounting_ledger_index') }}">Manage</a>
+{% endblock %}
+
+{% block content %}
+    {{ include('accounting/accounting_ledger/_form.html.twig') }}
+{% endblock %}

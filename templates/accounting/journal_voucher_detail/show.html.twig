@@ -1,0 +1,33 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Journal Voucher Detail' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_journal_voucher_detail_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_journal_voucher_detail_edit', {'id': journalVoucherDetail.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Debit Amount</th>
+                <td>{{ journalVoucherDetail.debitAmount }}</td>
+            </tr>
+            <tr>
+                <th>Credit Amount</th>
+                <td>{{ journalVoucherDetail.creditAmount }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ journalVoucherDetail.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Memo</th>
+                <td>{{ journalVoucherDetail.memo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('accounting/journal_voucher_detail/_delete_form.html.twig') }}
+{% endblock %}

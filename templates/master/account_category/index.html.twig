@@ -1,39 +1,23 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}AccountCategory index{% endblock %}
+{% block title 'Manage Account Category' %}
 
-{% block body %}
-    <h1>AccountCategory index</h1>
+{% block toolbar %}
+    <a class="btn btn-success btn-sm" href="{{ path('app_master_account_category_new') }}">Add</a>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>IsInactive</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for account_category in account_categories %}
-            <tr>
-                <td>{{ account_category.id }}</td>
-                <td>{{ account_category.code }}</td>
-                <td>{{ account_category.name }}</td>
-                <td>{{ account_category.isInactive ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_master_account_category_show', {'id': account_category.id}) }}">show</a>
-                    <a href="{{ path('app_master_account_category_edit', {'id': account_category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+{% block content %}
+    {% for type, flashes in app.session.flashBag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                <strong>{{ flash.title }}</strong> {{ flash.message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    {% endfor %}
 
-    <a href="{{ path('app_master_account_category_new') }}">Create new</a>
+    <div data-controller="html-loader"
+         data-html-loader-url-value="{{ path('app_master_account_category__list') }}"
+         data-html-loader-auto-load-value="true">
+    </div>
 {% endblock %}

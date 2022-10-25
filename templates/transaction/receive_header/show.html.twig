@@ -1,0 +1,61 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Receive Header' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_receive_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_receive_header_edit', {'id': receiveHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Total Quantity</th>
+                <td>{{ receiveHeader.totalQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Supplier Delivery Code Number</th>
+                <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ receiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Ordinal</th>
+                <td>{{ receiveHeader.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Month</th>
+                <td>{{ receiveHeader.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ receiveHeader.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Created Transaction Date Time</th>
+                <td>{{ receiveHeader.createdTransactionDateTime ? receiveHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified Transaction Date Time</th>
+                <td>{{ receiveHeader.modifiedTransactionDateTime ? receiveHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Approved Transaction Date Time</th>
+                <td>{{ receiveHeader.approvedTransactionDateTime ? receiveHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ receiveHeader.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('transaction/receive_header/_delete_form.html.twig') }}
+{% endblock %}

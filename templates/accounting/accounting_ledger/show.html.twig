@@ -1,0 +1,33 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Accounting Ledger' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_accounting_ledger_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_accounting_ledger_edit', {'id': accountingLedger.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Transaction Type</th>
+                <td>{{ accountingLedger.transactionType }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Subject</th>
+                <td>{{ accountingLedger.transactionSubject }}</td>
+            </tr>
+            <tr>
+                <th>Debit Amount</th>
+                <td>{{ accountingLedger.debitAmount }}</td>
+            </tr>
+            <tr>
+                <th>Credit Amount</th>
+                <td>{{ accountingLedger.creditAmount }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('accounting/accounting_ledger/_delete_form.html.twig') }}
+{% endblock %}

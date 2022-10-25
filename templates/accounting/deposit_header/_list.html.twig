@@ -1,0 +1,97 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, depositHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
+                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
+                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
+                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
+                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'createdTransactionDateTime') }}>
+                    Created Transaction Date Time {{ grid.sort_char(form.sort.createdTransactionDateTime.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'modifiedTransactionDateTime') }}>
+                    Modified Transaction Date Time {{ grid.sort_char(form.sort.modifiedTransactionDateTime.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'approvedTransactionDateTime') }}>
+                    Approved Transaction Date Time {{ grid.sort_char(form.sort.approvedTransactionDateTime.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'createdTransactionDateTime') }} value="{{ form.filter.createdTransactionDateTime.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'modifiedTransactionDateTime') }} value="{{ form.filter.modifiedTransactionDateTime.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'approvedTransactionDateTime') }} value="{{ form.filter.approvedTransactionDateTime.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for depositHeader in depositHeaders %}
+                <tr>
+                    <td>{{ depositHeader.isCanceled ? 'Yes' : 'No' }}</td>
+                    <td>{{ depositHeader.codeNumberOrdinal }}</td>
+                    <td>{{ depositHeader.codeNumberMonth }}</td>
+                    <td>{{ depositHeader.codeNumberYear }}</td>
+                    <td>{{ depositHeader.createdTransactionDateTime ? depositHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ depositHeader.modifiedTransactionDateTime ? depositHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ depositHeader.approvedTransactionDateTime ? depositHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ depositHeader.transactionDate ? depositHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ depositHeader.note }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_accounting_deposit_header_show', {'id': depositHeader.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_deposit_header_edit', {'id': depositHeader.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, depositHeaders) }}

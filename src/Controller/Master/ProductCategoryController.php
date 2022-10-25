@@ -7,6 +7,7 @@ use App\Entity\Master\ProductCategory;
 use App\Form\Master\ProductCategoryType;
 use App\Grid\Master\ProductCategoryGridType;
 use App\Repository\Master\ProductCategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductCategoryController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_product_category__list', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function _list(Request $request, ProductCategoryRepository $productCategoryRepository): Response
     {
         $criteria = new DataCriteria();
@@ -32,12 +34,14 @@ class ProductCategoryController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_product_category_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
         return $this->render("master/product_category/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_product_category_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, ProductCategoryRepository $productCategoryRepository): Response
     {
         $productCategory = new ProductCategory();
@@ -47,7 +51,7 @@ class ProductCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $productCategoryRepository->add($productCategory, true);
 
-            return $this->redirectToRoute('app_master_product_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_master_product_category_show', ['id' => $productCategory->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('master/product_category/new.html.twig', [
@@ -57,6 +61,7 @@ class ProductCategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_product_category_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(ProductCategory $productCategory): Response
     {
         return $this->render('master/product_category/show.html.twig', [
@@ -65,6 +70,7 @@ class ProductCategoryController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_product_category_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, ProductCategory $productCategory, ProductCategoryRepository $productCategoryRepository): Response
     {
         $form = $this->createForm(ProductCategoryType::class, $productCategory);
@@ -73,7 +79,7 @@ class ProductCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $productCategoryRepository->add($productCategory, true);
 
-            return $this->redirectToRoute('app_master_product_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_master_product_category_show', ['id' => $productCategory->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('master/product_category/edit.html.twig', [
@@ -82,7 +88,8 @@ class ProductCategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_master_product_category_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_master_product_category_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, ProductCategory $productCategory, ProductCategoryRepository $productCategoryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $productCategory->getId(), $request->request->get('_token'))) {

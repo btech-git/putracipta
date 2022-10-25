@@ -1,62 +1,89 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}PurchaseOrderHeader{% endblock %}
+{% block title 'Show Purchase Order Header' %}
 
-{% block body %}
-    <h1>PurchaseOrderHeader</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
+{% endblock %}
 
-    <table class="table">
+{% block content %}
+    <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ purchase_order_header.id }}</td>
+                <th>Discount Value Type</th>
+                <td>{{ purchaseOrderHeader.discountValueType }}</td>
             </tr>
             <tr>
-                <th>TransactionDate</th>
-                <td>{{ purchase_order_header.transactionDate ? purchase_order_header.transactionDate|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Discount Value</th>
+                <td>{{ purchaseOrderHeader.discountValue }}</td>
             </tr>
             <tr>
-                <th>DateTimeApproved</th>
-                <td>{{ purchase_order_header.dateTimeApproved ? purchase_order_header.dateTimeApproved|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Tax Mode</th>
+                <td>{{ purchaseOrderHeader.taxMode }}</td>
             </tr>
             <tr>
-                <th>DiscountType</th>
-                <td>{{ purchase_order_header.discountType }}</td>
+                <th>Tax Percentage</th>
+                <td>{{ purchaseOrderHeader.taxPercentage }}</td>
             </tr>
             <tr>
-                <th>DiscountValue</th>
-                <td>{{ purchase_order_header.discountValue }}</td>
+                <th>Tax Nominal</th>
+                <td>{{ purchaseOrderHeader.taxNominal }}</td>
             </tr>
             <tr>
-                <th>IsTaxApplicable</th>
-                <td>{{ purchase_order_header.isTaxApplicable ? 'Yes' : 'No' }}</td>
+                <th>Shipping Fee</th>
+                <td>{{ purchaseOrderHeader.shippingFee }}</td>
             </tr>
             <tr>
-                <th>TaxNominal</th>
-                <td>{{ purchase_order_header.taxNominal }}</td>
+                <th>Sub Total</th>
+                <td>{{ purchaseOrderHeader.subTotal }}</td>
             </tr>
             <tr>
-                <th>ShippingFee</th>
-                <td>{{ purchase_order_header.shippingFee }}</td>
+                <th>Sub Total After Tax Inclusion</th>
+                <td>{{ purchaseOrderHeader.subTotalAfterTaxInclusion }}</td>
             </tr>
             <tr>
-                <th>SubTotal</th>
-                <td>{{ purchase_order_header.subTotal }}</td>
+                <th>Grand Total</th>
+                <td>{{ purchaseOrderHeader.grandTotal }}</td>
             </tr>
             <tr>
-                <th>GrandTotal</th>
-                <td>{{ purchase_order_header.grandTotal }}</td>
+                <th>Is Canceled</th>
+                <td>{{ purchaseOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Ordinal</th>
+                <td>{{ purchaseOrderHeader.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Month</th>
+                <td>{{ purchaseOrderHeader.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ purchaseOrderHeader.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Created Transaction Date Time</th>
+                <td>{{ purchaseOrderHeader.createdTransactionDateTime ? purchaseOrderHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified Transaction Date Time</th>
+                <td>{{ purchaseOrderHeader.modifiedTransactionDateTime ? purchaseOrderHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Approved Transaction Date Time</th>
+                <td>{{ purchaseOrderHeader.approvedTransactionDateTime ? purchaseOrderHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ purchase_order_header.note }}</td>
+                <td>{{ purchaseOrderHeader.note }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_transaction_purchase_order_header_index') }}">back to list</a>
-
-    <a href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchase_order_header.id}) }}">edit</a>
 
     {{ include('transaction/purchase_order_header/_delete_form.html.twig') }}
 {% endblock %}

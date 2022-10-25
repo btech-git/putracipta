@@ -1,0 +1,33 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Expense Detail' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_expense_detail_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_expense_detail_edit', {'id': expenseDetail.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Description</th>
+                <td>{{ expenseDetail.description }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ expenseDetail.amount }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ expenseDetail.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Memo</th>
+                <td>{{ expenseDetail.memo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('accounting/expense_detail/_delete_form.html.twig') }}
+{% endblock %}

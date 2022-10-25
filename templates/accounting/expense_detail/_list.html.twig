@@ -1,0 +1,62 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, expenseDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button" {{ grid.sort_link_item(form, 'description') }}>
+                    Description {{ grid.sort_char(form.sort.description.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'amount') }}>
+                    Amount {{ grid.sort_char(form.sort.amount.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
+                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'memo') }}>
+                    Memo {{ grid.sort_char(form.sort.memo.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'description') }} value="{{ form.filter.description.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'amount') }} value="{{ form.filter.amount.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expenseDetail in expenseDetails %}
+                <tr>
+                    <td>{{ expenseDetail.description }}</td>
+                    <td>{{ expenseDetail.amount }}</td>
+                    <td>{{ expenseDetail.isCanceled ? 'Yes' : 'No' }}</td>
+                    <td>{{ expenseDetail.memo }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_accounting_expense_detail_show', {'id': expenseDetail.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_expense_detail_edit', {'id': expenseDetail.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, expenseDetails) }}

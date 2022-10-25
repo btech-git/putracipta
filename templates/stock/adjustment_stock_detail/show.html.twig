@@ -1,0 +1,25 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Adjustment Stock Detail' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_adjustment_stock_detail_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_detail_edit', {'id': adjustmentStockDetail.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Current Quantity</th>
+                <td>{{ adjustmentStockDetail.currentQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Adjusted Quantity</th>
+                <td>{{ adjustmentStockDetail.adjustedQuantity }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('stock/adjustment_stock_detail/_delete_form.html.twig') }}
+{% endblock %}

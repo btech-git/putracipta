@@ -1,102 +1,109 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}PurchaseInvoiceHeader{% endblock %}
+{% block title 'Show Purchase Invoice Header' %}
 
-{% block body %}
-    <h1>PurchaseInvoiceHeader</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_invoice_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchaseInvoiceHeader.id}) }}">Edit</a>
+{% endblock %}
 
-    <table class="table">
+{% block content %}
+    <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>CodeNumberOrdinal</th>
-                <td>{{ purchase_invoice_header.codeNumberOrdinal }}</td>
+                <th>Invoice Tax Code Number</th>
+                <td>{{ purchaseInvoiceHeader.invoiceTaxCodeNumber }}</td>
             </tr>
             <tr>
-                <th>CodeNumberMonth</th>
-                <td>{{ purchase_invoice_header.codeNumberMonth }}</td>
+                <th>Supplier Invoice Code Number</th>
+                <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
             </tr>
             <tr>
-                <th>CodeNumberYear</th>
-                <td>{{ purchase_invoice_header.codeNumberYear }}</td>
+                <th>Discount Value Type</th>
+                <td>{{ purchaseInvoiceHeader.discountValueType }}</td>
             </tr>
             <tr>
-                <th>Id</th>
-                <td>{{ purchase_invoice_header.id }}</td>
+                <th>Discount Value</th>
+                <td>{{ purchaseInvoiceHeader.discountValue }}</td>
             </tr>
             <tr>
-                <th>TransactionDate</th>
-                <td>{{ purchase_invoice_header.transactionDate ? purchase_invoice_header.transactionDate|date('Y-m-d') : '' }}</td>
+                <th>Tax Mode</th>
+                <td>{{ purchaseInvoiceHeader.taxMode }}</td>
             </tr>
             <tr>
-                <th>InvoiceTaxCodeNumber</th>
-                <td>{{ purchase_invoice_header.invoiceTaxCodeNumber }}</td>
+                <th>Tax Percentage</th>
+                <td>{{ purchaseInvoiceHeader.taxPercentage }}</td>
             </tr>
             <tr>
-                <th>SupplierInvoiceCodeNumber</th>
-                <td>{{ purchase_invoice_header.supplierInvoiceCodeNumber }}</td>
+                <th>Tax Nominal</th>
+                <td>{{ purchaseInvoiceHeader.taxNominal }}</td>
             </tr>
             <tr>
-                <th>DiscountType</th>
-                <td>{{ purchase_invoice_header.discountType }}</td>
+                <th>Shipping Fee</th>
+                <td>{{ purchaseInvoiceHeader.shippingFee }}</td>
             </tr>
             <tr>
-                <th>DiscountNominal</th>
-                <td>{{ purchase_invoice_header.discountNominal }}</td>
+                <th>Sub Total</th>
+                <td>{{ purchaseInvoiceHeader.subTotal }}</td>
             </tr>
             <tr>
-                <th>TaxPercentage</th>
-                <td>{{ purchase_invoice_header.taxPercentage }}</td>
+                <th>Sub Total After Tax Inclusion</th>
+                <td>{{ purchaseInvoiceHeader.subTotalAfterTaxInclusion }}</td>
             </tr>
             <tr>
-                <th>TaxNominal</th>
-                <td>{{ purchase_invoice_header.taxNominal }}</td>
+                <th>Grand Total</th>
+                <td>{{ purchaseInvoiceHeader.grandTotal }}</td>
             </tr>
             <tr>
-                <th>ShippingFee</th>
-                <td>{{ purchase_invoice_header.shippingFee }}</td>
+                <th>Total Payment</th>
+                <td>{{ purchaseInvoiceHeader.totalPayment }}</td>
             </tr>
             <tr>
-                <th>SubTotal</th>
-                <td>{{ purchase_invoice_header.subTotal }}</td>
+                <th>Total Return</th>
+                <td>{{ purchaseInvoiceHeader.totalReturn }}</td>
             </tr>
             <tr>
-                <th>GrandTotal</th>
-                <td>{{ purchase_invoice_header.grandTotal }}</td>
+                <th>Remaining Payment</th>
+                <td>{{ purchaseInvoiceHeader.remainingPayment }}</td>
             </tr>
             <tr>
-                <th>TotalPayment</th>
-                <td>{{ purchase_invoice_header.totalPayment }}</td>
+                <th>Is Canceled</th>
+                <td>{{ purchaseInvoiceHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>TotalReturn</th>
-                <td>{{ purchase_invoice_header.totalReturn }}</td>
+                <th>Code Number Ordinal</th>
+                <td>{{ purchaseInvoiceHeader.codeNumberOrdinal }}</td>
             </tr>
             <tr>
-                <th>RemainingPayment</th>
-                <td>{{ purchase_invoice_header.remainingPayment }}</td>
+                <th>Code Number Month</th>
+                <td>{{ purchaseInvoiceHeader.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ purchaseInvoiceHeader.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Created Transaction Date Time</th>
+                <td>{{ purchaseInvoiceHeader.createdTransactionDateTime ? purchaseInvoiceHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified Transaction Date Time</th>
+                <td>{{ purchaseInvoiceHeader.modifiedTransactionDateTime ? purchaseInvoiceHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Approved Transaction Date Time</th>
+                <td>{{ purchaseInvoiceHeader.approvedTransactionDateTime ? purchaseInvoiceHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ purchase_invoice_header.note }}</td>
-            </tr>
-            <tr>
-                <th>CreatedTransactionDateTime</th>
-                <td>{{ purchase_invoice_header.createdTransactionDateTime ? purchase_invoice_header.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>ModifiedTransactionDateTime</th>
-                <td>{{ purchase_invoice_header.modifiedTransactionDateTime ? purchase_invoice_header.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>ApprovedTransactionDateTime</th>
-                <td>{{ purchase_invoice_header.approvedTransactionDateTime ? purchase_invoice_header.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.note }}</td>
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_transaction_purchase_invoice_header_index') }}">back to list</a>
-
-    <a href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchase_invoice_header.id}) }}">edit</a>
 
     {{ include('transaction/purchase_invoice_header/_delete_form.html.twig') }}
 {% endblock %}

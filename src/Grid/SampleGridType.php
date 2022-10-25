@@ -3,7 +3,9 @@
 namespace App\Grid;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterContain;
 use App\Common\Data\Operator\FilterEqual;
+use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\FilterNotEqual;
 use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
@@ -22,7 +24,7 @@ class SampleGridType extends AbstractType
             ->add('filter', FilterType::class, [
                 'field_names' => ['name', 'price'],
                 'field_operators_list' => [
-                    'name' => [FilterEqual::class, FilterNotEqual::class],
+                    'name' => [FilterContain::class, FilterNotContain::class],
                     'price' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])

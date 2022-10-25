@@ -1,0 +1,76 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, products) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'size') }}>
+                    Size {{ grid.sort_char(form.sort.size.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'sellingPrice') }}>
+                    Selling Price {{ grid.sort_char(form.sort.sellingPrice.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'minimumStock') }}>
+                    Minimum Stock {{ grid.sort_char(form.sort.minimumStock.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'size') }} value="{{ form.filter.size.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'sellingPrice') }} value="{{ form.filter.sellingPrice.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'minimumStock') }} value="{{ form.filter.minimumStock.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.code }}</td>
+                    <td>{{ product.size }}</td>
+                    <td>{{ product.sellingPrice }}</td>
+                    <td>{{ product.minimumStock }}</td>
+                    <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_master_product_show', {'id': product.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_product_edit', {'id': product.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, products) }}

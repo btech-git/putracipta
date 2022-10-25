@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}New AccountCategory{% endblock %}
+{% block title 'Add Account Category' %}
 
-{% block body %}
-    <h1>Create new AccountCategory</h1>
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_account_category_index') }}">Manage</a>
+{% endblock %}
 
+{% block content %}
     {{ include('master/account_category/_form.html.twig') }}
-
-    <a href="{{ path('app_master_account_category_index') }}">back to list</a>
 {% endblock %}

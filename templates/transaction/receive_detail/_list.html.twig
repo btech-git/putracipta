@@ -1,0 +1,55 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, receiveDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button" {{ grid.sort_link_item(form, 'orderedQuantity') }}>
+                    Ordered Quantity {{ grid.sort_char(form.sort.orderedQuantity.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'receivedQuantity') }}>
+                    Received Quantity {{ grid.sort_char(form.sort.receivedQuantity.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
+                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'orderedQuantity') }} value="{{ form.filter.orderedQuantity.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'receivedQuantity') }} value="{{ form.filter.receivedQuantity.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for receiveDetail in receiveDetails %}
+                <tr>
+                    <td>{{ receiveDetail.orderedQuantity }}</td>
+                    <td>{{ receiveDetail.receivedQuantity }}</td>
+                    <td>{{ receiveDetail.isCanceled ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_receive_detail_show', {'id': receiveDetail.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_receive_detail_edit', {'id': receiveDetail.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, receiveDetails) }}

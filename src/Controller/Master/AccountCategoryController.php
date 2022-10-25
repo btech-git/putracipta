@@ -2,26 +2,46 @@
 
 namespace App\Controller\Master;
 
+use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Master\AccountCategory;
 use App\Form\Master\AccountCategoryType;
+use App\Grid\Master\AccountCategoryGridType;
 use App\Repository\Master\AccountCategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/master/account/category')]
+#[Route('/master/account_category')]
 class AccountCategoryController extends AbstractController
 {
-    #[Route('/', name: 'app_master_account_category_index', methods: ['GET'])]
-    public function index(AccountCategoryRepository $accountCategoryRepository): Response
+    #[Route('/_list', name: 'app_master_account_category__list', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _list(Request $request, AccountCategoryRepository $accountCategoryRepository): Response
     {
-        return $this->render('master/account_category/index.html.twig', [
-            'account_categories' => $accountCategoryRepository->findAll(),
+        $criteria = new DataCriteria();
+        $form = $this->createForm(AccountCategoryGridType::class, $criteria, ['method' => 'GET']);
+        $form->handleRequest($request);
+
+        list($count, $accountCategories) = $accountCategoryRepository->fetchData($criteria);
+
+        return $this->renderForm("master/account_category/_list.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'accountCategories' => $accountCategories,
         ]);
     }
 
+    #[Route('/', name: 'app_master_account_category_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function index(): Response
+    {
+        return $this->render("master/account_category/index.html.twig");
+    }
+
     #[Route('/new', name: 'app_master_account_category_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, AccountCategoryRepository $accountCategoryRepository): Response
     {
         $accountCategory = new AccountCategory();
@@ -31,24 +51,26 @@ class AccountCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $accountCategoryRepository->add($accountCategory, true);
 
-            return $this->redirectToRoute('app_master_account_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_master_account_category_show', ['id' => $accountCategory->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('master/account_category/new.html.twig', [
-            'account_category' => $accountCategory,
+            'accountCategory' => $accountCategory,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_master_account_category_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(AccountCategory $accountCategory): Response
     {
         return $this->render('master/account_category/show.html.twig', [
-            'account_category' => $accountCategory,
+            'accountCategory' => $accountCategory,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_master_account_category_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, AccountCategory $accountCategory, AccountCategoryRepository $accountCategoryRepository): Response
     {
         $form = $this->createForm(AccountCategoryType::class, $accountCategory);
@@ -57,20 +79,25 @@ class AccountCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $accountCategoryRepository->add($accountCategory, true);
 
-            return $this->redirectToRoute('app_master_account_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_master_account_category_show', ['id' => $accountCategory->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('master/account_category/edit.html.twig', [
-            'account_category' => $accountCategory,
+            'accountCategory' => $accountCategory,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_master_account_category_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_master_account_category_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, AccountCategory $accountCategory, AccountCategoryRepository $accountCategoryRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$accountCategory->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $accountCategory->getId(), $request->request->get('_token'))) {
             $accountCategoryRepository->remove($accountCategory, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
         }
 
         return $this->redirectToRoute('app_master_account_category_index', [], Response::HTTP_SEE_OTHER);

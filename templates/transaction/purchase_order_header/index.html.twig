@@ -1,53 +1,23 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_page.html.twig' %}
 
-{% block title %}PurchaseOrderHeader index{% endblock %}
+{% block title 'Manage Purchase Order Header' %}
 
-{% block body %}
-    <h1>PurchaseOrderHeader index</h1>
+{% block toolbar %}
+    <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_new') }}">Add</a>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>TransactionDate</th>
-                <th>DateTimeApproved</th>
-                <th>DiscountType</th>
-                <th>DiscountValue</th>
-                <th>IsTaxApplicable</th>
-                <th>TaxNominal</th>
-                <th>ShippingFee</th>
-                <th>SubTotal</th>
-                <th>GrandTotal</th>
-                <th>Note</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for purchase_order_header in purchase_order_headers %}
-            <tr>
-                <td>{{ purchase_order_header.id }}</td>
-                <td>{{ purchase_order_header.transactionDate ? purchase_order_header.transactionDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ purchase_order_header.dateTimeApproved ? purchase_order_header.dateTimeApproved|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ purchase_order_header.discountType }}</td>
-                <td>{{ purchase_order_header.discountValue }}</td>
-                <td>{{ purchase_order_header.isTaxApplicable ? 'Yes' : 'No' }}</td>
-                <td>{{ purchase_order_header.taxNominal }}</td>
-                <td>{{ purchase_order_header.shippingFee }}</td>
-                <td>{{ purchase_order_header.subTotal }}</td>
-                <td>{{ purchase_order_header.grandTotal }}</td>
-                <td>{{ purchase_order_header.note }}</td>
-                <td>
-                    <a href="{{ path('app_transaction_purchase_order_header_show', {'id': purchase_order_header.id}) }}">show</a>
-                    <a href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchase_order_header.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
+{% block content %}
+    {% for type, flashes in app.session.flashBag.all %}
+        {% for flash in flashes %}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                <strong>{{ flash.title }}</strong> {{ flash.message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    {% endfor %}
 
-    <a href="{{ path('app_transaction_purchase_order_header_new') }}">Create new</a>
+    <div data-controller="html-loader"
+         data-html-loader-url-value="{{ path('app_transaction_purchase_order_header__list') }}"
+         data-html-loader-auto-load-value="true">
+    </div>
 {% endblock %}
