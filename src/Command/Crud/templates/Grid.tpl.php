@@ -3,8 +3,18 @@
 namespace App\Grid<?php if ($vars['entityNamespace'] !== ''): ?>\<?php endif ?><?= $vars['entityNamespace'] ?>;
 
 use App\Common\Data\Criteria\DataCriteria;
+<?php if (in_array(true, $vars['dataFieldSearchableMap'], true)): ?>
+use App\Common\Data\Operator\FilterContain;
+<?php endif ?>
+<?php if (in_array(false, $vars['dataFieldSearchableMap'], true)): ?>
 use App\Common\Data\Operator\FilterEqual;
+<?php endif ?>
+<?php if (in_array(true, $vars['dataFieldSearchableMap'], true)): ?>
+use App\Common\Data\Operator\FilterNotContain;
+<?php endif ?>
+<?php if (in_array(false, $vars['dataFieldSearchableMap'], true)): ?>
 use App\Common\Data\Operator\FilterNotEqual;
+<?php endif ?>
 use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
@@ -23,7 +33,11 @@ class <?= $vars['entityName'] ?>GridType extends AbstractType
                 'field_names' => [<?= implode(', ', array_map(fn($name) => "'{$name}'", $vars['dataFieldNames'])) ?>],
                 'field_operators_list' => [
 <?php foreach ($vars['dataFieldNames'] as $dataFieldName): ?>
+<?php if ($vars['dataFieldSearchableMap'][$dataFieldName]): ?>
+                    '<?= $dataFieldName ?>' => [FilterContain::class, FilterNotContain::class],
+<?php else: ?>
                     '<?= $dataFieldName ?>' => [FilterEqual::class, FilterNotEqual::class],
+<?php endif ?>
 <?php endforeach ?>
                 ],
             ])

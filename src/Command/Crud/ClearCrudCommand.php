@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(
     name: 'custom:clear:crud',
-    description: 'Clear CRUD files.'
+    description: 'Clear CRUD files'
 )]
 class ClearCrudCommand extends Command
 {
@@ -41,7 +41,8 @@ class ClearCrudCommand extends Command
             return Command::FAILURE;
         }
         $this->removeExistingCrudFiles($fileRef);
-        $output->writeln(' <info>The files have been successfully deleted.</info>');
+        $output->writeln('');
+        $output->writeln(' <info>The files have been successfully deleted</info>: ' . $classVars['entityFullName']);
 
         return Command::SUCCESS;
     }

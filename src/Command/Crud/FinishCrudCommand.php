@@ -2,30 +2,34 @@
 
 namespace App\Command\Crud;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(
     name: 'custom:finish:crud',
-    description: 'Finish CRUD files.'
+    description: 'Finish custom CRUD files'
 )]
 class FinishCrudCommand extends Command
 {
     private string $projectDir;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, EntityManagerInterface $entityManager)
     {
         $this->projectDir = $kernel->getProjectDir();
+        $this->entityManager = $entityManager;
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->addArgument('entity-class', InputArgument::REQUIRED, 'The class name of the entity to clear CRUD');
+        $this->addArgument('entity-class', InputArgument::REQUIRED, 'The class name of the entity to finish CRUD');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -34,7 +38,7 @@ class FinishCrudCommand extends Command
         $fileRef = $this->getFileRef($classVars);
         $fileVars = $this->retrieveFileVars($classVars);
         $this->createNewCrudFiles($fileRef, $classVars, $fileVars);
-        $output->writeln(' <info>The files have been successfully completed.</info>');
+        $output->writeln(' <info>The CRUD files have been successfully completed</info>: ' . $classVars['entityFullName']);
 
         return Command::SUCCESS;
     }
@@ -62,19 +66,16 @@ class FinishCrudCommand extends Command
         $entityControllerPath = 'src/Controller';
         $entityFormPath = 'src/Form';
         $entityGridPath = 'src/Grid';
-        $entityRepositoryPath = 'src/Repository';
         if ($entityPath !== '') {
             $entityControllerPath .= "/{$entityPath}";
             $entityFormPath .= "/{$entityPath}";
             $entityGridPath .= "/{$entityPath}";
-            $entityRepositoryPath .= "/{$entityPath}";
         }
         $entityTemplatePath = "templates/{$classVars['templatePathPrefix']}";
         $fileRef = [
             "{$commandTemplateDir}/Controller.tpl.php" => [$entityControllerPath, "{$classVars['entityName']}Controller.php"],
             "{$commandTemplateDir}/Form.tpl.php" => [$entityFormPath, "{$classVars['entityName']}Type.php"],
             "{$commandTemplateDir}/Grid.tpl.php" => [$entityGridPath, "{$classVars['entityName']}GridType.php"],
-            "{$commandTemplateDir}/Repository.tpl.php" => [$entityRepositoryPath, "{$classVars['entityName']}Repository.php"],
             "{$commandTemplateDir}/_delete_form.tpl.php" => [$entityTemplatePath, '_delete_form.html.twig'],
             "{$commandTemplateDir}/_form.tpl.php" => [$entityTemplatePath, '_form.html.twig'],
             "{$commandTemplateDir}/_list.tpl.php" => [$entityTemplatePath, '_list.html.twig'],
@@ -143,6 +144,10 @@ class FinishCrudCommand extends Command
                     $nameCharPos = strpos($fieldFullName, '.');
                     $fieldName = $nameCharPos !== false ? substr($fieldFullName, $nameCharPos + 1): $fieldFullName;
                     $vars['dataFieldNames'][] = $fieldName;
+                    $entityMetadata = $this->entityManager->getClassMetadata("App\\Entity\\{$classVars['entityFullName']}");
+                    $dataFieldMap = array_combine($vars['dataFieldNames'], $vars['dataFieldNames']);
+                    $dataFieldTypeMap = array_map(fn($fieldName) => $entityMetadata->getTypeOfField($fieldName), $dataFieldMap);
+                    $vars['dataFieldSearchableMap'] = array_map(fn($fieldType) => $fieldType !== null && ($fieldType === 'string' || $fieldType === 'text'), $dataFieldTypeMap);
                 }
             }
         }
