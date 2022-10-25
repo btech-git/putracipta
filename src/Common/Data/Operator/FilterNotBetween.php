@@ -13,7 +13,7 @@ class FilterNotBetween implements FilterOperatorInterface
 
     public function getLabel(): string
     {
-        return 'Not Between';
+        return 'Not between';
     }
 
     public function addFilterToQueryBuilder(QueryBuilder $qb, string $alias, string $field, array $values): void

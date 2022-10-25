@@ -13,7 +13,7 @@ class FilterNotEqual implements FilterOperatorInterface
 
     public function getLabel(): string
     {
-        return 'Not Equal';
+        return 'Not equal';
     }
 
     public function addFilterToQueryBuilder(QueryBuilder $qb, string $alias, string $field, array $values): void
