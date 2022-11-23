@@ -1,28 +1,40 @@
+{% set menu = {
+    'Master': {
+        'Product': ['app_master_product_index', ['ROLE_USER']],
+        'Supplier': ['app_master_supplier_index', ['ROLE_USER']],
+        'Customer': ['app_master_customer_index', ['ROLE_USER']],
+    },
+    'Transaction': {
+        'Purchase Order': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
+    },
+} %}
+
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('app_home_page') }}">Putra Cipta</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end gap-3" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end gap-3" id="menu">
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Home
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
+                {% for title, content in menu %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ title }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for label, item in content %}
+                                {% if item[1]|map(a => is_granted(a))|reduce((a, b) => a or b, false) %}
+                                    <li>
+                                        <a class="dropdown-item" href="{{ path(item[0]) }}">
+                                            {{ label }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
             </ul>
             <div class="vr bg-light"></div>
             <ul class="navbar-nav">
