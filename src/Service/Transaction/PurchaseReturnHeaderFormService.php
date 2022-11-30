@@ -8,7 +8,7 @@ use App\Repository\Transaction\PurchaseReturnDetailRepository;
 use App\Repository\Transaction\PurchaseReturnHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PurchaseReturnFormService
+class PurchaseReturnHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository;
