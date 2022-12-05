@@ -5,9 +5,14 @@
 {{ grid.info(form, count, products) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="product-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="width: 0">
+                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
+                        {'destinationsTarget': '#product-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
+                    ]|json_encode }}" />
+                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
@@ -26,9 +31,9 @@
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
@@ -47,22 +52,18 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for product in products %}
-                <tr>
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'id': product.id, 'name': product.name, 'size': product.size, 'brandName': product.brand.name|default}|json_encode }}">
+                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ product.code }}</td>
                     <td>{{ product.size }}</td>
                     <td>{{ product.sellingPrice }}</td>
                     <td>{{ product.minimumStock }}</td>
                     <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
                     <td>{{ product.name }}</td>
-                    <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_product_show', {'id': product.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_product_edit', {'id': product.id}) }}">Edit</a>
-                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -72,5 +73,12 @@
         </tbody>
     </table>
 </div>
+<button type="button" class="btn btn-primary btn-sm"
+        data-action="event-emitter#trigger"
+        data-event-emitter-trigger-elements-target-param="#product-table .data-table-check-row"
+        data-event-emitter-trigger-event-type-param="click"
+        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
+    Select
+</button>
 
 {{ grid.navigation(form, count, products) }}

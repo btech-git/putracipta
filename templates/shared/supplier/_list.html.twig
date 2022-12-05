@@ -5,7 +5,7 @@
 {{ grid.info(form, count, suppliers) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="supplier-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th role="button" {{ grid.sort_link_item(form, 'code') }}>
@@ -35,7 +35,6 @@
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -65,12 +64,11 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for supplier in suppliers %}
-                <tr>
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'id': supplier.id, 'name': supplier.name}|json_encode }}">
                     <td>{{ supplier.code }}</td>
                     <td>{{ supplier.company }}</td>
                     <td>{{ supplier.address }}</td>
@@ -80,14 +78,10 @@
                     <td>{{ supplier.note }}</td>
                     <td>{{ supplier.isInactive ? 'Yes' : 'No' }}</td>
                     <td>{{ supplier.name }}</td>
-                    <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_supplier_show', {'id': supplier.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_supplier_edit', {'id': supplier.id}) }}">Edit</a>
-                    </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="9">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

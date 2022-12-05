@@ -2,10 +2,8 @@
 
 namespace App\Form\Transaction;
 
-use App\Entity\Master\Supplier;
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,8 +34,7 @@ class PurchaseOrderHeaderType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
             $form = $event->getForm();
             $entity = $event->getData();
-            $form->add('supplier', EntityType::class, [
-                'class' => Supplier::class,
+            $form->add('supplier', null, [
                 'choice_label' => 'name',
                 'placeholder' => '',
                 'query_builder' => function($repository) use ($entity) {

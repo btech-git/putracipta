@@ -20,9 +20,9 @@
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="id">
                 <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'id'}}) }}</td>
-                <td data-item-field-name="code"></td>
                 <td data-item-field-name="name"></td>
-                <td></td>
+                <td data-item-field-name="size"></td>
+                <td data-item-field-name="brandName"></td>
                 <td>{{ form_widget(detailForm.quantity, {'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td>
                     {{ form_widget(detailForm.unitPrice, {'attr': {

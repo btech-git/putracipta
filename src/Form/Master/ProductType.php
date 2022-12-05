@@ -18,9 +18,9 @@ class ProductType extends AbstractType
             ->add('minimumStock')
             ->add('isInactive')
             ->add('name')
-            ->add('productCategory')
-            ->add('unit')
-            ->add('brand')
+            ->add('productCategory', null, ['choice_label' => 'name'])
+            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('brand', null, ['choice_label' => 'name'])
         ;
     }
 
