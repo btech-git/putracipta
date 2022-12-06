@@ -41,15 +41,6 @@ class Supplier extends Master
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     private ?Account $account = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $fax = null;
-
-    #[ORM\Column]
-    private ?int $paymentTerm = null;
-
-    #[ORM\ManyToOne(inversedBy: 'suppliers')]
-    private ?ProductCategory $productCategory = null;
-
     public function __construct()
     {
         $this->purchaseOrderHeaders = new ArrayCollection();
@@ -152,42 +143,6 @@ class Supplier extends Master
     public function setAccount(?Account $account): self
     {
         $this->account = $account;
-
-        return $this;
-    }
-
-    public function getFax(): ?string
-    {
-        return $this->fax;
-    }
-
-    public function setFax(string $fax): self
-    {
-        $this->fax = $fax;
-
-        return $this;
-    }
-
-    public function getPaymentTerm(): ?int
-    {
-        return $this->paymentTerm;
-    }
-
-    public function setPaymentTerm(int $paymentTerm): self
-    {
-        $this->paymentTerm = $paymentTerm;
-
-        return $this;
-    }
-
-    public function getProductCategory(): ?ProductCategory
-    {
-        return $this->productCategory;
-    }
-
-    public function setProductCategory(?ProductCategory $productCategory): self
-    {
-        $this->productCategory = $productCategory;
 
         return $this;
     }

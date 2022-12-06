@@ -1,49 +1,17 @@
 {% set menu = {
     'Master': {
+        'Product': ['app_master_product_index', ['ROLE_USER']],
         'Supplier': ['app_master_supplier_index', ['ROLE_USER']],
         'Customer': ['app_master_customer_index', ['ROLE_USER']],
-        'Product': ['app_master_product_index', ['ROLE_USER']],
-        'Product Category': ['app_master_product_category_index', ['ROLE_USER']],
-        'Warehouse': ['app_master_warehouse_index', ['ROLE_USER']],
-        'Unit': ['app_master_unit_index', ['ROLE_USER']],
-        'Brand': ['app_master_brand_index', ['ROLE_USER']],
-        'COA': ['app_master_account_index', ['ROLE_USER']],
-        'COA category': ['app_master_account_category_index', ['ROLE_USER']],
-        'Payment Type': ['app_master_payment_type_index', ['ROLE_USER']],
     },
-    'Pembelian': {
+    'Transaction': {
         'Purchase Order': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
-    },
-    'Penjualan': {
-        'Sales Order': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
-    },
-    'Warehouse': {
-        'Penerimaan Material': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
-        'Pengiriman Barang Jadi': ['app_transaction_receive_header_index', ['ROLE_USER']],
-        'Retur Pembelian': ['app_transaction_purchase_return_header_index', ['ROLE_USER']],
-        'Retur Penjualan': ['app_transaction_purchase_return_header_index', ['ROLE_USER']],
-        'Penyesuaian Stok': ['app_stock_adjustment_stock_header_index', ['ROLE_USER']],
-    },
-    'Production': {
-
-    },
-    'Fin/Acc': {
-        'Faktur Pembelian': ['app_transaction_purchase_invoice_header_index', ['ROLE_USER']],
-        'Pembayaran Pembelian': ['app_transaction_purchase_payment_header_index', ['ROLE_USER']],
-        'Faktur Penjualan': ['app_transaction_purchase_invoice_header_index', ['ROLE_USER']],
-        'Pembayaran Penjualan': ['app_transaction_purchase_payment_header_index', ['ROLE_USER']],
-        'Penerimaan kas / bank': ['app_accounting_deposit_header_index', ['ROLE_USER']],
-        'Pengeluaran kas / bank': ['app_accounting_expense_header_index', ['ROLE_USER']],
-        'Jurnal Penyesuaian': ['app_accounting_journal_voucher_header_index', ['ROLE_USER']],
-    },
-    'Reports': {
-
     },
 } %}
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('app_home_page') }}">PT Putra Cipta Karindomas</a>
+        <a class="navbar-brand" href="{{ path('app_home_page') }}">Putra Cipta</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

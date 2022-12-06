@@ -22,23 +22,31 @@ class CustomerGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['company', 'name', 'address', 'phone', 'email'],
+                'field_names' => ['code', 'company', 'address', 'phone', 'email', 'taxNumber', 'note', 'isInactive', 'name'],
                 'field_operators_list' => [
+                    'code' => [FilterContain::class, FilterNotContain::class],
                     'company' => [FilterContain::class, FilterNotContain::class],
-                    'name' => [FilterContain::class, FilterNotContain::class],
                     'address' => [FilterContain::class, FilterNotContain::class],
                     'phone' => [FilterContain::class, FilterNotContain::class],
                     'email' => [FilterContain::class, FilterNotContain::class],
+                    'taxNumber' => [FilterContain::class, FilterNotContain::class],
+                    'note' => [FilterContain::class, FilterNotContain::class],
+                    'isInactive' => [FilterEqual::class, FilterNotEqual::class],
+                    'name' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['company', 'name', 'address', 'phone', 'email'],
+                'field_names' => ['code', 'company', 'address', 'phone', 'email', 'taxNumber', 'note', 'isInactive', 'name'],
                 'field_operators_list' => [
+                    'code' => [SortAscending::class, SortDescending::class],
                     'company' => [SortAscending::class, SortDescending::class],
-                    'name' => [SortAscending::class, SortDescending::class],
                     'address' => [SortAscending::class, SortDescending::class],
                     'phone' => [SortAscending::class, SortDescending::class],
                     'email' => [SortAscending::class, SortDescending::class],
+                    'taxNumber' => [SortAscending::class, SortDescending::class],
+                    'note' => [SortAscending::class, SortDescending::class],
+                    'isInactive' => [SortAscending::class, SortDescending::class],
+                    'name' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
