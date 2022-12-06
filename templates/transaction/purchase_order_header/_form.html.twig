@@ -45,37 +45,19 @@
         </div>
     {{ form_end(form) }}
 
-    <div id="supplier-dialog" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Supplier List</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div data-controller="html-loader"
-                         data-html-loader-url-value="{{ path('app_shared_supplier__list') }}"
-                         data-html-loader-auto-load-value="true">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    <div id="product-dialog" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Product List</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div data-controller="html-loader"
-                         data-html-loader-url-value="{{ path('app_shared_product__list') }}"
-                         data-html-loader-auto-load-value="true">
-                    </div>
-                </div>
-            </div>
+    {{ dialog.start('supplier-dialog', 'Supplier List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_supplier__list') }}"
+             data-html-loader-auto-load-value="true">
         </div>
-    </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('product-dialog', 'Product List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
 </div>

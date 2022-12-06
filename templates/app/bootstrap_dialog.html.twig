@@ -1,5 +1,5 @@
-{% macro dialog(id, title, body) %}
-    <div id="{{ id }}" class="modal fade" role="dialog">
+{% macro start(id, title) %}
+    <div id="{{ id }}" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -7,7 +7,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    {{ body }}
+{% endmacro %}
+
+{% macro end() %}
                 </div>
             </div>
         </div>
