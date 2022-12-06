@@ -4,8 +4,6 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\CustomerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +22,9 @@ class Customer extends Master
     #[ORM\Column(length: 100)]
     private ?string $company = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $address = null;
+
     #[ORM\Column(length: 20)]
     private ?string $phone = null;
 
@@ -38,26 +39,6 @@ class Customer extends Master
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
     private ?Account $account = null;
-
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Product::class)]
-    private Collection $products;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressInvoice = null;
-
-    #[ORM\Column]
-    private ?int $paymentTerm = null;
-
-    #[ORM\Column]
-    private ?bool $isBondedZone = null;
-
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -84,6 +65,18 @@ class Customer extends Master
     public function setCompany(string $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }
@@ -144,84 +137,6 @@ class Customer extends Master
     public function setAccount(?Account $account): self
     {
         $this->account = $account;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getCustomer() === $this) {
-                $product->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getAddressDelivery(): ?string
-    {
-        return $this->addressDelivery;
-    }
-
-    public function setAddressDelivery(string $addressDelivery): self
-    {
-        $this->addressDelivery = $addressDelivery;
-
-        return $this;
-    }
-
-    public function getAddressInvoice(): ?string
-    {
-        return $this->addressInvoice;
-    }
-
-    public function setAddressInvoice(string $addressInvoice): self
-    {
-        $this->addressInvoice = $addressInvoice;
-
-        return $this;
-    }
-
-    public function getPaymentTerm(): ?int
-    {
-        return $this->paymentTerm;
-    }
-
-    public function setPaymentTerm(int $paymentTerm): self
-    {
-        $this->paymentTerm = $paymentTerm;
-
-        return $this;
-    }
-
-    public function isIsBondedZone(): ?bool
-    {
-        return $this->isBondedZone;
-    }
-
-    public function setIsBondedZone(bool $isBondedZone): self
-    {
-        $this->isBondedZone = $isBondedZone;
 
         return $this;
     }

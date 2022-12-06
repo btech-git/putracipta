@@ -41,9 +41,6 @@ class Product extends Master
     #[ORM\JoinColumn(nullable: false)]
     private ?Brand $brand = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    private ?Customer $customer = null;
-
     public function __construct()
     {
         $this->purchaseOrderDetails = new ArrayCollection();
@@ -134,18 +131,6 @@ class Product extends Master
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
 
         return $this;
     }
