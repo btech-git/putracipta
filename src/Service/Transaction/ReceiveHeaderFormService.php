@@ -8,7 +8,7 @@ use App\Repository\Transaction\ReceiveDetailRepository;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ReceiveFormService
+class ReceiveHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private ReceiveHeaderRepository $receiveHeaderRepository;

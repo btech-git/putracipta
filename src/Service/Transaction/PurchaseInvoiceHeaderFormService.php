@@ -8,7 +8,7 @@ use App\Repository\Transaction\PurchaseInvoiceDetailRepository;
 use App\Repository\Transaction\PurchaseInvoiceHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PurchaseInvoiceFormService
+class PurchaseInvoiceHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository;

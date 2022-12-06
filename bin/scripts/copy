@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+cp ./src/Controller/Transaction/PurchaseOrderHeaderController.php ./src/Controller/Transaction/PurchaseInvoiceHeaderController.php
+cp ./src/Form/Transaction/PurchaseOrderHeaderType.php ./src/Form/Transaction/PurchaseInvoiceHeaderType.php
+cp ./src/Service/Transaction/PurchaseOrderHeaderFormService.php ./src/Service/Transaction/PurchaseInvoiceHeaderFormService.php
+cp ./templates/transaction/purchase_order_header/_details_form.html.twig ./templates/transaction/purchase_invoice_header/_details_form.html.twig
+cp ./templates/transaction/purchase_order_header/_form.html.twig ./templates/transaction/purchase_invoice_header/_form.html.twig
+cp ./templates/transaction/purchase_order_header/_form.json.twig ./templates/transaction/purchase_invoice_header/_form.json.twig
+cp ./templates/transaction/purchase_order_header/edit.json.twig ./templates/transaction/purchase_invoice_header/edit.json.twig
+cp ./templates/transaction/purchase_order_header/new.json.twig ./templates/transaction/purchase_invoice_header/new.json.twig
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./src/Controller/Transaction/PurchaseInvoiceHeaderController.php
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./src/Form/Transaction/PurchaseInvoiceHeaderController.php
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./src/Service/Transaction/PurchaseInvoiceHeaderController.php
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/_details_form.html.twig
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/_form.html.twig
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/_form.json.twig
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/edit.json.twig
+sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/new.json.twig

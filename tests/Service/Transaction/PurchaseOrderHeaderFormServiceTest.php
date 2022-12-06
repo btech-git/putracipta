@@ -4,17 +4,17 @@ namespace App\Tests\Service\Transaction;
 
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
-use App\Service\Transaction\PurchaseOrderFormService;
+use App\Service\Transaction\PurchaseOrderHeaderFormService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class PurchaseOrderFormServiceTest extends KernelTestCase
+class PurchaseOrderHeaderFormServiceTest extends KernelTestCase
 {
-    private PurchaseOrderFormService $purchaseOrderFormService;
+    private PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService;
 
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->purchaseOrderFormService = self::$container->get(PurchaseOrderFormService::class);
+        $this->purchaseOrderHeaderFormService = self::$container->get(PurchaseOrderHeaderFormService::class);
     }
 
     public function testSync(): void
