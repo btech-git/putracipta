@@ -13,14 +13,13 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('size')
+            ->add('name')
             ->add('sellingPrice')
             ->add('minimumStock')
-            ->add('isInactive')
-            ->add('name')
+            ->add('customer', null, ['choice_label' => 'name'])
             ->add('productCategory', null, ['choice_label' => 'name'])
             ->add('unit', null, ['choice_label' => 'name'])
-            ->add('brand', null, ['choice_label' => 'name'])
+            ->add('isInactive')
         ;
     }
 

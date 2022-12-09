@@ -14,14 +14,17 @@ class SupplierType extends AbstractType
         $builder
             ->add('code')
             ->add('company')
+            ->add('name')
             ->add('address')
             ->add('phone')
+            ->add('fax')
             ->add('email')
             ->add('taxNumber')
+            ->add('paymentTerm')
+            ->add('certification')
+            ->add('account')
             ->add('note')
             ->add('isInactive')
-            ->add('name')
-            ->add('account')
         ;
     }
 

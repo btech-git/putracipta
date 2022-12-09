@@ -14,14 +14,17 @@ class CustomerType extends AbstractType
         $builder
             ->add('code')
             ->add('company')
-            ->add('address')
+            ->add('name')
+            ->add('addressInvoice')
+            ->add('addressDelivery')
             ->add('phone')
             ->add('email')
             ->add('taxNumber')
-            ->add('note')
-            ->add('isInactive')
-            ->add('name')
+            ->add('paymentTerm')
             ->add('account')
+            ->add('note')
+            ->add('isBondedZone')
+            ->add('isInactive')
         ;
     }
 
