@@ -14,8 +14,8 @@
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'address') }}>
-                    Address {{ grid.sort_char(form.sort.address.vars.value) }}
+                <th role="button" {{ grid.sort_link_item(form, 'certification') }}>
+                    Certification {{ grid.sort_char(form.sort.certification.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'phone') }}>
                     Phone {{ grid.sort_char(form.sort.phone.vars.value) }}
@@ -33,7 +33,7 @@
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'address') }} value="{{ form.filter.address.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'certification') }} value="{{ form.filter.certification.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'phone') }} value="{{ form.filter.phone.1.vars.value }}" />
@@ -49,7 +49,7 @@
                 <tr>
                     <td>{{ supplier.company }}</td>
                     <td>{{ supplier.name }}</td>
-                    <td>{{ supplier.address }}</td>
+                    <td>{{ supplier.certification }}</td>
                     <td>{{ supplier.phone }}</td>
                     <td>{{ supplier.email }}</td>
                     <td>

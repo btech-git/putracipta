@@ -11,20 +11,17 @@
                 <th role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'size') }}>
-                    Size {{ grid.sort_char(form.sort.size.vars.value) }}
+                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th role="button" >
+                    Customer 
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'sellingPrice') }}>
                     Selling Price {{ grid.sort_char(form.sort.sellingPrice.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'minimumStock') }}>
-                    Minimum Stock {{ grid.sort_char(form.sort.minimumStock.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
-                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
                 <th></th>
             </tr>
@@ -33,19 +30,16 @@
                     <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'size') }} value="{{ form.filter.size.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'sellingPrice') }} value="{{ form.filter.sellingPrice.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'minimumStock') }} value="{{ form.filter.minimumStock.1.vars.value }}" />
-                </th>
-                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -54,11 +48,10 @@
             {% for product in products %}
                 <tr>
                     <td>{{ product.code }}</td>
-                    <td>{{ product.size }}</td>
-                    <td>{{ product.sellingPrice }}</td>
-                    <td>{{ product.minimumStock }}</td>
-                    <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
                     <td>{{ product.name }}</td>
+                    <td>{{ product.customer.name }}</td>
+                    <td>{{ product.sellingPrice }}</td>
+                    <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_product_show', {'id': product.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_product_edit', {'id': product.id}) }}">Edit</a>

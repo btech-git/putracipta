@@ -14,14 +14,14 @@
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'address') }}>
-                    Address {{ grid.sort_char(form.sort.address.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'phone') }}>
                     Phone {{ grid.sort_char(form.sort.phone.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'email') }}>
                     Email {{ grid.sort_char(form.sort.email.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'addressInvoice') }}>
+                    Address {{ grid.sort_char(form.sort.addressInvoice.vars.value) }}
                 </th>
                 <th></th>
             </tr>
@@ -33,13 +33,13 @@
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'address') }} value="{{ form.filter.address.1.vars.value }}" />
-                </th>
-                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'phone') }} value="{{ form.filter.phone.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'email') }} value="{{ form.filter.email.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'addressInvoice') }} value="{{ form.filter.addressInvoice.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -49,9 +49,9 @@
                 <tr>
                     <td>{{ customer.company }}</td>
                     <td>{{ customer.name }}</td>
-                    <td>{{ customer.address }}</td>
                     <td>{{ customer.phone }}</td>
                     <td>{{ customer.email }}</td>
+                    <td>{{ customer.addressInvoice }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_customer_show', {'id': customer.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_customer_edit', {'id': customer.id}) }}">Edit</a>

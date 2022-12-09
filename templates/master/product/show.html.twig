@@ -15,8 +15,12 @@
                 <td>{{ product.code }}</td>
             </tr>
             <tr>
-                <th>Size</th>
-                <td>{{ product.size }}</td>
+                <th>Name</th>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th>Customer</th>
+                <td>{{ product.customer.name }}</td>
             </tr>
             <tr>
                 <th>Selling Price</th>
@@ -27,12 +31,12 @@
                 <td>{{ product.minimumStock }}</td>
             </tr>
             <tr>
-                <th>Is Inactive</th>
-                <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
+                <th>Unit</th>
+                <td>{{ product.unit.name }}</td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ product.name }}</td>
+                <th>Is Inactive</th>
+                <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>

@@ -19,8 +19,16 @@
                 <td>{{ customer.company }}</td>
             </tr>
             <tr>
-                <th>Address</th>
-                <td>{{ customer.address }}</td>
+                <th>Name</th>
+                <td>{{ customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Address Delivery</th>
+                <td>{{ customer.addressDelivery }}</td>
+            </tr>
+            <tr>
+                <th>Address Invoice</th>
+                <td>{{ customer.addressInvoice }}</td>
             </tr>
             <tr>
                 <th>Phone</th>
@@ -35,6 +43,14 @@
                 <td>{{ customer.taxNumber }}</td>
             </tr>
             <tr>
+                <th>Payment Term (days)</th>
+                <td>{{ customer.paymentTerm }}</td>
+            </tr>
+            <tr>
+                <th>Kawasan Berikat</th>
+                <td>{{ customer.isBondedZone ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Note</th>
                 <td>{{ customer.note }}</td>
             </tr>
@@ -42,10 +58,23 @@
                 <th>Is Inactive</th>
                 <td>{{ customer.isInactive ? 'Yes' : 'No' }}</td>
             </tr>
+        </tbody>
+    </table>
+            
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
+                <th>Code</th>
                 <th>Name</th>
-                <td>{{ customer.name }}</td>
             </tr>
+        </thead>
+        <tbody>
+            {% for product in customer.products %}
+                <tr>
+                    <td>{{ product.code }}</td>
+                    <td>{{ product.name }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
