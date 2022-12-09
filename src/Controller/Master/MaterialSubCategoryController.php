@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Controller\Master;
+
+use App\Common\Data\Criteria\DataCriteria;
+use App\Entity\Master\MaterialSubCategory;
+use App\Form\Master\MaterialSubCategoryType;
+use App\Grid\Master\MaterialSubCategoryGridType;
+use App\Repository\Master\MaterialSubCategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route('/master/material_sub_category')]
+class MaterialSubCategoryController extends AbstractController
+{
+    #[Route('/_list', name: 'app_master_material_sub_category__list', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _list(Request $request, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createForm(MaterialSubCategoryGridType::class, $criteria, ['method' => 'GET']);
+        $form->handleRequest($request);
+
+        list($count, $materialSubCategories) = $materialSubCategoryRepository->fetchData($criteria);
+
+        return $this->renderForm("master/material_sub_category/_list.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'materialSubCategories' => $materialSubCategories,
+        ]);
+    }
+
+    #[Route('/', name: 'app_master_material_sub_category_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function index(): Response
+    {
+        return $this->render("master/material_sub_category/index.html.twig");
+    }
+
+    #[Route('/new', name: 'app_master_material_sub_category_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function new(Request $request, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
+    {
+        $materialSubCategory = new MaterialSubCategory();
+        $form = $this->createForm(MaterialSubCategoryType::class, $materialSubCategory);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $materialSubCategoryRepository->add($materialSubCategory, true);
+
+            return $this->redirectToRoute('app_master_material_sub_category_show', ['id' => $materialSubCategory->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('master/material_sub_category/new.html.twig', [
+            'materialSubCategory' => $materialSubCategory,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_master_material_sub_category_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function show(MaterialSubCategory $materialSubCategory): Response
+    {
+        return $this->render('master/material_sub_category/show.html.twig', [
+            'materialSubCategory' => $materialSubCategory,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_master_material_sub_category_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function edit(Request $request, MaterialSubCategory $materialSubCategory, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
+    {
+        $form = $this->createForm(MaterialSubCategoryType::class, $materialSubCategory);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $materialSubCategoryRepository->add($materialSubCategory, true);
+
+            return $this->redirectToRoute('app_master_material_sub_category_show', ['id' => $materialSubCategory->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('master/material_sub_category/edit.html.twig', [
+            'materialSubCategory' => $materialSubCategory,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/delete', name: 'app_master_material_sub_category_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function delete(Request $request, MaterialSubCategory $materialSubCategory, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $materialSubCategory->getId(), $request->request->get('_token'))) {
+            $materialSubCategoryRepository->remove($materialSubCategory, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
+        }
+
+        return $this->redirectToRoute('app_master_material_sub_category_index', [], Response::HTTP_SEE_OTHER);
+    }
+}

@@ -1,0 +1,25 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Material' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_material_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_edit', {'id': material.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ material.name }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ material.code }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('master/material/_delete_form.html.twig') }}
+{% endblock %}
