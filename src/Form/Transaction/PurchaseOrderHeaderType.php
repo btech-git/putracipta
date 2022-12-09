@@ -8,8 +8,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PurchaseOrderHeaderType extends AbstractType
@@ -43,16 +41,6 @@ class PurchaseOrderHeaderType extends AbstractType
                 'placeholder' => '',
             ])
         ;
-//        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-//            $form = $event->getForm();
-//            $entity = $event->getData();
-//            dump($form->get('supplier'));
-//            $form->add('supplier', null, [
-//                'query_builder' => function($repository) use ($entity) {
-//                    return $repository->createQueryBuilder('e')->where('e = :e')->setParameter('e', $entity->getSupplier());
-//                },
-//            ]);
-//        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

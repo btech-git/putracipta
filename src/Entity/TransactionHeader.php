@@ -45,7 +45,7 @@ abstract class TransactionHeader
     #[ORM\Column(type: Types::TEXT)]
     protected ?string $note = '';
 
-    abstract public function getCodeNumberConstant(): string;
+    public abstract function getCodeNumberConstant(): string;
 
     public function getCodeNumber(): string
     {
