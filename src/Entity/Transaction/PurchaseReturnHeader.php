@@ -56,6 +56,11 @@ class PurchaseReturnHeader extends TransactionHeader
         $this->purchaseReturnDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'PRT';
+    }
+
     public function sync(): void
     {
         $this->subTotal = $this->getSyncSubTotal();

@@ -20,20 +20,18 @@ class PurchaseOrderDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $unitPrice = null;
+    private ?string $unitPrice = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $discount = null;
+    private ?string $discount = '0.00';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseOrderHeader $purchaseOrderHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderDetail', targetEntity: ReceiveDetail::class)]

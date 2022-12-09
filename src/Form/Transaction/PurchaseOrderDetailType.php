@@ -18,6 +18,7 @@ class PurchaseOrderDetailType extends AbstractType
             ->add('unitPrice')
             ->add('discount')
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
+            ->add('isCanceled')
         ;
     }
 

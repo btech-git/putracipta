@@ -8,10 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class Master
 {
     #[ORM\Column]
-    protected ?bool $isInactive = null;
+    protected ?bool $isInactive = false;
 
     #[ORM\Column(length: 60)]
-    protected ?string $name = null;
+    protected ?string $name = '';
 
     public function isIsInactive(): ?bool
     {

@@ -1,6 +1,8 @@
 {
     "subTotal": "{{ purchaseOrderHeader.subTotal|default|number_format(2) }}",
+    "discountNominal": "{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}",
     "taxNominal": "{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}",
+    "shippingFee": "{{ purchaseOrderHeader.shippingFee|default|number_format(2) }}",
     "grandTotal": "{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}",
     "purchaseOrderDetails": {
         {%- for purchaseOrderDetailForm in form.purchaseOrderDetails -%}

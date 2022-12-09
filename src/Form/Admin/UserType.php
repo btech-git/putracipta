@@ -45,7 +45,7 @@ class UserType extends AbstractType
             if (empty($user->getId())) {
                 $form->add('username');
                 $form->add('plainPassword', RepeatedType::class, [
-                    'constraints' => [new NotBlank(), new Length(['min' => '6'])],
+                    'constraints' => [new NotBlank(), new Length(['min' => '1'])],
                     'mapped' => false,
                     'type' => PasswordType::class,
                     'first_options'  => ['label' => 'New Password'],

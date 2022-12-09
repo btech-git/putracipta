@@ -8,10 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AccountingDetail
 {
     #[ORM\Column]
-    protected ?bool $isCanceled = null;
+    protected ?bool $isCanceled = false;
 
     #[ORM\Column(length: 100)]
-    protected ?string $memo = null;
+    protected ?string $memo = '';
 
     public function isIsCanceled(): ?bool
     {

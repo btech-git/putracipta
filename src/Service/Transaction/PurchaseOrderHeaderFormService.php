@@ -23,24 +23,23 @@ class PurchaseOrderHeaderFormService
 
     public function initialize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-//        list($month, $year, $staff) = array($params['month'], $params['year'], $params['staff']);
-        
+        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+
         if (empty($purchaseOrderHeader->getId())) {
-//            $lastPurchaseOrderHeader = $this->purchaseOrderHeaderRepository->findRecentBy($year, $month);
-//            $currentPurchaseOrderHeader = ($lastPurchaseOrderHeader === null) ? $purchaseOrderHeader : $lastPurchaseOrderHeader;
-//            $purchaseOrderHeader->setCodeNumberToNext($currentPurchaseOrderHeader->getCodeNumber(), $year, $month);
-            
-//            $purchaseOrderHeader->setStaffCreated($staff);
-//            $purchaseOrderHeader->setTotalPayment(0.00);
-//            $purchaseOrderHeader->setTotalReturn(0.00);
+            $lastPurchaseOrderHeader = $this->purchaseOrderHeaderRepository->findRecentBy($year, $month);
+            $currentPurchaseOrderHeader = ($lastPurchaseOrderHeader === null) ? $purchaseOrderHeader : $lastPurchaseOrderHeader;
+            $purchaseOrderHeader->setCodeNumberToNext($currentPurchaseOrderHeader->getCodeNumber(), $year, $month);
+
+            $purchaseOrderHeader->setCreatedTransactionDateTime($datetime);
+            $purchaseOrderHeader->setCreatedTransactionUser($user);
+        } else {
+            $purchaseOrderHeader->setModifiedTransactionDateTime($datetime);
+            $purchaseOrderHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-//        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-//            $purchaseOrderDetail->setPurchaseOrderHeader($purchaseOrderHeader);
-//        }
         $this->sync($purchaseOrderHeader);
     }
 

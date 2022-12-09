@@ -10,16 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AccountingHeader
 {
     #[ORM\Column]
-    protected ?bool $isCanceled = null;
+    protected ?bool $isCanceled = false;
 
     #[ORM\Column]
-    protected ?int $codeNumberOrdinal = null;
+    protected ?int $codeNumberOrdinal = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    protected ?int $codeNumberMonth = null;
+    protected ?int $codeNumberMonth = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    protected ?int $codeNumberYear = null;
+    protected ?int $codeNumberYear = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $createdTransactionDateTime = null;
@@ -31,22 +31,19 @@ abstract class AccountingHeader
     protected ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     protected ?User $createdTransactionUser = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     protected ?User $modifiedTransactionUser = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     protected ?User $approvedTransactionUser = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    protected ?string $note = null;
+    protected ?string $note = '';
 
     public function isIsCanceled(): ?bool
     {
@@ -101,7 +98,7 @@ abstract class AccountingHeader
         return $this->createdTransactionDateTime;
     }
 
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
     {
         $this->createdTransactionDateTime = $createdTransactionDateTime;
 
@@ -173,7 +170,7 @@ abstract class AccountingHeader
         return $this->transactionDate;
     }
 
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
+    public function setTransactionDate(?\DateTimeInterface $transactionDate): self
     {
         $this->transactionDate = $transactionDate;
 

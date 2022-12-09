@@ -2,16 +2,19 @@
 
 namespace App\Controller\Transaction;
 
+use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Form\Transaction\PurchaseOrderHeaderType;
+use App\Grid\Transaction\PurchaseOrderHeaderGridType;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
 use App\Service\Transaction\PurchaseOrderHeaderFormService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/transaction/purchase/order/header')]
+#[Route('/transaction/purchase_order_header')]
 class PurchaseOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_transaction_purchase_order_header__list', methods: ['GET'])]
@@ -43,16 +46,16 @@ class PurchaseOrderHeaderController extends AbstractController
     public function new(Request $request, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, $_format = 'html'): Response
     {
         $purchaseOrderHeader = new PurchaseOrderHeader();
-        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader);
+        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader);
 
-//        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $purchaseOrderFormService->save($purchaseOrderHeader);
-//
-//            return $this->redirectToRoute('app_transaction_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
-//        }
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
+
+            return $this->redirectToRoute('app_transaction_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
 
         return $this->renderForm("transaction/purchase_order_header/new.{$_format}.twig", [
             'purchaseOrderHeader' => $purchaseOrderHeader,
@@ -65,7 +68,7 @@ class PurchaseOrderHeaderController extends AbstractController
     public function show(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
         return $this->render('transaction/purchase_order_header/show.html.twig', [
-            'purchase_order_header' => $purchaseOrderHeader,
+            'purchaseOrderHeader' => $purchaseOrderHeader,
         ]);
     }
 
@@ -73,16 +76,16 @@ class PurchaseOrderHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, $_format = 'html'): Response
     {
-        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader);
+        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader);
 
-//        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $purchaseOrderFormService->save($purchaseOrderHeader);
-//
-//            return $this->redirectToRoute('app_transaction_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
-//        }
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
+
+            return $this->redirectToRoute('app_transaction_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
 
         return $this->renderForm("transaction/purchase_order_header/edit.{$_format}.twig", [
             'purchaseOrderHeader' => $purchaseOrderHeader,
@@ -90,7 +93,7 @@ class PurchaseOrderHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_transaction_purchase_order_header_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_transaction_purchase_order_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
