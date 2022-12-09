@@ -20,13 +20,9 @@ class ProductCategory extends Master
     #[ORM\OneToMany(mappedBy: 'productCategory', targetEntity: Product::class)]
     private Collection $products;
 
-    #[ORM\OneToMany(mappedBy: 'productCategory', targetEntity: Supplier::class)]
-    private Collection $suppliers;
-
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->suppliers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,36 +54,6 @@ class ProductCategory extends Master
             // set the owning side to null (unless already changed)
             if ($product->getProductCategory() === $this) {
                 $product->setProductCategory(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Supplier>
-     */
-    public function getSuppliers(): Collection
-    {
-        return $this->suppliers;
-    }
-
-    public function addSupplier(Supplier $supplier): self
-    {
-        if (!$this->suppliers->contains($supplier)) {
-            $this->suppliers->add($supplier);
-            $supplier->setProductCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSupplier(Supplier $supplier): self
-    {
-        if ($this->suppliers->removeElement($supplier)) {
-            // set the owning side to null (unless already changed)
-            if ($supplier->getProductCategory() === $this) {
-                $supplier->setProductCategory(null);
             }
         }
 

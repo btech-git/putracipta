@@ -20,9 +20,6 @@ class Product extends Master
     #[ORM\Column(length: 20)]
     private ?string $code = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $size = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $sellingPrice = null;
 
@@ -30,16 +27,11 @@ class Product extends Master
     private ?int $minimumStock = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?ProductCategory $productCategory = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Unit $unit = null;
-
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Brand $brand = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Customer $customer = null;
@@ -62,18 +54,6 @@ class Product extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getSize(): ?string
-    {
-        return $this->size;
-    }
-
-    public function setSize(string $size): self
-    {
-        $this->size = $size;
 
         return $this;
     }
@@ -122,18 +102,6 @@ class Product extends Master
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
-
-        return $this;
-    }
-
-    public function getBrand(): ?Brand
-    {
-        return $this->brand;
-    }
-
-    public function setBrand(?Brand $brand): self
-    {
-        $this->brand = $brand;
 
         return $this;
     }

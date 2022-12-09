@@ -47,8 +47,8 @@ class Supplier extends Master
     #[ORM\Column]
     private ?int $paymentTerm = null;
 
-    #[ORM\ManyToOne(inversedBy: 'suppliers')]
-    private ?ProductCategory $productCategory = null;
+    #[ORM\Column(length: 60)]
+    private ?string $certification = null;
 
     public function __construct()
     {
@@ -180,14 +180,14 @@ class Supplier extends Master
         return $this;
     }
 
-    public function getProductCategory(): ?ProductCategory
+    public function getCertification(): ?string
     {
-        return $this->productCategory;
+        return $this->certification;
     }
 
-    public function setProductCategory(?ProductCategory $productCategory): self
+    public function setCertification(string $certification): self
     {
-        $this->productCategory = $productCategory;
+        $this->certification = $certification;
 
         return $this;
     }
