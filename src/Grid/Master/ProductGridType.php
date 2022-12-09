@@ -22,10 +22,10 @@ class ProductGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'size', 'sellingPrice', 'minimumStock', 'isInactive', 'name'],
+                'field_names' => ['code', 'customer', 'sellingPrice', 'minimumStock', 'isInactive', 'name'],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
-                    'size' => [FilterContain::class, FilterNotContain::class],
+                    'customer' => [FilterContain::class, FilterNotContain::class],
                     'sellingPrice' => [FilterEqual::class, FilterNotEqual::class],
                     'minimumStock' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
@@ -33,10 +33,10 @@ class ProductGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'size', 'sellingPrice', 'minimumStock', 'isInactive', 'name'],
+                'field_names' => ['code', 'customer', 'sellingPrice', 'minimumStock', 'isInactive', 'name'],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
-                    'size' => [SortAscending::class, SortDescending::class],
+                    'customer' => [SortAscending::class, SortDescending::class],
                     'sellingPrice' => [SortAscending::class, SortDescending::class],
                     'minimumStock' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
