@@ -1,5 +1,6 @@
 {% set menu = {
     'Master': {
+        'User': ['app_admin_user_index', ['ROLE_USER']],
         'Supplier': ['app_master_supplier_index', ['ROLE_USER']],
         'Customer': ['app_master_customer_index', ['ROLE_USER']],
         'Product': ['app_master_product_index', ['ROLE_USER']],
@@ -13,7 +14,6 @@
     },
     'Transaction': {
         'Purchase Order': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
-        'Sales Order': ['app_transaction_sale_order_header_index', ['ROLE_USER']],
     },
     'Warehouse': {
         'Penerimaan Material': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
