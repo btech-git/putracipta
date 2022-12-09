@@ -35,6 +35,11 @@ class PurchasePaymentHeader extends TransactionHeader
         $this->purchasePaymentDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'PPY';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

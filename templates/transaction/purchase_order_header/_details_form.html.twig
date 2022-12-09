@@ -11,21 +11,21 @@
             <th>Brand</th>
             <th>Qty</th>
             <th>Price</th>
-            <th>Discount</th>
+            <th>Discount (%)</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
     </thead>
     <tbody data-form-collection-target="items" data-action="product-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
-            <tr data-form-collection-target="item" data-item-identifier-name="id">
+            <tr data-form-collection-target="item" data-item-identifier-name="id" data-item-identifier-value="{{ detailForm.vars.value.product.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'id'}}) }}</td>
-                <td data-item-field-name="name"></td>
-                <td data-item-field-name="size"></td>
-                <td data-item-field-name="brandName"></td>
-                <td>{{ form_widget(detailForm.quantity, {'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td data-item-field-name="name">{{ detailForm.vars.value.product.name|default }}</td>
+                <td data-item-field-name="size">{{ detailForm.vars.value.product.size|default }}</td>
+                <td data-item-field-name="brandName">{{ detailForm.vars.value.product.brand.name|default }}</td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td>
-                    {{ form_widget(detailForm.unitPrice, {'attr': {
+                    {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
                         'data-action': 'dom-element#bind change->json-loader#load',
                         'data-dom-element-bind-specifications-param': [
@@ -34,13 +34,27 @@
                     }}) }}
                     <div id="{{ detailForm.unitPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</div>
                 </td>
-                <td>{{ form_widget(detailForm.discount, {'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
-                <td data-json-loader-target="placeholder"
+                <td>{{ form_row(detailForm.discount, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.total">
                     {{ detailForm.vars.value.total|default|number_format(2) }}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
+                    {% if (detailForm.vars.value.id == null) %}
+                        <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
+                    {% endif %}
+                    <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
+                        {{ form_row(detailForm.isCanceled, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'dom-element#bind change->json-loader#load',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.product.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
+                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.product.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
+                                ]|json_encode,
+                            },
+                        }) }}
+                    </div>
                 </td>
             </tr>
         {% endmacro %}
@@ -51,43 +65,51 @@
     <tfoot>
         <tr>
             <td class="text-end" colspan="6">Sub Total</td>
-            <td class="text-end"
-                data-json-loader-target="placeholder"
+            <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="subTotal">
-                {{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}
+                {{ purchaseOrderHeader.subTotal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
         <tr>
             <td class="text-end" colspan="6">
                 <span class="d-inline-block">Discount</span>
-                <span class="d-inline-block">{{ form_widget(form.discountValueType) }}{{ form_errors(form.discountValueType) }}</span>
+                <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
+                <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
-            <td>{{ form_widget(form.discountValue) }}{{ form_errors(form.discountValue) }}</td>
+            <td class="text-end" data-json-loader-target="placeholder"
+                data-property-path="discountNominal">
+                {{ purchaseOrderHeader.discountNominal|default|number_format(2) }}
+            </td>
             <td></td>
         </tr>
         <tr>
             <td class="text-end" colspan="6">
-                <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false}) }}</span>
+                <span class="d-inline-block">Tax</span>
+                <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
-            <td class="text-end"
-                data-json-loader-target="placeholder"
+            <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="taxNominal">
-                {{ purchaseInvoiceHeader.taxNominal|default|number_format(2) }}
+                {{ purchaseOrderHeader.taxNominal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="6">Ongkos Kirim</td>
-            <td>{{ form_widget(form.shippingFee) }}{{ form_errors(form.shippingFee) }}</td>
+            <td class="text-end" colspan="6">
+                <span class="d-inline-block">Ongkos Kirim</span>
+                <span class="d-inline-block">{{ form_row(form.shippingFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
+            </td>
+            <td class="text-end" data-json-loader-target="placeholder"
+                data-property-path="shippingFee">
+                {{ purchaseOrderHeader.shippingFee|default|number_format(2) }}
+            </td>
             <td></td>
         </tr>
         <tr>
             <td class="text-end" colspan="6">Grand Total</td>
-            <td class="text-end"
-                data-json-loader-target="placeholder"
+            <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="grandTotal">
-                {{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}
+                {{ purchaseOrderHeader.grandTotal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>

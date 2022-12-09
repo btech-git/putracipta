@@ -7,11 +7,3 @@ cp ./templates/transaction/purchase_order_header/_form.html.twig ./templates/tra
 cp ./templates/transaction/purchase_order_header/_form.json.twig ./templates/transaction/purchase_invoice_header/_form.json.twig
 cp ./templates/transaction/purchase_order_header/edit.json.twig ./templates/transaction/purchase_invoice_header/edit.json.twig
 cp ./templates/transaction/purchase_order_header/new.json.twig ./templates/transaction/purchase_invoice_header/new.json.twig
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./src/Controller/Transaction/PurchaseInvoiceHeaderController.php
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./src/Form/Transaction/PurchaseInvoiceHeaderController.php
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./src/Service/Transaction/PurchaseInvoiceHeaderController.php
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/_details_form.html.twig
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/_form.html.twig
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/_form.json.twig
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/edit.json.twig
-sed 's/purchaseOrderHeader/purchaseInvoiceHeader/g' ./templates/transaction/purchase_invoice_header/new.json.twig

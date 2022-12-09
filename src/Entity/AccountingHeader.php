@@ -42,7 +42,7 @@ abstract class AccountingHeader
     #[ORM\JoinColumn(nullable: false)]
     protected ?User $approvedTransactionUser = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -101,7 +101,7 @@ abstract class AccountingHeader
         return $this->createdTransactionDateTime;
     }
 
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
     {
         $this->createdTransactionDateTime = $createdTransactionDateTime;
 
@@ -173,7 +173,7 @@ abstract class AccountingHeader
         return $this->transactionDate;
     }
 
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
+    public function setTransactionDate(?\DateTimeInterface $transactionDate): self
     {
         $this->transactionDate = $transactionDate;
 

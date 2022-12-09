@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class TransactionDetail
 {
     #[ORM\Column]
-    protected ?bool $isCanceled = null;
+    protected ?bool $isCanceled = false;
 
     public function isIsCanceled(): ?bool
     {

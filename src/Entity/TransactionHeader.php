@@ -10,16 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class TransactionHeader
 {
     #[ORM\Column]
-    protected ?bool $isCanceled = null;
+    protected ?bool $isCanceled = false;
 
     #[ORM\Column]
-    protected ?int $codeNumberOrdinal = null;
+    protected ?int $codeNumberOrdinal = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    protected ?int $codeNumberMonth = null;
+    protected ?int $codeNumberMonth = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    protected ?int $codeNumberYear = null;
+    protected ?int $codeNumberYear = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $createdTransactionDateTime = null;
@@ -31,22 +31,64 @@ abstract class TransactionHeader
     protected ?\DateTimeInterface $approvedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     protected ?User $createdTransactionUser = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     protected ?User $modifiedTransactionUser = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     protected ?User $approvedTransactionUser = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    protected ?string $note = null;
+    protected ?string $note = '';
+
+    abstract public function getCodeNumberConstant(): string;
+
+    public function getCodeNumber(): string
+    {
+        $numerals = self::makeRomanNumerals();
+
+        return sprintf('%04d/%s/%s/%02d', intval($this->codeNumberOrdinal), $this->getCodeNumberConstant(), $numerals[intval($this->codeNumberMonth)], intval($this->codeNumberYear));
+    }
+
+    public function setCodeNumber($codeNumber): self
+    {
+        $nums = array_flip(self::makeRomanNumerals());
+
+        list($ordinal, , $month, $year) = explode('/', $codeNumber);
+
+        $this->codeNumberOrdinal = intval($ordinal);
+        $this->codeNumberMonth = $nums[$month];
+        $this->codeNumberYear = intval($year);
+
+        return $this;
+    }
+
+    public function setCodeNumberToNext($codeNumber, $currentYear, $currentMonth): self
+    {
+        $this->setCodeNumber($codeNumber);
+
+        $cnMonth = intval($currentMonth);
+        $cnYear = intval($currentYear);
+        $ordinal = $this->codeNumberOrdinal;
+        if ($cnMonth > $this->codeNumberMonth || $cnYear > $this->codeNumberYear) {
+            $ordinal = 0;
+        }
+
+        $this->codeNumberOrdinal = $ordinal + 1;
+        $this->codeNumberMonth = $cnMonth;
+        $this->codeNumberYear = $cnYear;
+
+        return $this;
+    }
+
+    private static function makeRomanNumerals(): array
+    {
+        return array('', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII');
+    }
 
     public function isIsCanceled(): ?bool
     {
@@ -101,7 +143,7 @@ abstract class TransactionHeader
         return $this->createdTransactionDateTime;
     }
 
-    public function setCreatedTransactionDateTime(\DateTimeInterface $createdTransactionDateTime): self
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
     {
         $this->createdTransactionDateTime = $createdTransactionDateTime;
 
@@ -173,7 +215,7 @@ abstract class TransactionHeader
         return $this->transactionDate;
     }
 
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
+    public function setTransactionDate(?\DateTimeInterface $transactionDate): self
     {
         $this->transactionDate = $transactionDate;
 

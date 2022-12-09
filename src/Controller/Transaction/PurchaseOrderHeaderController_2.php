@@ -13,10 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/transaction/purchase_order_header')]
+#[Route('/transaction/purchase_order_header_2')]
 class PurchaseOrderHeaderController_2 extends AbstractController
 {
-    #[Route('/_list', name: 'app_transaction_purchase_order_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_transaction_purchase_order_header_2__list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
@@ -33,14 +33,14 @@ class PurchaseOrderHeaderController_2 extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'app_transaction_purchase_order_header_index', methods: ['GET'])]
+    #[Route('/', name: 'app_transaction_purchase_order_header_2_index', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
         return $this->render("transaction/purchase_order_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_transaction_purchase_order_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_transaction_purchase_order_header_2_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
@@ -60,7 +60,7 @@ class PurchaseOrderHeaderController_2 extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_transaction_purchase_order_header_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_transaction_purchase_order_header_2_show', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function show(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
@@ -69,7 +69,7 @@ class PurchaseOrderHeaderController_2 extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_purchase_order_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_transaction_purchase_order_header_2_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
@@ -88,7 +88,7 @@ class PurchaseOrderHeaderController_2 extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_transaction_purchase_order_header_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_transaction_purchase_order_header_2_delete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {

@@ -44,6 +44,11 @@ class ReceiveHeader extends TransactionHeader
         $this->purchaseReturnHeaders = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'RCV';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

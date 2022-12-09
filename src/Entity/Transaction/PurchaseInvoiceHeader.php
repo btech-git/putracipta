@@ -81,6 +81,11 @@ class PurchaseInvoiceHeader extends TransactionHeader
         $this->purchasePaymentDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'PIN';
+    }
+
     public function sync(): void
     {
         $this->subTotal = $this->getSyncSubTotal();
