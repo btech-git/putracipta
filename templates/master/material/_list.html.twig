@@ -8,29 +8,39 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
+                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'code') }}>
-                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
+                <th role="button">
+                    Category
+                </th>
+                <th role="button">
+                    Sub Category
                 </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
-                </th>
-                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             {% for material in materials %}
                 <tr>
-                    <td>{{ material.name }}</td>
                     <td>{{ material.code }}</td>
+                    <td>{{ material.name }}</td>
+                    <td>{{ material.materialSubCategory.materialCategory.name }}</td>
+                    <td>{{ material.materialSubCategory.name }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_material_show', {'id': material.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_edit', {'id': material.id}) }}">Edit</a>

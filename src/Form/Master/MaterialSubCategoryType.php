@@ -13,7 +13,7 @@ class MaterialSubCategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('materialCategory')
+            ->add('materialCategory', null, ['choice_label' => 'name'])
         ;
     }
 
