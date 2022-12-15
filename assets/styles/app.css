@@ -4,3 +4,11 @@
 body {
     background-color: white;
 }
+
+label.form-label {
+    text-transform: capitalize;
+}
+
+tbody:-moz-only-whitespace {
+    display: none;
+}
