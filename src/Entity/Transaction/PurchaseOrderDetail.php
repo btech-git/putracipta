@@ -2,7 +2,7 @@
 
 namespace App\Entity\Transaction;
 
-use App\Entity\Master\Product;
+use App\Entity\Master\Material;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,7 +29,7 @@ class PurchaseOrderDetail extends TransactionDetail
     private ?string $discount = '0.00';
 
     #[ORM\ManyToOne]
-    private ?Product $product = null;
+    private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
     private ?PurchaseOrderHeader $purchaseOrderHeader = null;
@@ -99,14 +99,14 @@ class PurchaseOrderDetail extends TransactionDetail
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getMaterial(): ?Material
     {
-        return $this->product;
+        return $this->material;
     }
 
-    public function setProduct(?Product $product): self
+    public function setMaterial(?Material $material): self
     {
-        $this->product = $product;
+        $this->material = $material;
 
         return $this;
     }

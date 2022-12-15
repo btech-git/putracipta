@@ -23,24 +23,23 @@ class PurchasePaymentHeaderFormService
 
     public function initialize(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
-//        list($month, $year, $staff) = array($params['month'], $params['year'], $params['staff']);
-        
+        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+
         if (empty($purchasePaymentHeader->getId())) {
-//            $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year, $month);
-//            $currentPurchasePaymentHeader = ($lastPurchasePaymentHeader === null) ? $purchasePaymentHeader : $lastPurchasePaymentHeader;
-//            $purchasePaymentHeader->setCodeNumberToNext($currentPurchasePaymentHeader->getCodeNumber(), $year, $month);
-            
-//            $purchasePaymentHeader->setStaffCreated($staff);
-//            $purchasePaymentHeader->setTotalPayment(0.00);
-//            $purchasePaymentHeader->setTotalReturn(0.00);
+            $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year, $month);
+            $currentPurchasePaymentHeader = ($lastPurchasePaymentHeader === null) ? $purchasePaymentHeader : $lastPurchasePaymentHeader;
+            $purchasePaymentHeader->setCodeNumberToNext($currentPurchasePaymentHeader->getCodeNumber(), $year, $month);
+
+            $purchasePaymentHeader->setCreatedTransactionDateTime($datetime);
+            $purchasePaymentHeader->setCreatedTransactionUser($user);
+        } else {
+            $purchasePaymentHeader->setModifiedTransactionDateTime($datetime);
+            $purchasePaymentHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
-//        foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
-//            $purchasePaymentDetail->setPurchasePaymentHeader($purchasePaymentHeader);
-//        }
         $this->sync($purchasePaymentHeader);
     }
 

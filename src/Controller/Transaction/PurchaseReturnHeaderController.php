@@ -7,6 +7,7 @@ use App\Entity\Transaction\PurchaseReturnHeader;
 use App\Form\Transaction\PurchaseReturnHeaderType;
 use App\Grid\Transaction\PurchaseReturnHeaderGridType;
 use App\Repository\Transaction\PurchaseReturnHeaderRepository;
+use App\Service\Transaction\PurchaseReturnHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,21 +41,23 @@ class PurchaseReturnHeaderController extends AbstractController
         return $this->render("transaction/purchase_return_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_transaction_purchase_return_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_transaction_purchase_return_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository): Response
+    public function new(Request $request, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, $_format = 'html'): Response
     {
         $purchaseReturnHeader = new PurchaseReturnHeader();
+        $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseReturnHeaderType::class, $purchaseReturnHeader);
         $form->handleRequest($request);
+        $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseReturnHeaderRepository->add($purchaseReturnHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseReturnHeaderFormService->save($purchaseReturnHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_return_header_show', ['id' => $purchaseReturnHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_return_header/new.html.twig', [
+        return $this->renderForm("transaction/purchase_return_header/new.{$_format}.twig", [
             'purchaseReturnHeader' => $purchaseReturnHeader,
             'form' => $form,
         ]);
@@ -69,20 +72,22 @@ class PurchaseReturnHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_purchase_return_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_return_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository): Response
+    public function edit(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, $_format = 'html'): Response
     {
+        $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseReturnHeaderType::class, $purchaseReturnHeader);
         $form->handleRequest($request);
+        $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseReturnHeaderRepository->add($purchaseReturnHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseReturnHeaderFormService->save($purchaseReturnHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_return_header_show', ['id' => $purchaseReturnHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_return_header/edit.html.twig', [
+        return $this->renderForm("transaction/purchase_return_header/edit.{$_format}.twig", [
             'purchaseReturnHeader' => $purchaseReturnHeader,
             'form' => $form,
         ]);

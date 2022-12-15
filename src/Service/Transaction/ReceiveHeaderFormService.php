@@ -23,24 +23,23 @@ class ReceiveHeaderFormService
 
     public function initialize(ReceiveHeader $receiveHeader, array $options = []): void
     {
-//        list($month, $year, $staff) = array($params['month'], $params['year'], $params['staff']);
-        
+        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+
         if (empty($receiveHeader->getId())) {
-//            $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year, $month);
-//            $currentReceiveHeader = ($lastReceiveHeader === null) ? $receiveHeader : $lastReceiveHeader;
-//            $receiveHeader->setCodeNumberToNext($currentReceiveHeader->getCodeNumber(), $year, $month);
-            
-//            $receiveHeader->setStaffCreated($staff);
-//            $receiveHeader->setTotalPayment(0.00);
-//            $receiveHeader->setTotalReturn(0.00);
+            $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year, $month);
+            $currentReceiveHeader = ($lastReceiveHeader === null) ? $receiveHeader : $lastReceiveHeader;
+            $receiveHeader->setCodeNumberToNext($currentReceiveHeader->getCodeNumber(), $year, $month);
+
+            $receiveHeader->setCreatedTransactionDateTime($datetime);
+            $receiveHeader->setCreatedTransactionUser($user);
+        } else {
+            $receiveHeader->setModifiedTransactionDateTime($datetime);
+            $receiveHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
-//        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-//            $receiveDetail->setReceiveHeader($receiveHeader);
-//        }
         $this->sync($receiveHeader);
     }
 

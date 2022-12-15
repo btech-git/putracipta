@@ -7,6 +7,7 @@ use App\Entity\Transaction\PurchasePaymentHeader;
 use App\Form\Transaction\PurchasePaymentHeaderType;
 use App\Grid\Transaction\PurchasePaymentHeaderGridType;
 use App\Repository\Transaction\PurchasePaymentHeaderRepository;
+use App\Service\Transaction\PurchasePaymentHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,21 +41,23 @@ class PurchasePaymentHeaderController extends AbstractController
         return $this->render("transaction/purchase_payment_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_transaction_purchase_payment_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_transaction_purchase_payment_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository): Response
+    public function new(Request $request, PurchasePaymentHeaderFormService $purchasePaymentHeaderFormService, $_format = 'html'): Response
     {
         $purchasePaymentHeader = new PurchasePaymentHeader();
+        $purchasePaymentHeaderFormService->initialize($purchasePaymentHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchasePaymentHeaderType::class, $purchasePaymentHeader);
         $form->handleRequest($request);
+        $purchasePaymentHeaderFormService->finalize($purchasePaymentHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchasePaymentHeaderRepository->add($purchasePaymentHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchasePaymentHeaderFormService->save($purchasePaymentHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_payment_header_show', ['id' => $purchasePaymentHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_payment_header/new.html.twig', [
+        return $this->renderForm("transaction/purchase_payment_header/new.{$_format}.twig", [
             'purchasePaymentHeader' => $purchasePaymentHeader,
             'form' => $form,
         ]);
@@ -69,20 +72,22 @@ class PurchasePaymentHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_purchase_payment_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_payment_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchasePaymentHeader $purchasePaymentHeader, PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository): Response
+    public function edit(Request $request, PurchasePaymentHeader $purchasePaymentHeader, PurchasePaymentHeaderFormService $purchasePaymentHeaderFormService, $_format = 'html'): Response
     {
+        $purchasePaymentHeaderFormService->initialize($purchasePaymentHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchasePaymentHeaderType::class, $purchasePaymentHeader);
         $form->handleRequest($request);
+        $purchasePaymentHeaderFormService->finalize($purchasePaymentHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchasePaymentHeaderRepository->add($purchasePaymentHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchasePaymentHeaderFormService->save($purchasePaymentHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_payment_header_show', ['id' => $purchasePaymentHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_payment_header/edit.html.twig', [
+        return $this->renderForm("transaction/purchase_payment_header/edit.{$_format}.twig", [
             'purchasePaymentHeader' => $purchasePaymentHeader,
             'form' => $form,
         ]);

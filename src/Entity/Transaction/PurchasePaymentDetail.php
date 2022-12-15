@@ -18,21 +18,18 @@ class PurchasePaymentDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $amount = null;
+    private ?string $amount = '0.00';
 
     #[ORM\Column(length: 100)]
-    private ?string $memo = null;
+    private ?string $memo = '';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Account $account = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchasePaymentDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchasePaymentDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PurchasePaymentHeader $purchasePaymentHeader = null;
 
     public function sync(): void

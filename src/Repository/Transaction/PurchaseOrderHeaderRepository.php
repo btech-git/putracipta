@@ -26,8 +26,8 @@ class PurchaseOrderHeaderRepository extends ServiceEntityRepository
         $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
-        $lastPurchaseInvoiceHeader = $query->getOneOrNullResult();
+        $lastPurchaseOrderHeader = $query->getOneOrNullResult();
 
-        return $lastPurchaseInvoiceHeader;
+        return $lastPurchaseOrderHeader;
     }
 }

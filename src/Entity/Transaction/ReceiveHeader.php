@@ -19,17 +19,15 @@ class ReceiveHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $totalQuantity = null;
+    private ?int $totalQuantity = 0;
 
     #[ORM\Column(length: 60)]
-    private ?string $supplierDeliveryCodeNumber = null;
+    private ?string $supplierDeliveryCodeNumber = '';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseOrderHeader $purchaseOrderHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: ReceiveDetail::class)]
@@ -47,6 +45,22 @@ class ReceiveHeader extends TransactionHeader
     public function getCodeNumberConstant(): string
     {
         return 'RCV';
+    }
+
+    public function sync(): void
+    {
+        $this->totalQuantity = $this->getSyncTotalQuantity();
+    }
+
+    private function getSyncTotalQuantity(): int
+    {
+        $totalQuantity = 0;
+        foreach ($this->receiveDetails as $receiveDetail) {
+            if (!$receiveDetail->isIsCanceled()) {
+                $totalQuantity += $receiveDetail->getReceivedQuantity();
+            }
+        }
+        return $totalQuantity;
     }
 
     public function getId(): ?int

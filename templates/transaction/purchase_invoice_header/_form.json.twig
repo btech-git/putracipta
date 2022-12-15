@@ -1,0 +1,19 @@
+{
+    "subTotalAfterTaxInclusion": "{{ purchaseInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}",
+    "discountNominal": "{{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}",
+    "taxNominal": "{{ purchaseInvoiceHeader.taxNominal|default|number_format(2) }}",
+    "shippingFee": "{{ purchaseInvoiceHeader.shippingFee|default|number_format(2) }}",
+    "grandTotal": "{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}",
+    "purchaseInvoiceDetails": {
+        {%- for purchaseInvoiceDetailForm in form.purchaseInvoiceDetails -%}
+            {%- set purchaseInvoiceDetail = purchaseInvoiceDetailForm.vars.data -%}
+            "{{ purchaseInvoiceDetailForm.vars.name }}": {
+                "quantity": "{{ purchaseInvoiceDetail.quantity|default|number_format(0) }}",
+                "unitPrice": "{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}",
+                "discount": "{{ purchaseInvoiceDetail.discount|default|number_format(2) }}",
+                "total": "{{ purchaseInvoiceDetail.total|default|number_format(2) }}"
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
+    }
+}
