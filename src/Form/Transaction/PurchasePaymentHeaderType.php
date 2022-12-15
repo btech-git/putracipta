@@ -20,7 +20,7 @@ class PurchasePaymentHeaderType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => '',
             ])
-            ->add('paymentType')
+            ->add('paymentType', null, ['choice_label' => 'name'])
             ->add('purchasePaymentDetails', CollectionType::class, [
                 'entry_type' => PurchasePaymentDetailType::class,
                 'allow_add' => true,

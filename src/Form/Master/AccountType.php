@@ -15,7 +15,7 @@ class AccountType extends AbstractType
             ->add('code')
             ->add('isInactive')
             ->add('name')
-            ->add('accountCategory')
+            ->add('accountCategory', null, ['choice_label' => 'name'])
         ;
     }
 
