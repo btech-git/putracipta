@@ -7,6 +7,7 @@ use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Form\Transaction\PurchaseInvoiceHeaderType;
 use App\Grid\Transaction\PurchaseInvoiceHeaderGridType;
 use App\Repository\Transaction\PurchaseInvoiceHeaderRepository;
+use App\Service\Transaction\PurchaseInvoiceHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,21 +41,23 @@ class PurchaseInvoiceHeaderController extends AbstractController
         return $this->render("transaction/purchase_invoice_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_transaction_purchase_invoice_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_transaction_purchase_invoice_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
+    public function new(Request $request, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, $_format = 'html'): Response
     {
         $purchaseInvoiceHeader = new PurchaseInvoiceHeader();
+        $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseInvoiceHeaderType::class, $purchaseInvoiceHeader);
         $form->handleRequest($request);
+        $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_invoice_header_show', ['id' => $purchaseInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_invoice_header/new.html.twig', [
+        return $this->renderForm("transaction/purchase_invoice_header/new.{$_format}.twig", [
             'purchaseInvoiceHeader' => $purchaseInvoiceHeader,
             'form' => $form,
         ]);
@@ -69,20 +72,22 @@ class PurchaseInvoiceHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_purchase_invoice_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_invoice_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
+    public function edit(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, $_format = 'html'): Response
     {
+        $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseInvoiceHeaderType::class, $purchaseInvoiceHeader);
         $form->handleRequest($request);
+        $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_invoice_header_show', ['id' => $purchaseInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_invoice_header/edit.html.twig', [
+        return $this->renderForm("transaction/purchase_invoice_header/edit.{$_format}.twig", [
             'purchaseInvoiceHeader' => $purchaseInvoiceHeader,
             'form' => $form,
         ]);

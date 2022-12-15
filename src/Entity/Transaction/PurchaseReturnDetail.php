@@ -2,7 +2,7 @@
 
 namespace App\Entity\Transaction;
 
-use App\Entity\Master\Product;
+use App\Entity\Master\Material;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseReturnDetailRepository;
 use Doctrine\DBAL\Types\Types;
@@ -18,21 +18,18 @@ class PurchaseReturnDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $unitPrice = null;
+    private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
+    private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?ReceiveDetail $receiveDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseReturnHeader $purchaseReturnHeader = null;
 
     public function sync(): void
@@ -80,14 +77,14 @@ class PurchaseReturnDetail extends TransactionDetail
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getMaterial(): ?Material
     {
-        return $this->product;
+        return $this->material;
     }
 
-    public function setProduct(?Product $product): self
+    public function setMaterial(?Material $material): self
     {
-        $this->product = $product;
+        $this->material = $material;
 
         return $this;
     }

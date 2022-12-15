@@ -7,6 +7,7 @@ use App\Entity\Transaction\ReceiveHeader;
 use App\Form\Transaction\ReceiveHeaderType;
 use App\Grid\Transaction\ReceiveHeaderGridType;
 use App\Repository\Transaction\ReceiveHeaderRepository;
+use App\Service\Transaction\ReceiveHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,21 +41,23 @@ class ReceiveHeaderController extends AbstractController
         return $this->render("transaction/receive_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_transaction_receive_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_transaction_receive_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
+    public function new(Request $request, ReceiveHeaderFormService $receiveHeaderFormService, $_format = 'html'): Response
     {
         $receiveHeader = new ReceiveHeader();
+        $receiveHeaderFormService->initialize($receiveHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ReceiveHeaderType::class, $receiveHeader);
         $form->handleRequest($request);
+        $receiveHeaderFormService->finalize($receiveHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $receiveHeaderRepository->add($receiveHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $receiveHeaderFormService->save($receiveHeader);
 
             return $this->redirectToRoute('app_transaction_receive_header_show', ['id' => $receiveHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/receive_header/new.html.twig', [
+        return $this->renderForm("transaction/receive_header/new.{$_format}.twig", [
             'receiveHeader' => $receiveHeader,
             'form' => $form,
         ]);
@@ -69,20 +72,22 @@ class ReceiveHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_receive_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_transaction_receive_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderRepository $receiveHeaderRepository): Response
+    public function edit(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderFormService $receiveHeaderFormService, $_format = 'html'): Response
     {
+        $receiveHeaderFormService->initialize($receiveHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ReceiveHeaderType::class, $receiveHeader);
         $form->handleRequest($request);
+        $receiveHeaderFormService->finalize($receiveHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $receiveHeaderRepository->add($receiveHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $receiveHeaderFormService->save($receiveHeader);
 
             return $this->redirectToRoute('app_transaction_receive_header_show', ['id' => $receiveHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/receive_header/edit.html.twig', [
+        return $this->renderForm("transaction/receive_header/edit.{$_format}.twig", [
             'receiveHeader' => $receiveHeader,
             'form' => $form,
         ]);

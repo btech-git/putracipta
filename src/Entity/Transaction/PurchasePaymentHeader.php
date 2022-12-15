@@ -8,6 +8,7 @@ use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchasePaymentHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchasePaymentHeaderRepository::class)]
@@ -20,15 +21,16 @@ class PurchasePaymentHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PaymentType $paymentType = null;
 
     #[ORM\OneToMany(mappedBy: 'purchasePaymentHeader', targetEntity: PurchasePaymentDetail::class)]
     private Collection $purchasePaymentDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $totalAmount = null;
 
     public function __construct()
     {
@@ -38,6 +40,22 @@ class PurchasePaymentHeader extends TransactionHeader
     public function getCodeNumberConstant(): string
     {
         return 'PPY';
+    }
+
+    public function sync(): void
+    {
+        $this->totalAmount = $this->getSyncTotalAmount();
+    }
+
+    private function getSyncTotalAmount(): string
+    {
+        $totalAmount = '0.00';
+        foreach ($this->purchasePaymentDetails as $purchasePaymentDetail) {
+            if (!$purchasePaymentDetail->isIsCanceled()) {
+                $totalAmount += $purchasePaymentDetail->getAmount();
+            }
+        }
+        return $totalAmount;
     }
 
     public function getId(): ?int
@@ -95,6 +113,18 @@ class PurchasePaymentHeader extends TransactionHeader
                 $purchasePaymentDetail->setPurchasePaymentHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalAmount(): ?string
+    {
+        return $this->totalAmount;
+    }
+
+    public function setTotalAmount(string $totalAmount): self
+    {
+        $this->totalAmount = $totalAmount;
 
         return $this;
     }

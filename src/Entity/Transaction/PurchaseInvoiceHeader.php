@@ -14,59 +14,64 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'transaction_purchase_invoice_header')]
 class PurchaseInvoiceHeader extends TransactionHeader
 {
+    public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
+    public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
+    public const TAX_MODE_NON_TAX = 'non_tax';
+    public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
+    public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
+    public const VAT_PERCENTAGE = 11;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
-    private ?string $invoiceTaxCodeNumber = null;
+    private ?string $invoiceTaxCodeNumber = '';
 
     #[ORM\Column(length: 60)]
-    private ?string $supplierInvoiceCodeNumber = null;
+    private ?string $supplierInvoiceCodeNumber = '';
 
     #[ORM\Column(length: 20)]
-    private ?string $discountValueType = null;
+    private ?string $discountValueType = self::DISCOUNT_VALUE_TYPE_PERCENTAGE;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $discountValue = null;
+    private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
-    private ?string $taxMode = null;
+    private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
-    private ?int $taxPercentage = null;
+    private ?int $taxPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $taxNominal = null;
+    private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $shippingFee = null;
+    private ?string $shippingFee = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotal = null;
+    private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotalAfterTaxInclusion = null;
+    private ?string $subTotalAfterTaxInclusion = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $grandTotal = null;
+    private ?string $grandTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $totalPayment = null;
+    private ?string $totalPayment = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $totalReturn = null;
+    private ?string $totalReturn = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $remainingPayment = null;
+    private ?string $remainingPayment = '0.00';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Supplier $supplier = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchaseInvoiceDetail::class)]

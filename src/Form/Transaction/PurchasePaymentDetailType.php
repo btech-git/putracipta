@@ -2,6 +2,8 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Entity\Transaction\PurchasePaymentDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,8 +18,7 @@ class PurchasePaymentDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('account')
-            ->add('purchaseInvoiceHeader')
-            ->add('purchasePaymentHeader')
+            ->add('purchaseInvoiceHeader', EntityHiddenType::class, array('class' => PurchaseInvoiceHeader::class))
         ;
     }
 

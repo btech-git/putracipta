@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Master;
 use App\Repository\Master\MaterialSubCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,15 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MaterialSubCategoryRepository::class)]
 #[ORM\Table(name: 'master_material_sub_category')]
-class MaterialSubCategory
+class MaterialSubCategory extends Master
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 100)]
-    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'materialSubCategories')]
     private ?MaterialCategory $materialCategory = null;
@@ -33,18 +31,6 @@ class MaterialSubCategory
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getMaterialCategory(): ?MaterialCategory

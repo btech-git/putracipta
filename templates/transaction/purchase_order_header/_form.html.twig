@@ -20,8 +20,8 @@
                             'data-controller': 'dom-element',
                             'data-action': 'mousedown->dom-element#doNothing:prevent supplier-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.id}">${$event.detail.name}</option>`'}, 'condition': '!$destination.innerHTML.includes($content)'},
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.id'}}
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.supplierId}">${$event.detail.supplierName}</option>`'}, 'condition': '!$destination.innerHTML.includes($content)'},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierId'}}
                             ]|json_encode,
                         },
                     }) }}
@@ -36,7 +36,7 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Details</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Detail</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Detail</button>
             {{ include('transaction/purchase_order_header/_details_form.html.twig') }}
         </fieldset>
 
@@ -54,9 +54,9 @@
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('product-dialog', 'Product List') }}
+    {{ dialog.start('material-dialog', 'Material List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}

@@ -23,24 +23,23 @@ class PurchaseReturnHeaderFormService
 
     public function initialize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
-//        list($month, $year, $staff) = array($params['month'], $params['year'], $params['staff']);
-        
+        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+
         if (empty($purchaseReturnHeader->getId())) {
-//            $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year, $month);
-//            $currentPurchaseReturnHeader = ($lastPurchaseReturnHeader === null) ? $purchaseReturnHeader : $lastPurchaseReturnHeader;
-//            $purchaseReturnHeader->setCodeNumberToNext($currentPurchaseReturnHeader->getCodeNumber(), $year, $month);
-            
-//            $purchaseReturnHeader->setStaffCreated($staff);
-//            $purchaseReturnHeader->setTotalPayment(0.00);
-//            $purchaseReturnHeader->setTotalReturn(0.00);
+            $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year, $month);
+            $currentPurchaseReturnHeader = ($lastPurchaseReturnHeader === null) ? $purchaseReturnHeader : $lastPurchaseReturnHeader;
+            $purchaseReturnHeader->setCodeNumberToNext($currentPurchaseReturnHeader->getCodeNumber(), $year, $month);
+
+            $purchaseReturnHeader->setCreatedTransactionDateTime($datetime);
+            $purchaseReturnHeader->setCreatedTransactionUser($user);
+        } else {
+            $purchaseReturnHeader->setModifiedTransactionDateTime($datetime);
+            $purchaseReturnHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
-//        foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
-//            $purchaseReturnDetail->setPurchaseReturnHeader($purchaseReturnHeader);
-//        }
         $this->sync($purchaseReturnHeader);
     }
 

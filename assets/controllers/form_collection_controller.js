@@ -16,27 +16,13 @@ export default class extends Controller {
     }
 
     addCollectionItem(event) {
-        for (const itemTarget of this.itemTargets) {
-            const identifierName = itemTarget.getAttribute(this.itemIdentifierNameAttributeNameValue);
-            const identifierValue = itemTarget.getAttribute(this.itemIdentifierValueAttributeNameValue);
-            if (identifierName !== null && identifierValue !== null && identifierValue === event.detail[identifierName].toString()) {
-                return;
-            }
+        this.addItem(event.detail);
+    }
+
+    addCollectionItems(event) {
+        for (const detailItem of event.detail) {
+            this.addItem(detailItem);
         }
-        const template = document.createElement('template');
-        const rowHtml = this.prototypeValue.replace(/__name__/g, this.index);
-        template.innerHTML = rowHtml.trim();
-        const row = template.content.firstChild;
-        if (row.getAttribute(this.itemIdentifierNameAttributeNameValue) !== null) {
-            row.setAttribute(this.itemIdentifierValueAttributeNameValue, event.detail[row.getAttribute(this.itemIdentifierNameAttributeNameValue)]);
-        }
-        const items = row.querySelectorAll(`[${this.itemFieldNameAttributeNameValue}]`);
-        for (const item of items) {
-            putValueContent(item, getPropertyValue(event.detail, item.getAttribute(`${this.itemFieldNameAttributeNameValue}`)));
-        }
-        this.itemsTarget.appendChild(row);
-        this.index++;
-        this.dispatch('collection-item-added');
     }
 
     removeCollectionItem(event) {
@@ -46,5 +32,33 @@ export default class extends Controller {
             }
         });
         this.dispatch('collection-item-removed');
+    }
+
+    clearCollectionItems(event) {
+        this.itemsTarget.replaceChildren();
+    }
+
+    addItem(data) {
+        for (const itemTarget of this.itemTargets) {
+            const identifierName = itemTarget.getAttribute(this.itemIdentifierNameAttributeNameValue);
+            const identifierValue = itemTarget.getAttribute(this.itemIdentifierValueAttributeNameValue);
+            if (identifierName !== null && identifierValue !== null && identifierValue === data[identifierName].toString()) {
+                return;
+            }
+        }
+        const template = document.createElement('template');
+        const rowHtml = this.prototypeValue.replace(/__name__/g, this.index);
+        template.innerHTML = rowHtml.trim();
+        const row = template.content.firstChild;
+        if (row.getAttribute(this.itemIdentifierNameAttributeNameValue) !== null) {
+            row.setAttribute(this.itemIdentifierValueAttributeNameValue, data[row.getAttribute(this.itemIdentifierNameAttributeNameValue)]);
+        }
+        const items = row.querySelectorAll(`[${this.itemFieldNameAttributeNameValue}]`);
+        for (const item of items) {
+            putValueContent(item, getPropertyValue(data, item.getAttribute(`${this.itemFieldNameAttributeNameValue}`)));
+        }
+        this.itemsTarget.appendChild(row);
+        this.index++;
+        this.dispatch('collection-item-added');
     }
 };

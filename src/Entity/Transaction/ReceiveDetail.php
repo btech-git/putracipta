@@ -2,7 +2,7 @@
 
 namespace App\Entity\Transaction;
 
-use App\Entity\Master\Product;
+use App\Entity\Master\Material;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,21 +19,18 @@ class ReceiveDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $orderedQuantity = null;
+    private ?int $orderedQuantity = 0;
 
     #[ORM\Column]
-    private ?int $receivedQuantity = null;
+    private ?int $receivedQuantity = 0;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
+    private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?PurchaseOrderDetail $purchaseOrderDetail = null;
 
     #[ORM\OneToMany(mappedBy: 'receiveDetail', targetEntity: PurchaseReturnDetail::class)]
@@ -84,14 +81,14 @@ class ReceiveDetail extends TransactionDetail
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getMaterial(): ?Material
     {
-        return $this->product;
+        return $this->material;
     }
 
-    public function setProduct(?Product $product): self
+    public function setMaterial(?Material $material): self
     {
-        $this->product = $product;
+        $this->material = $material;
 
         return $this;
     }

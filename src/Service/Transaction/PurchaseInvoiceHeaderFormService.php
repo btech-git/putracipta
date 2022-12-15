@@ -4,6 +4,7 @@ namespace App\Service\Transaction;
 
 use App\Entity\Transaction\PurchaseInvoiceDetail;
 use App\Entity\Transaction\PurchaseInvoiceHeader;
+use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Repository\Transaction\PurchaseInvoiceDetailRepository;
 use App\Repository\Transaction\PurchaseInvoiceHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,24 +24,23 @@ class PurchaseInvoiceHeaderFormService
 
     public function initialize(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void
     {
-//        list($month, $year, $staff) = array($params['month'], $params['year'], $params['staff']);
-        
+        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+
         if (empty($purchaseInvoiceHeader->getId())) {
-//            $lastPurchaseInvoiceHeader = $this->purchaseInvoiceHeaderRepository->findRecentBy($year, $month);
-//            $currentPurchaseInvoiceHeader = ($lastPurchaseInvoiceHeader === null) ? $purchaseInvoiceHeader : $lastPurchaseInvoiceHeader;
-//            $purchaseInvoiceHeader->setCodeNumberToNext($currentPurchaseInvoiceHeader->getCodeNumber(), $year, $month);
-            
-//            $purchaseInvoiceHeader->setStaffCreated($staff);
-//            $purchaseInvoiceHeader->setTotalPayment(0.00);
-//            $purchaseInvoiceHeader->setTotalReturn(0.00);
+            $lastPurchaseInvoiceHeader = $this->purchaseInvoiceHeaderRepository->findRecentBy($year, $month);
+            $currentPurchaseInvoiceHeader = ($lastPurchaseInvoiceHeader === null) ? $purchaseInvoiceHeader : $lastPurchaseInvoiceHeader;
+            $purchaseInvoiceHeader->setCodeNumberToNext($currentPurchaseInvoiceHeader->getCodeNumber(), $year, $month);
+
+            $purchaseInvoiceHeader->setCreatedTransactionDateTime($datetime);
+            $purchaseInvoiceHeader->setCreatedTransactionUser($user);
+        } else {
+            $purchaseInvoiceHeader->setModifiedTransactionDateTime($datetime);
+            $purchaseInvoiceHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void
     {
-//        foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
-//            $purchaseInvoiceDetail->setPurchaseInvoiceHeader($purchaseInvoiceHeader);
-//        }
         $this->sync($purchaseInvoiceHeader);
     }
 
@@ -55,6 +55,19 @@ class PurchaseInvoiceHeaderFormService
 
     public function sync(PurchaseInvoiceHeader $purchaseInvoiceHeader): void
     {
+        $receiveHeader = $purchaseInvoiceHeader->getReceiveHeader();
+        $purchaseOrderHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseOrderHeader();
+        $purchaseInvoiceHeader->setShippingFee($purchaseOrderHeader === null ? '0.00' : $purchaseOrderHeader->getShippingFee());
+        $purchaseInvoiceHeader->setDiscountValueType($purchaseOrderHeader === null ? PurchaseOrderHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE : $purchaseOrderHeader->getDiscountValueType());
+        $purchaseInvoiceHeader->setDiscountValue($purchaseOrderHeader === null ? '0.00' : $purchaseOrderHeader->getDiscountValue());
+        $purchaseInvoiceHeader->setTaxMode($purchaseOrderHeader === null ? PurchaseOrderHeader::TAX_MODE_NON_TAX : $purchaseOrderHeader->getTaxMode());
+        foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
+            $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
+            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $purchaseInvoiceDetail->setQuantity($receiveDetail->getReceivedQuantity());
+            $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPrice());
+            $purchaseInvoiceDetail->setDiscount($purchaseOrderDetail->getDiscount());
+        }
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
             $purchaseInvoiceDetail->sync();
         }

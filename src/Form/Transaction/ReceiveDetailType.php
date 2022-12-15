@@ -2,6 +2,8 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\ReceiveDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,12 +14,9 @@ class ReceiveDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('orderedQuantity')
             ->add('receivedQuantity')
             ->add('isCanceled')
-            ->add('product')
-            ->add('receiveHeader')
-            ->add('purchaseOrderDetail')
+            ->add('purchaseOrderDetail', EntityHiddenType::class, array('class' => PurchaseOrderDetail::class))
         ;
     }
 

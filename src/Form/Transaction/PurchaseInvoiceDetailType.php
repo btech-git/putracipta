@@ -2,7 +2,9 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Transaction\PurchaseInvoiceDetail;
+use App\Entity\Transaction\ReceiveDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,13 +14,8 @@ class PurchaseInvoiceDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
-            ->add('unitPrice')
-            ->add('discount')
             ->add('isCanceled')
-            ->add('product')
-            ->add('receiveDetail')
-            ->add('purchaseInvoiceHeader')
+            ->add('receiveDetail', EntityHiddenType::class, array('class' => ReceiveDetail::class))
         ;
     }
 

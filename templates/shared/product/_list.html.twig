@@ -50,7 +50,7 @@
         </thead>
         <tbody>
             {% for product in products %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'id': product.id, 'name': product.name}|json_encode }}">
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'productId': product.id, 'productName': product.name}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ product.code }}</td>
                     <td>{{ product.sellingPrice }}</td>
