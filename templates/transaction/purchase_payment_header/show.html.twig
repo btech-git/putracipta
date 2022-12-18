@@ -11,10 +11,6 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Is Canceled</th>
-                <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
                 <th>Code Number Ordinal</th>
                 <td>{{ purchasePaymentHeader.codeNumberOrdinal }}</td>
             </tr>
@@ -27,24 +23,16 @@
                 <td>{{ purchasePaymentHeader.codeNumberYear }}</td>
             </tr>
             <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ purchasePaymentHeader.createdTransactionDateTime ? purchasePaymentHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ purchasePaymentHeader.modifiedTransactionDateTime ? purchasePaymentHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Approved Transaction Date Time</th>
-                <td>{{ purchasePaymentHeader.approvedTransactionDateTime ? purchasePaymentHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
                 <th>Transaction Date</th>
                 <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ purchasePaymentHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
