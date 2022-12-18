@@ -53,7 +53,7 @@
                     <td>{{ receiveHeader.codeNumberMonth }}</td>
                     <td>{{ receiveHeader.codeNumberYear }}</td>
                     <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ receiveHeader.supplier.name }}</td>
+                    <td>{{ receiveHeader.purchaseOrderHeader.supplier.name }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
                     {#<td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_receive_header_show', {'id': receiveHeader.id}) }}">Show</a>
