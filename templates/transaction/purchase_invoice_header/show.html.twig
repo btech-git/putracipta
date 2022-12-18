@@ -11,6 +11,22 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
+                <th>Code Number Ordinal</th>
+                <td>{{ purchaseInvoiceHeader.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Month</th>
+                <td>{{ purchaseInvoiceHeader.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ purchaseInvoiceHeader.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Invoice Tax Code Number</th>
                 <td>{{ purchaseInvoiceHeader.invoiceTaxCodeNumber }}</td>
             </tr>
@@ -69,34 +85,6 @@
             <tr>
                 <th>Is Canceled</th>
                 <td>{{ purchaseInvoiceHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ purchaseInvoiceHeader.codeNumberOrdinal }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Month</th>
-                <td>{{ purchaseInvoiceHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ purchaseInvoiceHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ purchaseInvoiceHeader.createdTransactionDateTime ? purchaseInvoiceHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ purchaseInvoiceHeader.modifiedTransactionDateTime ? purchaseInvoiceHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Approved Transaction Date Time</th>
-                <td>{{ purchaseInvoiceHeader.approvedTransactionDateTime ? purchaseInvoiceHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
-                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>

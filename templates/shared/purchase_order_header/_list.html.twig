@@ -8,36 +8,6 @@
     <table class="table table-bordered table-striped" id="purchase-order-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'discountValueType') }}>
-                    Discount Value Type {{ grid.sort_char(form.sort.discountValueType.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'discountValue') }}>
-                    Discount Value {{ grid.sort_char(form.sort.discountValue.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'taxMode') }}>
-                    Tax Mode {{ grid.sort_char(form.sort.taxMode.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'taxPercentage') }}>
-                    Tax Percentage {{ grid.sort_char(form.sort.taxPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'taxNominal') }}>
-                    Tax Nominal {{ grid.sort_char(form.sort.taxNominal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'shippingFee') }}>
-                    Shipping Fee {{ grid.sort_char(form.sort.shippingFee.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'subTotal') }}>
-                    Sub Total {{ grid.sort_char(form.sort.subTotal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'subTotalAfterTaxInclusion') }}>
-                    Sub Total After Tax Inclusion {{ grid.sort_char(form.sort.subTotalAfterTaxInclusion.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
                     Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
@@ -47,54 +17,18 @@
                 <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
                     Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'createdTransactionDateTime') }}>
-                    Created Transaction Date Time {{ grid.sort_char(form.sort.createdTransactionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'modifiedTransactionDateTime') }}>
-                    Modified Transaction Date Time {{ grid.sort_char(form.sort.modifiedTransactionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'approvedTransactionDateTime') }}>
-                    Approved Transaction Date Time {{ grid.sort_char(form.sort.approvedTransactionDateTime.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button">
+                    Supplier
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th></th>
+                {#<th></th>#}
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'discountValueType') }} value="{{ form.filter.discountValueType.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'discountValue') }} value="{{ form.filter.discountValue.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'taxMode') }} value="{{ form.filter.taxMode.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'taxPercentage') }} value="{{ form.filter.taxPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'taxNominal') }} value="{{ form.filter.taxNominal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'shippingFee') }} value="{{ form.filter.shippingFee.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'subTotal') }} value="{{ form.filter.subTotal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'subTotalAfterTaxInclusion') }} value="{{ form.filter.subTotalAfterTaxInclusion.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
-                </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
                 </th>
@@ -105,52 +39,32 @@
                     <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'createdTransactionDateTime') }} value="{{ form.filter.createdTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'modifiedTransactionDateTime') }} value="{{ form.filter.modifiedTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'approvedTransactionDateTime') }} value="{{ form.filter.approvedTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
-                <th></th>
+                {#<th></th>#}
             </tr>
         </thead>
         <tbody>
             {% for purchaseOrderHeader in purchaseOrderHeaders %}
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderHeader.purchaseOrderDetails|map(purchaseOrderDetail => {'purchaseOrderHeaderId': purchaseOrderHeader.id, 'purchaseOrderHeaderCodeNumber': purchaseOrderHeader.codeNumber, 'purchaseOrderDetailId': purchaseOrderDetail.id, 'materialName': purchaseOrderDetail.material.name})|json_encode }}">
-                    <td>{{ purchaseOrderHeader.discountValueType }}</td>
-                    <td>{{ purchaseOrderHeader.discountValue }}</td>
-                    <td>{{ purchaseOrderHeader.taxMode }}</td>
-                    <td>{{ purchaseOrderHeader.taxPercentage }}</td>
-                    <td>{{ purchaseOrderHeader.taxNominal }}</td>
-                    <td>{{ purchaseOrderHeader.shippingFee }}</td>
-                    <td>{{ purchaseOrderHeader.subTotal }}</td>
-                    <td>{{ purchaseOrderHeader.subTotalAfterTaxInclusion }}</td>
-                    <td>{{ purchaseOrderHeader.grandTotal }}</td>
-                    <td>{{ purchaseOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>{{ purchaseOrderHeader.codeNumberOrdinal }}</td>
                     <td>{{ purchaseOrderHeader.codeNumberMonth }}</td>
                     <td>{{ purchaseOrderHeader.codeNumberYear }}</td>
-                    <td>{{ purchaseOrderHeader.createdTransactionDateTime ? purchaseOrderHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ purchaseOrderHeader.modifiedTransactionDateTime ? purchaseOrderHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ purchaseOrderHeader.approvedTransactionDateTime ? purchaseOrderHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseOrderHeader.supplier.name }}</td>
                     <td>{{ purchaseOrderHeader.note }}</td>
-                    <td>
+                    {#<td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_show', {'id': purchaseOrderHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
-                    </td>
+                    </td>#}
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="19">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
