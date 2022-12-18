@@ -17,9 +17,11 @@
     },
     'Transaction': {
         'Purchase Order': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
+        'Penerimaan Material': ['app_transaction_receive_header_index', ['ROLE_USER']],
+        'Faktur Pembelian': ['app_transaction_purchase_invoice_header_index', ['ROLE_USER']],
+        'Pembayaran Pembelian': ['app_transaction_purchase_payment_header_index', ['ROLE_USER']],
     },
     'Warehouse': {
-        'Penerimaan Material': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
         'Pengiriman Barang Jadi': ['app_transaction_receive_header_index', ['ROLE_USER']],
         'Retur Pembelian': ['app_transaction_purchase_return_header_index', ['ROLE_USER']],
         'Retur Penjualan': ['app_transaction_purchase_return_header_index', ['ROLE_USER']],
@@ -29,8 +31,6 @@
 
     },
     'Fin/Acc': {
-        'Faktur Pembelian': ['app_transaction_purchase_invoice_header_index', ['ROLE_USER']],
-        'Pembayaran Pembelian': ['app_transaction_purchase_payment_header_index', ['ROLE_USER']],
         'Faktur Penjualan': ['app_transaction_purchase_invoice_header_index', ['ROLE_USER']],
         'Pembayaran Penjualan': ['app_transaction_purchase_payment_header_index', ['ROLE_USER']],
         'Penerimaan kas / bank': ['app_accounting_deposit_header_index', ['ROLE_USER']],
