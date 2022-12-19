@@ -8,9 +8,6 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
                     Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
@@ -20,27 +17,18 @@
                 <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
                     Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'createdTransactionDateTime') }}>
-                    Created Transaction Date Time {{ grid.sort_char(form.sort.createdTransactionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'modifiedTransactionDateTime') }}>
-                    Modified Transaction Date Time {{ grid.sort_char(form.sort.modifiedTransactionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'approvedTransactionDateTime') }}>
-                    Approved Transaction Date Time {{ grid.sort_char(form.sort.approvedTransactionDateTime.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
+                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
+                </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
-                </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
                 </th>
@@ -51,19 +39,13 @@
                     <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'createdTransactionDateTime') }} value="{{ form.filter.createdTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'modifiedTransactionDateTime') }} value="{{ form.filter.modifiedTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'approvedTransactionDateTime') }} value="{{ form.filter.approvedTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -71,15 +53,12 @@
         <tbody>
             {% for purchasePaymentHeader in purchasePaymentHeaders %}
                 <tr>
-                    <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>{{ purchasePaymentHeader.codeNumberOrdinal }}</td>
                     <td>{{ purchasePaymentHeader.codeNumberMonth }}</td>
                     <td>{{ purchasePaymentHeader.codeNumberYear }}</td>
-                    <td>{{ purchasePaymentHeader.createdTransactionDateTime ? purchasePaymentHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ purchasePaymentHeader.modifiedTransactionDateTime ? purchasePaymentHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ purchasePaymentHeader.approvedTransactionDateTime ? purchasePaymentHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('Y-m-d') : '' }}</td>
                     <td>{{ purchasePaymentHeader.note }}</td>
+                    <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_payment_header_show', {'id': purchasePaymentHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_payment_header_edit', {'id': purchasePaymentHeader.id}) }}">Edit</a>
@@ -87,7 +66,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="7">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

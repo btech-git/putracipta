@@ -16,11 +16,14 @@
                 <th role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th role="button"  }}>
+                    Category 
+                </th>
+                <th role="button">
+                    Sub Category
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -29,11 +32,10 @@
                     <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
-                </th>
-                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -41,12 +43,13 @@
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'materialId': material.id, 'materialName': material.name}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ material.code }}</td>
-                    <td>{{ material.isInactive ? 'Yes' : 'No' }}</td>
                     <td>{{ material.name }}</td>
+                    <td>{{ material.materialSubCategory.materialCategory.name }}</td>
+                    <td>{{ material.materialSubCategory.name }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
