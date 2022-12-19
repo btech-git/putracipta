@@ -2,10 +2,11 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Transaction\PurchaseInvoiceDetail;
 use App\Entity\Transaction\PurchaseInvoiceHeader;
+use App\Entity\Transaction\ReceiveHeader;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,10 +20,7 @@ class PurchaseInvoiceHeaderType extends AbstractType
             ->add('supplierInvoiceCodeNumber')
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('receiveHeader', null, [
-                'choice_label' => 'codeNumber',
-                'placeholder' => '',
-            ])
+            ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
             ->add('purchaseInvoiceDetails', CollectionType::class, [
                 'entry_type' => PurchaseInvoiceDetailType::class,
                 'allow_add' => true,

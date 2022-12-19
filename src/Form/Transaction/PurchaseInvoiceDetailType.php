@@ -15,7 +15,7 @@ class PurchaseInvoiceDetailType extends AbstractType
     {
         $builder
             ->add('isCanceled')
-            ->add('receiveDetail', EntityHiddenType::class, array('class' => ReceiveDetail::class))
+            ->add('receiveDetail', EntityHiddenType::class, ['class' => ReceiveDetail::class])
         ;
     }
 
