@@ -42,9 +42,6 @@ class PurchaseOrderHeader extends TransactionHeader
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $shippingFee = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
@@ -113,7 +110,7 @@ class PurchaseOrderHeader extends TransactionHeader
 
     private function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal + $this->shippingFee;
+        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal;
         return $grandTotal;
     }
 
@@ -188,18 +185,6 @@ class PurchaseOrderHeader extends TransactionHeader
     public function setTaxNominal(string $taxNominal): self
     {
         $this->taxNominal = $taxNominal;
-
-        return $this;
-    }
-
-    public function getShippingFee(): ?string
-    {
-        return $this->shippingFee;
-    }
-
-    public function setShippingFee(string $shippingFee): self
-    {
-        $this->shippingFee = $shippingFee;
 
         return $this;
     }

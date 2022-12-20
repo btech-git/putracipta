@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseRequestDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,6 +25,9 @@ class PurchaseRequestDetail extends TransactionDetail
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestDetails')]
     private ?PurchaseRequestHeader $purchaseRequestHeader = null;
+
+    #[ORM\ManyToOne]
+    private ?Unit $unit = null;
 
     public function sync(): void
     {
@@ -74,6 +78,18 @@ class PurchaseRequestDetail extends TransactionDetail
     public function setPurchaseRequestHeader(?PurchaseRequestHeader $purchaseRequestHeader): self
     {
         $this->purchaseRequestHeader = $purchaseRequestHeader;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

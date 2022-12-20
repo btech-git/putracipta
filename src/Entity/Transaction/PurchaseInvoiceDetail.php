@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseInvoiceDetailRepository;
 use Doctrine\DBAL\Types\Types;
@@ -23,9 +24,6 @@ class PurchaseInvoiceDetail extends TransactionDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $unitPrice = '0.00';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $discount = '0.00';
-
     #[ORM\ManyToOne]
     private ?Material $material = null;
 
@@ -34,6 +32,9 @@ class PurchaseInvoiceDetail extends TransactionDetail
 
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
+
+    #[ORM\ManyToOne]
+    private ?Unit $unit = null;
 
     public function sync(): void
     {
@@ -48,7 +49,7 @@ class PurchaseInvoiceDetail extends TransactionDetail
 
     public function getTotal(): int
     {
-        return $this->quantity * $this->unitPrice * (1 - $this->discount / 100);
+        return $this->quantity * $this->unitPrice;
     }
 
     public function getId(): ?int
@@ -76,18 +77,6 @@ class PurchaseInvoiceDetail extends TransactionDetail
     public function setUnitPrice(string $unitPrice): self
     {
         $this->unitPrice = $unitPrice;
-
-        return $this;
-    }
-
-    public function getDiscount(): ?string
-    {
-        return $this->discount;
-    }
-
-    public function setDiscount(string $discount): self
-    {
-        $this->discount = $discount;
 
         return $this;
     }
@@ -124,6 +113,18 @@ class PurchaseInvoiceDetail extends TransactionDetail
     public function setPurchaseInvoiceHeader(?PurchaseInvoiceHeader $purchaseInvoiceHeader): self
     {
         $this->purchaseInvoiceHeader = $purchaseInvoiceHeader;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

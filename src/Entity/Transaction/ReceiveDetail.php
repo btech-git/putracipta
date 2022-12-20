@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,6 +36,9 @@ class ReceiveDetail extends TransactionDetail
 
     #[ORM\OneToMany(mappedBy: 'receiveDetail', targetEntity: PurchaseReturnDetail::class)]
     private Collection $purchaseReturnDetails;
+
+    #[ORM\ManyToOne]
+    private ?Unit $unit = null;
 
     public function __construct()
     {
@@ -143,6 +147,18 @@ class ReceiveDetail extends TransactionDetail
                 $purchaseReturnDetail->setReceiveDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

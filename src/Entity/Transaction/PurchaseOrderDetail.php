@@ -26,9 +26,6 @@ class PurchaseOrderDetail extends TransactionDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $unitPrice = '0.00';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $discount = '0.00';
-
     #[ORM\ManyToOne]
     private ?Material $material = null;
 
@@ -59,7 +56,7 @@ class PurchaseOrderDetail extends TransactionDetail
 
     public function getTotal(): int
     {
-        return $this->quantity * $this->unitPrice * (1 - $this->discount / 100);
+        return $this->quantity * $this->unitPrice;
     }
 
     public function getId(): ?int
@@ -87,18 +84,6 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setUnitPrice(string $unitPrice): self
     {
         $this->unitPrice = $unitPrice;
-
-        return $this;
-    }
-
-    public function getDiscount(): ?string
-    {
-        return $this->discount;
-    }
-
-    public function setDiscount(string $discount): self
-    {
-        $this->discount = $discount;
 
         return $this;
     }

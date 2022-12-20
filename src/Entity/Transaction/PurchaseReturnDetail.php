@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseReturnDetailRepository;
 use Doctrine\DBAL\Types\Types;
@@ -31,6 +32,9 @@ class PurchaseReturnDetail extends TransactionDetail
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
     private ?PurchaseReturnHeader $purchaseReturnHeader = null;
+
+    #[ORM\ManyToOne]
+    private ?Unit $unit = null;
 
     public function sync(): void
     {
@@ -109,6 +113,18 @@ class PurchaseReturnDetail extends TransactionDetail
     public function setPurchaseReturnHeader(?PurchaseReturnHeader $purchaseReturnHeader): self
     {
         $this->purchaseReturnHeader = $purchaseReturnHeader;
+
+        return $this;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }
