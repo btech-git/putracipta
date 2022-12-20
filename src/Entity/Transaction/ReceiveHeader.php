@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Supplier;
+use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,6 +36,9 @@ class ReceiveHeader extends TransactionHeader
 
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
     private Collection $purchaseReturnHeaders;
+
+    #[ORM\ManyToOne]
+    private ?Warehouse $warehouse = null;
 
     public function __construct()
     {
@@ -172,6 +176,18 @@ class ReceiveHeader extends TransactionHeader
                 $purchaseReturnHeader->setReceiveHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }
