@@ -17,7 +17,7 @@ class Product extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 60)]
     private ?string $code = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
