@@ -2,6 +2,8 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Entity\Transaction\ReceiveDetail;
 use App\Entity\Transaction\ReceiveHeader;
 use Symfony\Component\Form\AbstractType;
@@ -26,10 +28,7 @@ class ReceiveHeaderType extends AbstractType
                 'prototype_data' => new ReceiveDetail(),
                 'label' => false,
             ])
-            ->add('purchaseOrderHeader', null, [
-                'choice_label' => 'codeNumber',
-                'placeholder' => '',
-            ])
+            ->add('purchaseOrderHeader', EntityHiddenType::class, ['class' => PurchaseOrderHeader::class])
         ;
     }
 

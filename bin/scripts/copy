@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
-cp ./src/Controller/Transaction/PurchaseOrderHeaderController.php ./src/Controller/Transaction/PurchaseReturnHeaderController.php
-cp ./src/Form/Transaction/PurchaseOrderHeaderType.php ./src/Form/Transaction/PurchaseReturnHeaderType.php
-cp ./src/Form/Transaction/PurchaseOrderDetailType.php ./src/Form/Transaction/PurchaseReturnDetailType.php
-cp ./src/Service/Transaction/PurchaseOrderHeaderFormService.php ./src/Service/Transaction/PurchaseReturnHeaderFormService.php
-cp ./templates/transaction/purchase_order_header/_details_form.html.twig ./templates/transaction/purchase_return_header/_details_form.html.twig
-cp ./templates/transaction/purchase_order_header/_form.html.twig ./templates/transaction/purchase_return_header/_form.html.twig
-cp ./templates/transaction/purchase_order_header/_form.json.twig ./templates/transaction/purchase_return_header/_form.json.twig
-cp ./templates/transaction/purchase_order_header/edit.json.twig ./templates/transaction/purchase_return_header/edit.json.twig
-cp ./templates/transaction/purchase_order_header/new.json.twig ./templates/transaction/purchase_return_header/new.json.twig
+cp ./src/Controller/Transaction/PurchaseOrderHeaderController.php ./src/Controller/Transaction/PurchaseRequestHeaderController.php
+cp ./src/Form/Transaction/PurchaseOrderHeaderType.php ./src/Form/Transaction/PurchaseRequestHeaderType.php
+cp ./src/Form/Transaction/PurchaseOrderDetailType.php ./src/Form/Transaction/PurchaseRequestDetailType.php
+cp ./src/Service/Transaction/PurchaseOrderHeaderFormService.php ./src/Service/Transaction/PurchaseRequestHeaderFormService.php
+cp ./templates/transaction/purchase_order_header/_details_form.html.twig ./templates/transaction/purchase_request_header/_details_form.html.twig
+cp ./templates/transaction/purchase_order_header/_form.html.twig ./templates/transaction/purchase_request_header/_form.html.twig
+cp ./templates/transaction/purchase_order_header/_form.json.twig ./templates/transaction/purchase_request_header/_form.json.twig
+cp ./templates/transaction/purchase_order_header/edit.json.twig ./templates/transaction/purchase_request_header/edit.json.twig
+cp ./templates/transaction/purchase_order_header/new.json.twig ./templates/transaction/purchase_request_header/new.json.twig

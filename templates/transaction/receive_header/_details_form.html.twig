@@ -26,9 +26,6 @@
                 <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.purchaseOrderDetail.unit.name|default }}</td>
                 <td>
-                    {% if (detailForm.vars.value.id == null) %}
-                        <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
-                    {% endif %}
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
                             'attr': {

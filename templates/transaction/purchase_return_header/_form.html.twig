@@ -13,18 +13,23 @@
                     {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
                 <div class="col sm-6">
+                    <label for="{{ form.supplier.vars.id }}-text" class="form-label">Supplier</label>
                     {{ form_row(form.supplier, {
                         'attr': {
-                            'data-bs-toggle': 'modal',
-                            'data-bs-target': '#supplier-dialog',
                             'data-controller': 'dom-element',
-                            'data-action': 'mousedown->dom-element#doNothing:prevent supplier-table:data-table:select@document->dom-element#bind',
+                            'data-action': 'supplier-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.supplierId}">${$event.detail.supplierName}</option>`'}, 'condition': '!$destination.innerHTML.includes($content)'},
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierId'}}
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierId'}},
                             ]|json_encode,
                         },
                     }) }}
+                    <input type="text" id="{{ form.supplier.vars.id }}-text" class="form-control" value="{{ supplier.name|default }}" readonly="readonly"
+                           data-bs-toggle="modal" data-bs-target="#supplier-dialog"
+                           data-controller="dom-element"
+                           data-action="supplier-table:data-table:select@document->dom-element#bind"
+                           data-dom-element-bind-specifications-param="{{ [
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierName'}},
+                           ]|json_encode }}" />
                 </div>
             </div>
             <div class="row">

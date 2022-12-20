@@ -61,9 +61,9 @@ class DefaultController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function showProfile(User $user): Response
     {
-        return $this->render('default/show_profile.html.twig', array(
+        return $this->render('default/show_profile.html.twig', [
             'user' => $user,
-        ));
+        ]);
     }
 
     #[Route('/{id}/edit_profile', name: 'app_edit_profile', methods: ['GET', 'POST'])]
@@ -79,10 +79,10 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('app_show_profile', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('default/edit_profile.html.twig', array(
+        return $this->renderForm('default/edit_profile.html.twig', [
             'user' => $user,
             'form' => $form,
-        ));
+        ]);
     }
 
     #[Route('/{id}/change_password', name: 'app_change_password', methods: ['GET', 'POST'])]
@@ -106,9 +106,9 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('app_show_profile', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('default/change_password.html.twig', array(
+        return $this->renderForm('default/change_password.html.twig', [
             'user' => $user,
             'form' => $form,
-        ));
+        ]);
     }
 }

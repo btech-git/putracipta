@@ -32,9 +32,6 @@
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="purchaseInvoiceDetails.{{ detailForm.vars.name }}.total">{{ detailForm.vars.value.total|default|number_format(2) }}</td>
                 <td>
-                    {% if (detailForm.vars.value.id == null) %}
-                        <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
-                    {% endif %}
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
                             'attr': {
@@ -56,18 +53,19 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="6">Sub Total (After Tax)</td>
+            <td class="text-end" colspan="4">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="subTotalAfterTaxInclusion">
                 {{ purchaseInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
-        {#<tr>
-            <td class="text-end" colspan="6">
-                <span class="d-inline-block">Discount</span>
-                <span class="d-inline-block">{{ purchaseInvoiceHeader.discountValueType|default }}</span>
-                <span class="d-inline-block">{{ purchaseInvoiceHeader.discountValue|default }}</span>
+        <tr>
+            <td class="text-end" colspan="4">
+                Discount
+                {% if purchaseInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseInvoiceHeader) %}
+                    {{ purchaseInvoiceHeader.discountValue|default }}%
+                {% endif %}
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="discountNominal">
@@ -76,9 +74,14 @@
             <td></td>
         </tr>#}
         <tr>
-            <td class="text-end" colspan="6">
-                <span class="d-inline-block">Tax</span>
-                <span class="d-inline-block">{{ purchaseInvoiceHeader.taxMode|default }}</span>
+            <td class="text-end" colspan="4">
+                {% if purchaseInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseInvoiceHeader) %}
+                    Non Tax 0%
+                {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseInvoiceHeader) %}
+                    Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseInvoiceHeader) }}%
+                {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseInvoiceHeader) %}
+                    Include Tax {{ constant('VAT_PERCENTAGE', purchaseInvoiceHeader) }}%
+                {% endif %}
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="taxNominal">

@@ -2,6 +2,8 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Supplier;
 use App\Entity\Transaction\PurchaseReturnDetail;
 use App\Entity\Transaction\PurchaseReturnHeader;
 use Symfony\Component\Form\AbstractType;
@@ -36,10 +38,7 @@ class PurchaseReturnHeaderType extends AbstractType
                 'prototype_data' => new PurchaseReturnDetail(),
                 'label' => false,
             ])
-            ->add('supplier', null, [
-                'choice_label' => 'name',
-                'placeholder' => '',
-            ])
+            ->add('supplier', EntityHiddenType::class, ['class' => Supplier::class])
         ;
     }
 
