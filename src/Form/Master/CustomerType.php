@@ -21,7 +21,7 @@ class CustomerType extends AbstractType
             ->add('email')
             ->add('taxNumber')
             ->add('paymentTerm')
-            ->add('account')
+            ->add('account', null, ['choice_label' => 'name'])
             ->add('note')
             ->add('isBondedZone')
             ->add('isInactive')

@@ -16,7 +16,7 @@ class PurchaseReturnDetailType extends AbstractType
         $builder
             ->add('quantity')
             ->add('unitPrice')
-            ->add('discount')
+            ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
             ->add('isCanceled')
         ;

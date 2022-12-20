@@ -15,6 +15,7 @@ class PurchaseRequestDetailType extends AbstractType
     {
         $builder
             ->add('quantity')
+            ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
             ->add('isCanceled')
         ;

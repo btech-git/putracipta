@@ -2,8 +2,6 @@
 
 namespace App\Form\Transaction;
 
-use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Warehouse;
 use App\Entity\Transaction\PurchaseRequestDetail;
 use App\Entity\Transaction\PurchaseRequestHeader;
 use Symfony\Component\Form\AbstractType;
@@ -26,7 +24,7 @@ class PurchaseRequestHeaderType extends AbstractType
                 'prototype_data' => new PurchaseRequestDetail(),
                 'label' => false,
             ])
-            ->add('warehouse', EntityHiddenType::class, ['class' => Warehouse::class])
+            ->add('warehouse', null, ['choice_label' => 'name'])
         ;
     }
 

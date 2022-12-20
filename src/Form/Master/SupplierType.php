@@ -22,7 +22,7 @@ class SupplierType extends AbstractType
             ->add('taxNumber')
             ->add('paymentTerm')
             ->add('certification')
-            ->add('account')
+            ->add('account', null, ['choice_label' => 'name'])
             ->add('note')
             ->add('isInactive')
         ;
