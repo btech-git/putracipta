@@ -6,8 +6,10 @@
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Material Id</th>
+            <th>Kode</th>
             <th>Material Name</th>
             <th>Qty</th>
+            <th>Satuan</th>
             <th style="width: 0"></th>
         </tr>
     </thead>
@@ -15,8 +17,10 @@
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="materialId" data-item-identifier-value="{{ detailForm.vars.value.material.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
+                <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}
                         <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
@@ -42,7 +46,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="1">Total Quantity</td>
+            <td class="text-end" colspan="2">Total Quantity</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="totalQuantity">
                 {{ purchaseRequestHeader.totalQuantity|default|number_format(0) }}

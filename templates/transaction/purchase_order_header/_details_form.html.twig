@@ -11,7 +11,6 @@
             <th>Qty</th>
             <th>Satuan</th>
             <th>Harga</th>
-            <th>Disc (%)</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
@@ -34,7 +33,6 @@
                     }}) }}
                     <div id="{{ detailForm.unitPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</div>
                 </td>
-                <td>{{ form_row(detailForm.discount, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.total">
                     {{ detailForm.vars.value.total|default|number_format(2) }}
@@ -71,8 +69,8 @@
             </td>
             <td></td>
         </tr>
-        {#<tr>
-            <td class="text-end" colspan="4">
+        <tr>
+            <td class="text-end" colspan="5">
                 <span class="d-inline-block">Discount</span>
                 <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
                 <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
@@ -82,7 +80,7 @@
                 {{ purchaseOrderHeader.discountNominal|default|number_format(2) }}
             </td>
             <td></td>
-        </tr>#}
+        </tr>
         <tr>
             <td class="text-end" colspan="5">
                 <span class="d-inline-block">PPn</span>
@@ -91,17 +89,6 @@
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="taxNominal">
                 {{ purchaseOrderHeader.taxNominal|default|number_format(2) }}
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="text-end" colspan="5">
-                <span class="d-inline-block">Ongkos Kirim</span>
-                <span class="d-inline-block">{{ form_row(form.shippingFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
-            </td>
-            <td class="text-end" data-json-loader-target="placeholder"
-                data-property-path="shippingFee">
-                {{ purchaseOrderHeader.shippingFee|default|number_format(2) }}
             </td>
             <td></td>
         </tr>

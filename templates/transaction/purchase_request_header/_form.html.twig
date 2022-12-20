@@ -13,23 +13,7 @@
                     {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
                 <div class="col sm-6">
-                    <label for="{{ form.warehouse.vars.id }}-text" class="form-label">Warehouse</label>
-                    {{ form_row(form.warehouse, {
-                        'attr': {
-                            'data-controller': 'dom-element',
-                            'data-action': 'warehouse-table:data-table:select@document->dom-element#bind',
-                            'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.warehouseId'}},
-                            ]|json_encode,
-                        },
-                    }) }}
-                    <input type="text" id="{{ form.warehouse.vars.id }}-text" class="form-control" value="{{ purchaseRequestHeader.warehouse.name|default }}" readonly="readonly"
-                           data-bs-toggle="modal" data-bs-target="#warehouse-dialog"
-                           data-controller="dom-element"
-                           data-action="warehouse-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.warehouseName'}},
-                           ]|json_encode }}" />
+                    {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                 </div>
             </div>
             <div class="row">

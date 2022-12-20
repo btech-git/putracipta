@@ -11,7 +11,6 @@
             <th>Qty</th>
             <th>Satuan</th>
             <th>Price</th>
-            <th>Discount (%)</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
@@ -27,8 +26,6 @@
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.receiveDetail.purchaseOrderDetail.unit.name|default }}</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="purchaseInvoiceDetails.{{ detailForm.vars.name }}.unitPrice">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</td>
-                <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="purchaseInvoiceDetails.{{ detailForm.vars.name }}.discount">{{ detailForm.vars.value.discount|default|number_format(2) }}</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="purchaseInvoiceDetails.{{ detailForm.vars.name }}.total">{{ detailForm.vars.value.total|default|number_format(2) }}</td>
                 <td>
@@ -53,7 +50,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="4">Sub Total</td>
+            <td class="text-end" colspan="5">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="subTotalAfterTaxInclusion">
                 {{ purchaseInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
@@ -61,7 +58,8 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="4">
+            <td class="text-end" colspan="5" data-json-loader-target="placeholder"
+                data-property-path="discountInfo">
                 Discount
                 {% if purchaseInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseInvoiceHeader) %}
                     {{ purchaseInvoiceHeader.discountValue|default }}%
@@ -72,9 +70,10 @@
                 {{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}
             </td>
             <td></td>
-        </tr>#}
+        </tr>
         <tr>
-            <td class="text-end" colspan="4">
+            <td class="text-end" colspan="5" data-json-loader-target="placeholder"
+                data-property-path="taxInfo">
                 {% if purchaseInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseInvoiceHeader) %}
                     Non Tax 0%
                 {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseInvoiceHeader) %}
@@ -90,15 +89,7 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="6">Ongkos Kirim</td>
-            <td class="text-end" data-json-loader-target="placeholder"
-                data-property-path="shippingFee">
-                {{ purchaseInvoiceHeader.shippingFee|default|number_format(2) }}
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="text-end" colspan="6">Grand Total</td>
+            <td class="text-end" colspan="5">Grand Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="grandTotal">
                 {{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}

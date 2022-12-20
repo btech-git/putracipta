@@ -8,14 +8,8 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
-                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
-                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
-                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
+                <th role="button">
+                    Code Number
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
@@ -30,15 +24,7 @@
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
@@ -55,9 +41,7 @@
         <tbody>
             {% for purchaseOrderHeader in purchaseOrderHeaders %}
                 <tr>
-                    <td>{{ purchaseOrderHeader.codeNumberOrdinal }}</td>
-                    <td>{{ purchaseOrderHeader.codeNumberMonth }}</td>
-                    <td>{{ purchaseOrderHeader.codeNumberYear }}</td>
+                    <td>{{ purchaseOrderHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
                     <td>{{ purchaseOrderHeader.supplier.name }}</td>
                     <td>{{ purchaseOrderHeader.grandTotal }}</td>
@@ -69,7 +53,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

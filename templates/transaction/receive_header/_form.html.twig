@@ -14,24 +14,31 @@
                     {{ form_row(form.supplierDeliveryCodeNumber, {'label': 'Supplier SJ #'}) }}
                 </div>
                 <div class="col sm-6">
-                    <label for="{{ form.purchaseOrderHeader.vars.id }}-text" class="form-label">Purchase Order Header</label>
-                    {{ form_row(form.purchaseOrderHeader, {
-                        'label': 'PO #',
-                        'attr': {
-                            'data-controller': 'dom-element',
-                            'data-action': 'purchase-order-header-table:data-table:select@document->dom-element#bind',
-                            'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderId'}},
-                            ]|json_encode,
-                        },
-                    }) }}
-                    <input type="text" id="{{ form.purchaseOrderHeader.vars.id }}-text" class="form-control" value="{{ receiveHeader.purchaseOrderHeader.codeNumber|default }}" readonly="readonly"
-                           data-bs-toggle="modal" data-bs-target="#purchase-order-header-dialog"
-                           data-controller="dom-element"
-                           data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
-                           ]|json_encode }}" />
+                    <div class="mb-3">
+                        <label for="{{ form.purchaseOrderHeader.vars.id }}-text" class="form-label">PO #</label>
+                        {{ form_row(form.purchaseOrderHeader, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'purchase-order-header-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.purchaseOrderHeader.vars.id }}-text" class="form-control" value="{{ receiveHeader.purchaseOrderHeader.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#purchase-order-header-dialog"
+                               data-controller="dom-element"
+                               data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
+                               ]|json_encode }}" />
+                        <div data-controller="dom-element"
+                             data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierName'}},
+                             ]|json_encode }}">{{ receiveHeader.supplier.name|default }}</div>
+                    </div>
+                    {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                 </div>
             </div>
             <div class="row">
