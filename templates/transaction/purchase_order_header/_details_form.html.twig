@@ -6,10 +6,12 @@
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Material Id</th>
-            <th>Material Name</th>
+            <th>Kode</th>
+            <th>Nama Material</th>
             <th>Qty</th>
-            <th>Price</th>
-            <th>Discount (%)</th>
+            <th>Satuan</th>
+            <th>Harga</th>
+            <th>Disc (%)</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
@@ -18,8 +20,10 @@
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="materialId" data-item-identifier-value="{{ detailForm.vars.value.material.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
+                <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
                 <td>
                     {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
@@ -60,14 +64,14 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="4">Sub Total (After Tax)</td>
+            <td class="text-end" colspan="5">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="subTotalAfterTaxInclusion">
                 {{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
-        <tr>
+        {#<tr>
             <td class="text-end" colspan="4">
                 <span class="d-inline-block">Discount</span>
                 <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
@@ -78,10 +82,10 @@
                 {{ purchaseOrderHeader.discountNominal|default|number_format(2) }}
             </td>
             <td></td>
-        </tr>
+        </tr>#}
         <tr>
-            <td class="text-end" colspan="4">
-                <span class="d-inline-block">Tax</span>
+            <td class="text-end" colspan="5">
+                <span class="d-inline-block">PPn</span>
                 <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
@@ -91,7 +95,7 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="4">
+            <td class="text-end" colspan="5">
                 <span class="d-inline-block">Ongkos Kirim</span>
                 <span class="d-inline-block">{{ form_row(form.shippingFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
@@ -102,7 +106,7 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="4">Grand Total</td>
+            <td class="text-end" colspan="5">Grand Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="grandTotal">
                 {{ purchaseOrderHeader.grandTotal|default|number_format(2) }}
