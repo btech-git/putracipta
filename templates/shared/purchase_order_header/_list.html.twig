@@ -26,7 +26,6 @@
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                {#<th></th>#}
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -45,22 +44,26 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
-                {#<th></th>#}
             </tr>
         </thead>
         <tbody>
             {% for purchaseOrderHeader in purchaseOrderHeaders %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderHeader.purchaseOrderDetails|map(purchaseOrderDetail => {'purchaseOrderHeaderId': purchaseOrderHeader.id, 'purchaseOrderHeaderCodeNumber': purchaseOrderHeader.codeNumber, 'purchaseOrderDetailId': purchaseOrderDetail.id, 'materialName': purchaseOrderDetail.material.name, 'materialId': purchaseOrderDetail.material.id})|json_encode }}">
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderHeader.purchaseOrderDetails|map(purchaseOrderDetail => {
+                    'purchaseOrderHeaderId': purchaseOrderHeader.id,
+                    'purchaseOrderHeaderCodeNumber': purchaseOrderHeader.codeNumber,
+                    'supplierName': purchaseOrderHeader.supplier.name,
+                    'purchaseOrderDetailId': purchaseOrderDetail.id,
+                    'materialName': purchaseOrderDetail.material.name,
+                    'materialId': purchaseOrderDetail.material.id,
+                    'materialCode': purchaseOrderDetail.material.code,
+                    'unitName': purchaseOrderDetail.unit.name,
+                    'purchaseOrderDetailQuantity': purchaseOrderDetail.quantity})|json_encode }}">
                     <td>{{ purchaseOrderHeader.codeNumberOrdinal }}</td>
                     <td>{{ purchaseOrderHeader.codeNumberMonth }}</td>
                     <td>{{ purchaseOrderHeader.codeNumberYear }}</td>
                     <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
                     <td>{{ purchaseOrderHeader.supplier.name }}</td>
                     <td>{{ purchaseOrderHeader.note }}</td>
-                    {#<td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_show', {'id': purchaseOrderHeader.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
-                    </td>#}
                 </tr>
             {% else %}
                 <tr>
