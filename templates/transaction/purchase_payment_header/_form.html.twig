@@ -10,8 +10,8 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col sm-6">
-                    {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.paymentType) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.paymentType, {'label': 'Jenis Pembayaran'}) }}
                 </div>
                 <div class="col sm-6">
                     <label for="{{ form.supplier.vars.id }}-text" class="form-label">Supplier</label>

@@ -40,7 +40,7 @@
         </thead>
         <tbody>
             {% for material in materials %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'materialId': material.id, 'materialName': material.name}|json_encode }}">
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'materialId': material.id, 'materialCode': material.code, 'materialName': material.name}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ material.code }}</td>
                     <td>{{ material.name }}</td>

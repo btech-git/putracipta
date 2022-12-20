@@ -10,12 +10,12 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col sm-6">
-                    {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.invoiceTaxCodeNumber) }}
-                    {{ form_row(form.supplierInvoiceCodeNumber) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
+                    {{ form_row(form.supplierInvoiceCodeNumber, {'label': 'Supplier Invoice #'}) }}
                 </div>
                 <div class="col sm-6">
-                    <label for="{{ form.receiveHeader.vars.id }}-text" class="form-label">Receive Header</label>
+                    <label for="{{ form.receiveHeader.vars.id }}-text" class="form-label">Penerimaan #</label>
                     {{ form_row(form.receiveHeader, {
                         'attr': {
                             'data-controller': 'dom-element',
