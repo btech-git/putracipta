@@ -20,17 +20,12 @@
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'totalQuantity') }}>
-                    Total Quantity {{ grid.sort_char(form.sort.totalQuantity.vars.value) }}
-                </th>
+                <th>Supplier</th>
                 <th role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
-                    Supplier Delivery Code Number {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
+                    Supplier SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
                 </th>
                 <th></th>
             </tr>
@@ -47,17 +42,12 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'totalQuantity') }} value="{{ form.filter.totalQuantity.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -69,10 +59,9 @@
                     <td>{{ receiveHeader.codeNumberMonth }}</td>
                     <td>{{ receiveHeader.codeNumberYear }}</td>
                     <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ receiveHeader.totalQuantity }}</td>
+                    <td>{{ receiveHeader.supplier.name }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
                     <td>{{ receiveHeader.note }}</td>
-                    <td>{{ receiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_receive_header_show', {'id': receiveHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_receive_header_edit', {'id': receiveHeader.id}) }}">Edit</a>
@@ -80,7 +69,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="9">No records found</td>
+                    <td colspan="8">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

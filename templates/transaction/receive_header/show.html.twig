@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Receive Header' %}
+{% block title 'Show Receive' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_receive_header_index') }}">Manage</a>
@@ -11,39 +11,71 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ receiveHeader.codeNumberOrdinal }}</td>
+                <th>Penerimaan #</th>
+                <td>{{ receiveHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Code Number Month</th>
-                <td>{{ receiveHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ receiveHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
+                <th>Tanggal</th>
                 <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Total Quantity</th>
-                <td>{{ receiveHeader.totalQuantity }}</td>
+                <th>PO #</th>
+                <td>{{ receiveHeader.purchaseOrderHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Supplier Delivery Code Number</th>
+                <th>Tanggal PO</th>
+                <td>{{ receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Supplier</th>
+                <td>{{ receiveHeader.supplier.name}}</td>
+            </tr>
+            <tr>
+                <th>Supplier SJ #</th>
                 <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
-            </tr>
-            <tr>
-                <th>Is Canceled</th>
-                <td>{{ receiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ receiveHeader.note }}</td>
             </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ receiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                <th>Nama Material</th>
+                <th>Quantity Order</th>
+                <th>Quantity Sisa</th>
+                <th>Quantity Terima</th>
+                <th>Satuan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for receiveDetail in receiveHeader.receiveDetails %}
+                <tr>
+                    <td>{{ receiveDetail.material.code|default }}</td>
+                    <td>{{ receiveDetail.material.name|default }}</td>
+                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail.quantity|default }}</td>
+                    <td style="text-align: right">{{ receiveDetail.orderedQuantity|default }}</td>
+                    <td style="text-align: right">{{ receiveDetail.receivedQuantity|default }}</td>
+                    <td>{{ receiveDetail.purchaseOrderDetail.unit.name|default }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right"><strong>Total</strong></td>
+                <td style="text-align: right"><strong>{{ receiveHeader.totalQuantity|default }}</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    
     {{ include('transaction/receive_header/_delete_form.html.twig') }}
 {% endblock %}

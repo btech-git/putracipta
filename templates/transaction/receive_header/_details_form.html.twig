@@ -6,8 +6,12 @@
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Purchase Order Detail Id</th>
-            <th>Material Name</th>
-            <th>Qty</th>
+            <th>Kode</th>
+            <th>Nama Material</th>
+            <th>Qty Order</th>
+            <th>Qty Sisa</th>
+            <th>Qty Terima</th>
+            <th>Satuan</th>
             <th style="width: 0"></th>
         </tr>
     </thead>
@@ -15,8 +19,12 @@
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="purchaseOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.purchaseOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.purchaseOrderDetail, {'attr': {'data-item-field-name': 'purchaseOrderDetailId'}}) }}</td>
+                <td data-item-field-name="materialCode">{{ detailForm.vars.value.purchaseOrderDetail.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.purchaseOrderDetail.material.name|default }}</td>
+                <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default }}</td>
+                <td data-item-field-name="purchaseOrderDetailQuantityRemaining">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default }}</td>
                 <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td data-item-field-name="unitName">{{ detailForm.vars.value.purchaseOrderDetail.unit.name|default }}</td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}
                         <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
@@ -42,7 +50,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="1">Total Quantity</td>
+            <td class="text-end" colspan="4">Total Quantity</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="totalQuantity">
                 {{ receiveHeader.totalQuantity|default|number_format(0) }}
