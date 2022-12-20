@@ -16,6 +16,7 @@ class ReceiveHeaderType extends AbstractType
         $builder
             ->add('supplierDeliveryCodeNumber')
             ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('warehouse', null, ['choice_label' => 'name'])
             ->add('note')
             ->add('receiveDetails', CollectionType::class, [
                 'entry_type' => ReceiveDetailType::class,
