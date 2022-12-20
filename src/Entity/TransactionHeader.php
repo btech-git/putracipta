@@ -87,7 +87,7 @@ abstract class TransactionHeader
 
     private static function makeRomanNumerals(): array
     {
-        return array('', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII');
+        return ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
     }
 
     public function isIsCanceled(): ?bool

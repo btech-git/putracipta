@@ -37,6 +37,22 @@ class PurchaseRequestHeader extends TransactionHeader
         return 'PRQ';
     }
 
+    public function sync(): void
+    {
+        $this->totalQuantity = $this->getSyncTotalQuantity();
+    }
+
+    private function getSyncTotalQuantity(): int
+    {
+        $totalQuantity = 0;
+        foreach ($this->purchaseRequestDetails as $purchaseRequestDetail) {
+            if (!$purchaseRequestDetail->isIsCanceled()) {
+                $totalQuantity += $purchaseRequestDetail->getQuantity();
+            }
+        }
+        return $totalQuantity;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

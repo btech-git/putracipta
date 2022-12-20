@@ -25,6 +25,18 @@ class PurchaseRequestDetail extends TransactionDetail
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestDetails')]
     private ?PurchaseRequestHeader $purchaseRequestHeader = null;
 
+    public function sync(): void
+    {
+        $this->isCanceled = $this->getSyncIsCanceled();
+    }
+
+    private function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->purchaseRequestHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

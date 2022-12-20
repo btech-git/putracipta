@@ -18,7 +18,7 @@ class PurchasePaymentDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('account', null, ['choice_label' => 'name'])
-            ->add('purchaseInvoiceHeader', EntityHiddenType::class, array('class' => PurchaseInvoiceHeader::class))
+            ->add('purchaseInvoiceHeader', EntityHiddenType::class, ['class' => PurchaseInvoiceHeader::class])
         ;
     }
 

@@ -17,7 +17,7 @@ class PurchaseOrderDetailType extends AbstractType
             ->add('quantity')
             ->add('unitPrice')
             ->add('discount')
-            ->add('material', EntityHiddenType::class, array('class' => Material::class))
+            ->add('material', EntityHiddenType::class, ['class' => Material::class])
             ->add('isCanceled')
         ;
     }

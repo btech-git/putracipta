@@ -2,6 +2,8 @@
 
 namespace App\Form\Transaction;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Supplier;
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use Symfony\Component\Form\AbstractType;
@@ -36,10 +38,7 @@ class PurchaseOrderHeaderType extends AbstractType
                 'prototype_data' => new PurchaseOrderDetail(),
                 'label' => false,
             ])
-            ->add('supplier', null, [
-                'choice_label' => 'name',
-                'placeholder' => '',
-            ])
+            ->add('supplier', EntityHiddenType::class, ['class' => Supplier::class])
         ;
     }
 
