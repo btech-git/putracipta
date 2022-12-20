@@ -23,13 +23,13 @@
                     Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'invoiceTaxCodeNumber') }}>
-                    Invoice Tax Code Number {{ grid.sort_char(form.sort.invoiceTaxCodeNumber.vars.value) }}
+                    Faktur Pajak # {{ grid.sort_char(form.sort.invoiceTaxCodeNumber.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>
-                    Supplier Invoice Code Number {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
+                    Supplier Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
                     Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
@@ -43,7 +43,7 @@
                 <th role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
                     Remaining Payment {{ grid.sort_char(form.sort.remainingPayment.vars.value) }}
                 </th>
-                {#<th></th>#}S
+                {#<th></th>#}
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
@@ -82,7 +82,7 @@
         </thead>
         <tbody>
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'purchaseInvoiceHeaderId': purchaseInvoiceHeader.id, 'purchaseInvoiceHeaderCodeNumber': purchaseInvoiceHeader.codeNumber}|json_encode }}">
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'purchaseInvoiceHeaderId': purchaseInvoiceHeader.id, 'purchaseInvoiceHeaderCodeNumber': purchaseInvoiceHeader.codeNumber, 'purchaseInvoiceHeaderRemainingPayment': purchaseInvoiceHeader.remainingPayment}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseInvoiceHeader.codeNumberOrdinal }}</td>
                     <td>{{ purchaseInvoiceHeader.codeNumberMonth }}</td>
