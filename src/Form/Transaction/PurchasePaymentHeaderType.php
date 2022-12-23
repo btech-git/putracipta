@@ -18,6 +18,9 @@ class PurchasePaymentHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
+            ->add('referenceNumber')
+            ->add('referenceDate', null, ['widget' => 'single_text'])
+            ->add('currencyRate')
             ->add('supplier', EntityHiddenType::class, ['class' => Supplier::class])
             ->add('paymentType', null, ['choice_label' => 'name'])
             ->add('purchasePaymentDetails', CollectionType::class, [

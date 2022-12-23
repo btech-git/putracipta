@@ -19,6 +19,8 @@ class PurchaseInvoiceHeaderType extends AbstractType
             ->add('invoiceTaxCodeNumber')
             ->add('supplierInvoiceCodeNumber')
             ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('invoiceTaxDate', null, ['widget' => 'single_text'])
+            ->add('dueDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
             ->add('purchaseInvoiceDetails', CollectionType::class, [
