@@ -13,20 +13,11 @@
                         {'destinationsTarget': '#purchase-invoice-header-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
-                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
-                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
-                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
+                <th role="button">
+                    Supplier
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'invoiceTaxCodeNumber') }}>
-                    Faktur Pajak # {{ grid.sort_char(form.sort.invoiceTaxCodeNumber.vars.value) }}
+                    Tanggal Terima {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>
                     Supplier Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
@@ -47,20 +38,9 @@
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'invoiceTaxCodeNumber') }} value="{{ form.filter.invoiceTaxCodeNumber.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumber') }} value="{{ form.filter.supplierInvoiceCodeNumber.1.vars.value }}" />
@@ -82,13 +62,10 @@
         </thead>
         <tbody>
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'purchaseInvoiceHeaderId': purchaseInvoiceHeader.id, 'purchaseInvoiceHeaderCodeNumber': purchaseInvoiceHeader.codeNumber, 'purchaseInvoiceHeaderRemainingPayment': purchaseInvoiceHeader.remainingPayment}|json_encode }}">
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'purchaseInvoiceHeaderId': purchaseInvoiceHeader.id, 'purchaseInvoiceHeaderSupplierInvoiceNumber': purchaseInvoiceHeader.supplierInvoiceCodeNumber, 'purchaseInvoiceHeaderRemainingPayment': purchaseInvoiceHeader.remainingPayment}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
-                    <td>{{ purchaseInvoiceHeader.codeNumberOrdinal }}</td>
-                    <td>{{ purchaseInvoiceHeader.codeNumberMonth }}</td>
-                    <td>{{ purchaseInvoiceHeader.codeNumberYear }}</td>
+                    <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ purchaseInvoiceHeader.invoiceTaxCodeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.grandTotal }}</td>
                     <td>{{ purchaseInvoiceHeader.totalPayment }}</td>

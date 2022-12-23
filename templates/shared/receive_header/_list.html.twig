@@ -8,39 +8,35 @@
     <table class="table table-bordered table-striped" id="receive-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
-                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
-                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
-                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
+                <th role="button">
+                    Penerimaan #
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
+                <th role="button">
+                    PO #
+                </th>
                 <th>Supplier</th>
                 <th role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
-                    SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
+                    Supplier SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
             </tr>
         </thead>
@@ -49,16 +45,21 @@
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ receiveHeader.receiveDetails|map(receiveDetail => {
                     'receiveHeaderId': receiveHeader.id, 
                     'receiveHeaderCodeNumber': receiveHeader.codeNumber, 
+                    'purchaseOrderHeaderCodeNumber': receiveHeader.purchaseOrderHeader.codeNumber, 
+                    'supplierCompany': receiveHeader.purchaseOrderHeader.supplier.company,
+                    'supplierCurrency': receiveHeader.purchaseOrderHeader.supplier.currency.code,
+                    'supplierDeliveryCodeNumber': receiveHeader.supplierDeliveryCodeNumber,
+                    'supplierPaymentTerm': receiveHeader.purchaseOrderHeader.supplier.paymentTerm,
                     'receiveDetailId': receiveDetail.id, 
                     'materialName': receiveDetail.purchaseOrderDetail.material.name, 
                     'materialCode': receiveDetail.purchaseOrderDetail.material.code, 
                     'unitName': receiveDetail.purchaseOrderDetail.unit.name})|json_encode }}">
-                    <td>{{ receiveHeader.codeNumberOrdinal }}</td>
-                    <td>{{ receiveHeader.codeNumberMonth }}</td>
-                    <td>{{ receiveHeader.codeNumberYear }}</td>
+                    <td>{{ receiveHeader.codeNumber }}</td>
                     <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ receiveHeader.purchaseOrderHeader.supplier.name }}</td>
+                    <td>{{ receiveHeader.purchaseOrderHeader.codeNumber }}</td>
+                    <td>{{ receiveHeader.purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
+                    <td>{{ receiveHeader.note }}</td>
                 </tr>
             {% else %}
                 <tr>

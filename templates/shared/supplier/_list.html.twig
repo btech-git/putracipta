@@ -38,7 +38,7 @@
         </thead>
         <tbody>
             {% for supplier in suppliers %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'supplierId': supplier.id, 'supplierName': supplier.name}|json_encode }}">
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {'supplierId': supplier.id, 'supplierName': supplier.company, 'currencyCode': supplier.currency.code}|json_encode }}">
                     <td>{{ supplier.company }}</td>
                     <td>{{ supplier.name }}</td>
                     <td>{{ supplier.email }}</td>
