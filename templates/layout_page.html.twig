@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ include('_page_header.html.twig') }}
-    <div style="height: 72px"></div>
+    <div class="d-print-none">
+        {{ include('_page_header.html.twig') }}
+        <div style="height: 72px"></div>
+    </div>
     <div class="container">
-        <div class="row">
+        <div class="row d-print-none">
             <div class="col d-flex justify-content-start">
                 {% block tooltip %}
                     <h4>{{ block('title') }}</h4>
