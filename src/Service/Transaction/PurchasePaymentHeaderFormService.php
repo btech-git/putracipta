@@ -55,8 +55,8 @@ class PurchasePaymentHeaderFormService
     public function sync(PurchasePaymentHeader $purchasePaymentHeader): void
     {
         foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
-            $purchasePaymentDetail->sync();
+            $purchasePaymentDetail->setIsCanceled($purchasePaymentDetail->getSyncIsCanceled());
         }
-        $purchasePaymentHeader->sync();
+        $purchasePaymentHeader->setTotalAmount($purchasePaymentHeader->getSyncTotalAmount());
     }
 }

@@ -64,28 +64,19 @@ class PurchaseReturnHeader extends TransactionHeader
         return 'PRT';
     }
 
-    public function sync(): void
-    {
-        $this->subTotal = $this->getSyncSubTotal();
-        $this->taxPercentage = $this->getSyncTaxPercentage();
-        $this->subTotalAfterTaxInclusion = $this->getSyncSubTotalAfterTaxInclusion();
-        $this->taxNominal = $this->getSyncTaxNominal();
-        $this->grandTotal = $this->getSyncGrandTotal();
-    }
-
-    private function getSyncTaxPercentage(): int
+    public function getSyncTaxPercentage(): int
     {
         $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
         return $taxPercentage;
     }
 
-    private function getSyncTaxNominal(): string
+    public function getSyncTaxNominal(): string
     {
         $taxNominal = $this->subTotalAfterTaxInclusion * $this->taxPercentage / 100;
         return $taxNominal;
     }
 
-    private function getSyncSubTotal(): string
+    public function getSyncSubTotal(): string
     {
         $subTotal = '0.00';
         foreach ($this->purchaseReturnDetails as $purchaseReturnDetail) {
@@ -96,13 +87,13 @@ class PurchaseReturnHeader extends TransactionHeader
         return $subTotal;
     }
 
-    private function getSyncSubTotalAfterTaxInclusion(): string
+    public function getSyncSubTotalAfterTaxInclusion(): string
     {
         $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
         return $subTotalAfterTaxInclusion;
     }
 
-    private function getSyncGrandTotal(): string
+    public function getSyncGrandTotal(): string
     {
         $grandTotal = $this->subTotalAfterTaxInclusion + $this->taxNominal + $this->shippingFee;
         return $grandTotal;

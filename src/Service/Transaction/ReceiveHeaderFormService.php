@@ -55,8 +55,8 @@ class ReceiveHeaderFormService
     public function sync(ReceiveHeader $receiveHeader): void
     {
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $receiveDetail->sync();
+            $receiveDetail->setIsCanceled($receiveDetail->getSyncIsCanceled());
         }
-        $receiveHeader->sync();
+        $receiveHeader->setTotalQuantity($receiveHeader->getSyncTotalQuantity());
     }
 }

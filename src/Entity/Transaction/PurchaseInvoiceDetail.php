@@ -36,12 +36,7 @@ class PurchaseInvoiceDetail extends TransactionDetail
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
 
-    public function sync(): void
-    {
-        $this->isCanceled = $this->getSyncIsCanceled();
-    }
-
-    private function getSyncIsCanceled(): bool
+    public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->purchaseInvoiceHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;

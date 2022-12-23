@@ -55,8 +55,12 @@ class PurchaseReturnHeaderFormService
     public function sync(PurchaseReturnHeader $purchaseReturnHeader): void
     {
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
-            $purchaseReturnDetail->sync();
+            $purchaseReturnDetail->setIsCanceled($purchaseReturnDetail->getSyncIsCanceled());
         }
-        $purchaseReturnHeader->sync();
+        $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
+        $purchaseReturnHeader->setTaxPercentage($purchaseReturnHeader->getSyncTaxPercentage());
+        $purchaseReturnHeader->setSubTotalAfterTaxInclusion($purchaseReturnHeader->getSyncSubTotalAfterTaxInclusion());
+        $purchaseReturnHeader->setTaxNominal($purchaseReturnHeader->getSyncTaxNominal());
+        $purchaseReturnHeader->setGrandTotal($purchaseReturnHeader->getSyncGrandTotal());
     }
 }

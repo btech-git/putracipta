@@ -55,8 +55,12 @@ class PurchaseOrderHeaderFormService
     public function sync(PurchaseOrderHeader $purchaseOrderHeader): void
     {
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $purchaseOrderDetail->sync();
+            $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
         }
-        $purchaseOrderHeader->sync();
+        $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
+        $purchaseOrderHeader->setTaxPercentage($purchaseOrderHeader->getSyncTaxPercentage());
+        $purchaseOrderHeader->setSubTotalAfterTaxInclusion($purchaseOrderHeader->getSyncSubTotalAfterTaxInclusion());
+        $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
+        $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
     }
 }

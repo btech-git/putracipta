@@ -55,8 +55,8 @@ class PurchaseRequestHeaderFormService
     public function sync(PurchaseRequestHeader $purchaseRequestHeader): void
     {
         foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
-            $purchaseRequestDetail->sync();
+            $purchaseRequestDetail->setIsCanceled($purchaseRequestDetail->getSyncIsCanceled());
         }
-        $purchaseRequestHeader->sync();
+        $purchaseRequestHeader->setTotalQuantity($purchaseRequestHeader->getSyncTotalQuantity());
     }
 }
