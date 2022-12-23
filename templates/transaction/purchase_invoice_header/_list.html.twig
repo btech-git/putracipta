@@ -8,26 +8,17 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
-                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
-                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
-                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
+                <th role="button">
+                    Invoice #
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'invoiceTaxCodeNumber') }}>
-                    Invoice Tax Code Number {{ grid.sort_char(form.sort.invoiceTaxCodeNumber.vars.value) }}
+                <th role="button">
+                    Supplier
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>
-                    Supplier Invoice Code Number {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
+                    Supplier Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
                     Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
@@ -41,30 +32,14 @@
                 <th role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
                     Remaining Payment {{ grid.sort_char(form.sort.remainingPayment.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
-                </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'invoiceTaxCodeNumber') }} value="{{ form.filter.invoiceTaxCodeNumber.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumber') }} value="{{ form.filter.supplierInvoiceCodeNumber.1.vars.value }}" />
                 </th>
@@ -80,27 +55,20 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'remainingPayment') }} value="{{ form.filter.remainingPayment.1.vars.value }}" />
                 </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
-                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
                 <tr>
-                    <td>{{ purchaseInvoiceHeader.codeNumberOrdinal }}</td>
-                    <td>{{ purchaseInvoiceHeader.codeNumberMonth }}</td>
-                    <td>{{ purchaseInvoiceHeader.codeNumberYear }}</td>
+                    <td>{{ purchaseInvoiceHeader.codeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ purchaseInvoiceHeader.note }}</td>
-                    <td>{{ purchaseInvoiceHeader.invoiceTaxCodeNumber }}</td>
+                    <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.grandTotal }}</td>
                     <td>{{ purchaseInvoiceHeader.totalPayment }}</td>
                     <td>{{ purchaseInvoiceHeader.totalReturn }}</td>
                     <td>{{ purchaseInvoiceHeader.remainingPayment }}</td>
-                    <td>{{ purchaseInvoiceHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_invoice_header_show', {'id': purchaseInvoiceHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchaseInvoiceHeader.id}) }}">Edit</a>
@@ -108,7 +76,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="21">No records found</td>
+                    <td colspan="9">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

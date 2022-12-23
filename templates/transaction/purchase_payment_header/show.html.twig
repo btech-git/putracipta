@@ -20,7 +20,23 @@
             </tr>
             <tr>
                 <th>Supplier</th>
-                <td>{{ purchasePaymentHeader.supplier.name }}</td>
+                <td>{{ purchasePaymentHeader.supplier.company }}</td>
+            </tr>
+            <tr>
+                <th>Cek / Giro #</th>
+                <td>{{ purchasePaymentHeader.referenceNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Cek / Giro</th>
+                <td>{{ purchasePaymentHeader.referenceDate ? purchasePaymentHeader.referenceDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Currency</th>
+                <td>{{ purchasePaymentHeader.supplier.currency.name }}</td>
+            </tr>
+            <tr>
+                <th>Kurs Mata Uang</th>
+                <td>{{ purchasePaymentHeader.currencyRate }}</td>
             </tr>
             <tr>
                 <th>Jenis Pembayaran</th>
@@ -41,19 +57,19 @@
         <thead>
             <tr class="bg-info">
                 <th>Invoice #</th>
+                <th>Jatuh Tempo</th>
                 <th>Memo</th>
                 <th>Akun</th>
-                <th>Total Invoice</th>
                 <th>Amount</th>
             </tr>
         </thead>
         <tbody>
             {% for purchasePaymentDetail in purchasePaymentHeader.purchasePaymentDetails %}
                 <tr>
-                    <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.getCodeNumber|default }}</td>
+                    <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
+                    <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
                     <td>{{ purchasePaymentDetail.memo|default }}</td>
                     <td>{{ purchasePaymentDetail.account.name|default }}</td>
-                    <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
                 </tr>
             {% endfor %}

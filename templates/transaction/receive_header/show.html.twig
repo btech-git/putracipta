@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <th>Supplier</th>
-                <td>{{ receiveHeader.supplier.name}}</td>
+                <td>{{ receiveHeader.purchaseOrderHeader.supplier.company}}</td>
             </tr>
             <tr>
                 <th>Supplier SJ #</th>
@@ -59,8 +59,8 @@
         <tbody>
             {% for receiveDetail in receiveHeader.receiveDetails %}
                 <tr>
-                    <td>{{ receiveDetail.material.code|default }}</td>
-                    <td>{{ receiveDetail.material.name|default }}</td>
+                    <td>{{ receiveDetail.purchaseOrderDetail.material.code|default }}</td>
+                    <td>{{ receiveDetail.purchaseOrderDetail.material.name|default }}</td>
                     <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail.quantity|default }}</td>
                     <td style="text-align: right">{{ receiveDetail.orderedQuantity|default }}</td>
                     <td style="text-align: right">{{ receiveDetail.receivedQuantity|default }}</td>

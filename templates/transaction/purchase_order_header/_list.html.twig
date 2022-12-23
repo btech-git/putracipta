@@ -9,7 +9,7 @@
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th role="button">
-                    Code Number
+                    PO #
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
@@ -43,7 +43,7 @@
                 <tr>
                     <td>{{ purchaseOrderHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ purchaseOrderHeader.supplier.name }}</td>
+                    <td>{{ purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ purchaseOrderHeader.grandTotal }}</td>
                     <td>{{ purchaseOrderHeader.note }}</td>
                     <td>

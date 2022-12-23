@@ -18,7 +18,7 @@
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="purchaseInvoiceHeaderId" data-item-identifier-value="{{ detailForm.vars.value.purchaseInvoiceHeader.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.purchaseInvoiceHeader, {'attr': {'data-item-field-name': 'purchaseInvoiceHeaderId'}}) }}</td>
-                <td data-item-field-name="purchaseInvoiceHeaderCodeNumber">{{ detailForm.vars.value.purchaseInvoiceHeader.codeNumber|default }}</td>
+                <td data-item-field-name="purchaseInvoiceHeaderSupplierInvoiceNumber">{{ detailForm.vars.value.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>{{ form_row(detailForm.account, {'label': false}) }}</td>
                 <td data-item-field-name="purchaseInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.purchaseInvoiceHeader.remainingPayment|default }}</td>

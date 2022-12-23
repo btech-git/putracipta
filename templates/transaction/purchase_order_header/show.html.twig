@@ -15,12 +15,24 @@
                 <td>{{ purchaseOrderHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Tanggal</th>
+                <th>Tanggal PO</th>
                 <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
+                <th>Tanggal Kirim</th>
+                <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.deliveryDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Supplier</th>
-                <td>{{ purchaseOrderHeader.supplier.name }}</td>
+                <td>{{ purchaseOrderHeader.supplier.company }}</td>
+            </tr>
+            <tr>
+                <th>TOP (days)</th>
+                <td>{{ purchaseOrderHeader.supplier.paymentTerm }}</td>
+            </tr>
+            <tr>
+                <th>Currency</th>
+                <td>{{ purchaseOrderHeader.supplier.currency.name }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -36,12 +48,11 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="bg-info">
-                <th>Kode</th>
-                <th>Nama Material</th>
+                <th>Item Code</th>
+                <th>Description</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
                 <th>Harga</th>
-                <th>Disc (%)</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -53,26 +64,25 @@
                     <td style="text-align: right">{{ purchaseOrderDetail.quantity|default }}</td>
                     <td>{{ purchaseOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderDetail.discount|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>Sub Total</strong></td>
+                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>{{ purchaseOrderHeader.taxMode|default }} {{ purchaseOrderHeader.taxPercentage|default }}%</strong></td>
+                <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>{{ purchaseOrderHeader.taxMode|default }} {{ purchaseOrderHeader.taxPercentage|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>Ongkos Kirim</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderHeader.shippingFee|default|number_format(2) }}</strong></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
             </tr>
         </tfoot>

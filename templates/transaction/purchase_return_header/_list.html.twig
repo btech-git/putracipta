@@ -8,102 +8,29 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'taxMode') }}>
-                    Tax Mode {{ grid.sort_char(form.sort.taxMode.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'taxPercentage') }}>
-                    Tax Percentage {{ grid.sort_char(form.sort.taxPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'taxNominal') }}>
-                    Tax Nominal {{ grid.sort_char(form.sort.taxNominal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'shippingFee') }}>
-                    Shipping Fee {{ grid.sort_char(form.sort.shippingFee.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'subTotal') }}>
-                    Sub Total {{ grid.sort_char(form.sort.subTotal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'subTotalAfterTaxInclusion') }}>
-                    Sub Total After Tax Inclusion {{ grid.sort_char(form.sort.subTotalAfterTaxInclusion.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
-                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
-                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
-                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'createdTransactionDateTime') }}>
-                    Created Transaction Date Time {{ grid.sort_char(form.sort.createdTransactionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'modifiedTransactionDateTime') }}>
-                    Modified Transaction Date Time {{ grid.sort_char(form.sort.modifiedTransactionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'approvedTransactionDateTime') }}>
-                    Approved Transaction Date Time {{ grid.sort_char(form.sort.approvedTransactionDateTime.vars.value) }}
+                <th role="button">
+                    Retur Pembelian #
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button">
+                    Supplier
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
+                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
+                </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'taxMode') }} value="{{ form.filter.taxMode.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'taxPercentage') }} value="{{ form.filter.taxPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'taxNominal') }} value="{{ form.filter.taxNominal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'shippingFee') }} value="{{ form.filter.shippingFee.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'subTotal') }} value="{{ form.filter.subTotal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'subTotalAfterTaxInclusion') }} value="{{ form.filter.subTotalAfterTaxInclusion.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'createdTransactionDateTime') }} value="{{ form.filter.createdTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'modifiedTransactionDateTime') }} value="{{ form.filter.modifiedTransactionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'approvedTransactionDateTime') }} value="{{ form.filter.approvedTransactionDateTime.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -113,22 +40,11 @@
         <tbody>
             {% for purchaseReturnHeader in purchaseReturnHeaders %}
                 <tr>
-                    <td>{{ purchaseReturnHeader.taxMode }}</td>
-                    <td>{{ purchaseReturnHeader.taxPercentage }}</td>
-                    <td>{{ purchaseReturnHeader.taxNominal }}</td>
-                    <td>{{ purchaseReturnHeader.shippingFee }}</td>
-                    <td>{{ purchaseReturnHeader.subTotal }}</td>
-                    <td>{{ purchaseReturnHeader.subTotalAfterTaxInclusion }}</td>
-                    <td>{{ purchaseReturnHeader.grandTotal }}</td>
-                    <td>{{ purchaseReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
-                    <td>{{ purchaseReturnHeader.codeNumberOrdinal }}</td>
-                    <td>{{ purchaseReturnHeader.codeNumberMonth }}</td>
-                    <td>{{ purchaseReturnHeader.codeNumberYear }}</td>
-                    <td>{{ purchaseReturnHeader.createdTransactionDateTime ? purchaseReturnHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ purchaseReturnHeader.modifiedTransactionDateTime ? purchaseReturnHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ purchaseReturnHeader.approvedTransactionDateTime ? purchaseReturnHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ purchaseReturnHeader.codeNumber }}</td>
                     <td>{{ purchaseReturnHeader.transactionDate ? purchaseReturnHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseReturnHeader.supplier.company }}</td>
                     <td>{{ purchaseReturnHeader.note }}</td>
+                    <td>{{ purchaseReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_return_header_show', {'id': purchaseReturnHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_return_header_edit', {'id': purchaseReturnHeader.id}) }}">Edit</a>
@@ -136,7 +52,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="17">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

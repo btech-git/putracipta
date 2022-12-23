@@ -35,8 +35,8 @@
                         <div data-controller="dom-element"
                              data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierName'}},
-                             ]|json_encode }}">{{ receiveHeader.supplier.name|default }}</div>
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCompany'}},
+                             ]|json_encode }}">{{ receiveHeader.supplier.company|default }}</div>
                     </div>
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                 </div>
