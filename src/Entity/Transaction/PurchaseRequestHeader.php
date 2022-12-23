@@ -19,7 +19,7 @@ class PurchaseRequestHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $totalQuantity = null;
+    private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;

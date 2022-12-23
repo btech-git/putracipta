@@ -2,6 +2,7 @@
 
 namespace App\Entity\Transaction;
 
+use App\Entity\Master\Currency;
 use App\Entity\Master\Supplier;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
@@ -20,6 +21,10 @@ class PurchaseOrderHeader extends TransactionHeader
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const VAT_PERCENTAGE = 11;
+    public const TRANSACTION_STATUS_DRAFT = 'draft';
+    public const TRANSACTION_STATUS_APPROVE = 'approve';
+    public const TRANSACTION_STATUS_PARTIAL_RECEIVE = 'partial_receive';
+    public const TRANSACTION_STATUS_FULL_RECEIVE = 'full_receive';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -58,6 +63,15 @@ class PurchaseOrderHeader extends TransactionHeader
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deliveryDate = null;
+
+    #[ORM\ManyToOne]
+    private ?Currency $currency = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     public function __construct()
     {
@@ -293,6 +307,42 @@ class PurchaseOrderHeader extends TransactionHeader
                 $receiveHeader->setPurchaseOrderHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(\DateTimeInterface $deliveryDate): self
+    {
+        $this->deliveryDate = $deliveryDate;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?Currency $currency): self
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
 
         return $this;
     }

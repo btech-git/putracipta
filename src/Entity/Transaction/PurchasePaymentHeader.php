@@ -30,7 +30,16 @@ class PurchasePaymentHeader extends TransactionHeader
     private Collection $purchasePaymentDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $totalAmount = null;
+    private ?string $totalAmount = '0.00';
+
+    #[ORM\Column(length: 60)]
+    private ?string $referenceNumber = '';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
+    private ?string $currencyRate = '0.00';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $referenceDate = null;
 
     public function __construct()
     {
@@ -125,6 +134,42 @@ class PurchasePaymentHeader extends TransactionHeader
     public function setTotalAmount(string $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    public function getReferenceNumber(): ?string
+    {
+        return $this->referenceNumber;
+    }
+
+    public function setReferenceNumber(string $referenceNumber): self
+    {
+        $this->referenceNumber = $referenceNumber;
+
+        return $this;
+    }
+
+    public function getCurrencyRate(): ?string
+    {
+        return $this->currencyRate;
+    }
+
+    public function setCurrencyRate(string $currencyRate): self
+    {
+        $this->currencyRate = $currencyRate;
+
+        return $this;
+    }
+
+    public function getReferenceDate(): ?\DateTimeInterface
+    {
+        return $this->referenceDate;
+    }
+
+    public function setReferenceDate(?\DateTimeInterface $referenceDate): self
+    {
+        $this->referenceDate = $referenceDate;
 
         return $this;
     }

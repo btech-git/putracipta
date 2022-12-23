@@ -20,6 +20,9 @@ class PurchaseInvoiceHeader extends TransactionHeader
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const VAT_PERCENTAGE = 11;
+    public const TRANSACTION_STATUS_INVOICING = 'invoicing';
+    public const TRANSACTION_STATUS_PARTIAL_PAYMENT = 'partial_payment';
+    public const TRANSACTION_STATUS_FULL_PAYMENT = 'full_payment';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -76,6 +79,15 @@ class PurchaseInvoiceHeader extends TransactionHeader
 
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchasePaymentDetail::class)]
     private Collection $purchasePaymentDetails;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dueDate = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $invoiceTaxDate = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = self::TRANSACTION_STATUS_INVOICING;
 
     public function __construct()
     {
@@ -383,6 +395,42 @@ class PurchaseInvoiceHeader extends TransactionHeader
                 $purchasePaymentDetail->setPurchaseInvoiceHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInvoiceTaxDate(): ?\DateTimeInterface
+    {
+        return $this->invoiceTaxDate;
+    }
+
+    public function setInvoiceTaxDate(?\DateTimeInterface $invoiceTaxDate): self
+    {
+        $this->invoiceTaxDate = $invoiceTaxDate;
+
+        return $this;
+    }
+
+    public function getDueDate(): ?\DateTimeInterface
+    {
+        return $this->dueDate;
+    }
+
+    public function setDueDate(?\DateTimeInterface $dueDate): self
+    {
+        $this->dueDate = $dueDate;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
 
         return $this;
     }
