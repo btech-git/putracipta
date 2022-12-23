@@ -107,4 +107,17 @@ class PurchaseOrderHeaderController extends AbstractController
 
         return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
     }
+    
+    #[Route('/{id}/memo', name: 'app_transaction_purchase_order_header_memo', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memo(Request $request, PurchaseOrderHeader $purchaseOrderHeader)
+    {
+        $show = $request->query->getBoolean('show', false);
+
+        return $this->render('transaction/purchase_order_header/memo.html.twig', array(
+            'purchaseOrderHeader' => $purchaseOrderHeader,
+            'show' => $show,
+        ));
+    }
+
 }
