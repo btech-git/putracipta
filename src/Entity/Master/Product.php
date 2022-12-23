@@ -18,13 +18,13 @@ class Product extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
-    private ?string $code = null;
+    private ?string $code = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $sellingPrice = null;
+    private ?string $sellingPrice = '0.00';
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $minimumStock = null;
+    private ?int $minimumStock = 0;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?ProductCategory $productCategory = null;

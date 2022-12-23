@@ -18,7 +18,7 @@ class AccountCategory extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $code = null;
+    private ?string $code = '';
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'accountCategories')]
     private ?self $accountCategory = null;

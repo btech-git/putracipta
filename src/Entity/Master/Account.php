@@ -18,7 +18,7 @@ class Account extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $code = null;
+    private ?string $code = '';
 
     #[ORM\ManyToOne(inversedBy: 'accounts')]
     #[ORM\JoinColumn(nullable: false)]

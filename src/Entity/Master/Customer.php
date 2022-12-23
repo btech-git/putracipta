@@ -19,22 +19,22 @@ class Customer extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $code = null;
+    private ?string $code = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $company = null;
+    private ?string $company = '';
 
     #[ORM\Column(length: 20)]
-    private ?string $phone = null;
+    private ?string $phone = '';
 
     #[ORM\Column(length: 60)]
-    private ?string $email = null;
+    private ?string $email = '';
 
     #[ORM\Column(length: 20)]
-    private ?string $taxNumber = null;
+    private ?string $taxNumber = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
+    private ?string $note = '';
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
     private ?Account $account = null;
@@ -43,16 +43,19 @@ class Customer extends Master
     private Collection $products;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery = null;
+    private ?string $addressDelivery = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressInvoice = null;
+    private ?string $addressInvoice = '';
 
     #[ORM\Column]
-    private ?int $paymentTerm = null;
+    private ?int $paymentTerm = 0;
 
     #[ORM\Column]
-    private ?bool $isBondedZone = null;
+    private ?bool $isBondedZone = false;
+
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    private ?Currency $currency = null;
 
     public function __construct()
     {
@@ -222,6 +225,18 @@ class Customer extends Master
     public function setIsBondedZone(bool $isBondedZone): self
     {
         $this->isBondedZone = $isBondedZone;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?Currency $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }

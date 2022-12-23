@@ -18,37 +18,40 @@ class Supplier extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $code = null;
+    private ?string $code = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $company = null;
+    private ?string $company = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $address = null;
+    private ?string $address = '';
 
     #[ORM\Column(length: 20)]
-    private ?string $phone = null;
+    private ?string $phone = '';
 
     #[ORM\Column(length: 60)]
-    private ?string $email = null;
+    private ?string $email = '';
 
     #[ORM\Column(length: 20)]
-    private ?string $taxNumber = null;
+    private ?string $taxNumber = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
+    private ?string $note = '';
 
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     private ?Account $account = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $fax = null;
+    private ?string $fax = '';
 
     #[ORM\Column]
-    private ?int $paymentTerm = null;
+    private ?int $paymentTerm = 0;
 
     #[ORM\Column(length: 60)]
-    private ?string $certification = null;
+    private ?string $certification = '';
+
+    #[ORM\ManyToOne(inversedBy: 'suppliers')]
+    private ?Currency $currency = null;
 
     public function __construct()
     {
@@ -188,6 +191,18 @@ class Supplier extends Master
     public function setCertification(string $certification): self
     {
         $this->certification = $certification;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?Currency $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }
