@@ -66,8 +66,12 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPrice());
         }
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
-            $purchaseInvoiceDetail->sync();
+            $purchaseInvoiceDetail->setIsCanceled($purchaseInvoiceDetail->getSyncIsCanceled());
         }
-        $purchaseInvoiceHeader->sync();
+        $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
+        $purchaseInvoiceHeader->setTaxPercentage($purchaseInvoiceHeader->getSyncTaxPercentage());
+        $purchaseInvoiceHeader->setSubTotalAfterTaxInclusion($purchaseInvoiceHeader->getSyncSubTotalAfterTaxInclusion());
+        $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
+        $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
     }
 }

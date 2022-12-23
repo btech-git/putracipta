@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\MappedSuperclass]
 abstract class TransactionHeader
 {
+    public const MONTH_ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
     #[ORM\Column]
     protected ?bool $isCanceled = false;
 
@@ -49,14 +51,14 @@ abstract class TransactionHeader
 
     public function getCodeNumber(): string
     {
-        $numerals = self::makeRomanNumerals();
+        $numerals = self::MONTH_ROMAN_NUMERALS;
 
         return sprintf('%04d/%s/%s/%02d', intval($this->codeNumberOrdinal), $this->getCodeNumberConstant(), $numerals[intval($this->codeNumberMonth)], intval($this->codeNumberYear));
     }
 
     public function setCodeNumber($codeNumber): self
     {
-        $nums = array_flip(self::makeRomanNumerals());
+        $nums = array_flip(self::MONTH_ROMAN_NUMERALS);
 
         list($ordinal, , $month, $year) = explode('/', $codeNumber);
 
@@ -83,11 +85,6 @@ abstract class TransactionHeader
         $this->codeNumberYear = $cnYear;
 
         return $this;
-    }
-
-    private static function makeRomanNumerals(): array
-    {
-        return ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
     }
 
     public function isIsCanceled(): ?bool

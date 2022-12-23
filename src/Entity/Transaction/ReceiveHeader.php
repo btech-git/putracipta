@@ -51,12 +51,7 @@ class ReceiveHeader extends TransactionHeader
         return 'RCV';
     }
 
-    public function sync(): void
-    {
-        $this->totalQuantity = $this->getSyncTotalQuantity();
-    }
-
-    private function getSyncTotalQuantity(): int
+    public function getSyncTotalQuantity(): int
     {
         $totalQuantity = 0;
         foreach ($this->receiveDetails as $receiveDetail) {

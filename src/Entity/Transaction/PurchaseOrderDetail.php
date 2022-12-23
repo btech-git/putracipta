@@ -43,12 +43,7 @@ class PurchaseOrderDetail extends TransactionDetail
         $this->receiveDetails = new ArrayCollection();
     }
 
-    public function sync(): void
-    {
-        $this->isCanceled = $this->getSyncIsCanceled();
-    }
-
-    private function getSyncIsCanceled(): bool
+    public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->purchaseOrderHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;

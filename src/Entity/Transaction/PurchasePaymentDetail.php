@@ -32,12 +32,7 @@ class PurchasePaymentDetail extends TransactionDetail
     #[ORM\ManyToOne(inversedBy: 'purchasePaymentDetails')]
     private ?PurchasePaymentHeader $purchasePaymentHeader = null;
 
-    public function sync(): void
-    {
-        $this->isCanceled = $this->getSyncIsCanceled();
-    }
-
-    private function getSyncIsCanceled(): bool
+    public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->purchasePaymentHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;

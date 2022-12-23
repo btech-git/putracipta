@@ -51,12 +51,7 @@ class PurchasePaymentHeader extends TransactionHeader
         return 'PPY';
     }
 
-    public function sync(): void
-    {
-        $this->totalAmount = $this->getSyncTotalAmount();
-    }
-
-    private function getSyncTotalAmount(): string
+    public function getSyncTotalAmount(): string
     {
         $totalAmount = '0.00';
         foreach ($this->purchasePaymentDetails as $purchasePaymentDetail) {
