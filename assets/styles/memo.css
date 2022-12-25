@@ -75,7 +75,7 @@
 .memo .header
 {
     font-weight: bold;
-    text-align: center;
+    text-align: left;
 }
 
 .memo .header h1.title, .memo .header h2.title, .memo .header h3.title
