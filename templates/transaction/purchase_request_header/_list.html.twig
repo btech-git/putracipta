@@ -15,9 +15,6 @@
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th role="button">
-                    Supplier
-                </th>
-                <th role="button">
                     Warehouse
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
@@ -31,7 +28,6 @@
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
-                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -43,7 +39,6 @@
                 <tr>
                     <td>{{ purchaseRequestHeader.codeNumber }}</td>
                     <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ purchaseRequestHeader.supplier.company }}</td>
                     <td>{{ purchaseRequestHeader.warehouse.name }}</td>
                     <td>{{ purchaseRequestHeader.note }}</td>
                     <td>
@@ -53,7 +48,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -13,6 +13,7 @@
                     {{ form_row(form.transactionDate, {'label': 'Tanggal Terima Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
                     {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.dueDate, {'label': 'Tanggal Jatuh Tempo', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -41,29 +42,40 @@
                                      {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
                                  ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.codeNumber|default }}</span>
                         </div>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCompany'}},
-                             ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.company|default }}</span>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierDeliveryCodeNumber'}},
-                             ]|json_encode }}">{{ receiveHeader.supplierDeliveryCodeNumber|default }}</span>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierPaymentTerm'}},
-                             ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.paymentTerm|default }}</span>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCurrency'}},
-                             ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.currency.code|default }}</span>
+                        <div>
+                            <strong>Supplier: </strong>
+                            <span data-controller="dom-element"
+                                 data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                                 data-dom-element-bind-specifications-param="{{ [
+                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCompany'}},
+                                 ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.company|default }}</span>
+                         </div>
+                        <div>
+                            <strong>SJ #: </strong>
+                            <span data-controller="dom-element"
+                                 data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                                 data-dom-element-bind-specifications-param="{{ [
+                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierDeliveryCodeNumber'}},
+                                 ]|json_encode }}">{{ receiveHeader.supplierDeliveryCodeNumber|default }}</span>
+                         </div>
+                        <div>
+                            <strong>TOP (hari): </strong>
+                            <span data-controller="dom-element"
+                                 data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                                 data-dom-element-bind-specifications-param="{{ [
+                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierPaymentTerm'}},
+                                 ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.paymentTerm|default }}</span>
+                         </div>
+                        <div>
+                            <strong>Currency: </strong>
+                            <span data-controller="dom-element"
+                                 data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                                 data-dom-element-bind-specifications-param="{{ [
+                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCurrency'}},
+                                 ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.currency.code|default }}</span>
+                         </div>
                     </div>
                     {{ form_row(form.supplierInvoiceCodeNumber, {'label': 'Supplier Invoice #'}) }}
-                    {{ form_row(form.dueDate, {'label': 'Tanggal Jatuh Tempo', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
             </div>
             <div class="row">
