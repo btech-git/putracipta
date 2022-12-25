@@ -8,13 +8,39 @@
             <h1 class="title">PT. Putracipta Karindomas</h1>
             <h3 class="title">Kawasan Industri Millenium</h3>
             <h3 class="title">Jl. Millenium 15A Blok I2 no. 5, Tangerang</h3>
+            <br />
             <h2 class="title">PURCHASE ORDER</h2>
         </div>
         
-        <br />
+        <br /><hr />
         
         <div class="note">
             <div class="table full">
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">Vendor</div>
+                            <div class="cell value">{{ purchaseOrderHeader.supplier.company|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label"></div>
+                            <div class="cell value">{{ purchaseOrderHeader.supplier.address|default }}</div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="cell label">Ship to</div>
+                            <div class="cell value">PT. Putracipta Karindomas</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label"></div>
+                            <div class="cell value">Kawasan Industri Millenium</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label"></div>
+                            <div class="cell value">Jl. Millenium 15A Blok I2 no. 5, Tangerang</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
@@ -30,28 +56,9 @@
                             <div class="cell value">{{ purchaseOrderHeader.deliveryDate|default ? purchaseOrderHeader.deliveryDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Vendor</div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.company|default }}</div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.address|default }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
                             <div class="cell label">Currency</div>
                             <div class="cell value">{{ purchaseOrderHeader.supplier.currency.code|default }}</div>
                         </div>
-                        <div class="row">
-                            <div class="cell label">Ship to</div>
-                            <div class="cell value">PT. Putracipta Karindomas</div>
-                            <div class="cell value">Kawasan Industri Millenium</div>
-                            <div class="cell value">Jl. Millenium 15A Blok I2 no. 5, Tangerang</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
                         <div class="row">
                             <div class="cell label">Term of PO</div>
                             <div class="cell value">{{ purchaseOrderHeader.supplier.paymentTerm|default }} hari (dari tanggal tanda terima faktur)</div>
@@ -129,30 +136,35 @@
         </div>
         
         <div class="note">
+            <table class="detail">
+                <tr>
+                    <td class="cell label">PENERBITAN FAKTUR PAJAK</td>
+                    <td>PERHATIAN:</td>
+                </tr>
+                <tr>
+                    <td>PT. Putracipta Karindomas</td>
+                    <td>1. Pada waktu penagihan, PO ini harus dilampirkan</td>
+                </tr>
+                <tr>
+                    <td>01.539.872.0-036.000</td>
+                    <td>2. Barang-barang yang rusak-susut atau tidak memenuhi yang tidak ditentukan, tidak dibayar</td>
+                </tr>
+                <tr>
+                    <td>Kawasan Industri Millenium</td>
+                    <td>3. Pengiriman barang lebih dari yang ditentukan akan ditolak</td>
+                </tr>
+                <tr>
+                    <td>Jl. Millenium 15A Blok I2 no. 5, Tangerang</td>
+                    <td>4. PO ini tidak membutuhkan tanda tangan.</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="note">
             <div class="table">
                 <div class="cell label">Catatan:</div>
                 <div class="cell">&nbsp;&nbsp;</div>
                 <div class="cell">{{ purchaseOrderHeader.note|default }}</div>
-            </div>
-        </div>
-        
-        <div class="note">
-            <div class="table">
-                <div class="cell label">PENERBITAN FAKTUR PAJAK</div>
-                <div class="cell">PT. Putracipta Karindomas</div>
-                <div class="cell value">01.539.872.0-036.000</div>
-                <div class="cell value">Kawasan Industri Millenium</div>
-                <div class="cell value">Jl. Millenium 15A Blok I2 no. 5, Tangerang</div>
-            </div>
-        </div>
-        
-        <div class="note">
-            <div class="table">
-                <div class="cell label">PERHATIAN:</div>
-                <div class="cell">1. Pada waktu penagihan, PO ini harus dilampirkan</div>
-                <div class="cell">2. Barang-barang yang rusak-susut atau tidak memenuhi yang tidak ditentukan, tidak dibayar</div>
-                <div class="cell">3. Pengiriman barang lebih dari yang ditentukan akan ditolak</div>
-                <div class="cell">4. PO ini tidak membutuhkan tanda tangan.</div>
             </div>
         </div>
         

@@ -32,6 +32,22 @@
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierName'}},
                                ]|json_encode }}" />
+                        <div>
+                            <strong>Currency: </strong>
+                            <span data-controller="dom-element"
+                                 data-action="supplier-table:data-table:select@document->dom-element#bind"
+                                 data-dom-element-bind-specifications-param="{{ [
+                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.currencyCode'}},
+                                 ]|json_encode }}">{{ purchaseOrderHeader.supplier.currency.code|default }}</span>
+                        </div>
+                        <div>
+                            <strong>Category: </strong>
+                            <span data-controller="dom-element"
+                                 data-action="supplier-table:data-table:select@document->dom-element#bind"
+                                 data-dom-element-bind-specifications-param="{{ [
+                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.certification'}},
+                                 ]|json_encode }}">{{ purchaseOrderHeader.certification|default }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
