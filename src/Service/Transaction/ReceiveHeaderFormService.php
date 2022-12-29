@@ -2,8 +2,12 @@
 
 namespace App\Service\Transaction;
 
+use App\Entity\Transaction\PurchaseOrderDetail;
+use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Entity\Transaction\ReceiveDetail;
 use App\Entity\Transaction\ReceiveHeader;
+use App\Repository\Transaction\PurchaseOrderDetailRepository;
+use App\Repository\Transaction\PurchaseOrderHeaderRepository;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,12 +17,16 @@ class ReceiveHeaderFormService
     private EntityManagerInterface $entityManager;
     private ReceiveHeaderRepository $receiveHeaderRepository;
     private ReceiveDetailRepository $receiveDetailRepository;
+    private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;
+    private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->receiveHeaderRepository = $entityManager->getRepository(ReceiveHeader::class);
         $this->receiveDetailRepository = $entityManager->getRepository(ReceiveDetail::class);
+        $this->purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
+        $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
     }
 
     public function initialize(ReceiveHeader $receiveHeader, array $options = []): void
@@ -40,23 +48,51 @@ class ReceiveHeaderFormService
 
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
-        $this->sync($receiveHeader);
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
+        $receiveHeader->setSupplier($purchaseOrderHeader === null ? null : $purchaseOrderHeader->getSupplier());
+        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $receiveDetail->setMaterial($purchaseOrderDetail->getMaterial());
+        }
+        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+            $receiveDetail->setIsCanceled($receiveDetail->getSyncIsCanceled());
+        }
+        $receiveHeader->setTotalQuantity($receiveHeader->getSyncTotalQuantity());
+        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $oldReceiveDetails = $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetail);
+            $totalReceive = 0;
+            foreach ($oldReceiveDetails as $oldReceiveDetail) {
+                if ($oldReceiveDetail->getId() !== $receiveDetail->getId()) {
+                    $totalReceive += $oldReceiveDetail->getReceivedQuantity();
+                }
+            }
+            $totalReceive += $receiveDetail->getReceivedQuantity();
+            $purchaseOrderDetail->setTotalReceive($totalReceive);
+            $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
+        }
+        $totalRemaining = 0;
+        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $totalRemaining += $purchaseOrderDetail->getRemainingReceive();
+        }
+        if ($purchaseOrderHeader !== null) {
+            if ($totalRemaining > 0) {
+                $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE);
+            } else {
+                $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
+            }
+        }
     }
 
     public function save(ReceiveHeader $receiveHeader, array $options = []): void
     {
         $this->receiveHeaderRepository->add($receiveHeader);
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
             $this->receiveDetailRepository->add($receiveDetail);
+            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
         }
         $this->entityManager->flush();
-    }
-
-    public function sync(ReceiveHeader $receiveHeader): void
-    {
-        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $receiveDetail->setIsCanceled($receiveDetail->getSyncIsCanceled());
-        }
-        $receiveHeader->setTotalQuantity($receiveHeader->getSyncTotalQuantity());
     }
 }

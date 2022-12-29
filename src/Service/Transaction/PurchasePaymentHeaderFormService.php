@@ -40,7 +40,10 @@ class PurchasePaymentHeaderFormService
 
     public function finalize(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
-        $this->sync($purchasePaymentHeader);
+        foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
+            $purchasePaymentDetail->setIsCanceled($purchasePaymentDetail->getSyncIsCanceled());
+        }
+        $purchasePaymentHeader->setTotalAmount($purchasePaymentHeader->getSyncTotalAmount());
     }
 
     public function save(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
@@ -50,13 +53,5 @@ class PurchasePaymentHeaderFormService
             $this->purchasePaymentDetailRepository->add($purchasePaymentDetail);
         }
         $this->entityManager->flush();
-    }
-
-    public function sync(PurchasePaymentHeader $purchasePaymentHeader): void
-    {
-        foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
-            $purchasePaymentDetail->setIsCanceled($purchasePaymentDetail->getSyncIsCanceled());
-        }
-        $purchasePaymentHeader->setTotalAmount($purchasePaymentHeader->getSyncTotalAmount());
     }
 }

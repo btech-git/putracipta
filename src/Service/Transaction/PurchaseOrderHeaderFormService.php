@@ -40,7 +40,14 @@ class PurchaseOrderHeaderFormService
 
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-        $this->sync($purchaseOrderHeader);
+        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
+        }
+        $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
+        $purchaseOrderHeader->setTaxPercentage($purchaseOrderHeader->getSyncTaxPercentage());
+        $purchaseOrderHeader->setSubTotalAfterTaxInclusion($purchaseOrderHeader->getSyncSubTotalAfterTaxInclusion());
+        $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
+        $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
     }
 
     public function save(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
@@ -50,17 +57,5 @@ class PurchaseOrderHeaderFormService
             $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
         }
         $this->entityManager->flush();
-    }
-
-    public function sync(PurchaseOrderHeader $purchaseOrderHeader): void
-    {
-        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
-        }
-        $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
-        $purchaseOrderHeader->setTaxPercentage($purchaseOrderHeader->getSyncTaxPercentage());
-        $purchaseOrderHeader->setSubTotalAfterTaxInclusion($purchaseOrderHeader->getSyncSubTotalAfterTaxInclusion());
-        $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
-        $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
     }
 }
