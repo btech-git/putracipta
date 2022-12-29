@@ -38,6 +38,15 @@ class PurchaseOrderDetail extends TransactionDetail
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
 
+    #[ORM\Column]
+    private ?int $totalReceive = 0;
+
+    #[ORM\Column]
+    private ?int $totalReturn = 0;
+
+    #[ORM\Column]
+    private ?int $remainingReceive = 0;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -47,6 +56,11 @@ class PurchaseOrderDetail extends TransactionDetail
     {
         $isCanceled = $this->purchaseOrderHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
+    }
+
+    public function getSyncRemainingReceive(): int
+    {
+        return $this->quantity - $this->totalReceive;
     }
 
     public function getTotal(): int
@@ -145,6 +159,42 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getTotalReceive(): ?int
+    {
+        return $this->totalReceive;
+    }
+
+    public function setTotalReceive(int $totalReceive): self
+    {
+        $this->totalReceive = $totalReceive;
+
+        return $this;
+    }
+
+    public function getTotalReturn(): ?int
+    {
+        return $this->totalReturn;
+    }
+
+    public function setTotalReturn(int $totalReturn): self
+    {
+        $this->totalReturn = $totalReturn;
+
+        return $this;
+    }
+
+    public function getRemainingReceive(): ?int
+    {
+        return $this->remainingReceive;
+    }
+
+    public function setRemainingReceive(int $remainingReceive): self
+    {
+        $this->remainingReceive = $remainingReceive;
 
         return $this;
     }

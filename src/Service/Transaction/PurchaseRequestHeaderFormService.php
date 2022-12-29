@@ -40,7 +40,10 @@ class PurchaseRequestHeaderFormService
 
     public function finalize(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void
     {
-        $this->sync($purchaseRequestHeader);
+        foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
+            $purchaseRequestDetail->setIsCanceled($purchaseRequestDetail->getSyncIsCanceled());
+        }
+        $purchaseRequestHeader->setTotalQuantity($purchaseRequestHeader->getSyncTotalQuantity());
     }
 
     public function save(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void
@@ -50,13 +53,5 @@ class PurchaseRequestHeaderFormService
             $this->purchaseRequestDetailRepository->add($purchaseRequestDetail);
         }
         $this->entityManager->flush();
-    }
-
-    public function sync(PurchaseRequestHeader $purchaseRequestHeader): void
-    {
-        foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
-            $purchaseRequestDetail->setIsCanceled($purchaseRequestDetail->getSyncIsCanceled());
-        }
-        $purchaseRequestHeader->setTotalQuantity($purchaseRequestHeader->getSyncTotalQuantity());
     }
 }

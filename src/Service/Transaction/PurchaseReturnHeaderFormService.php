@@ -40,7 +40,14 @@ class PurchaseReturnHeaderFormService
 
     public function finalize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
-        $this->sync($purchaseReturnHeader);
+        foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
+            $purchaseReturnDetail->setIsCanceled($purchaseReturnDetail->getSyncIsCanceled());
+        }
+        $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
+        $purchaseReturnHeader->setTaxPercentage($purchaseReturnHeader->getSyncTaxPercentage());
+        $purchaseReturnHeader->setSubTotalAfterTaxInclusion($purchaseReturnHeader->getSyncSubTotalAfterTaxInclusion());
+        $purchaseReturnHeader->setTaxNominal($purchaseReturnHeader->getSyncTaxNominal());
+        $purchaseReturnHeader->setGrandTotal($purchaseReturnHeader->getSyncGrandTotal());
     }
 
     public function save(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
@@ -50,17 +57,5 @@ class PurchaseReturnHeaderFormService
             $this->purchaseReturnDetailRepository->add($purchaseReturnDetail);
         }
         $this->entityManager->flush();
-    }
-
-    public function sync(PurchaseReturnHeader $purchaseReturnHeader): void
-    {
-        foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
-            $purchaseReturnDetail->setIsCanceled($purchaseReturnDetail->getSyncIsCanceled());
-        }
-        $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
-        $purchaseReturnHeader->setTaxPercentage($purchaseReturnHeader->getSyncTaxPercentage());
-        $purchaseReturnHeader->setSubTotalAfterTaxInclusion($purchaseReturnHeader->getSyncSubTotalAfterTaxInclusion());
-        $purchaseReturnHeader->setTaxNominal($purchaseReturnHeader->getSyncTaxNominal());
-        $purchaseReturnHeader->setGrandTotal($purchaseReturnHeader->getSyncGrandTotal());
     }
 }
