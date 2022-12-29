@@ -16,22 +16,26 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PurchaseOrderHeaderGridType extends AbstractType
+class PurchaseInvoiceHeaderGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['supplierInvoiceCodeNumber', 'invoiceTaxCodeNumber', 'transactionDate', 'note', 'isCanceled'],
                 'field_operators_list' => [
+                    'invoiceTaxCodeNumber' => [FilterContain::class, FilterNotContain::class],
+                    'supplierInvoiceCodeNumber' => [FilterContain::class, FilterNotContain::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['supplierInvoiceCodeNumber', 'invoiceTaxCodeNumber', 'transactionDate', 'note', 'isCanceled'],
                 'field_operators_list' => [
+                    'invoiceTaxCodeNumber' => [SortAscending::class, SortDescending::class],
+                    'supplierInvoiceCodeNumber' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'isCanceled' => [SortAscending::class, SortDescending::class],
