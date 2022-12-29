@@ -32,11 +32,22 @@
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
                                ]|json_encode }}" />
-                        <div data-controller="dom-element"
+                        {#<div>
+                            <strong>Tanggal Kirim: </strong>
+                            <span data-controller="dom-element"
+                             data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderDeliveryDate'}},
+                             ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.deliveryDate|default }}</span>
+                        </div>#}
+                        <div>
+                            <strong>Supplier: </strong>
+                            <span data-controller="dom-element"
                              data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
                                  {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCompany'}},
-                             ]|json_encode }}">{{ receiveHeader.supplier.company|default }}</div>
+                             ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.supplier.company|default }}</span>
+                        </div>
                     </div>
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                 </div>
@@ -60,7 +71,7 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('purchase-order-header-dialog', 'Purchase Order Header List') }}
+    {{ dialog.start('purchase-order-header-dialog', 'Purchase Order List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_order_header__list') }}"
              data-html-loader-auto-load-value="true">

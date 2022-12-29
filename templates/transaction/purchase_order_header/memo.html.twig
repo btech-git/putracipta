@@ -24,7 +24,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.address|default }}</div>
+                            <div class="cell value">{{ purchaseOrderHeader.supplier.address|default|nl2br }}</div>
                         </div>
                         <br />
                         <div class="row">
@@ -111,11 +111,24 @@
                     <td class="right">{{ purchaseOrderHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">Diskon {{ purchaseOrderHeader.discountPercentage|default|number_format(2) }}%</td>
+                    <td colspan="5" class="label right">
+                        Diskon
+                        {% if purchaseOrderHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseOrderHeader) %}
+                            {{ purchaseOrderHeader.discountValue|default }}%
+                        {% endif %}
+                    </td>
                     <td class="right">{{ purchaseOrderHeader.discountNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">{{ purchaseOrderHeader.taxMode|default }} {{ purchaseOrderHeader.taxPercentage|default }}%</td>
+                    <td colspan="5" class="label right">
+                        {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
+                            Non Tax 0%
+                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% endif %}
+                    </td>
                     <td class="right">{{ purchaseOrderHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
