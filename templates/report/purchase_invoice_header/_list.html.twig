@@ -57,7 +57,7 @@
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
                 <tr>
-                    <td class="text-start">{{ purchaseInvoiceHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
                     <td class="text-start">{{ purchaseInvoiceHeader.transactionDate|default ? purchaseInvoiceHeader.transactionDate|date('j M Y') }}</td>
                     <td class="text-start">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company|default }}</td>
                     <td class="text-start">{{ purchaseInvoiceHeader.invoiceTaxCodeNumber|default }}</td>
