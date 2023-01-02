@@ -8,6 +8,7 @@ use App\Form\Transaction\PurchaseOrderHeaderType;
 use App\Grid\Transaction\PurchaseOrderHeaderGridType;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
 use App\Service\Transaction\PurchaseOrderHeaderFormService;
+use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -143,17 +144,17 @@ class PurchaseOrderHeaderController extends AbstractController
 
         return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+
     #[Route('/{id}/memo', name: 'app_transaction_purchase_order_header_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function memo(Request $request, PurchaseOrderHeader $purchaseOrderHeader)
+    public function memo(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
-        $show = $request->query->getBoolean('show', false);
-
-        return $this->render('transaction/purchase_order_header/memo.html.twig', array(
+        $fileName = 'purchase-order.pdf';
+        $htmlView = $this->renderView('transaction/purchase_order_header/memo.html.twig', [
             'purchaseOrderHeader' => $purchaseOrderHeader,
-            'show' => $show,
-        ));
-    }
+        ]);
 
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/assets/styles/', 'memo.css');
+        $pdfGenerator->generate($htmlView, $fileName);
+    }
 }
