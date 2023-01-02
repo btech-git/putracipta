@@ -8,20 +8,20 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -29,8 +29,8 @@
         <tbody>
             {% for unit in units %}
                 <tr>
-                    <td>{{ unit.isInactive ? 'Yes' : 'No' }}</td>
                     <td>{{ unit.name }}</td>
+                    <td>{{ unit.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_unit_show', {'id': unit.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_unit_edit', {'id': unit.id}) }}">Edit</a>
