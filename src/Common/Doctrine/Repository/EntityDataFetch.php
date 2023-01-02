@@ -8,9 +8,9 @@ use Doctrine\ORM\QueryBuilder;
 
 trait EntityDataFetch
 {
-    public function fetchData(DataCriteria $criteria): array
+    public function fetchData(DataCriteria $criteria, $callback = null): array
     {
-        $count = $this->fetchCount($criteria);
+        $count = $this->fetchCount($criteria, $callback);
         $pagination = $criteria->getPagination();
         if ($pagination->getSize() < 1) {
             $pagination->setSize(1);
@@ -21,15 +21,20 @@ trait EntityDataFetch
         } else if ($pagination->getNumber() > $lastPageNumber) {
             $pagination->setNumber($lastPageNumber);
         }
-        $objects = $this->fetchObjects($criteria);
+        $objects = $this->fetchObjects($criteria, $callback);
 
         return [$count, $objects];
     }
 
-    public function fetchCount(DataCriteria $criteria): int
+    public function fetchCount(DataCriteria $criteria, $callback = null): int
     {
         $alias = 'e';
         $qb = $this->createQueryBuilderBy($alias, $criteria->getFilter(), null, null);
+
+        if ($callback !== null) {
+            $callback($qb, $alias);
+        }
+
         $qb->select("COUNT({$alias})");
 
         try {
@@ -40,9 +45,14 @@ trait EntityDataFetch
         }
     }
 
-    public function fetchObjects(DataCriteria $criteria): array
+    public function fetchObjects(DataCriteria $criteria, $callback = null): array
     {
-        $qb = $this->createQueryBuilderBy('e', $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
+        $alias = 'e';
+        $qb = $this->createQueryBuilderBy($alias, $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
+
+        if ($callback !== null) {
+            $callback($qb, $alias);
+        }
 
         return $qb->getQuery()->getResult();
     }
