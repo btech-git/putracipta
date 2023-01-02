@@ -22,31 +22,23 @@ class PurchaseRequestHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['totalQuantity', 'isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'createdTransactionDateTime', 'modifiedTransactionDateTime', 'approvedTransactionDateTime', 'transactionDate', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
                 'field_operators_list' => [
-                    'totalQuantity' => [FilterEqual::class, FilterNotEqual::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'createdTransactionDateTime' => [FilterEqual::class, FilterNotEqual::class],
-                    'modifiedTransactionDateTime' => [FilterEqual::class, FilterNotEqual::class],
-                    'approvedTransactionDateTime' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['totalQuantity', 'isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'createdTransactionDateTime', 'modifiedTransactionDateTime', 'approvedTransactionDateTime', 'transactionDate', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
                 'field_operators_list' => [
-                    'totalQuantity' => [SortAscending::class, SortDescending::class],
                     'isCanceled' => [SortAscending::class, SortDescending::class],
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
-                    'createdTransactionDateTime' => [SortAscending::class, SortDescending::class],
-                    'modifiedTransactionDateTime' => [SortAscending::class, SortDescending::class],
-                    'approvedTransactionDateTime' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],

@@ -22,7 +22,7 @@ class AccountCategoryGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'isInactive', 'name'],
+                'field_names' => ['code', 'name', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
@@ -30,7 +30,7 @@ class AccountCategoryGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'isInactive', 'name'],
+                'field_names' => ['code', 'name', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],

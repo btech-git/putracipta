@@ -20,11 +20,9 @@ class UserGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['username', 'roles', 'password', 'name', 'email', 'address', 'phone', 'note'],
+                'field_names' => ['username', 'name', 'email', 'address', 'phone', 'note'],
                 'field_operators_list' => [
                     'username' => [FilterEqual::class, FilterNotEqual::class],
-                    'roles' => [FilterEqual::class, FilterNotEqual::class],
-                    'password' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterEqual::class, FilterNotEqual::class],
                     'email' => [FilterEqual::class, FilterNotEqual::class],
                     'address' => [FilterEqual::class, FilterNotEqual::class],
@@ -33,11 +31,9 @@ class UserGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['username', 'roles', 'password', 'name', 'email', 'address', 'phone', 'note'],
+                'field_names' => ['username', 'name', 'email', 'address', 'phone', 'note'],
                 'field_operators_list' => [
                     'username' => [SortAscending::class, SortDescending::class],
-                    'roles' => [SortAscending::class, SortDescending::class],
-                    'password' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'email' => [SortAscending::class, SortDescending::class],
                     'address' => [SortAscending::class, SortDescending::class],
