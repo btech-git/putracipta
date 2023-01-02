@@ -19,17 +19,11 @@ class PurchaseReturnHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('discountValueType', ChoiceType::class, ['choices' => [
-                'Percentage' => PurchaseReturnHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE,
-                'Nominal' => PurchaseReturnHeader::DISCOUNT_VALUE_TYPE_NOMINAL,
-            ]])
-            ->add('discountValue')
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 'Non Tax' => PurchaseReturnHeader::TAX_MODE_NON_TAX,
                 'Tax Exclusion' => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,
                 'Tax Inclusion' => PurchaseReturnHeader::TAX_MODE_TAX_INCLUSION,
             ]])
-            ->add('shippingFee')
             ->add('purchaseReturnDetails', CollectionType::class, [
                 'entry_type' => PurchaseReturnDetailType::class,
                 'allow_add' => true,
