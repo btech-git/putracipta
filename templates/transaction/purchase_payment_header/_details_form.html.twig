@@ -21,7 +21,7 @@
                 <td data-item-field-name="purchaseInvoiceHeaderSupplierInvoiceNumber">{{ detailForm.vars.value.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>{{ form_row(detailForm.account, {'label': false}) }}</td>
-                <td data-item-field-name="purchaseInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.purchaseInvoiceHeader.remainingPayment|default }}</td>
+                <td data-item-field-name="purchaseInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.purchaseInvoiceHeader.remainingPayment|default|number_format(0) }}</td>
                 <td>
                     {{ form_row(detailForm.amount, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
@@ -30,7 +30,7 @@
                             {'destinationsTarget': "\##{detailForm.amount.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
                         ]|json_encode,
                     }}) }}
-                    <div id="{{ detailForm.amount.vars.id }}-format" class="text-end">{{ detailForm.vars.value.amount|default|number_format(2) }}</div>
+                    <div id="{{ detailForm.amount.vars.id }}-format" class="text-end">{{ detailForm.vars.value.amount|default|number_format(0) }}</div>
                 </td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}

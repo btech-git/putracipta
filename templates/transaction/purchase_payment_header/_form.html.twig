@@ -12,7 +12,8 @@
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.paymentType, {'label': 'Jenis Pembayaran'}) }}
-                    {{ form_row(form.currencyRate, {'label': 'Nilai Tukar'}) }}
+                    {{ form_row(form.referenceNumber, {'label': 'Nomor Cek / Giro'}) }}
+                    {{ form_row(form.referenceDate, {'label': 'Tanggal Cek / Giro', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -33,25 +34,24 @@
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierName'}},
                                ]|json_encode }}" />
-                        <div>
-                            <strong>Currency: </strong>
-                            <span data-controller="dom-element"
-                                 data-action="supplier-table:data-table:select@document->dom-element#bind"
-                                 data-dom-element-bind-specifications-param="{{ [
-                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.currencyCode'}},
-                                 ]|json_encode }}">{{ purchaseOrderHeader.supplier.currency.code|default }}</span>
-                        </div>
-                        <div>
-                            <strong>TOP (hari): </strong>
-                            <span data-controller="dom-element"
-                                 data-action="supplier-table:data-table:select@document->dom-element#bind"
-                                 data-dom-element-bind-specifications-param="{{ [
-                                     {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.supplierPaymentTerm'}},
-                                 ]|json_encode }}">{{ purchaseOrderHeader.paymentTerm|default }}</span>
-                        </div>
                     </div>
-                    {{ form_row(form.referenceNumber, {'label': 'Nomor Cek / Giro'}) }}
-                    {{ form_row(form.referenceDate, {'label': 'Tanggal Cek / Giro', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    <div class="mb-3">
+                        <strong>Currency: </strong>
+                        <span data-controller="dom-element"
+                             data-action="supplier-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.currencyCode'}},
+                             ]|json_encode }}">{{ purchaseOrderHeader.supplier.currency.code|default }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>TOP (hari): </strong>
+                        <span data-controller="dom-element"
+                             data-action="supplier-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.paymentTerm'}},
+                             ]|json_encode }}">{{ purchaseOrderHeader.supplier.paymentTerm|default }}</span>
+                    </div>
+                    {{ form_row(form.currencyRate, {'label': 'Nilai Tukar'}) }}
                 </div>
             </div>
             <div class="row">

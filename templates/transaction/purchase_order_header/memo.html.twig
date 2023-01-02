@@ -82,7 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% set rowspan = 10 %}
+                {% set rowspan = 20 %}
                 {% for row in purchaseOrderHeader.purchaseOrderDetails|batch(rowspan, '') %}
                     {% for purchaseOrderDetail in row %}
                         <tr>
@@ -108,7 +108,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="label right">Sub Total</td>
-                    <td class="right">{{ purchaseOrderHeader.subTotal|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">
