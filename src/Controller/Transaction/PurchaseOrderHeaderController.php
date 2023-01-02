@@ -108,6 +108,42 @@ class PurchaseOrderHeaderController extends AbstractController
         return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
     }
     
+    #[Route('/{id}/approve', name: 'app_transaction_purchase_order_header_approve', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function approve(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('approve' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeader->setApprovedTransactionDateTime(new \DateTime());
+            $purchaseOrderHeader->setApprovedTransactionUser($this->getUser());
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_APPROVE);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was approved successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to approve the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/{id}/reject', name: 'app_transaction_purchase_order_header_reject', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function reject(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('reject' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeader->setRejectedTransactionDateTime(new \DateTime());
+            $purchaseOrderHeader->setRejectedTransactionUser($this->getUser());
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_REJECT);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was rejected successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to reject the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/{id}/memo', name: 'app_transaction_purchase_order_header_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function memo(Request $request, PurchaseOrderHeader $purchaseOrderHeader)
