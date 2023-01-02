@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Tanggal</th>
-                <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Supplier</th>
@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <th>Tanggal Cek / Giro</th>
-                <td>{{ purchasePaymentHeader.referenceDate ? purchasePaymentHeader.referenceDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchasePaymentHeader.referenceDate ? purchasePaymentHeader.referenceDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Currency</th>

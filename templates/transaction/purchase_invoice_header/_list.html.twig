@@ -62,7 +62,7 @@
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
                 <tr>
                     <td>{{ purchaseInvoiceHeader.codeNumber }}</td>
-                    <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.grandTotal }}</td>

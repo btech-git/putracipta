@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Purchase Invoice Header' %}
+{% block title 'Show Purchase Invoice' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_invoice_header_index') }}">Manage</a>
@@ -16,11 +16,11 @@
             </tr>
             <tr>
                 <th>Tanggal Invoice</th>
-                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.createdTransactionDateTime|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.createdTransactionDateTime|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Tanggal Terima Invoice</th>
-                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>PO #</th>
@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th>Tanggal Faktur Pajak</th>
-                <td>{{ purchaseInvoiceHeader.invoiceTaxDate ? purchaseInvoiceHeader.invoiceTaxDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.invoiceTaxDate ? purchaseInvoiceHeader.invoiceTaxDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Supplier Invoice #</th>
@@ -56,7 +56,7 @@
             </tr>
             <tr>
                 <th>Tanggal Jatuh Tempo</th>
-                <td>{{ purchaseInvoiceHeader.dueDate ? purchaseInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.dueDate ? purchaseInvoiceHeader.dueDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>

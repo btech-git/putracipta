@@ -45,7 +45,7 @@
             {% for receiveHeader in receiveHeaders %}
                 <tr>
                     <td>{{ receiveHeader.codeNumber }}</td>
-                    <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ receiveHeader.purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
                     <td>{{ receiveHeader.warehouse.name }}</td>

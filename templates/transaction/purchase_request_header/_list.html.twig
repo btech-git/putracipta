@@ -38,7 +38,7 @@
             {% for purchaseRequestHeader in purchaseRequestHeaders %}
                 <tr>
                     <td>{{ purchaseRequestHeader.codeNumber }}</td>
-                    <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestHeader.warehouse.name }}</td>
                     <td>{{ purchaseRequestHeader.note }}</td>
                     <td>

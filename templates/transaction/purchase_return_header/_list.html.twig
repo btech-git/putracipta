@@ -41,7 +41,7 @@
             {% for purchaseReturnHeader in purchaseReturnHeaders %}
                 <tr>
                     <td>{{ purchaseReturnHeader.codeNumber }}</td>
-                    <td>{{ purchaseReturnHeader.transactionDate ? purchaseReturnHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseReturnHeader.transactionDate ? purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseReturnHeader.supplier.company }}</td>
                     <td>{{ purchaseReturnHeader.note }}</td>
                     <td>{{ purchaseReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>

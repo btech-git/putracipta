@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Purchase Return Header' %}
+{% block title 'Show Purchase Return' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_return_header_index') }}">Manage</a>
@@ -11,71 +11,83 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Tax Mode</th>
-                <td>{{ purchaseReturnHeader.taxMode }}</td>
+                <th>Return #</th>
+                <td>{{ purchaseReturnHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Tax Percentage</th>
-                <td>{{ purchaseReturnHeader.taxPercentage }}</td>
+                <th>Tanggal Return</th>
+                <td>{{ purchaseReturnHeader.transactionDate ? purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            {#<tr>
+                <th>Penerimaan #</th>
+                <td>{{ purchaseReturnHeader.receiveHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Tax Nominal</th>
-                <td>{{ purchaseReturnHeader.taxNominal }}</td>
-            </tr>
+                <th>Tanggal Terima</th>
+                <td>{{ purchaseReturnHeader.receiveHeader.transactionDate ? purchaseReturnHeader.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>#}
             <tr>
-                <th>Shipping Fee</th>
-                <td>{{ purchaseReturnHeader.shippingFee }}</td>
-            </tr>
-            <tr>
-                <th>Sub Total</th>
-                <td>{{ purchaseReturnHeader.subTotal }}</td>
-            </tr>
-            <tr>
-                <th>Sub Total After Tax Inclusion</th>
-                <td>{{ purchaseReturnHeader.subTotalAfterTaxInclusion }}</td>
-            </tr>
-            <tr>
-                <th>Grand Total</th>
-                <td>{{ purchaseReturnHeader.grandTotal }}</td>
-            </tr>
-            <tr>
-                <th>Is Canceled</th>
-                <td>{{ purchaseReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ purchaseReturnHeader.codeNumberOrdinal }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Month</th>
-                <td>{{ purchaseReturnHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ purchaseReturnHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ purchaseReturnHeader.createdTransactionDateTime ? purchaseReturnHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ purchaseReturnHeader.modifiedTransactionDateTime ? purchaseReturnHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Approved Transaction Date Time</th>
-                <td>{{ purchaseReturnHeader.approvedTransactionDateTime ? purchaseReturnHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
-                <td>{{ purchaseReturnHeader.transactionDate ? purchaseReturnHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <th>Supplier</th>
+                <td>{{ purchaseReturnHeader.supplier.company }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ purchaseReturnHeader.note }}</td>
             </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ purchaseReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>Harga</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseReturnDetail in purchaseReturnHeader.purchaseReturnDetails %}
+                <tr>
+                    <td>{{ purchaseReturnDetail.material.code|default }}</td>
+                    <td>{{ purchaseReturnDetail.material.name|default }}</td>
+                    <td style="text-align: right">{{ purchaseReturnDetail.quantity|default }}</td>
+                    <td>{{ purchaseReturnDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ purchaseReturnDetail.unitPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseReturnDetail.total|default|number_format(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseReturnHeader.subTotal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right">
+                    <strong>
+                        {% if purchaseReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseReturnHeader) %}
+                            Non Tax 0%
+                        {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseReturnHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseReturnHeader) }}%
+                        {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseReturnHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseReturnHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
+                <td style="text-align: right"><strong>{{ purchaseReturnHeader.taxNominal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseReturnHeader.grandTotal|default|number_format(2) }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
     {{ include('transaction/purchase_return_header/_delete_form.html.twig') }}
 {% endblock %}

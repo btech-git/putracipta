@@ -44,7 +44,7 @@
             {% for purchasePaymentHeader in purchasePaymentHeaders %}
                 <tr>
                     <td>{{ purchasePaymentHeader.codeNumber }}</td>
-                    <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchasePaymentHeader.supplier.company }}</td>
                     <td>{{ purchasePaymentHeader.note }}</td>
                     <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>

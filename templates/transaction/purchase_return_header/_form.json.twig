@@ -1,14 +1,14 @@
 {
-    "subTotalAfterTaxInclusion": "{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}",
-    "discountNominal": "{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}",
-    "taxNominal": "{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}",
-    "shippingFee": "{{ purchaseOrderHeader.shippingFee|default|number_format(2) }}",
-    "grandTotal": "{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}",
-    "purchaseOrderDetails": {
-        {%- for purchaseOrderDetailForm in form.purchaseOrderDetails -%}
-            {%- set purchaseOrderDetail = purchaseOrderDetailForm.vars.data -%}
-            "{{ purchaseOrderDetailForm.vars.name }}": {
-                "total": "{{ purchaseOrderDetail.total|default|number_format(2) }}"
+    "subTotalAfterTaxInclusion": "{{ purchaseReturnHeader.subTotalAfterTaxInclusion|default|number_format(2) }}",
+    "discountNominal": "{{ purchaseReturnHeader.discountNominal|default|number_format(2) }}",
+    "taxNominal": "{{ purchaseReturnHeader.taxNominal|default|number_format(2) }}",
+    "shippingFee": "{{ purchaseReturnHeader.shippingFee|default|number_format(2) }}",
+    "grandTotal": "{{ purchaseReturnHeader.grandTotal|default|number_format(2) }}",
+    "purchaseReturnDetails": {
+        {%- for purchaseReturnDetailForm in form.purchaseReturnDetails -%}
+            {%- set purchaseReturnDetail = purchaseReturnDetailForm.vars.data -%}
+            "{{ purchaseReturnDetailForm.vars.name }}": {
+                "total": "{{ purchaseReturnDetail.total|default|number_format(2) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
         {%- endfor -%}

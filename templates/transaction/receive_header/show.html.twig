@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Tanggal</th>
-                <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>PO #</th>
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <th>Tanggal PO</th>
-                <td>{{ receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Supplier</th>

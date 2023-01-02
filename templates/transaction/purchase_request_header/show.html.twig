@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Purchase Request Header' %}
+{% block title 'Show Purchase Request' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_request_header_index') }}">Manage</a>
@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Transaction Date</th>
-                <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Warehouse</th>

@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Purchase Order Header' %}
+{% block title 'Show Purchase Order' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_header_index') }}">Manage</a>
@@ -16,11 +16,11 @@
             </tr>
             <tr>
                 <th>Tanggal PO</th>
-                <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Tanggal Kirim</th>
-                <td>{{ purchaseOrderHeader.deliveryDate ? purchaseOrderHeader.deliveryDate|date('Y-m-d') : '' }}</td>
+                <td>{{ purchaseOrderHeader.deliveryDate ? purchaseOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Supplier</th>
@@ -33,6 +33,10 @@
             <tr>
                 <th>Currency</th>
                 <td>{{ purchaseOrderHeader.supplier.currency.name }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ purchaseOrderHeader.transactionStatus }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -71,14 +75,24 @@
         <tfoot>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>{{ purchaseOrderHeader.taxMode|default }} {{ purchaseOrderHeader.taxPercentage|default }}%</strong></td>
+                <td colspan="5" style="text-align: right">
+                    <strong>
+                        {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
+                            Non Tax 0%
+                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
@@ -87,6 +101,10 @@
             </tr>
         </tfoot>
     </table>
+    <div class="d-inline-block">{{ include('transaction/purchase_order_header/_approve_form.html.twig') }}</div>
+    <div class="d-inline-block">{{ include('transaction/purchase_order_header/_reject_form.html.twig') }}</div>
     <div class="d-inline-block">{{ include('transaction/purchase_order_header/_delete_form.html.twig') }}</div>
-    <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
+    {% endif %}
 {% endblock %}
