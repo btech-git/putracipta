@@ -22,7 +22,9 @@ class PurchaseInvoiceHeaderController extends AbstractController
         $form = $this->createForm(PurchaseInvoiceHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseInvoiceHeaders) = $purchaseInvoiceHeaderRepository->fetchData($criteria);
+        list($count, $purchaseInvoiceHeaders) = $purchaseInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.remainingPayment > 0");
+        });
 
         return $this->renderForm("report/purchase_invoice_header/_list.html.twig", [
             'form' => $form,
