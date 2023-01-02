@@ -2,6 +2,7 @@
 
 namespace App\Entity\Transaction;
 
+use App\Entity\Admin\User;
 use App\Entity\Master\Currency;
 use App\Entity\Master\Supplier;
 use App\Entity\TransactionHeader;
@@ -23,6 +24,7 @@ class PurchaseOrderHeader extends TransactionHeader
     public const VAT_PERCENTAGE = 11;
     public const TRANSACTION_STATUS_DRAFT = 'draft';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
+    public const TRANSACTION_STATUS_REJECT = 'reject';
     public const TRANSACTION_STATUS_PARTIAL_RECEIVE = 'partial_receive';
     public const TRANSACTION_STATUS_FULL_RECEIVE = 'full_receive';
 
@@ -55,6 +57,12 @@ class PurchaseOrderHeader extends TransactionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $approvedTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $rejectedTransactionDateTime = null;
+
     #[ORM\ManyToOne]
     private ?Supplier $supplier = null;
 
@@ -69,6 +77,12 @@ class PurchaseOrderHeader extends TransactionHeader
 
     #[ORM\ManyToOne]
     private ?Currency $currency = null;
+
+    #[ORM\ManyToOne]
+    protected ?User $approvedTransactionUser = null;
+
+    #[ORM\ManyToOne]
+    protected ?User $rejectedTransactionUser = null;
 
     #[ORM\Column(length: 60)]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
@@ -230,6 +244,30 @@ class PurchaseOrderHeader extends TransactionHeader
         return $this;
     }
 
+    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->approvedTransactionDateTime;
+    }
+
+    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
+    {
+        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getRejectedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->rejectedTransactionDateTime;
+    }
+
+    public function setRejectedTransactionDateTime(?\DateTimeInterface $rejectedTransactionDateTime): self
+    {
+        $this->rejectedTransactionDateTime = $rejectedTransactionDateTime;
+
+        return $this;
+    }
+
     public function getSupplier(): ?Supplier
     {
         return $this->supplier;
@@ -322,6 +360,30 @@ class PurchaseOrderHeader extends TransactionHeader
     public function setCurrency(?Currency $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getApprovedTransactionUser(): ?User
+    {
+        return $this->approvedTransactionUser;
+    }
+
+    public function setApprovedTransactionUser(?User $approvedTransactionUser): self
+    {
+        $this->approvedTransactionUser = $approvedTransactionUser;
+
+        return $this;
+    }
+
+    public function getRejectedTransactionUser(): ?User
+    {
+        return $this->rejectedTransactionUser;
+    }
+
+    public function setRejectedTransactionUser(?User $rejectedTransactionUser): self
+    {
+        $this->rejectedTransactionUser = $rejectedTransactionUser;
 
         return $this;
     }
