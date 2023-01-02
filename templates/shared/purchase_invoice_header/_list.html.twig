@@ -65,12 +65,12 @@
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {'purchaseInvoiceHeaderId': purchaseInvoiceHeader.id, 'purchaseInvoiceHeaderSupplierInvoiceNumber': purchaseInvoiceHeader.supplierInvoiceCodeNumber, 'purchaseInvoiceHeaderRemainingPayment': purchaseInvoiceHeader.remainingPayment}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
-                    <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
-                    <td>{{ purchaseInvoiceHeader.grandTotal }}</td>
-                    <td>{{ purchaseInvoiceHeader.totalPayment }}</td>
-                    <td>{{ purchaseInvoiceHeader.totalReturn }}</td>
-                    <td>{{ purchaseInvoiceHeader.remainingPayment }}</td>
+                    <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|number_format(0) }}</td>
+                    <td class="text-end">{{ purchaseInvoiceHeader.totalPayment|number_format(0) }}</td>
+                    <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|number_format(0) }}</td>
+                    <td class="text-end">{{ purchaseInvoiceHeader.remainingPayment|number_format(0) }}</td>
                     {#<td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_invoice_header_show', {'id': purchaseInvoiceHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchaseInvoiceHeader.id}) }}">Edit</a>

@@ -55,7 +55,7 @@
                     'materialCode': receiveDetail.purchaseOrderDetail.material.code, 
                     'unitName': receiveDetail.purchaseOrderDetail.unit.name})|json_encode }}">
                     <td>{{ receiveHeader.codeNumber }}</td>
-                    <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ receiveHeader.purchaseOrderHeader.codeNumber }}</td>
                     <td>{{ receiveHeader.purchaseOrderHeader.supplier.company }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>

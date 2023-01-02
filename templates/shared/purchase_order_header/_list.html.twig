@@ -43,6 +43,7 @@
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderHeader.purchaseOrderDetails|map(purchaseOrderDetail => {
                     'purchaseOrderHeaderId': purchaseOrderHeader.id,
                     'purchaseOrderHeaderCodeNumber': purchaseOrderHeader.codeNumber,
+                    'purchaseOrderHeaderTransactionDate': purchaseOrderHeader.transactionDate,
                     'purchaseOrderHeaderDeliveryDate': purchaseOrderHeader.deliveryDate,
                     'supplierCompany': purchaseOrderHeader.supplier.company,
                     'purchaseOrderDetailId': purchaseOrderDetail.id,
@@ -52,9 +53,9 @@
                     'unitName': purchaseOrderDetail.unit.name,
                     'purchaseOrderDetailQuantity': purchaseOrderDetail.quantity})|json_encode }}">
                     <td>{{ purchaseOrderHeader.codeNumber }}</td>
-                    <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderHeader.supplier.company }}</td>
-                    <td>{{ purchaseOrderHeader.grandTotal }}</td>
+                    <td class="text-end">{{ purchaseOrderHeader.grandTotal|number_format(0) }}</td>
                     <td>{{ purchaseOrderHeader.note }}</td>
                 </tr>
             {% else %}
