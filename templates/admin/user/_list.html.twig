@@ -10,23 +10,11 @@
             <th role="button" {{ grid.sort_link_item(form, 'username') }}>
                 Username {{ grid.sort_char(form.sort.username.vars.value) }}
             </th>
-            <th role="button" {{ grid.sort_link_item(form, 'roles') }}>
-                Roles {{ grid.sort_char(form.sort.roles.vars.value) }}
-            </th>
-            <th role="button" {{ grid.sort_link_item(form, 'password') }}>
-                Password {{ grid.sort_char(form.sort.password.vars.value) }}
-            </th>
             <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                 Name {{ grid.sort_char(form.sort.name.vars.value) }}
             </th>
             <th role="button" {{ grid.sort_link_item(form, 'email') }}>
                 Email {{ grid.sort_char(form.sort.email.vars.value) }}
-            </th>
-            <th role="button" {{ grid.sort_link_item(form, 'address') }}>
-                Address {{ grid.sort_char(form.sort.address.vars.value) }}
-            </th>
-            <th role="button" {{ grid.sort_link_item(form, 'phone') }}>
-                Phone {{ grid.sort_char(form.sort.phone.vars.value) }}
             </th>
             <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                 Note {{ grid.sort_char(form.sort.note.vars.value) }}
@@ -38,22 +26,10 @@
                 <input type="text" {{ grid.filter_link_item(form, 'username') }} value="{{ form.filter.username.1.vars.value }}" />
             </th>
             <th>
-                <input type="text" {{ grid.filter_link_item(form, 'roles') }} value="{{ form.filter.roles.1.vars.value }}" />
-            </th>
-            <th>
-                <input type="text" {{ grid.filter_link_item(form, 'password') }} value="{{ form.filter.password.1.vars.value }}" />
-            </th>
-            <th>
                 <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
             </th>
             <th>
                 <input type="text" {{ grid.filter_link_item(form, 'email') }} value="{{ form.filter.email.1.vars.value }}" />
-            </th>
-            <th>
-                <input type="text" {{ grid.filter_link_item(form, 'address') }} value="{{ form.filter.address.1.vars.value }}" />
-            </th>
-            <th>
-                <input type="text" {{ grid.filter_link_item(form, 'phone') }} value="{{ form.filter.phone.1.vars.value }}" />
             </th>
             <th>
                 <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
@@ -65,12 +41,8 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.username }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.address }}</td>
-                <td>{{ user.phone }}</td>
                 <td>{{ user.note }}</td>
                 <td>
                     <a class="btn btn-info btn-sm" href="{{ path('app_admin_user_show', {'id': user.id}) }}">Show</a>
@@ -79,7 +51,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">No records found</td>
+                <td colspan="5">No records found</td>
             </tr>
         {% endfor %}
     </tbody>
