@@ -11,8 +11,23 @@
             <div class="row">
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.supplierDeliveryCodeNumber, {'label': 'Supplier SJ #'}) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
+                    <div class="mb-3">
+                        <strong>Tanggal PO: </strong>
+                        <span data-controller="dom-element"
+                         data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
+                         data-dom-element-bind-specifications-param="{{ [
+                             {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderTransactionDate'}},
+                         ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.transactionDate|default ? receiveHeader.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Tanggal Kirim: </strong>
+                        <span data-controller="dom-element"
+                         data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
+                         data-dom-element-bind-specifications-param="{{ [
+                             {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderDeliveryDate'}},
+                         ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.deliveryDate |default? receiveHeader.purchaseOrderHeader.deliveryDate|date('d M Y') : '' }}</span>
+                    </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -34,22 +49,7 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
                                ]|json_encode }}" />
                     </div>
-                    <div class="mb-3">
-                        <strong>Tanggal PO: </strong>
-                        <span data-controller="dom-element"
-                         data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
-                         data-dom-element-bind-specifications-param="{{ [
-                             {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderTransactionDate'}},
-                         ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.transactionDate|default }}</span>
-                    </div>
-                    <div class="mb-3">
-                        <strong>Tanggal Kirim: </strong>
-                        <span data-controller="dom-element"
-                         data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
-                         data-dom-element-bind-specifications-param="{{ [
-                             {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderDeliveryDate'}},
-                         ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.deliveryDate|default }}</span>
-                    </div>
+                    {{ form_row(form.supplierDeliveryCodeNumber, {'label': 'Supplier SJ #'}) }}
                     <div class="mb-3">
                         <strong>Supplier: </strong>
                         <span data-controller="dom-element"

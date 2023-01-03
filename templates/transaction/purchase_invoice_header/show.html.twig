@@ -95,7 +95,7 @@
         <tfoot>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseInvoiceHeader.discountValue|default }}%</strong></td>

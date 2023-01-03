@@ -47,7 +47,7 @@
                              data-action="supplier-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
                                  {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.certification'}},
-                             ]|json_encode }}">{{ purchaseOrderHeader.certification|default }}</span>
+                             ]|json_encode }}">{{ purchaseOrderHeader.supplier.certification|default }}</span>
                     </div>
                 </div>
             </div>
