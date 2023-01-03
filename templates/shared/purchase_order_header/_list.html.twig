@@ -43,8 +43,8 @@
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderHeader.purchaseOrderDetails|map(purchaseOrderDetail => {
                     'purchaseOrderHeaderId': purchaseOrderHeader.id,
                     'purchaseOrderHeaderCodeNumber': purchaseOrderHeader.codeNumber,
-                    'purchaseOrderHeaderTransactionDate': purchaseOrderHeader.transactionDate,
-                    'purchaseOrderHeaderDeliveryDate': purchaseOrderHeader.deliveryDate,
+                    'purchaseOrderHeaderTransactionDate': purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '',
+                    'purchaseOrderHeaderDeliveryDate': purchaseOrderHeader.deliveryDate ? purchaseOrderHeader.deliveryDate|date('d M Y') : '',
                     'supplierCompany': purchaseOrderHeader.supplier.company,
                     'purchaseOrderDetailId': purchaseOrderDetail.id,
                     'materialName': purchaseOrderDetail.material.name,
