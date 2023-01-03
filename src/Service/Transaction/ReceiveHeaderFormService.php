@@ -91,7 +91,7 @@ class ReceiveHeaderFormService
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
             $this->receiveDetailRepository->add($receiveDetail);
-            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+//            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
         }
         $this->entityManager->flush();
     }
