@@ -6,6 +6,7 @@ use App\Entity\Master\Material;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseRequestDetailRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseRequestDetailRepository::class)]
@@ -28,6 +29,12 @@ class PurchaseRequestDetail extends TransactionDetail
 
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $usageDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $memo = '';
 
     public function getSyncIsCanceled(): bool
     {
@@ -84,6 +91,30 @@ class PurchaseRequestDetail extends TransactionDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getUsageDate(): ?\DateTimeInterface
+    {
+        return $this->usageDate;
+    }
+
+    public function setUsageDate(\DateTimeInterface $usageDate): self
+    {
+        $this->usageDate = $usageDate;
+
+        return $this;
+    }
+
+    public function getMemo(): ?string
+    {
+        return $this->memo;
+    }
+
+    public function setMemo(string $memo): self
+    {
+        $this->memo = $memo;
 
         return $this;
     }
