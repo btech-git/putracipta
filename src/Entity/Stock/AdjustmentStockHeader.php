@@ -3,26 +3,20 @@
 namespace App\Entity\Stock;
 
 use App\Entity\Master\Warehouse;
+use App\Entity\StockHeader;
 use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdjustmentStockHeaderRepository::class)]
 #[ORM\Table(name: 'stock_adjustment_stock_header')]
-class AdjustmentStockHeader
+class AdjustmentStockHeader extends StockHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $transactionDate = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -36,33 +30,14 @@ class AdjustmentStockHeader
         $this->adjustmentStockDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'SAJ';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTransactionDate(): ?\DateTimeInterface
-    {
-        return $this->transactionDate;
-    }
-
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    public function getNote(): ?string
-    {
-        return $this->note;
-    }
-
-    public function setNote(string $note): self
-    {
-        $this->note = $note;
-
-        return $this;
     }
 
     public function getWarehouse(): ?Warehouse

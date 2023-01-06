@@ -3,12 +3,13 @@
 namespace App\Entity\Stock;
 
 use App\Entity\Master\Product;
+use App\Entity\StockDetail;
 use App\Repository\Stock\AdjustmentStockDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdjustmentStockDetailRepository::class)]
 #[ORM\Table(name: 'stock_adjustment_stock_detail')]
-class AdjustmentStockDetail
+class AdjustmentStockDetail extends StockDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
