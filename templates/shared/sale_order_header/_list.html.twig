@@ -1,0 +1,69 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, saleOrderHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="sale-order-header-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button">
+                    PO #
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button">
+                    Customer
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleOrderHeader in saleOrderHeaders %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ saleOrderHeader.saleOrderDetails|map(saleOrderDetail => {
+                    'saleOrderHeaderId': saleOrderHeader.id,
+                    'saleOrderHeaderCodeNumber': saleOrderHeader.codeNumber,
+                    'saleOrderHeaderReferenceNumber': saleOrderHeader.referenceNumber,
+                    'customerCompany': saleOrderHeader.customer.company,
+                    'saleOrderDetailId': saleOrderDetail.id,
+                    'productName': saleOrderDetail.product.name,
+                    'productId': saleOrderDetail.product.id,
+                    'productCode': saleOrderDetail.product.code,
+                    'unitName': saleOrderDetail.unit.name,
+                    'saleOrderDetailQuantity': saleOrderDetail.quantity})|json_encode }}">
+                    <td>{{ saleOrderHeader.codeNumber }}</td>
+                    <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ saleOrderHeader.customer.company }}</td>
+                    <td class="text-end">{{ saleOrderHeader.grandTotal|number_format(0) }}</td>
+                    <td>{{ saleOrderHeader.note }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, saleOrderHeaders) }}
