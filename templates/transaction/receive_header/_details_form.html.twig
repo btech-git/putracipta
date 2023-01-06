@@ -24,7 +24,7 @@
                 <td data-item-field-name="materialCode">{{ detailForm.vars.value.purchaseOrderDetail.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.purchaseOrderDetail.material.name|default }}</td>
                 <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default }}</td>
-                <td data-item-field-name="purchaseOrderDetailQuantityRemaining">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default }}</td>
+                <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail.remainingReceive|default }}</td>
                 <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.purchaseOrderDetail.unit.name|default }}</td>
                 <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
