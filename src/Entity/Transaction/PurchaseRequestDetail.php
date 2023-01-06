@@ -36,6 +36,9 @@ class PurchaseRequestDetail extends TransactionDetail
     #[ORM\Column(length: 100)]
     private ?string $memo = '';
 
+    #[ORM\OneToOne(mappedBy: 'purchaseRequestDetail', cascade: ['persist', 'remove'])]
+    private ?PurchaseOrderDetail $purchaseOrderDetail = null;
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->purchaseRequestHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -100,7 +103,7 @@ class PurchaseRequestDetail extends TransactionDetail
         return $this->usageDate;
     }
 
-    public function setUsageDate(\DateTimeInterface $usageDate): self
+    public function setUsageDate(?\DateTimeInterface $usageDate): self
     {
         $this->usageDate = $usageDate;
 
@@ -115,6 +118,28 @@ class PurchaseRequestDetail extends TransactionDetail
     public function setMemo(string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderDetail(): ?PurchaseOrderDetail
+    {
+        return $this->purchaseOrderDetail;
+    }
+
+    public function setPurchaseOrderDetail(?PurchaseOrderDetail $purchaseOrderDetail): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($purchaseOrderDetail === null && $this->purchaseOrderDetail !== null) {
+            $this->purchaseOrderDetail->setPurchaseRequestDetail(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($purchaseOrderDetail !== null && $purchaseOrderDetail->getPurchaseRequestDetail() !== $this) {
+            $purchaseOrderDetail->setPurchaseRequestDetail($this);
+        }
+
+        $this->purchaseOrderDetail = $purchaseOrderDetail;
 
         return $this;
     }

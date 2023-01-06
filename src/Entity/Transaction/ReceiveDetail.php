@@ -8,6 +8,7 @@ use App\Entity\TransactionDetail;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReceiveDetailRepository::class)]
@@ -39,6 +40,12 @@ class ReceiveDetail extends TransactionDetail
 
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $usageDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $memo = '';
 
     public function __construct()
     {
@@ -154,6 +161,30 @@ class ReceiveDetail extends TransactionDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getUsageDate(): ?\DateTimeInterface
+    {
+        return $this->usageDate;
+    }
+
+    public function setUsageDate(?\DateTimeInterface $usageDate): self
+    {
+        $this->usageDate = $usageDate;
+
+        return $this;
+    }
+
+    public function getMemo(): ?string
+    {
+        return $this->memo;
+    }
+
+    public function setMemo(string $memo): self
+    {
+        $this->memo = $memo;
 
         return $this;
     }

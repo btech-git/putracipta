@@ -47,6 +47,9 @@ class PurchaseOrderDetail extends TransactionDetail
     #[ORM\Column]
     private ?int $remainingReceive = 0;
 
+    #[ORM\OneToOne(inversedBy: 'purchaseOrderDetail', cascade: ['persist', 'remove'])]
+    private ?PurchaseRequestDetail $purchaseRequestDetail = null;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -195,6 +198,18 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setRemainingReceive(int $remainingReceive): self
     {
         $this->remainingReceive = $remainingReceive;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestDetail(): ?PurchaseRequestDetail
+    {
+        return $this->purchaseRequestDetail;
+    }
+
+    public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
+    {
+        $this->purchaseRequestDetail = $purchaseRequestDetail;
 
         return $this;
     }
