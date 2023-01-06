@@ -58,14 +58,7 @@ class PurchasePaymentHeaderFormService
             $totalPayment += $purchasePaymentDetail->getAmount();
             $purchaseInvoiceHeader->setTotalPayment($totalPayment);
             $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
-        }
-        $totalRemaining = '0.00';
-        foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
-            $purchaseInvoiceHeader = $purchasePaymentDetail->getPurchaseInvoiceHeader();
-            $totalRemaining += $purchaseInvoiceHeader->getRemainingPayment();
-        }
-        if ($purchaseInvoiceHeader !== null) {
-            if ($totalRemaining > '0.00') {
+            if ($purchaseInvoiceHeader->getRemainingPayment() > '0.00') {
                 $purchaseInvoiceHeader->setTransactionStatus(PurchaseInvoiceHeader::TRANSACTION_STATUS_PARTIAL_PAYMENT);
             } else {
                 $purchaseInvoiceHeader->setTransactionStatus(PurchaseInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);

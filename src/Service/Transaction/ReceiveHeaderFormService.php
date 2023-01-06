@@ -55,7 +55,9 @@ class ReceiveHeaderFormService
             $receiveDetail->setMaterial($purchaseOrderDetail->getMaterial());
         }
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
             $receiveDetail->setIsCanceled($receiveDetail->getSyncIsCanceled());
+            $receiveDetail->setUnit($purchaseOrderDetail === null ? null : $purchaseOrderDetail->getUnit());
         }
         $receiveHeader->setTotalQuantity($receiveHeader->getSyncTotalQuantity());
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
@@ -93,7 +95,7 @@ class ReceiveHeaderFormService
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
             $this->receiveDetailRepository->add($receiveDetail);
-//            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
         }
         $this->entityManager->flush();
     }

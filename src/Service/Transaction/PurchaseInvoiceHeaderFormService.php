@@ -46,7 +46,7 @@ class PurchaseInvoiceHeaderFormService
         $purchaseInvoiceHeader->setDiscountValueType($purchaseOrderHeader === null ? PurchaseInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE : $purchaseOrderHeader->getDiscountValueType());
         $purchaseInvoiceHeader->setDiscountValue($purchaseOrderHeader === null ? '0.00' : $purchaseOrderHeader->getDiscountValue());
         $purchaseInvoiceHeader->setTaxMode($purchaseOrderHeader === null ? PurchaseInvoiceHeader::TAX_MODE_NON_TAX : $purchaseOrderHeader->getTaxMode());
-//        $purchaseInvoiceHeader->setDueDate($purchaseInvoiceHeader->getSyncDueDate());
+        $purchaseInvoiceHeader->setDueDate($purchaseInvoiceHeader->getSyncDueDate());
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
             $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
             $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
@@ -55,13 +55,16 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPrice());
         }
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
+            $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
             $purchaseInvoiceDetail->setIsCanceled($purchaseInvoiceDetail->getSyncIsCanceled());
+            $purchaseInvoiceDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
         }
         $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
         $purchaseInvoiceHeader->setTaxPercentage($purchaseInvoiceHeader->getSyncTaxPercentage());
         $purchaseInvoiceHeader->setSubTotalAfterTaxInclusion($purchaseInvoiceHeader->getSyncSubTotalAfterTaxInclusion());
         $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
         $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
+        $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
     }
 
     public function save(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void

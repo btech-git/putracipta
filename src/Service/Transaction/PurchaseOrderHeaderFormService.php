@@ -42,7 +42,10 @@ class PurchaseOrderHeaderFormService
     {
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
+            $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
         }
+        $supplier = $purchaseOrderHeader->getSupplier();
+        $purchaseOrderHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
         $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
         $purchaseOrderHeader->setTaxPercentage($purchaseOrderHeader->getSyncTaxPercentage());
         $purchaseOrderHeader->setSubTotalAfterTaxInclusion($purchaseOrderHeader->getSyncSubTotalAfterTaxInclusion());
