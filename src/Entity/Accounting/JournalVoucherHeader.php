@@ -25,6 +25,11 @@ class JournalVoucherHeader extends AccountingHeader
         $this->journalVoucherDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'JVC';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -30,6 +30,11 @@ class DepositHeader extends AccountingHeader
         $this->depositDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'DPS';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

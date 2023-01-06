@@ -30,6 +30,11 @@ class ExpenseHeader extends AccountingHeader
         $this->expenseDetails = new ArrayCollection();
     }
 
+    public function getCodeNumberConstant(): string
+    {
+        return 'EXP';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
