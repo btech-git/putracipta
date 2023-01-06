@@ -1,0 +1,89 @@
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+
+    {{ form_start(form) }}
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Header</legend>
+            <div class="row">
+                <div class="col sm-6">
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
+                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                </div>
+                <div class="col sm-6">
+                    <div class="mb-3">
+                        <label for="{{ form.deliveryHeader.vars.id }}-text" class="form-label">Pengiriman #</label>
+                        {{ form_row(form.deliveryHeader, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'delivery-header-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].deliveryHeaderId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.deliveryHeader.vars.id }}-text" class="form-control" value="{{ saleInvoiceHeader.deliveryHeader.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#delivery-header-dialog"
+                               data-controller="dom-element"
+                               data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].deliveryHeaderCodeNumber'}},
+                               ]|json_encode }}" />
+                    </div>
+                    {{ form_row(form.dueDate, {'label': 'Tanggal Jatuh Tempo', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    <div class="mb-3">
+                        <strong>Customer: </strong>
+                        <span data-controller="dom-element"
+                             data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].customerCompany'}},
+                             ]|json_encode }}">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.company|default }}</span>
+                     </div>
+                    <div class="mb-3">
+                        <strong>PO #: </strong>
+                        <span data-controller="dom-element"
+                             data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].saleOrderHeaderCodeNumber'}},
+                             ]|json_encode }}">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.referenceNumber|default }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>TOP (hari): </strong>
+                        <span data-controller="dom-element"
+                             data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].customerPaymentTerm'}},
+                             ]|json_encode }}">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.paymentTerm|default }}</span>
+                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col sm-12">
+                    {{ form_row(form.note) }}
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Details</legend>
+            {{ include('transaction/sale_invoice_header/_details_form.html.twig') }}
+        </fieldset>
+
+        <div class="d-grid">
+            <button class="btn btn-secondary">Save</button>
+        </div>
+    {{ form_end(form) }}
+
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+
+    {{ dialog.start('delivery-header-dialog', 'Receive Header List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_delivery_header__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+</div>

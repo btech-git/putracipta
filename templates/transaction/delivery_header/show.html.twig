@@ -1,0 +1,98 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Delivery' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_delivery_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_delivery_header_edit', {'id': deliveryHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Pengiriman #</th>
+                <td>{{ deliveryHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>SO #</th>
+                <td>{{ deliveryHeader.saleOrderHeader.referenceNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal SO</th>
+                <td>{{ deliveryHeader.saleOrderHeader.transactionDate ? deliveryHeader.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>customer</th>
+                <td>{{ deliveryHeader.saleOrderHeader.customer.company}}</td>
+            </tr>
+            <tr>
+                <th>Driver</th>
+                <td>{{ deliveryHeader.driverName }}</td>
+            </tr>
+            <tr>
+                <th>Kendaraan</th>
+                <td>{{ deliveryHeader.vehicleType }}</td>
+            </tr>
+            <tr>
+                <th>Nopol</th>
+                <td>{{ deliveryHeader.vehicleNumber }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ deliveryHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ deliveryHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                <th>Nama Barang</th>
+                <th>FSC Code</th>
+                <th>WO #</th>
+                <th>Lot #</th>
+                <th>Quantity Order</th>
+                <th>Quantity Sisa</th>
+                <th>Quantity Kirim</th>
+                <th>Satuan</th>
+                <th>Kemasan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deliveryDetail in deliveryHeader.deliveryDetails %}
+                <tr>
+                    <td>{{ deliveryDetail.saleOrderDetail.product.code|default }}</td>
+                    <td>{{ deliveryDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>{{ deliveryDetail.fscCode|default }}</td>
+                    <td></td>
+                    <td>{{ deliveryDetail.lotNumber|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.orderedQuantity|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
+                    <td>{{ deliveryDetail.saleOrderDetail.unit.name|default }}</td>
+                    <td>{{ deliveryDetail.packaging|default }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" style="text-align: right"><strong>Total</strong></td>
+                <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default }}</strong></td>
+                <td colspan="2"></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <div class="d-inline-block">{{ include('transaction/delivery_header/_delete_form.html.twig') }}</div>
+    <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_delivery_header_memo', {'id': deliveryHeader.id}) }}">Print SJ</a></div>
+{% endblock %}

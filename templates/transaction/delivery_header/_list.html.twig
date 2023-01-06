@@ -1,0 +1,63 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, deliveryHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button">
+                    Pengiriman #
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th>Customer</th>
+                <th>SO #</th>
+                <th role="button">
+                    Warehouse
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deliveryHeader in deliveryHeaders %}
+                <tr>
+                    <td>{{ deliveryHeader.codeNumber }}</td>
+                    <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ deliveryHeader.saleOrderHeader.customer.company }}</td>
+                    <td>{{ deliveryHeader.saleOrderHeader.codeNumber }}</td>
+                    <td>{{ deliveryHeader.warehouse.name }}</td>
+                    <td>{{ deliveryHeader.note }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_delivery_header_show', {'id': deliveryHeader.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_delivery_header_edit', {'id': deliveryHeader.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, deliveryHeaders) }}

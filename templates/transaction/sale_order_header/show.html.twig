@@ -1,0 +1,105 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Sales Order' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_sale_order_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_sale_order_header_edit', {'id': saleOrderHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>SO #</th>
+                <td>{{ saleOrderHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal SO</th>
+                <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Kirim</th>
+                <td>{{ saleOrderHeader.deliveryDate ? saleOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Customer</th>
+                <td>{{ saleOrderHeader.customer.company }}</td>
+            </tr>
+            <tr>
+                <th>Customer PO #</th>
+                <td>{{ saleOrderHeader.referenceNumber }}</td>
+            </tr>
+            <tr>
+                <th>TOP (days)</th>
+                <td>{{ saleOrderHeader.customer.paymentTerm }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ saleOrderHeader.transactionStatus }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ saleOrderHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ saleOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>Harga</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                <tr>
+                    <td>{{ saleOrderDetail.product.code|default }}</td>
+                    <td>{{ saleOrderDetail.product.name|default }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.quantity|default }}</td>
+                    <td>{{ saleOrderDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ saleOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
+                <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right">
+                    <strong>
+                        {% if saleOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', saleOrderHeader) %}
+                            Non Tax 0%
+                        {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleOrderHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', saleOrderHeader) }}%
+                        {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleOrderHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', saleOrderHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
+                <td style="text-align: right"><strong>{{ saleOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
+                <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="d-inline-block">{{ include('transaction/sale_order_header/_delete_form.html.twig') }}</div>
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Memo' %}
+
+{% block body %}
+    <div class="memo">
+        <div class="header">
+            <h1 class="title">PT. Putracipta Karindomas</h1>
+            <h3 class="title">Kawasan Industri Millenium</h3>
+            <h3 class="title">Jl. Millenium 15A Blok I2 no. 5, Tangerang</h3>
+            <br />
+            <h2 class="title">INVOICE</h2>
+        </div>
+        
+        <br /><hr />
+        
+        <div class="note">
+            <div class="table full">
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">Kepada:</div>
+                            <div class="cell value">{{ saleInvoiceHeader.customer.company|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label"></div>
+                            <div class="cell value">{{ saleInvoiceHeader.customer.addressInvoice|default|nl2br }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Customer PO #:</div>
+                            <div class="cell value">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.referenceNumber|default }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">Invoice #</div>
+                            <div class="cell value">{{ saleInvoiceHeader.codeNumber|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Tanggal Invoice</div>
+                            <div class="cell value">{{ saleInvoiceHeader.transactionDate|default ? saleInvoiceHeader.transactionDate|date('d M Y') }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">SJ #</div>
+                            <div class="cell value">{{ saleInvoiceHeader.deliveryHeader.codeNumber|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Tanggal Kirim</div>
+                            <div class="cell value">{{ saleInvoiceHeader.deliveryHeader.transactionDate|default ? saleInvoiceHeader.deliveryHeader.transactionDate|date('d M Y') }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Jatuh Tempo</div>
+                            <div class="cell value">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('d M Y') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <br />
+        
+        <table class="detail">
+            <thead>
+                <tr>
+                    <th class="center">Code</th>
+                    <th class="center">Description</th>
+                    <th class="center">Qty</th>
+                    <th class="center">Unit</th>
+                    <th class="center">Price</th>
+                    <th class="center">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set rowspan = 20 %}
+                {% for row in saleInvoiceHeader.saleInvoiceDetails|batch(rowspan, '') %}
+                    {% for saleInvoiceDetail in row %}
+                        <tr>
+                            {% if saleInvoiceDetail %}
+                                <td class="left">{{ saleInvoiceDetail.product.code|default }}</td>
+                                <td class="left">{{ saleInvoiceDetail.product.name|default }}</td>
+                                <td class="center">{{ saleInvoiceDetail.quantity|default }}</td>
+                                <td class="left">{{ saleInvoiceDetail.unit.name|default }}</td>
+                                <td class="right">{{ saleInvoiceDetail.unitPrice|default|number_format(0) }}</td>
+                                <td class="right">{{ saleInvoiceDetail.total|default|number_format(0) }}</td>
+                            {% else %}
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="label right">Sub Total</td>
+                    <td class="right">{{ saleInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="label right">
+                        Diskon
+                        {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
+                            {{ saleInvoiceHeader.discountValue|default }}%
+                        {% endif %}
+                    </td>
+                    <td class="right">{{ saleInvoiceHeader.discountNominal|default|number_format(0) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="label right">
+                        {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
+                            Non Tax 0%
+                        {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
+                        {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleInvoiceHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
+                        {% endif %}
+                    </td>
+                    <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="label right">Grand Total</td>
+                    <td class="right">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <br />
+        
+        <div class="note">
+            <table class="detail">
+                <tr>
+                    <td class="cell label">Terbilang:</td>
+                    <td class="cell label">Pembayaran dengan BG / Cek dapat ditransfer ke:</td>
+                </tr>
+                <tr>
+                    <td class="cell">{{ saleInvoiceHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</td>
+                    <td class="cell label">BCA KCU Wisma Asia</td>
+                </tr>
+                <tr>
+                    <td class="cell label">Catatan:</td>
+                    <td class="cell label">ACC: 0843330123</td>
+                </tr>
+                <tr>
+                    <td class="cell">{{ saleInvoiceHeader.note|default }}</td>
+                    <td class="cell label">A/N: PT. Putracipta Karindomas</td>
+                </tr>
+            </table>
+        </div>
+        
+        <br />
+        
+        <div class="signature">
+            <div class="table full">
+                <div class="cell sig">
+                    <div>Hormat kami,</div>
+                    <div class="blank"></div>
+                    <div class="blank"></div>
+                    <div>Inggrid Haryanto</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('memo') }}
+    <style>
+        .col:nth-child(1) { width: 50% }
+        .col:nth-child(2) { width: 50% }
+        
+        .col:nth-child(1) .label { width: 35% }
+        .col:nth-child(1) .value { width: 65% }
+        .col:nth-child(2) .label { width: 35% }
+        .col:nth-child(2) .value { width: 65% }
+        
+        .sig:nth-child(1) { width: 50% }
+        .sig:nth-child(2) { width: 50% }
+    </style>
+{% endblock %}
