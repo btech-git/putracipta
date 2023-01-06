@@ -3,29 +3,29 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Product;
 use App\Entity\Transaction\SaleOrderDetail;
-use App\Entity\Transaction\ReceiveDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReceiveDetailType extends AbstractType
+class SaleOrderDetailType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('receivedQuantity')
+            ->add('quantity')
+            ->add('unitPrice')
+            ->add('product', EntityHiddenType::class, array('class' => Product::class))
+            ->add('unit', null, ['choice_label' => 'name'])
             ->add('isCanceled')
-            ->add('usageDate', null, ['widget' => 'single_text'])
-            ->add('memo')
-            ->add('purchaseOrderDetail', EntityHiddenType::class, ['class' => PurchaseOrderDetail::class])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ReceiveDetail::class,
+            'data_class' => SaleOrderDetail::class,
         ]);
     }
 }
