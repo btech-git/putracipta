@@ -3,7 +3,7 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Transaction\SaleOrderHeader;
+use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Entity\Transaction\ReceiveDetail;
 use App\Entity\Transaction\ReceiveHeader;
 use Symfony\Component\Form\AbstractType;
