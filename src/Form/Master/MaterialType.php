@@ -12,11 +12,14 @@ class MaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('materialSubCategory', null, ['choice_label' => 'name'])
             ->add('code')
             ->add('name')
             ->add('thickness')
-            ->add('varian')
-            ->add('materialSubCategory', null, ['choice_label' => 'name'])
+            ->add('variant')
+            ->add('length')
+            ->add('width')
+            ->add('weight')
             ->add('unit', null, ['choice_label' => 'name'])
         ;
     }
