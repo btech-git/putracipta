@@ -20,6 +20,9 @@ class MaterialCategory extends Master
     #[ORM\OneToMany(mappedBy: 'materialCategory', targetEntity: MaterialSubCategory::class)]
     private Collection $materialSubCategories;
 
+    #[ORM\Column]
+    private ?bool $isPaper = false;
+
     public function __construct()
     {
         $this->materialSubCategories = new ArrayCollection();
@@ -56,6 +59,18 @@ class MaterialCategory extends Master
                 $materialSubCategory->setMaterialCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsPaper(): ?bool
+    {
+        return $this->isPaper;
+    }
+
+    public function setIsPaper(bool $isPaper): self
+    {
+        $this->isPaper = $isPaper;
 
         return $this;
     }

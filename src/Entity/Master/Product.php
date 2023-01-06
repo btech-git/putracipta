@@ -4,7 +4,6 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,11 +34,6 @@ class Product extends Master
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Customer $customer = null;
-
-    public function __construct()
-    {
-        $this->purchaseOrderDetails = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

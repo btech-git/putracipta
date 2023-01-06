@@ -4,6 +4,7 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\MaterialRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MaterialRepository::class)]
@@ -29,6 +30,15 @@ class Material extends Master
 
     #[ORM\Column(length: 60)]
     private ?string $variant = '';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $weight = '0.00';
+
+    #[ORM\Column]
+    private ?int $length = 0;
+
+    #[ORM\Column]
+    private ?int $width = 0;
 
     public function getId(): ?int
     {
@@ -91,6 +101,42 @@ class Material extends Master
     public function setVariant(string $variant): self
     {
         $this->variant = $variant;
+
+        return $this;
+    }
+
+    public function getWeight(): ?string
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(string $weight): self
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getLength(): ?int
+    {
+        return $this->length;
+    }
+
+    public function setLength(int $length): self
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    public function getWidth(): ?int
+    {
+        return $this->width;
+    }
+
+    public function setWidth(int $width): self
+    {
+        $this->width = $width;
 
         return $this;
     }
