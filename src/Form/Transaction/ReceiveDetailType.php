@@ -16,7 +16,7 @@ class ReceiveDetailType extends AbstractType
         $builder
             ->add('receivedQuantity')
             ->add('isCanceled')
-            ->add('unit', null, ['choice_label' => 'name'])
+//            ->add('unit', null, ['choice_label' => 'name'])
             ->add('purchaseOrderDetail', EntityHiddenType::class, ['class' => PurchaseOrderDetail::class])
         ;
     }

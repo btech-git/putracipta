@@ -10,6 +10,8 @@
             <th>Material Name</th>
             <th>Qty</th>
             <th>Satuan</th>
+            <th>Tanggal Pakai</th>
+            <th>Keterangan</th>
             <th style="width: 0"></th>
         </tr>
     </thead>
@@ -21,6 +23,8 @@
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
+                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}
                         <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>

@@ -38,8 +38,10 @@
             <tr class="bg-info">
                 <th>Kode</th>
                 <th>Nama Material</th>
-                <th>Quantity Terima</th>
+                <th>Quantity</th>
                 <th>Satuan</th>
+                <th>Tanggal Pakai</th>
+                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +51,8 @@
                     <td>{{ purchaseRequestDetail.material.name|default }}</td>
                     <td style="text-align: center">{{ purchaseRequestDetail.quantity|default }}</td>
                     <td>{{ purchaseRequestDetail.unit.name|default }}</td>
+                    <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseRequestDetail.memo|default }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -56,7 +60,7 @@
             <tr>
                 <td colspan="2" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ purchaseRequestHeader.totalQuantity|default }}</strong></td>
-                <td></td>
+                <td colspan="3"></td>
             </tr>
         </tfoot>
     </table>

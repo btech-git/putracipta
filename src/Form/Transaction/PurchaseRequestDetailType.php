@@ -17,6 +17,8 @@ class PurchaseRequestDetailType extends AbstractType
             ->add('quantity')
             ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
+            ->add('usageDate', null, ['widget' => 'single_text'])
+            ->add('memo')
             ->add('isCanceled')
         ;
     }
