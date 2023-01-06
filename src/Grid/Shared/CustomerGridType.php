@@ -16,24 +16,33 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductGridType extends AbstractType
+class CustomerGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'isInactive'],
+                'field_names' => ['code', 'name', 'company', 'phone', 'email', 'note', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'company' => [FilterContain::class, FilterNotContain::class],
+                    'phone' => [FilterContain::class, FilterNotContain::class],
+                    'email' => [FilterContain::class, FilterNotContain::class],
+                    'note' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'isInactive'],
+                'field_names' => ['code', 'name', 'company', 'address', 'phone', 'email', 'note', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'company' => [SortAscending::class, SortDescending::class],
+                    'address' => [SortAscending::class, SortDescending::class],
+                    'phone' => [SortAscending::class, SortDescending::class],
+                    'email' => [SortAscending::class, SortDescending::class],
+                    'note' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
