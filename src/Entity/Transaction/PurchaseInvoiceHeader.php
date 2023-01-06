@@ -140,8 +140,8 @@ class PurchaseInvoiceHeader extends TransactionHeader
         $paymentTerm = $this->supplier === null ? 0 : $this->supplier->getPaymentTerm();
         $dueDate = null;
         if ($this->transactionDate !== null) {
-            $dueDate = \DateTime::createFromInterface($this->transactionDate);
-            $dueDate->add(new \DateInterval('P' . $paymentTerm . 'd'));
+            $dueDate = \DateTime::createFromInterface($this->transactionDate);
+            $dueDate->add(new \DateInterval("P{$paymentTerm}D"));
         }
         return $dueDate;
     }
