@@ -138,9 +138,17 @@ class PurchaseInvoiceHeader extends TransactionHeader
     public function getSyncDueDate(): \DateTimeInterface
     {
         $paymentTerm = $this->supplier === null ? 0 : $this->supplier->getPaymentTerm();
-        $dueDate = \DateTime::createFromInterface($this->transactionDate);
-        $dueDate->add(new \DateInterval('P' . $paymentTerm . 'd'));
+        $dueDate = null;
+        if ($this->transactionDate !== null) {
+            $dueDate = \DateTime::createFromInterface($this->transactionDate);
+            $dueDate->add(new \DateInterval('P' . $paymentTerm . 'd'));
+        }
         return $dueDate;
+    }
+
+    public function getSyncRemainingPayment(): int
+    {
+        return $this->grandTotal - $this->totalPayment;
     }
 
     public function getDiscountNominal(): string

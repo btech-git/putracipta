@@ -7,7 +7,7 @@ trait EntityAdd
     public function add($entity, bool $flush = false): void
     {
         if (get_class($entity) !== $this->getEntityName()) {
-            throw new Exception('An invalid entity was passed as an argument');
+            throw new \Exception('An invalid entity was passed as an argument');
         }
 
         $this->getEntityManager()->persist($entity);

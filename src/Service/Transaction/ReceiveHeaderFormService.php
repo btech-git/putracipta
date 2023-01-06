@@ -87,7 +87,9 @@ class ReceiveHeaderFormService
 
     public function save(ReceiveHeader $receiveHeader, array $options = []): void
     {
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
         $this->receiveHeaderRepository->add($receiveHeader);
+        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
             $this->receiveDetailRepository->add($receiveDetail);
