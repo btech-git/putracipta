@@ -107,7 +107,7 @@
 .memo .signature
 {
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
     font-weight: bold;
     font-style: italic;
 }
