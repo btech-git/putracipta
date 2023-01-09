@@ -2,12 +2,20 @@
     <div class="pb-3">
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Username</legend>
-            {{ form_row(form.username) }}
+            {% if (form.vars.value.id == null) %}
+                {{ form_row(form.username) }}
+            {%  else %}
+                {{ user.username|default }}
+            {% endif %}
         </fieldset>
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Password</legend>
-            {{ form_row(form.plainPassword) }}
-        </fieldset>
+        
+        {% if (form.vars.value.id == null) %}
+            <fieldset class="border border-secondary rounded mb-3 p-3">
+                <legend class="float-none w-auto text-dark px-1">Password</legend>
+                {{ form_row(form.plainPassword) }}
+            </fieldset>
+        {% endif %}
+        
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Profile</legend>
             {{ form_row(form.name) }}
