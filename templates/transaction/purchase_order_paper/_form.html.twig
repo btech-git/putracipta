@@ -86,10 +86,10 @@
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('purchase-request-dialog', 'Purchase Request List') }}
+    {#{{ dialog.start('purchase-request-dialog', 'Purchase Request List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_request_header__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
-    {{ dialog.end() }}
+    {{ dialog.end() }}#}
 </div>
