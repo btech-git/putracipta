@@ -57,16 +57,16 @@ class PurchaseOrderDetail extends TransactionDetail
     private ?string $weightPrice = '0.00';
 
     #[ORM\Column]
-    private ?int $apkiValue = null;
+    private ?int $apkiValue = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $length = null;
+    private ?string $length = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $width = null;
+    private ?string $width = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $weight = null;
+    private ?string $weight = '0.00';
 
     public function __construct()
     {
