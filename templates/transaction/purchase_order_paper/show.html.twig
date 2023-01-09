@@ -3,8 +3,8 @@
 {% block title 'Show Purchase Order' %}
 
 {% block toolbar %}
-    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_paper_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_paper_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
 {% endblock %}
 
 {% block content %}
