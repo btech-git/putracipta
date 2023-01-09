@@ -15,12 +15,12 @@ class MaterialType extends AbstractType
             ->add('materialSubCategory', null, ['choice_label' => 'name'])
             ->add('code')
             ->add('name')
-            ->add('thickness')
-            ->add('variant')
-            ->add('length')
-            ->add('width')
-            ->add('weight')
-            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('thickness', null, ['label' => 'Ketebalan'])
+            ->add('variant', null, ['label' => 'Varian'])
+            ->add('length', null, ['label' => 'Panjang'])
+            ->add('width', null, ['label' => 'Lebar'])
+            ->add('weight', null, ['label' => 'Berat (GR)'])
+            ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
         ;
     }
 
