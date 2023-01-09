@@ -8,6 +8,9 @@
         {%- for purchaseOrderDetailForm in form.purchaseOrderDetails -%}
             {%- set purchaseOrderDetail = purchaseOrderDetailForm.vars.data -%}
             "{{ purchaseOrderDetailForm.vars.name }}": {
+                "weightPaperPrice": "{{ purchaseOrderDetail.weightPaperPrice|default|number_format(2) }}",
+                "unitPaperPrice": "{{ purchaseOrderDetail.unitPaperPrice|default|number_format(2) }}",
+                "totalPaperPrice": "{{ purchaseOrderDetail.totalPaperPrice|default|number_format(2) }}",
                 "total": "{{ purchaseOrderDetail.total|default|number_format(2) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
