@@ -1,0 +1,18 @@
+{
+    "subTotalAfterTaxInclusion": "{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}",
+    "discountNominal": "{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}",
+    "taxNominal": "{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}",
+    "shippingFee": "{{ purchaseOrderHeader.shippingFee|default|number_format(2) }}",
+    "grandTotal": "{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}",
+    "purchaseOrderDetails": {
+        {%- for purchaseOrderDetailPaperForm in form.purchaseOrderDetails -%}
+            {%- set purchaseOrderDetail = purchaseOrderDetailForm.vars.data -%}
+            "{{ purchaseOrderDetailForm.vars.name }}": {
+                "weightPrice": "{{ purchaseOrderDetail.syncWeightPrice|default|number_format(2) }}"
+                "unitPaperPrice": "{{ purchaseOrderDetail.unitPaperPrice|default|number_format(2) }}"
+                "totalPaperPrice": "{{ purchaseOrderDetail.totalPaperPrice|default|number_format(2) }}"
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
+    }
+}
