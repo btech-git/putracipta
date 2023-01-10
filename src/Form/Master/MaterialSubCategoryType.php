@@ -12,8 +12,8 @@ class MaterialSubCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
             ->add('materialCategory', null, ['choice_label' => 'name'])
+            ->add('name')
         ;
     }
 

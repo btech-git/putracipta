@@ -12,8 +12,8 @@ class PaymentTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isInactive')
             ->add('name')
+            ->add('isInactive')
         ;
     }
 

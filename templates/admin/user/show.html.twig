@@ -15,14 +15,6 @@
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
                 <td>{{ user.name }}</td>
             </tr>
@@ -41,6 +33,10 @@
             <tr>
                 <th>Note</th>
                 <td>{{ user.note }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
         </tbody>
     </table>

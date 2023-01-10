@@ -135,7 +135,7 @@ class PurchaseInvoiceHeader extends TransactionHeader
         return $grandTotal;
     }
 
-    public function getSyncDueDate(): \DateTimeInterface
+    public function getSyncDueDate(): ?\DateTimeInterface
     {
         $paymentTerm = $this->supplier === null ? 0 : $this->supplier->getPaymentTerm();
         $dueDate = null;

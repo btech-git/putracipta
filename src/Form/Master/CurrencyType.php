@@ -13,8 +13,8 @@ class CurrencyType extends AbstractType
     {
         $builder
             ->add('code')
+            ->add('name', null, ['label' => 'Mata Uang'])
             ->add('isInactive')
-            ->add('name')
         ;
     }
 

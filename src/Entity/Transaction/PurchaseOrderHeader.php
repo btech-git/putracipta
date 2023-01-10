@@ -73,7 +73,7 @@ class PurchaseOrderHeader extends TransactionHeader
     private Collection $receiveHeaders;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deliveryDate = null;
+    protected ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\ManyToOne]
     private ?Currency $currency = null;
@@ -141,6 +141,17 @@ class PurchaseOrderHeader extends TransactionHeader
     public function getSubTotalAfterDiscount(): string
     {
         return $this->subTotalAfterTaxInclusion - $this->getDiscountNominal();
+    }
+
+    public function getTotalRemaining(): string
+    {
+        $totalRemaining = '0.00';
+        foreach ($this->purchaseOrderDetails as $purchaseOrderDetail) {
+            if (!$purchaseOrderDetail->isIsCanceled()) {
+                $totalRemaining += $purchaseOrderDetail->getRemainingReceive();
+            }
+        }
+        return $totalRemaining;
     }
 
     public function getId(): ?int
@@ -398,5 +409,16 @@ class PurchaseOrderHeader extends TransactionHeader
         $this->transactionStatus = $transactionStatus;
 
         return $this;
+    }
+    
+    public function getSyncSubTotalPaper(): string
+    {
+        $subTotal = '0.00';
+        foreach ($this->purchaseOrderDetails as $purchaseOrderDetail) {
+            if (!$purchaseOrderDetail->isIsCanceled()) {
+                $subTotal += $purchaseOrderDetail->getTotalPaperPrice();
+            }
+        }
+        return $subTotal;
     }
 }

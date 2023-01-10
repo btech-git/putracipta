@@ -1,0 +1,124 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Purchase Order' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_paper_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_paper_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>PO #</th>
+                <td>{{ purchaseOrderHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal PO</th>
+                <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Kirim</th>
+                <td>{{ purchaseOrderHeader.deliveryDate ? purchaseOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Supplier</th>
+                <td>{{ purchaseOrderHeader.supplier.company }}</td>
+            </tr>
+            <tr>
+                <th>TOP (days)</th>
+                <td>{{ purchaseOrderHeader.supplier.paymentTerm }}</td>
+            </tr>
+            <tr>
+                <th>Currency</th>
+                <td>{{ purchaseOrderHeader.supplier.currency.name }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ purchaseOrderHeader.transactionStatus }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ purchaseOrderHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ purchaseOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>P</th>
+                <th>L</th>
+                <th>GR</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>APKI</th>
+                <th>Harga Asosiasi</th>
+                <th>Harga KG</th>
+                <th>Harga Unit</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
+                <tr>
+                    <td>{{ purchaseOrderDetail.material.code|default }}</td>
+                    <td>{{ purchaseOrderDetail.material.name|default }}</td>
+                    <td>{{ purchaseOrderDetail.length|default }}</td>
+                    <td>{{ purchaseOrderDetail.width|default }}</td>
+                    <td>{{ purchaseOrderDetail.weight|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.quantity|default }}</td>
+                    <td>{{ purchaseOrderDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.apkiValue|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.associationPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.weightPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.unitPaperPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.totalPaperPrice|default|number_format(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="11" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="11" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="11" style="text-align: right">
+                    <strong>
+                        {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
+                            Non Tax 0%
+                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="11" style="text-align: right"><strong>Grand Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="d-inline-block">{{ include('transaction/purchase_order_header/_delete_form.html.twig') }}</div>
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) %}
+        <div class="d-inline-block">{{ include('transaction/purchase_order_header/_reject_form.html.twig') }}</div>
+        <div class="d-inline-block">{{ include('transaction/purchase_order_header/_approve_form.html.twig') }}</div>
+    {% endif %}
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
+    {% endif %}
+{% endblock %}

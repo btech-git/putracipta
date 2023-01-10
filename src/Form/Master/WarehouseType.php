@@ -13,8 +13,8 @@ class WarehouseType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('isInactive')
             ->add('name')
+            ->add('isInactive')
         ;
     }
 

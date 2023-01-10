@@ -41,12 +41,18 @@ class PurchaseOrderHeaderFormService
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            $material = $purchaseOrderDetail->getMaterial();
+            $purchaseOrderDetail->setLength($material->getLength());
+            $purchaseOrderDetail->setWidth($material->getWidth());
+            $purchaseOrderDetail->setWeight($material->getWeight());
+            $purchaseOrderDetail->setWeightPrice($purchaseOrderDetail->getWeightPaperPrice());
+            $purchaseOrderDetail->setUnitPrice($purchaseOrderDetail->getUnitPrice() === 0.00 ? $purchaseOrderDetail->getUnitPaperPrice() : $purchaseOrderDetail->getUnitPrice());
             $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
             $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
         }
         $supplier = $purchaseOrderHeader->getSupplier();
         $purchaseOrderHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
-        $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
+        $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal() == 0.00 ? $purchaseOrderHeader->getSyncSubTotalPaper() : $purchaseOrderHeader->getSyncSubTotal());
         $purchaseOrderHeader->setTaxPercentage($purchaseOrderHeader->getSyncTaxPercentage());
         $purchaseOrderHeader->setSubTotalAfterTaxInclusion($purchaseOrderHeader->getSyncSubTotalAfterTaxInclusion());
         $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());

@@ -50,6 +50,24 @@ class PurchaseOrderDetail extends TransactionDetail
     #[ORM\OneToOne(inversedBy: 'purchaseOrderDetail', cascade: ['persist', 'remove'])]
     private ?PurchaseRequestDetail $purchaseRequestDetail = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $associationPrice = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $weightPrice = '0.00';
+
+    #[ORM\Column]
+    private ?int $apkiValue = 0;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $length = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $width = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $weight = '0.00';
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -66,9 +84,28 @@ class PurchaseOrderDetail extends TransactionDetail
         return $this->quantity - $this->totalReceive;
     }
 
+    public function getWeightPaperPrice(): int
+    {
+        return empty($this->associationPrice) ? 1.00 : (1 + $this->apkiValue / 100) * $this->associationPrice;
+    }
+
+    public function getUnitPaperPrice(): int
+    {
+        $weight = empty($this->material) ? 1 : $this->material->getWeight();
+        $length = empty($this->material) ? 1 : $this->material->getLength();
+        $width = empty($this->material) ? 1 : $this->material->getWidth();
+        
+        return $weight * $length * $width / 20000 * $this->getWeightPaperPrice();
+    }
+
+    public function getTotalPaperPrice(): int
+    {
+        return $this->quantity * $this->getUnitPaperPrice();
+    }
+
     public function getTotal(): int
     {
-        return $this->quantity * $this->unitPrice;
+        return $this->quantity * $this->getUnitPrice();
     }
 
     public function getId(): ?int
@@ -210,6 +247,78 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
     {
         $this->purchaseRequestDetail = $purchaseRequestDetail;
+
+        return $this;
+    }
+
+    public function getAssociationPrice(): ?string
+    {
+        return $this->associationPrice;
+    }
+
+    public function setAssociationPrice(string $associationPrice): self
+    {
+        $this->associationPrice = $associationPrice;
+
+        return $this;
+    }
+
+    public function getWeightPrice(): ?string
+    {
+        return $this->weightPrice;
+    }
+
+    public function setWeightPrice(string $weightPrice): self
+    {
+        $this->weightPrice = $weightPrice;
+
+        return $this;
+    }
+
+    public function getApkiValue(): ?int
+    {
+        return $this->apkiValue;
+    }
+
+    public function setApkiValue(int $apkiValue): self
+    {
+        $this->apkiValue = $apkiValue;
+
+        return $this;
+    }
+
+    public function getLength(): ?string
+    {
+        return $this->length;
+    }
+
+    public function setLength(string $length): self
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    public function getWidth(): ?string
+    {
+        return $this->width;
+    }
+
+    public function setWidth(string $width): self
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function getWeight(): ?string
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(string $weight): self
+    {
+        $this->weight = $weight;
 
         return $this;
     }
