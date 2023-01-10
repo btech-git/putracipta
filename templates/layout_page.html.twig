@@ -62,19 +62,18 @@
                         </span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                        {% set counter = 0 %}
+                        {% set views = menu|map(v1 => app.request.attributes.get("_route") in v1|map(v2 => v2[0])) %}
                         {% for title, content in menu %}
-                            {% set counter = counter + 1 %}
                             <li>
-                                <a href="#submenu-{{ counter }}" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <a href="#submenu-{{ loop.index }}" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                                     <span class="ms-1 d-none d-sm-inline text-white">{{ title }}</span>
                                 </a>
-                                <ul class="collapse nav flex-column ms-1" id="submenu-{{ counter }}" data-bs-parent="#menu">
+                                <ul class="collapse nav flex-column ms-1 {% if views[title] %}show{% endif %}" id="submenu-{{ loop.index }}" data-bs-parent="#menu">
                                     {% for label, item in content %}
                                         {% if item[1]|map(a => is_granted(a))|reduce((a, b) => a or b, false) %}
                                             <li class="w-100 ms-3">
                                                 <a href="{{ path(item[0]) }}" class="nav-link px-0">
-                                                    <span class="d-none d-sm-inline text-white">{{ label }}</span>
+                                                    <span class="d-none d-sm-inline {% if app.request.attributes.get("_route") == item[0] %}text-primary{% else %}text-white{% endif %}">{{ label }}</span>
                                                 </a>
                                             </li>
                                         {% endif %}

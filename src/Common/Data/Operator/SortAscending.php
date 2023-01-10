@@ -13,6 +13,6 @@ class SortAscending implements SortOperatorInterface
 
     public function addSortToQueryBuilder(QueryBuilder $qb, string $alias, string $field): void
     {
-        $qb->orderBy("{$alias}.{$field}", 'ASC');
+        $qb->addOrderBy("{$alias}.{$field}", 'ASC');
     }
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 
 trait EntityDataFetch
 {
-    public function fetchData(DataCriteria $criteria, $callback = null): array
+    public function fetchData(DataCriteria $criteria, $callback = null, string $alias = 'e'): array
     {
         $count = $this->fetchCount($criteria, $callback);
         $pagination = $criteria->getPagination();
@@ -21,20 +21,20 @@ trait EntityDataFetch
         } else if ($pagination->getNumber() > $lastPageNumber) {
             $pagination->setNumber($lastPageNumber);
         }
-        $objects = $this->fetchObjects($criteria, $callback);
+        $objects = $this->fetchObjects($criteria, $callback, $alias);
 
         return [$count, $objects];
     }
 
-    public function fetchCount(DataCriteria $criteria, $callback = null): int
+    public function fetchCount(DataCriteria $criteria, $callback = null, string $alias = 'e'): int
     {
-        $alias = 'e';
-        $qb = $this->createQueryBuilderBy($alias, $criteria->getFilter(), null, null);
+        $qb = $this->createQueryBuilder($alias);
 
         if ($callback !== null) {
             $callback($qb, $alias);
         }
 
+        $this->processDataCriteria($qb, $alias, $criteria->getFilter(), null, null);
         $qb->select("COUNT({$alias})");
 
         try {
@@ -45,21 +45,20 @@ trait EntityDataFetch
         }
     }
 
-    public function fetchObjects(DataCriteria $criteria, $callback = null): array
+    public function fetchObjects(DataCriteria $criteria, $callback = null, string $alias = 'e'): array
     {
-        $alias = 'e';
-        $qb = $this->createQueryBuilderBy($alias, $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
+        $qb = $this->createQueryBuilder($alias);
 
         if ($callback !== null) {
             $callback($qb, $alias);
         }
 
+        $this->processDataCriteria($qb, $alias, $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
         return $qb->getQuery()->getResult();
     }
 
-    private function createQueryBuilderBy(string $alias, ?array $filter, ?array $sort, ?DataCriteriaPagination $pagination): QueryBuilder
+    private function processDataCriteria(QueryBuilder $qb, string $alias, ?array $filter, ?array $sort, ?DataCriteriaPagination $pagination): void
     {
-        $qb = $this->createQueryBuilder($alias);
         if (!empty($filter)) {
             foreach ($filter as $field => $values) {
                 $filterOperator = $values[0];
@@ -82,7 +81,5 @@ trait EntityDataFetch
             $qb->setMaxResults($pageSize);
             $qb->setFirstResult(($pageNumber - 1) * $pageSize);
         }
-
-        return $qb;
     }
 }
