@@ -1,0 +1,79 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, purchaseRequestDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-brequested table-striped" id="purchase-request-detail-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th>
+                    Request #
+                </th>
+                <th>
+                    Tanggal
+                </th>
+                <th>
+                    Material
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                    Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
+                </th>
+                <th>
+                    Satuan
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
+                    Tanggal Pakai {{ grid.sort_char(form.sort.usageDate.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'memo') }}>
+                    Keterangan {{ grid.sort_char(form.sort.memo.vars.value) }}
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseRequestDetail in purchaseRequestDetails %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'purchaseRequestDetailId': purchaseRequestDetail.id,
+                    'purchaseRequestHeaderCodeNumber': purchaseRequestDetail.purchaseRequestHeader.codeNumber,
+                    'purchaseRequestHeaderTransactionDate': purchaseRequestDetail.purchaseRequestHeader.transactionDate ? purchaseRequestDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '',
+                    'materialName': purchaseRequestDetail.material.name,
+                    'materialCode': purchaseRequestDetail.material.code,
+                    'materialId': purchaseRequestDetail.material.id,
+                    'usageDate': purchaseRequestDetail.usageDate,
+                    'memo': purchaseRequestDetail.memo,
+                    'unitName': purchaseRequestDetail.unit.name,
+                    'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity}|json_encode }}">
+                    <td>{{ purchaseRequestDetail.purchaseRequestHeader.codeNumber }}</td>
+                    <td>{{ purchaseRequestDetail.purchaseRequestHeader.transactionDate ? purchaseRequestDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseRequestDetail.material.name }}</td>
+                    <td class="text-end">{{ purchaseRequestDetail.quantity|number_format(0) }}</td>
+                    <td>{{ purchaseRequestDetail.unit.name }}</td>
+                    <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : ''  }}</td>
+                    <td>{{ purchaseRequestDetail.memo }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, purchaseRequestDetails) }}
