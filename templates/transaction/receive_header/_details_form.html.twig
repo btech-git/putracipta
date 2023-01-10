@@ -23,8 +23,8 @@
                 <td class="d-none">{{ form_widget(detailForm.purchaseOrderDetail, {'attr': {'data-item-field-name': 'purchaseOrderDetailId'}}) }}</td>
                 <td data-item-field-name="materialCode">{{ detailForm.vars.value.purchaseOrderDetail.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.purchaseOrderDetail.material.name|default }}</td>
-                <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default }}</td>
-                <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail.remainingReceive|default }}</td>
+                <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
+                <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) }}</td>
                 <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.purchaseOrderDetail.unit.name|default }}</td>
                 <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
