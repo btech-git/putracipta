@@ -2,6 +2,9 @@
 
 namespace App\Repository\Transaction;
 
+use App\Common\Doctrine\Repository\EntityAdd;
+use App\Common\Doctrine\Repository\EntityDataFetch;
+use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Transaction\PurchaseRequestDetail;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,51 +19,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PurchaseRequestDetailRepository extends ServiceEntityRepository
 {
+    use EntityDataFetch, EntityAdd, EntityRemove;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PurchaseRequestDetail::class);
     }
-
-    public function add(PurchaseRequestDetail $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(PurchaseRequestDetail $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return PurchaseRequestDetail[] Returns an array of PurchaseRequestDetail objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?PurchaseRequestDetail
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
