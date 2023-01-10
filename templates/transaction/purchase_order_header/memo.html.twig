@@ -86,7 +86,7 @@
                 {% for row in purchaseOrderHeader.purchaseOrderDetails|batch(rowspan, '') %}
                     {% for purchaseOrderDetail in row %}
                         <tr>
-                            {% if purchaseOrderDetail %}
+                            {% if purchaseOrderDetail and not purchaseOrderDetail.isCanceled %}
                                 <td class="left">{{ purchaseOrderDetail.material.code|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="center">{{ purchaseOrderDetail.quantity|default }}</td>
