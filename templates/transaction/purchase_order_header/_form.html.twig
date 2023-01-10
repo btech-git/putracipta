@@ -61,7 +61,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Details</legend>
             <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
-            {#<button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#purchase-request-dialog">Add Request</button>#}
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#purchase-request-detail-dialog">Add Request</button>
             {{ include('transaction/purchase_order_header/_details_form.html.twig') }}
         </fieldset>
 
@@ -86,10 +86,10 @@
         </div>
     {{ dialog.end() }}
 
-    {#{{ dialog.start('purchase-request-dialog', 'Purchase Request List') }}
+    {{ dialog.start('purchase-request-detail-dialog', 'Purchase Request List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_purchase_request_header__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_purchase_request_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
-    {{ dialog.end() }}#}
+    {{ dialog.end() }}
 </div>

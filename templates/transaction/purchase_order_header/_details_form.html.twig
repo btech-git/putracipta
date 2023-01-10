@@ -15,10 +15,11 @@
             <th style="width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem">
+    <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem purchase-request-detail-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="materialId" data-item-identifier-value="{{ detailForm.vars.value.material.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
+                <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
                 <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
