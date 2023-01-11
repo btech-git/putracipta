@@ -142,6 +142,34 @@
             </tr>
         </tfoot>
     </table>
+
+    <legend class="float-none w-auto text-dark px-1">Data Pembayaran</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Pembayaran #</th>
+                <th>Tanggal</th>
+                <th>Cek/Giro #</th>
+                <th>Tanggal Cek/Giro</th>
+                <th>Memo</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchasePaymentDetail in purchaseInvoiceHeader.purchasePaymentDetails %}
+                <tr>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.codeNumber|default }}</td>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.transactionDate ? purchasePaymentDetail.purchasePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.referenceNumber|default }}</td>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.referenceDate ? purchasePaymentDetail.purchasePaymentHeader.referenceDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchasePaymentDetail.memo|default }}</td>
+                    <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
+                    <td>{{ purchasePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
     {{ include('transaction/purchase_invoice_header/_delete_form.html.twig') }}
 {% endblock %}
