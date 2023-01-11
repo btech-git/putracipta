@@ -40,6 +40,9 @@ class ReceiveHeader extends TransactionHeader
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
 
+    #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
+    private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -183,6 +186,18 @@ class ReceiveHeader extends TransactionHeader
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderPaperHeader(): ?PurchaseOrderPaperHeader
+    {
+        return $this->purchaseOrderPaperHeader;
+    }
+
+    public function setPurchaseOrderPaperHeader(?PurchaseOrderPaperHeader $purchaseOrderPaperHeader): self
+    {
+        $this->purchaseOrderPaperHeader = $purchaseOrderPaperHeader;
 
         return $this;
     }

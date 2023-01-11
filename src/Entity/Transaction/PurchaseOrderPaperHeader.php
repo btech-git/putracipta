@@ -6,15 +6,15 @@ use App\Entity\Admin\User;
 use App\Entity\Master\Currency;
 use App\Entity\Master\Supplier;
 use App\Entity\TransactionHeader;
-use App\Repository\Transaction\PurchaseOrderHeaderRepository;
+use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PurchaseOrderHeaderRepository::class)]
-#[ORM\Table(name: 'transaction_purchase_order_header')]
-class PurchaseOrderHeader extends TransactionHeader
+#[ORM\Entity(repositoryClass: PurchaseOrderPaperHeaderRepository::class)]
+#[ORM\Table(name: 'transaction_purchase_order_paper_header')]
+class PurchaseOrderPaperHeader extends TransactionHeader
 {
     public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
@@ -57,48 +57,51 @@ class PurchaseOrderHeader extends TransactionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $approvedTransactionDateTime = null;
+    #[ORM\Column]
+    private ?int $totalRemainingReceive = 0;
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $rejectedTransactionDateTime = null;
+    private ?\DateTimeInterface $approvedTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $rejectedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
     private ?Supplier $supplier = null;
 
-    #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: PurchaseOrderDetail::class)]
-    private Collection $purchaseOrderDetails;
-
-    #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: ReceiveHeader::class)]
-    private Collection $receiveHeaders;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $deliveryDate = null;
+    private ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\ManyToOne]
     private ?Currency $currency = null;
 
     #[ORM\ManyToOne]
-    protected ?User $approvedTransactionUser = null;
+    private ?User $approvedTransactionUser = null;
 
     #[ORM\ManyToOne]
-    protected ?User $rejectedTransactionUser = null;
+    private ?User $rejectedTransactionUser = null;
 
-    #[ORM\Column(length: 60)]
-    private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
+    #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: PurchaseOrderPaperDetail::class)]
+    private Collection $purchaseOrderPaperDetails;
 
-    #[ORM\Column]
-    private ?int $totalRemainingReceive = 0;
+    #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: ReceiveHeader::class)]
+    private Collection $receiveHeaders;
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperHeaders')]
+    private ?PurchaseRequestHeader $purchaseRequestHeader = null;
 
     public function __construct()
     {
-        $this->purchaseOrderDetails = new ArrayCollection();
+        $this->purchaseOrderPaperDetails = new ArrayCollection();
         $this->receiveHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
     {
-        return 'POM';
+        return 'POP';
     }
 
     public function getSyncTaxPercentage(): int
@@ -116,9 +119,9 @@ class PurchaseOrderHeader extends TransactionHeader
     public function getSyncSubTotal(): string
     {
         $subTotal = '0.00';
-        foreach ($this->purchaseOrderDetails as $purchaseOrderDetail) {
-            if (!$purchaseOrderDetail->isIsCanceled()) {
-                $subTotal += $purchaseOrderDetail->getTotal();
+        foreach ($this->purchaseOrderPaperDetails as $purchaseOrderPaperDetail) {
+            if (!$purchaseOrderPaperDetail->isIsCanceled()) {
+                $subTotal += $purchaseOrderPaperDetail->getTotal();
             }
         }
         return $subTotal;
@@ -139,9 +142,9 @@ class PurchaseOrderHeader extends TransactionHeader
     public function getSyncTotalRemainingReceive(): string
     {
         $subTotal = '0.00';
-        foreach ($this->purchaseOrderDetails as $purchaseOrderDetail) {
-            if (!$purchaseOrderDetail->isIsCanceled()) {
-                $subTotal += $purchaseOrderDetail->getRemainingReceive();
+        foreach ($this->purchaseOrderPaperDetails as $purchaseOrderPaperDetail) {
+            if (!$purchaseOrderPaperDetail->isIsCanceled()) {
+                $subTotal += $purchaseOrderPaperDetail->getRemainingReceive();
             }
         }
         return $subTotal;
@@ -258,6 +261,30 @@ class PurchaseOrderHeader extends TransactionHeader
         return $this;
     }
 
+    public function getTotalRemainingReceive(): ?int
+    {
+        return $this->totalRemainingReceive;
+    }
+
+    public function setTotalRemainingReceive(int $totalRemainingReceive): self
+    {
+        $this->totalRemainingReceive = $totalRemainingReceive;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
     public function getApprovedTransactionDateTime(): ?\DateTimeInterface
     {
         return $this->approvedTransactionDateTime;
@@ -290,66 +317,6 @@ class PurchaseOrderHeader extends TransactionHeader
     public function setSupplier(?Supplier $supplier): self
     {
         $this->supplier = $supplier;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, PurchaseOrderDetail>
-     */
-    public function getPurchaseOrderDetails(): Collection
-    {
-        return $this->purchaseOrderDetails;
-    }
-
-    public function addPurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
-    {
-        if (!$this->purchaseOrderDetails->contains($purchaseOrderDetail)) {
-            $this->purchaseOrderDetails->add($purchaseOrderDetail);
-            $purchaseOrderDetail->setPurchaseOrderHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removePurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
-    {
-        if ($this->purchaseOrderDetails->removeElement($purchaseOrderDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($purchaseOrderDetail->getPurchaseOrderHeader() === $this) {
-                $purchaseOrderDetail->setPurchaseOrderHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ReceiveHeader>
-     */
-    public function getReceiveHeaders(): Collection
-    {
-        return $this->receiveHeaders;
-    }
-
-    public function addReceiveHeader(ReceiveHeader $receiveHeader): self
-    {
-        if (!$this->receiveHeaders->contains($receiveHeader)) {
-            $this->receiveHeaders->add($receiveHeader);
-            $receiveHeader->setPurchaseOrderHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReceiveHeader(ReceiveHeader $receiveHeader): self
-    {
-        if ($this->receiveHeaders->removeElement($receiveHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($receiveHeader->getPurchaseOrderHeader() === $this) {
-                $receiveHeader->setPurchaseOrderHeader(null);
-            }
-        }
 
         return $this;
     }
@@ -402,26 +369,74 @@ class PurchaseOrderHeader extends TransactionHeader
         return $this;
     }
 
-    public function getTransactionStatus(): ?string
+    /**
+     * @return Collection<int, PurchaseOrderPaperDetail>
+     */
+    public function getPurchaseOrderPaperDetails(): Collection
     {
-        return $this->transactionStatus;
+        return $this->purchaseOrderPaperDetails;
     }
 
-    public function setTransactionStatus(string $transactionStatus): self
+    public function addPurchaseOrderPaperDetail(PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
     {
-        $this->transactionStatus = $transactionStatus;
+        if (!$this->purchaseOrderPaperDetails->contains($purchaseOrderPaperDetail)) {
+            $this->purchaseOrderPaperDetails->add($purchaseOrderPaperDetail);
+            $purchaseOrderPaperDetail->setPurchaseOrderPaperHeader($this);
+        }
 
         return $this;
     }
 
-    public function getTotalRemainingReceive(): ?int
+    public function removePurchaseOrderPaperDetail(PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
     {
-        return $this->totalRemainingReceive;
+        if ($this->purchaseOrderPaperDetails->removeElement($purchaseOrderPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseOrderPaperDetail->getPurchaseOrderPaperHeader() === $this) {
+                $purchaseOrderPaperDetail->setPurchaseOrderPaperHeader(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setTotalRemainingReceive(int $totalRemainingReceive): self
+    /**
+     * @return Collection<int, ReceiveHeader>
+     */
+    public function getReceiveHeaders(): Collection
     {
-        $this->totalRemainingReceive = $totalRemainingReceive;
+        return $this->receiveHeaders;
+    }
+
+    public function addReceiveHeader(ReceiveHeader $receiveHeader): self
+    {
+        if (!$this->receiveHeaders->contains($receiveHeader)) {
+            $this->receiveHeaders->add($receiveHeader);
+            $receiveHeader->setPurchaseOrderPaperHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceiveHeader(ReceiveHeader $receiveHeader): self
+    {
+        if ($this->receiveHeaders->removeElement($receiveHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($receiveHeader->getPurchaseOrderPaperHeader() === $this) {
+                $receiveHeader->setPurchaseOrderPaperHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPurchaseRequestHeader(): ?PurchaseRequestHeader
+    {
+        return $this->purchaseRequestHeader;
+    }
+
+    public function setPurchaseRequestHeader(?PurchaseRequestHeader $purchaseRequestHeader): self
+    {
+        $this->purchaseRequestHeader = $purchaseRequestHeader;
 
         return $this;
     }

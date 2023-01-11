@@ -6,6 +6,8 @@ use App\Entity\Master\Material;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseRequestDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +40,14 @@ class PurchaseRequestDetail extends TransactionDetail
 
     #[ORM\OneToOne(mappedBy: 'purchaseRequestDetail', cascade: ['persist', 'remove'])]
     private ?PurchaseOrderDetail $purchaseOrderDetail = null;
+
+    #[ORM\OneToMany(mappedBy: 'purchaseRequestDetail', targetEntity: PurchaseOrderPaperDetail::class)]
+    private Collection $purchaseOrderPaperDetails;
+
+    public function __construct()
+    {
+        $this->purchaseOrderPaperDetails = new ArrayCollection();
+    }
 
     public function getSyncIsCanceled(): bool
     {
@@ -140,6 +150,36 @@ class PurchaseRequestDetail extends TransactionDetail
         }
 
         $this->purchaseOrderDetail = $purchaseOrderDetail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseOrderPaperDetail>
+     */
+    public function getPurchaseOrderPaperDetails(): Collection
+    {
+        return $this->purchaseOrderPaperDetails;
+    }
+
+    public function addPurchaseOrderPaperDetail(PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
+    {
+        if (!$this->purchaseOrderPaperDetails->contains($purchaseOrderPaperDetail)) {
+            $this->purchaseOrderPaperDetails->add($purchaseOrderPaperDetail);
+            $purchaseOrderPaperDetail->setPurchaseRequestDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseOrderPaperDetail(PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
+    {
+        if ($this->purchaseOrderPaperDetails->removeElement($purchaseOrderPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseOrderPaperDetail->getPurchaseRequestDetail() === $this) {
+                $purchaseOrderPaperDetail->setPurchaseRequestDetail(null);
+            }
+        }
 
         return $this;
     }

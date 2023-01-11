@@ -47,6 +47,9 @@ class ReceiveDetail extends TransactionDetail
     #[ORM\Column(length: 100)]
     private ?string $memo = '';
 
+    #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
+    private ?PurchaseOrderPaperDetail $purchaseOrderPaperDetail = null;
+
     public function __construct()
     {
         $this->purchaseReturnDetails = new ArrayCollection();
@@ -185,6 +188,18 @@ class ReceiveDetail extends TransactionDetail
     public function setMemo(string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderPaperDetail(): ?PurchaseOrderPaperDetail
+    {
+        return $this->purchaseOrderPaperDetail;
+    }
+
+    public function setPurchaseOrderPaperDetail(?PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
+    {
+        $this->purchaseOrderPaperDetail = $purchaseOrderPaperDetail;
 
         return $this;
     }
