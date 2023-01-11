@@ -34,7 +34,7 @@
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <strong>Currency: </strong>
+                        <strong>Currency: </strong><br />
                         <span data-controller="dom-element"
                              data-action="supplier-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
@@ -42,7 +42,7 @@
                              ]|json_encode }}">{{ purchaseOrderHeader.supplier.currency.code|default }}</span>
                     </div>
                     <div class="mb-3">
-                        <strong>Category: </strong>
+                        <strong>Category: </strong><br />
                         <span data-controller="dom-element"
                              data-action="supplier-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [

@@ -75,7 +75,7 @@
                 {% for row in deliveryHeader.deliveryDetails|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
-                            {% if deliveryDetail %}
+                            {% if deliveryDetail and not deliveryDetail.isCanceled %}
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
                                 <td class="center">{{ deliveryDetail.fscCode|default }}</td>

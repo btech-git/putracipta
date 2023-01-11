@@ -122,11 +122,11 @@
                 <tr>
                     <td colspan="5" class="label right">
                         {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
-                            Non Tax 0%
+                            Non PPn 0%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
                         {% endif %}
                     </td>
                     <td class="right">{{ purchaseOrderHeader.taxNominal|default|number_format(0) }}</td>

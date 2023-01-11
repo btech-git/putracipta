@@ -43,7 +43,7 @@
                 <td>{{ purchaseOrderHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>Transaction Canceled?</th>
                 <td>{{ purchaseOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -58,6 +58,7 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -69,6 +70,7 @@
                     <td>{{ purchaseOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
+                    <td>{{ purchaseOrderDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -76,28 +78,32 @@
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right">
                     <strong>
                         {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
-                            Non Tax 0%
+                            Non PPn 0%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            Exclude PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            Include PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
                         {% endif %}
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
         </tfoot>
     </table>
@@ -106,7 +112,5 @@
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_approve_form.html.twig') }}</div>
     {% endif %}
-    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
-        <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
-    {% endif %}
+    <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
 {% endblock %}

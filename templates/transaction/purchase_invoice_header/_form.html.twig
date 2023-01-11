@@ -10,33 +10,18 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col sm-6">
-                    {{ form_row(form.transactionDate, {'label': 'Tanggal Terima Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.invoiceReceivedDate, {'label': 'Tanggal Terima Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
                     {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     <div class="mb-3">
-                        <strong>PO #: </strong>
+                        <strong>Currency: </strong><br />
                         <span data-controller="dom-element"
                              data-action="receive-header-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
-                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.codeNumber|default }}</span>
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCurrency'}},
+                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.currency.code|default }}</span>
                     </div>
-                    <div class="mb-3">
-                        <strong>Supplier: </strong>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCompany'}},
-                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company|default }}</span>
-                     </div>
-                    <div class="mb-3">
-                        <strong>SJ #: </strong>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierDeliveryCodeNumber'}},
-                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber|default }}</span>
-                     </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -60,21 +45,37 @@
                     </div>
                     {{ form_row(form.supplierInvoiceCodeNumber, {'label': 'Supplier Invoice #'}) }}
                     <div class="mb-3">
-                        <strong>TOP (hari): </strong>
+                        <strong>PO #: </strong><br />
+                        <span data-controller="dom-element"
+                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
+                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.codeNumber|default }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Supplier: </strong><br />
+                        <span data-controller="dom-element"
+                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCompany'}},
+                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company|default }}</span>
+                     </div>
+                    <div class="mb-3">
+                        <strong>SJ #: </strong><br />
+                        <span data-controller="dom-element"
+                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
+                             data-dom-element-bind-specifications-param="{{ [
+                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierDeliveryCodeNumber'}},
+                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber|default }}</span>
+                     </div>
+                    <div class="mb-3">
+                        <strong>TOP (hari): </strong><br />
                         <span data-controller="dom-element"
                              data-action="receive-header-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
                                  {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierPaymentTerm'}},
                              ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.paymentTerm|default }}</span>
-                     </div>
-                    <div class="mb-3">
-                        <strong>Currency: </strong>
-                        <span data-controller="dom-element"
-                             data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].supplierCurrency'}},
-                             ]|json_encode }}">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.currency.code|default }}</span>
-                     </div>
+                    </div>
                 </div>
             </div>
             <div class="row">

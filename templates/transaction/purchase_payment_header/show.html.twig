@@ -47,7 +47,7 @@
                 <td>{{ purchasePaymentHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>Transaction Canceled?</th>
                 <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -61,6 +61,7 @@
                 <th>Memo</th>
                 <th>Akun</th>
                 <th>Amount</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +72,7 @@
                     <td>{{ purchasePaymentDetail.memo|default }}</td>
                     <td>{{ purchasePaymentDetail.account.name|default }}</td>
                     <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
+                    <td>{{ purchasePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -78,6 +80,7 @@
             <tr>
                 <td colspan="4" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchasePaymentHeader.totalAmount|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
         </tfoot>
     </table>

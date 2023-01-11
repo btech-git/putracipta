@@ -13,7 +13,7 @@
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                     <div class="mb-3">
-                        <strong>Tanggal PO: </strong>
+                        <strong>Tanggal PO: </strong><br />
                         <span data-controller="dom-element"
                          data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
                          data-dom-element-bind-specifications-param="{{ [
@@ -21,7 +21,7 @@
                          ]|json_encode }}">{{ receiveHeader.purchaseOrderHeader.transactionDate|default ? receiveHeader.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</span>
                     </div>
                     <div class="mb-3">
-                        <strong>Tanggal Kirim: </strong>
+                        <strong>Tanggal Kirim: </strong><br />
                         <span data-controller="dom-element"
                          data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
                          data-dom-element-bind-specifications-param="{{ [
@@ -51,7 +51,7 @@
                     </div>
                     {{ form_row(form.supplierDeliveryCodeNumber, {'label': 'Supplier SJ #'}) }}
                     <div class="mb-3">
-                        <strong>Supplier: </strong>
+                        <strong>Supplier: </strong><br />
                         <span data-controller="dom-element"
                          data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
                          data-dom-element-bind-specifications-param="{{ [

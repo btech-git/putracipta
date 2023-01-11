@@ -27,7 +27,7 @@
                 <td>{{ purchaseRequestHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>Transaction Canceled?</th>
                 <td>{{ purchaseRequestHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -42,6 +42,7 @@
                 <th>Satuan</th>
                 <th>Tanggal Pakai</th>
                 <th>Keterangan</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -53,6 +54,7 @@
                     <td>{{ purchaseRequestDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestDetail.memo|default }}</td>
+                    <td>{{ purchaseRequestDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -60,7 +62,7 @@
             <tr>
                 <td colspan="2" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ purchaseRequestHeader.totalQuantity|default }}</strong></td>
-                <td colspan="3"></td>
+                <td colspan="4"></td>
             </tr>
         </tfoot>
     </table>

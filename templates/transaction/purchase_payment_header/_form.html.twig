@@ -14,7 +14,7 @@
                     {{ form_row(form.referenceNumber, {'label': 'Nomor Cek / Giro'}) }}
                     {{ form_row(form.referenceDate, {'label': 'Tanggal Cek / Giro', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     <div class="mb-3">
-                        <strong>TOP (hari): </strong>
+                        <strong>TOP (hari): </strong><br />
                         <span data-controller="dom-element"
                              data-action="supplier-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [
@@ -45,7 +45,7 @@
                     {{ form_row(form.paymentType, {'label': 'Jenis Pembayaran'}) }}
                     {{ form_row(form.currencyRate, {'label': 'Nilai Tukar'}) }}
                     <div class="mb-3">
-                        <strong>Currency: </strong>
+                        <strong>Currency: </strong><br />
                         <span data-controller="dom-element"
                              data-action="supplier-table:data-table:select@document->dom-element#bind"
                              data-dom-element-bind-specifications-param="{{ [

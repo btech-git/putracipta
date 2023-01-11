@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('app_transaction_purchase_order_header_approve', {'id': purchaseOrderHeader.id}) }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ purchaseOrderHeader.id) }}">
+<form method="post" action="{{ path('app_transaction_purchase_order_paper_header_approve', {'id': purchaseOrderPaperHeader.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ purchaseOrderPaperHeader.id) }}">
     <button class="btn btn-primary btn-sm"
             data-controller="dom-element"
             data-action="dom-element#confirm"

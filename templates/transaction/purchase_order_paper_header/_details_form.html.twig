@@ -1,7 +1,7 @@
 <table class="table table-bordered"
        data-controller="form-collection"
-       data-form-collection-start-index-value="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}"
-       data-form-collection-prototype-value="{{ _self.collection_item(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"
+       data-form-collection-start-index-value="{{ form.purchaseOrderPaperDetails|length > 0 ? form.purchaseOrderPaperDetails|last.vars.name + 1 : 0 }}"
+       data-form-collection-prototype-value="{{ _self.collection_item(form.purchaseOrderPaperDetails.vars.prototype)|e('html_attr') }}"
        data-action="form-collection:collection-item-removed->json-loader#load:self">
     <thead class="table-secondary">
         <tr>
@@ -14,17 +14,18 @@
             <th>Qty</th>
             <th>Unit</th>
             <th>APKI</th>
-            <th>Harga Asosiasi</th>
-            <th>Harga KG</th>
-            <th>Harga Unit</th>
+            <th>H. Asosiasi</th>
+            <th>H. KG</th>
+            <th>H. Satuan</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem">
+    <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem purchase-request-detail-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="materialId" data-item-identifier-value="{{ detailForm.vars.value.material.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
+                <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
                 <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td data-item-field-name="materialLength">{{ detailForm.vars.value.material.length|default }}</td>
@@ -32,7 +33,16 @@
                 <td data-item-field-name="materialWeight">{{ detailForm.vars.value.material.weight|default }}</td>
                 <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
-                <td>{{ form_row(detailForm.apkiValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>
+                    {{ form_row(detailForm.apkiValue, {'label': false, 'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-dom-element-bind-specifications-param': [
+                            {'destinationsTarget': "\##{detailForm.apkiValue.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                        ]|json_encode,
+                    }}) }}
+                    <div id="{{ detailForm.apkiValue.vars.id }}-format" class="text-end">{{ detailForm.vars.value.apkiValue|default|number_format(2) }}</div>
+                </td>
                 <td>
                     {{ form_row(detailForm.associationPrice, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
@@ -43,17 +53,25 @@
                     }}) }}
                     <div id="{{ detailForm.associationPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.associationPrice|default|number_format(2) }}</div>
                 </td>
-                <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.weightPaperPrice">
-                    {{ detailForm.vars.value.weightPaperPrice|default|number_format(2) }}
+                <td>
+                    {{ form_row(detailForm.weightPrice, {'label': false, 'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-json-loader-target': 'placeholder',
+                        'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.weightPrice",
+                        'data-dom-element-bind-specifications-param': [
+                            {'destinationsTarget': "\##{detailForm.weightPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                        ]|json_encode,
+                    }}) }}
+                    <div id="{{ detailForm.weightPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.weightPrice|default|number_format(2) }}</div>
                 </td>
                 <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.unitPaperPrice">
-                    {{ detailForm.vars.value.unitPaperPrice|default|number_format(2) }}
+                    data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.unitPrice">
+                    {{ detailForm.vars.value.unitPrice|default|number_format(2) }}
                 </td>
                 <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="purchaseOrderDetails.{{ detailForm.vars.name }}.totalPaperPrice">
-                    {{ detailForm.vars.value.totalPaperPrice|default|number_format(2) }}
+                    data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.total">
+                    {{ detailForm.vars.value.total|default|number_format(2) }}
                 </td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}
@@ -61,6 +79,7 @@
                     {% endif %}
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
+                            'label': 'Cancel',
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'dom-element#bind change->json-loader#load',
@@ -74,7 +93,7 @@
                 </td>
             </tr>
         {% endmacro %}
-        {% for detailForm in form.purchaseOrderDetails %}
+        {% for detailForm in form.purchaseOrderPaperDetails %}
             {{ _self.collection_item(detailForm) }}
         {% endfor %}
     </tbody>
@@ -83,7 +102,7 @@
             <td class="text-end" colspan="11">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="subTotalAfterTaxInclusion">
-                {{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
+                {{ purchaseOrderPaperHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
@@ -95,18 +114,18 @@
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="discountNominal">
-                {{ purchaseOrderHeader.discountNominal|default|number_format(2) }}
+                {{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
         <tr>
             <td class="text-end" colspan="11">
-                <span class="d-inline-block">PPn</span>
+                <span class="d-inline-block">PPn </span>
                 <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="taxNominal">
-                {{ purchaseOrderHeader.taxNominal|default|number_format(2) }}
+                {{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
@@ -114,7 +133,7 @@
             <td class="text-end" colspan="11">Grand Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="grandTotal">
-                {{ purchaseOrderHeader.grandTotal|default|number_format(2) }}
+                {{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>

@@ -43,7 +43,7 @@
                 <td>{{ saleOrderHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>Transaction Canceled?</th>
                 <td>{{ saleOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -58,6 +58,7 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -69,6 +70,7 @@
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                    <td>{{ saleOrderDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -76,10 +78,12 @@
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right">
@@ -94,10 +98,12 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
         </tfoot>
     </table>

@@ -51,7 +51,7 @@
                 <td>{{ saleInvoiceHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>Transaction Canceled?</th>
                 <td>{{ saleInvoiceHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -66,6 +66,7 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -77,6 +78,7 @@
                     <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
+                    <td>{{ saleInvoiceDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -84,30 +86,37 @@
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ saleInvoiceHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>{{ saleInvoiceHeader.taxMode|default }} {{ saleInvoiceHeader.taxPercentage|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Total Payment</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.totalPayment|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Total Return</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.totalReturn|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Remaining Payment</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.remainingPayment|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
         </tfoot>
     </table>

@@ -9,7 +9,7 @@
             <h3 class="title">Kawasan Industri Millenium</h3>
             <h3 class="title">Jl. Millenium 15A Blok I2 no. 5, Tangerang</h3>
             <br />
-            <h2 class="title">PURCHASE ORDER</h2>
+            <h2 class="title">PURCHASE ORDER KERTAS</h2>
         </div>
         
         <br /><hr />
@@ -20,11 +20,11 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Vendor</div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.company|default }}</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.supplier.company|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.address|default|nl2br }}</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.supplier.address|default|nl2br }}</div>
                         </div>
                         <br />
                         <div class="row">
@@ -45,23 +45,23 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">PO #</div>
-                            <div class="cell value">{{ purchaseOrderHeader.codeNumber|default }}</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.codeNumber|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal PO</div>
-                            <div class="cell value">{{ purchaseOrderHeader.transactionDate|default ? purchaseOrderHeader.transactionDate|date('d M Y') }}</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperHeader.transactionDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Kirim</div>
-                            <div class="cell value">{{ purchaseOrderHeader.deliveryDate|default ? purchaseOrderHeader.deliveryDate|date('d M Y') }}</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.deliveryDate|default ? purchaseOrderPaperHeader.deliveryDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Currency</div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.currency.code|default }}</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.supplier.currency.code|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Term of PO</div>
-                            <div class="cell value">{{ purchaseOrderHeader.supplier.paymentTerm|default }} hari (dari tanggal tanda terima faktur)</div>
+                            <div class="cell value">{{ purchaseOrderPaperHeader.supplier.paymentTerm|default }} hari (dari tanggal tanda terima faktur)</div>
                         </div>
                     </div>
                 </div>
@@ -83,16 +83,16 @@
             </thead>
             <tbody>
                 {% set rowspan = 20 %}
-                {% for row in purchaseOrderHeader.purchaseOrderDetails|batch(rowspan, '') %}
-                    {% for purchaseOrderDetail in row %}
+                {% for row in purchaseOrderPaperHeader.purchaseOrderPaperDetails|batch(rowspan, '') %}
+                    {% for purchaseOrderPaperDetail in row %}
                         <tr>
-                            {% if purchaseOrderDetail %}
-                                <td class="left">{{ purchaseOrderDetail.material.code|default }}</td>
-                                <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
-                                <td class="center">{{ purchaseOrderDetail.quantity|default }}</td>
-                                <td class="left">{{ purchaseOrderDetail.unit.name|default }}</td>
-                                <td class="right">{{ purchaseOrderDetail.unitPrice|default|number_format(0) }}</td>
-                                <td class="right">{{ purchaseOrderDetail.total|default|number_format(0) }}</td>
+                            {% if purchaseOrderPaperDetail and not purchaseOrderPaperDetail.isCanceled %}
+                                <td class="left">{{ purchaseOrderPaperDetail.material.code|default }}</td>
+                                <td class="left">{{ purchaseOrderPaperDetail.material.name|default }}</td>
+                                <td class="center">{{ purchaseOrderPaperDetail.quantity|default }}</td>
+                                <td class="left">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                                <td class="right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(0) }}</td>
+                                <td class="right">{{ purchaseOrderPaperDetail.total|default|number_format(0) }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -108,32 +108,32 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="label right">Sub Total</td>
-                    <td class="right">{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderPaperHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">
                         Diskon
-                        {% if purchaseOrderHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseOrderHeader) %}
-                            {{ purchaseOrderHeader.discountValue|default }}%
+                        {% if purchaseOrderPaperHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseOrderPaperHeader) %}
+                            {{ purchaseOrderPaperHeader.discountValue|default }}%
                         {% endif %}
                     </td>
-                    <td class="right">{{ purchaseOrderHeader.discountNominal|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderPaperHeader.discountNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">
-                        {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
-                            Non Tax 0%
-                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
-                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                        {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
+                            Non PPn 0%
+                        {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderPaperHeader) %}
+                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                        {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderPaperHeader) %}
+                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
                         {% endif %}
                     </td>
-                    <td class="right">{{ purchaseOrderHeader.taxNominal|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderPaperHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">Grand Total</td>
-                    <td class="right">{{ purchaseOrderHeader.grandTotal|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderPaperHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
             </tfoot>
         </table>
@@ -144,7 +144,7 @@
             <div class="table">
                 <div class="cell label">Terbilang:</div>
                 <div class="cell">&nbsp;&nbsp;</div>
-                <div class="cell">{{ purchaseOrderHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</div>
+                <div class="cell">{{ purchaseOrderPaperHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</div>
             </div>
         </div>
         
@@ -177,7 +177,7 @@
             <div class="table">
                 <div class="cell label">Catatan:</div>
                 <div class="cell">&nbsp;&nbsp;</div>
-                <div class="cell">{{ purchaseOrderHeader.note|default }}</div>
+                <div class="cell">{{ purchaseOrderPaperHeader.note|default }}</div>
             </div>
         </div>
         
@@ -189,7 +189,7 @@
                     <div>PO created by,</div>
                         <div class="blank"></div>
                         <div class="blank"></div>
-                        <div>{{ purchaseOrderHeader.createdTransactionUser.name|default }}</div>
+                        <div>{{ purchaseOrderPaperHeader.createdTransactionUser.name|default }}</div>
                 </div>
             </div>
         </div>
