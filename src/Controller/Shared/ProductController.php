@@ -22,7 +22,9 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $products) = $productRepository->fetchData($criteria);
+        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = 0");
+        });
 
         return $this->renderForm("shared/product/_list.html.twig", [
             'form' => $form,

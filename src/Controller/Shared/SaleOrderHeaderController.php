@@ -22,7 +22,9 @@ class SaleOrderHeaderController extends AbstractController
         $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria);
+        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = 0");
+        });
 
         return $this->renderForm("shared/sale_order_header/_list.html.twig", [
             'form' => $form,

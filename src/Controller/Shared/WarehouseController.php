@@ -22,7 +22,9 @@ class WarehouseController extends AbstractController
         $form = $this->createForm(WarehouseGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $warehouses) = $warehouseRepository->fetchData($criteria);
+        list($count, $warehouses) = $warehouseRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = 0");
+        });
 
         return $this->renderForm("shared/warehouse/_list.html.twig", [
             'form' => $form,

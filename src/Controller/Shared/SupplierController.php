@@ -22,7 +22,9 @@ class SupplierController extends AbstractController
         $form = $this->createForm(SupplierGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $suppliers) = $supplierRepository->fetchData($criteria);
+        list($count, $suppliers) = $supplierRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = 0");
+        });
 
         return $this->renderForm("shared/supplier/_list.html.twig", [
             'form' => $form,

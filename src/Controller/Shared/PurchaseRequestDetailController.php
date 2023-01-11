@@ -22,7 +22,9 @@ class PurchaseRequestDetailController extends AbstractController
         $form = $this->createForm(PurchaseRequestDetailGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria);
+        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = 0");
+        });
 
         return $this->renderForm("shared/purchase_request_detail/_list.html.twig", [
             'form' => $form,

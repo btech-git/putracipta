@@ -22,7 +22,9 @@ class CustomerController extends AbstractController
         $form = $this->createForm(CustomerGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $customers) = $customerRepository->fetchData($criteria);
+        list($count, $customers) = $customerRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = 0");
+        });
 
         return $this->renderForm("shared/customer/_list.html.twig", [
             'form' => $form,

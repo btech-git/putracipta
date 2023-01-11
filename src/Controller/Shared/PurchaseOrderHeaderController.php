@@ -22,7 +22,10 @@ class PurchaseOrderHeaderController extends AbstractController
         $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria);
+        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.totalRemainingReceive > 0");
+            $qb->andWhere("{$alias}.isCanceled = 0");
+        });
 
         return $this->renderForm("shared/purchase_order_header/_list.html.twig", [
             'form' => $form,
