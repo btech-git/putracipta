@@ -84,6 +84,7 @@ class ReceiveHeaderFormService
             } else {
                 $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
             }
+            $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
         }
     }
 
