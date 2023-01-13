@@ -23,7 +23,7 @@ class PurchaseRequestDetailController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isCanceled = 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/purchase_request_detail/_list.html.twig", [

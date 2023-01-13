@@ -23,7 +23,7 @@ class WarehouseController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $warehouses) = $warehouseRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isInactive = 0");
+            $qb->andWhere("{$alias}.isInactive = false");
         });
 
         return $this->renderForm("shared/warehouse/_list.html.twig", [

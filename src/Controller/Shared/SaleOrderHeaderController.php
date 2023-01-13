@@ -23,7 +23,7 @@ class SaleOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isCanceled = 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/sale_order_header/_list.html.twig", [

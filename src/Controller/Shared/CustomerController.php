@@ -23,7 +23,7 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $customers) = $customerRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isInactive = 0");
+            $qb->andWhere("{$alias}.isInactive = false");
         });
 
         return $this->renderForm("shared/customer/_list.html.twig", [

@@ -23,7 +23,7 @@ class SupplierController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $suppliers) = $supplierRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isInactive = 0");
+            $qb->andWhere("{$alias}.isInactive = false");
         });
 
         return $this->renderForm("shared/supplier/_list.html.twig", [

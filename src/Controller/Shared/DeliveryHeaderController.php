@@ -23,7 +23,7 @@ class DeliveryHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isCanceled = 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/delivery_header/_list.html.twig", [

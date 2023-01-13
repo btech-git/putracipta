@@ -24,7 +24,7 @@ class PurchaseOrderHeaderController extends AbstractController
 
         list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.totalRemainingReceive > 0");
-            $qb->andWhere("{$alias}.isCanceled = 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/purchase_order_header/_list.html.twig", [

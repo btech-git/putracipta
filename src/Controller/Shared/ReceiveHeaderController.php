@@ -23,7 +23,7 @@ class ReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isCanceled = 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/receive_header/_list.html.twig", [
