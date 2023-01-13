@@ -22,7 +22,9 @@ class MaterialController extends AbstractController
         $form = $this->createForm(MaterialGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $materials) = $materialRepository->fetchData($criteria);
+        list($count, $materials) = $materialRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = 0");
+        });
 
         return $this->renderForm("shared/material/_list.html.twig", [
             'form' => $form,

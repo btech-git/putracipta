@@ -24,6 +24,7 @@ class SaleInvoiceHeaderController extends AbstractController
 
         list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.remainingPayment > 0");
+            $qb->andWhere("{$alias}.isCanceled = 0");
         });
 
         return $this->renderForm("shared/sale_invoice_header/_list.html.twig", [

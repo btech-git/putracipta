@@ -1,0 +1,130 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Purchase Order Kertas' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>PO #</th>
+                <td>{{ purchaseOrderPaperHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal PO</th>
+                <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Kirim</th>
+                <td>{{ purchaseOrderPaperHeader.deliveryDate ? purchaseOrderPaperHeader.deliveryDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Supplier</th>
+                <td>{{ purchaseOrderPaperHeader.supplier.company }}</td>
+            </tr>
+            <tr>
+                <th>TOP (days)</th>
+                <td>{{ purchaseOrderPaperHeader.supplier.paymentTerm }}</td>
+            </tr>
+            <tr>
+                <th>Currency</th>
+                <td>{{ purchaseOrderPaperHeader.supplier.currency.name }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ purchaseOrderPaperHeader.transactionStatus }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ purchaseOrderPaperHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
+                <td>{{ purchaseOrderPaperHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>P</th>
+                <th>L</th>
+                <th>GR</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>APKI</th>
+                <th>H. Asosiasi</th>
+                <th>H. KG</th>
+                <th>H. Satuan</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
+                <tr>
+                    <td>{{ purchaseOrderPaperDetail.material.code|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.material.name|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.length|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.width|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.weight|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                    <td>{{ purchaseOrderPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="11" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="11" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="11" style="text-align: right">
+                    <strong>
+                        {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
+                            Non PPn 0%
+                        {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderPaperHeader) %}
+                            Exclude PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                        {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderPaperHeader) %}
+                            Include PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
+                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="11" style="text-align: right"><strong>Grand Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_delete_form.html.twig') }}</div>
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) %}
+        <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_reject_form.html.twig') }}</div>
+        <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_approve_form.html.twig') }}</div>
+    {% endif %}
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
+    {% endif %}
+{% endblock %}

@@ -22,7 +22,9 @@ class ReceiveHeaderController extends AbstractController
         $form = $this->createForm(ReceiveHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria);
+        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = 0");
+        });
 
         return $this->renderForm("shared/receive_header/_list.html.twig", [
             'form' => $form,

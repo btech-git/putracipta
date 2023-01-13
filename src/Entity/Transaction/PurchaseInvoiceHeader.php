@@ -89,6 +89,9 @@ class PurchaseInvoiceHeader extends TransactionHeader
     #[ORM\Column(length: 60)]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_INVOICING;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $invoiceReceivedDate = null;
+
     public function __construct()
     {
         $this->purchaseInvoiceDetails = new ArrayCollection();
@@ -438,6 +441,18 @@ class PurchaseInvoiceHeader extends TransactionHeader
     public function setTransactionStatus(string $transactionStatus): self
     {
         $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
+    public function getInvoiceReceivedDate(): ?\DateTimeInterface
+    {
+        return $this->invoiceReceivedDate;
+    }
+
+    public function setInvoiceReceivedDate(?\DateTimeInterface $invoiceReceivedDate): self
+    {
+        $this->invoiceReceivedDate = $invoiceReceivedDate;
 
         return $this;
     }

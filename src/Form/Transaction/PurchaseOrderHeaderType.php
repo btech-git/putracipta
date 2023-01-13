@@ -26,9 +26,9 @@ class PurchaseOrderHeaderType extends AbstractType
             ]])
             ->add('discountValue')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non Tax' => PurchaseOrderHeader::TAX_MODE_NON_TAX,
-                'Tax Exclusion' => PurchaseOrderHeader::TAX_MODE_TAX_EXCLUSION,
-                'Tax Inclusion' => PurchaseOrderHeader::TAX_MODE_TAX_INCLUSION,
+                'Non PPn' => PurchaseOrderHeader::TAX_MODE_NON_TAX,
+                'Exclude PPn' => PurchaseOrderHeader::TAX_MODE_TAX_EXCLUSION,
+                'Include PPn' => PurchaseOrderHeader::TAX_MODE_TAX_INCLUSION,
             ]])
             ->add('purchaseOrderDetails', CollectionType::class, [
                 'entry_type' => PurchaseOrderDetailType::class,

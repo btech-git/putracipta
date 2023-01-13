@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('app_transaction_purchase_order_header_reject', {'id': purchaseOrderHeader.id}) }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ purchaseOrderHeader.id) }}">
+<form method="post" action="{{ path('app_transaction_purchase_order_paper_header_reject', {'id': purchaseOrderPaperHeader.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ purchaseOrderPaperHeader.id) }}">
     <button class="btn btn-warning btn-sm"
             data-controller="dom-element"
             data-action="dom-element#confirm"

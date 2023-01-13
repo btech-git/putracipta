@@ -44,6 +44,7 @@
                     {% endif %}
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
+                            'label': 'Cancel',
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'dom-element#bind change->json-loader#load',
@@ -84,7 +85,7 @@
         </tr>
         <tr>
             <td class="text-end" colspan="5">
-                <span class="d-inline-block">PPn</span>
+                <span class="d-inline-block">PPn </span>
                 <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"

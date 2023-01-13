@@ -22,7 +22,9 @@ class DeliveryHeaderController extends AbstractController
         $form = $this->createForm(DeliveryHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria);
+        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = 0");
+        });
 
         return $this->renderForm("shared/delivery_header/_list.html.twig", [
             'form' => $form,

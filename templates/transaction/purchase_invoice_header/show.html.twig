@@ -16,11 +16,23 @@
             </tr>
             <tr>
                 <th>Tanggal Invoice</th>
-                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.createdTransactionDateTime|date('d M Y') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Tanggal Terima Invoice</th>
-                <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
+                <td>{{ purchaseInvoiceHeader.invoiceReceivedDate ? purchaseInvoiceHeader.invoiceReceivedDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Supplier Invoice #</th>
+                <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Jatuh Tempo</th>
+                <td>{{ purchaseInvoiceHeader.dueDate ? purchaseInvoiceHeader.dueDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Supplier</th>
+                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
             </tr>
             <tr>
                 <th>PO #</th>
@@ -31,11 +43,7 @@
                 <td>{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Supplier</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
-            </tr>
-            <tr>
-                <th>TOP (days)</th>
+                <th>TOP (hari)</th>
                 <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.paymentTerm }}</td>
             </tr>
             <tr>
@@ -51,19 +59,11 @@
                 <td>{{ purchaseInvoiceHeader.invoiceTaxDate ? purchaseInvoiceHeader.invoiceTaxDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Supplier Invoice #</th>
-                <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Jatuh Tempo</th>
-                <td>{{ purchaseInvoiceHeader.dueDate ? purchaseInvoiceHeader.dueDate|date('d M Y') : '' }}</td>
-            </tr>
-            <tr>
                 <th>Note</th>
                 <td>{{ purchaseInvoiceHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>Transaction Canceled?</th>
                 <td>{{ purchaseInvoiceHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -78,6 +78,7 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -89,6 +90,7 @@
                     <td>{{ purchaseInvoiceDetail.receiveDetail.purchaseOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
+                    <td>{{ purchaseInvoiceDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -96,32 +98,77 @@
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseInvoiceHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>{{ purchaseInvoiceHeader.taxMode|default }} {{ purchaseInvoiceHeader.taxPercentage|default }}%</strong></td>
+                <td colspan="5" style="text-align: right">
+                    <strong>
+                        {% if purchaseInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseInvoiceHeader) %}
+                            Non PPn 0%
+                        {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseInvoiceHeader) %}
+                            Exclude PPn {{ constant('VAT_PERCENTAGE', purchaseInvoiceHeader) }}%
+                        {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseInvoiceHeader) %}
+                            Include PPn {{ constant('VAT_PERCENTAGE', purchaseInvoiceHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Total Payment</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.totalPayment|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Total Return</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Remaining Payment</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</strong></td>
+                <td></td>
             </tr>
         </tfoot>
+    </table>
+
+    <legend class="float-none w-auto text-dark px-1">Data Pembayaran</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Pembayaran #</th>
+                <th>Tanggal</th>
+                <th>Cek/Giro #</th>
+                <th>Tanggal Cek/Giro</th>
+                <th>Memo</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchasePaymentDetail in purchaseInvoiceHeader.purchasePaymentDetails %}
+                <tr>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.codeNumber|default }}</td>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.transactionDate ? purchasePaymentDetail.purchasePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.referenceNumber|default }}</td>
+                    <td>{{ purchasePaymentDetail.purchasePaymentHeader.referenceDate ? purchasePaymentDetail.purchasePaymentHeader.referenceDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchasePaymentDetail.memo|default }}</td>
+                    <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
+                    <td>{{ purchasePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
     
     {{ include('transaction/purchase_invoice_header/_delete_form.html.twig') }}
