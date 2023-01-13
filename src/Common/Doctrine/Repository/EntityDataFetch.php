@@ -31,7 +31,7 @@ trait EntityDataFetch
         $qb = $this->createQueryBuilder($alias);
 
         if ($callback !== null) {
-            $callback($qb, $alias);
+            $callback($qb, $alias, fn($e, $a) => $this->createSubQueryBuilder($e, $a));
         }
 
         $this->processDataCriteria($qb, $alias, $criteria->getFilter(), null, null);
@@ -50,7 +50,7 @@ trait EntityDataFetch
         $qb = $this->createQueryBuilder($alias);
 
         if ($callback !== null) {
-            $callback($qb, $alias);
+            $callback($qb, $alias, fn($e, $a) => $this->createSubQueryBuilder($e, $a));
         }
 
         $this->processDataCriteria($qb, $alias, $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
@@ -81,5 +81,13 @@ trait EntityDataFetch
             $qb->setMaxResults($pageSize);
             $qb->setFirstResult(($pageNumber - 1) * $pageSize);
         }
+    }
+
+    private function createSubQueryBuilder(string $entityName, string $alias): QueryBuilder
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select($alias);
+        $qb->from($entityName, $alias);
+        return $qb;
     }
 }
