@@ -31,7 +31,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
                 $qb->andWhere("IDENTITY({$alias}.supplier) = :supplierId");
                 $qb->setParameter('supplierId', $supplierId);
             }
-            $qb->andWhere("{$alias}.totalRemaining > 0.00");
+            $qb->andWhere("{$alias}.remainingPayment > 0.00");
         });
 
         return $this->renderForm("shared/purchase_invoice_header/_list.html.twig", [
