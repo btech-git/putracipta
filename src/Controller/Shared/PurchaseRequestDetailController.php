@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Grid\Shared\PurchaseRequestDetailGridType;
 use App\Repository\Transaction\PurchaseRequestDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,7 +23,11 @@ class PurchaseRequestDetailController extends AbstractController
         $form = $this->createForm(PurchaseRequestDetailGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria);
+        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias, $new) {
+            $sub = $new(PurchaseOrderDetail::class, 'p');
+            $sub->andWhere("IDENTITY(p.purchaseRequestDetail) = {$alias}.id");
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+        });
 
         return $this->renderForm("shared/purchase_request_detail/_list.html.twig", [
             'form' => $form,
