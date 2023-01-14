@@ -21,12 +21,12 @@
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="purchaseOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.purchaseOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.purchaseOrderDetail, {'attr': {'data-item-field-name': 'purchaseOrderDetailId'}}) }}</td>
-                <td data-item-field-name="materialCode">{{ detailForm.vars.value.purchaseOrderDetail.material.code|default }}</td>
-                <td data-item-field-name="materialName">{{ detailForm.vars.value.purchaseOrderDetail.material.name|default }}</td>
+                <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
+                <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                 <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) }}</td>
                 <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
-                <td data-item-field-name="unitName">{{ detailForm.vars.value.purchaseOrderDetail.unit.name|default }}</td>
+                <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
                 <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>
