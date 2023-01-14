@@ -11,17 +11,27 @@
             <div class="row">
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    <div class="mb-3">
-                        <label class="form-label">Supplier</label>
-                        <input type="text" class="form-control" value="{{ receiveHeader.supplier.company|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].supplierCompany'}},
-                               ]|json_encode }}" />
-                    </div>
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                     {{ form_row(form.supplierDeliveryCodeNumber, {'label': 'Supplier SJ #'}) }}
+                    {#<div class="mb-3">
+                        <label for="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-label">PO Kertas #</label>
+                        {{ form_row(form.purchaseOrderPaperHeader, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'purchase-order-paper-header-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-control" value="{{ receiveHeader.purchaseOrderPaperHeader.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#purchase-order-paper-header-dialog"
+                               data-controller="dom-element"
+                               data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderCodeNumber'}},
+                               ]|json_encode }}" />
+                    </div>#}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -44,22 +54,12 @@
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <label for="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-label">PO Kertas #</label>
-                        {{ form_row(form.purchaseOrderPaperHeader, {
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'purchase-order-paper-header-table:data-table:select@document->dom-element#bind',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderId'}},
-                                ]|json_encode,
-                            },
-                        }) }}
-                        <input type="text" id="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-control" value="{{ receiveHeader.purchaseOrderPaperHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#purchase-order-paper-header-dialog"
+                        <label class="form-label">Supplier</label>
+                        <input type="text" class="form-control" value="{{ receiveHeader.supplier.company|default }}" readonly="readonly"
                                data-controller="dom-element"
-                               data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
+                               data-action="purchase-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].supplierCompany'}},
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">

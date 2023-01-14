@@ -54,6 +54,8 @@
                 <th>Quantity Sisa</th>
                 <th>Quantity Terima</th>
                 <th>Satuan</th>
+                <th>Tanggal Pakai</th>
+                <th>Keterangan</th>
                 <th></th>
             </tr>
         </thead>
@@ -66,6 +68,8 @@
                     <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail.remainingReceive|default }}</td>
                     <td style="text-align: right">{{ receiveDetail.receivedQuantity|default }}</td>
                     <td>{{ receiveDetail.unit.name|default }}</td>
+                    <td>{{ receiveHeader.usageDate ? receiveHeader.usageDate|date('d M Y') : '' }}</td>
+                    <td>{{ receiveDetail.memo|default }}</td>
                     <td>{{ receiveDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
@@ -74,7 +78,7 @@
             <tr>
                 <td colspan="4" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: right"><strong>{{ receiveHeader.totalQuantity|default }}</strong></td>
-                <td colspan="2"></td>
+                <td colspan="4"></td>
             </tr>
         </tfoot>
     </table>
