@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <th>Supplier</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company }}</td>
+                <td>{{ purchaseInvoiceHeader.supplier.company }}</td>
             </tr>
             <tr>
                 <th>PO #</th>
@@ -44,11 +44,11 @@
             </tr>
             <tr>
                 <th>TOP (hari)</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.paymentTerm }}</td>
+                <td>{{ purchaseInvoiceHeader.supplier.paymentTerm }}</td>
             </tr>
             <tr>
                 <th>Currency</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.currency.code }}</td>
+                <td>{{ purchaseInvoiceHeader.supplier.currency.code }}</td>
             </tr>
             <tr>
                 <th>Faktur Pajak #</th>
@@ -84,10 +84,10 @@
         <tbody>
             {% for purchaseInvoiceDetail in purchaseInvoiceHeader.purchaseInvoiceDetails %}
                 <tr>
-                    <td>{{ purchaseInvoiceDetail.receiveDetail.purchaseOrderDetail.material.code|default }}</td>
-                    <td>{{ purchaseInvoiceDetail.receiveDetail.purchaseOrderDetail.material.name|default }}</td>
+                    <td>{{ purchaseInvoiceDetail.material.code|default }}</td>
+                    <td>{{ purchaseInvoiceDetail.material.name|default }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.quantity|default }}</td>
-                    <td>{{ purchaseInvoiceDetail.receiveDetail.purchaseOrderDetail.unit.name|default }}</td>
+                    <td>{{ purchaseInvoiceDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
                     <td>{{ purchaseInvoiceDetail.isCanceled ? 'Canceled' : '' }}</td>
