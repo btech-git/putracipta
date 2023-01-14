@@ -41,6 +41,9 @@ class PurchasePaymentHeader extends TransactionHeader
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $referenceDate = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $supplierInvoiceCodeNumbers = '';
+
     public function __construct()
     {
         $this->purchasePaymentDetails = new ArrayCollection();
@@ -165,6 +168,18 @@ class PurchasePaymentHeader extends TransactionHeader
     public function setReferenceDate(?\DateTimeInterface $referenceDate): self
     {
         $this->referenceDate = $referenceDate;
+
+        return $this;
+    }
+
+    public function getSupplierInvoiceCodeNumbers(): ?string
+    {
+        return $this->supplierInvoiceCodeNumbers;
+    }
+
+    public function setSupplierInvoiceCodeNumbers(string $supplierInvoiceCodeNumbers): self
+    {
+        $this->supplierInvoiceCodeNumbers = $supplierInvoiceCodeNumbers;
 
         return $this;
     }
