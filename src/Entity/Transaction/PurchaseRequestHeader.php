@@ -27,13 +27,9 @@ class PurchaseRequestHeader extends TransactionHeader
     #[ORM\OneToMany(mappedBy: 'purchaseRequestHeader', targetEntity: PurchaseRequestDetail::class)]
     private Collection $purchaseRequestDetails;
 
-    #[ORM\OneToMany(mappedBy: 'purchaseRequestHeader', targetEntity: PurchaseOrderPaperHeader::class)]
-    private Collection $purchaseOrderPaperHeaders;
-
     public function __construct()
     {
         $this->purchaseRequestDetails = new ArrayCollection();
-        $this->purchaseOrderPaperHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -105,36 +101,6 @@ class PurchaseRequestHeader extends TransactionHeader
             // set the owning side to null (unless already changed)
             if ($purchaseRequestDetail->getPurchaseRequestHeader() === $this) {
                 $purchaseRequestDetail->setPurchaseRequestHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, PurchaseOrderPaperHeader>
-     */
-    public function getPurchaseOrderPaperHeaders(): Collection
-    {
-        return $this->purchaseOrderPaperHeaders;
-    }
-
-    public function addPurchaseOrderPaperHeader(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): self
-    {
-        if (!$this->purchaseOrderPaperHeaders->contains($purchaseOrderPaperHeader)) {
-            $this->purchaseOrderPaperHeaders->add($purchaseOrderPaperHeader);
-            $purchaseOrderPaperHeader->setPurchaseRequestHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removePurchaseOrderPaperHeader(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): self
-    {
-        if ($this->purchaseOrderPaperHeaders->removeElement($purchaseOrderPaperHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($purchaseOrderPaperHeader->getPurchaseRequestHeader() === $this) {
-                $purchaseOrderPaperHeader->setPurchaseRequestHeader(null);
             }
         }
 

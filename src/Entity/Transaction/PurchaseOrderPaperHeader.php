@@ -90,9 +90,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperHeaders')]
-    private ?PurchaseRequestHeader $purchaseRequestHeader = null;
-
     public function __construct()
     {
         $this->purchaseOrderPaperDetails = new ArrayCollection();
@@ -139,15 +136,15 @@ class PurchaseOrderPaperHeader extends TransactionHeader
         return $grandTotal;
     }
 
-    public function getSyncTotalRemainingReceive(): string
+    public function getSyncTotalRemainingReceive(): int
     {
-        $subTotal = '0.00';
+        $totalRemaining = 0;
         foreach ($this->purchaseOrderPaperDetails as $purchaseOrderPaperDetail) {
             if (!$purchaseOrderPaperDetail->isIsCanceled()) {
-                $subTotal += $purchaseOrderPaperDetail->getRemainingReceive();
+                $totalRemaining += $purchaseOrderPaperDetail->getRemainingReceive();
             }
         }
-        return $subTotal;
+        return $totalRemaining;
     }
 
     public function getDiscountNominal(): string
@@ -425,18 +422,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
                 $receiveHeader->setPurchaseOrderPaperHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getPurchaseRequestHeader(): ?PurchaseRequestHeader
-    {
-        return $this->purchaseRequestHeader;
-    }
-
-    public function setPurchaseRequestHeader(?PurchaseRequestHeader $purchaseRequestHeader): self
-    {
-        $this->purchaseRequestHeader = $purchaseRequestHeader;
 
         return $this;
     }

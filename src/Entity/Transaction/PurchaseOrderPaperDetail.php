@@ -2,7 +2,7 @@
 
 namespace App\Entity\Transaction;
 
-use App\Entity\Master\Material;
+use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseOrderPaperDetailRepository;
@@ -44,9 +44,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     #[ORM\Column]
     private ?int $remainingReceive = 0;
 
-    #[ORM\ManyToOne]
-    private ?Material $material = null;
-
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
@@ -56,9 +53,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperDetail', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
-    private ?PurchaseRequestDetail $purchaseRequestDetail = null;
-
     #[ORM\Column]
     private ?int $length = 0;
 
@@ -67,6 +61,12 @@ class PurchaseOrderPaperDetail extends TransactionDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $weight = '0.00';
+
+    #[ORM\ManyToOne]
+    private ?Paper $paper = null;
+
+    #[ORM\OneToOne(inversedBy: 'purchaseOrderPaperDetail', cascade: ['persist', 'remove'])]
+    private ?PurchaseRequestPaperDetail $purchaseRequestPaperDetail = null;
 
     public function __construct()
     {
@@ -84,18 +84,18 @@ class PurchaseOrderPaperDetail extends TransactionDetail
         return $this->quantity - $this->totalReceive;
     }
 
-    public function getSyncWeightPrice(): int
+    public function getSyncWeightPrice(): string
     {
-        return $this->associationPrice == 0.00 ? $this->weightPrice : (1 + $this->apkiValue / 100) * $this->associationPrice;
+        return (1 + $this->apkiValue / 100) * $this->associationPrice;
     }
 
-    public function getSyncUnitPrice(): int
+    public function getSyncUnitPrice(): string
     {
-        $weight = empty($this->material) ? 1 : $this->material->getWeight();
-        $length = empty($this->material) ? 1 : $this->material->getLength();
-        $width = empty($this->material) ? 1 : $this->material->getWidth();
-        
-        return $weight * $length * $width / 20000 * $this->getSyncWeightPrice();
+        $weight = empty($this->paper) ? 1 : $this->paper->getWeight();
+        $length = empty($this->paper) ? 1 : $this->paper->getLength();
+        $width = empty($this->paper) ? 1 : $this->paper->getWidth();
+
+        return $weight * $length * $width / 20000 * $this->getWeightPrice();
     }
 
     public function getTotal(): int
@@ -204,18 +204,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
         return $this;
     }
 
-    public function getMaterial(): ?Material
-    {
-        return $this->material;
-    }
-
-    public function setMaterial(?Material $material): self
-    {
-        $this->material = $material;
-
-        return $this;
-    }
-
     public function getPurchaseOrderPaperHeader(): ?PurchaseOrderPaperHeader
     {
         return $this->purchaseOrderPaperHeader;
@@ -270,18 +258,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
         return $this;
     }
 
-    public function getPurchaseRequestDetail(): ?PurchaseRequestDetail
-    {
-        return $this->purchaseRequestDetail;
-    }
-
-    public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
-    {
-        $this->purchaseRequestDetail = $purchaseRequestDetail;
-
-        return $this;
-    }
-
     public function getLength(): ?int
     {
         return $this->length;
@@ -314,6 +290,30 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     public function setWeight(string $weight): self
     {
         $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestPaperDetail(): ?PurchaseRequestPaperDetail
+    {
+        return $this->purchaseRequestPaperDetail;
+    }
+
+    public function setPurchaseRequestPaperDetail(?PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
+    {
+        $this->purchaseRequestPaperDetail = $purchaseRequestPaperDetail;
 
         return $this;
     }
