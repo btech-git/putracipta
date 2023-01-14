@@ -3,9 +3,9 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Material;
+use App\Entity\Master\Paper;
 use App\Entity\Transaction\PurchaseOrderPaperDetail;
-use App\Entity\Transaction\PurchaseRequestDetail;
+use App\Entity\Transaction\PurchaseRequestPaperDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,8 +20,8 @@ class PurchaseOrderPaperDetailType extends AbstractType
             ->add('associationPrice')
             ->add('weightPrice')
             ->add('unitPrice')
-            ->add('material', EntityHiddenType::class, array('class' => Material::class))
-            ->add('purchaseRequestDetail', EntityHiddenType::class, array('class' => PurchaseRequestDetail::class))
+            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('purchaseRequestPaperDetail', EntityHiddenType::class, array('class' => PurchaseRequestPaperDetail::class))
             ->add('unit', null, ['choice_label' => 'name'])
             ->add('isCanceled')
         ;
