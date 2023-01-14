@@ -12,22 +12,7 @@
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal SO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    <div class="mb-3">
-                        <strong>Phone: </strong>
-                        <span data-controller="dom-element"
-                             data-action="customer-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.phone'}},
-                             ]|json_encode }}">{{ saleOrderHeader.customer.phone|default }}</span>
-                    </div>
-                    <div class="mb-3">
-                        <strong>Email: </strong>
-                        <span data-controller="dom-element"
-                             data-action="customer-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.email'}},
-                             ]|json_encode }}">{{ saleOrderHeader.customer.email|default }}</span>
-                    </div>
+                    {{ form_row(form.referenceNumber, {'label': 'Customer PO #'}) }}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -49,14 +34,32 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerName'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.referenceNumber, {'label': 'Customer PO #'}) }}
                     <div class="mb-3">
-                        <strong>Payment Term (days): </strong>
-                        <span data-controller="dom-element"
-                             data-action="customer-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.paymentTerm'}},
-                             ]|json_encode }}">{{ saleOrderHeader.customer.paymentTerm|default }}</span>
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.phone|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.phone'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.email|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.email'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">TOP (hari)</label>
+                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.paymentTerm|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
+                               ]|json_encode }}" />
                     </div>
                 </div>
             </div>

@@ -13,14 +13,6 @@
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.referenceNumber, {'label': 'Nomor Cek / Giro'}) }}
                     {{ form_row(form.referenceDate, {'label': 'Tanggal Cek / Giro', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    <div class="mb-3">
-                        <strong>TOP (hari): </strong>
-                        <span data-controller="dom-element"
-                             data-action="customer-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.paymentTerm'}},
-                             ]|json_encode }}">{{ salePaymentHeader.customer.paymentTerm|default }}</span>
-                    </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -40,6 +32,15 @@
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerName'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">TOP (hari)</label>
+                        <input type="text" class="form-control" value="{{ salePaymentHeader.customer.paymentTerm|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
                                ]|json_encode }}" />
                     </div>
                     {{ form_row(form.paymentType, {'label': 'Jenis Pembayaran'}) }}

@@ -28,11 +28,11 @@
             </tr>
             <tr>
                 <th>Customer</th>
-                <td>{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.company }}</td>
+                <td>{{ saleInvoiceHeader.customer.company }}</td>
             </tr>
             <tr>
                 <th>TOP (days)</th>
-                <td>{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.paymentTerm }}</td>
+                <td>{{ saleInvoiceHeader.customer.paymentTerm }}</td>
             </tr>
             <tr>
                 <th>Faktur Pajak #</th>
@@ -72,10 +72,10 @@
         <tbody>
             {% for saleInvoiceDetail in saleInvoiceHeader.saleInvoiceDetails %}
                 <tr>
-                    <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.product.code|default }}</td>
-                    <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>{{ saleInvoiceDetail.product.code|default }}</td>
+                    <td>{{ saleInvoiceDetail.product.name|default }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.quantity|default }}</td>
-                    <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.unit.name|default }}</td>
+                    <td>{{ saleInvoiceDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
                     <td>{{ saleInvoiceDetail.isCanceled ? 'Canceled' : '' }}</td>

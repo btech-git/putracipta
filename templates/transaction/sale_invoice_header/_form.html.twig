@@ -11,6 +11,7 @@
             <div class="row">
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.dueDate, {'label': 'Tanggal Jatuh Tempo', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
                     {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
@@ -34,31 +35,33 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].deliveryHeaderCodeNumber'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.dueDate, {'label': 'Tanggal Jatuh Tempo', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     <div class="mb-3">
-                        <strong>Customer: </strong>
-                        <span data-controller="dom-element"
-                             data-action="delivery-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].customerCompany'}},
-                             ]|json_encode }}">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.company|default }}</span>
-                     </div>
-                    <div class="mb-3">
-                        <strong>PO #: </strong>
-                        <span data-controller="dom-element"
-                             data-action="delivery-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].saleOrderHeaderCodeNumber'}},
-                             ]|json_encode }}">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.referenceNumber|default }}</span>
+                        <label class="form-label">Customer</label>
+                        <input type="text" class="form-control" value="{{ saleInvoiceHeader.customer.company|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].customerCompany'}},
+                               ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <strong>TOP (hari): </strong>
-                        <span data-controller="dom-element"
-                             data-action="delivery-header-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].customerPaymentTerm'}},
-                             ]|json_encode }}">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.paymentTerm|default }}</span>
-                     </div>
+                        <label class="form-label">PO #</label>
+                        <input type="text" class="form-control" value="{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.referenceNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].saleOrderHeaderCodeNumber'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">TOP (hari)</label>
+                        <input type="text" class="form-control" value="{{ saleInvoiceHeader.customer.paymentTerm|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="delivery-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].customerPaymentTerm'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
             </div>
             <div class="row">
