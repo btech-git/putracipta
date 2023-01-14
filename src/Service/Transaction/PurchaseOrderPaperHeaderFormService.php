@@ -41,12 +41,16 @@ class PurchaseOrderPaperHeaderFormService
     public function finalize(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
         foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
-            $material = $purchaseOrderPaperDetail->getMaterial();
-            $purchaseOrderPaperDetail->setLength($material->getLength());
-            $purchaseOrderPaperDetail->setWidth($material->getWidth());
-            $purchaseOrderPaperDetail->setWeight($material->getWeight());
-            $purchaseOrderPaperDetail->setWeightPrice($purchaseOrderPaperDetail->getAssociationPrice() == 0.00 ? $purchaseOrderPaperDetail->getWeightPrice() : $purchaseOrderPaperDetail->getSyncWeightPrice());
-            $purchaseOrderPaperDetail->setUnitPrice($purchaseOrderPaperDetail->getSyncUnitPrice());
+            $paper = $purchaseOrderPaperDetail->getPaper();
+            $purchaseOrderPaperDetail->setLength($paper->getLength());
+            $purchaseOrderPaperDetail->setWidth($paper->getWidth());
+            $purchaseOrderPaperDetail->setWeight($paper->getWeight());
+            if ($purchaseOrderPaperDetail->getApkiValue() > '0.00' || $purchaseOrderPaperDetail->getAssociationPrice() > '0.00') {
+                $purchaseOrderPaperDetail->setWeightPrice($purchaseOrderPaperDetail->getSyncWeightPrice());
+            }
+            if ($purchaseOrderPaperDetail->getApkiValue() > '0.00' || $purchaseOrderPaperDetail->getAssociationPrice() > '0.00' || $purchaseOrderPaperDetail->getWeightPrice() > '0.00') {
+                $purchaseOrderPaperDetail->setUnitPrice($purchaseOrderPaperDetail->getSyncUnitPrice());
+            }
             $purchaseOrderPaperDetail->setIsCanceled($purchaseOrderPaperDetail->getSyncIsCanceled());
             $purchaseOrderPaperDetail->setRemainingReceive($purchaseOrderPaperDetail->getSyncRemainingReceive());
         }
