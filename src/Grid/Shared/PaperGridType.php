@@ -16,23 +16,29 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WarehouseGridType extends AbstractType
+class PaperGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'isInactive'],
+                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
+                    'length' => [FilterEqual::class, FilterNotEqual::class],
+                    'width' => [FilterEqual::class, FilterNotEqual::class],
+                    'weight' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'isInactive'],
+                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
+                    'length' => [SortAscending::class, SortDescending::class],
+                    'width' => [SortAscending::class, SortDescending::class],
+                    'weight' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                 ],

@@ -22,7 +22,7 @@ class SupplierGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'company', 'address', 'phone', 'email', 'taxNumber', 'note', 'isInactive', 'name'],
+                'field_names' => ['code', 'name', 'company', 'address', 'phone', 'email', 'taxNumber', 'note', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'company' => [FilterContain::class, FilterNotContain::class],
@@ -36,7 +36,7 @@ class SupplierGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'company', 'address', 'phone', 'email', 'taxNumber', 'note', 'isInactive', 'name'],
+                'field_names' => ['code', 'name', 'company', 'address', 'phone', 'email', 'taxNumber', 'note', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
                     'company' => [SortAscending::class, SortDescending::class],
