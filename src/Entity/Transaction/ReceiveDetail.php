@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\ReceiveDetailRepository;
@@ -49,6 +50,9 @@ class ReceiveDetail extends TransactionDetail
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
     private ?PurchaseOrderPaperDetail $purchaseOrderPaperDetail = null;
+
+    #[ORM\ManyToOne]
+    private ?Paper $paper = null;
 
     public function __construct()
     {
@@ -200,6 +204,18 @@ class ReceiveDetail extends TransactionDetail
     public function setPurchaseOrderPaperDetail(?PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
     {
         $this->purchaseOrderPaperDetail = $purchaseOrderPaperDetail;
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
 
         return $this;
     }
