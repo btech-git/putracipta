@@ -17,8 +17,8 @@
                 <th role="button">
                     Supplier
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                <th role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumbers') }}>
+                    Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumbers.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
                     Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
@@ -32,7 +32,7 @@
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumbers') }} value="{{ form.filter.supplierInvoiceCodeNumbers.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
@@ -46,7 +46,7 @@
                     <td>{{ purchasePaymentHeader.codeNumber }}</td>
                     <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchasePaymentHeader.supplier.company }}</td>
-                    <td>{{ purchasePaymentHeader.note }}</td>
+                    <td>{{ purchasePaymentHeader.supplierInvoiceCodeNumbers }}</td>
                     <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_payment_header_show', {'id': purchasePaymentHeader.id}) }}">Show</a>
