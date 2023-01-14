@@ -1,0 +1,71 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, purchaseOrderPaperHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="purchase-order-header-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button">
+                    PO #
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button">
+                    Supplier
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderPaperHeader in purchaseOrderPaperHeaders %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderPaperHeader.purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => {
+                    'purchaseOrderPaperHeaderId': purchaseOrderPaperHeader.id,
+                    'purchaseOrderPaperHeaderCodeNumber': purchaseOrderPaperHeader.codeNumber,
+                    'purchaseOrderPaperHeaderTransactionDate': purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '',
+                    'purchaseOrderPaperHeaderDeliveryDate': purchaseOrderPaperHeader.deliveryDate ? purchaseOrderPaperHeader.deliveryDate|date('d M Y') : '',
+                    'supplierCompany': purchaseOrderPaperHeader.supplier.company,
+                    'purchaseOrderPaperDetailId': purchaseOrderPaperDetail.id,
+                    'paperName': purchaseOrderPaperDetail.paper.name,
+                    'paperId': purchaseOrderPaperDetail.paper.id,
+                    'paperCode': purchaseOrderPaperDetail.paper.code,
+                    'unitName': purchaseOrderPaperDetail.unit.name,
+                    'purchaseOrderPaperDetailQuantity': purchaseOrderPaperDetail.quantity,
+                    'purchaseOrderPaperDetailRemainingReceive': purchaseOrderPaperDetail.remainingReceive})|json_encode }}">
+                    <td>{{ purchaseOrderPaperHeader.codeNumber }}</td>
+                    <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseOrderPaperHeader.supplier.company }}</td>
+                    <td class="text-end">{{ purchaseOrderPaperHeader.grandTotal|number_format(0) }}</td>
+                    <td>{{ purchaseOrderPaperHeader.note }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, purchaseOrderPaperHeaders) }}
