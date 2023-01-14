@@ -26,6 +26,9 @@ class Currency extends Master
     #[ORM\Column(length: 20)]
     private ?string $code = '';
 
+    #[ORM\Column]
+    private ?bool $isLocal = false;
+
     public function __construct()
     {
         $this->suppliers = new ArrayCollection();
@@ -105,6 +108,18 @@ class Currency extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function isIsLocal(): ?bool
+    {
+        return $this->isLocal;
+    }
+
+    public function setIsLocal(bool $isLocal): self
+    {
+        $this->isLocal = $isLocal;
 
         return $this;
     }
