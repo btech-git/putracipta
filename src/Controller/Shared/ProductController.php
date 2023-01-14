@@ -22,7 +22,15 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($request) {
+            $customerId = '';
+            if (isset($request->query->get('sale_order_header')['customer'])) {
+                $customerId = $request->query->get('sale_order_header')['customer'];
+            }
+            if (!empty($customerId)) {
+                $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
+                $qb->setParameter('customerId', $customerId);
+            }
             $qb->andWhere("{$alias}.isInactive = false");
         });
 
