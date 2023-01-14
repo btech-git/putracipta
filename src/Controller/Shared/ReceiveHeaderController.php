@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Grid\Shared\ReceiveHeaderGridType;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,7 +23,10 @@ class ReceiveHeaderController extends AbstractController
         $form = $this->createForm(ReceiveHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $new) {
+            $sub = $new(PurchaseInvoiceHeader::class, 'p');
+            $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 
