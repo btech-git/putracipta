@@ -29,6 +29,7 @@ class ReceiveHeaderType extends AbstractType
                 'label' => false,
             ])
             ->add('purchaseOrderHeader', EntityHiddenType::class, ['class' => PurchaseOrderHeader::class])
+            ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
         ;
     }
 

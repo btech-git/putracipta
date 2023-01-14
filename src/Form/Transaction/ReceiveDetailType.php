@@ -19,6 +19,7 @@ class ReceiveDetailType extends AbstractType
             ->add('usageDate', null, ['widget' => 'single_text'])
             ->add('memo')
             ->add('purchaseOrderDetail', EntityHiddenType::class, ['class' => PurchaseOrderDetail::class])
+            ->add('purchaseOrderPaperDetail', EntityHiddenType::class, ['class' => PurchaseOrderPaperDetail::class])
         ;
     }
 
