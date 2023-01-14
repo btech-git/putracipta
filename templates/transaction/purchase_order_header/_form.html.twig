@@ -34,20 +34,22 @@
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <strong>Currency: </strong><br />
-                        <span data-controller="dom-element"
-                             data-action="supplier-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.currencyCode'}},
-                             ]|json_encode }}">{{ purchaseOrderHeader.supplier.currency.code|default }}</span>
+                        <label class="form-label">Currency</label>
+                        <input type="text" class="form-control" value="{{ purchaseOrderHeader.supplier.currency.code|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="supplier-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.currencyCode'}},
+                               ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <strong>Category: </strong><br />
-                        <span data-controller="dom-element"
-                             data-action="supplier-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.certification'}},
-                             ]|json_encode }}">{{ purchaseOrderHeader.supplier.certification|default }}</span>
+                        <label class="form-label">Category</label>
+                        <input type="text" class="form-control" value="{{ purchaseOrderHeader.supplier.certification|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="supplier-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.certification'}},
+                               ]|json_encode }}" />
                     </div>
                 </div>
             </div>

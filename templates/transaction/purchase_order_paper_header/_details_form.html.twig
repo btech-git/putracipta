@@ -21,53 +21,79 @@
             <th style="width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem purchase-request-detail-table:data-table:select@document->form-collection#addCollectionItem">
+    <tbody data-form-collection-target="items" data-action="paper-table:data-table:select@document->form-collection#addCollectionItem purchase-request-paper-detail-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
-            <tr data-form-collection-target="item" data-item-identifier-name="materialId" data-item-identifier-value="{{ detailForm.vars.value.material.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
-                <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
-                <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
-                <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
-                <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                <td data-item-field-name="materialLength">{{ detailForm.vars.value.material.length|default }}</td>
-                <td data-item-field-name="materialWidth">{{ detailForm.vars.value.material.width|default }}</td>
-                <td data-item-field-name="materialWeight">{{ detailForm.vars.value.material.weight|default }}</td>
+            <tr data-form-collection-target="item" data-item-identifier-name="paperId" data-item-identifier-value="{{ detailForm.vars.value.paper.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
+                <td class="d-none">{{ form_widget(detailForm.purchaseRequestPaperDetail, {'attr': {'data-item-field-name': 'purchaseRequestPaperDetailId'}}) }}</td>
+                <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
+                <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
+                <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
+                <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
+                <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
                 <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
                 <td>
                     {{ form_row(detailForm.apkiValue, {'label': false, 'attr': {
+                        'class': 'for-weight-price-readonly-' ~ detailForm.vars.name ~ ' for-unit-price-readonly-' ~ detailForm.vars.name,
                         'data-controller': 'dom-element',
                         'data-action': 'dom-element#bind change->json-loader#load',
                         'data-dom-element-bind-specifications-param': [
-                            {'destinationsTarget': "\##{detailForm.apkiValue.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                            {'destinationsTarget': "\##{detailForm.apkiValue.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}},
+                            {'sourcesTarget': '.for-weight-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.weightPrice.vars.id, 'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$sources[0].value > 0 || $sources[1].value > 0'},
+                            {'sourcesTarget': '.for-weight-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.weightPrice.vars.id, 'action': 'removeAttribute', 'descriptor': {'name': 'readonly'}, 'condition': '!($sources[0].value > 0 || $sources[1].value > 0)'},
+                            {'sourcesTarget': '.for-unit-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.unitPrice.vars.id, 'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$sources[0].value > 0 || $sources[1].value > 0 || $sources[2].value > 0'},
+                            {'sourcesTarget': '.for-unit-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.unitPrice.vars.id, 'action': 'removeAttribute', 'descriptor': {'name': 'readonly'}, 'condition': '!($sources[0].value > 0 || $sources[1].value > 0 || $sources[2].value > 0)'},
                         ]|json_encode,
                     }}) }}
-                    <div id="{{ detailForm.apkiValue.vars.id }}-format" class="text-end">{{ detailForm.vars.value.apkiValue|default|number_format(2) }}</div>
                 </td>
                 <td>
                     {{ form_row(detailForm.associationPrice, {'label': false, 'attr': {
+                        'class': 'for-weight-price-readonly-' ~ detailForm.vars.name ~ ' for-unit-price-readonly-' ~ detailForm.vars.name,
                         'data-controller': 'dom-element',
                         'data-action': 'dom-element#bind change->json-loader#load',
                         'data-dom-element-bind-specifications-param': [
-                            {'destinationsTarget': "\##{detailForm.associationPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                            {'destinationsTarget': "\##{detailForm.associationPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}},
+                            {'sourcesTarget': '.for-weight-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.weightPrice.vars.id, 'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$sources[0].value > 0 || $sources[1].value > 0'},
+                            {'sourcesTarget': '.for-weight-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.weightPrice.vars.id, 'action': 'removeAttribute', 'descriptor': {'name': 'readonly'}, 'condition': '!($sources[0].value > 0 || $sources[1].value > 0)'},
+                            {'sourcesTarget': '.for-unit-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.unitPrice.vars.id, 'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$sources[0].value > 0 || $sources[1].value > 0 || $sources[2].value > 0'},
+                            {'sourcesTarget': '.for-unit-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.unitPrice.vars.id, 'action': 'removeAttribute', 'descriptor': {'name': 'readonly'}, 'condition': '!($sources[0].value > 0 || $sources[1].value > 0 || $sources[2].value > 0)'},
                         ]|json_encode,
                     }}) }}
                     <div id="{{ detailForm.associationPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.associationPrice|default|number_format(2) }}</div>
                 </td>
                 <td>
                     {{ form_row(detailForm.weightPrice, {'label': false, 'attr': {
+                        'class': 'for-unit-price-readonly-' ~ detailForm.vars.name,
                         'data-controller': 'dom-element',
                         'data-action': 'dom-element#bind change->json-loader#load',
                         'data-json-loader-target': 'placeholder',
-                        'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.weightPrice",
+                        'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.weightPriceRaw",
                         'data-dom-element-bind-specifications-param': [
-                            {'destinationsTarget': "\##{detailForm.weightPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                            {'destinationsTarget': "\##{detailForm.weightPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}},
+                            {'sourcesTarget': '.for-unit-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.unitPrice.vars.id, 'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$sources[0].value > 0 || $sources[1].value > 0 || $sources[2].value > 0'},
+                            {'sourcesTarget': '.for-unit-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.unitPrice.vars.id, 'action': 'removeAttribute', 'descriptor': {'name': 'readonly'}, 'condition': '!($sources[0].value > 0 || $sources[1].value > 0 || $sources[2].value > 0)'},
                         ]|json_encode,
                     }}) }}
-                    <div id="{{ detailForm.weightPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.weightPrice|default|number_format(2) }}</div>
+                    <div id="{{ detailForm.weightPrice.vars.id }}-format" class="text-end" data-json-loader-target="placeholder"
+                         data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.weightPrice">
+                        {{ detailForm.vars.value.weightPrice|default|number_format(2) }}
+                    </div>
                 </td>
-                <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.unitPrice">
-                    {{ detailForm.vars.value.unitPrice|default|number_format(2) }}
+                <td>
+                    {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-json-loader-target': 'placeholder',
+                        'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.unitPriceRaw",
+                        'data-dom-element-bind-specifications-param': [
+                            {'destinationsTarget': "\##{detailForm.unitPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                        ]|json_encode,
+                    }}) }}
+                    <div id="{{ detailForm.unitPrice.vars.id }}-format" class="text-end" data-json-loader-target="placeholder"
+                         data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.unitPrice">
+                        {{ detailForm.vars.value.unitPrice|default|number_format(2) }}
+                    </div>
                 </td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.total">
@@ -84,8 +110,8 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.material.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.material.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
+                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.paper.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
+                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.paper.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
                                 ]|json_encode,
                             },
                         }) }}

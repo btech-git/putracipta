@@ -8,8 +8,10 @@
         {%- for purchaseOrderPaperDetailForm in form.purchaseOrderPaperDetails -%}
             {%- set purchaseOrderPaperDetail = purchaseOrderPaperDetailForm.vars.data -%}
             "{{ purchaseOrderPaperDetailForm.vars.name }}": {
-                "weightPrice": "{{ purchaseOrderPaperDetail.syncWeightPrice|default }}",
-                "unitPrice": "{{ purchaseOrderPaperDetail.syncUnitPrice|default|number_format(2) }}",
+                "weightPrice": "{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}",
+                "weightPriceRaw": "{{ purchaseOrderPaperDetail.weightPrice|default }}",
+                "unitPrice": "{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}",
+                "unitPriceRaw": "{{ purchaseOrderPaperDetail.unitPrice|default }}",
                 "total": "{{ purchaseOrderPaperDetail.total|default|number_format(2) }}"
             }
             {%- if not loop.last -%},{%- endif -%}

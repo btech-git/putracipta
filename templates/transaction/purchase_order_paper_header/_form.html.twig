@@ -34,20 +34,22 @@
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <strong>Currency: </strong><br />
-                        <span data-controller="dom-element"
-                             data-action="supplier-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.currencyCode'}},
-                             ]|json_encode }}">{{ purchaseOrderPaperHeader.supplier.currency.code|default }}</span>
+                        <label class="form-label">Currency</label>
+                        <input type="text" class="form-control" value="{{ purchaseOrderPaperHeader.supplier.currency.code|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="supplier-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.currencyCode'}},
+                               ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <strong>Category: </strong><br />
-                        <span data-controller="dom-element"
-                             data-action="supplier-table:data-table:select@document->dom-element#bind"
-                             data-dom-element-bind-specifications-param="{{ [
-                                 {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail.certification'}},
-                             ]|json_encode }}">{{ purchaseOrderPaperHeader.supplier.certification|default }}</span>
+                        <label class="form-label">Category</label>
+                        <input type="text" class="form-control" value="{{ purchaseOrderPaperHeader.supplier.certification|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="supplier-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.certification'}},
+                               ]|json_encode }}" />
                     </div>
                 </div>
             </div>
@@ -60,8 +62,8 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Details</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#purchase-request-detail-dialog">Add Request</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#paper-dialog">Add Kertas</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#purchase-request-paper-detail-dialog">Add Request</button>
             {{ include('transaction/purchase_order_paper_header/_details_form.html.twig') }}
         </fieldset>
 
@@ -79,16 +81,16 @@
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('material-dialog', 'Material List') }}
+    {{ dialog.start('paper-dialog', 'Kertas List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('purchase-request-detail-dialog', 'Purchase Request List') }}
+    {{ dialog.start('purchase-request-paper-detail-dialog', 'Purchase Request Kertas List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_purchase_request_detail__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_purchase_request_paper_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
