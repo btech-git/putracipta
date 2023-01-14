@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <th>customer</th>
-                <td>{{ deliveryHeader.saleOrderHeader.customer.company}}</td>
+                <td>{{ deliveryHeader.customer.company}}</td>
             </tr>
             <tr>
                 <th>Driver</th>
@@ -72,15 +72,15 @@
         <tbody>
             {% for deliveryDetail in deliveryHeader.deliveryDetails %}
                 <tr>
-                    <td>{{ deliveryDetail.saleOrderDetail.product.code|default }}</td>
-                    <td>{{ deliveryDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>{{ deliveryDetail.product.code|default }}</td>
+                    <td>{{ deliveryDetail.product.name|default }}</td>
                     <td>{{ deliveryDetail.fscCode|default }}</td>
                     <td></td>
                     <td>{{ deliveryDetail.lotNumber|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.orderedQuantity|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
-                    <td>{{ deliveryDetail.saleOrderDetail.unit.name|default }}</td>
+                    <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>
                     <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>

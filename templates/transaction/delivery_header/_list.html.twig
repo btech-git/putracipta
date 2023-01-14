@@ -42,7 +42,7 @@
                 <tr>
                     <td>{{ deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ deliveryHeader.saleOrderHeader.customer.company }}</td>
+                    <td>{{ deliveryHeader.customer.company }}</td>
                     <td>{{ deliveryHeader.saleOrderHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.warehouse.name }}</td>
                     <td>{{ deliveryHeader.note }}</td>

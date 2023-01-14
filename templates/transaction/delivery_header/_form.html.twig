@@ -12,15 +12,8 @@
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
-                    {{ form_row(form.driverName, {'label': 'Sopir'}) }}
-                    <div class="mb-3">
-                        <strong>PO Customer #: </strong>
-                        <span data-controller="dom-element"
-                         data-action="sale-order-header-table:data-table:select@document->dom-element#bind"
-                         data-dom-element-bind-specifications-param="{{ [
-                             {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].saleOrderHeaderReferenceNumber'}},
-                         ]|json_encode }}">{{ deliveryHeader.saleOrderHeader.referenceNumber|default }}</span>
-                    </div>
+                    {{ form_row(form.vehicleType, {'label': 'Kendaraan'}) }}
+                    {{ form_row(form.vehicleNumber, {'label': 'Nopol'}) }}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -42,16 +35,25 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].saleOrderHeaderCodeNumber'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.vehicleType, {'label': 'Kendaraan'}) }}
-                    {{ form_row(form.vehicleNumber, {'label': 'Nopol'}) }}
                     <div class="mb-3">
-                        <strong>Customer: </strong>
-                        <span data-controller="dom-element"
-                         data-action="sale-order-header-table:data-table:select@document->dom-element#bind"
-                         data-dom-element-bind-specifications-param="{{ [
-                             {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '$event.detail[0].customerCompany'}},
-                         ]|json_encode }}">{{ deliveryHeader.saleOrderHeader.customer.company|default }}</span>
+                        <label class="form-label">Customer</label>
+                        <input type="text" class="form-control" value="{{ deliveryHeader.customer.company|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="sale-order-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].customerCompany'}},
+                               ]|json_encode }}" />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">PO Customer #</label>
+                        <input type="text" class="form-control" value="{{ deliveryHeader.saleOrderHeader.referenceNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="sale-order-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].saleOrderHeaderReferenceNumber'}},
+                               ]|json_encode }}" />
+                    </div>
+                    {{ form_row(form.driverName, {'label': 'Sopir'}) }}
                 </div>
             </div>
             <div class="row">
