@@ -122,6 +122,17 @@ class SaleOrderHeader extends TransactionHeader
         return $grandTotal;
     }
 
+    public function getSyncTotalRemainingDelivery(): string
+    {
+        $subTotal = '0.00';
+        foreach ($this->saleOrderDetails as $saleOrderDetail) {
+            if (!$saleOrderDetail->isIsCanceled()) {
+                $subTotal += $saleOrderDetail->getRemainingDelivery();
+            }
+        }
+        return $subTotal;
+    }
+
     public function getDiscountNominal(): string
     {
         return $this->discountValueType === self::DISCOUNT_VALUE_TYPE_NOMINAL ? $this->discountValue : $this->subTotal * $this->discountValue / 100;
