@@ -124,7 +124,5 @@
         <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}
-    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) %}
-        <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
-    {% endif %}
+    <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
 {% endblock %}
