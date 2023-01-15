@@ -23,6 +23,7 @@ class SaleOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.totalRemainingDelivery > 0");
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 

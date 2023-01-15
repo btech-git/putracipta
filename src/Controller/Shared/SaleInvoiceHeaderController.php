@@ -22,8 +22,16 @@ class SaleInvoiceHeaderController extends AbstractController
         $form = $this->createForm(SaleInvoiceHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.remainingPayment > 0");
+        list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) use ($request) {
+            $customerId = '';
+            if (isset($request->query->get('sale_payment_header')['customer'])) {
+                $customerId = $request->query->get('sale_payment_header')['customer'];
+            }
+            if (!empty($customerId)) {
+                $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
+                $qb->setParameter('customerId', $customerId);
+            }
+            $qb->andWhere("{$alias}.remainingPayment > 0.00");
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 
