@@ -140,6 +140,11 @@ class SaleInvoiceHeader extends TransactionHeader
         return $dueDate;
     }
 
+    public function getSyncRemainingPayment(): int
+    {
+        return $this->grandTotal - $this->totalPayment;
+    }
+
     public function getDiscountNominal(): string
     {
         return $this->discountValueType === self::DISCOUNT_VALUE_TYPE_NOMINAL ? $this->discountValue : $this->subTotal * $this->discountValue / 100;
