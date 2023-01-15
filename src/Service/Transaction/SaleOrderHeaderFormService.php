@@ -44,8 +44,6 @@ class SaleOrderHeaderFormService
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
         }
-        $customer = $saleOrderHeader->getCustomer();
-        $saleOrderHeader->setCurrency($customer === null ? null : $customer->getCurrency());
         $saleOrderHeader->setSubTotal($saleOrderHeader->getSyncSubTotal());
         $saleOrderHeader->setTaxPercentage($saleOrderHeader->getSyncTaxPercentage());
         $saleOrderHeader->setSubTotalAfterTaxInclusion($saleOrderHeader->getSyncSubTotalAfterTaxInclusion());
