@@ -46,13 +46,14 @@ class SaleInvoiceHeaderFormService
         $saleInvoiceHeader->setDiscountValueType($saleOrderHeader === null ? SaleInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE : $saleOrderHeader->getDiscountValueType());
         $saleInvoiceHeader->setDiscountValue($saleOrderHeader === null ? '0.00' : $saleOrderHeader->getDiscountValue());
         $saleInvoiceHeader->setTaxMode($saleOrderHeader === null ? SaleInvoiceHeader::TAX_MODE_NON_TAX : $saleOrderHeader->getTaxMode());
-//        $saleInvoiceHeader->setDueDate($saleInvoiceHeader->getSyncDueDate());
+        $saleInvoiceHeader->setDueDate($saleInvoiceHeader->getSyncDueDate());
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleInvoiceDetail->setProduct($deliveryDetail->getProduct());
             $saleInvoiceDetail->setQuantity($deliveryDetail->getDeliveredQuantity());
             $saleInvoiceDetail->setUnitPrice($saleOrderDetail->getUnitPrice());
+            $saleInvoiceDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
         }
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $saleInvoiceDetail->setIsCanceled($saleInvoiceDetail->getSyncIsCanceled());
@@ -62,6 +63,7 @@ class SaleInvoiceHeaderFormService
         $saleInvoiceHeader->setSubTotalAfterTaxInclusion($saleInvoiceHeader->getSyncSubTotalAfterTaxInclusion());
         $saleInvoiceHeader->setTaxNominal($saleInvoiceHeader->getSyncTaxNominal());
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());
+        $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
     }
 
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
