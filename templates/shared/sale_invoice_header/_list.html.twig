@@ -59,7 +59,7 @@
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'saleInvoiceHeaderId': saleInvoiceHeader.id, 
                     'saleInvoiceHeaderCodeNumber': saleInvoiceHeader.codeNumber, 
-                    'saleInvoiceHeaderRemainingPayment': saleInvoiceHeader.remainingPayment}|json_encode }}">
+                    'saleInvoiceHeaderRemainingPayment': saleInvoiceHeader.remainingPayment|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ saleInvoiceHeader.customer.company }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
