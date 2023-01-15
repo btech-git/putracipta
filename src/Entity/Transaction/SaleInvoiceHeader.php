@@ -135,8 +135,11 @@ class SaleInvoiceHeader extends TransactionHeader
     public function getSyncDueDate(): \DateTimeInterface
     {
         $paymentTerm = $this->customer === null ? 0 : $this->customer->getPaymentTerm();
-        $dueDate = \DateTime::createFromInterface($this->transactionDate);
-        $dueDate->add(new \DateInterval('P' . $paymentTerm . 'd'));
+        $dueDate = null;
+        if ($this->transactionDate !== null) {
+            $dueDate = \DateTime::createFromInterface($this->transactionDate);
+            $dueDate->add(new \DateInterval("P{$paymentTerm}D"));
+        }
         return $dueDate;
     }
 
