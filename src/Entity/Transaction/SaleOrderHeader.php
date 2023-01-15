@@ -73,6 +73,9 @@ class SaleOrderHeader extends TransactionHeader
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: DeliveryHeader::class)]
     private Collection $deliveryHeaders;
 
+    #[ORM\Column]
+    private ?int $totalRemainingDelivery = null;
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -334,6 +337,18 @@ class SaleOrderHeader extends TransactionHeader
                 $deliveryHeader->setSaleOrderHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalRemainingDelivery(): ?int
+    {
+        return $this->totalRemainingDelivery;
+    }
+
+    public function setTotalRemainingDelivery(int $totalRemainingDelivery): self
+    {
+        $this->totalRemainingDelivery = $totalRemainingDelivery;
 
         return $this;
     }
