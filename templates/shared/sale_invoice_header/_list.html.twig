@@ -61,7 +61,7 @@
                     'saleInvoiceHeaderCodeNumber': saleInvoiceHeader.codeNumber, 
                     'saleInvoiceHeaderRemainingPayment': saleInvoiceHeader.remainingPayment}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
-                    <td>{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.customer.company }}</td>
+                    <td>{{ saleInvoiceHeader.customer.company }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.grandTotal|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalPayment|number_format(0) }}</td>
