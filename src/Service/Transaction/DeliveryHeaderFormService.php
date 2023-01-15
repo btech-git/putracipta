@@ -53,6 +53,7 @@ class DeliveryHeaderFormService
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
+            $deliveryDetail->setUnit($saleOrderDetail->getUnit());
         }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $deliveryDetail->setIsCanceled($deliveryDetail->getSyncIsCanceled());
