@@ -21,7 +21,7 @@
                 <td data-item-field-name="saleInvoiceHeaderCodeNumber">{{ detailForm.vars.value.saleInvoiceHeader.codeNumber|default }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>{{ form_row(detailForm.account, {'label': false}) }}</td>
-                <td data-item-field-name="saleInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.saleInvoiceHeader.remainingPayment|default|number_format(0) }}</td>
+                <td class="text-end" data-item-field-name="saleInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.saleInvoiceHeader.remainingPayment|default|number_format(0) }}</td>
                 <td>
                     {{ form_row(detailForm.amount, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
