@@ -42,12 +42,16 @@ class SaleOrderHeaderFormService
     {
         foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
+            $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
         }
+        $customer = $saleOrderHeader->getCustomer();
+        $saleOrderHeader->setCurrency($customer === null ? null : $customer->getCurrency());
         $saleOrderHeader->setSubTotal($saleOrderHeader->getSyncSubTotal());
         $saleOrderHeader->setTaxPercentage($saleOrderHeader->getSyncTaxPercentage());
         $saleOrderHeader->setSubTotalAfterTaxInclusion($saleOrderHeader->getSyncSubTotalAfterTaxInclusion());
         $saleOrderHeader->setTaxNominal($saleOrderHeader->getSyncTaxNominal());
         $saleOrderHeader->setGrandTotal($saleOrderHeader->getSyncGrandTotal());
+        $saleOrderHeader->setTotalRemainingDelivery($saleOrderHeader->getSyncTotalRemainingDelivery());
     }
 
     public function save(SaleOrderHeader $saleOrderHeader, array $options = []): void
