@@ -76,7 +76,8 @@
     {{ dialog.start('sale-invoice-header-dialog', 'Sales Invoice List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_sale_invoice_header__list') }}"
-             data-html-loader-auto-load-value="true">
+             data-html-loader-auto-load-value="true"
+             data-action="customer-table:data-table:select@document->html-loader#load">>
         </div>
     {{ dialog.end() }}
 </div>
