@@ -78,7 +78,7 @@
                     <td></td>
                     <td>{{ deliveryDetail.lotNumber|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.orderedQuantity|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
                     <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>
