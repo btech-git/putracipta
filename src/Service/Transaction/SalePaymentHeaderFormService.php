@@ -2,6 +2,7 @@
 
 namespace App\Service\Transaction;
 
+use App\Entity\Transaction\SaleInvoiceHeader;
 use App\Entity\Transaction\SalePaymentDetail;
 use App\Entity\Transaction\SalePaymentHeader;
 use App\Repository\Transaction\SalePaymentDetailRepository;
