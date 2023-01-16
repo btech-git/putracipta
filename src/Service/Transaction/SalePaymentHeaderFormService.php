@@ -42,6 +42,22 @@ class SalePaymentHeaderFormService
     {
         foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
             $salePaymentDetail->setIsCanceled($salePaymentDetail->getSyncIsCanceled());
+            $saleInvoiceHeader = $salePaymentDetail->getSaleInvoiceHeader();
+            $oldSalePaymentDetails = $this->salePaymentDetailRepository->findBySaleInvoiceHeader($saleInvoiceHeader);
+            $totalPayment = '0.00';
+            foreach ($oldSalePaymentDetails as $oldSalePaymentDetail) {
+                if ($oldSalePaymentDetail->getId() !== $salePaymentDetail->getId()) {
+                    $totalPayment += $oldSalePaymentDetail->getAmount();
+                }
+            }
+            $totalPayment += $salePaymentDetail->getAmount();
+            $saleInvoiceHeader->setTotalPayment($totalPayment);
+            $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
+            if ($saleInvoiceHeader->getRemainingPayment() > '0.00') {
+                $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_PARTIAL_PAYMENT);
+            } else {
+                $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
+            }
         }
         $salePaymentHeader->setTotalAmount($salePaymentHeader->getSyncTotalAmount());
     }
