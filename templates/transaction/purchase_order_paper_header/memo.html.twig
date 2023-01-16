@@ -87,8 +87,8 @@
                     {% for purchaseOrderPaperDetail in row %}
                         <tr>
                             {% if purchaseOrderPaperDetail and not purchaseOrderPaperDetail.isCanceled %}
-                                <td class="left">{{ purchaseOrderPaperDetail.material.code|default }}</td>
-                                <td class="left">{{ purchaseOrderPaperDetail.material.name|default }}</td>
+                                <td class="left">{{ purchaseOrderPaperDetail.paper.code|default }}</td>
+                                <td class="left">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                                 <td class="center">{{ purchaseOrderPaperDetail.quantity|default }}</td>
                                 <td class="left">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                                 <td class="right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(0) }}</td>
