@@ -53,7 +53,18 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.currencyCode'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.currencyRate, {'label': 'Nilai Tukar'}) }}
+                    {{ form_row(form.currencyRate, {
+                        'label': 'Nilai Tukar',
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'supplier-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '1'}, 'condition': '$event.detail.currencyIsLocal'},
+                                {'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$event.detail.currencyIsLocal'},
+                                {'action': 'removeAttribute', 'descriptor': {'name': 'readonly'}, 'condition': '!$event.detail.currencyIsLocal'},
+                            ]|json_encode,
+                        },
+                    }) }}
                 </div>
             </div>
             <div class="row">
