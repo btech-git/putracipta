@@ -51,6 +51,14 @@
                 <td>{{ supplier.certification }}</td>
             </tr>
             <tr>
+                <th>Currency</th>
+                <td>{{ supplier.currency.name|default }}</td>
+            </tr>
+            <tr>
+                <th>account</th>
+                <td>{{ supplier.account.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Note</th>
                 <td>{{ supplier.note }}</td>
             </tr>
