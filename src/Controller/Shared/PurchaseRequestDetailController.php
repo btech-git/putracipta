@@ -27,6 +27,7 @@ class PurchaseRequestDetailController extends AbstractController
             $sub = $new(PurchaseOrderDetail::class, 'p');
             $sub->andWhere("IDENTITY(p.purchaseRequestDetail) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/purchase_request_detail/_list.html.twig", [
