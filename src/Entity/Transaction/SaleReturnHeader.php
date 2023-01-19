@@ -61,6 +61,41 @@ class SaleReturnHeader extends TransactionHeader
         return 'SRT';
     }
 
+    public function getSyncTaxPercentage(): int
+    {
+        $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
+        return $taxPercentage;
+    }
+
+    public function getSyncTaxNominal(): string
+    {
+        $taxNominal = $this->subTotalAfterTaxInclusion * $this->taxPercentage / 100;
+        return $taxNominal;
+    }
+
+    public function getSyncSubTotal(): string
+    {
+        $subTotal = '0.00';
+        foreach ($this->saleReturnDetails as $saleReturnDetail) {
+            if (!$saleReturnDetail->isIsCanceled()) {
+                $subTotal += $saleReturnDetail->getTotal();
+            }
+        }
+        return $subTotal;
+    }
+
+    public function getSyncSubTotalAfterTaxInclusion(): string
+    {
+        $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
+        return $subTotalAfterTaxInclusion;
+    }
+
+    public function getSyncGrandTotal(): string
+    {
+        $grandTotal = $this->subTotalAfterTaxInclusion + $this->taxNominal;
+        return $grandTotal;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

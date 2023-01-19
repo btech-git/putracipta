@@ -36,6 +36,17 @@ class SaleReturnDetail extends TransactionDetail
     #[ORM\ManyToOne(inversedBy: 'saleReturnDetails')]
     private ?SaleReturnHeader $saleReturnHeader = null;
 
+    public function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->saleReturnHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
+    public function getTotal(): int
+    {
+        return $this->quantity * $this->unitPrice;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
