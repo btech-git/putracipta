@@ -26,8 +26,8 @@ class DeliveryHeaderRepository extends ServiceEntityRepository
         $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
-        $lastReceiveHeader = $query->getOneOrNullResult();
+        $lastDeliveryHeader = $query->getOneOrNullResult();
 
-        return $lastReceiveHeader;
+        return $lastDeliveryHeader;
     }
 }

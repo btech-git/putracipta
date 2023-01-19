@@ -2,65 +2,32 @@
 
 namespace App\Repository\Transaction;
 
+use App\Common\Doctrine\Repository\EntityAdd;
+use App\Common\Doctrine\Repository\EntityDataFetch;
+use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Transaction\SaleReturnHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<SaleReturnHeader>
- *
- * @method SaleReturnHeader|null find($id, $lockMode = null, $lockVersion = null)
- * @method SaleReturnHeader|null findOneBy(array $criteria, array $orderBy = null)
- * @method SaleReturnHeader[]    findAll()
- * @method SaleReturnHeader[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class SaleReturnHeaderRepository extends ServiceEntityRepository
 {
+    use EntityDataFetch, EntityAdd, EntityRemove;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SaleReturnHeader::class);
     }
 
-    public function save(SaleReturnHeader $entity, bool $flush = false): void
+    public function findRecentBy($year, $month)
     {
-        $this->getEntityManager()->persist($entity);
+        $dql = 'SELECT e FROM ' . SaleReturnHeader::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('codeNumberMonth', $month);
+        $query->setParameter('codeNumberYear', $year);
+        $query->setMaxResults(1);
+        $lastSaleReturnHeader = $query->getOneOrNullResult();
+
+        return $lastSaleReturnHeader;
     }
-
-    public function remove(SaleReturnHeader $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return SaleReturnHeader[] Returns an array of SaleReturnHeader objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?SaleReturnHeader
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

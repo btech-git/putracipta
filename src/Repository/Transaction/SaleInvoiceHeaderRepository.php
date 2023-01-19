@@ -26,8 +26,8 @@ class SaleInvoiceHeaderRepository extends ServiceEntityRepository
         $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
-        $lastSaleOrderHeader = $query->getOneOrNullResult();
+        $lastSaleInvoiceHeader = $query->getOneOrNullResult();
 
-        return $lastSaleOrderHeader;
+        return $lastSaleInvoiceHeader;
     }
 }
