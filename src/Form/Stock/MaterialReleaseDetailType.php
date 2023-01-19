@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Form\Stock;
+
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Material;
+use App\Entity\Stock\MaterialReleaseDetail;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class MaterialReleaseDetailType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('quantity')
+            ->add('memo')
+            ->add('isCanceled')
+            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('material', EntityHiddenType::class, ['class' => Material::class])
+            ->add('materialRequestDetail', EntityHiddenType::class, array('class' => MaterialRequestDetail::class))
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => MaterialReleaseDetail::class,
+        ]);
+    }
+}
