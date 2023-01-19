@@ -1,0 +1,69 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Material Request Header' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_material_request_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_material_request_header_edit', {'id': materialRequestHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Total Quantity</th>
+                <td>{{ materialRequestHeader.totalQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Department Name</th>
+                <td>{{ materialRequestHeader.departmentName }}</td>
+            </tr>
+            <tr>
+                <th>Work Order Number</th>
+                <td>{{ materialRequestHeader.workOrderNumber }}</td>
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <td>{{ materialRequestHeader.partNumber }}</td>
+            </tr>
+            <tr>
+                <th>Pickup Date</th>
+                <td>{{ materialRequestHeader.pickupDate ? materialRequestHeader.pickupDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ materialRequestHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Ordinal</th>
+                <td>{{ materialRequestHeader.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Month</th>
+                <td>{{ materialRequestHeader.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ materialRequestHeader.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Created Transaction Date Time</th>
+                <td>{{ materialRequestHeader.createdTransactionDateTime ? materialRequestHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified Transaction Date Time</th>
+                <td>{{ materialRequestHeader.modifiedTransactionDateTime ? materialRequestHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ materialRequestHeader.transactionDate ? materialRequestHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ materialRequestHeader.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('stock/material_request_header/_delete_form.html.twig') }}
+{% endblock %}

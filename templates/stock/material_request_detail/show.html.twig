@@ -1,0 +1,29 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Material Request Detail' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_material_request_detail_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_material_request_detail_edit', {'id': materialRequestDetail.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ materialRequestDetail.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Memo</th>
+                <td>{{ materialRequestDetail.memo }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ materialRequestDetail.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('stock/material_request_detail/_delete_form.html.twig') }}
+{% endblock %}
