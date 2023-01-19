@@ -1,0 +1,24 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Literal Config' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_admin_literal_config_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Ifsc Number</th>
+                <td>{{ literalConfig.ifscNumber }}</td>
+            </tr>
+            <tr>
+                <th>Vat Percentage</th>
+                <td>{{ literalConfig.vatPercentage }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

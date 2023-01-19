@@ -1,0 +1,40 @@
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th>
+                    IFSC #
+                </th>
+                <th>
+                    VAT %
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light">
+                <th>
+                    <input type="text" />
+                </th>
+                <th>
+                    <input type="text" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for literalConfig in literalConfigs %}
+                <tr>
+                    <td>{{ literalConfig.ifscNumber }}</td>
+                    <td>{{ literalConfig.vatPercentage }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_admin_literal_config_show', {'id': literalConfig.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
