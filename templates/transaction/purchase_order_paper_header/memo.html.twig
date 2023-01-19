@@ -82,7 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% set rowspan = 20 %}
+                {% set rowspan = 25 %}
                 {% for row in purchaseOrderPaperHeader.purchaseOrderPaperDetails|batch(rowspan, '') %}
                     {% for purchaseOrderPaperDetail in row %}
                         <tr>
@@ -135,6 +135,9 @@
                     <td colspan="5" class="label right">Grand Total</td>
                     <td class="right">{{ purchaseOrderPaperHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
+                <tr>
+                    <td colspan="6">Terbilang: {{ purchaseOrderPaperHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</td>
+                </tr>
             </tfoot>
         </table>
         
@@ -142,9 +145,9 @@
         
         <div class="note">
             <div class="table">
-                <div class="cell label">Terbilang:</div>
+                <div class="cell label">Catatan:</div>
                 <div class="cell">&nbsp;&nbsp;</div>
-                <div class="cell">{{ purchaseOrderPaperHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</div>
+                <div class="cell">{{ purchaseOrderPaperHeader.note|default }}</div>
             </div>
         </div>
         
@@ -173,23 +176,12 @@
             </table>
         </div>
         
-        <div class="note">
-            <div class="table">
-                <div class="cell label">Catatan:</div>
-                <div class="cell">&nbsp;&nbsp;</div>
-                <div class="cell">{{ purchaseOrderPaperHeader.note|default }}</div>
-            </div>
-        </div>
-        
         <br />
         
         <div class="signature">
             <div class="table full">
                 <div class="cell sig">
-                    <div>PO created by,</div>
-                        <div class="blank"></div>
-                        <div class="blank"></div>
-                        <div>{{ purchaseOrderPaperHeader.createdTransactionUser.name|default }}</div>
+                    <div>PO created by: {{ purchaseOrderPaperHeader.createdTransactionUser.name|default }}</div>
                 </div>
             </div>
         </div>

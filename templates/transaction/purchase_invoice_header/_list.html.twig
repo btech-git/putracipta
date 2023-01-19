@@ -32,6 +32,9 @@
                 <th role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
                     Remaining Payment {{ grid.sort_char(form.sort.remainingPayment.vars.value) }}
                 </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
+                    Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
+                </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -55,6 +58,9 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'remainingPayment') }} value="{{ form.filter.remainingPayment.1.vars.value }}" />
                 </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -63,12 +69,13 @@
                 <tr>
                     <td>{{ purchaseInvoiceHeader.codeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseInvoiceHeader.supplier.company }}</td>
+                    <td>{{ purchaseInvoiceHeader.supplier.company|default }}</td>
                     <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.totalPayment|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.remainingPayment|number_format(0) }}</td>
+                    <td>{{ purchaseInvoiceHeader.transactionStatus }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_invoice_header_show', {'id': purchaseInvoiceHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_invoice_header_edit', {'id': purchaseInvoiceHeader.id}) }}">Edit</a>
@@ -76,7 +83,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="9">No records found</td>
+                    <td colspan="10">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

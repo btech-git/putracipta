@@ -5,6 +5,7 @@
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_new') }}">Add</a>
 {% endblock %}
 
 {% block content %}
@@ -143,5 +144,5 @@
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_approve_form.html.twig') }}</div>
     {% endif %}
-    <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
+    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
 {% endblock %}

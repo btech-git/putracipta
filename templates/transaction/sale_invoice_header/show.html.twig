@@ -5,6 +5,7 @@
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_sale_invoice_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_sale_invoice_header_edit', {'id': saleInvoiceHeader.id}) }}">Edit</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_transaction_sale_invoice_header_new') }}">Add</a>
 {% endblock %}
 
 {% block content %}
@@ -45,6 +46,10 @@
             <tr>
                 <th>Tanggal Jatuh Tempo</th>
                 <td>{{ saleInvoiceHeader.dueDate ? saleInvoiceHeader.dueDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ saleInvoiceHeader.transactionStatus }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -120,7 +125,35 @@
             </tr>
         </tfoot>
     </table>
+
+    <legend class="float-none w-auto text-dark px-1">Data Pelunasan</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Pembayaran #</th>
+                <th>Tanggal</th>
+                <th>Cek/Giro #</th>
+                <th>Tanggal Cek/Giro</th>
+                <th>Memo</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salePaymentDetail in saleInvoiceHeader.salePaymentDetails %}
+                <tr>
+                    <td>{{ salePaymentDetail.salePaymentHeader.codeNumber|default }}</td>
+                    <td>{{ salePaymentDetail.salePaymentHeader.transactionDate ? salePaymentDetail.salePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ salePaymentDetail.salePaymentHeader.referenceNumber|default }}</td>
+                    <td>{{ salePaymentDetail.salePaymentHeader.referenceDate ? salePaymentDetail.salePaymentHeader.referenceDate|date('d M Y') : '' }}</td>
+                    <td>{{ salePaymentDetail.memo|default }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
+                    <td>{{ salePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
     <div class="d-inline-block">{{ include('transaction/sale_invoice_header/_delete_form.html.twig') }}</div>
-    <div class="d-inline-block"><a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_transaction_sale_invoice_header_memo', {'id': saleInvoiceHeader.id}) }}">Print Invoice</a></div>
+    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_transaction_sale_invoice_header_memo', {'id': saleInvoiceHeader.id}) }}">Print Invoice</a></div>
 {% endblock %}

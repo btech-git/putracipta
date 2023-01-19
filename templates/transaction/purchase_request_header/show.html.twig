@@ -5,6 +5,7 @@
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_request_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_request_header_edit', {'id': purchaseRequestHeader.id}) }}">Edit</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_request_header_new') }}">Add</a>
 {% endblock %}
 
 {% block content %}

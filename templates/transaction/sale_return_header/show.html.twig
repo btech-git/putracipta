@@ -1,0 +1,99 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Sale Return' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_sale_return_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_sale_return_header_edit', {'id': saleReturnHeader.id}) }}">Edit</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_transaction_sale_return_header_new') }}">Add</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Return #</th>
+                <td>{{ saleReturnHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Return</th>
+                <td>{{ saleReturnHeader.transactionDate ? saleReturnHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            {#<tr>
+                <th>Penerimaan #</th>
+                <td>{{ saleReturnHeader.receiveHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Terima</th>
+                <td>{{ saleReturnHeader.receiveHeader.transactionDate ? saleReturnHeader.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>#}
+            <tr>
+                <th>Supplier</th>
+                <td>{{ saleReturnHeader.customer.company }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ saleReturnHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
+                <td>{{ saleReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>Harga</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleReturnDetail in saleReturnHeader.saleReturnDetails %}
+                <tr>
+                    <td>{{ saleReturnDetail.product.code|default }}</td>
+                    <td>{{ saleReturnDetail.product.name|default }}</td>
+                    <td style="text-align: right">{{ saleReturnDetail.quantity|default }}</td>
+                    <td>{{ saleReturnDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ saleReturnDetail.unitPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ saleReturnDetail.total|default|number_format(2) }}</td>
+                    <td>{{ saleReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ saleReturnHeader.subTotal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right">
+                    <strong>
+                        {% if saleReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', saleReturnHeader) %}
+                            Non Tax 0%
+                        {% elseif saleReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleReturnHeader) %}
+                            Exclude Tax {{ constant('VAT_PERCENTAGE', saleReturnHeader) }}%
+                        {% elseif saleReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleReturnHeader) %}
+                            Include Tax {{ constant('VAT_PERCENTAGE', saleReturnHeader) }}%
+                        {% endif %}
+                    </strong>
+                </td>
+                <td style="text-align: right"><strong>{{ saleReturnHeader.taxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
+                <td style="text-align: right"><strong>{{ saleReturnHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    {{ include('transaction/sale_return_header/_delete_form.html.twig') }}
+{% endblock %}

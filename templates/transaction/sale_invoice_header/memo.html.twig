@@ -27,8 +27,8 @@
                             <div class="cell value">{{ saleInvoiceHeader.customer.addressInvoice|default|nl2br }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Customer PO #:</div>
-                            <div class="cell value">{{ saleInvoiceHeader.deliveryHeader.saleOrderHeader.referenceNumber|default }}</div>
+                            <div class="cell label">NPWP:</div>
+                            <div class="cell value">{{ saleInvoiceHeader.customer.taxNumber|default }}</div>
                         </div>
                     </div>
                 </div>
@@ -113,11 +113,11 @@
                 <tr>
                     <td colspan="5" class="label right">
                         {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
-                            Non Tax 0%
+                            Non PPn 0%
                         {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
+                            PPn {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
                         {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleInvoiceHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
+                            PPn {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
                         {% endif %}
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>

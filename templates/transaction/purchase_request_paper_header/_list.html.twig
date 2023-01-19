@@ -1,0 +1,58 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, purchaseRequestPaperHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th role="button">
+                    Request #
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button">
+                    Warehouse
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+                <th></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseRequestPaperHeader in purchaseRequestPaperHeaders %}
+                <tr>
+                    <td>{{ purchaseRequestPaperHeader.codeNumber }}</td>
+                    <td>{{ purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseRequestPaperHeader.warehouse.name }}</td>
+                    <td>{{ purchaseRequestPaperHeader.note }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_request_paper_header_show', {'id': purchaseRequestPaperHeader.id}) }}">Show</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_request_paper_header_edit', {'id': purchaseRequestPaperHeader.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, purchaseRequestPaperHeaders) }}
