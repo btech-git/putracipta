@@ -15,9 +15,11 @@
             'Warehouse': ['app_master_warehouse_index', ['ROLE_USER']],
             'Satuan': ['app_master_unit_index', ['ROLE_USER']],
             'Payment Type': ['app_master_payment_type_index', ['ROLE_USER']],
+            'Configuration': ['app_admin_literal_config_index', ['ROLE_USER']],
         },
         'PEMBELIAN': {
-            'Permintaan Pembelian': ['app_transaction_purchase_request_header_index', ['ROLE_USER']],
+            'Permintaan Pembelian Material': ['app_transaction_purchase_request_header_index', ['ROLE_USER']],
+            'Permintaan Pembelian Kertas': ['app_transaction_purchase_request_paper_header_index', ['ROLE_USER']],
             'PO Material': ['app_transaction_purchase_order_header_index', ['ROLE_USER']],
             'PO Kertas': ['app_transaction_purchase_order_paper_header_index', ['ROLE_USER']],
             'Penerimaan Material': ['app_transaction_receive_header_index', ['ROLE_USER']],
@@ -28,7 +30,7 @@
         'PENJUALAN': {
             'Customer Order': ['app_transaction_sale_order_header_index', ['ROLE_USER']],
             'Pengiriman Barang': ['app_transaction_delivery_header_index', ['ROLE_USER']],
-            'Retur Penjualan': ['app_transaction_purchase_return_header_index', ['ROLE_USER']],
+            'Retur Penjualan': ['app_transaction_sale_return_header_index', ['ROLE_USER']],
             'Faktur Penjualan': ['app_transaction_sale_invoice_header_index', ['ROLE_USER']],
             'Pelunasan Penjualan': ['app_transaction_sale_payment_header_index', ['ROLE_USER']],
         },
