@@ -2,65 +2,32 @@
 
 namespace App\Repository\Stock;
 
+use App\Common\Doctrine\Repository\EntityAdd;
+use App\Common\Doctrine\Repository\EntityDataFetch;
+use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Stock\MaterialRequestHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<MaterialRequestHeader>
- *
- * @method MaterialRequestHeader|null find($id, $lockMode = null, $lockVersion = null)
- * @method MaterialRequestHeader|null findOneBy(array $criteria, array $orderBy = null)
- * @method MaterialRequestHeader[]    findAll()
- * @method MaterialRequestHeader[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class MaterialRequestHeaderRepository extends ServiceEntityRepository
 {
+    use EntityDataFetch, EntityAdd, EntityRemove;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MaterialRequestHeader::class);
     }
 
-    public function save(MaterialRequestHeader $entity, bool $flush = false): void
+    public function findRecentBy($year, $month)
     {
-        $this->getEntityManager()->persist($entity);
+        $dql = 'SELECT e FROM ' . MaterialRequestHeader::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('codeNumberMonth', $month);
+        $query->setParameter('codeNumberYear', $year);
+        $query->setMaxResults(1);
+        $lastPurchaseOrderHeader = $query->getOneOrNullResult();
+
+        return $lastPurchaseOrderHeader;
     }
-
-    public function remove(MaterialRequestHeader $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return MaterialRequestHeader[] Returns an array of MaterialRequestHeader objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?MaterialRequestHeader
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
