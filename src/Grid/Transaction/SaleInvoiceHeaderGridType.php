@@ -22,7 +22,7 @@ class SaleInvoiceHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'isCanceled'],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
@@ -33,11 +33,11 @@ class SaleInvoiceHeaderGridType extends AbstractType
                     'totalReturn' => [FilterEqual::class, FilterNotEqual::class],
                     'remainingPayment' => [FilterEqual::class, FilterNotEqual::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
+                    'transactionStatus' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'isCanceled'],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
@@ -48,7 +48,7 @@ class SaleInvoiceHeaderGridType extends AbstractType
                     'totalReturn' => [SortAscending::class, SortDescending::class],
                     'remainingPayment' => [SortAscending::class, SortDescending::class],
                     'isCanceled' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
+                    'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
