@@ -7,6 +7,7 @@ use App\Entity\Transaction\PurchaseRequestPaperHeader;
 use App\Form\Transaction\PurchaseRequestPaperHeaderType;
 use App\Grid\Transaction\PurchaseRequestPaperHeaderGridType;
 use App\Repository\Transaction\PurchaseRequestPaperHeaderRepository;
+use App\Service\Transaction\PurchaseRequestPaperHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,21 +41,23 @@ class PurchaseRequestPaperHeaderController extends AbstractController
         return $this->render("transaction/purchase_request_paper_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_transaction_purchase_request_paper_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_transaction_purchase_request_paper_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    public function new(Request $request, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response
     {
         $purchaseRequestPaperHeader = new PurchaseRequestPaperHeader();
+        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseRequestPaperHeaderType::class, $purchaseRequestPaperHeader);
         $form->handleRequest($request);
+        $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseRequestPaperHeaderFormService->save($purchaseRequestPaperHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_request_paper_header_show', ['id' => $purchaseRequestPaperHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_request_paper_header/new.html.twig', [
+        return $this->renderForm("transaction/purchase_request_paper_header/new.{$_format}.twig", [
             'purchaseRequestPaperHeader' => $purchaseRequestPaperHeader,
             'form' => $form,
         ]);
@@ -69,20 +72,22 @@ class PurchaseRequestPaperHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_transaction_purchase_request_paper_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_request_paper_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    public function edit(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response
     {
+        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseRequestPaperHeaderType::class, $purchaseRequestPaperHeader);
         $form->handleRequest($request);
+        $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseRequestPaperHeaderFormService->save($purchaseRequestPaperHeader);
 
             return $this->redirectToRoute('app_transaction_purchase_request_paper_header_show', ['id' => $purchaseRequestPaperHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('transaction/purchase_request_paper_header/edit.html.twig', [
+        return $this->renderForm("transaction/purchase_request_paper_header/edit.{$_format}.twig", [
             'purchaseRequestPaperHeader' => $purchaseRequestPaperHeader,
             'form' => $form,
         ]);
