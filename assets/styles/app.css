@@ -5,7 +5,7 @@ body {
     background-color: white;
 }
 
-label.form-label {
+label.form-label, legend.col-form-label {
     text-transform: capitalize;
 }
 

@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterExpressionType extends AbstractType
@@ -33,10 +35,18 @@ class FilterExpressionType extends AbstractType
             'operator_options' => null,
             'value_type' => null,
             'value_options' => null,
+            'value_options' => null,
+            'label' => null,
         ]);
         $resolver->setAllowedTypes('operators', ['null', 'string[]']);
         $resolver->setAllowedTypes('operator_options', ['null', 'array']);
         $resolver->setAllowedTypes('value_type', ['null', 'string']);
         $resolver->setAllowedTypes('value_options', ['null', 'array']);
+        $resolver->setAllowedTypes('label', ['null', 'string']);
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        $view->vars['field_label'] = $options['label'];
     }
 }

@@ -21,7 +21,7 @@
                 <div id="{{ form.vars.id }}" data-action="sort-panel:clear->sort-panel#clear:self sort-panel:sync->sort-panel#sync:self">
                     {% for childForm in form.children %}
                         <div>
-                            {{ form_label(childForm) }}
+                            {{ field_label_list[childForm.vars.name] is not defined ? form_label(childForm) : field_label_list[childForm.vars.name] }}
                         </div>
                         <div>
                             {{ form_widget(childForm, {'attr': {'class': 'form-select-sm', 'data-action': 'sort-panel#normalize', 'data-sort-panel-target': 'widget', 'data-widget-index': 0, 'data-widget-field-name': childForm.vars.name}}) }}
@@ -61,7 +61,7 @@
 
 {% block filter_expression_row %}
     <div>
-        {{ form_label(form) }}
+        {{ field_label is null ? form_label(form) : field_label }}
     </div>
     <div>
         {% for index, childForm in form.children %}

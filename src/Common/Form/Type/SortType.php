@@ -5,6 +5,8 @@ namespace App\Common\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SortType extends AbstractType
@@ -28,9 +30,16 @@ class SortType extends AbstractType
             'field_names' => [],
             'field_operators_list' => [],
             'field_operator_options_list' => [],
+            'field_label_list' => [],
         ]);
         $resolver->setAllowedTypes('field_names', 'string[]');
         $resolver->setAllowedTypes('field_operators_list', 'array');
         $resolver->setAllowedTypes('field_operator_options_list', 'array');
+        $resolver->setAllowedTypes('field_label_list', 'array');
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        $view->vars['field_label_list'] = $options['field_label_list'];
     }
 }
