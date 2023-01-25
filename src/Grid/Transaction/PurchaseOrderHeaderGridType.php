@@ -26,6 +26,11 @@ class PurchaseOrderHeaderGridType extends AbstractType
         $builder
             ->add('filter', FilterType::class, [
                 'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'note', 'transactionStatus', 'isCanceled'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                ],
                 'field_operators_list' => [
                     'grandTotal' => [FilterEqual::class, FilterNotEqual::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
