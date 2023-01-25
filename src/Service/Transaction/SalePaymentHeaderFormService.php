@@ -61,6 +61,7 @@ class SalePaymentHeaderFormService
             }
         }
         $salePaymentHeader->setTotalAmount($salePaymentHeader->getSyncTotalAmount());
+        $salePaymentHeader->setReceivedAmount($salePaymentHeader->getSyncReceivedAmount());
     }
 
     public function save(SalePaymentHeader $salePaymentHeader, array $options = []): void
