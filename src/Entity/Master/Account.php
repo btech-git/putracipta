@@ -7,6 +7,7 @@ use App\Repository\Master\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[ORM\Table(name: 'master_account')]
@@ -18,10 +19,12 @@ class Account extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $code = '';
 
     #[ORM\ManyToOne(inversedBy: 'accounts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?AccountCategory $accountCategory = null;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Customer::class)]

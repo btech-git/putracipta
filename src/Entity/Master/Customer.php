@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\Table(name: 'master_customer')]
@@ -19,21 +20,27 @@ class Customer extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $code = '';
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $company = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $phone = '';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $email = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $taxNumber = '';
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $note = '';
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
@@ -43,19 +50,27 @@ class Customer extends Master
     private Collection $products;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $addressDelivery = '';
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $addressInvoice = '';
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $paymentTerm = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?bool $isBondedZone = false;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
     private ?Currency $currency = null;
+
+    #[ORM\Column]
+    private ?bool $isHavingFscCode = null;
 
     public function __construct()
     {
@@ -237,6 +252,18 @@ class Customer extends Master
     public function setCurrency(?Currency $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function isIsHavingFscCode(): ?bool
+    {
+        return $this->isHavingFscCode;
+    }
+
+    public function setIsHavingFscCode(bool $isHavingFscCode): self
+    {
+        $this->isHavingFscCode = $isHavingFscCode;
 
         return $this;
     }

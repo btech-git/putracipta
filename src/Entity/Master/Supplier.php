@@ -7,6 +7,7 @@ use App\Repository\Master\SupplierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SupplierRepository::class)]
 #[ORM\Table(name: 'master_supplier')]
@@ -18,39 +19,51 @@ class Supplier extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $code = '';
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $company = '';
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $address = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $phone = '';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $email = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $taxNumber = '';
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $note = '';
 
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     private ?Account $account = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $fax = '';
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $paymentTerm = 0;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $certification = '';
 
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
+    #[Assert\NotNull]
     private ?Currency $currency = null;
 
     public function __construct()

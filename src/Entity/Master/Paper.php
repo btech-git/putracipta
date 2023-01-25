@@ -6,6 +6,7 @@ use App\Entity\Master;
 use App\Repository\Master\PaperRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaperRepository::class)]
 #[ORM\Table(name: 'master_paper')]
@@ -17,18 +18,26 @@ class Paper extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $code = '';
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $length = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $width = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $weight = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'papers')]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     public function getId(): ?int

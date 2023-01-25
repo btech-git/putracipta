@@ -6,6 +6,7 @@ use App\Entity\Master;
 use App\Repository\Master\MaterialRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialRepository::class)]
 #[ORM\Table(name: 'master_material')]
@@ -17,27 +18,38 @@ class Material extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $code = '';
 
     #[ORM\ManyToOne(inversedBy: 'materials')]
+    #[Assert\NotNull]
     private ?MaterialSubCategory $materialSubCategory = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $thickness = '';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $variant = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $weight = '0.00';
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $length = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $width = 0;
 
     public function getId(): ?int

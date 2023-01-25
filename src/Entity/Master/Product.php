@@ -6,6 +6,7 @@ use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'master_product')]
@@ -17,12 +18,17 @@ class Product extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $code = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $sellingPrice = '0.00';
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $minimumStock = 0;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
@@ -30,6 +36,7 @@ class Product extends Master
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]

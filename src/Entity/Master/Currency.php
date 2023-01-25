@@ -7,6 +7,7 @@ use App\Repository\Master\CurrencyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]
 #[ORM\Table(name: 'master_currency')]
@@ -24,9 +25,11 @@ class Currency extends Master
     private Collection $customers;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $code = '';
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?bool $isLocal = false;
 
     public function __construct()
