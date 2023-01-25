@@ -24,6 +24,10 @@
                 <td>{{ purchasePaymentHeader.supplier.company }}</td>
             </tr>
             <tr>
+                <th>Jenis Pembayaran</th>
+                <td>{{ purchasePaymentHeader.paymentType.name }}</td>
+            </tr>
+            <tr>
                 <th>Cek / Giro #</th>
                 <td>{{ purchasePaymentHeader.referenceNumber }}</td>
             </tr>
@@ -38,10 +42,6 @@
             <tr>
                 <th>Kurs Mata Uang</th>
                 <td>{{ purchasePaymentHeader.currencyRate }}</td>
-            </tr>
-            <tr>
-                <th>Jenis Pembayaran</th>
-                <td>{{ purchasePaymentHeader.paymentType.name }}</td>
             </tr>
             <tr>
                 <th>Note</th>
