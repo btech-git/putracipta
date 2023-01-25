@@ -42,11 +42,15 @@ class SaleOrderHeaderFormService
     {
         foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
+        }
+        if ($saleOrderHeader->getTaxMode() !== $saleOrderHeader::TAX_MODE_NON_TAX) {
+            $saleOrderHeader->setTaxPercentage($options['vatPercentage']);
+        }
+        foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
+            $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
         }
         $saleOrderHeader->setSubTotal($saleOrderHeader->getSyncSubTotal());
-        $saleOrderHeader->setTaxPercentage($saleOrderHeader->getSyncTaxPercentage());
-        $saleOrderHeader->setSubTotalAfterTaxInclusion($saleOrderHeader->getSyncSubTotalAfterTaxInclusion());
         $saleOrderHeader->setTaxNominal($saleOrderHeader->getSyncTaxNominal());
         $saleOrderHeader->setGrandTotal($saleOrderHeader->getSyncGrandTotal());
         $saleOrderHeader->setTotalRemainingDelivery($saleOrderHeader->getSyncTotalRemainingDelivery());
