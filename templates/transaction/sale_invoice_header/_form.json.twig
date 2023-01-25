@@ -9,6 +9,7 @@
     "discountInfo": "{{ discountInfo|trim|replace({'\n': ''}) }}",
     "discountNominal": "{{ saleInvoiceHeader.discountNominal|default|number_format(2) }}",
     "taxNominal": "{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}",
+    "serviceTaxNominal": "{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(2) }}",
     "shippingFee": "{{ saleInvoiceHeader.shippingFee|default|number_format(2) }}",
     "grandTotal": "{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}",
     "saleInvoiceDetails": {
@@ -17,7 +18,6 @@
             "{{ saleInvoiceDetailForm.vars.name }}": {
                 "quantity": "{{ saleInvoiceDetail.quantity|default|number_format(0) }}",
                 "unitPrice": "{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}",
-                "serviceTaxNominal": "{{ saleInvoiceDetail.serviceTaxNominal|default|number_format(2) }}",
                 "total": "{{ saleInvoiceDetail.total|default|number_format(2) }}"
             }
             {%- if not loop.last -%},{%- endif -%}

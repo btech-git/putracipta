@@ -54,19 +54,17 @@ class SaleInvoiceHeaderFormService
             $saleInvoiceDetail->setProduct($deliveryDetail->getProduct());
             $saleInvoiceDetail->setQuantity($deliveryDetail->getDeliveredQuantity());
             $saleInvoiceDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
-            if ($saleInvoiceDetail->isIsServiceTax()) {
-                $saleInvoiceDetail->setServiceTaxPercentage($options['serviceTaxPercentage']);
-            }
-            $saleInvoiceDetail->setServiceTaxNominal($saleInvoiceDetail->getSyncServiceTaxNominal());
             $saleInvoiceDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
         }
-        foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
-        }
+        $saleInvoiceHeader->setSubTotal($saleInvoiceHeader->getSyncSubTotal());
         if ($saleInvoiceHeader->getTaxMode() !== $saleInvoiceHeader::TAX_MODE_NON_TAX) {
             $saleInvoiceHeader->setTaxPercentage($options['vatPercentage']);
         }
-        $saleInvoiceHeader->setSubTotal($saleInvoiceHeader->getSyncSubTotal());
         $saleInvoiceHeader->setTaxNominal($saleInvoiceHeader->getSyncTaxNominal());
+        if ($saleInvoiceHeader->getServiceTaxMode() !== $saleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX) {
+            $saleInvoiceHeader->setServiceTaxPercentage($options['serviceTaxPercentage']);
+        }
+        $saleInvoiceHeader->setServiceTaxNominal($saleInvoiceHeader->getSyncServiceTaxNominal());
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());
         $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
     }

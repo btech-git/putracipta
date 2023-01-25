@@ -45,29 +45,15 @@ class SaleInvoiceDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?SaleInvoiceHeader $saleInvoiceHeader = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $serviceTaxNominal = '0.00';
-
-    #[ORM\Column]
-    private ?bool $isServiceTax = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $serviceTaxPercentage = null;
-
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->saleInvoiceHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
     }
 
-    public function getSyncServiceTaxNominal(): string
-    {
-        return $this->isIsServiceTax() ? $this->unitPrice * $this->serviceTaxPercentage / 100 : 0;
-    }
-
     public function getTotal(): string
     {
-        return $this->quantity * $this->unitPrice - $this->serviceTaxNominal;
+        return $this->quantity * $this->unitPrice;
     }
 
     public function getId(): ?int
@@ -143,42 +129,6 @@ class SaleInvoiceDetail extends TransactionDetail
     public function setSaleInvoiceHeader(?SaleInvoiceHeader $saleInvoiceHeader): self
     {
         $this->saleInvoiceHeader = $saleInvoiceHeader;
-
-        return $this;
-    }
-
-    public function getServiceTaxNominal(): ?string
-    {
-        return $this->serviceTaxNominal;
-    }
-
-    public function setServiceTaxNominal(string $serviceTaxNominal): self
-    {
-        $this->serviceTaxNominal = $serviceTaxNominal;
-
-        return $this;
-    }
-
-    public function isIsServiceTax(): ?bool
-    {
-        return $this->isServiceTax;
-    }
-
-    public function setIsServiceTax(bool $isServiceTax): self
-    {
-        $this->isServiceTax = $isServiceTax;
-
-        return $this;
-    }
-
-    public function getServiceTaxPercentage(): ?string
-    {
-        return $this->serviceTaxPercentage;
-    }
-
-    public function setServiceTaxPercentage(string $serviceTaxPercentage): self
-    {
-        $this->serviceTaxPercentage = $serviceTaxPercentage;
 
         return $this;
     }
