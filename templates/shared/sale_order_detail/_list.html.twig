@@ -1,0 +1,61 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, saleOrderDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="sale-order-detail-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th>
+                    PO #
+                </th>
+                <th>
+                    Tanggal
+                </th>
+                <th>
+                    Customer
+                </th>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Code
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleOrderDetail in saleOrderDetails %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber,
+                    'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber,
+                    'saleOrderDetailId': saleOrderDetail.id,
+                    'productName': saleOrderDetail.product.name,
+                    'productId': saleOrderDetail.product.id,
+                    'productCode': saleOrderDetail.product.code,
+                    'unitName': saleOrderDetail.unit.name,
+                    'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
+                    <td>{{ saleOrderDetail.saleOrderHeader.codeNumber }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.customer.company }}</td>
+                    <td>{{ saleOrderDetail.product.name }}</td>
+                    <td>{{ saleOrderDetail.product.code }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, saleOrderDetails) }}

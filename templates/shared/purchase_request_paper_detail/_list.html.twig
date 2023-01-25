@@ -5,7 +5,7 @@
 {{ grid.info(form, count, purchaseRequestPaperDetails) }}
 
 <div class="table-responsive">
-    <table class="table table-brequested table-striped" id="purchase-request-detail-table" data-controller="data-table">
+    <table class="table table-brequested table-striped" id="purchase-request-paper-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th>
@@ -62,8 +62,8 @@
             {% for purchaseRequestPaperDetail in purchaseRequestPaperDetails %}
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'purchaseRequestPaperDetailId': purchaseRequestPaperDetail.id,
-                    'purchaseRequestHeaderCodeNumber': purchaseRequestPaperDetail.purchaseRequestHeader.codeNumber,
-                    'purchaseRequestHeaderTransactionDate': purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '',
+                    'purchaseRequestHeaderCodeNumber': purchaseRequestPaperDetail.purchaseRequestPaperHeader.codeNumber,
+                    'purchaseRequestHeaderTransactionDate': purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate|date('d M Y') : '',
                     'paperName': purchaseRequestPaperDetail.paper.name,
                     'paperCode': purchaseRequestPaperDetail.paper.code,
                     'paperId': purchaseRequestPaperDetail.paper.id,
@@ -74,12 +74,12 @@
                     'memo': purchaseRequestPaperDetail.memo,
                     'unitName': purchaseRequestPaperDetail.unit.name,
                     'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity}|json_encode }}">
-                    <td>{{ purchaseRequestPaperDetail.purchaseRequestHeader.codeNumber }}</td>
-                    <td>{{ purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.name }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.length }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.width }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.weight }}</td>
+                    <td>{{ purchaseRequestPaperDetail.purchaseRequestPaperHeader.codeNumber }}</td>
+                    <td>{{ purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.name }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.length }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.width }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.weight }}</td>
                     <td class="text-end">{{ purchaseRequestPaperDetail.quantity|number_format(0) }}</td>
                     <td>{{ purchaseRequestPaperDetail.unit.name }}</td>
                     <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : ''  }}</td>

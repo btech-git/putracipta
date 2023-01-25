@@ -40,9 +40,10 @@
             {% for customer in customers %}
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'customerId': customer.id, 
-                    'customerName': customer.company, 
+                    'customerCompany': customer.company, 
                     'phone': customer.phone, 
                     'email': customer.email, 
+                    'addressDelivery': customer.addressDelivery,
                     'paymentTerm': customer.paymentTerm}|json_encode }}">
                     <td>{{ customer.company }}</td>
                     <td>{{ customer.name }}</td>
