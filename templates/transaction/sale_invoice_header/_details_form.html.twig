@@ -11,23 +11,33 @@
             <th>Qty</th>
             <th>Satuan</th>
             <th>Price</th>
+            <th>PPh 23</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="items" data-action="delivery-header-table:data-table:select@document->form-collection#clearCollectionItems delivery-header-table:data-table:select@document->form-collection#addCollectionItems delivery-header-table:data-table:select@document->json-loader#load">
+    <tbody data-form-collection-target="items" data-action="delivery-detail-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="deliveryDetailId" data-item-identifier-value="{{ detailForm.vars.value.deliveryDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.deliveryDetail, {'attr': {'data-item-field-name': 'deliveryDetailId'}}) }}</td>
                 <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                 <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
-                <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="saleInvoiceDetails.{{ detailForm.vars.name }}.quantity">{{ detailForm.vars.value.quantity|default|number_format(0) }}</td>
+                <td data-item-field-name="quantity">{{ detailForm.vars.value.quantity|default }}</td>
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
+                <td class="text-end" data-item-field-name="unitPrice">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</td>
+                <td>{{ form_row(detailForm.isServiceTax, {'label': false, 'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-dom-element-bind-specifications-param': [
+                            {'destinationsTarget': "\##{detailForm.serviceTaxNominal.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                        ]|json_encode,
+                    }}) }}
+                    <div id="{{ detailForm.serviceTaxNominal.vars.id }}-format" class="text-end">{{ detailForm.vars.value.serviceTaxNominal|default|number_format(2) }}</div>
+                </td>
                 <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="saleInvoiceDetails.{{ detailForm.vars.name }}.unitPrice">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</td>
-                <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="saleInvoiceDetails.{{ detailForm.vars.name }}.total">{{ detailForm.vars.value.total|default|number_format(2) }}</td>
+                    data-property-path="saleInvoiceDetails.{{ detailForm.vars.name }}.total">
+                    {{ detailForm.vars.value.total|default|number_format(2) }}
+                </td>
                 <td>
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
@@ -51,20 +61,18 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="5">Sub Total</td>
+            <td class="text-end" colspan="6">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
-                data-property-path="subTotalAfterTaxInclusion">
-                {{ saleInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
+                data-property-path="subTotal">
+                {{ saleInvoiceHeader.subTotal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5" data-json-loader-target="placeholder"
-                data-property-path="discountInfo">
-                Discount
-                {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
-                    {{ saleInvoiceHeader.discountValue|default }}%
-                {% endif %}
+            <td class="text-end" colspan="6">
+                <span class="d-inline-block">Discount</span>
+                <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
+                <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="discountNominal">
@@ -73,15 +81,9 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5" data-json-loader-target="placeholder"
-                data-property-path="taxInfo">
-                {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
-                    Non Tax 0%
-                {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
-                    Exclude Tax {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
-                {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleInvoiceHeader) %}
-                    Include Tax {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
-                {% endif %}
+            <td class="text-end" colspan="6">
+                <span class="d-inline-block">PPn</span>
+                <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="taxNominal">
@@ -90,7 +92,7 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5">Grand Total</td>
+            <td class="text-end" colspan="6">Grand Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="grandTotal">
                 {{ saleInvoiceHeader.grandTotal|default|number_format(2) }}

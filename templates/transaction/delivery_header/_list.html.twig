@@ -15,7 +15,6 @@
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th>Customer</th>
-                <th>SO #</th>
                 <th role="button">
                     Warehouse
                 </th>
@@ -30,7 +29,6 @@
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
-                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -43,7 +41,6 @@
                     <td>{{ deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ deliveryHeader.customer.company }}</td>
-                    <td>{{ deliveryHeader.saleOrderHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.warehouse.name }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                     <td>

@@ -28,13 +28,14 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.receiveHeader.vars.id }}-text" class="form-control" value="{{ purchaseInvoiceHeader.receiveHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.receiveHeader.vars.id }}-text" class="form-control {% if not form.receiveHeader.vars.valid %}is-invalid{% endif %}" value="{{ purchaseInvoiceHeader.receiveHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#receive-header-dialog"
                                data-controller="dom-element"
                                data-action="receive-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].receiveHeaderCodeNumber'}},
                                ]|json_encode }}" />
+                        {{ form_errors(form.receiveHeader) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">PO #</label>

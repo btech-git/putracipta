@@ -26,10 +26,6 @@
                             <div class="cell label"></div>
                             <div class="cell value">{{ deliveryHeader.customer.addressDelivery|default|nl2br }}</div>
                         </div>
-                        <div class="row">
-                            <div class="cell label">PO #:</div>
-                            <div class="cell value">{{ deliveryHeader.saleOrderHeader.referenceNumber|default|nl2br }}</div>
-                        </div>
                     </div>
                 </div>
                 <div class="cell col">
@@ -62,31 +58,40 @@
                 <tr>
                     <th class="center">Product Name</th>
                     <th class="center">Product Code</th>
-                    <th class="center">FSC Code</th>
+                    {% if deliveryHeader.customer.isHavingFscCode %}
+                        <th class="center">FSC Code</th>
+                    {% endif %}
                     <th class="center">Lot #</th>
                     <th class="center">WO #</th>
+                    <th class="center">Tgl Produksi</th>
+                    <th class="center">PO #</th>
                     <th class="center">Quantity</th>
-                    <th class="center">Satuan</th>
                     <th class="center">Kemasan</th>
                 </tr>
             </thead>
             <tbody>
-                {% set rowspan = 20 %}
+                {% set rowspan = 25 %}
                 {% for row in deliveryHeader.deliveryDetails|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
                             {% if deliveryDetail and not deliveryDetail.isCanceled %}
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
-                                <td class="center">{{ deliveryDetail.fscCode|default }}</td>
+                                {% if deliveryHeader.customer.isHavingFscCode %}
+                                    <td class="center">{{ deliveryDetail.fscCode|default }}</td>
+                                {% endif %}
                                 <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
-                                <td class="center"></td>
-                                <td class="center">{{ deliveryDetail.deliveredQuantity|default }}</td>
-                                <td class="left">{{ deliveryDetail.unit.name|default }}</td>
+                                <td class="left"></td>
+                                <td class="left"></td>
+                                <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                <td class="center">{{ deliveryDetail.deliveredQuantity|default }} {{ deliveryDetail.unit.name|default }}</td>
                                 <td class="center">{{ deliveryDetail.packaging|default }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
+                                {% if deliveryHeader.customer.isHavingFscCode %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -100,9 +105,9 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5" class="label right">Total</td>
+                    <td colspan={% if deliveryHeader.customer.isHavingFscCode %}"7"{% else %} "6" {% endif %} class="label right">Total</td>
                     <td class="center">{{ deliveryHeader.totalQuantity|default|number_format(0) }}</td>
-                    <td colspan="2"></td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>
@@ -131,6 +136,16 @@
         
         <div class="signature">
             <div class="table full">
+                {% if deliveryHeader.customer.isHavingFscCode %}
+                    <div class="cell sig">
+                        <div>{{ ifscCode }}</div>
+                        <div>FSC Code: </div>
+                        <div>A = FSC 100%</div>
+                        <div>B = FSC Mix Credit</div>
+                        <div>C = FSC Mix ......%</div>
+                        <div>D = FSC Recycle</div>
+                    </div>
+                {% endif %}
                 <div class="cell sig">
                     <div>Telah diterima lengkap / baik</div>
                     <div>Tanggal</div>

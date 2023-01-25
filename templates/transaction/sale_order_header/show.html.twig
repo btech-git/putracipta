@@ -20,10 +20,6 @@
                 <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Tanggal Kirim</th>
-                <td>{{ saleOrderHeader.deliveryDate ? saleOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
-            </tr>
-            <tr>
                 <th>Customer</th>
                 <td>{{ saleOrderHeader.customer.company }}</td>
             </tr>
@@ -55,9 +51,11 @@
             <tr class="bg-info">
                 <th>Item Code</th>
                 <th>Description</th>
+                <th>Tgl Kirim</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
                 <th>Harga</th>
+                <th>DPP</th>
                 <th>Total</th>
                 <th></th>
             </tr>
@@ -67,9 +65,11 @@
                 <tr>
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
+                    <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.quantity|default }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
                     <td>{{ saleOrderDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
@@ -77,17 +77,17 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ saleOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ saleOrderHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right">
+                <td colspan="7" style="text-align: right">
                     <strong>
                         {% if saleOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', saleOrderHeader) %}
                             Non Tax 0%
@@ -102,7 +102,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>

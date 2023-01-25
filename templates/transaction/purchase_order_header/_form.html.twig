@@ -11,7 +11,15 @@
             <div class="row">
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal PO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <input type="text" class="form-control" value="{{ purchaseOrderHeader.supplier.certification|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="supplier-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.certification'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -25,13 +33,14 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.supplier.vars.id }}-text" class="form-control" value="{{ purchaseOrderHeader.supplier.name|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.supplier.vars.id }}-text" class="form-control {% if not form.supplier.vars.valid %}is-invalid{% endif %}" value="{{ purchaseOrderHeader.supplier.company|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#supplier-dialog"
                                data-controller="dom-element"
                                data-action="supplier-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.supplierCompany'}},
                                ]|json_encode }}" />
+                        {{ form_errors(form.supplier) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Currency</label>
@@ -40,15 +49,6 @@
                                data-action="supplier-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.currencyCode'}},
-                               ]|json_encode }}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Category</label>
-                        <input type="text" class="form-control" value="{{ purchaseOrderHeader.supplier.certification|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="supplier-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.certification'}},
                                ]|json_encode }}" />
                     </div>
                 </div>

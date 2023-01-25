@@ -65,5 +65,20 @@
             </td>
             <td></td>
         </tr>
+        <tr>
+            <td class="text-end" colspan="4">Admin Fee</td>
+            <td>
+                {{ form_row(form.administrationFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="text-end" colspan="4">Jumlah Diterima</td>
+            <td class="text-end" data-json-loader-target="placeholder"
+                data-property-path="receivedAmount">
+                {{ salePaymentHeader.receivedAmount|default|number_format(2) }}
+            </td>
+            <td></td>
+        </tr>
     </tfoot>
 </table>
