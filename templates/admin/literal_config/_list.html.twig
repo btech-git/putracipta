@@ -8,6 +8,9 @@
                 <th>
                     VAT %
                 </th>
+                <th>
+                    PPh 23 (%)
+                </th>
                 <th></th>
             </tr>
             <tr class="table-light">
@@ -23,16 +26,17 @@
         <tbody>
             {% for literalConfig in literalConfigs %}
                 <tr>
-                    <td>{{ literalConfig.ifscNumber }}</td>
+                    <td>{{ literalConfig.ifscCode }}</td>
                     <td>{{ literalConfig.vatPercentage }}</td>
+                    <td>{{ literalConfig.serviceTaxPercentage }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_admin_literal_config_show', {'id': literalConfig.id}) }}">Show</a>
+                        {# <a class="btn btn-info btn-sm" href="{{ path('app_admin_literal_config_show', {'id': literalConfig.id}) }}">Show</a>*#}
                         <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id}) }}">Edit</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">No records found</td>
+                    <td colspan="4">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
