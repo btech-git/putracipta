@@ -48,7 +48,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Supplier</label>
-                        <input type="text" class="form-control" value="{{ receiveHeader.supplier.company|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.supplier.company|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="receive-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -75,7 +75,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Currency</label>
-                        <input type="text" class="form-control" value="{{ purchaseOrderPaperHeader.supplier.currency.code|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.supplier.currency.code|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="receive-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

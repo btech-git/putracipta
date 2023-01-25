@@ -76,7 +76,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private ?string $remainingPayment = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -92,7 +91,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private Collection $purchasePaymentDetails;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull]
     private ?\DateTimeInterface $dueDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

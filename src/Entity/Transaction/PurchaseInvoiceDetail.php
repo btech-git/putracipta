@@ -20,17 +20,12 @@ class PurchaseInvoiceDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Material $material = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -42,7 +37,6 @@ class PurchaseInvoiceDetail extends TransactionDetail
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     public function getSyncIsCanceled(): bool
