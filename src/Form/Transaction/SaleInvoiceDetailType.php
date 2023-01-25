@@ -15,6 +15,8 @@ class SaleInvoiceDetailType extends AbstractType
     {
         $builder
             ->add('isCanceled')
+            ->add('isServiceTax')
+            ->add('serviceTaxNominal')
             ->add('deliveryDetail', EntityHiddenType::class, ['class' => DeliveryDetail::class])
         ;
     }

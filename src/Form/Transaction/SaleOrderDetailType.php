@@ -16,6 +16,7 @@ class SaleOrderDetailType extends AbstractType
         $builder
             ->add('quantity')
             ->add('unitPrice')
+            ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
             ->add('unit', null, ['choice_label' => 'name'])
             ->add('isCanceled')

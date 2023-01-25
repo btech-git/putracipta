@@ -20,6 +20,7 @@ class PurchaseOrderPaperDetailType extends AbstractType
             ->add('associationPrice')
             ->add('weightPrice')
             ->add('unitPrice')
+            ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('purchaseRequestPaperDetail', EntityHiddenType::class, array('class' => PurchaseRequestPaperDetail::class))
             ->add('unit', null, ['choice_label' => 'name'])

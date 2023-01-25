@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Transaction\SaleOrderDetail;
 use App\Entity\Transaction\DeliveryDetail;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,13 @@ class DeliveryDetailType extends AbstractType
             ->add('isCanceled')
             ->add('lotNumber')
             ->add('packaging')
-            ->add('fscCode')
+            ->add('fscCode', ChoiceType::class, ['choices' => [
+                '' => '',
+                'A' => 'A',
+                'B' => 'B',
+                'C' => 'C',
+                'D' => 'D',
+            ]])
             ->add('saleOrderDetail', EntityHiddenType::class, ['class' => SaleOrderDetail::class])
         ;
     }
