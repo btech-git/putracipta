@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderPaperHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_order_paper_header')]
@@ -34,12 +35,16 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $discountValueType = self::DISCOUNT_VALUE_TYPE_PERCENTAGE;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
@@ -61,6 +66,7 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?int $totalRemainingReceive = 0;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -70,12 +76,11 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?\DateTimeInterface $rejectedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deliveryDate = null;
-
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Currency $currency = null;
 
     #[ORM\ManyToOne]
@@ -85,6 +90,8 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?User $rejectedTransactionUser = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: PurchaseOrderPaperDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $purchaseOrderPaperDetails;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: ReceiveHeader::class)]
@@ -314,18 +321,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     public function setSupplier(?Supplier $supplier): self
     {
         $this->supplier = $supplier;
-
-        return $this;
-    }
-
-    public function getDeliveryDate(): ?\DateTimeInterface
-    {
-        return $this->deliveryDate;
-    }
-
-    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
-    {
-        $this->deliveryDate = $deliveryDate;
 
         return $this;
     }

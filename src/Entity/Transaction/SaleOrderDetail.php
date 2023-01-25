@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaleOrderDetailRepository::class)]
 #[ORM\Table(name: 'transaction_sale_order_detail')]
@@ -21,9 +22,13 @@ class SaleOrderDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\Column]
@@ -36,16 +41,25 @@ class SaleOrderDetail extends TransactionDetail
     private ?int $remainingDelivery = 0;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleOrderDetails')]
+    #[Assert\NotNull]
     private ?SaleOrderHeader $saleOrderHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: DeliveryDetail::class)]
     private Collection $deliveryDetails;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deliveryDate = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $unitPriceBeforeTax = null;
 
     public function __construct()
     {
@@ -63,9 +77,14 @@ class SaleOrderDetail extends TransactionDetail
         return $this->quantity - $this->totalDelivery;
     }
 
-    public function getTotal(): int
+    public function getSyncUnitPriceBeforeTax(): string
     {
-        return $this->quantity * $this->unitPrice;
+        return $this->saleOrderHeader->getTaxMode() === $this->saleOrderHeader::TAX_MODE_TAX_INCLUSION ? $this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100) : $this->unitPrice;
+    }
+
+    public function getTotal(): string
+    {
+        return $this->quantity * $this->unitPriceBeforeTax;
     }
 
     public function getId(): ?int
@@ -195,6 +214,30 @@ class SaleOrderDetail extends TransactionDetail
                 $deliveryDetail->setSaleOrderDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
+    {
+        $this->deliveryDate = $deliveryDate;
+
+        return $this;
+    }
+
+    public function getUnitPriceBeforeTax(): ?string
+    {
+        return $this->unitPriceBeforeTax;
+    }
+
+    public function setUnitPriceBeforeTax(string $unitPriceBeforeTax): self
+    {
+        $this->unitPriceBeforeTax = $unitPriceBeforeTax;
 
         return $this;
     }

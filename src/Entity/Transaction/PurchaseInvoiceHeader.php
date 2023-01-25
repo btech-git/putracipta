@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseInvoiceHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_invoice_header')]
@@ -30,18 +31,24 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $invoiceTaxCodeNumber = '';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $supplierInvoiceCodeNumber = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $discountValueType = self::DISCOUNT_VALUE_TYPE_PERCENTAGE;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
@@ -69,27 +76,34 @@ class PurchaseInvoiceHeader extends TransactionHeader
     private ?string $remainingPayment = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchaseInvoiceDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $purchaseInvoiceDetails;
 
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchasePaymentDetail::class)]
     private Collection $purchasePaymentDetails;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $dueDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $invoiceTaxDate = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_INVOICING;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $invoiceReceivedDate = null;
 
     public function __construct()

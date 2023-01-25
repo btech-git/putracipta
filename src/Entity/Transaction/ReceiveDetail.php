@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReceiveDetailRepository::class)]
 #[ORM\Table(name: 'transaction_receive_detail')]
@@ -25,12 +26,15 @@ class ReceiveDetail extends TransactionDetail
     private ?int $orderedQuantity = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $receivedQuantity = 0;
 
     #[ORM\ManyToOne]
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
+    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
@@ -40,12 +44,15 @@ class ReceiveDetail extends TransactionDetail
     private Collection $purchaseReturnDetails;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $usageDate = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotNull]
     private ?string $memo = '';
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]

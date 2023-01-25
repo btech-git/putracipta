@@ -8,6 +8,7 @@ use App\Repository\Transaction\PurchaseRequestPaperHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseRequestPaperHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_request_paper_header')]
@@ -22,9 +23,12 @@ class PurchaseRequestPaperHeader extends TransactionHeader
     private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseRequestPaperHeader', targetEntity: PurchaseRequestPaperDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $purchaseRequestPaperDetails;
 
     public function __construct()

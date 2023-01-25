@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaleReturnHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_sale_return_header')]
@@ -25,6 +26,7 @@ class SaleReturnHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
@@ -43,9 +45,11 @@ class SaleReturnHeader extends TransactionHeader
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleReturnHeaders')]
+    #[Assert\NotNull]
     private ?DeliveryHeader $deliveryHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'saleReturnHeader', targetEntity: SaleReturnDetail::class)]

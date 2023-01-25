@@ -9,11 +9,18 @@ use App\Repository\Transaction\DeliveryDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DeliveryDetailRepository::class)]
 #[ORM\Table(name: 'transaction_delivery_detail')]
 class DeliveryDetail extends TransactionDetail
 {
+    public const FSC_NONE = '';
+    public const FSC_A = 'FSC_100%';
+    public const FSC_B = 'FSC_Mix_Credit';
+    public const FSC_C = 'FSC_Mix_%';
+    public const FSC_D = 'FSC_Recycle';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,27 +30,36 @@ class DeliveryDetail extends TransactionDetail
     private ?int $orderedQuantity = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?int $deliveredQuantity = 0;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $lotNumber = '';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $packaging = '';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'deliveryDetails')]
+    #[Assert\NotNull]
     private ?DeliveryHeader $deliveryHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'deliveryDetails')]
+    #[Assert\NotNull]
     private ?SaleOrderDetail $saleOrderDetail = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $fscCode = '';
 
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]

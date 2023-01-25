@@ -9,6 +9,7 @@ use App\Repository\Transaction\DeliveryHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DeliveryHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_delivery_header')]
@@ -23,28 +24,27 @@ class DeliveryHeader extends TransactionHeader
     private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
-    #[ORM\ManyToOne(inversedBy: 'deliveryHeaders')]
-    private ?SaleOrderHeader $saleOrderHeader = null;
-
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: DeliveryDetail::class)]
     private Collection $deliveryDetails;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotNull]
     private ?string $driverName = '';
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotNull]
     private ?string $vehicleType = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $vehicleNumber = '';
-
-    #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: SaleInvoiceHeader::class)]
-    private Collection $saleInvoiceHeaders;
 
     #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: SaleReturnHeader::class)]
     private Collection $saleReturnHeaders;
@@ -52,7 +52,6 @@ class DeliveryHeader extends TransactionHeader
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
-        $this->saleInvoiceHeaders = new ArrayCollection();
         $this->saleReturnHeaders = new ArrayCollection();
     }
 
@@ -97,18 +96,6 @@ class DeliveryHeader extends TransactionHeader
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getSaleOrderHeader(): ?SaleOrderHeader
-    {
-        return $this->saleOrderHeader;
-    }
-
-    public function setSaleOrderHeader(?SaleOrderHeader $saleOrderHeader): self
-    {
-        $this->saleOrderHeader = $saleOrderHeader;
 
         return $this;
     }
@@ -187,36 +174,6 @@ class DeliveryHeader extends TransactionHeader
     public function setVehicleNumber(string $vehicleNumber): self
     {
         $this->vehicleNumber = $vehicleNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, SaleInvoiceHeader>
-     */
-    public function getSaleInvoiceHeaders(): Collection
-    {
-        return $this->saleInvoiceHeaders;
-    }
-
-    public function addSaleInvoiceHeader(SaleInvoiceHeader $saleInvoiceHeader): self
-    {
-        if (!$this->saleInvoiceHeaders->contains($saleInvoiceHeader)) {
-            $this->saleInvoiceHeaders->add($saleInvoiceHeader);
-            $saleInvoiceHeader->setDeliveryHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSaleInvoiceHeader(SaleInvoiceHeader $saleInvoiceHeader): self
-    {
-        if ($this->saleInvoiceHeaders->removeElement($saleInvoiceHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($saleInvoiceHeader->getDeliveryHeader() === $this) {
-                $saleInvoiceHeader->setDeliveryHeader(null);
-            }
-        }
 
         return $this;
     }

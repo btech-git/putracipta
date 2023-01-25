@@ -9,6 +9,7 @@ use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReceiveHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_receive_header')]
@@ -23,21 +24,26 @@ class ReceiveHeader extends TransactionHeader
     private ?int $totalQuantity = 0;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $supplierDeliveryCodeNumber = '';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
     private ?PurchaseOrderHeader $purchaseOrderHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: ReceiveDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $receiveDetails;
 
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
     private Collection $purchaseReturnHeaders;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
