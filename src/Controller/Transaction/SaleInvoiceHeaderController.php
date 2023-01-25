@@ -76,12 +76,12 @@ class SaleInvoiceHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_sale_invoice_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleInvoiceHeaderFormService->initialize($saleInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleInvoiceHeaderType::class, $saleInvoiceHeader);
         $form->handleRequest($request);
-        $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader);
+        $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $saleInvoiceHeaderFormService->save($saleInvoiceHeader);
