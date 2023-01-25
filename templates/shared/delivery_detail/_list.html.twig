@@ -14,6 +14,9 @@
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
+                <th>
+                    PO #
+                </th>
                 <th>Customer</th>
                 <th>
                     Code 
@@ -27,6 +30,7 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -44,13 +48,14 @@
                     'unitName': deliveryDetail.unit.name}|json_encode }}">
                     <td>{{ deliveryDetail.deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber }}</td>
                     <td>{{ deliveryDetail.deliveryHeader.customer.company }}</td>
                     <td>{{ deliveryDetail.product.code }}</td>
                     <td>{{ deliveryDetail.product.name }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
