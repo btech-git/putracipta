@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Admin\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
 abstract class TransactionHeader
@@ -12,33 +13,44 @@ abstract class TransactionHeader
     public const MONTH_ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
     #[ORM\Column]
+    #[Assert\NotNull]
     protected ?bool $isCanceled = false;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     protected ?int $codeNumberOrdinal = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     protected ?int $codeNumberMonth = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     protected ?int $codeNumberYear = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     protected ?\DateTimeInterface $createdTransactionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     protected ?User $createdTransactionUser = null;
 
     #[ORM\ManyToOne]
     protected ?User $modifiedTransactionUser = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     protected ?string $note = '';
 
     public abstract function getCodeNumberConstant(): string;
