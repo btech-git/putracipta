@@ -43,14 +43,6 @@
                             <div class="cell value">{{ saleInvoiceHeader.transactionDate|default ? saleInvoiceHeader.transactionDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">SJ #</div>
-                            <div class="cell value">{{ saleInvoiceHeader.deliveryHeader.codeNumber|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Tanggal Kirim</div>
-                            <div class="cell value">{{ saleInvoiceHeader.deliveryHeader.transactionDate|default ? saleInvoiceHeader.deliveryHeader.transactionDate|date('d M Y') }}</div>
-                        </div>
-                        <div class="row">
                             <div class="cell label">Jatuh Tempo</div>
                             <div class="cell value">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('d M Y') }}</div>
                         </div>
@@ -99,7 +91,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="label right">Sub Total</td>
-                    <td class="right">{{ saleInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
+                    <td class="right">{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">
@@ -115,9 +107,7 @@
                         {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
                             Non PPn 0%
                         {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
-                        {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleInvoiceHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', saleInvoiceHeader) }}%
+                            PPn {{ saleInvoiceHeader.taxPercentage }}%
                         {% endif %}
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
