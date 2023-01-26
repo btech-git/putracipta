@@ -22,25 +22,19 @@ class DeliveryDetailGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['deliveredQuantity', 'lotNumber', 'packaging'],
                 'field_operators_list' => [
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
-                    'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
-                    'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
-                    'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
+                    'deliveredQuantity' => [FilterEqual::class, FilterNotEqual::class],
+                    'lotNumber' => [FilterEqual::class, FilterNotEqual::class],
+                    'packaging' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['deliveredQuantity', 'lotNumber', 'packaging'],
                 'field_operators_list' => [
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
-                    'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
+                    'deliveredQuantity' => [SortAscending::class, SortDescending::class],
+                    'lotNumber' => [SortAscending::class, SortDescending::class],
+                    'packaging' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

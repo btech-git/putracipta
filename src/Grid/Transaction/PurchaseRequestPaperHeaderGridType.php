@@ -22,9 +22,14 @@ class PurchaseRequestPaperHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                ],
                 'field_operators_list' => [
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
@@ -33,9 +38,14 @@ class PurchaseRequestPaperHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                ],
                 'field_operators_list' => [
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],

@@ -8,33 +8,33 @@
     <table class="table table-bordered table-striped" id="purchase-order-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button">
+                <th style="width: 250px" role="button">
                     PO #
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Transaction Date {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th role="button">
+                <th style="width: 250px" role="button">
                     Supplier
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
                     Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
             </tr>
         </thead>

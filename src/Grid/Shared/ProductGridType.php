@@ -22,19 +22,23 @@ class ProductGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'isInactive'],
+                'field_names' => ['code', 'name', 'customer', 'sellingPrice', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
-                    'name' => [FilterContain::class, FilterNotContain::class],
+                    'customer' => [FilterContain::class, FilterNotContain::class],
+                    'sellingPrice' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
+                    'name' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'isInactive'],
+                'field_names' => ['code', 'name', 'customer', 'sellingPrice', 'isInactive'],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
-                    'name' => [SortAscending::class, SortDescending::class],
+                    'customer' => [SortAscending::class, SortDescending::class],
+                    'sellingPrice' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
+                    'name' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

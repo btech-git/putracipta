@@ -8,58 +8,66 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button">
-                    Invoice #
+                <th style="width: 15%" role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>
+                    S. Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="width: 10%" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th role="button">
+                <th style="width: 20%" role="button">
                     Supplier
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>
-                    Supplier Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
+                <th style="width: 15%" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                    Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                <th style="width: 15%" role="button" {{ grid.sort_link_item(form, 'totalPayment') }}>
+                    Payment {{ grid.sort_char(form.sort.totalPayment.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'totalPayment') }}>
-                    Total Payment {{ grid.sort_char(form.sort.totalPayment.vars.value) }}
+                <th style="width: 15%" role="button" {{ grid.sort_link_item(form, 'totalReturn') }}>
+                    Return {{ grid.sort_char(form.sort.totalReturn.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'totalReturn') }}>
-                    Total Return {{ grid.sort_char(form.sort.totalReturn.vars.value) }}
+                <th style="width: 15%" role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
+                    Remaining {{ grid.sort_char(form.sort.remainingPayment.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
-                    Remaining Payment {{ grid.sort_char(form.sort.remainingPayment.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
+                <th style="width: 15%" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
                     Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
                 </th>
-                <th></th>
+                <th style="width: 10%"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
+                {#<th>
+                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/PIN/</small></span>
+                    <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                </th>#}
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumber') }} value="{{ form.filter.supplierInvoiceCodeNumber.1.vars.value }}" />
+                </th>
+                <th>
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumber') }} value="{{ form.filter.supplierInvoiceCodeNumber.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'totalPayment') }} value="{{ form.filter.totalPayment.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'totalPayment') }} value="{{ form.filter.totalPayment.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'totalReturn') }} value="{{ form.filter.totalReturn.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'totalReturn') }} value="{{ form.filter.totalReturn.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'remainingPayment') }} value="{{ form.filter.remainingPayment.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'remainingPayment') }} value="{{ form.filter.remainingPayment.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -67,10 +75,10 @@
         <tbody>
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
                 <tr>
-                    <td>{{ purchaseInvoiceHeader.codeNumber }}</td>
+                    {#<td>{{ purchaseInvoiceHeader.codeNumber }}</td>#}
+                    <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseInvoiceHeader.supplier.company|default }}</td>
-                    <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.totalPayment|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|number_format(0) }}</td>
@@ -83,7 +91,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="9">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

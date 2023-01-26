@@ -8,23 +8,23 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 400px" role="button">
+                <th style="width: 350px" role="button">
                     PO #
                 </th>
-                <th style="width: 200px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="width: 200px">Supplier</th>
+                <th style="width: 300px">Supplier</th>
                 <th style="width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="width: 200px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                    Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
                 </th>
-                <th style="width: 200px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
                     Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
                 </th>
-                <th style="width: 200px"></th>
+                <th style="width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>

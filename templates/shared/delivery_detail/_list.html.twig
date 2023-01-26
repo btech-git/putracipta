@@ -8,28 +8,26 @@
     <table class="table table-bordered table-striped" id="delivery-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button">
+                <th style="width: 150px">
                     Pengiriman #
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                <th style="width: 150px">
+                    Tanggal
                 </th>
-                <th>
+                <th style="width: 150px">
                     PO #
                 </th>
-                <th>Customer</th>
-                <th>
+                <th style="width: 150px">Customer</th>
+                <th style="width: 150px">
                     Code 
                 </th>
-                <th>
+                <th style="width: 150px">
                     Name 
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>

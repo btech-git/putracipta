@@ -22,10 +22,16 @@ class ReceiveHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['supplierDeliveryCodeNumber', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplierDeliveryCodeNumber', 'note'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                    'supplierDeliveryCodeNumber' => 'SJ Supplier #',
+                ],
                 'field_operators_list' => [
                     'supplierDeliveryCodeNumber' => [FilterContain::class, FilterNotContain::class],
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
@@ -34,10 +40,16 @@ class ReceiveHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['supplierDeliveryCodeNumber', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate','supplierDeliveryCodeNumber',  'note'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                    'supplierDeliveryCodeNumber' => 'SJ Supplier #',
+                ],
                 'field_operators_list' => [
                     'supplierDeliveryCodeNumber' => [SortAscending::class, SortDescending::class],
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],

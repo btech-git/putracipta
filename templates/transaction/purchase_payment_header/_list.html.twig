@@ -8,34 +8,39 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button">
+                <th style="width: 350px" style="width: 400px" role="button">
                     Payment #
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th role="button">
+                <th style="width: 300px" role="button">
                     Supplier
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumbers') }}>
+                <th style="width: 200px" role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumbers') }}>
                     Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumbers.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
-                </th>
-                <th></th>
+                <th style="width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/PPY/</small></span>
+                    <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                </th>
+                <th>
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumbers') }} value="{{ form.filter.supplierInvoiceCodeNumbers.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumbers') }} value="{{ form.filter.supplierInvoiceCodeNumbers.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -47,7 +52,6 @@
                     <td>{{ purchasePaymentHeader.transactionDate ? purchasePaymentHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchasePaymentHeader.supplier.company }}</td>
                     <td>{{ purchasePaymentHeader.supplierInvoiceCodeNumbers }}</td>
-                    <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_payment_header_show', {'id': purchasePaymentHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_payment_header_edit', {'id': purchasePaymentHeader.id}) }}">Edit</a>

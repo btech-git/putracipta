@@ -32,14 +32,15 @@
                 <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
                 <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
                 <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
-                <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
                 <td>
                     {{ form_row(detailForm.apkiValue, {'label': false, 'attr': {
                         'class': 'for-weight-price-readonly-' ~ detailForm.vars.name ~ ' for-unit-price-readonly-' ~ detailForm.vars.name,
                         'data-controller': 'dom-element',
-                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-action': 'dom-element#bind change->json-loader#load', 
+                        'size': 3,
                         'data-dom-element-bind-specifications-param': [
                             {'destinationsTarget': "\##{detailForm.apkiValue.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}},
                             {'sourcesTarget': '.for-weight-price-readonly-' ~ detailForm.vars.name, 'destinationsTarget': '#' ~ detailForm.weightPrice.vars.id, 'action': 'setAttribute', 'descriptor': {'name': 'readonly', 'value': '"readonly"'}, 'condition': '$sources[0].value > 0 || $sources[1].value > 0'},
@@ -138,7 +139,7 @@
             <td class="text-end" colspan="12">
                 <span class="d-inline-block">Discount</span>
                 <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
-                <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
+                <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="discountNominal">

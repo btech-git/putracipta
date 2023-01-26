@@ -22,7 +22,13 @@ class SaleInvoiceHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
@@ -32,12 +38,17 @@ class SaleInvoiceHeaderGridType extends AbstractType
                     'totalPayment' => [FilterEqual::class, FilterNotEqual::class],
                     'totalReturn' => [FilterEqual::class, FilterNotEqual::class],
                     'remainingPayment' => [FilterEqual::class, FilterNotEqual::class],
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionStatus' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
@@ -47,7 +58,6 @@ class SaleInvoiceHeaderGridType extends AbstractType
                     'totalPayment' => [SortAscending::class, SortDescending::class],
                     'totalReturn' => [SortAscending::class, SortDescending::class],
                     'remainingPayment' => [SortAscending::class, SortDescending::class],
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])

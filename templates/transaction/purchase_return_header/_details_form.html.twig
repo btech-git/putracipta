@@ -21,12 +21,13 @@
                 <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                 <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
                 <td>
                     {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
-                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-action': 'dom-element#bind change->json-loader#load', 
+                        'size': 3,
                         'data-dom-element-bind-specifications-param': [
                             {'destinationsTarget': "\##{detailForm.unitPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
                         ]|json_encode,
