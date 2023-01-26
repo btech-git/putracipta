@@ -38,7 +38,7 @@ class PurchaseRequestHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'PRQ';
+        return 'PRM';
     }
 
     public function getSyncTotalQuantity(): int

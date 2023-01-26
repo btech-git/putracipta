@@ -80,7 +80,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     private ?Paper $paper = null;
 
     #[ORM\OneToOne(inversedBy: 'purchaseOrderPaperDetail', cascade: ['persist', 'remove'])]
-    #[Assert\NotNull]
     private ?PurchaseRequestPaperDetail $purchaseRequestPaperDetail = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

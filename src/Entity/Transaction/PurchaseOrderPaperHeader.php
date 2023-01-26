@@ -80,7 +80,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Currency $currency = null;
 
     #[ORM\ManyToOne]
