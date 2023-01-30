@@ -52,15 +52,17 @@ class PurchaseInvoiceHeaderFormService
         }
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
             $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
-            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $purchaseOrderDetail = empty($receiveDetail->getPurchaseOrderDetail()) ? $receiveDetail->getPurchaseOrderPaperDetail(): $receiveDetail->getPurchaseOrderDetail();
             $purchaseInvoiceDetail->setMaterial($receiveDetail->getMaterial());
+            $purchaseInvoiceDetail->setPaper($receiveDetail->getPaper());
             $purchaseInvoiceDetail->setQuantity($receiveDetail->getReceivedQuantity());
-            $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPrice());
+            $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
             $purchaseInvoiceDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
         }
         $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
-        $purchaseInvoiceHeader->setTaxPercentage($purchaseInvoiceHeader->getSyncTaxPercentage());
-        $purchaseInvoiceHeader->setSubTotalAfterTaxInclusion($purchaseInvoiceHeader->getSyncSubTotalAfterTaxInclusion());
+        if ($purchaseInvoiceHeader->getTaxMode() !== $purchaseInvoiceHeader::TAX_MODE_NON_TAX) {
+            $purchaseInvoiceHeader->setTaxPercentage($options['vatPercentage']);
+        }
         $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
         $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
         $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());

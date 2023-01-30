@@ -40,15 +40,17 @@ class PurchaseOrderHeaderFormService
 
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
+        if ($purchaseOrderHeader->getTaxMode() !== $purchaseOrderHeader::TAX_MODE_NON_TAX) {
+            $purchaseOrderHeader->setTaxPercentage($options['vatPercentage']);
+        }
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
             $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
+            $purchaseOrderDetail->setUnitPriceBeforeTax($purchaseOrderDetail->getSyncUnitPriceBeforeTax());
         }
         $supplier = $purchaseOrderHeader->getSupplier();
         $purchaseOrderHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
         $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
-        $purchaseOrderHeader->setTaxPercentage($purchaseOrderHeader->getSyncTaxPercentage());
-        $purchaseOrderHeader->setSubTotalAfterTaxInclusion($purchaseOrderHeader->getSyncSubTotalAfterTaxInclusion());
         $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
         $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
         $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
