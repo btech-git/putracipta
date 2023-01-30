@@ -39,17 +39,12 @@ class PurchaseReturnHeader extends TransactionHeader
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotalAfterTaxInclusion = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnHeaders')]
-    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseReturnHeader', targetEntity: PurchaseReturnDetail::class)]
@@ -67,15 +62,9 @@ class PurchaseReturnHeader extends TransactionHeader
         return self::CODE_NUMBER_CONSTANT;
     }
 
-    public function getSyncTaxPercentage(): int
-    {
-        $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
-        return $taxPercentage;
-    }
-
     public function getSyncTaxNominal(): string
     {
-        $taxNominal = $this->subTotalAfterTaxInclusion * $this->taxPercentage / 100;
+        $taxNominal = $this->subTotal * $this->taxPercentage / 100;
         return $taxNominal;
     }
 
@@ -90,15 +79,9 @@ class PurchaseReturnHeader extends TransactionHeader
         return $subTotal;
     }
 
-    public function getSyncSubTotalAfterTaxInclusion(): string
-    {
-        $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
-        return $subTotalAfterTaxInclusion;
-    }
-
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->subTotalAfterTaxInclusion + $this->taxNominal;
+        $grandTotal = $this->subTotal + $this->taxNominal;
         return $grandTotal;
     }
 
@@ -151,18 +134,6 @@ class PurchaseReturnHeader extends TransactionHeader
     public function setSubTotal(string $subTotal): self
     {
         $this->subTotal = $subTotal;
-
-        return $this;
-    }
-
-    public function getSubTotalAfterTaxInclusion(): ?string
-    {
-        return $this->subTotalAfterTaxInclusion;
-    }
-
-    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
-    {
-        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
 
         return $this;
     }
