@@ -21,11 +21,11 @@
             </tr>
             <tr>
                 <th>PO #</th>
-                <td>{{ receiveHeader.purchaseOrderHeader.getCodeNumber }}</td>
+                <td>{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.getCodeNumber : receiveHeader.purchaseOrderHeader.getCodeNumber }}</td>
             </tr>
             <tr>
                 <th>Tanggal PO</th>
-                <td>{{ receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                <td>{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.transactionDate ? receiveHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' : receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Supplier</th>
@@ -63,10 +63,10 @@
         <tbody>
             {% for receiveDetail in receiveHeader.receiveDetails %}
                 <tr>
-                    <td>{{ receiveDetail.material.code|default }}</td>
-                    <td>{{ receiveDetail.material.name|default }}</td>
-                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail.quantity|default }}</td>
-                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail.remainingReceive|default }}</td>
+                    <td>{{ receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default }}</td>
+                    <td>{{ receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default }}</td>
+                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity : receiveDetail.purchaseOrderDetail.quantity|default }}</td>
+                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.remainingReceive : receiveDetail.purchaseOrderDetail.remainingReceive|default }}</td>
                     <td style="text-align: right">{{ receiveDetail.receivedQuantity|default }}</td>
                     <td>{{ receiveDetail.unit.name|default }}</td>
                     <td>{{ receiveDetail.usageDate ? receiveDetail.usageDate|date('d M Y') : '' }}</td>

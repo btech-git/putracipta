@@ -91,7 +91,7 @@
                                 <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="center">{{ purchaseOrderDetail.quantity|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.unit.name|default }}</td>
-                                <td class="right">{{ purchaseOrderDetail.unitPrice|default|number_format(0) }}</td>
+                                <td class="right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
                                 <td class="right">{{ purchaseOrderDetail.total|default|number_format(0) }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
@@ -108,7 +108,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="label right">Sub Total</td>
-                    <td class="right">{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">
@@ -124,9 +124,9 @@
                         {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
                             Non PPn 0%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            PPn {{ purchaseOrderHeader.taxPercentage }}%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            PPn {{ purchaseOrderHeader.taxPercentage }}%
                         {% endif %}
                     </td>
                     <td class="right">{{ purchaseOrderHeader.taxNominal|default|number_format(0) }}</td>

@@ -91,7 +91,7 @@
                                 <td class="left">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                                 <td class="center">{{ purchaseOrderPaperDetail.quantity|default }}</td>
                                 <td class="left">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
-                                <td class="right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(0) }}</td>
+                                <td class="right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
                                 <td class="right">{{ purchaseOrderPaperDetail.total|default|number_format(0) }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
@@ -108,7 +108,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="label right">Sub Total</td>
-                    <td class="right">{{ purchaseOrderPaperHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
+                    <td class="right">{{ purchaseOrderPaperHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="5" class="label right">
@@ -124,9 +124,9 @@
                         {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
                             Non PPn 0%
                         {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderPaperHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                            PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
                         {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderPaperHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                            PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
                         {% endif %}
                     </td>
                     <td class="right">{{ purchaseOrderPaperHeader.taxNominal|default|number_format(0) }}</td>

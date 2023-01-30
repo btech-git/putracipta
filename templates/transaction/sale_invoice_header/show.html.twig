@@ -108,6 +108,19 @@
                 <td></td>
             </tr>
             <tr>
+                <td colspan="7" style="text-align: right">
+                    <strong>
+                        {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
+                            Non PPh 23
+                        {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
+                            PPh 23 {{ saleInvoiceHeader.serviceTaxPercentage }}%
+                        {% endif %}
+                    </strong>
+                </td>
+                <td style="text-align: right"><strong>{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
                 <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>

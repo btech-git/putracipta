@@ -8,25 +8,25 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 300px" role="button">
+                <th style="min-width: 280px" role="button">
                     Penerimaan #
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="width: 300px">Supplier</th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
+                <th style="min-width: 300px">Supplier</th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
                     Supplier SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button">
+                <th style="min-width: 150px" role="button">
                     Warehouse
                 </th>
-                <th style="width: 150px"></th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                    <span><small>/RCV/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Transaction\\ReceiveHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
                     <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
                         {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
                             {% set val = value == 0 ? '' : value %}
@@ -34,14 +34,14 @@
                         {% endfor %}
                     </select>
                     <span><small>/</small></span>
-                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -51,12 +51,12 @@
                 <tr>
                     <td>{{ receiveHeader.codeNumber }}</td>
                     <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ receiveHeader.supplier.company }}</td>
+                    <td>{{ receiveHeader.supplier.company|default }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
-                    <td>{{ receiveHeader.warehouse.name }}</td>
+                    <td>{{ receiveHeader.warehouse.name|default }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_receive_header_show', {'id': receiveHeader.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_receive_header_edit', {'id': receiveHeader.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_receive_header_show', {'id': receiveHeader.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_receive_header_edit', {'id': receiveHeader.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}
