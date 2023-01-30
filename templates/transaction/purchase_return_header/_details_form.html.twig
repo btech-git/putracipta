@@ -6,38 +6,39 @@
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Material Id</th>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Qty</th>
-            <th>Unit</th>
-            <th>Harga</th>
-            <th>Total</th>
-            <th style="width: 0"></th>
+            <th style="min-width: 150px">Item Code</th>
+            <th style="min-width: 150px">Description</th>
+            <th style="min-width: 70px">Qty</th>
+            <th style="min-width: 110px">Satuan</th>
+            <th style="min-width: 110px">Harga</th>
+            <th style="min-width: 110px">Total</th>
+            <th style="min-width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem">
+    <tbody data-form-collection-target="items" data-action="receive-header-table:data-table:select@document->form-collection#clearCollectionItems receive-header-table:data-table:select@document->form-collection#addCollectionItems receive-header-table:data-table:select@document->json-loader#load">
         {% macro collection_item(detailForm) %}
-            <tr data-form-collection-target="item" data-item-identifier-name="materialId" data-item-identifier-value="{{ detailForm.vars.value.material.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
-                <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
-                <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
-                <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
-                <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
-                <td>
-                    {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
-                        'data-controller': 'dom-element',
-                        'data-action': 'dom-element#bind change->json-loader#load', 
-                        'size': 3,
-                        'data-dom-element-bind-specifications-param': [
-                            {'destinationsTarget': "\##{detailForm.unitPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
-                        ]|json_encode,
-                    }}) }}
-                    <div id="{{ detailForm.unitPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</div>
+            <tr data-form-collection-target="item" data-item-identifier-name="receiveDetailId" data-item-identifier-value="{{ detailForm.vars.value.receiveDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <td class="d-none">{{ form_widget(detailForm.receiveDetail, {'attr': {'data-item-field-name': 'receiveDetailId'}}) }}</td>
+                <td data-item-field-name="materialCode">
+                    {% if (detailForm.vars.value.material == null) %}
+                        {{ detailForm.vars.value.paper.code|default }}
+                    {% else %}
+                        {{ detailForm.vars.value.material.code|default }}
+                    {%  endif %}
                 </td>
+                <td data-item-field-name="materialName">
+                    {% if (detailForm.vars.value.material == null) %}
+                        {{ detailForm.vars.value.paper.name|default }}
+                    {% else %}
+                        {{ detailForm.vars.value.material.name|default }}
+                    {%  endif %}
+                </td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
                 <td class="text-end" data-json-loader-target="placeholder"
-                    data-property-path="purchaseReturnDetails.{{ detailForm.vars.name }}.total">
-                    {{ detailForm.vars.value.total|default|number_format(2) }}
-                </td>
+                    data-property-path="purchaseReturnDetails.{{ detailForm.vars.name }}.unitPrice">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</td>
+                <td class="text-end" data-json-loader-target="placeholder"
+                    data-property-path="purchaseReturnDetails.{{ detailForm.vars.name }}.total">{{ detailForm.vars.value.total|default|number_format(2) }}</td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}
                         <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
@@ -49,8 +50,8 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.material.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.material.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
+                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.receiveDetail.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
+                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.receiveDetail.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
                                 ]|json_encode,
                             },
                         }) }}
@@ -66,15 +67,21 @@
         <tr>
             <td class="text-end" colspan="5">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
-                data-property-path="subTotalAfterTaxInclusion">
-                {{ purchaseReturnHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
+                data-property-path="subTotal">
+                {{ purchaseReturnHeader.subTotal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5">
-                <span class="d-inline-block">Tax</span>
-                <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
+            <td class="text-end" colspan="5" data-json-loader-target="placeholder"
+                data-property-path="taxInfo">
+                {% if purchaseReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseReturnHeader) %}
+                    Non PPn 0%
+                {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseReturnHeader) %}
+                    Exclude PPn {{ purchaseReturnHeader.taxPercentage }}%
+                {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseReturnHeader) %}
+                    Include PPn {{ purchaseReturnHeader.taxPercentage }}%
+                {% endif %}
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="taxNominal">

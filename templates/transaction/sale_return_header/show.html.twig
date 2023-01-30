@@ -19,14 +19,14 @@
                 <th>Tanggal Return</th>
                 <td>{{ saleReturnHeader.transactionDate ? saleReturnHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
-            {#<tr>
-                <th>Penerimaan #</th>
-                <td>{{ saleReturnHeader.receiveHeader.getCodeNumber }}</td>
+            <tr>
+                <th>Pengiriman #</th>
+                <td>{{ saleReturnHeader.deliveryHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Tanggal Terima</th>
-                <td>{{ saleReturnHeader.receiveHeader.transactionDate ? saleReturnHeader.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-            </tr>#}
+                <th>Tanggal Kirim</th>
+                <td>{{ saleReturnHeader.deliveryHeader.transactionDate ? saleReturnHeader.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
             <tr>
                 <th>Supplier</th>
                 <td>{{ saleReturnHeader.customer.company }}</td>
@@ -77,11 +77,11 @@
                 <td colspan="5" style="text-align: right">
                     <strong>
                         {% if saleReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', saleReturnHeader) %}
-                            Non Tax 0%
+                            Non PPn 0%
                         {% elseif saleReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleReturnHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', saleReturnHeader) }}%
+                            PPn {{ saleReturnHeader.taxPercentage }}%
                         {% elseif saleReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleReturnHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', saleReturnHeader) }}%
+                            Include PPn {{ saleReturnHeader.taxPercentage }}%
                         {% endif %}
                     </strong>
                 </td>

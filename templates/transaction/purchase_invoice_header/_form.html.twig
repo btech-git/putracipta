@@ -37,15 +37,15 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.receiveHeader) }}
                     </div>
-                    <div class="mb-3">
+                    {# <div class="mb-3">
                         <label class="form-label">PO #</label>
-                        <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader is null ? purchaseInvoiceHeader.receiveHeader.purchaseOrderPaperHeader.codeNumber|default : purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="receive-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
                                ]|json_encode }}" />
-                    </div>
+                    </div>#}
                     <div class="mb-3">
                         <label class="form-label">Supplier</label>
                         <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.supplier.company|default }}" readonly="readonly"
