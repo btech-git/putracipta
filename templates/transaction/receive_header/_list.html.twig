@@ -8,35 +8,40 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button">
+                <th style="width: 300px" role="button">
                     Penerimaan #
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th>Supplier</th>
-                <th role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
+                <th style="width: 300px">Supplier</th>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
                     Supplier SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
                 </th>
-                <th role="button">
+                <th style="width: 150px" role="button">
                     Warehouse
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
-                <th></th>
+                <th style="width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/RCV/</small></span>
+                    <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                </th>
+                <th>
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -49,7 +54,6 @@
                     <td>{{ receiveHeader.supplier.company }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
                     <td>{{ receiveHeader.warehouse.name }}</td>
-                    <td>{{ receiveHeader.note }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_receive_header_show', {'id': receiveHeader.id}) }}">Show</a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_receive_header_edit', {'id': receiveHeader.id}) }}">Edit</a>

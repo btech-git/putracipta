@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\DeliveryHeader;
 use App\Form\Transaction\DeliveryHeaderType;
 use App\Grid\Transaction\DeliveryHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\DeliveryHeaderRepository;
 use App\Service\Transaction\DeliveryHeaderFormService;
 use App\Util\PdfGenerator;
@@ -111,11 +112,12 @@ class DeliveryHeaderController extends AbstractController
 
     #[Route('/{id}/memo', name: 'app_transaction_delivery_header_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function memo(DeliveryHeader $deliveryHeader): Response
+    public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'delivery.pdf';
         $htmlView = $this->renderView('transaction/delivery_header/memo.html.twig', [
             'deliveryHeader' => $deliveryHeader,
+            'ifscCode' => $literalConfigRepository->findLiteralValue('ifscCode'),
         ]);
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/assets/styles/', 'memo.css');

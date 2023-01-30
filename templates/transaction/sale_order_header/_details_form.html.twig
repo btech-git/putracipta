@@ -8,9 +8,11 @@
             <th class="d-none">Product Id</th>
             <th>Item Code</th>
             <th>Description</th>
+            <th>Tgl Kirim</th>
             <th>Qty</th>
             <th>Unit</th>
             <th>Harga</th>
+            <th>DPP</th>
             <th>Total</th>
             <th style="width: 0"></th>
         </tr>
@@ -21,17 +23,23 @@
                 <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
                 <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                 <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
-                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
                 <td>
                     {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
                         'data-controller': 'dom-element',
-                        'data-action': 'dom-element#bind change->json-loader#load',
+                        'data-action': 'dom-element#bind change->json-loader#load', 
+                        'size': 3,
                         'data-dom-element-bind-specifications-param': [
                             {'destinationsTarget': "\##{detailForm.unitPrice.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
                         ]|json_encode,
                     }}) }}
                     <div id="{{ detailForm.unitPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.unitPrice|default|number_format(2) }}</div>
+                </td>
+                <td class="text-end" data-json-loader-target="placeholder"
+                    data-property-path="saleOrderDetails.{{ detailForm.vars.name }}.unitPriceBeforeTax">
+                    {{ detailForm.vars.value.unitPriceBeforeTax|default|number_format(2) }}
                 </td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="saleOrderDetails.{{ detailForm.vars.name }}.total">
@@ -63,18 +71,18 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="text-end" colspan="5">Sub Total</td>
+            <td class="text-end" colspan="7">Sub Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
-                data-property-path="subTotalAfterTaxInclusion">
-                {{ saleOrderHeader.subTotalAfterTaxInclusion|default|number_format(2) }}
+                data-property-path="subTotal">
+                {{ saleOrderHeader.subTotal|default|number_format(2) }}
             </td>
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5">
+            <td class="text-end" colspan="7">
                 <span class="d-inline-block">Discount</span>
                 <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
-                <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
+                <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</span>
             </td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="discountNominal">
@@ -83,7 +91,7 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5">
+            <td class="text-end" colspan="7">
                 <span class="d-inline-block">PPn</span>
                 <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
             </td>
@@ -94,7 +102,7 @@
             <td></td>
         </tr>
         <tr>
-            <td class="text-end" colspan="5">Grand Total</td>
+            <td class="text-end" colspan="7">Grand Total</td>
             <td class="text-end" data-json-loader-target="placeholder"
                 data-property-path="grandTotal">
                 {{ saleOrderHeader.grandTotal|default|number_format(2) }}

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaleOrderHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_sale_order_header')]
@@ -32,21 +33,24 @@ class SaleOrderHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $referenceNumber = '';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deliveryDate = null;
-
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $discountValueType = self::DISCOUNT_VALUE_TYPE_PERCENTAGE;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
@@ -59,38 +63,29 @@ class SaleOrderHeader extends TransactionHeader
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotalAfterTaxInclusion = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetail::class)]
     private Collection $saleOrderDetails;
 
-    #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: DeliveryHeader::class)]
-    private Collection $deliveryHeaders;
-
     #[ORM\Column]
-    private ?int $totalRemainingDelivery = null;
+    private ?int $totalRemainingDelivery = 0;
+
+    #[ORM\Column(length: 20)]
+    private ?string $transactionFileExtension = '';
 
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
-        $this->deliveryHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
     {
         return 'SO';
-    }
-
-    public function getSyncTaxPercentage(): int
-    {
-        $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
-        return $taxPercentage;
     }
 
     public function getSyncTaxNominal(): string
@@ -110,27 +105,21 @@ class SaleOrderHeader extends TransactionHeader
         return $subTotal;
     }
 
-    public function getSyncSubTotalAfterTaxInclusion(): string
-    {
-        $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
-        return $subTotalAfterTaxInclusion;
-    }
-
     public function getSyncGrandTotal(): string
     {
         $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal;
         return $grandTotal;
     }
 
-    public function getSyncTotalRemainingDelivery(): string
+    public function getSyncTotalRemainingDelivery(): int
     {
-        $subTotal = '0.00';
+        $total = 0;
         foreach ($this->saleOrderDetails as $saleOrderDetail) {
             if (!$saleOrderDetail->isIsCanceled()) {
-                $subTotal += $saleOrderDetail->getRemainingDelivery();
+                $total += $saleOrderDetail->getRemainingDelivery();
             }
         }
-        return $subTotal;
+        return $total;
     }
 
     public function getDiscountNominal(): string
@@ -140,7 +129,7 @@ class SaleOrderHeader extends TransactionHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotalAfterTaxInclusion - $this->getDiscountNominal();
+        return $this->subTotal - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
@@ -168,18 +157,6 @@ class SaleOrderHeader extends TransactionHeader
     public function setTransactionStatus(string $transactionStatus): self
     {
         $this->transactionStatus = $transactionStatus;
-
-        return $this;
-    }
-
-    public function getDeliveryDate(): ?\DateTimeInterface
-    {
-        return $this->deliveryDate;
-    }
-
-    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
-    {
-        $this->deliveryDate = $deliveryDate;
 
         return $this;
     }
@@ -256,18 +233,6 @@ class SaleOrderHeader extends TransactionHeader
         return $this;
     }
 
-    public function getSubTotalAfterTaxInclusion(): ?string
-    {
-        return $this->subTotalAfterTaxInclusion;
-    }
-
-    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
-    {
-        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
-
-        return $this;
-    }
-
     public function getGrandTotal(): ?string
     {
         return $this->grandTotal;
@@ -322,36 +287,6 @@ class SaleOrderHeader extends TransactionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, DeliveryHeader>
-     */
-    public function getDeliveryHeaders(): Collection
-    {
-        return $this->deliveryHeaders;
-    }
-
-    public function addDeliveryHeader(DeliveryHeader $deliveryHeader): self
-    {
-        if (!$this->deliveryHeaders->contains($deliveryHeader)) {
-            $this->deliveryHeaders->add($deliveryHeader);
-            $deliveryHeader->setSaleOrderHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDeliveryHeader(DeliveryHeader $deliveryHeader): self
-    {
-        if ($this->deliveryHeaders->removeElement($deliveryHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($deliveryHeader->getSaleOrderHeader() === $this) {
-                $deliveryHeader->setSaleOrderHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getTotalRemainingDelivery(): ?int
     {
         return $this->totalRemainingDelivery;
@@ -360,6 +295,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setTotalRemainingDelivery(int $totalRemainingDelivery): self
     {
         $this->totalRemainingDelivery = $totalRemainingDelivery;
+
+        return $this;
+    }
+
+    public function getTransactionFileExtension(): ?string
+    {
+        return $this->transactionFileExtension;
+    }
+
+    public function setTransactionFileExtension(string $transactionFileExtension): self
+    {
+        $this->transactionFileExtension = $transactionFileExtension;
 
         return $this;
     }

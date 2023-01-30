@@ -48,8 +48,7 @@ class DeliveryHeaderFormService
 
     public function finalize(DeliveryHeader $deliveryHeader, array $options = []): void
     {
-        $saleOrderHeader = $deliveryHeader->getSaleOrderHeader();
-        $deliveryHeader->setCustomer($saleOrderHeader === null ? null : $saleOrderHeader->getCustomer());
+//        $deliveryHeader->setCustomer($saleOrderHeader === null ? null : $saleOrderHeader->getCustomer());
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
@@ -72,13 +71,18 @@ class DeliveryHeaderFormService
             $saleOrderDetail->setTotalDelivery($totalDelivery);
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
         }
-        $totalRemaining = 0;
+        
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
-            $totalRemaining += $saleOrderDetail->getRemainingDelivery();
-        }
-        if ($saleOrderHeader !== null) {
-            if ($totalRemaining > 0) {
+            $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+            
+            $totalRemainingDelivery = 0;
+            foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+                $totalRemainingDelivery += $saleOrderDetail->getRemainingDelivery();
+            }
+            $saleOrderHeader->setTotalRemainingDelivery($totalRemainingDelivery);
+            
+            if ($totalRemainingDelivery > 0) {
                 $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_PARTIAL_DELIVERY);
             } else {
                 $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_FULL_DELIVERY);

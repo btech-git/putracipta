@@ -8,6 +8,7 @@ use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseReturnDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseReturnDetailRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_return_detail')]
@@ -19,21 +20,29 @@ class PurchaseReturnDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
+    #[Assert\NotNull]
     private ?ReceiveDetail $receiveDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
+    #[Assert\NotNull]
     private ?PurchaseReturnHeader $purchaseReturnHeader = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     public function getSyncIsCanceled(): bool

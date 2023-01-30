@@ -26,13 +26,14 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control" value="{{ salePaymentHeader.customer.company|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ salePaymentHeader.customer.company|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#customer-dialog"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerCompany'}},
                                ]|json_encode }}" />
+                        {{ form_errors(form.customer) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">TOP (hari)</label>

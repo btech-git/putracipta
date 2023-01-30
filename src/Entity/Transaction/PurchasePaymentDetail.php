@@ -7,6 +7,7 @@ use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchasePaymentDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchasePaymentDetailRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_payment_detail')]
@@ -18,18 +19,23 @@ class PurchasePaymentDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?string $amount = '0.00';
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotNull]
     private ?string $memo = '';
 
     #[ORM\ManyToOne]
     private ?Account $account = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchasePaymentDetails')]
+    #[Assert\NotNull]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchasePaymentDetails')]
+    #[Assert\NotNull]
     private ?PurchasePaymentHeader $purchasePaymentHeader = null;
 
     public function getSyncIsCanceled(): bool

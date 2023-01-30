@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderPaperDetailRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_order_paper_detail')]
@@ -21,18 +22,28 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $apkiValue = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $associationPrice = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $weightPrice = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\Column]
@@ -45,9 +56,11 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     private ?int $remainingReceive = 0;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
+    #[Assert\NotNull]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperDetail', targetEntity: ReceiveDetail::class)]
@@ -63,10 +76,15 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     private ?string $weight = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Paper $paper = null;
 
     #[ORM\OneToOne(inversedBy: 'purchaseOrderPaperDetail', cascade: ['persist', 'remove'])]
     private ?PurchaseRequestPaperDetail $purchaseRequestPaperDetail = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
+    private ?\DateTimeInterface $deliveryDate = null;
 
     public function __construct()
     {
@@ -314,6 +332,18 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     public function setPurchaseRequestPaperDetail(?PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
     {
         $this->purchaseRequestPaperDetail = $purchaseRequestPaperDetail;
+
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
+    {
+        $this->deliveryDate = $deliveryDate;
 
         return $this;
     }

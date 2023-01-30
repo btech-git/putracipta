@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SalePaymentHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_sale_payment_header')]
@@ -24,19 +25,28 @@ class SalePaymentHeader extends TransactionHeader
     private ?string $totalAmount = '0.00';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $referenceNumber = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $referenceDate = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?PaymentType $paymentType = null;
 
     #[ORM\OneToMany(mappedBy: 'salePaymentHeader', targetEntity: SalePaymentDetail::class)]
     private Collection $salePaymentDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $administrationFee = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $receivedAmount = null;
 
     public function __construct()
     {
@@ -59,6 +69,11 @@ class SalePaymentHeader extends TransactionHeader
         return $totalAmount;
     }
 
+    public function getSyncReceivedAmount(): string
+    {
+        return $this->totalAmount - $this->administrationFee;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +165,30 @@ class SalePaymentHeader extends TransactionHeader
                 $salePaymentDetail->setSalePaymentHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdministrationFee(): ?string
+    {
+        return $this->administrationFee;
+    }
+
+    public function setAdministrationFee(string $administrationFee): self
+    {
+        $this->administrationFee = $administrationFee;
+
+        return $this;
+    }
+
+    public function getReceivedAmount(): ?string
+    {
+        return $this->receivedAmount;
+    }
+
+    public function setReceivedAmount(string $receivedAmount): self
+    {
+        $this->receivedAmount = $receivedAmount;
 
         return $this;
     }

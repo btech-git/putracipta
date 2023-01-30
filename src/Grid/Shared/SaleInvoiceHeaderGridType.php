@@ -22,7 +22,13 @@ class SaleInvoiceHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
@@ -32,23 +38,27 @@ class SaleInvoiceHeaderGridType extends AbstractType
                     'totalPayment' => [FilterEqual::class, FilterNotEqual::class],
                     'totalReturn' => [FilterEqual::class, FilterNotEqual::class],
                     'remainingPayment' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionStatus' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'grandTotal' => [FilterEqual::class, FilterNotEqual::class],
-                    'totalPayment' => [FilterEqual::class, FilterNotEqual::class],
-                    'totalReturn' => [FilterEqual::class, FilterNotEqual::class],
-                    'remainingPayment' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [SortAscending::class, SortDescending::class],
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
+                    'grandTotal' => [SortAscending::class, SortDescending::class],
+                    'totalPayment' => [SortAscending::class, SortDescending::class],
+                    'totalReturn' => [SortAscending::class, SortDescending::class],
+                    'remainingPayment' => [SortAscending::class, SortDescending::class],
+                    'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

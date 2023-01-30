@@ -9,8 +9,10 @@ use App\Entity\Transaction\SaleOrderHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+//use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+//use Symfony\Component\Validator\Constraints\File;
 
 class SaleOrderHeaderType extends AbstractType
 {
@@ -18,7 +20,6 @@ class SaleOrderHeaderType extends AbstractType
     {
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
-            ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('referenceNumber')
             ->add('discountValueType', ChoiceType::class, ['choices' => [
@@ -27,9 +28,9 @@ class SaleOrderHeaderType extends AbstractType
             ]])
             ->add('discountValue')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non Tax' => SaleOrderHeader::TAX_MODE_NON_TAX,
-                'Tax Exclusion' => SaleOrderHeader::TAX_MODE_TAX_EXCLUSION,
-                'Tax Inclusion' => SaleOrderHeader::TAX_MODE_TAX_INCLUSION,
+                'Non PPn' => SaleOrderHeader::TAX_MODE_NON_TAX,
+                'Exclude PPn' => SaleOrderHeader::TAX_MODE_TAX_EXCLUSION,
+                'Include PPn' => SaleOrderHeader::TAX_MODE_TAX_INCLUSION,
             ]])
             ->add('saleOrderDetails', CollectionType::class, [
                 'entry_type' => SaleOrderDetailType::class,
@@ -40,6 +41,20 @@ class SaleOrderHeaderType extends AbstractType
                 'label' => false,
             ])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+//            ->add('transactionFile', FileType::class, [
+//                'mapped' => false,
+//                'required' => false,
+//                'constraints' => [
+//                    new File([
+//                        'maxSize' => '1024k',
+//                        'mimeTypes' => [
+//                            'image/jpeg',
+//                            'image/png',
+//                        ],
+//                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG image',
+//                    ])
+//                ],
+//            ])
         ;
     }
 

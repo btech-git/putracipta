@@ -48,15 +48,14 @@ class PurchaseInvoiceHeaderFormService
         $purchaseInvoiceHeader->setTaxMode($purchaseOrderHeader === null ? PurchaseInvoiceHeader::TAX_MODE_NON_TAX : $purchaseOrderHeader->getTaxMode());
         $purchaseInvoiceHeader->setDueDate($purchaseInvoiceHeader->getSyncDueDate());
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
+            $purchaseInvoiceDetail->setIsCanceled($purchaseInvoiceDetail->getSyncIsCanceled());
+        }
+        foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
             $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
             $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
             $purchaseInvoiceDetail->setMaterial($receiveDetail->getMaterial());
             $purchaseInvoiceDetail->setQuantity($receiveDetail->getReceivedQuantity());
             $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPrice());
-        }
-        foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
-            $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
-            $purchaseInvoiceDetail->setIsCanceled($purchaseInvoiceDetail->getSyncIsCanceled());
             $purchaseInvoiceDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
         }
         $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());

@@ -7,6 +7,7 @@ use App\Repository\Master\MaterialCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialCategoryRepository::class)]
 #[ORM\Table(name: 'master_material_category')]
@@ -21,6 +22,7 @@ class MaterialCategory extends Master
     private Collection $materialSubCategories;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?bool $isPaper = false;
 
     public function __construct()

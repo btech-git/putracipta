@@ -25,9 +25,9 @@
                 <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                 <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                 <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) }}</td>
-                <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
-                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>

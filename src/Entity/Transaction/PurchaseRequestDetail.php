@@ -8,6 +8,7 @@ use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseRequestDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseRequestDetailRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_request_detail')]
@@ -19,21 +20,28 @@ class PurchaseRequestDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestDetails')]
+    #[Assert\NotNull]
     private ?PurchaseRequestHeader $purchaseRequestHeader = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $usageDate = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotNull]
     private ?string $memo = '';
 
     #[ORM\OneToOne(mappedBy: 'purchaseRequestDetail', cascade: ['persist', 'remove'])]

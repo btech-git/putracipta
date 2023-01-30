@@ -12,7 +12,7 @@ class SupplierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('code')
+//            ->add('code')
             ->add('company')
             ->add('name')
             ->add('address')

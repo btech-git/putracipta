@@ -5,6 +5,7 @@ namespace App\Entity\Master;
 use App\Entity\Master;
 use App\Repository\Master\WarehouseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WarehouseRepository::class)]
 #[ORM\Table(name: 'master_warehouse')]
@@ -16,6 +17,7 @@ class Warehouse extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $code = '';
 
     public function getId(): ?int

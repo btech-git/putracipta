@@ -8,6 +8,7 @@ use App\Repository\Transaction\PurchaseRequestHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseRequestHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_request_header')]
@@ -22,9 +23,12 @@ class PurchaseRequestHeader extends TransactionHeader
     private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseRequestHeader', targetEntity: PurchaseRequestDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $purchaseRequestDetails;
 
     public function __construct()
@@ -34,7 +38,7 @@ class PurchaseRequestHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'PRQ';
+        return 'PRM';
     }
 
     public function getSyncTotalQuantity(): int

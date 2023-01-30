@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderDetailRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_order_detail')]
@@ -21,21 +22,28 @@ class PurchaseOrderDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
+    #[Assert\NotNull]
     private ?PurchaseOrderHeader $purchaseOrderHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderDetail', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column]
@@ -49,6 +57,9 @@ class PurchaseOrderDetail extends TransactionDetail
 
     #[ORM\OneToOne(inversedBy: 'purchaseOrderDetail', cascade: ['persist', 'remove'])]
     private ?PurchaseRequestDetail $purchaseRequestDetail = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deliveryDate = null;
 
     public function __construct()
     {
@@ -210,6 +221,18 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
     {
         $this->purchaseRequestDetail = $purchaseRequestDetail;
+
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?\DateTimeInterface
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
+    {
+        $this->deliveryDate = $deliveryDate;
 
         return $this;
     }

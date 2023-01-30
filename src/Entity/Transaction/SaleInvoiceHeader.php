@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaleInvoiceHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_sale_invoice_header')]
@@ -18,8 +19,8 @@ class SaleInvoiceHeader extends TransactionHeader
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
-    public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
-    public const VAT_PERCENTAGE = 11;
+    public const SERVICE_TAX_MODE_NON_TAX = 'non_service_tax';
+    public const SERVICE_TAX_MODE_TAX = 'service_tax';
     public const TRANSACTION_STATUS_INVOICING = 'invoicing';
     public const TRANSACTION_STATUS_PARTIAL_PAYMENT = 'partial_payment';
     public const TRANSACTION_STATUS_FULL_PAYMENT = 'full_payment';
@@ -30,15 +31,19 @@ class SaleInvoiceHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $invoiceTaxCodeNumber = '';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $discountValueType = self::DISCOUNT_VALUE_TYPE_PERCENTAGE;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
@@ -49,9 +54,6 @@ class SaleInvoiceHeader extends TransactionHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $subTotal = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotalAfterTaxInclusion = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
@@ -72,19 +74,30 @@ class SaleInvoiceHeader extends TransactionHeader
     private ?\DateTimeInterface $invoiceTaxDate = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_INVOICING;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
-
-    #[ORM\ManyToOne(inversedBy: 'saleInvoiceHeaders')]
-    private ?DeliveryHeader $deliveryHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'saleInvoiceHeader', targetEntity: SalePaymentDetail::class)]
     private Collection $salePaymentDetails;
 
     #[ORM\OneToMany(mappedBy: 'saleInvoiceHeader', targetEntity: SaleInvoiceDetail::class)]
     private Collection $saleInvoiceDetails;
+
+    #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
+    private ?string $serviceTaxMode = self::SERVICE_TAX_MODE_NON_TAX;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotBlank]
+    private ?string $serviceTaxPercentage = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotBlank]
+    private ?string $serviceTaxNominal = '0.00';
 
     public function __construct()
     {
@@ -97,16 +110,14 @@ class SaleInvoiceHeader extends TransactionHeader
         return 'SIN';
     }
 
-    public function getSyncTaxPercentage(): int
-    {
-        $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
-        return $taxPercentage;
-    }
-
     public function getSyncTaxNominal(): string
     {
-        $taxNominal = $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
-        return $taxNominal;
+        return $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
+    }
+
+    public function getSyncServiceTaxNominal(): string
+    {
+        return $this->getSubTotal() * $this->serviceTaxPercentage / 100;
     }
 
     public function getSyncSubTotal(): string
@@ -120,15 +131,9 @@ class SaleInvoiceHeader extends TransactionHeader
         return $subTotal;
     }
 
-    public function getSyncSubTotalAfterTaxInclusion(): string
-    {
-        $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
-        return $subTotalAfterTaxInclusion;
-    }
-
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal;
+        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal - $this->serviceTaxNominal;
         return $grandTotal;
     }
 
@@ -155,7 +160,7 @@ class SaleInvoiceHeader extends TransactionHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotalAfterTaxInclusion - $this->getDiscountNominal();
+        return $this->subTotal - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
@@ -247,18 +252,6 @@ class SaleInvoiceHeader extends TransactionHeader
         return $this;
     }
 
-    public function getSubTotalAfterTaxInclusion(): ?string
-    {
-        return $this->subTotalAfterTaxInclusion;
-    }
-
-    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
-    {
-        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
-
-        return $this;
-    }
-
     public function getGrandTotal(): ?string
     {
         return $this->grandTotal;
@@ -343,18 +336,6 @@ class SaleInvoiceHeader extends TransactionHeader
         return $this;
     }
 
-    public function getDeliveryHeader(): ?DeliveryHeader
-    {
-        return $this->deliveryHeader;
-    }
-
-    public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
-    {
-        $this->deliveryHeader = $deliveryHeader;
-
-        return $this;
-    }
-
     public function getTransactionStatus(): ?string
     {
         return $this->transactionStatus;
@@ -423,6 +404,42 @@ class SaleInvoiceHeader extends TransactionHeader
                 $saleInvoiceDetail->setSaleInvoiceHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getServiceTaxMode(): ?string
+    {
+        return $this->serviceTaxMode;
+    }
+
+    public function setServiceTaxMode(string $serviceTaxMode): self
+    {
+        $this->serviceTaxMode = $serviceTaxMode;
+
+        return $this;
+    }
+
+    public function getServiceTaxPercentage(): ?string
+    {
+        return $this->serviceTaxPercentage;
+    }
+
+    public function setServiceTaxPercentage(string $serviceTaxPercentage): self
+    {
+        $this->serviceTaxPercentage = $serviceTaxPercentage;
+
+        return $this;
+    }
+
+    public function getServiceTaxNominal(): ?string
+    {
+        return $this->serviceTaxNominal;
+    }
+
+    public function setServiceTaxNominal(string $serviceTaxNominal): self
+    {
+        $this->serviceTaxNominal = $serviceTaxNominal;
 
         return $this;
     }

@@ -3,14 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
 abstract class Master
 {
     #[ORM\Column]
+    #[Assert\NotNull]
     protected ?bool $isInactive = false;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank]
     protected ?string $name = '';
 
     public function isIsInactive(): ?bool

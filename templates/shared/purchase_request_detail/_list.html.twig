@@ -8,25 +8,25 @@
     <table class="table table-brequested table-striped" id="purchase-request-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th>
+                <th style="width: 250px">
                     Request #
                 </th>
-                <th>
+                <th style="width: 250px">
                     Tanggal
                 </th>
-                <th>
+                <th style="width: 250px">
                     Material
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
                 </th>
-                <th>
+                <th style="width: 150px">
                     Satuan
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
+                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
                     Tanggal Pakai {{ grid.sort_char(form.sort.usageDate.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'memo') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
                     Keterangan {{ grid.sort_char(form.sort.memo.vars.value) }}
                 </th>
             </tr>
@@ -35,14 +35,14 @@
                 <th></th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
                 </th>
             </tr>
         </thead>

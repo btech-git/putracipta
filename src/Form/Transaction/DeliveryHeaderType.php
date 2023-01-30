@@ -3,7 +3,7 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Transaction\SaleOrderHeader;
+use App\Entity\Master\Customer;
 use App\Entity\Transaction\DeliveryDetail;
 use App\Entity\Transaction\DeliveryHeader;
 use Symfony\Component\Form\AbstractType;
@@ -22,6 +22,7 @@ class DeliveryHeaderType extends AbstractType
             ->add('driverName')
             ->add('vehicleType')
             ->add('vehicleNumber')
+            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('deliveryDetails', CollectionType::class, [
                 'entry_type' => DeliveryDetailType::class,
                 'allow_add' => true,
@@ -30,7 +31,6 @@ class DeliveryHeaderType extends AbstractType
                 'prototype_data' => new DeliveryDetail(),
                 'label' => false,
             ])
-            ->add('saleOrderHeader', EntityHiddenType::class, ['class' => SaleOrderHeader::class])
         ;
     }
 

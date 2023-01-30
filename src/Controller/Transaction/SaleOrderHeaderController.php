@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\SaleOrderHeader;
 use App\Form\Transaction\SaleOrderHeaderType;
 use App\Grid\Transaction\SaleOrderHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\SaleOrderHeaderRepository;
 use App\Service\Transaction\SaleOrderHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -43,16 +44,28 @@ class SaleOrderHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_transaction_sale_order_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, SaleOrderHeaderFormService $saleOrderHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleOrderHeader = new SaleOrderHeader();
         $saleOrderHeaderFormService->initialize($saleOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
         $form->handleRequest($request);
-        $saleOrderHeaderFormService->finalize($saleOrderHeader);
+        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-            $saleOrderHeaderFormService->save($saleOrderHeader);
+//            $transactionFile = $form->get('transactionFile')->getData();
+//            if ($transactionFile) {
+//                $fileExtension = $transactionFile->guessExtension();
+//                $saleOrderHeader->setTransactionFileExtension($fileExtension);
+                $saleOrderHeaderFormService->save($saleOrderHeader);
+//                try {
+//                    $dir = $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order';
+//                    $filename = $saleOrderHeader->getId() . '.' . $fileExtension;
+//                    $transactionFile->move($dir, $filename);
+//                } catch (FileException $e) {
+//                    // ... handle exception if something happens during file upload
+//                }
+//            }
 
             return $this->redirectToRoute('app_transaction_sale_order_header_show', ['id' => $saleOrderHeader->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -74,12 +87,12 @@ class SaleOrderHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_sale_order_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderFormService $saleOrderHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleOrderHeaderFormService->initialize($saleOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
         $form->handleRequest($request);
-        $saleOrderHeaderFormService->finalize($saleOrderHeader);
+        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $saleOrderHeaderFormService->save($saleOrderHeader);

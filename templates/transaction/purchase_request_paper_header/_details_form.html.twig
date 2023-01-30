@@ -10,7 +10,7 @@
             <th>Paper Name</th>
             <th>P</th>
             <th>L</th>
-            <th>GR</th>
+            <th>GSM</th>
             <th>Qty</th>
             <th>Satuan</th>
             <th>Tanggal Pakai</th>
@@ -27,9 +27,9 @@
                 <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
                 <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
                 <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
-                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
-                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}

@@ -19,7 +19,7 @@
             <th style="width: 0"></th>
         </tr>
     </thead>
-    <tbody data-form-collection-target="items" data-action="sale-order-header-table:data-table:select@document->form-collection#clearCollectionItems sale-order-header-table:data-table:select@document->form-collection#addCollectionItems">
+    <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem">
         {% macro collection_item(detailForm) %}
             <tr data-form-collection-target="item" data-item-identifier-name="saleOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.saleOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                 <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
@@ -30,7 +30,7 @@
                 <td>{{ form_row(detailForm.lotNumber, {'label': false}) }}</td>
                 <td data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
                 <td data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
-                <td>{{ form_row(detailForm.deliveredQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                <td>{{ form_row(detailForm.deliveredQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                 <td data-item-field-name="unitName">{{ detailForm.vars.value.saleOrderDetail.unit.name|default }}</td>
                 <td>{{ form_row(detailForm.packaging, {'label': false}) }}</td>
                 <td>

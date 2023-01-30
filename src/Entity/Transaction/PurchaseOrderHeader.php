@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_order_header')]
@@ -34,12 +35,16 @@ class PurchaseOrderHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $discountValueType = self::DISCOUNT_VALUE_TYPE_PERCENTAGE;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
@@ -64,16 +69,16 @@ class PurchaseOrderHeader extends TransactionHeader
     protected ?\DateTimeInterface $rejectedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: PurchaseOrderDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $purchaseOrderDetails;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\ManyToOne]
     private ?Currency $currency = null;
@@ -85,6 +90,7 @@ class PurchaseOrderHeader extends TransactionHeader
     protected ?User $rejectedTransactionUser = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     #[ORM\Column]
@@ -350,18 +356,6 @@ class PurchaseOrderHeader extends TransactionHeader
                 $receiveHeader->setPurchaseOrderHeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDeliveryDate(): ?\DateTimeInterface
-    {
-        return $this->deliveryDate;
-    }
-
-    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
-    {
-        $this->deliveryDate = $deliveryDate;
 
         return $this;
     }

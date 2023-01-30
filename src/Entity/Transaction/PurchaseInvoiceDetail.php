@@ -8,6 +8,7 @@ use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseInvoiceDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseInvoiceDetailRepository::class)]
 #[ORM\Table(name: 'transaction_purchase_invoice_detail')]
@@ -28,9 +29,11 @@ class PurchaseInvoiceDetail extends TransactionDetail
     private ?Material $material = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Assert\NotNull]
     private ?ReceiveDetail $receiveDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
+    #[Assert\NotNull]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
     #[ORM\ManyToOne]

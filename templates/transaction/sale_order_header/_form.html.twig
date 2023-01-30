@@ -11,8 +11,16 @@
             <div class="row">
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal SO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.referenceNumber, {'label': 'Customer PO #'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">TOP (hari)</label>
+                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.paymentTerm|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -26,13 +34,14 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control" value="{{ saleOrderHeader.customer.name|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ saleOrderHeader.customer.company|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#customer-dialog"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerCompany'}},
                                ]|json_encode }}" />
+                        {{ form_errors(form.customer) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone</label>
@@ -52,19 +61,11 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.email'}},
                                ]|json_encode }}" />
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">TOP (hari)</label>
-                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.paymentTerm|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="customer-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
-                               ]|json_encode }}" />
-                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col sm-12">
+                    {#{{ form_row(form.transactionFile) }}#}
                     {{ form_row(form.note) }}
                 </div>
             </div>

@@ -7,6 +7,7 @@ use App\Repository\Master\MaterialSubCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialSubCategoryRepository::class)]
 #[ORM\Table(name: 'master_material_sub_category')]
@@ -18,6 +19,7 @@ class MaterialSubCategory extends Master
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'materialSubCategories')]
+    #[Assert\NotNull]
     private ?MaterialCategory $materialCategory = null;
 
     #[ORM\OneToMany(mappedBy: 'materialSubCategory', targetEntity: Material::class)]

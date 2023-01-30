@@ -18,7 +18,6 @@ class PurchaseOrderHeaderType extends AbstractType
     {
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
-            ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('discountValueType', ChoiceType::class, ['choices' => [
                 'Percentage' => PurchaseOrderHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE,

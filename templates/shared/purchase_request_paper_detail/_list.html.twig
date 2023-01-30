@@ -5,37 +5,37 @@
 {{ grid.info(form, count, purchaseRequestPaperDetails) }}
 
 <div class="table-responsive">
-    <table class="table table-brequested table-striped" id="purchase-request-detail-table" data-controller="data-table">
+    <table class="table table-brequested table-striped" id="purchase-request-paper-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th>
+                <th style="width: 250px">
                     Request #
                 </th>
-                <th>
+                <th style="width: 350px">
                     Tanggal
                 </th>
-                <th>
+                <th style="width: 250px">
                     Kertas
                 </th>
-                <th>
+                <th style="width: 150px">
                     P
                 </th>
-                <th>
+                <th style="width: 150px">
                     L
                 </th>
-                <th>
-                    GR
+                <th style="width: 150px">
+                    GSM
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
                 </th>
-                <th>
+                <th style="width: 150px">
                     Satuan
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
+                <th style="width: 350px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
                     Tanggal Pakai {{ grid.sort_char(form.sort.usageDate.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'memo') }}>
+                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
                     Keterangan {{ grid.sort_char(form.sort.memo.vars.value) }}
                 </th>
             </tr>
@@ -47,14 +47,14 @@
                 <th></th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
+                    <input size="2" type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
                 </th>
             </tr>
         </thead>
@@ -62,8 +62,8 @@
             {% for purchaseRequestPaperDetail in purchaseRequestPaperDetails %}
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'purchaseRequestPaperDetailId': purchaseRequestPaperDetail.id,
-                    'purchaseRequestHeaderCodeNumber': purchaseRequestPaperDetail.purchaseRequestHeader.codeNumber,
-                    'purchaseRequestHeaderTransactionDate': purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '',
+                    'purchaseRequestHeaderCodeNumber': purchaseRequestPaperDetail.purchaseRequestPaperHeader.codeNumber,
+                    'purchaseRequestHeaderTransactionDate': purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate|date('d M Y') : '',
                     'paperName': purchaseRequestPaperDetail.paper.name,
                     'paperCode': purchaseRequestPaperDetail.paper.code,
                     'paperId': purchaseRequestPaperDetail.paper.id,
@@ -74,12 +74,12 @@
                     'memo': purchaseRequestPaperDetail.memo,
                     'unitName': purchaseRequestPaperDetail.unit.name,
                     'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity}|json_encode }}">
-                    <td>{{ purchaseRequestPaperDetail.purchaseRequestHeader.codeNumber }}</td>
-                    <td>{{ purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.name }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.length }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.width }}</td>
-                    <td>{{ purchaseRequestPaperDetail.material.weight }}</td>
+                    <td>{{ purchaseRequestPaperDetail.purchaseRequestPaperHeader.codeNumber }}</td>
+                    <td>{{ purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.name }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.length }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.width }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.weight }}</td>
                     <td class="text-end">{{ purchaseRequestPaperDetail.quantity|number_format(0) }}</td>
                     <td>{{ purchaseRequestPaperDetail.unit.name }}</td>
                     <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : ''  }}</td>

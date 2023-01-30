@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
 abstract class TransactionDetail
 {
     #[ORM\Column]
+    #[Assert\NotNull]
     protected ?bool $isCanceled = false;
 
     public function isIsCanceled(): ?bool
