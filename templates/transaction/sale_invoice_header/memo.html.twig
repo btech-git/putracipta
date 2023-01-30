@@ -5,13 +5,45 @@
 {% block body %}
     <div class="memo">
         <div class="header">
-            <h1 class="title">PT. Putracipta Karindomas</h1>
-            <h3 class="title">Kawasan Industri Millenium</h3>
-            <h3 class="title">Jl. Millenium 15A Blok I2 no. 5, Tangerang</h3>
-            <br />
-            <h2 class="title">INVOICE</h2>
+            <table>
+                <tr>
+                    <td><img class="img-thumbnail" src="{{ asset('public/images/Logo PCK.jpg') }}" alt="logo"></td>
+                    <td>PT. Putracipta Karindomas</td>
+                    <td>Factory: Kawasan Industri Millenium</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Jl. Daan Mogot No. 6N, Jakarta 11460 - Indonesia</td>
+                    <td>Jl. Millenium 15A Blok 12 No. 5 Pos 12</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Tel. (62-21) 565-5431, 563-3248 Fax. 565-5422</td>
+                    <td>Cikupa - Tigaraksa - Tangerang</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Banten 15710 - Indonesia</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Tel. (62-21) 2915 9191 Fax. (62-21) 2915 9194</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Email: pck_karindomas@yahoo.com</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Web: www.putraciptakarindomas.com</td>
+                </tr>
+            </table>
         </div>
-        
+                
         <br /><hr />
         
         <div class="note">
@@ -46,16 +78,19 @@
                             <div class="cell label">Jatuh Tempo</div>
                             <div class="cell value">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('d M Y') }}</div>
                         </div>
+                        <div class="row">
+                            <div class="cell label"></div>
+                            <div class="cell value"><h3>INVOICE</h3></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <br />
-        
         <table class="detail">
             <thead>
                 <tr>
+                    <th class="center">PO #</th>
                     <th class="center">Code</th>
                     <th class="center">Description</th>
                     <th class="center">Qty</th>
@@ -70,6 +105,7 @@
                     {% for saleInvoiceDetail in row %}
                         <tr>
                             {% if saleInvoiceDetail and not saleInvoiceDetail.isCanceled %}
+                                <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 <td class="left">{{ saleInvoiceDetail.product.code|default }}</td>
                                 <td class="left">{{ saleInvoiceDetail.product.name|default }}</td>
                                 <td class="center">{{ saleInvoiceDetail.quantity|default }}</td>
@@ -83,6 +119,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                             {% endif %}
                         </tr>
                     {% endfor %}
@@ -90,11 +127,11 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5" class="label right">Sub Total</td>
+                    <td colspan="6" class="label right">Sub Total</td>
                     <td class="right">{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">
+                    <td colspan="6" class="label right">
                         Diskon
                         {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
                             {{ saleInvoiceHeader.discountValue|default }}%
@@ -103,7 +140,7 @@
                     <td class="right">{{ saleInvoiceHeader.discountNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">
+                    <td colspan="6" class="label right">
                         {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
                             Non PPn 0%
                         {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
@@ -113,7 +150,7 @@
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">Grand Total</td>
+                    <td colspan="6" class="label right">Grand Total</td>
                     <td class="right">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
             </tfoot>
