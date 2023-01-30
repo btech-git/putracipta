@@ -8,25 +8,25 @@
     <table class="table table-brequested table-striped" id="purchase-request-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 250px">
+                <th style="min-width: 250px">
                     Request #
                 </th>
-                <th style="width: 250px">
+                <th style="min-width: 250px">
                     Tanggal
                 </th>
-                <th style="width: 250px">
+                <th style="min-width: 250px">
                     Material
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Satuan
                 </th>
-                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
                     Tanggal Pakai {{ grid.sort_char(form.sort.usageDate.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
                     Keterangan {{ grid.sort_char(form.sort.memo.vars.value) }}
                 </th>
             </tr>
@@ -35,14 +35,14 @@
                 <th></th>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'usageDate') }} value="{{ form.filter.usageDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
                 </th>
             </tr>
         </thead>
@@ -59,11 +59,11 @@
                     'memo': purchaseRequestDetail.memo,
                     'unitName': purchaseRequestDetail.unit.name,
                     'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity}|json_encode }}">
-                    <td>{{ purchaseRequestDetail.purchaseRequestHeader.codeNumber }}</td>
+                    <td>{{ purchaseRequestDetail.purchaseRequestHeader.codeNumber|default }}</td>
                     <td>{{ purchaseRequestDetail.purchaseRequestHeader.transactionDate ? purchaseRequestDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestDetail.material.name }}</td>
+                    <td>{{ purchaseRequestDetail.material.name|default }}</td>
                     <td class="text-end">{{ purchaseRequestDetail.quantity|number_format(0) }}</td>
-                    <td>{{ purchaseRequestDetail.unit.name }}</td>
+                    <td>{{ purchaseRequestDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : ''  }}</td>
                     <td>{{ purchaseRequestDetail.memo }}</td>
                 </tr>

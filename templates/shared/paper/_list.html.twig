@@ -8,46 +8,46 @@
     <table class="table table-bordered table-striped" id="paper-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 0">
+                <th style="min-width: 0">
                     <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
                         {'destinationsTarget': '#paper-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
-                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button"  }}>
+                <th style="min-width: 150px" role="button"  }}>
                     Panjang 
                 </th>
-                <th style="width: 150px" role="button">
+                <th style="min-width: 150px" role="button">
                     Lebar
                 </th>
-                <th style="width: 150px" role="button">
+                <th style="min-width: 150px" role="button">
                     GSM
                 </th>
-                <th style="width: 150px" role="button">
+                <th style="min-width: 150px" role="button">
                     Satuan
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'width') }} value="{{ form.filter.width.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'width') }} value="{{ form.filter.width.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -67,7 +67,7 @@
                     <td>{{ paper.length }}</td>
                     <td>{{ paper.width }}</td>
                     <td>{{ paper.weight }}</td>
-                    <td>{{ paper.unit.name }}</td>
+                    <td>{{ paper.unit.name|default }}</td>
                 </tr>
             {% else %}
                 <tr>

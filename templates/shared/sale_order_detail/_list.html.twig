@@ -8,19 +8,19 @@
     <table class="table table-bordered table-striped" id="sale-order-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     PO #
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Tanggal
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Customer
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Product Name
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Code
                 </th>
             </tr>
@@ -43,11 +43,11 @@
                     'productCode': saleOrderDetail.product.code,
                     'unitName': saleOrderDetail.unit.name,
                     'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
-                    <td>{{ saleOrderDetail.saleOrderHeader.codeNumber }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.codeNumber|default }}</td>
                     <td>{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ saleOrderDetail.saleOrderHeader.customer.company }}</td>
-                    <td>{{ saleOrderDetail.product.name }}</td>
-                    <td>{{ saleOrderDetail.product.code }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
+                    <td>{{ saleOrderDetail.product.name|default }}</td>
+                    <td>{{ saleOrderDetail.product.code|default }}</td>
                 </tr>
             {% else %}
                 <tr>

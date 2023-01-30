@@ -8,27 +8,27 @@
     <table class="table table-bordered table-striped" id="sale-invoice-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 0">
+                <th style="min-width: 0">
                     <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
                         {'destinationsTarget': '#sale-invoice-header-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
-                <th style="width: 350px" role="button">
+                <th style="min-width: 350px" role="button">
                     Customer
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
                     Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'totalPayment') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'totalPayment') }}>
                     Payment {{ grid.sort_char(form.sort.totalPayment.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'totalReturn') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'totalReturn') }}>
                     Return {{ grid.sort_char(form.sort.totalReturn.vars.value) }}
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'remainingPayment') }}>
                     Remaining {{ grid.sort_char(form.sort.remainingPayment.vars.value) }}
                 </th>
                 {#<th></th>#}
@@ -37,19 +37,19 @@
                 <th></th>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'totalPayment') }} value="{{ form.filter.totalPayment.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'totalPayment') }} value="{{ form.filter.totalPayment.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'totalReturn') }} value="{{ form.filter.totalReturn.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'totalReturn') }} value="{{ form.filter.totalReturn.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'remainingPayment') }} value="{{ form.filter.remainingPayment.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'remainingPayment') }} value="{{ form.filter.remainingPayment.1.vars.value }}" />
                 </th>
                 {#<th></th>#}
             </tr>
@@ -61,7 +61,7 @@
                     'saleInvoiceHeaderCodeNumber': saleInvoiceHeader.codeNumber, 
                     'saleInvoiceHeaderRemainingPayment': saleInvoiceHeader.remainingPayment|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
-                    <td>{{ saleInvoiceHeader.customer.company }}</td>
+                    <td>{{ saleInvoiceHeader.customer.company|default }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.grandTotal|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalPayment|number_format(0) }}</td>
