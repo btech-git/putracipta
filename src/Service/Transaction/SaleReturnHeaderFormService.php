@@ -40,12 +40,20 @@ class SaleReturnHeaderFormService
 
     public function finalize(SaleReturnHeader $saleReturnHeader, array $options = []): void
     {
+        $deliveryHeader = $saleReturnHeader->getDeliveryHeader();
+        $saleReturnHeader->setCustomer($deliveryHeader === null ? null : $deliveryHeader->getCustomer());
         foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
             $saleReturnDetail->setIsCanceled($saleReturnDetail->getSyncIsCanceled());
+            $deliveryDetail = $saleReturnDetail->getDeliveryDetail();
+            $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+            $saleReturnDetail->setProduct($deliveryDetail->getProduct());
+            $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
+            $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
         }
         $saleReturnHeader->setSubTotal($saleReturnHeader->getSyncSubTotal());
-        $saleReturnHeader->setTaxPercentage($saleReturnHeader->getSyncTaxPercentage());
-        $saleReturnHeader->setSubTotalAfterTaxInclusion($saleReturnHeader->getSyncSubTotalAfterTaxInclusion());
+        if ($saleReturnHeader->getTaxMode() !== $saleReturnHeader::TAX_MODE_NON_TAX) {
+            $saleReturnHeader->setTaxPercentage($options['vatPercentage']);
+        }
         $saleReturnHeader->setTaxNominal($saleReturnHeader->getSyncTaxNominal());
         $saleReturnHeader->setGrandTotal($saleReturnHeader->getSyncGrandTotal());
     }
