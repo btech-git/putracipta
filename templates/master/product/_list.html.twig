@@ -8,30 +8,30 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                <th style="min-width: 400px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th role="button" >
+                <th style="min-width: 280px" role="button" >
                     Customer 
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
-                <th></th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -41,11 +41,11 @@
                 <tr>
                     <td>{{ product.code }}</td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.customer.name }}</td>
+                    <td>{{ product.customer.name|default }}</td>
                     <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_product_show', {'id': product.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_product_edit', {'id': product.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_master_product_show', {'id': product.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_product_edit', {'id': product.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}
