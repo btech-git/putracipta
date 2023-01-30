@@ -34,7 +34,6 @@ class ReceiveDetail extends TransactionDetail
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
-    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveDetails')]
@@ -44,7 +43,6 @@ class ReceiveDetail extends TransactionDetail
     private Collection $purchaseReturnDetails;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

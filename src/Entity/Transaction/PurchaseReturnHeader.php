@@ -15,10 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_purchase_return_header')]
 class PurchaseReturnHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'PRT';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
-    public const VAT_PERCENTAGE = 11;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -64,7 +64,7 @@ class PurchaseReturnHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'PRT';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTaxPercentage(): int

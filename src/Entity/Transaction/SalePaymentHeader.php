@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_sale_payment_header')]
 class SalePaymentHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'SPY';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -55,7 +57,7 @@ class SalePaymentHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'SPY';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTotalAmount(): string
