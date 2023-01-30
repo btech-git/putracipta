@@ -4,6 +4,7 @@ namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Transaction\PurchaseOrderDetail;
+use App\Entity\Transaction\PurchaseOrderPaperDetail;
 use App\Entity\Transaction\ReceiveDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
