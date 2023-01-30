@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\SaleReturnHeader;
 use App\Form\Transaction\SaleReturnHeaderType;
 use App\Grid\Transaction\SaleReturnHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\SaleReturnHeaderRepository;
 use App\Service\Transaction\SaleReturnHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -43,13 +44,13 @@ class SaleReturnHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_transaction_sale_return_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, SaleReturnHeaderFormService $saleReturnHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, SaleReturnHeaderFormService $saleReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleReturnHeader = new SaleReturnHeader();
         $saleReturnHeaderFormService->initialize($saleReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleReturnHeaderType::class, $saleReturnHeader);
         $form->handleRequest($request);
-        $saleReturnHeaderFormService->finalize($saleReturnHeader);
+        $saleReturnHeaderFormService->finalize($saleReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $saleReturnHeaderFormService->save($saleReturnHeader);
@@ -74,12 +75,12 @@ class SaleReturnHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_sale_return_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, SaleReturnHeader $saleReturnHeader, SaleReturnHeaderFormService $saleReturnHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, SaleReturnHeader $saleReturnHeader, SaleReturnHeaderFormService $saleReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleReturnHeaderFormService->initialize($saleReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleReturnHeaderType::class, $saleReturnHeader);
         $form->handleRequest($request);
-        $saleReturnHeaderFormService->finalize($saleReturnHeader);
+        $saleReturnHeaderFormService->finalize($saleReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $saleReturnHeaderFormService->save($saleReturnHeader);

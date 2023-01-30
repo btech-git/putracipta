@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\PurchaseReturnHeader;
 use App\Form\Transaction\PurchaseReturnHeaderType;
 use App\Grid\Transaction\PurchaseReturnHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\PurchaseReturnHeaderRepository;
 use App\Service\Transaction\PurchaseReturnHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -43,13 +44,13 @@ class PurchaseReturnHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_return_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseReturnHeader = new PurchaseReturnHeader();
         $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseReturnHeaderType::class, $purchaseReturnHeader);
         $form->handleRequest($request);
-        $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader);
+        $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseReturnHeaderFormService->save($purchaseReturnHeader);
@@ -74,12 +75,12 @@ class PurchaseReturnHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_return_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseReturnHeaderType::class, $purchaseReturnHeader);
         $form->handleRequest($request);
-        $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader);
+        $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseReturnHeaderFormService->save($purchaseReturnHeader);
