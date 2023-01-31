@@ -70,7 +70,8 @@ class Customer extends Master
     private ?Currency $currency = null;
 
     #[ORM\Column]
-    private ?bool $isHavingFscCode = null;
+    #[Assert\NotNull]
+    private ?bool $hasFscCode = false;
 
     public function __construct()
     {
@@ -256,14 +257,14 @@ class Customer extends Master
         return $this;
     }
 
-    public function isIsHavingFscCode(): ?bool
+    public function isHasFscCode(): ?bool
     {
-        return $this->isHavingFscCode;
+        return $this->hasFscCode;
     }
 
-    public function setIsHavingFscCode(bool $isHavingFscCode): self
+    public function setHasFscCode(bool $hasFscCode): self
     {
-        $this->isHavingFscCode = $isHavingFscCode;
+        $this->hasFscCode = $hasFscCode;
 
         return $this;
     }
