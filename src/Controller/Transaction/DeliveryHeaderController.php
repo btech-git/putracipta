@@ -120,7 +120,10 @@ class DeliveryHeaderController extends AbstractController
             'ifscCode' => $literalConfigRepository->findLiteralValue('ifscCode'),
         ]);
 
-        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/assets/styles/', 'memo.css');
-        $pdfGenerator->generate($htmlView, $fileName);
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link(.+)href=".+">/', '<link\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+        ]);
     }
 }
