@@ -53,7 +53,7 @@
                     'receiveDetailId': receiveDetail.id, 
                     'materialName': receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default, 
                     'materialCode': receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default, 
-                    'unitName': receiveDetail.unit.name})|json_encode }}">
+                    'unitName': receiveDetail.unit.name|default})|json_encode }}">
                     <td>{{ receiveHeader.codeNumber }}</td>
                     <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.codeNumber|default : receiveHeader.purchaseOrderHeader.codeNumber|default }}</td>
