@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_purchase_request_header')]
 class PurchaseRequestHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'PRM';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -38,7 +40,7 @@ class PurchaseRequestHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'PRM';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTotalQuantity(): int

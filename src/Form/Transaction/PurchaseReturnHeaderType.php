@@ -3,11 +3,10 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Supplier;
 use App\Entity\Transaction\PurchaseReturnDetail;
 use App\Entity\Transaction\PurchaseReturnHeader;
+use App\Entity\Transaction\ReceiveHeader;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,11 +18,7 @@ class PurchaseReturnHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non Tax' => PurchaseReturnHeader::TAX_MODE_NON_TAX,
-                'Tax Exclusion' => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,
-                'Tax Inclusion' => PurchaseReturnHeader::TAX_MODE_TAX_INCLUSION,
-            ]])
+            ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
             ->add('purchaseReturnDetails', CollectionType::class, [
                 'entry_type' => PurchaseReturnDetailType::class,
                 'allow_add' => true,
@@ -32,7 +27,6 @@ class PurchaseReturnHeaderType extends AbstractType
                 'prototype_data' => new PurchaseReturnDetail(),
                 'label' => false,
             ])
-            ->add('supplier', EntityHiddenType::class, ['class' => Supplier::class])
         ;
     }
 

@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseInvoiceDetailRepository;
@@ -38,6 +39,9 @@ class PurchaseInvoiceDetail extends TransactionDetail
 
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
+
+    #[ORM\ManyToOne]
+    private ?Paper $paper = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -123,6 +127,18 @@ class PurchaseInvoiceDetail extends TransactionDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
 
         return $this;
     }

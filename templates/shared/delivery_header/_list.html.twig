@@ -1,0 +1,58 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, deliveryHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="delivery-header-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 250px" role="button">
+                    Pengiriman #
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th style="min-width: 250px">Customer</th>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deliveryHeader in deliveryHeaders %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ deliveryHeader.deliveryDetails|map(deliveryDetail => {
+                    'deliveryHeaderId': deliveryHeader.id, 
+                    'deliveryHeaderCodeNumber': deliveryHeader.codeNumber, 
+                    'deliveryHeaderTransactionDate': deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '', 
+                    'customerCompany': deliveryHeader.customer.company|default,
+                    'deliveryDetailId': deliveryDetail.id, 
+                    'productName': deliveryDetail.product.name|default, 
+                    'productCode': deliveryDetail.product.code|default, 
+                    'unitName': deliveryDetail.unit.name})|json_encode }}">
+                    <td>{{ deliveryHeader.codeNumber }}</td>
+                    <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ deliveryHeader.customer.company|default }}</td>
+                    <td>{{ deliveryHeader.note }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, deliveryHeaders) }}

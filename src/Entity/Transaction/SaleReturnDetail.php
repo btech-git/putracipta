@@ -25,24 +25,18 @@ class SaleReturnDetail extends TransactionDetail
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleReturnDetails')]
-    #[Assert\NotNull]
     private ?DeliveryDetail $deliveryDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleReturnDetails')]
-    #[Assert\NotNull]
     private ?SaleReturnHeader $saleReturnHeader = null;
 
     public function getSyncIsCanceled(): bool

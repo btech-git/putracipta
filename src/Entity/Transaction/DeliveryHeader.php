@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_delivery_header')]
 class DeliveryHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'DLV';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -57,7 +59,7 @@ class DeliveryHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'DLV';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTotalQuantity(): int

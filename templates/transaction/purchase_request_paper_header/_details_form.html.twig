@@ -6,16 +6,16 @@
     <thead class="table-secondary">
         <tr>
             <th class="d-none">Paper Id</th>
-            <th>Kode</th>
-            <th>Paper Name</th>
-            <th>P</th>
-            <th>L</th>
-            <th>GSM</th>
-            <th>Qty</th>
-            <th>Satuan</th>
-            <th>Tanggal Pakai</th>
-            <th>Keterangan</th>
-            <th style="width: 0"></th>
+            <th style="min-width: 150px">Kode</th>
+            <th style="min-width: 150px">Paper Name</th>
+            <th style="min-width: 50px">P</th>
+            <th style="min-width: 50px">L</th>
+            <th style="min-width: 50px">GSM</th>
+            <th style="min-width: 50px">Qty</th>
+            <th style="min-width: 100px">Satuan</th>
+            <th style="min-width: 100px">Tanggal Pakai</th>
+            <th style="min-width: 200px">Keterangan</th>
+            <th style="min-width: 0"></th>
         </tr>
     </thead>
     <tbody data-form-collection-target="items" data-action="paper-table:data-table:select@document->form-collection#addCollectionItem">
@@ -27,17 +27,17 @@
                 <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
                 <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
                 <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
-                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                 <td>{{ form_row(detailForm.unit, {'label': false}) }}</td>
-                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
+                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
                 <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                 <td>
                     {% if (detailForm.vars.value.id == null) %}
-                        <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem">Remove</button>
+                        <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                     {% endif %}
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
-                            'label': 'Cancel',
+                            'label': 'X',
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'dom-element#bind change->json-loader#load',

@@ -15,12 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_sale_order_header')]
 class SaleOrderHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'SO';
     public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
-    public const VAT_PERCENTAGE = 11;
     public const TRANSACTION_STATUS_DRAFT = 'draft';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
@@ -85,7 +85,7 @@ class SaleOrderHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'SO';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTaxNominal(): string

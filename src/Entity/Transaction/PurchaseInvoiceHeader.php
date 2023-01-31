@@ -15,12 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_purchase_invoice_header')]
 class PurchaseInvoiceHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'PIN';
     public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
-    public const VAT_PERCENTAGE = 11;
     public const TRANSACTION_STATUS_INVOICING = 'invoicing';
     public const TRANSACTION_STATUS_PARTIAL_PAYMENT = 'partial_payment';
     public const TRANSACTION_STATUS_FULL_PAYMENT = 'full_payment';
@@ -59,9 +59,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $subTotal = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotalAfterTaxInclusion = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
@@ -112,13 +109,7 @@ class PurchaseInvoiceHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'PIN';
-    }
-
-    public function getSyncTaxPercentage(): int
-    {
-        $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
-        return $taxPercentage;
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTaxNominal(): string
@@ -136,12 +127,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
             }
         }
         return $subTotal;
-    }
-
-    public function getSyncSubTotalAfterTaxInclusion(): string
-    {
-        $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
-        return $subTotalAfterTaxInclusion;
     }
 
     public function getSyncGrandTotal(): string
@@ -173,7 +158,7 @@ class PurchaseInvoiceHeader extends TransactionHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotalAfterTaxInclusion - $this->getDiscountNominal();
+        return $this->subTotal - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
@@ -273,18 +258,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
     public function setSubTotal(string $subTotal): self
     {
         $this->subTotal = $subTotal;
-
-        return $this;
-    }
-
-    public function getSubTotalAfterTaxInclusion(): ?string
-    {
-        return $this->subTotalAfterTaxInclusion;
-    }
-
-    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
-    {
-        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
 
         return $this;
     }

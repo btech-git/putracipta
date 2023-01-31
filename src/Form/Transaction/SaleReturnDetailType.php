@@ -3,7 +3,7 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Product;
+use App\Entity\Transaction\DeliveryDetail;
 use App\Entity\Transaction\SaleReturnDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,9 +15,7 @@ class SaleReturnDetailType extends AbstractType
     {
         $builder
             ->add('quantity')
-            ->add('unitPrice')
-            ->add('unit', null, ['choice_label' => 'name'])
-            ->add('product', EntityHiddenType::class, ['class' => Product::class])
+            ->add('deliveryDetail', EntityHiddenType::class, ['class' => DeliveryDetail::class])
             ->add('isCanceled')
         ;
     }

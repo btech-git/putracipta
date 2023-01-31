@@ -8,20 +8,20 @@
     <table class="table table-bordered table-striped" id="delivery-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Pengiriman #
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Tanggal
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     PO #
                 </th>
-                <th style="width: 150px">Customer</th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">Customer</th>
+                <th style="min-width: 150px">
                     Code 
                 </th>
-                <th style="width: 150px">
+                <th style="min-width: 150px">
                     Name 
                 </th>
             </tr>
@@ -46,10 +46,10 @@
                     'unitName': deliveryDetail.unit.name}|json_encode }}">
                     <td>{{ deliveryDetail.deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber }}</td>
-                    <td>{{ deliveryDetail.deliveryHeader.customer.company }}</td>
-                    <td>{{ deliveryDetail.product.code }}</td>
-                    <td>{{ deliveryDetail.product.name }}</td>
+                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ deliveryDetail.deliveryHeader.customer.company|default }}</td>
+                    <td>{{ deliveryDetail.product.code|default }}</td>
+                    <td>{{ deliveryDetail.product.name|default }}</td>
                 </tr>
             {% else %}
                 <tr>

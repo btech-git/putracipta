@@ -8,24 +8,24 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 400px" role="button">
-                    Request #
+                <th style="min-width: 280px" role="button">
+                    Request Material #
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="width: 200px" role="button">
+                <th style="min-width: 250px" role="button">
                     Warehouse
                 </th>
-                <th style="width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="width: 100px"></th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                    <span><small>/PRM/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Transaction\\PurchaseRequestHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
                     <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
                         {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
                             {% set val = value == 0 ? '' : value %}
@@ -33,14 +33,14 @@
                         {% endfor %}
                     </select>
                     <span><small>/</small></span>
-                    <input size="1" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -50,11 +50,11 @@
                 <tr>
                     <td>{{ purchaseRequestHeader.codeNumber }}</td>
                     <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestHeader.warehouse.name }}</td>
+                    <td>{{ purchaseRequestHeader.warehouse.name|default }}</td>
                     <td>{{ purchaseRequestHeader.note }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_request_header_show', {'id': purchaseRequestHeader.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_request_header_edit', {'id': purchaseRequestHeader.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_request_header_show', {'id': purchaseRequestHeader.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_request_header_edit', {'id': purchaseRequestHeader.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}

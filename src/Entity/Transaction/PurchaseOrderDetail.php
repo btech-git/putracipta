@@ -61,6 +61,9 @@ class PurchaseOrderDetail extends TransactionDetail
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deliveryDate = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $unitPriceBeforeTax = '0.00';
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -77,9 +80,14 @@ class PurchaseOrderDetail extends TransactionDetail
         return $this->quantity - $this->totalReceive;
     }
 
+    public function getSyncUnitPriceBeforeTax(): string
+    {
+        return $this->purchaseOrderHeader->getTaxMode() === $this->purchaseOrderHeader::TAX_MODE_TAX_INCLUSION ? $this->unitPrice / (1 + $this->purchaseOrderHeader->getTaxPercentage() / 100) : $this->unitPrice;
+    }
+
     public function getTotal(): int
     {
-        return $this->quantity * $this->getUnitPrice();
+        return $this->quantity * $this->getUnitPriceBeforeTax();
     }
 
     public function getId(): ?int
@@ -233,6 +241,18 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
     {
         $this->deliveryDate = $deliveryDate;
+
+        return $this;
+    }
+
+    public function getUnitPriceBeforeTax(): ?string
+    {
+        return $this->unitPriceBeforeTax;
+    }
+
+    public function setUnitPriceBeforeTax(string $unitPriceBeforeTax): self
+    {
+        $this->unitPriceBeforeTax = $unitPriceBeforeTax;
 
         return $this;
     }

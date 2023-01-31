@@ -40,12 +40,23 @@ class PurchaseReturnHeaderFormService
 
     public function finalize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
+        $receiveHeader = $purchaseReturnHeader->getReceiveHeader();
+        $purchaseOrderHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseOrderHeader();
+        $purchaseReturnHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
+        $purchaseReturnHeader->setTaxMode($purchaseOrderHeader === null ? PurchaseReturnHeader::TAX_MODE_NON_TAX : $purchaseOrderHeader->getTaxMode());
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
             $purchaseReturnDetail->setIsCanceled($purchaseReturnDetail->getSyncIsCanceled());
+            $receiveDetail = $purchaseReturnDetail->getReceiveDetail();
+            $purchaseOrderDetail = empty($receiveDetail->getPurchaseOrderDetail()) ? $receiveDetail->getPurchaseOrderPaperDetail(): $receiveDetail->getPurchaseOrderDetail();
+            $purchaseReturnDetail->setMaterial($receiveDetail->getMaterial());
+            $purchaseReturnDetail->setPaper($receiveDetail->getPaper());
+            $purchaseReturnDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
+            $purchaseReturnDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
         }
         $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
-        $purchaseReturnHeader->setTaxPercentage($purchaseReturnHeader->getSyncTaxPercentage());
-        $purchaseReturnHeader->setSubTotalAfterTaxInclusion($purchaseReturnHeader->getSyncSubTotalAfterTaxInclusion());
+        if ($purchaseReturnHeader->getTaxMode() !== $purchaseReturnHeader::TAX_MODE_NON_TAX) {
+            $purchaseReturnHeader->setTaxPercentage($options['vatPercentage']);
+        }
         $purchaseReturnHeader->setTaxNominal($purchaseReturnHeader->getSyncTaxNominal());
         $purchaseReturnHeader->setGrandTotal($purchaseReturnHeader->getSyncGrandTotal());
     }

@@ -52,10 +52,6 @@
                             <div class="cell value">{{ purchaseOrderHeader.transactionDate|default ? purchaseOrderHeader.transactionDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Tanggal Kirim</div>
-                            <div class="cell value">{{ purchaseOrderHeader.deliveryDate|default ? purchaseOrderHeader.deliveryDate|date('d M Y') }}</div>
-                        </div>
-                        <div class="row">
                             <div class="cell label">Currency</div>
                             <div class="cell value">{{ purchaseOrderHeader.supplier.currency.code|default }}</div>
                         </div>
@@ -75,6 +71,7 @@
                 <tr>
                     <th class="center">Item code</th>
                     <th class="center">Description</th>
+                    <th class="center">Tgl kirim</th>
                     <th class="center">Qty</th>
                     <th class="center">Unit</th>
                     <th class="center">Price</th>
@@ -89,11 +86,13 @@
                             {% if purchaseOrderDetail and not purchaseOrderDetail.isCanceled %}
                                 <td class="left">{{ purchaseOrderDetail.material.code|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
+                                <td class="left">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('d M Y') }}</td>
                                 <td class="center">{{ purchaseOrderDetail.quantity|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.unit.name|default }}</td>
-                                <td class="right">{{ purchaseOrderDetail.unitPrice|default|number_format(0) }}</td>
+                                <td class="right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
                                 <td class="right">{{ purchaseOrderDetail.total|default|number_format(0) }}</td>
                             {% else %}
+                                <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -107,11 +106,11 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5" class="label right">Sub Total</td>
-                    <td class="right">{{ purchaseOrderHeader.subTotalAfterTaxInclusion|default|number_format(0) }}</td>
+                    <td colspan="6" class="label right">Sub Total</td>
+                    <td class="right">{{ purchaseOrderHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">
+                    <td colspan="6" class="label right">
                         Diskon
                         {% if purchaseOrderHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseOrderHeader) %}
                             {{ purchaseOrderHeader.discountValue|default }}%
@@ -120,23 +119,23 @@
                     <td class="right">{{ purchaseOrderHeader.discountNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">
+                    <td colspan="6" class="label right">
                         {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
                             Non PPn 0%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            PPn {{ purchaseOrderHeader.taxPercentage }}%
                         {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
-                            PPn {{ constant('VAT_PERCENTAGE', purchaseOrderHeader) }}%
+                            PPn {{ purchaseOrderHeader.taxPercentage }}%
                         {% endif %}
                     </td>
                     <td class="right">{{ purchaseOrderHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="label right">Grand Total</td>
+                    <td colspan="6" class="label right">Grand Total</td>
                     <td class="right">{{ purchaseOrderHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="6">Terbilang: {{ purchaseOrderHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</td>
+                    <td colspan="7">Terbilang: {{ purchaseOrderHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</td>
                 </tr>
             </tfoot>
         </table>

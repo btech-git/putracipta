@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Form\Transaction\PurchaseInvoiceHeaderType;
 use App\Grid\Transaction\PurchaseInvoiceHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\PurchaseInvoiceHeaderRepository;
 use App\Service\Transaction\PurchaseInvoiceHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -43,13 +44,13 @@ class PurchaseInvoiceHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_invoice_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseInvoiceHeader = new PurchaseInvoiceHeader();
         $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseInvoiceHeaderType::class, $purchaseInvoiceHeader);
         $form->handleRequest($request);
-        $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader);
+        $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);
@@ -74,12 +75,12 @@ class PurchaseInvoiceHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_invoice_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseInvoiceHeaderType::class, $purchaseInvoiceHeader);
         $form->handleRequest($request);
-        $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader);
+        $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);

@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_sale_invoice_header')]
 class SaleInvoiceHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'SIN';
     public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';
@@ -107,7 +108,7 @@ class SaleInvoiceHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'SIN';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTaxNominal(): string

@@ -3,8 +3,8 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Material;
 use App\Entity\Transaction\PurchaseReturnDetail;
+use App\Entity\Transaction\ReceiveDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,9 +15,7 @@ class PurchaseReturnDetailType extends AbstractType
     {
         $builder
             ->add('quantity')
-            ->add('unitPrice')
-            ->add('unit', null, ['choice_label' => 'name'])
-            ->add('material', EntityHiddenType::class, ['class' => Material::class])
+            ->add('receiveDetail', EntityHiddenType::class, ['class' => ReceiveDetail::class])
             ->add('isCanceled')
         ;
     }

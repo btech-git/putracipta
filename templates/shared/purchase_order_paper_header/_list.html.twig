@@ -5,36 +5,36 @@
 {{ grid.info(form, count, purchaseOrderPaperHeaders) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="purchase-order-header-table" data-controller="data-table">
+    <table class="table table-bordered table-striped" id="purchase-order-paper-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="width: 250px" role="button">
+                <th style="min-width: 250px" role="button">
                     PO #
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="width: 250px" role="button">
+                <th style="min-width: 250px" role="button">
                     Supplier
                 </th>
-                <th style="width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
                     Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
                 </th>
-                <th style="width: 250px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
                 </th>
                 <th>
-                    <input size="2" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
             </tr>
         </thead>
@@ -43,18 +43,18 @@
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderPaperHeader.purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => {
                     'purchaseOrderPaperHeaderId': purchaseOrderPaperHeader.id,
                     'purchaseOrderPaperHeaderCodeNumber': purchaseOrderPaperHeader.codeNumber,
-                    'purchaseOrderPaperHeaderTransactionDate': purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '',
+                    'purchaseOrderHeaderTransactionDate': purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '',
                     'supplierCompany': purchaseOrderPaperHeader.supplier.company,
                     'purchaseOrderPaperDetailId': purchaseOrderPaperDetail.id,
-                    'paperName': purchaseOrderPaperDetail.paper.name,
                     'paperId': purchaseOrderPaperDetail.paper.id,
-                    'paperCode': purchaseOrderPaperDetail.paper.code,
+                    'materialOrPaperCode': purchaseOrderPaperDetail.paper.code,
+                    'materialOrPaperName': purchaseOrderPaperDetail.paper.name,
                     'unitName': purchaseOrderPaperDetail.unit.name,
-                    'purchaseOrderPaperDetailQuantity': purchaseOrderPaperDetail.quantity,
-                    'purchaseOrderPaperDetailRemainingReceive': purchaseOrderPaperDetail.remainingReceive})|json_encode }}">
+                    'purchaseOrderDetailQuantity': purchaseOrderPaperDetail.quantity,
+                    'purchaseOrderDetailRemainingReceive': purchaseOrderPaperDetail.remainingReceive})|json_encode }}">
                     <td>{{ purchaseOrderPaperHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseOrderPaperHeader.supplier.company }}</td>
+                    <td>{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
                     <td class="text-end">{{ purchaseOrderPaperHeader.grandTotal|number_format(0) }}</td>
                     <td>{{ purchaseOrderPaperHeader.note }}</td>
                 </tr>

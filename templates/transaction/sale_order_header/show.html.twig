@@ -92,9 +92,9 @@
                         {% if saleOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', saleOrderHeader) %}
                             Non Tax 0%
                         {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleOrderHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', saleOrderHeader) }}%
+                            Exclude Tax {{ saleOrderHeader.taxPercentage }}%
                         {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleOrderHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', saleOrderHeader) }}%
+                            Include Tax {{ saleOrderHeader.taxPercentage }}%
                         {% endif %}
                     </strong>
                 </td>

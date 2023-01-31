@@ -60,6 +60,7 @@
                 <th>H. Asosiasi</th>
                 <th>H. KG</th>
                 <th>H. Satuan</th>
+                <th>DPP</th>
                 <th>Total</th>
                 <th></th>
             </tr>
@@ -78,6 +79,7 @@
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
                     <td>{{ purchaseOrderPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
@@ -85,24 +87,24 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="11" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td colspan="12" style="text-align: right"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="11" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
+                <td colspan="12" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="11" style="text-align: right">
+                <td colspan="12" style="text-align: right">
                     <strong>
                         {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
                             Non PPn 0%
                         {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderPaperHeader) %}
-                            Exclude PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                            Exclude PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
                         {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderPaperHeader) %}
-                            Include PPn {{ constant('VAT_PERCENTAGE', purchaseOrderPaperHeader) }}%
+                            Include PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
                         {% endif %}
                     </strong>
                 </td>
@@ -110,11 +112,41 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="11" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="12" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
         </tfoot>
+    </table>
+
+    <legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-warning">
+                <th>Penerimaan #</th>
+                <th>Tanggal</th>
+                <th>SJ #</th>
+                <th>Material</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
+                {% for receiveDetail in purchaseOrderPaperDetail.receiveDetails %}
+                    <tr>
+                        <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                        <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                        <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                        <td>{{ receiveDetail.material.name|default }}</td>
+                        <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
+                        <td>{{ receiveDetail.unit.name|default }}</td>
+                        <td>{{ receiveDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
     </table>
                 
     <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_delete_form.html.twig') }}</div>

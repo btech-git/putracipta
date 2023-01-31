@@ -4,10 +4,14 @@ namespace App\Service\Transaction;
 
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
+use App\Entity\Transaction\PurchaseOrderPaperDetail;
+use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use App\Entity\Transaction\ReceiveDetail;
 use App\Entity\Transaction\ReceiveHeader;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
+use App\Repository\Transaction\PurchaseOrderPaperDetailRepository;
+use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +23,8 @@ class ReceiveHeaderFormService
     private ReceiveDetailRepository $receiveDetailRepository;
     private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
+    private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
+    private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -27,6 +33,8 @@ class ReceiveHeaderFormService
         $this->receiveDetailRepository = $entityManager->getRepository(ReceiveDetail::class);
         $this->purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
+        $this->purchaseOrderPaperHeaderRepository = $entityManager->getRepository(PurchaseOrderPaperHeader::class);
+        $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
     }
 
     public function initialize(ReceiveHeader $receiveHeader, array $options = []): void
@@ -48,21 +56,21 @@ class ReceiveHeaderFormService
 
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
-        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
-        $receiveHeader->setSupplier($purchaseOrderHeader === null ? null : $purchaseOrderHeader->getSupplier());
+        $purchaseOrderHeaderForMaterialOrPaper = $this->getPurchaseOrderHeaderForMaterialOrPaper($receiveHeader);
+        $receiveHeader->setSupplier($purchaseOrderHeaderForMaterialOrPaper === null ? null : $purchaseOrderHeaderForMaterialOrPaper->getSupplier());
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
-            $receiveDetail->setMaterial($purchaseOrderDetail->getMaterial());
+            $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
+            $this->setMaterialOrPaper($receiveDetail, $purchaseOrderDetailForMaterialOrPaper);
         }
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
             $receiveDetail->setIsCanceled($receiveDetail->getSyncIsCanceled());
-            $receiveDetail->setUnit($purchaseOrderDetail === null ? null : $purchaseOrderDetail->getUnit());
+            $receiveDetail->setUnit($purchaseOrderDetailForMaterialOrPaper === null ? null : $purchaseOrderDetailForMaterialOrPaper->getUnit());
         }
         $receiveHeader->setTotalQuantity($receiveHeader->getSyncTotalQuantity());
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
-            $oldReceiveDetails = $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetail);
+            $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
+            $oldReceiveDetails = $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetailForMaterialOrPaper);
             $totalReceive = 0;
             foreach ($oldReceiveDetails as $oldReceiveDetail) {
                 if ($oldReceiveDetail->getId() !== $receiveDetail->getId()) {
@@ -70,34 +78,89 @@ class ReceiveHeaderFormService
                 }
             }
             $totalReceive += $receiveDetail->getReceivedQuantity();
-            $purchaseOrderDetail->setTotalReceive($totalReceive);
-            $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
+            $purchaseOrderDetailForMaterialOrPaper->setTotalReceive($totalReceive);
+            $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
         }
         $totalRemaining = 0;
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
-            $totalRemaining += $purchaseOrderDetail->getRemainingReceive();
+            $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
+            $totalRemaining += $purchaseOrderDetailForMaterialOrPaper->getRemainingReceive();
         }
-        if ($purchaseOrderHeader !== null) {
+        if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
             if ($totalRemaining > 0) {
-                $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE);
+                $purchaseOrderHeaderForMaterialOrPaper->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE);
             } else {
-                $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
+                $purchaseOrderHeaderForMaterialOrPaper->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
             }
-            $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
+            $purchaseOrderHeaderForMaterialOrPaper->setTotalRemainingReceive($purchaseOrderHeaderForMaterialOrPaper->getSyncTotalRemainingReceive());
         }
     }
 
     public function save(ReceiveHeader $receiveHeader, array $options = []): void
     {
         $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
+        $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
         $this->receiveHeaderRepository->add($receiveHeader);
-        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
+        
+        if ($purchaseOrderHeader !== null) {
+            $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
+        } else {
+            $this->purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
+        }
+        
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+            $purchaseOrderPaperDetail = $receiveDetail->getPurchaseOrderPaperDetail();
             $this->receiveDetailRepository->add($receiveDetail);
-            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+            
+            if ($purchaseOrderHeader !== null) {
+                $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+            } else {
+                $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
+            }
         }
         $this->entityManager->flush();
+    }
+
+    private function getPurchaseOrderHeaderForMaterialOrPaper(ReceiveHeader $receiveHeader)
+    {
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
+        $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
+        if ($purchaseOrderHeader === null && $purchaseOrderPaperHeader === null) {
+            return null;
+        } else if ($purchaseOrderPaperHeader === null && $purchaseOrderHeader !== null) {
+            return $purchaseOrderHeader;
+        } else if ($purchaseOrderHeader === null && $purchaseOrderPaperHeader !== null) {
+            return $purchaseOrderPaperHeader;
+        }
+    }
+
+    private function getPurchaseOrderDetailForMaterialOrPaper(ReceiveDetail $receiveDetail)
+    {
+        $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+        $purchaseOrderPaperDetail = $receiveDetail->getPurchaseOrderPaperDetail();
+        if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail === null) {
+            return null;
+        } else if ($purchaseOrderPaperDetail === null && $purchaseOrderDetail !== null) {
+            return $purchaseOrderDetail;
+        } else if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail !== null) {
+            return $purchaseOrderPaperDetail;
+        }
+    }
+
+    private function setMaterialOrPaper(ReceiveDetail $receiveDetail, $purchaseOrderDetailForMaterialOrPaper): void
+    {
+        $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+        $purchaseOrderPaperDetail = $receiveDetail->getPurchaseOrderPaperDetail();
+        if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail === null) {
+            $receiveDetail->setMaterial(null);
+            $receiveDetail->setPaper(null);
+        } else if ($purchaseOrderPaperDetail === null && $purchaseOrderDetail !== null) {
+            $receiveDetail->setMaterial($purchaseOrderDetailForMaterialOrPaper->getMaterial());
+            $receiveDetail->setPaper(null);
+        } else if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail !== null) {
+            $receiveDetail->setMaterial(null);
+            $receiveDetail->setPaper($purchaseOrderDetailForMaterialOrPaper->getPaper());
+        }
     }
 }

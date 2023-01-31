@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Form\Transaction\PurchaseOrderHeaderType;
 use App\Grid\Transaction\PurchaseOrderHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
 use App\Service\Transaction\PurchaseOrderHeaderFormService;
 use App\Util\PdfGenerator;
@@ -44,13 +45,13 @@ class PurchaseOrderHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderHeader = new PurchaseOrderHeader();
         $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
-        $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader);
+        $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
@@ -75,12 +76,12 @@ class PurchaseOrderHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_order_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
-        $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader);
+        $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderHeaderFormService->save($purchaseOrderHeader);

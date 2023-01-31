@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use App\Form\Transaction\PurchaseOrderPaperHeaderType;
 use App\Grid\Transaction\PurchaseOrderPaperHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
 use App\Service\Transaction\PurchaseOrderPaperHeaderFormService;
 use App\Util\PdfGenerator;
@@ -44,13 +45,13 @@ class PurchaseOrderPaperHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_paper_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderPaperHeader = new PurchaseOrderPaperHeader();
         $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderPaperHeaderType::class, $purchaseOrderPaperHeader);
         $form->handleRequest($request);
-        $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader);
+        $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderPaperHeaderFormService->save($purchaseOrderPaperHeader);
@@ -75,12 +76,12 @@ class PurchaseOrderPaperHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_order_paper_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderPaperHeaderType::class, $purchaseOrderPaperHeader);
         $form->handleRequest($request);
-        $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader);
+        $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderPaperHeaderFormService->save($purchaseOrderPaperHeader);

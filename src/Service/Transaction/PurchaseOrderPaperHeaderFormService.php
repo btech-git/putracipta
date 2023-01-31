@@ -40,8 +40,12 @@ class PurchaseOrderPaperHeaderFormService
 
     public function finalize(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
+        if ($purchaseOrderPaperHeader->getTaxMode() !== $purchaseOrderPaperHeader::TAX_MODE_NON_TAX) {
+            $purchaseOrderPaperHeader->setTaxPercentage($options['vatPercentage']);
+        }
         foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
             $paper = $purchaseOrderPaperDetail->getPaper();
+            $purchaseOrderPaperDetail->setIsCanceled($purchaseOrderPaperDetail->getSyncIsCanceled());
             $purchaseOrderPaperDetail->setLength($paper->getLength());
             $purchaseOrderPaperDetail->setWidth($paper->getWidth());
             $purchaseOrderPaperDetail->setWeight($paper->getWeight());
@@ -51,14 +55,12 @@ class PurchaseOrderPaperHeaderFormService
             if ($purchaseOrderPaperDetail->getApkiValue() > '0.00' || $purchaseOrderPaperDetail->getAssociationPrice() > '0.00' || $purchaseOrderPaperDetail->getWeightPrice() > '0.00') {
                 $purchaseOrderPaperDetail->setUnitPrice($purchaseOrderPaperDetail->getSyncUnitPrice());
             }
-            $purchaseOrderPaperDetail->setIsCanceled($purchaseOrderPaperDetail->getSyncIsCanceled());
             $purchaseOrderPaperDetail->setRemainingReceive($purchaseOrderPaperDetail->getSyncRemainingReceive());
+            $purchaseOrderPaperDetail->setUnitPriceBeforeTax($purchaseOrderPaperDetail->getSyncUnitPriceBeforeTax());
         }
         $supplier = $purchaseOrderPaperHeader->getSupplier();
         $purchaseOrderPaperHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
         $purchaseOrderPaperHeader->setSubTotal($purchaseOrderPaperHeader->getSyncSubTotal());
-        $purchaseOrderPaperHeader->setTaxPercentage($purchaseOrderPaperHeader->getSyncTaxPercentage());
-        $purchaseOrderPaperHeader->setSubTotalAfterTaxInclusion($purchaseOrderPaperHeader->getSyncSubTotalAfterTaxInclusion());
         $purchaseOrderPaperHeader->setTaxNominal($purchaseOrderPaperHeader->getSyncTaxNominal());
         $purchaseOrderPaperHeader->setGrandTotal($purchaseOrderPaperHeader->getSyncGrandTotal());
         $purchaseOrderPaperHeader->setTotalRemainingReceive($purchaseOrderPaperHeader->getSyncTotalRemainingReceive());

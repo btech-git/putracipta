@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Material;
+use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseReturnDetailRepository;
@@ -25,25 +26,22 @@ class PurchaseReturnDetail extends TransactionDetail
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
-    #[Assert\NotNull]
     private ?ReceiveDetail $receiveDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
-    #[Assert\NotNull]
     private ?PurchaseReturnHeader $purchaseReturnHeader = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
+
+    #[ORM\ManyToOne]
+    private ?Paper $paper = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -129,6 +127,18 @@ class PurchaseReturnDetail extends TransactionDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
 
         return $this;
     }

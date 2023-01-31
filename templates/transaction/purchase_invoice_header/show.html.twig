@@ -37,19 +37,19 @@
             </tr>
             <tr>
                 <th>PO #</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.getCodeNumber }}</td>
+                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader is null ? purchaseInvoiceHeader.receiveHeader.purchaseOrderPaperHeader.getCodeNumber|default : purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.getCodeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Supplier SJ #</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber }}</td>
+                <td>{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
             </tr>
             <tr>
                 <th>TOP (hari)</th>
-                <td>{{ purchaseInvoiceHeader.supplier.paymentTerm }}</td>
+                <td>{{ purchaseInvoiceHeader.supplier.paymentTerm|default }}</td>
             </tr>
             <tr>
                 <th>Currency</th>
-                <td>{{ purchaseInvoiceHeader.supplier.currency.code }}</td>
+                <td>{{ purchaseInvoiceHeader.supplier.currency.code|default }}</td>
             </tr>
             <tr>
                 <th>Faktur Pajak #</th>
@@ -89,9 +89,9 @@
         <tbody>
             {% for purchaseInvoiceDetail in purchaseInvoiceHeader.purchaseInvoiceDetails %}
                 <tr>
-                    <td>{{ purchaseInvoiceDetail.material.code|default }}</td>
-                    <td>{{ purchaseInvoiceDetail.material.name|default }}</td>
-                    <td style="text-align: right">{{ purchaseInvoiceDetail.quantity|default }}</td>
+                    <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.code|default : purchaseInvoiceDetail.material.code|default }}</td>
+                    <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.name|default : purchaseInvoiceDetail.material.name|default }}</td>
+                    <td style="text-align: center">{{ purchaseInvoiceDetail.quantity|default }}</td>
                     <td>{{ purchaseInvoiceDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
@@ -102,7 +102,7 @@
         <tfoot>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotalAfterTaxInclusion|default|number_format(2) }}</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
@@ -116,9 +116,9 @@
                         {% if purchaseInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseInvoiceHeader) %}
                             Non PPn 0%
                         {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseInvoiceHeader) %}
-                            Exclude PPn {{ constant('VAT_PERCENTAGE', purchaseInvoiceHeader) }}%
+                            Exclude PPn {{ purchaseInvoiceHeader.taxPercentage }}%
                         {% elseif purchaseInvoiceHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseInvoiceHeader) %}
-                            Include PPn {{ constant('VAT_PERCENTAGE', purchaseInvoiceHeader) }}%
+                            Include PPn {{ purchaseInvoiceHeader.taxPercentage }}%
                         {% endif %}
                     </strong>
                 </td>
@@ -151,7 +151,7 @@
     <legend class="float-none w-auto text-dark px-1">Data Pembayaran</legend>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="bg-info">
+            <tr class="bg-warning">
                 <th>Pembayaran #</th>
                 <th>Tanggal</th>
                 <th>Cek/Giro #</th>

@@ -19,14 +19,14 @@
                 <th>Tanggal Return</th>
                 <td>{{ purchaseReturnHeader.transactionDate ? purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
-            {#<tr>
+            <tr>
                 <th>Penerimaan #</th>
                 <td>{{ purchaseReturnHeader.receiveHeader.getCodeNumber }}</td>
             </tr>
             <tr>
                 <th>Tanggal Terima</th>
                 <td>{{ purchaseReturnHeader.receiveHeader.transactionDate ? purchaseReturnHeader.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-            </tr>#}
+            </tr>
             <tr>
                 <th>Supplier</th>
                 <td>{{ purchaseReturnHeader.supplier.company }}</td>
@@ -77,11 +77,11 @@
                 <td colspan="5" style="text-align: right">
                     <strong>
                         {% if purchaseReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseReturnHeader) %}
-                            Non Tax 0%
+                            Non PPn 0%
                         {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseReturnHeader) %}
-                            Exclude Tax {{ constant('VAT_PERCENTAGE', purchaseReturnHeader) }}%
+                            Exclude PPn {{ purchaseReturnHeader.taxPercentage }}%
                         {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseReturnHeader) %}
-                            Include Tax {{ constant('VAT_PERCENTAGE', purchaseReturnHeader) }}%
+                            Include PPn {{ purchaseReturnHeader.taxPercentage }}%
                         {% endif %}
                     </strong>
                 </td>

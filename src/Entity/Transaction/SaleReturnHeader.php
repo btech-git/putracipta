@@ -15,10 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_sale_return_header')]
 class SaleReturnHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'SRT';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
-    public const VAT_PERCENTAGE = 11;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,17 +39,12 @@ class SaleReturnHeader extends TransactionHeader
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $subTotalAfterTaxInclusion = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleReturnHeaders')]
-    #[Assert\NotNull]
     private ?DeliveryHeader $deliveryHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'saleReturnHeader', targetEntity: SaleReturnDetail::class)]
@@ -62,18 +57,12 @@ class SaleReturnHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'SRT';
-    }
-
-    public function getSyncTaxPercentage(): int
-    {
-        $taxPercentage = $this->taxMode === self::TAX_MODE_NON_TAX ? 0 : self::VAT_PERCENTAGE;
-        return $taxPercentage;
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTaxNominal(): string
     {
-        $taxNominal = $this->subTotalAfterTaxInclusion * $this->taxPercentage / 100;
+        $taxNominal = $this->subTotal * $this->taxPercentage / 100;
         return $taxNominal;
     }
 
@@ -88,15 +77,9 @@ class SaleReturnHeader extends TransactionHeader
         return $subTotal;
     }
 
-    public function getSyncSubTotalAfterTaxInclusion(): string
-    {
-        $subTotalAfterTaxInclusion = $this->taxMode === self::TAX_MODE_TAX_INCLUSION ? $this->subTotal / (1 + $this->taxPercentage / 100) : $this->subTotal;
-        return $subTotalAfterTaxInclusion;
-    }
-
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->subTotalAfterTaxInclusion + $this->taxNominal;
+        $grandTotal = $this->subTotal + $this->taxNominal;
         return $grandTotal;
     }
 
@@ -149,18 +132,6 @@ class SaleReturnHeader extends TransactionHeader
     public function setSubTotal(string $subTotal): self
     {
         $this->subTotal = $subTotal;
-
-        return $this;
-    }
-
-    public function getSubTotalAfterTaxInclusion(): ?string
-    {
-        return $this->subTotalAfterTaxInclusion;
-    }
-
-    public function setSubTotalAfterTaxInclusion(string $subTotalAfterTaxInclusion): self
-    {
-        $this->subTotalAfterTaxInclusion = $subTotalAfterTaxInclusion;
 
         return $this;
     }

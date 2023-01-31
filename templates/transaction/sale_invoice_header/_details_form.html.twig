@@ -31,7 +31,7 @@
                 <td>
                     <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                         {{ form_row(detailForm.isCanceled, {
-                            'label': 'Cancel',
+                            'label': 'X',
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'dom-element#bind change->json-loader#load',

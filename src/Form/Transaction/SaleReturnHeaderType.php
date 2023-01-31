@@ -3,7 +3,7 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Customer;
+use App\Entity\Transaction\DeliveryHeader;
 use App\Entity\Transaction\SaleReturnDetail;
 use App\Entity\Transaction\SaleReturnHeader;
 use Symfony\Component\Form\AbstractType;
@@ -20,10 +20,11 @@ class SaleReturnHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non Tax' => SaleReturnHeader::TAX_MODE_NON_TAX,
-                'Tax Exclusion' => SaleReturnHeader::TAX_MODE_TAX_EXCLUSION,
-                'Tax Inclusion' => SaleReturnHeader::TAX_MODE_TAX_INCLUSION,
+                'Non PPn' => SaleReturnHeader::TAX_MODE_NON_TAX,
+                'PPn' => SaleReturnHeader::TAX_MODE_TAX_EXCLUSION,
+//                'Include PPn' => SaleReturnHeader::TAX_MODE_TAX_INCLUSION,
             ]])
+            ->add('deliveryHeader', EntityHiddenType::class, ['class' => DeliveryHeader::class])
             ->add('saleReturnDetails', CollectionType::class, [
                 'entry_type' => SaleReturnDetailType::class,
                 'allow_add' => true,
@@ -32,7 +33,6 @@ class SaleReturnHeaderType extends AbstractType
                 'prototype_data' => new SaleReturnDetail(),
                 'label' => false,
             ])
-            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
         ;
     }
 

@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_receive_header')]
 class ReceiveHeader extends TransactionHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'RCV';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,7 +30,6 @@ class ReceiveHeader extends TransactionHeader
     private ?string $supplierDeliveryCodeNumber = '';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
@@ -57,7 +58,7 @@ class ReceiveHeader extends TransactionHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'RCV';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getSyncTotalQuantity(): int

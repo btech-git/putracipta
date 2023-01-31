@@ -8,15 +8,15 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th>Sub Category</th>
-                <th></th>
+                <th style="min-width: 280px">Sub Category</th>
+                <th style="min-width: 280px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th></th>
@@ -26,10 +26,10 @@
             {% for materialSubCategory in materialSubCategories %}
                 <tr>
                     <td>{{ materialSubCategory.name }}</td>
-                    <td>{{ materialSubCategory.materialCategory.name }}</td>
+                    <td>{{ materialSubCategory.materialCategory.name|default }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_material_sub_category_show', {'id': materialSubCategory.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_sub_category_edit', {'id': materialSubCategory.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_master_material_sub_category_show', {'id': materialSubCategory.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_sub_category_edit', {'id': materialSubCategory.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}

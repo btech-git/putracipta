@@ -8,38 +8,38 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'company') }}>
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'company') }}>
                     Company {{ grid.sort_char(form.sort.company.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'certification') }}>
-                    Certification {{ grid.sort_char(form.sort.certification.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'certification') }}>
+                    Category {{ grid.sort_char(form.sort.certification.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'phone') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'phone') }}>
                     Phone {{ grid.sort_char(form.sort.phone.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'email') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'email') }}>
                     Email {{ grid.sort_char(form.sort.email.vars.value) }}
                 </th>
-                <th></th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'company') }} value="{{ form.filter.company.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'company') }} value="{{ form.filter.company.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'certification') }} value="{{ form.filter.certification.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'certification') }} value="{{ form.filter.certification.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'phone') }} value="{{ form.filter.phone.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'phone') }} value="{{ form.filter.phone.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'email') }} value="{{ form.filter.email.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'email') }} value="{{ form.filter.email.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -53,8 +53,8 @@
                     <td>{{ supplier.phone }}</td>
                     <td>{{ supplier.email }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_supplier_show', {'id': supplier.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_supplier_edit', {'id': supplier.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_master_supplier_show', {'id': supplier.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_supplier_edit', {'id': supplier.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}
