@@ -63,7 +63,7 @@
                             <strong>PT Putracipta Karindomas</strong>
                         </span>
                     </a>
-                    <div class="mb-sm-auto mb-0 overflow-auto" style="max-height: 384px">
+                    <div class="mb-sm-auto mb-0 overflow-auto" style="max-height: 512px">
                         <ul class="nav nav-pills flex-column align-items-center align-items-sm-start" id="menu">
                             {% set replaces = {'index': '', 'new': '', 'edit': '', 'show': ''} %}
                             {% set views = menu|map(v1 => app.request.attributes.get("_route")|replace(replaces) in v1|map(v2 => v2[0]|replace(replaces))) %}
@@ -90,9 +90,8 @@
                     </div>
                     <div class="dropdown pb-4">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="input-group-text bg-white">
-                                <i class="bi-person-fill"></i>
-                            </div>
+                            <i class="bi-person-circle" style="font-size: 2rem"></i>
+                            &nbsp;
                             <span class="d-none d-sm-inline mx-1">{{ app.user.username|default }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
