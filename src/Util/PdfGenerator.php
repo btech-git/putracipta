@@ -8,15 +8,13 @@ use Dompdf\Options;
 class PdfGenerator
 {
     private string $chrootDir;
-    private string $resourceFilename;
 
-    public function __construct(string $chrootDir, string $resourceFilename)
+    public function __construct(string $chrootDir)
     {
         $this->chrootDir = $chrootDir;
-        $this->resourceFilename = $resourceFilename;
     }
 
-    public function generate(string $htmlView, string $streamName): void
+    public function generate(string $htmlView, string $streamName, array $assetPathReplacementCallbacks = []): void
     {
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -24,7 +22,10 @@ class PdfGenerator
         $dompdf = new Dompdf($pdfOptions);
         $dompdf->getOptions()->setChroot($this->chrootDir);
 
-        $html = preg_replace('/<link(.+)href=".+">/', '<link\1href="' . $this->chrootDir . $this->resourceFilename . '">', $htmlView);
+        $html = $htmlView;
+        foreach ($assetPathReplacementCallbacks as $callback) {
+            $html = $callback($html, $this->chrootDir);
+        }
 
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
