@@ -62,7 +62,7 @@ trait EntityDataFetch
         if (!empty($filter)) {
             foreach ($filter as $field => $values) {
                 $filterOperator = $values[0];
-                if (!empty($filterOperator)) {
+                if (!empty($filterOperator) && !str_contains($field, '.')) {
                     $filterValues = array_slice($values, 1);
                     (new $filterOperator)->addFilterToQueryBuilder($qb, $alias, $field, $filterValues);
                 }
@@ -70,7 +70,7 @@ trait EntityDataFetch
         }
         if (!empty($sort)) {
             foreach ($sort as $field => $sortOperator) {
-                if (!empty($sortOperator)) {
+                if (!empty($sortOperator) && !str_contains($field, '.')) {
                     (new $sortOperator)->addSortToQueryBuilder($qb, $alias, $field);
                 }
             }
