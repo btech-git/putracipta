@@ -89,6 +89,9 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $unitPriceBeforeTax = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $total = null;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -124,7 +127,7 @@ class PurchaseOrderPaperDetail extends TransactionDetail
         return $this->purchaseOrderPaperHeader->getTaxMode() === $this->purchaseOrderPaperHeader::TAX_MODE_TAX_INCLUSION ? $this->unitPrice / (1 + $this->purchaseOrderPaperHeader->getTaxPercentage() / 100) : $this->unitPrice;
     }
 
-    public function getTotal(): string
+    public function getSyncTotal(): string
     {
         return $this->quantity * $this->getUnitPriceBeforeTax();
     }
@@ -364,6 +367,18 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     public function setUnitPriceBeforeTax(string $unitPriceBeforeTax): self
     {
         $this->unitPriceBeforeTax = $unitPriceBeforeTax;
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(string $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }
