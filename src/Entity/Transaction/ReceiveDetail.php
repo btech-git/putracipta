@@ -46,7 +46,6 @@ class ReceiveDetail extends TransactionDetail
     private ?Unit $unit = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull]
     private ?\DateTimeInterface $usageDate = null;
 
     #[ORM\Column(length: 100)]

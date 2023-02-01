@@ -85,7 +85,7 @@ class PurchaseOrderDetail extends TransactionDetail
         return $this->purchaseOrderHeader->getTaxMode() === $this->purchaseOrderHeader::TAX_MODE_TAX_INCLUSION ? $this->unitPrice / (1 + $this->purchaseOrderHeader->getTaxPercentage() / 100) : $this->unitPrice;
     }
 
-    public function getTotal(): int
+    public function getTotal(): string
     {
         return $this->quantity * $this->getUnitPriceBeforeTax();
     }

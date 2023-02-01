@@ -124,7 +124,7 @@ class PurchaseOrderPaperDetail extends TransactionDetail
         return $this->purchaseOrderPaperHeader->getTaxMode() === $this->purchaseOrderPaperHeader::TAX_MODE_TAX_INCLUSION ? $this->unitPrice / (1 + $this->purchaseOrderPaperHeader->getTaxPercentage() / 100) : $this->unitPrice;
     }
 
-    public function getTotal(): int
+    public function getTotal(): string
     {
         return $this->quantity * $this->getUnitPriceBeforeTax();
     }
