@@ -75,11 +75,11 @@
                     <td>{{ purchaseOrderPaperDetail.weight|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
                     <td>{{ purchaseOrderPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
@@ -113,7 +113,7 @@
             </tr>
             <tr>
                 <td colspan="12" style="text-align: right"><strong>Grand Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(0) }}</strong></td>
                 <td></td>
             </tr>
         </tfoot>
