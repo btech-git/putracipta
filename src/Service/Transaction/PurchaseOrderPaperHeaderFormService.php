@@ -57,6 +57,7 @@ class PurchaseOrderPaperHeaderFormService
             }
             $purchaseOrderPaperDetail->setRemainingReceive($purchaseOrderPaperDetail->getSyncRemainingReceive());
             $purchaseOrderPaperDetail->setUnitPriceBeforeTax($purchaseOrderPaperDetail->getSyncUnitPriceBeforeTax());
+            $purchaseOrderPaperDetail->setTotal($purchaseOrderPaperDetail->getSyncTotal());
         }
         $supplier = $purchaseOrderPaperHeader->getSupplier();
         $purchaseOrderPaperHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
