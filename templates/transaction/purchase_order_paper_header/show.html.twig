@@ -132,13 +132,13 @@
                 <th></th>
             </tr>
         </thead>
-                
+                {#
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
                 {% for receiveDetail in purchaseOrderPaperDetail.receiveDetails %}
                     <tr>
                         <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
-                        <td>{# {{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }} #} </td>
+                        <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                         <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
                         <td>{{ receiveDetail.material.name|default }}</td>
                         <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
