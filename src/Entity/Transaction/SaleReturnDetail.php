@@ -45,7 +45,7 @@ class SaleReturnDetail extends TransactionDetail
         return $isCanceled;
     }
 
-    public function getTotal(): int
+    public function getTotal(): string
     {
         return $this->quantity * $this->unitPrice;
     }

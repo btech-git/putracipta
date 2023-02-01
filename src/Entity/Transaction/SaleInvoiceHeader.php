@@ -149,7 +149,7 @@ class SaleInvoiceHeader extends TransactionHeader
         return $dueDate;
     }
 
-    public function getSyncRemainingPayment(): int
+    public function getSyncRemainingPayment(): string
     {
         return $this->grandTotal - $this->totalPayment;
     }
