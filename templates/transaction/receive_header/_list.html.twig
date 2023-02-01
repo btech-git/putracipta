@@ -14,6 +14,7 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
+                <th style="min-width: 150px">PO #</th>
                 <th style="min-width: 300px">Supplier</th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
                     Supplier SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
@@ -40,6 +41,7 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
+                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
                 </th>
@@ -51,6 +53,7 @@
                 <tr>
                     <td>{{ receiveHeader.codeNumber }}</td>
                     <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.codeNumber|default : receiveHeader.purchaseOrderHeader.codeNumber|default }}</td>
                     <td>{{ receiveHeader.supplier.company|default }}</td>
                     <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
                     <td>{{ receiveHeader.warehouse.name|default }}</td>
