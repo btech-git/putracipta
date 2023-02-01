@@ -61,7 +61,9 @@
                 <th>Jatuh Tempo</th>
                 <th>Memo</th>
                 <th>Akun</th>
-                <th>Amount</th>
+                <th>Total</th>
+                <th>Retur</th>
+                <th>Payment</th>
                 <th></th>
             </tr>
         </thead>
@@ -72,6 +74,8 @@
                     <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
                     <td>{{ purchasePaymentDetail.memo|default }}</td>
                     <td>{{ purchasePaymentDetail.account.name|default }}</td>
+                    <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
                     <td>{{ purchasePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
@@ -79,7 +83,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" style="text-align: right"><strong>Total</strong></td>
+                <td colspan="6" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchasePaymentHeader.totalAmount|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
