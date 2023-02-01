@@ -123,7 +123,7 @@ class PurchaseOrderPaperHeader extends TransactionHeader
 
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal;
+        $grandTotal = round($this->getSubTotalAfterDiscount() + $this->taxNominal, 0);
         return $grandTotal;
     }
 
