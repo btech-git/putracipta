@@ -57,7 +57,7 @@
                     'materialId': purchaseRequestDetail.material.id,
                     'usageDate': purchaseRequestDetail.usageDate,
                     'memo': purchaseRequestDetail.memo,
-                    'unitName': purchaseRequestDetail.unit.name,
+                    'unitName': purchaseRequestDetail.unit.id,
                     'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity}|json_encode }}">
                     <td>{{ purchaseRequestDetail.purchaseRequestHeader.codeNumber|default }}</td>
                     <td>{{ purchaseRequestDetail.purchaseRequestHeader.transactionDate ? purchaseRequestDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
