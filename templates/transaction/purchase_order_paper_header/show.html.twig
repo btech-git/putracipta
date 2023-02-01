@@ -119,7 +119,6 @@
         </tfoot>
     </table>
 
-                {#
     <legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
     <table class="table table-bordered table-striped">
         <thead>
@@ -133,6 +132,7 @@
                 <th></th>
             </tr>
         </thead>
+                {#
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
                 {% for receiveDetail in purchaseOrderPaperDetail.receiveDetails %}
