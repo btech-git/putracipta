@@ -27,15 +27,11 @@ class PurchaseOrderHeaderController extends AbstractController
         $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias) use ($request) {
+        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             if (isset($request->query->get('purchase_order_header_grid')['filter']['supplier:company'])) {
-                $supplierCompanyData = $request->query->get('purchase_order_header_grid')['filter']['supplier:company'];
-                $filterOperator = $supplierCompanyData[0];
-                if (!empty($filterOperator)) {
-                    $filterValues = array_slice($supplierCompanyData, 1);
-                    $qb->innerJoin("{$alias}.supplier", 's');
-                    (new $filterOperator)->addFilterToQueryBuilder($qb, 's', 'company', $filterValues);
-                }
+                $supplierCompanyFilterValues = $request->query->get('purchase_order_header_grid')['filter']['supplier:company'];
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $supplierCompanyFilterValues);
             }
         });
 

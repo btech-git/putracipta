@@ -31,7 +31,11 @@ trait EntityDataFetch
         $qb = $this->createQueryBuilder($alias);
 
         if ($callback !== null) {
-            $callback($qb, $alias, fn($e, $a) => $this->createSubQueryBuilder($e, $a));
+            $addList = [];
+            $addList['filter'] = fn($q, $a, $f, $v) => $this->applyFilter($q, $a, $f, $v);
+            $addList['sort'] = fn($q, $a, $f, $o) => $this->applySort($q, $a, $f, $o);
+            $newObject = fn($e, $a) => $this->createSubQueryBuilder($e, $a);
+            $callback($qb, $alias, $addList, $newObject);
         }
 
         $this->processDataCriteria($qb, $alias, $criteria->getFilter(), null, null);
@@ -50,7 +54,11 @@ trait EntityDataFetch
         $qb = $this->createQueryBuilder($alias);
 
         if ($callback !== null) {
-            $callback($qb, $alias, fn($e, $a) => $this->createSubQueryBuilder($e, $a));
+            $addList = [];
+            $addList['filter'] = fn($q, $a, $f, $v) => $this->applyFilter($q, $a, $f, $v);
+            $addList['sort'] = fn($q, $a, $f, $o) => $this->applySort($q, $a, $f, $o);
+            $newObject = fn($e, $a) => $this->createSubQueryBuilder($e, $a);
+            $callback($qb, $alias, $addList, $newObject);
         }
 
         $this->processDataCriteria($qb, $alias, $criteria->getFilter(), $criteria->getSort(), $criteria->getPagination());
@@ -61,18 +69,12 @@ trait EntityDataFetch
     {
         if (!empty($filter)) {
             foreach ($filter as $field => $values) {
-                $filterOperator = $values[0];
-                if (!empty($filterOperator) && !str_contains($field, ':')) {
-                    $filterValues = array_slice($values, 1);
-                    (new $filterOperator)->addFilterToQueryBuilder($qb, $alias, $field, $filterValues);
-                }
+                $this->applyFilter($qb, $alias, $field, $values);
             }
         }
         if (!empty($sort)) {
             foreach ($sort as $field => $sortOperator) {
-                if (!empty($sortOperator) && !str_contains($field, ':')) {
-                    (new $sortOperator)->addSortToQueryBuilder($qb, $alias, $field);
-                }
+                $this->applySort($qb, $alias, $field, $sortOperator);
             }
         }
         if (!empty($pagination)) {
@@ -89,5 +91,21 @@ trait EntityDataFetch
         $qb->select($alias);
         $qb->from($entityName, $alias);
         return $qb;
+    }
+
+    private function applyFilter(QueryBuilder $qb, string $alias, string $field, array $values): void
+    {
+        $filterOperator = $values[0];
+        if (!empty($filterOperator) && !str_contains($field, ':')) {
+            $filterValues = array_slice($values, 1);
+            (new $filterOperator)->addFilterToQueryBuilder($qb, $alias, $field, $filterValues);
+        }
+    }
+
+    private function applySort(QueryBuilder $qb, string $alias, string $field, ?string $operator): void
+    {
+        if (!empty($operator) && !str_contains($field, ':')) {
+            (new $operator)->addSortToQueryBuilder($qb, $alias, $field);
+        }
     }
 }
