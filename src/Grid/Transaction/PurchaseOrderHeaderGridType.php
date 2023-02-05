@@ -31,6 +31,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
+                    'supplier:company' => 'Supplier',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [FilterEqual::class, FilterNotEqual::class],
@@ -58,6 +59,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
+                    'supplier:company' => 'Supplier',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [SortAscending::class, SortDescending::class],

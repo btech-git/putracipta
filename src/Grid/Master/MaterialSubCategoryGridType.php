@@ -20,15 +20,25 @@ class MaterialSubCategoryGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['name'],
+                'field_names' => ['name', 'materialCategory:name'],
+                'field_label_list' => [
+                    'name' => 'Nama',
+                    'materialCategory:name' => 'Category',
+                ],
                 'field_operators_list' => [
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'materialCategory:name' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['name'],
+                'field_names' => ['name', 'materialCategory:name'],
+                'field_label_list' => [
+                    'name' => 'Nama',
+                    'materialCategory:name' => 'Category',
+                ],
                 'field_operators_list' => [
                     'name' => [SortAscending::class, SortDescending::class],
+                    'materialCategory:name' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
