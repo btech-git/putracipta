@@ -18,7 +18,12 @@ class ProductType extends AbstractType
             ->add('sellingPrice')
             ->add('minimumStock')
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
-            ->add('customer', null, ['choice_label' => 'name'])
+            ->add('customer', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')->orderBy('e.company', 'ASC');
+                },
+            ])
             ->add('isInactive')
         ;
     }
