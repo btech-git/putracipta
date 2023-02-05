@@ -12,6 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'master_paper')]
 class Paper extends Master
 {
+    public const ASSOCIATION_PRICING_MODE = 'association';
+    public const WEIGHT_PRICING_MODE = 'weight';
+    public const UNIT_PRICING_MODE = 'unit';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -39,6 +43,9 @@ class Paper extends Master
     #[ORM\ManyToOne(inversedBy: 'papers')]
     #[Assert\NotNull]
     private ?Unit $unit = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $pricingMode = null;
 
     public function getId(): ?int
     {
@@ -101,6 +108,18 @@ class Paper extends Master
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getPricingMode(): ?string
+    {
+        return $this->pricingMode;
+    }
+
+    public function setPricingMode(string $pricingMode): self
+    {
+        $this->pricingMode = $pricingMode;
 
         return $this;
     }
