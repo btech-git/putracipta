@@ -15,12 +15,14 @@
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px">PO #</th>
-                <th style="min-width: 300px">Supplier</th>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
+                    Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierDeliveryCodeNumber') }}>
                     Supplier SJ # {{ grid.sort_char(form.sort.supplierDeliveryCodeNumber.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button">
-                    Warehouse
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
+                    Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -41,9 +43,14 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplierDeliveryCodeNumber') }} value="{{ form.filter.supplierDeliveryCodeNumber.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'warehouse:name') }} value="{{ form.filter['warehouse:name'].1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>

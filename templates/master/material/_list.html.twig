@@ -14,11 +14,11 @@
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button">
-                    Category
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'materialCategory:name') }}>
+                    Category {{ grid.sort_char(form.sort['materialCategory:name'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button">
-                    Sub Category
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'materialSubCategory:name') }}>
+                    Sub Category {{ grid.sort_char(form.sort['materialSubCategory:name'].vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -29,8 +29,12 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'materialCategory:name') }} value="{{ form.filter['materialCategory:name'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
+                </th>
                 <th></th>
             </tr>
         </thead>
