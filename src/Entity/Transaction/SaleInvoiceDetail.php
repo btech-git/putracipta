@@ -33,10 +33,6 @@ class SaleInvoiceDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?Unit $unit = null;
 
-    #[ORM\ManyToOne(inversedBy: 'saleInvoiceDetails')]
-    #[Assert\NotNull]
-    private ?DeliveryDetail $deliveryDetail = null;
-
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Product $product = null;
@@ -44,6 +40,9 @@ class SaleInvoiceDetail extends TransactionDetail
     #[ORM\ManyToOne(inversedBy: 'saleInvoiceDetails')]
     #[Assert\NotNull]
     private ?SaleInvoiceHeader $saleInvoiceHeader = null;
+
+    #[ORM\OneToOne(inversedBy: 'saleInvoiceDetail', cascade: ['persist', 'remove'])]
+    private ?DeliveryDetail $deliveryDetail = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -97,18 +96,6 @@ class SaleInvoiceDetail extends TransactionDetail
         return $this;
     }
 
-    public function getDeliveryDetail(): ?DeliveryDetail
-    {
-        return $this->deliveryDetail;
-    }
-
-    public function setDeliveryDetail(?DeliveryDetail $deliveryDetail): self
-    {
-        $this->deliveryDetail = $deliveryDetail;
-
-        return $this;
-    }
-
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -129,6 +116,18 @@ class SaleInvoiceDetail extends TransactionDetail
     public function setSaleInvoiceHeader(?SaleInvoiceHeader $saleInvoiceHeader): self
     {
         $this->saleInvoiceHeader = $saleInvoiceHeader;
+
+        return $this;
+    }
+
+    public function getDeliveryDetail(): ?DeliveryDetail
+    {
+        return $this->deliveryDetail;
+    }
+
+    public function setDeliveryDetail(?DeliveryDetail $deliveryDetail): self
+    {
+        $this->deliveryDetail = $deliveryDetail;
 
         return $this;
     }

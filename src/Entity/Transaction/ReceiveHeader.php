@@ -40,9 +40,6 @@ class ReceiveHeader extends TransactionHeader
     #[Assert\Count(min: 1)]
     private Collection $receiveDetails;
 
-    #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
-    private Collection $purchaseReturnHeaders;
-
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
@@ -50,10 +47,15 @@ class ReceiveHeader extends TransactionHeader
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
+    #[ORM\OneToOne(mappedBy: 'receiveHeader', cascade: ['persist', 'remove'])]
+    private ?PurchaseReturnHeader $purchaseReturnHeader = null;
+
+    #[ORM\OneToOne(mappedBy: 'receiveHeader', cascade: ['persist', 'remove'])]
+    private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
-        $this->purchaseReturnHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -155,36 +157,6 @@ class ReceiveHeader extends TransactionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, PurchaseReturnHeader>
-     */
-    public function getPurchaseReturnHeaders(): Collection
-    {
-        return $this->purchaseReturnHeaders;
-    }
-
-    public function addPurchaseReturnHeader(PurchaseReturnHeader $purchaseReturnHeader): self
-    {
-        if (!$this->purchaseReturnHeaders->contains($purchaseReturnHeader)) {
-            $this->purchaseReturnHeaders->add($purchaseReturnHeader);
-            $purchaseReturnHeader->setReceiveHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removePurchaseReturnHeader(PurchaseReturnHeader $purchaseReturnHeader): self
-    {
-        if ($this->purchaseReturnHeaders->removeElement($purchaseReturnHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($purchaseReturnHeader->getReceiveHeader() === $this) {
-                $purchaseReturnHeader->setReceiveHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getWarehouse(): ?Warehouse
     {
         return $this->warehouse;
@@ -205,6 +177,50 @@ class ReceiveHeader extends TransactionHeader
     public function setPurchaseOrderPaperHeader(?PurchaseOrderPaperHeader $purchaseOrderPaperHeader): self
     {
         $this->purchaseOrderPaperHeader = $purchaseOrderPaperHeader;
+
+        return $this;
+    }
+
+    public function getPurchaseReturnHeader(): ?PurchaseReturnHeader
+    {
+        return $this->purchaseReturnHeader;
+    }
+
+    public function setPurchaseReturnHeader(?PurchaseReturnHeader $purchaseReturnHeader): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($purchaseReturnHeader === null && $this->purchaseReturnHeader !== null) {
+            $this->purchaseReturnHeader->setReceiveHeader(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($purchaseReturnHeader !== null && $purchaseReturnHeader->getReceiveHeader() !== $this) {
+            $purchaseReturnHeader->setReceiveHeader($this);
+        }
+
+        $this->purchaseReturnHeader = $purchaseReturnHeader;
+
+        return $this;
+    }
+
+    public function getPurchaseInvoiceHeader(): ?PurchaseInvoiceHeader
+    {
+        return $this->purchaseInvoiceHeader;
+    }
+
+    public function setPurchaseInvoiceHeader(?PurchaseInvoiceHeader $purchaseInvoiceHeader): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($purchaseInvoiceHeader === null && $this->purchaseInvoiceHeader !== null) {
+            $this->purchaseInvoiceHeader->setReceiveHeader(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($purchaseInvoiceHeader !== null && $purchaseInvoiceHeader->getReceiveHeader() !== $this) {
+            $purchaseInvoiceHeader->setReceiveHeader($this);
+        }
+
+        $this->purchaseInvoiceHeader = $purchaseInvoiceHeader;
 
         return $this;
     }

@@ -44,13 +44,13 @@ class PurchaseReturnHeader extends TransactionHeader
     #[ORM\ManyToOne]
     private ?Supplier $supplier = null;
 
-    #[ORM\ManyToOne(inversedBy: 'purchaseReturnHeaders')]
-    private ?ReceiveHeader $receiveHeader = null;
-
     #[ORM\OneToMany(mappedBy: 'purchaseReturnHeader', targetEntity: PurchaseReturnDetail::class)]
     #[Assert\Valid]
     #[Assert\Count(min: 1)]
     private Collection $purchaseReturnDetails;
+
+    #[ORM\OneToOne(inversedBy: 'purchaseReturnHeader', cascade: ['persist', 'remove'])]
+    private ?ReceiveHeader $receiveHeader = null;
 
     public function __construct()
     {
@@ -162,18 +162,6 @@ class PurchaseReturnHeader extends TransactionHeader
         return $this;
     }
 
-    public function getReceiveHeader(): ?ReceiveHeader
-    {
-        return $this->receiveHeader;
-    }
-
-    public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
-    {
-        $this->receiveHeader = $receiveHeader;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, PurchaseReturnDetail>
      */
@@ -200,6 +188,18 @@ class PurchaseReturnHeader extends TransactionHeader
                 $purchaseReturnDetail->setPurchaseReturnHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReceiveHeader(): ?ReceiveHeader
+    {
+        return $this->receiveHeader;
+    }
+
+    public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
+    {
+        $this->receiveHeader = $receiveHeader;
 
         return $this;
     }

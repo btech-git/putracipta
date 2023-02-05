@@ -75,10 +75,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
     #[ORM\ManyToOne]
     private ?Supplier $supplier = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Assert\NotNull]
-    private ?ReceiveHeader $receiveHeader = null;
-
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchaseInvoiceDetail::class)]
     #[Assert\Valid]
     #[Assert\Count(min: 1)]
@@ -100,6 +96,9 @@ class PurchaseInvoiceHeader extends TransactionHeader
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\NotNull]
     private ?\DateTimeInterface $invoiceReceivedDate = null;
+
+    #[ORM\OneToOne(inversedBy: 'purchaseInvoiceHeader', cascade: ['persist', 'remove'])]
+    private ?ReceiveHeader $receiveHeader = null;
 
     public function __construct()
     {
@@ -322,18 +321,6 @@ class PurchaseInvoiceHeader extends TransactionHeader
         return $this;
     }
 
-    public function getReceiveHeader(): ?ReceiveHeader
-    {
-        return $this->receiveHeader;
-    }
-
-    public function setReceiveHeader(ReceiveHeader $receiveHeader): self
-    {
-        $this->receiveHeader = $receiveHeader;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, PurchaseInvoiceDetail>
      */
@@ -438,6 +425,18 @@ class PurchaseInvoiceHeader extends TransactionHeader
     public function setInvoiceReceivedDate(?\DateTimeInterface $invoiceReceivedDate): self
     {
         $this->invoiceReceivedDate = $invoiceReceivedDate;
+
+        return $this;
+    }
+
+    public function getReceiveHeader(): ?ReceiveHeader
+    {
+        return $this->receiveHeader;
+    }
+
+    public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
+    {
+        $this->receiveHeader = $receiveHeader;
 
         return $this;
     }

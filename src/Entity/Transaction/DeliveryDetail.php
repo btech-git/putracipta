@@ -62,15 +62,14 @@ class DeliveryDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?string $fscCode = '';
 
-    #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]
-    private Collection $saleInvoiceDetails;
-
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleReturnDetail::class)]
     private Collection $saleReturnDetails;
 
+    #[ORM\OneToOne(mappedBy: 'deliveryDetail', cascade: ['persist', 'remove'])]
+    private ?SaleInvoiceDetail $saleInvoiceDetail = null;
+
     public function __construct()
     {
-        $this->saleInvoiceDetails = new ArrayCollection();
         $this->saleReturnDetails = new ArrayCollection();
     }
 
@@ -194,36 +193,6 @@ class DeliveryDetail extends TransactionDetail
     }
 
     /**
-     * @return Collection<int, SaleInvoiceDetail>
-     */
-    public function getSaleInvoiceDetails(): Collection
-    {
-        return $this->saleInvoiceDetails;
-    }
-
-    public function addSaleInvoiceDetail(SaleInvoiceDetail $saleInvoiceDetail): self
-    {
-        if (!$this->saleInvoiceDetails->contains($saleInvoiceDetail)) {
-            $this->saleInvoiceDetails->add($saleInvoiceDetail);
-            $saleInvoiceDetail->setDeliveryDetail($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSaleInvoiceDetail(SaleInvoiceDetail $saleInvoiceDetail): self
-    {
-        if ($this->saleInvoiceDetails->removeElement($saleInvoiceDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($saleInvoiceDetail->getDeliveryDetail() === $this) {
-                $saleInvoiceDetail->setDeliveryDetail(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, SaleReturnDetail>
      */
     public function getSaleReturnDetails(): Collection
@@ -249,6 +218,28 @@ class DeliveryDetail extends TransactionDetail
                 $saleReturnDetail->setDeliveryDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSaleInvoiceDetail(): ?SaleInvoiceDetail
+    {
+        return $this->saleInvoiceDetail;
+    }
+
+    public function setSaleInvoiceDetail(?SaleInvoiceDetail $saleInvoiceDetail): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($saleInvoiceDetail === null && $this->saleInvoiceDetail !== null) {
+            $this->saleInvoiceDetail->setDeliveryDetail(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($saleInvoiceDetail !== null && $saleInvoiceDetail->getDeliveryDetail() !== $this) {
+            $saleInvoiceDetail->setDeliveryDetail($this);
+        }
+
+        $this->saleInvoiceDetail = $saleInvoiceDetail;
 
         return $this;
     }

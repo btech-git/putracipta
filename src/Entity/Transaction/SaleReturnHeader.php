@@ -44,11 +44,11 @@ class SaleReturnHeader extends TransactionHeader
     #[ORM\ManyToOne]
     private ?Customer $customer = null;
 
-    #[ORM\ManyToOne(inversedBy: 'saleReturnHeaders')]
-    private ?DeliveryHeader $deliveryHeader = null;
-
     #[ORM\OneToMany(mappedBy: 'saleReturnHeader', targetEntity: SaleReturnDetail::class)]
     private Collection $saleReturnDetails;
+
+    #[ORM\OneToOne(inversedBy: 'saleReturnHeader', cascade: ['persist', 'remove'])]
+    private ?DeliveryHeader $deliveryHeader = null;
 
     public function __construct()
     {
@@ -160,18 +160,6 @@ class SaleReturnHeader extends TransactionHeader
         return $this;
     }
 
-    public function getDeliveryHeader(): ?DeliveryHeader
-    {
-        return $this->deliveryHeader;
-    }
-
-    public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
-    {
-        $this->deliveryHeader = $deliveryHeader;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, SaleReturnDetail>
      */
@@ -198,6 +186,18 @@ class SaleReturnHeader extends TransactionHeader
                 $saleReturnDetail->setSaleReturnHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeliveryHeader(): ?DeliveryHeader
+    {
+        return $this->deliveryHeader;
+    }
+
+    public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
+    {
+        $this->deliveryHeader = $deliveryHeader;
 
         return $this;
     }

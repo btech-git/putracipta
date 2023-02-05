@@ -48,13 +48,12 @@ class DeliveryHeader extends TransactionHeader
     #[Assert\NotNull]
     private ?string $vehicleNumber = '';
 
-    #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: SaleReturnHeader::class)]
-    private Collection $saleReturnHeaders;
+    #[ORM\OneToOne(mappedBy: 'deliveryHeader', cascade: ['persist', 'remove'])]
+    private ?SaleReturnHeader $saleReturnHeader = null;
 
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
-        $this->saleReturnHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -180,32 +179,24 @@ class DeliveryHeader extends TransactionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, SaleReturnHeader>
-     */
-    public function getSaleReturnHeaders(): Collection
+    public function getSaleReturnHeader(): ?SaleReturnHeader
     {
-        return $this->saleReturnHeaders;
+        return $this->saleReturnHeader;
     }
 
-    public function addSaleReturnHeader(SaleReturnHeader $saleReturnHeader): self
+    public function setSaleReturnHeader(?SaleReturnHeader $saleReturnHeader): self
     {
-        if (!$this->saleReturnHeaders->contains($saleReturnHeader)) {
-            $this->saleReturnHeaders->add($saleReturnHeader);
+        // unset the owning side of the relation if necessary
+        if ($saleReturnHeader === null && $this->saleReturnHeader !== null) {
+            $this->saleReturnHeader->setDeliveryHeader(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($saleReturnHeader !== null && $saleReturnHeader->getDeliveryHeader() !== $this) {
             $saleReturnHeader->setDeliveryHeader($this);
         }
 
-        return $this;
-    }
-
-    public function removeSaleReturnHeader(SaleReturnHeader $saleReturnHeader): self
-    {
-        if ($this->saleReturnHeaders->removeElement($saleReturnHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($saleReturnHeader->getDeliveryHeader() === $this) {
-                $saleReturnHeader->setDeliveryHeader(null);
-            }
-        }
+        $this->saleReturnHeader = $saleReturnHeader;
 
         return $this;
     }
