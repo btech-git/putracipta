@@ -19,16 +19,20 @@
                 <td>{{ paper.name }}</td>
             </tr>
             <tr>
-                <th>Length</th>
+                <th>Panjang</th>
                 <td>{{ paper.length }}</td>
             </tr>
             <tr>
-                <th>Width</th>
+                <th>Lebar</th>
                 <td>{{ paper.width }}</td>
             </tr>
             <tr>
-                <th>Weight</th>
+                <th>GSM</th>
                 <td>{{ paper.weight }}</td>
+            </tr>
+            <tr>
+                <th>Satuan</th>
+                <td>{{ paper.unit.name }}</td>
             </tr>
             <tr>
                 <th>Is Inactive</th>
@@ -37,5 +41,5 @@
         </tbody>
     </table>
 
-    {{ include('master/paper/_delete_form.html.twig') }}
+    {#{{ include('master/paper/_delete_form.html.twig') }}#}
 {% endblock %}
