@@ -46,6 +46,7 @@
                     'materialName': material.name, 
                     'materialLength': material.length, 
                     'materialWidth': material.width, 
+                    'unitId': material.unit.id,
                     'materialWeight': material.weight}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ material.code }}</td>

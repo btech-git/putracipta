@@ -11,28 +11,28 @@
                 <th style="min-width: 250px">
                     Request #
                 </th>
-                <th style="min-width: 350px">
+                <th style="min-width: 150px">
                     Tanggal
                 </th>
                 <th style="min-width: 250px">
                     Kertas
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 50px">
                     P
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 50px">
                     L
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 50px">
                     GSM
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 100px">
                     Satuan
                 </th>
-                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
                     Tanggal Pakai {{ grid.sort_char(form.sort.usageDate.vars.value) }}
                 </th>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
@@ -72,7 +72,7 @@
                     'paperWeight': purchaseRequestPaperDetail.paper.weight,
                     'usageDate': purchaseRequestPaperDetail.usageDate,
                     'memo': purchaseRequestPaperDetail.memo,
-                    'unitName': purchaseRequestPaperDetail.unit.name,
+                    'unitId': purchaseRequestPaperDetail.unit.id,
                     'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity}|json_encode }}">
                     <td>{{ purchaseRequestPaperDetail.purchaseRequestPaperHeader.codeNumber|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate|date('d M Y') : '' }}</td>

@@ -13,10 +13,10 @@
                         {'destinationsTarget': '#purchase-invoice-header-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
-                <th style="min-width: 350px" role="button">
+                <th style="min-width: 250px" role="button">
                     Supplier
                 </th>
-                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>

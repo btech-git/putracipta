@@ -9,6 +9,12 @@
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 150px">
+                    Code 
+                </th>
+                <th style="min-width: 350px">
+                    Name 
+                </th>
+                <th style="min-width: 150px">
                     Pengiriman #
                 </th>
                 <th style="min-width: 150px">
@@ -17,16 +23,8 @@
                 <th style="min-width: 150px">
                     PO #
                 </th>
-                <th style="min-width: 150px">Customer</th>
-                <th style="min-width: 150px">
-                    Code 
-                </th>
-                <th style="min-width: 150px">
-                    Name 
-                </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -44,12 +42,11 @@
                     'unitPrice': deliveryDetail.saleOrderDetail.unitPriceBeforeTax|default|number_format(2),
                     'total': deliveryDetail.total|default|number_format(2),
                     'unitName': deliveryDetail.unit.name}|json_encode }}">
+                    <td>{{ deliveryDetail.product.code|default }}</td>
+                    <td>{{ deliveryDetail.product.name|default }}</td>
                     <td>{{ deliveryDetail.deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ deliveryDetail.deliveryHeader.customer.company|default }}</td>
-                    <td>{{ deliveryDetail.product.code|default }}</td>
-                    <td>{{ deliveryDetail.product.name|default }}</td>
                 </tr>
             {% else %}
                 <tr>

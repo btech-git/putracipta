@@ -11,19 +11,19 @@
                 <th style="min-width: 250px">
                     Request #
                 </th>
-                <th style="min-width: 250px">
+                <th style="min-width: 150px">
                     Tanggal
                 </th>
                 <th style="min-width: 250px">
                     Material
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 100px">
                     Satuan
                 </th>
-                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'usageDate') }}>
                     Tanggal Pakai {{ grid.sort_char(form.sort.usageDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
@@ -55,9 +55,9 @@
                     'materialName': purchaseRequestDetail.material.name,
                     'materialCode': purchaseRequestDetail.material.code,
                     'materialId': purchaseRequestDetail.material.id,
-                    'usageDate': purchaseRequestDetail.usageDate,
-                    'memo': purchaseRequestDetail.memo,
-                    'unitName': purchaseRequestDetail.unit.id,
+                    'purchaseRequestDetailUsageDate': purchaseRequestDetail.usageDate,
+                    'purchaseRequestDetailMemo': purchaseRequestDetail.memo,
+                    'unitId': purchaseRequestDetail.unit.id,
                     'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity}|json_encode }}">
                     <td>{{ purchaseRequestDetail.purchaseRequestHeader.codeNumber|default }}</td>
                     <td>{{ purchaseRequestDetail.purchaseRequestHeader.transactionDate ? purchaseRequestDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
