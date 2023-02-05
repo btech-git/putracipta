@@ -23,10 +23,11 @@ class PurchaseRequestDetailController extends AbstractController
         $form = $this->createForm(PurchaseRequestDetailGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias, $new) {
+        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
             $sub = $new(PurchaseOrderDetail::class, 'p');
             $sub->andWhere("IDENTITY(p.purchaseRequestDetail) = {$alias}.id");
-            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->leftJoin("{$alias}.purchaseOrderDetail", 'd');
+            $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 

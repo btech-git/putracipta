@@ -23,10 +23,11 @@ class DeliveryHeaderController extends AbstractController
         $form = $this->createForm(DeliveryHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $new) {
+        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
             $sub = $new(SaleReturnHeader::class, 'p');
             $sub->andWhere("IDENTITY(p.deliveryHeader) = {$alias}.id");
-            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->leftJoin("{$alias}.saleReturnHeader", 'r');
+            $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 

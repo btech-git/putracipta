@@ -23,7 +23,7 @@ class DeliveryDetailController extends AbstractController
         $form = $this->createForm(DeliveryDetailGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $deliveryDetails) = $deliveryDetailRepository->fetchData($criteria, function($qb, $alias, $new) use ($request) {
+        list($count, $deliveryDetails) = $deliveryDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $customerId = '';
             if (isset($request->query->get('sale_invoice_header')['customer'])) {
                 $customerId = $request->query->get('sale_invoice_header')['customer'];

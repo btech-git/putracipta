@@ -24,15 +24,17 @@ class ReceiveHeaderController extends AbstractController
         $form = $this->createForm(ReceiveHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $new) use ($request) {
+        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             if ($request->query->has('purchase_return_header')) {
                 $sub = $new(PurchaseReturnHeader::class, 'p');
                 $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
-                $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+                $qb->leftJoin("{$alias}.purchaseReturnHeader", 'r');
+                $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             } else if ($request->query->has('purchase_invoice_header')) {
                 $sub = $new(PurchaseInvoiceHeader::class, 'p');
                 $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
-                $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+                $qb->leftJoin("{$alias}.purchaseInvoiceHeader", 'i');
+                $qb->andWhere($qb->expr()->orX('i.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             }
             $qb->andWhere("{$alias}.isCanceled = false");
         });

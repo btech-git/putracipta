@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Entity\Transaction\PurchaseOrderPaperDetail;
 use App\Grid\Shared\PurchaseRequestPaperDetailGridType;
 use App\Repository\Transaction\PurchaseRequestPaperDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,7 +23,11 @@ class PurchaseRequestPaperDetailController extends AbstractController
         $form = $this->createForm(PurchaseRequestPaperDetailGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestPaperDetails) = $purchaseRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $purchaseRequestPaperDetails) = $purchaseRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $sub = $new(PurchaseOrderPaperDetail::class, 'p');
+            $sub->andWhere("IDENTITY(p.purchaseRequestPaperDetail) = {$alias}.id");
+            $qb->leftJoin("{$alias}.purchaseOrderPaperDetail", 'd');
+            $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 
