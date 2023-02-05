@@ -25,7 +25,13 @@ class PurchaseRequestHeaderController extends AbstractController
         $form = $this->createForm(PurchaseRequestHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria);
+        list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('purchase_request_header_grid')['filter']['warehouse:name']) && isset($request->query->get('purchase_request_header_grid')['sort']['warehouse:name'])) {
+                $qb->innerJoin("{$alias}.warehouse", 'w');
+                $add['filter']($qb, 'w', 'name', $request->query->get('purchase_request_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->query->get('purchase_request_header_grid')['sort']['warehouse:name']);
+            }
+        });
 
         return $this->renderForm("transaction/purchase_request_header/_list.html.twig", [
             'form' => $form,

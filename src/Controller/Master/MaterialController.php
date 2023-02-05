@@ -24,7 +24,18 @@ class MaterialController extends AbstractController
         $form = $this->createForm(MaterialGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $materials) = $materialRepository->fetchData($criteria);
+        list($count, $materials) = $materialRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('material_grid')['filter']['materialSubCategory:name']) && isset($request->query->get('material_grid')['sort']['materialSubCategory:name'])) {
+                $qb->innerJoin("{$alias}.materialSubCategory", 's');
+                $add['filter']($qb, 's', 'name', $request->query->get('material_grid')['filter']['materialSubCategory:name']);
+                $add['sort']($qb, 's', 'name', $request->query->get('material_grid')['sort']['materialSubCategory:name']);
+            }
+            if (isset($request->query->get('material_grid')['filter']['materialCategory:name']) && isset($request->query->get('material_grid')['sort']['materialCategory:name'])) {
+                $qb->innerJoin("s.materialCategory", 'c');
+                $add['filter']($qb, 'c', 'name', $request->query->get('material_grid')['filter']['materialCategory:name']);
+                $add['sort']($qb, 'c', 'name', $request->query->get('material_grid')['sort']['materialCategory:name']);
+            }
+        });
 
         return $this->renderForm("master/material/_list.html.twig", [
             'form' => $form,

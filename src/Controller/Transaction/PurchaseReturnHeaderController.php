@@ -26,7 +26,13 @@ class PurchaseReturnHeaderController extends AbstractController
         $form = $this->createForm(PurchaseReturnHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseReturnHeaders) = $purchaseReturnHeaderRepository->fetchData($criteria);
+        list($count, $purchaseReturnHeaders) = $purchaseReturnHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('purchase_return_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_return_header_grid')['sort']['supplier:company'])) {
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('purchase_return_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('purchase_return_header_grid')['sort']['supplier:company']);
+            }
+        });
 
         return $this->renderForm("transaction/purchase_return_header/_list.html.twig", [
             'form' => $form,

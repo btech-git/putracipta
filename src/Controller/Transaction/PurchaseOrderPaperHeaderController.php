@@ -27,7 +27,13 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         $form = $this->createForm(PurchaseOrderPaperHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($criteria);
+        list($count, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('purchase_order_paper_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_paper_header_grid')['sort']['supplier:company'])) {
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('purchase_order_paper_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('purchase_order_paper_header_grid')['sort']['supplier:company']);
+            }
+        });
 
         return $this->renderForm("transaction/purchase_order_paper_header/_list.html.twig", [
             'form' => $form,

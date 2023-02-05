@@ -25,7 +25,13 @@ class SalePaymentHeaderController extends AbstractController
         $form = $this->createForm(SalePaymentHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $salePaymentHeaders) = $salePaymentHeaderRepository->fetchData($criteria);
+        list($count, $salePaymentHeaders) = $salePaymentHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('sale_payment_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_payment_header_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('sale_payment_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('sale_payment_header_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("transaction/sale_payment_header/_list.html.twig", [
             'form' => $form,

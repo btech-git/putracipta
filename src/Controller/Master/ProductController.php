@@ -24,7 +24,13 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $products) = $productRepository->fetchData($criteria);
+        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('product_grid')['filter']['customer:company']) && isset($request->query->get('product_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 'c');
+                $add['filter']($qb, 'c', 'company', $request->query->get('product_grid')['filter']['customer:company']);
+                $add['sort']($qb, 'c', 'company', $request->query->get('product_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("master/product/_list.html.twig", [
             'form' => $form,

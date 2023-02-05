@@ -26,7 +26,13 @@ class SaleOrderHeaderController extends AbstractController
         $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria);
+        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('sale_order_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_order_header_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('sale_order_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('sale_order_header_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("transaction/sale_order_header/_list.html.twig", [
             'form' => $form,

@@ -25,7 +25,13 @@ class PurchasePaymentHeaderController extends AbstractController
         $form = $this->createForm(PurchasePaymentHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchasePaymentHeaders) = $purchasePaymentHeaderRepository->fetchData($criteria);
+        list($count, $purchasePaymentHeaders) = $purchasePaymentHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('purchase_payment_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_payment_header_grid')['sort']['supplier:company'])) {
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('purchase_payment_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('purchase_payment_header_grid')['sort']['supplier:company']);
+            }
+        });
 
         return $this->renderForm("transaction/purchase_payment_header/_list.html.twig", [
             'form' => $form,

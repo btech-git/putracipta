@@ -24,7 +24,13 @@ class MaterialSubCategoryController extends AbstractController
         $form = $this->createForm(MaterialSubCategoryGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $materialSubCategories) = $materialSubCategoryRepository->fetchData($criteria);
+        list($count, $materialSubCategories) = $materialSubCategoryRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('material_sub_category_grid')['filter']['materialCategory:name']) && isset($request->query->get('material_sub_category_grid')['sort']['materialCategory:name'])) {
+                $qb->innerJoin("{$alias}.materialCategory", 'c');
+                $add['filter']($qb, 'c', 'name', $request->query->get('material_sub_category_grid')['filter']['materialCategory:name']);
+                $add['sort']($qb, 'c', 'name', $request->query->get('material_sub_category_grid')['sort']['materialCategory:name']);
+            }
+        });
 
         return $this->renderForm("master/material_sub_category/_list.html.twig", [
             'form' => $form,

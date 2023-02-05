@@ -25,7 +25,18 @@ class ReceiveHeaderController extends AbstractController
         $form = $this->createForm(ReceiveHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria);
+        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('receive_header_grid')['filter']['supplier:company']) && isset($request->query->get('receive_header_grid')['sort']['supplier:company'])) {
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('receive_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('receive_header_grid')['sort']['supplier:company']);
+            }
+            if (isset($request->query->get('receive_header_grid')['filter']['warehouse:name']) && isset($request->query->get('receive_header_grid')['sort']['warehouse:name'])) {
+                $qb->innerJoin("{$alias}.warehouse", 'w');
+                $add['filter']($qb, 'w', 'name', $request->query->get('receive_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->query->get('receive_header_grid')['sort']['warehouse:name']);
+            }
+        });
 
         return $this->renderForm("transaction/receive_header/_list.html.twig", [
             'form' => $form,
