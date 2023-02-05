@@ -1,65 +1,67 @@
-<table class="table table-bordered"
+<div class="table-responsive">
+    <table class="table table-bordered"
        data-controller="form-collection"
        data-form-collection-start-index-value="{{ form.receiveDetails|length > 0 ? form.receiveDetails|last.vars.name + 1 : 0 }}"
        data-form-collection-prototype-value="{{ _self.collection_item(form.receiveDetails.vars.prototype)|e('html_attr') }}"
        data-action="form-collection:collection-item-removed->json-loader#load:self">
-    <thead class="table-secondary">
-        <tr>
-            <th class="d-none">Purchase Order Detail Id</th>
-            <th class="d-none">Purchase Order Paper Detail Id</th>
-            <th>Kode</th>
-            <th>Nama Material</th>
-            <th>Qty Order</th>
-            <th>Qty Sisa</th>
-            <th>Qty Terima</th>
-            <th>Satuan</th>
-            <th>Tanggal Pakai</th>
-            <th>Keterangan</th>
-            <th style="width: 0"></th>
-        </tr>
-    </thead>
-    <tbody data-form-collection-target="items" data-action="purchase-order-header-table:data-table:select@document->form-collection#clearCollectionItems purchase-order-header-table:data-table:select@document->form-collection#addCollectionItems purchase-order-paper-header-table:data-table:select@document->form-collection#clearCollectionItems purchase-order-paper-header-table:data-table:select@document->form-collection#addCollectionItems">
-        {% macro collection_item(detailForm) %}
-            <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
-                <td class="d-none">{{ form_widget(detailForm.purchaseOrderDetail, {'attr': {'data-item-field-name': 'purchaseOrderDetailId'}}) }}</td>
-                <td class="d-none">{{ form_widget(detailForm.purchaseOrderPaperDetail, {'attr': {'data-item-field-name': 'purchaseOrderPaperDetailId'}}) }}</td>
-                <td data-item-field-name="materialOrPaperCode">{{ detailForm.vars.value.material ? detailForm.vars.value.material.code|default : detailForm.vars.value.paper.code|default }}</td>
-                <td data-item-field-name="materialOrPaperName">{{ detailForm.vars.value.material ? detailForm.vars.value.material.name|default : detailForm.vars.value.paper.name|default }}</td>
-                <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
-                <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(0) }}</td>
-                <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
-                <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
-                <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
-                <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
-                <td>
-                    <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                        {{ form_row(detailForm.isCanceled, {
-                            'label': 'X',
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'dom-element#bind change->json-loader#load',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.purchaseOrderDetail.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.purchaseOrderDetail.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                ]|json_encode,
-                            },
-                        }) }}
-                    </div>
-                </td>
+        <thead class="table-secondary">
+            <tr>
+                <th class="d-none">Purchase Order Detail Id</th>
+                <th class="d-none">Purchase Order Paper Detail Id</th>
+                <th>Kode</th>
+                <th>Nama Material</th>
+                <th>Qty Order</th>
+                <th>Qty Sisa</th>
+                <th>Qty Terima</th>
+                <th>Satuan</th>
+                <th>Tanggal Pakai</th>
+                <th>Keterangan</th>
+                <th style="width: 0"></th>
             </tr>
-        {% endmacro %}
-        {% for detailForm in form.receiveDetails %}
-            {{ _self.collection_item(detailForm) }}
-        {% endfor %}
-    </tbody>
-    <tfoot>
-        <tr>
-            <td class="text-end" colspan="4">Total Quantity</td>
-            <td class="text-end" data-json-loader-target="placeholder"
-                data-property-path="totalQuantity">
-                {{ receiveHeader.totalQuantity|default|number_format(0) }}
-            </td>
-            <td colspan="3"></td>
-        </tr>
-    </tfoot>
-</table>
+        </thead>
+        <tbody data-form-collection-target="items" data-action="purchase-order-header-table:data-table:select@document->form-collection#clearCollectionItems purchase-order-header-table:data-table:select@document->form-collection#addCollectionItems purchase-order-paper-header-table:data-table:select@document->form-collection#clearCollectionItems purchase-order-paper-header-table:data-table:select@document->form-collection#addCollectionItems">
+            {% macro collection_item(detailForm) %}
+                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                    <td class="d-none">{{ form_widget(detailForm.purchaseOrderDetail, {'attr': {'data-item-field-name': 'purchaseOrderDetailId'}}) }}</td>
+                    <td class="d-none">{{ form_widget(detailForm.purchaseOrderPaperDetail, {'attr': {'data-item-field-name': 'purchaseOrderPaperDetailId'}}) }}</td>
+                    <td data-item-field-name="materialOrPaperCode">{{ detailForm.vars.value.material ? detailForm.vars.value.material.code|default : detailForm.vars.value.paper.code|default }}</td>
+                    <td data-item-field-name="materialOrPaperName">{{ detailForm.vars.value.material ? detailForm.vars.value.material.name|default : detailForm.vars.value.paper.name|default }}</td>
+                    <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
+                    <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(0) }}</td>
+                    <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
+                    <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
+                    <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
+                    <td>
+                        <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
+                            {{ form_row(detailForm.isCanceled, {
+                                'label': 'X',
+                                'attr': {
+                                    'data-controller': 'dom-element',
+                                    'data-action': 'dom-element#bind change->json-loader#load',
+                                    'data-dom-element-bind-specifications-param': [
+                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.purchaseOrderDetail.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
+                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.purchaseOrderDetail.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
+                                    ]|json_encode,
+                                },
+                            }) }}
+                        </div>
+                    </td>
+                </tr>
+            {% endmacro %}
+            {% for detailForm in form.receiveDetails %}
+                {{ _self.collection_item(detailForm) }}
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-end" colspan="4">Total Quantity</td>
+                <td class="text-end" data-json-loader-target="placeholder"
+                    data-property-path="totalQuantity">
+                    {{ receiveHeader.totalQuantity|default|number_format(0) }}
+                </td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

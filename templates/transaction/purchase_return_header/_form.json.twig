@@ -1,15 +1,5 @@
-{%- set taxInfo -%}
-    {% if purchaseReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseReturnHeader) %}
-        Non PPn 0%
-    {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseReturnHeader) %}
-        Exclude PPn {{ purchaseReturnHeader.taxPercentage }}%
-    {% elseif purchaseReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseReturnHeader) %}
-        Include PPn {{ purchaseReturnHeader.taxPercentage }}%
-    {% endif %}
-{%- endset -%}
 {
     "subTotal": "{{ purchaseReturnHeader.subTotal|default|number_format(2) }}",
-    "taxInfo": "{{ taxInfo|trim|replace({'\n': ''}) }}",
     "taxNominal": "{{ purchaseReturnHeader.taxNominal|default|number_format(2) }}",
     "grandTotal": "{{ purchaseReturnHeader.grandTotal|default|number_format(2) }}",
     "purchaseReturnDetails": {
