@@ -9,7 +9,7 @@
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
-                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                    Sub Category Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'materialCategory:name') }}>
                     Category {{ grid.sort_char(form.sort['materialCategory:name'].vars.value) }}

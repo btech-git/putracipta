@@ -8,16 +8,19 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                <th style="min-width: 300px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                <th style="min-width: 300px" role="button" {{ grid.sort_link_item(form, 'description') }}>
+                    Description {{ grid.sort_char(form.sort.description.vars.value) }}
                 </th>
-                <th style="min-width: 280px"></th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                </th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -25,6 +28,9 @@
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'description') }} value="{{ form.filter.description.1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
@@ -37,6 +43,7 @@
                 <tr>
                     <td>{{ warehouse.code }}</td>
                     <td>{{ warehouse.name }}</td>
+                    <td>{{ warehouse.description }}</td>
                     <td>{{ warehouse.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_warehouse_show', {'id': warehouse.id}) }}"><i class="bi-search"></i></a>
@@ -45,7 +52,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
