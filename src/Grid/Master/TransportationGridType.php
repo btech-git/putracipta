@@ -16,27 +16,27 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WarehouseGridType extends AbstractType
+class TransportationGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'description', 'isInactive'],
+                'field_names' => ['vehicleName', 'plateNumber', 'isInactive', 'name'],
                 'field_operators_list' => [
-                    'code' => [FilterContain::class, FilterNotContain::class],
+                    'vehicleName' => [FilterContain::class, FilterNotContain::class],
+                    'plateNumber' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
-                    'description' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'description', 'isInactive'],
+                'field_names' => ['vehicleName', 'plateNumber', 'isInactive', 'name'],
                 'field_operators_list' => [
-                    'code' => [SortAscending::class, SortDescending::class],
+                    'vehicleName' => [SortAscending::class, SortDescending::class],
+                    'plateNumber' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
-                    'description' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
