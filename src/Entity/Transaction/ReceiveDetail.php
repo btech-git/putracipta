@@ -45,9 +45,6 @@ class ReceiveDetail extends TransactionDetail
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $usageDate = null;
-
     #[ORM\Column(length: 100)]
     #[Assert\NotNull]
     private ?string $memo = '';
@@ -172,18 +169,6 @@ class ReceiveDetail extends TransactionDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
-
-        return $this;
-    }
-
-    public function getUsageDate(): ?\DateTimeInterface
-    {
-        return $this->usageDate;
-    }
-
-    public function setUsageDate(?\DateTimeInterface $usageDate): self
-    {
-        $this->usageDate = $usageDate;
 
         return $this;
     }

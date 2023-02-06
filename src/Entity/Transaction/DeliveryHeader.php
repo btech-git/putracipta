@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\Transportation;
 use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\DeliveryHeaderRepository;
@@ -40,16 +41,12 @@ class DeliveryHeader extends TransactionHeader
     #[Assert\NotNull]
     private ?string $driverName = '';
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotNull]
-    private ?string $vehicleType = '';
-
-    #[ORM\Column(length: 20)]
-    #[Assert\NotNull]
-    private ?string $vehicleNumber = '';
-
     #[ORM\OneToOne(mappedBy: 'deliveryHeader', cascade: ['persist', 'remove'])]
     private ?SaleReturnHeader $saleReturnHeader = null;
+
+    #[ORM\ManyToOne]
+    #[Assert\NotNull]
+    private ?Transportation $transportation = null;
 
     public function __construct()
     {
@@ -155,30 +152,6 @@ class DeliveryHeader extends TransactionHeader
         return $this;
     }
 
-    public function getVehicleType(): ?string
-    {
-        return $this->vehicleType;
-    }
-
-    public function setVehicleType(string $vehicleType): self
-    {
-        $this->vehicleType = $vehicleType;
-
-        return $this;
-    }
-
-    public function getVehicleNumber(): ?string
-    {
-        return $this->vehicleNumber;
-    }
-
-    public function setVehicleNumber(string $vehicleNumber): self
-    {
-        $this->vehicleNumber = $vehicleNumber;
-
-        return $this;
-    }
-
     public function getSaleReturnHeader(): ?SaleReturnHeader
     {
         return $this->saleReturnHeader;
@@ -197,6 +170,18 @@ class DeliveryHeader extends TransactionHeader
         }
 
         $this->saleReturnHeader = $saleReturnHeader;
+
+        return $this;
+    }
+
+    public function getTransportation(): ?Transportation
+    {
+        return $this->transportation;
+    }
+
+    public function setTransportation(?Transportation $transportation): self
+    {
+        $this->transportation = $transportation;
 
         return $this;
     }
