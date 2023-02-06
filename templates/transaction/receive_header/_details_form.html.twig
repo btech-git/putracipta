@@ -8,15 +8,14 @@
             <tr>
                 <th class="d-none">Purchase Order Detail Id</th>
                 <th class="d-none">Purchase Order Paper Detail Id</th>
-                <th>Kode</th>
-                <th>Nama Material</th>
-                <th>Qty Order</th>
-                <th>Qty Sisa</th>
-                <th>Qty Terima</th>
-                <th>Satuan</th>
-                <th>Tanggal Pakai</th>
-                <th>Keterangan</th>
-                <th style="width: 0"></th>
+                <th style="min-width: 250px">Kode</th>
+                <th style="min-width: 250px">Nama Material</th>
+                <th style="min-width: 150px">Qty Order</th>
+                <th style="min-width: 150px">Qty Sisa</th>
+                <th style="min-width: 150px">Qty Terima</th>
+                <th style="min-width: 100px">Satuan</th>
+                <th style="min-width: 150px">Keterangan</th>
+                <th style="min-width: 0"></th>
             </tr>
         </thead>
         <tbody data-form-collection-target="items" data-action="purchase-order-header-table:data-table:select@document->form-collection#clearCollectionItems purchase-order-header-table:data-table:select@document->form-collection#addCollectionItems purchase-order-paper-header-table:data-table:select@document->form-collection#clearCollectionItems purchase-order-paper-header-table:data-table:select@document->form-collection#addCollectionItems">
@@ -26,11 +25,10 @@
                     <td class="d-none">{{ form_widget(detailForm.purchaseOrderPaperDetail, {'attr': {'data-item-field-name': 'purchaseOrderPaperDetailId'}}) }}</td>
                     <td data-item-field-name="materialOrPaperCode">{{ detailForm.vars.value.material ? detailForm.vars.value.material.code|default : detailForm.vars.value.paper.code|default }}</td>
                     <td data-item-field-name="materialOrPaperName">{{ detailForm.vars.value.material ? detailForm.vars.value.material.name|default : detailForm.vars.value.paper.name|default }}</td>
-                    <td data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
-                    <td data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(0) }}</td>
                     <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
-                    <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
                         <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
@@ -56,11 +54,11 @@
         <tfoot>
             <tr>
                 <td class="text-end" colspan="4">Total Quantity</td>
-                <td class="text-end" data-json-loader-target="placeholder"
+                <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantity">
                     {{ receiveHeader.totalQuantity|default|number_format(0) }}
                 </td>
-                <td colspan="3"></td>
+                <td colspan="2"></td>
             </tr>
         </tfoot>
     </table>

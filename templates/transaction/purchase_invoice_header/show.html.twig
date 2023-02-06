@@ -40,6 +40,10 @@
                 <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader is null ? purchaseInvoiceHeader.receiveHeader.purchaseOrderPaperHeader.getCodeNumber|default : purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.getCodeNumber|default }}</td>
             </tr>
             <tr>
+                <th>Penerimaan #</th>
+                <td>{{ purchaseInvoiceHeader.receiveHeader.getCodeNumber|default }}</td>
+            </tr>
+            <tr>
                 <th>Supplier SJ #</th>
                 <td>{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
             </tr>

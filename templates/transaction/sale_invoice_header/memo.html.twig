@@ -16,7 +16,7 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">PT. Putracipta Karindomas</div>
+                            <div class="cell label" style="color: blue; font-size: 14px">PT. Putracipta Karindomas</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Jl. Daan Mogot No. 6N, Jakarta 11460 - Indonesia</div>
@@ -195,9 +195,20 @@
         
         <div class="signature">
             <div class="table full">
-                <div class="cell sig">
-                    <div>{% for i in range(1, 20) %}&nbsp;{% endfor %}</div>
-                </div>
+                {% if saleInvoiceHeader.customer.isHasFscCode %}
+                    <div class="cell sig">
+                        <div>{{ ifscCode }}</div>
+                        <div>FSC Code: </div>
+                        <div>A = FSC 100%</div>
+                        <div>B = FSC Mix Credit</div>
+                        <div>C = FSC Mix 70%</div>
+                        <div>D = FSC Recycle</div>
+                    </div>
+                {% else %}
+                    <div class="cell sig">
+                        <div>{% for i in range(1, 20) %}&nbsp;{% endfor %}</div>
+                    </div>
+                {% endif %}
                 <div class="cell sig">
                     <div class="center">Hormat kami,</div>
                     <div class="blank"></div>

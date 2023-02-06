@@ -16,7 +16,7 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">PT. Putracipta Karindomas</div>
+                            <div class="cell label" style="color: blue; font-size: 14px">PT. Putracipta Karindomas</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Jl. Daan Mogot No. 6N, Jakarta 11460 - Indonesia</div>
@@ -176,7 +176,7 @@
         
         <br />
         
-        <div class="signature">
+        <div class="signature" style="font-weight: normal">
             <div class="table full">
                 {% if deliveryHeader.customer.isHasFscCode %}
                     <div class="cell sig">
@@ -184,7 +184,7 @@
                         <div>FSC Code: </div>
                         <div>A = FSC 100%</div>
                         <div>B = FSC Mix Credit</div>
-                        <div>C = FSC Mix ......%</div>
+                        <div>C = FSC Mix 70%</div>
                         <div>D = FSC Recycle</div>
                     </div>
                 {% endif %}
@@ -199,8 +199,8 @@
                     <div class="blank"></div>
                     <div class="blank"></div>
                     <div>{{ deliveryHeader.driverName|default }}</div>
-                    <div>Kendaraan: {{ deliveryHeader.vehicleType|default }}</div>
-                    <div>Nopol: {{ deliveryHeader.vehicleNumber|default }}</div>
+                    <div>Kendaraan: {{ deliveryHeader.transportation.name|default }}</div>
+                    <div>Nopol: {{ deliveryHeader.transportation.plateNumber|default }}</div>
                 </div>
                 <div class="cell sig">
                     <div>Hormat kami,</div>
