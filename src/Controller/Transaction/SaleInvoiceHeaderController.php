@@ -118,11 +118,12 @@ class SaleInvoiceHeaderController extends AbstractController
 
     #[Route('/{id}/memo', name: 'app_transaction_sale_invoice_header_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function memo(SaleInvoiceHeader $saleInvoiceHeader): Response
+    public function memo(SaleInvoiceHeader $saleInvoiceHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'sale_invoice.pdf';
         $htmlView = $this->render('transaction/sale_invoice_header/memo.html.twig', [
             'saleInvoiceHeader' => $saleInvoiceHeader,
+            'ifscCode' => $literalConfigRepository->findLiteralValue('ifscCode'),
         ]);
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
