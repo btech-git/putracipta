@@ -18,10 +18,9 @@ class DeliveryHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('warehouse', null, ['choice_label' => 'name'])
+            ->add('transportation', null, ['choice_label' => 'plateNumber'])
             ->add('note')
             ->add('driverName')
-            ->add('vehicleType')
-            ->add('vehicleNumber')
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('deliveryDetails', CollectionType::class, [
                 'entry_type' => DeliveryDetailType::class,

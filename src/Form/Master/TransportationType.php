@@ -2,18 +2,18 @@
 
 namespace App\Form\Master;
 
-use App\Entity\Master\MaterialSubCategory;
+use App\Entity\Master\Transportation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MaterialSubCategoryType extends AbstractType
+class TransportationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('materialCategory', null, ['choice_label' => 'name'])
             ->add('name')
+            ->add('plateNumber')
             ->add('isInactive')
         ;
     }
@@ -21,7 +21,7 @@ class MaterialSubCategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => MaterialSubCategory::class,
+            'data_class' => Transportation::class,
         ]);
     }
 }

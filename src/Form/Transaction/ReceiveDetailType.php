@@ -17,7 +17,6 @@ class ReceiveDetailType extends AbstractType
         $builder
             ->add('receivedQuantity')
             ->add('isCanceled')
-            ->add('usageDate', null, ['widget' => 'single_text'])
             ->add('memo')
             ->add('purchaseOrderDetail', EntityHiddenType::class, ['class' => PurchaseOrderDetail::class])
             ->add('purchaseOrderPaperDetail', EntityHiddenType::class, ['class' => PurchaseOrderPaperDetail::class])

@@ -14,6 +14,7 @@ class WarehouseType extends AbstractType
         $builder
             ->add('code')
             ->add('name')
+            ->add('description')
             ->add('isInactive')
         ;
     }

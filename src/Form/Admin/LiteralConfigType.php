@@ -12,9 +12,9 @@ class LiteralConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ifscCode')
-            ->add('vatPercentage')
-            ->add('serviceTaxPercentage')
+            ->add('ifscCode', null, ['label' => 'FSC Code'])
+            ->add('vatPercentage', null, ['label' => 'VAT'])
+            ->add('serviceTaxPercentage', null, ['label' => 'PPh 23'])
         ;
     }
 

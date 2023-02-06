@@ -21,6 +21,7 @@ class MaterialType extends AbstractType
             ->add('width', null, ['label' => 'Lebar'])
             ->add('weight', null, ['label' => 'Berat (GR)'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
+            ->add('isInactive')
         ;
     }
 

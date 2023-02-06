@@ -13,6 +13,7 @@ class MaterialCategoryType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('isInactive')
         ;
     }
 
