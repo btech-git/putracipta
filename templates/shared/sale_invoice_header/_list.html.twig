@@ -13,9 +13,6 @@
                         {'destinationsTarget': '#sale-invoice-header-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
-                <th style="min-width: 350px" role="button">
-                    Customer
-                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
@@ -34,7 +31,6 @@
                 {#<th></th>#}
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
@@ -61,7 +57,6 @@
                     'saleInvoiceHeaderCodeNumber': saleInvoiceHeader.codeNumber, 
                     'saleInvoiceHeaderRemainingPayment': saleInvoiceHeader.remainingPayment|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
-                    <td>{{ saleInvoiceHeader.customer.company|default }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.grandTotal|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalPayment|number_format(0) }}</td>
@@ -74,7 +69,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="9">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

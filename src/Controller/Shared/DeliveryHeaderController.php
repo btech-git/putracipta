@@ -23,12 +23,18 @@ class DeliveryHeaderController extends AbstractController
         $form = $this->createForm(DeliveryHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $sub = $new(SaleReturnHeader::class, 'p');
             $sub->andWhere("IDENTITY(p.deliveryHeader) = {$alias}.id");
             $qb->leftJoin("{$alias}.saleReturnHeader", 'r');
             $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
+            
+            if (isset($request->query->get('delivery_header_grid')['filter']['customer:company']) && isset($request->query->get('delivery_header_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('delivery_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('delivery_header_grid')['sort']['customer:company']);
+            }
         });
 
         return $this->renderForm("shared/delivery_header/_list.html.twig", [

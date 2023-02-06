@@ -25,12 +25,14 @@ class PurchaseOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'note', 'transactionStatus'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'grandTotal', 'note', 'transactionStatus'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
+                    'supplier:company' => 'Supplier',
+                    'transactionStatus' => 'Status',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [FilterEqual::class, FilterNotEqual::class],
@@ -38,6 +40,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'supplier:company' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
@@ -51,12 +54,13 @@ class PurchaseOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'grandTotal', 'note', 'transactionStatus'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'grandTotal', 'note', 'transactionStatus'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
+                    'supplier:company' => 'Supplier',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [SortAscending::class, SortDescending::class],
@@ -64,6 +68,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
+                    'supplier:company' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],

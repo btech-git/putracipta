@@ -32,6 +32,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'supplier:company' => 'Supplier',
+                    'transactionStatus' => 'Status',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [FilterEqual::class, FilterNotEqual::class],

@@ -22,9 +22,15 @@ class PurchaseOrderHeaderController extends AbstractController
         $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->andWhere("{$alias}.totalRemainingReceive > 0");
             $qb->andWhere("{$alias}.isCanceled = false");
+            
+            if (isset($request->query->get('purchase_order_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_header_grid')['sort']['supplier:company'])) {
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['sort']['supplier:company']);
+            }
         });
 
         return $this->renderForm("shared/purchase_order_header/_list.html.twig", [

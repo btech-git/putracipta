@@ -19,8 +19,8 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 150px">
-                    Unit
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
+                    Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -31,7 +31,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
+                </th>
             </tr>
         </thead>
         <tbody>

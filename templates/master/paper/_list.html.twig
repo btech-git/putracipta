@@ -23,8 +23,8 @@
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
                     GSM {{ grid.sort_char(form.sort.weight.vars.value) }}
                 </th>
-                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
+                    Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -45,7 +45,7 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -58,7 +58,7 @@
                     <td>{{ paper.length }}</td>
                     <td>{{ paper.width }}</td>
                     <td>{{ paper.weight }}</td>
-                    <td>{{ paper.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ paper.unit.name }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_paper_show', {'id': paper.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_paper_edit', {'id': paper.id}) }}"><i class="bi-pencil"></i></a>

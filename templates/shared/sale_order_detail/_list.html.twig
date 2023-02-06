@@ -8,26 +8,38 @@
     <table class="table table-bordered table-striped" id="sale-order-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 0">
+                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
+                        {'destinationsTarget': '#sale-order-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
+                    ]|json_encode }}" />
+                </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'product:code') }}>
+                    Code {{ grid.sort_char(form.sort['product:code'].vars.value) }}
+                </th>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'product:name') }}>
+                    Name {{ grid.sort_char(form.sort['product:name'].vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
+                    Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
+                </th>
                 <th style="min-width: 150px">
-                    PO #
+                    SO #
                 </th>
                 <th style="min-width: 150px">
                     Tanggal
                 </th>
-                <th style="min-width: 150px">
-                    Customer
-                </th>
-                <th style="min-width: 150px">
-                    Product Name
-                </th>
-                <th style="min-width: 150px">
-                    Code
-                </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:code') }} value="{{ form.filter['product:code'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
+                </th>
                 <th></th>
                 <th></th>
             </tr>
@@ -43,19 +55,27 @@
                     'productCode': saleOrderDetail.product.code,
                     'unitName': saleOrderDetail.unit.name,
                     'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
+                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
+                    <td>{{ saleOrderDetail.product.code|default }}</td>
+                    <td>{{ saleOrderDetail.product.name|default }}</td>
+                    <td>{{ saleOrderDetail.unit.name|default }}</td>
                     <td>{{ saleOrderDetail.saleOrderHeader.codeNumber|default }}</td>
                     <td>{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
-                    <td>{{ saleOrderDetail.product.name|default }}</td>
-                    <td>{{ saleOrderDetail.product.code|default }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<button type="button" class="btn btn-primary btn-sm"
+        data-action="event-emitter#trigger"
+        data-event-emitter-trigger-elements-target-param="#sale-order-detail-table .data-table-check-row"
+        data-event-emitter-trigger-event-type-param="click"
+        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
+    Select
+</button>
 
 {{ grid.navigation(form, count, saleOrderDetails) }}

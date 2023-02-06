@@ -34,6 +34,23 @@ class DeliveryDetailController extends AbstractController
                 $qb->setParameter('customerId', $customerId);
             }
             
+            $qb->innerJoin("{$alias}.product", 'p');
+            if (isset($request->query->get('delivery_detail_grid')['filter']['product:code']) && isset($request->query->get('delivery_detail_grid')['sort']['product:code'])) {
+                $add['filter']($qb, 'p', 'code', $request->query->get('delivery_detail_grid')['filter']['product:code']);
+                $add['sort']($qb, 'p', 'code', $request->query->get('delivery_detail_grid')['sort']['product:code']);
+            }
+            
+            if (isset($request->query->get('delivery_detail_grid')['filter']['product:name']) && isset($request->query->get('delivery_detail_grid')['sort']['product:name'])) {
+                $add['filter']($qb, 'p', 'name', $request->query->get('delivery_detail_grid')['filter']['product:name']);
+                $add['sort']($qb, 'p', 'name', $request->query->get('delivery_detail_grid')['sort']['product:name']);
+            }
+            
+            if (isset($request->query->get('delivery_detail_grid')['filter']['unit:name']) && isset($request->query->get('delivery_detail_grid')['sort']['unit:name'])) {
+                $qb->innerJoin("{$alias}.unit", 'u');
+                $add['filter']($qb, 'u', 'name', $request->query->get('delivery_detail_grid')['filter']['unit:name']);
+                $add['sort']($qb, 'u', 'name', $request->query->get('delivery_detail_grid')['sort']['unit:name']);
+            }
+            
             $sub = $new(SaleInvoiceDetail::class, 's');
             $sub->andWhere("IDENTITY(s.deliveryDetail) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));

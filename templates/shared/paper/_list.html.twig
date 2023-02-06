@@ -19,17 +19,17 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button"  }}>
-                    Panjang 
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'length') }}>
+                    Panjang {{ grid.sort_char(form.sort.length.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button">
-                    Lebar
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'width') }}>
+                    Lebar {{ grid.sort_char(form.sort.width.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button">
-                    GSM
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
+                    GSM {{ grid.sort_char(form.sort.weight.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button">
-                    Satuan
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
+                    Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -49,7 +49,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
+                </th>
             </tr>
         </thead>
         <tbody>

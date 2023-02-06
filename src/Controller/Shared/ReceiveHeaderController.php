@@ -36,6 +36,12 @@ class ReceiveHeaderController extends AbstractController
                 $qb->leftJoin("{$alias}.purchaseInvoiceHeader", 'i');
                 $qb->andWhere($qb->expr()->orX('i.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             }
+            
+            if (isset($request->query->get('receive_header_grid')['filter']['supplier:company']) && isset($request->query->get('receive_header_grid')['sort']['supplier:company'])) {
+                $qb->innerJoin("{$alias}.supplier", 's');
+                $add['filter']($qb, 's', 'company', $request->query->get('receive_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->query->get('receive_header_grid')['sort']['supplier:company']);
+            }
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 

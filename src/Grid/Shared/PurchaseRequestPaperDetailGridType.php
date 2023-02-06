@@ -22,7 +22,16 @@ class PurchaseRequestPaperDetailGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['length', 'width', 'weight', 'quantity', 'usageDate', 'memo'],
+                'field_names' => ['quantity', 'paper:name', 'paper:length', 'paper:width', 'paper:weight', 'unit:name', 'usageDate', 'memo'],
+                'field_label_list' => [
+                    'quantity' => 'Qty',
+                    'usageDate' => 'Tgl Pakai',
+                    'unit:name' => 'Satuan',
+                    'paper:name' => 'Kertas',
+                    'paper:length' => 'P',
+                    'paper:width' => 'L',
+                    'paper:weight' => 'GSM',
+                ],
                 'field_operators_list' => [
                     'length' => [FilterEqual::class, FilterNotEqual::class],
                     'width' => [FilterEqual::class, FilterNotEqual::class],
@@ -30,10 +39,24 @@ class PurchaseRequestPaperDetailGridType extends AbstractType
                     'quantity' => [FilterEqual::class, FilterNotEqual::class],
                     'usageDate' => [FilterEqual::class, FilterNotEqual::class],
                     'memo' => [FilterContain::class, FilterNotContain::class],
+                    'paper:name' => [FilterContain::class, FilterNotContain::class],
+                    'paper:length' => [FilterEqual::class, FilterNotEqual::class],
+                    'paper:width' => [FilterEqual::class, FilterNotEqual::class],
+                    'paper:weight' => [FilterEqual::class, FilterNotEqual::class],
+                    'unit:name' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['length', 'width', 'weight', 'quantity', 'usageDate', 'memo'],
+                'field_names' => ['paper:name', 'paper:length', 'paper:width', 'paper:weight', 'unit:name', 'quantity', 'usageDate', 'memo'],
+                'field_label_list' => [
+                    'quantity' => 'Qty',
+                    'usageDate' => 'Tgl Pakai',
+                    'unit:name' => 'Satuan',
+                    'paper:name' => 'Kertas',
+                    'paper:length' => 'P',
+                    'paper:width' => 'L',
+                    'paper:weight' => 'GSM',
+                ],
                 'field_operators_list' => [
                     'length' => [SortAscending::class, SortDescending::class],
                     'width' => [SortAscending::class, SortDescending::class],
@@ -41,6 +64,11 @@ class PurchaseRequestPaperDetailGridType extends AbstractType
                     'quantity' => [SortAscending::class, SortDescending::class],
                     'usageDate' => [SortAscending::class, SortDescending::class],
                     'memo' => [SortAscending::class, SortDescending::class],
+                    'paper:name' => [SortAscending::class, SortDescending::class],
+                    'paper:length' => [SortAscending::class, SortDescending::class],
+                    'paper:width' => [SortAscending::class, SortDescending::class],
+                    'paper:weight' => [SortAscending::class, SortDescending::class],
+                    'unit:name' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
