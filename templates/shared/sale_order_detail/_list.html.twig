@@ -54,6 +54,7 @@
                     'productId': saleOrderDetail.product.id,
                     'productCode': saleOrderDetail.product.code,
                     'unitName': saleOrderDetail.unit.name,
+                    'saleOrderDetailQuantityRemaining': saleOrderDetail.remainingDelivery|default|number_format(0),
                     'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ saleOrderDetail.product.code|default }}</td>
