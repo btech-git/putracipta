@@ -41,7 +41,7 @@ class PurchaseInvoiceHeaderFormService
     public function finalize(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void
     {
         $receiveHeader = $purchaseInvoiceHeader->getReceiveHeader();
-        $purchaseOrderHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseOrderHeader();
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader() === null ? $receiveHeader->getPurchaseOrderPaperHeader() : $receiveHeader->getPurchaseOrderHeader();
         $purchaseInvoiceHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
         $purchaseInvoiceHeader->setDiscountValueType($purchaseOrderHeader === null ? PurchaseInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE : $purchaseOrderHeader->getDiscountValueType());
         $purchaseInvoiceHeader->setDiscountValue($purchaseOrderHeader === null ? '0.00' : $purchaseOrderHeader->getDiscountValue());

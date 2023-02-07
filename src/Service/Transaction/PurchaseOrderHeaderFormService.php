@@ -42,7 +42,10 @@ class PurchaseOrderHeaderFormService
     {
         if ($purchaseOrderHeader->getTaxMode() !== $purchaseOrderHeader::TAX_MODE_NON_TAX) {
             $purchaseOrderHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $purchaseOrderHeader->setTaxPercentage(0);
         }
+        
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
             $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());

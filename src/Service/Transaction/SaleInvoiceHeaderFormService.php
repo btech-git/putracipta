@@ -59,10 +59,14 @@ class SaleInvoiceHeaderFormService
         $saleInvoiceHeader->setSubTotal($saleInvoiceHeader->getSyncSubTotal());
         if ($saleInvoiceHeader->getTaxMode() !== $saleInvoiceHeader::TAX_MODE_NON_TAX) {
             $saleInvoiceHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $saleInvoiceHeader->setTaxPercentage(0);
         }
         $saleInvoiceHeader->setTaxNominal($saleInvoiceHeader->getSyncTaxNominal());
         if ($saleInvoiceHeader->getServiceTaxMode() !== $saleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX) {
             $saleInvoiceHeader->setServiceTaxPercentage($options['serviceTaxPercentage']);
+        } else {
+            $saleInvoiceHeader->setServiceTaxPercentage(0);
         }
         $saleInvoiceHeader->setServiceTaxNominal($saleInvoiceHeader->getSyncServiceTaxNominal());
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());

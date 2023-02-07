@@ -27,12 +27,12 @@ class SaleInvoiceHeaderType extends AbstractType
             ]])
             ->add('discountValue')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non PPn' => SaleInvoiceHeader::TAX_MODE_NON_TAX,
-                'PPn' => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
+                '0%' => SaleInvoiceHeader::TAX_MODE_NON_TAX,
+                '11%' => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
             ]])
             ->add('serviceTaxMode', ChoiceType::class, ['choices' => [
-                'Non PPh 23' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
-                'PPh 23' => SaleInvoiceHeader::SERVICE_TAX_MODE_TAX,
+                '0%' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
+                '2%' => SaleInvoiceHeader::SERVICE_TAX_MODE_TAX,
             ]])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('saleInvoiceDetails', CollectionType::class, [

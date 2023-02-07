@@ -42,7 +42,10 @@ class PurchaseOrderPaperHeaderFormService
     {
         if ($purchaseOrderPaperHeader->getTaxMode() !== $purchaseOrderPaperHeader::TAX_MODE_NON_TAX) {
             $purchaseOrderPaperHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $purchaseOrderPaperHeader->setTaxPercentage(0);
         }
+        
         foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
             $paper = $purchaseOrderPaperDetail->getPaper();
             $purchaseOrderPaperDetail->setIsCanceled($purchaseOrderPaperDetail->getSyncIsCanceled());

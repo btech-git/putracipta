@@ -60,6 +60,8 @@ class PurchaseReturnHeaderFormService
         $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
         if ($purchaseReturnHeader->getTaxMode() !== $purchaseReturnHeader::TAX_MODE_NON_TAX) {
             $purchaseReturnHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $purchaseReturnHeader->setTaxPercentage(0);
         }
         $purchaseReturnHeader->setTaxNominal($purchaseReturnHeader->getSyncTaxNominal());
         $purchaseReturnHeader->setGrandTotal($purchaseReturnHeader->getSyncGrandTotal());

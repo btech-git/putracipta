@@ -51,9 +51,13 @@ class SaleReturnHeaderFormService
             $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
         }
         $saleReturnHeader->setSubTotal($saleReturnHeader->getSyncSubTotal());
+        
         if ($saleReturnHeader->getTaxMode() !== $saleReturnHeader::TAX_MODE_NON_TAX) {
             $saleReturnHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $saleReturnHeader->setTaxPercentage(0);
         }
+        
         $saleReturnHeader->setTaxNominal($saleReturnHeader->getSyncTaxNominal());
         $saleReturnHeader->setGrandTotal($saleReturnHeader->getSyncGrandTotal());
     }

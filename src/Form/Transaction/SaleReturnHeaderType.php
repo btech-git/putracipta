@@ -20,8 +20,8 @@ class SaleReturnHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non PPn' => SaleReturnHeader::TAX_MODE_NON_TAX,
-                'PPn' => SaleReturnHeader::TAX_MODE_TAX_EXCLUSION,
+                '0%' => SaleReturnHeader::TAX_MODE_NON_TAX,
+                '11%' => SaleReturnHeader::TAX_MODE_TAX_EXCLUSION,
 //                'Include PPn' => SaleReturnHeader::TAX_MODE_TAX_INCLUSION,
             ]])
             ->add('deliveryHeader', EntityHiddenType::class, ['class' => DeliveryHeader::class])

@@ -20,8 +20,8 @@ class PurchaseReturnHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                'Non PPn' => PurchaseReturnHeader::TAX_MODE_NON_TAX,
-                'PPn' => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,
+                '0%' => PurchaseReturnHeader::TAX_MODE_NON_TAX,
+                '11%' => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,
 //                'Include PPn' => SaleReturnHeader::TAX_MODE_TAX_INCLUSION,
             ]])
             ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
