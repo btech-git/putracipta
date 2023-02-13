@@ -16,7 +16,8 @@ class PaperType extends AbstractType
             ->add('name')
             ->add('length', null, ['label' => 'Panjang'])
             ->add('width', null, ['label' => 'Lebar'])
-            ->add('weight', null, ['label' => 'Berat (GR)'])
+            ->add('weight', null, ['label' => 'Berat (GSM)'])
+            ->add('pricingMode', null, ['label' => 'Pricing Mode'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('isInactive')
         ;
