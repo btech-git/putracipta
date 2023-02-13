@@ -26,6 +26,8 @@ class PurchaseRequestPaperHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
+            $qb->addOrderBy("{$alias}.id", 'DESC');
             if (isset($request->query->get('purchase_request_paper_header_grid')['filter']['warehouse:name']) && isset($request->query->get('purchase_request_paper_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
                 $add['filter']($qb, 'w', 'name', $request->query->get('purchase_request_paper_header_grid')['filter']['warehouse:name']);

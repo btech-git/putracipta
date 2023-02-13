@@ -28,6 +28,8 @@ class SaleInvoiceHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
+            $qb->addOrderBy("{$alias}.id", 'DESC');
             if (isset($request->query->get('sale_invoice_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_invoice_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('sale_invoice_header_grid')['filter']['customer:company']);
