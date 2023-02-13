@@ -54,6 +54,7 @@ class SaleOrderHeaderFormService
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
             $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
         }
+        $saleOrderHeader->setTotalQuantity($saleOrderHeader->getSyncTotalQuantity());
         $saleOrderHeader->setSubTotal($saleOrderHeader->getSyncSubTotal());
         $saleOrderHeader->setTaxNominal($saleOrderHeader->getSyncTaxNominal());
         $saleOrderHeader->setGrandTotal($saleOrderHeader->getSyncGrandTotal());
