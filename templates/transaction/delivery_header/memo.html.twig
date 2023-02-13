@@ -176,11 +176,11 @@
         
         <br />
         
-        <div class="signature" style="font-weight: normal">
+        <div>
             <div class="table full">
                 {% if deliveryHeader.customer.isHasFscCode %}
                     <div class="cell sig">
-                        <div>{{ ifscCode }}</div>
+                        <div class="signature" style="text-decoration: underline">{{ ifscCode }}</div>
                         <div>FSC Code: </div>
                         <div>A = FSC 100%</div>
                         <div>B = FSC Mix Credit</div>
@@ -188,24 +188,39 @@
                         <div>D = FSC Recycle</div>
                     </div>
                 {% endif %}
-                <div class="cell sig">
+                <div class="cell sig ">
                     <div>Telah diterima lengkap / baik</div>
                     <div>Tanggal</div>
-                    <div class="blank"></div>
-                    <div class="blank"></div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
                 </div>
                 <div class="cell sig">
                     <div>Driver</div>
-                    <div class="blank"></div>
-                    <div class="blank"></div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
                     <div>{{ deliveryHeader.driverName|default }}</div>
                     <div>Kendaraan: {{ deliveryHeader.transportation.name|default }}</div>
                     <div>Nopol: {{ deliveryHeader.transportation.plateNumber|default }}</div>
                 </div>
                 <div class="cell sig">
                     <div>Hormat kami,</div>
-                    <div class="blank"></div>
-                    <div class="blank"></div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">&nbsp;</div>
                     <div>Gudang Jadi</div>
                 </div>
             </div>
