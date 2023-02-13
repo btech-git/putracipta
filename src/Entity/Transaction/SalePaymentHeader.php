@@ -48,7 +48,10 @@ class SalePaymentHeader extends TransactionHeader
     private ?string $administrationFee = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $receivedAmount = null;
+    private ?string $receivedAmount = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $returnAmount = '0.00';
 
     public function __construct()
     {
@@ -73,7 +76,7 @@ class SalePaymentHeader extends TransactionHeader
 
     public function getSyncReceivedAmount(): string
     {
-        return $this->totalAmount - $this->administrationFee;
+        return $this->totalAmount - $this->administrationFee - $this->returnAmount;
     }
     
     public function getId(): ?int
@@ -191,6 +194,18 @@ class SalePaymentHeader extends TransactionHeader
     public function setReceivedAmount(string $receivedAmount): self
     {
         $this->receivedAmount = $receivedAmount;
+
+        return $this;
+    }
+
+    public function getReturnAmount(): ?string
+    {
+        return $this->returnAmount;
+    }
+
+    public function setReturnAmount(string $returnAmount): self
+    {
+        $this->returnAmount = $returnAmount;
 
         return $this;
     }

@@ -79,7 +79,7 @@ class SaleOrderHeader extends TransactionHeader
     private ?string $transactionFileExtension = '';
 
     #[ORM\Column]
-    private ?int $totalQuantity = null;
+    private ?int $totalQuantity = 0;
 
     public function __construct()
     {
