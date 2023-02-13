@@ -147,7 +147,7 @@ class PurchaseInvoiceHeader extends TransactionHeader
 
     public function getSyncRemainingPayment(): int
     {
-        return $this->grandTotal - $this->totalPayment;
+        return $this->grandTotal - $this->totalPayment - $this->totalReturn;
     }
 
     public function getDiscountNominal(): string

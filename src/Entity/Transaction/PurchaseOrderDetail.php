@@ -80,7 +80,7 @@ class PurchaseOrderDetail extends TransactionDetail
 
     public function getSyncRemainingReceive(): int
     {
-        return $this->quantity - $this->totalReceive;
+        return $this->quantity - $this->totalReceive; // + $this->totalReturn;
     }
 
     public function getSyncUnitPriceBeforeTax(): string
