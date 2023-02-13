@@ -142,15 +142,17 @@
                     <td colspan="6" class="label right">Sub Total</td>
                     <td class="right">{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
-                <tr>
-                    <td colspan="6" class="label right">
-                        Diskon
-                        {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
-                            {{ saleInvoiceHeader.discountValue|default }}%
-                        {% endif %}
-                    </td>
-                    <td class="right">{{ saleInvoiceHeader.discountNominal|default|number_format(0) }}</td>
-                </tr>
+                {% if saleInvoiceHeader.discountNominal > 0.00 %}
+                    <tr>
+                        <td colspan="6" class="label right">
+                            Diskon
+                            {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
+                                {{ saleInvoiceHeader.discountValue|default }}%
+                            {% endif %}
+                        </td>
+                        <td class="right">{{ saleInvoiceHeader.discountNominal|default|number_format(0) }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="6" class="label right">
                         {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
@@ -160,6 +162,16 @@
                         {% endif %}
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="label right">
+                        {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', saleInvoiceHeader) %}
+                            Non PPh 0%
+                        {% elseif saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
+                            PPh {{ saleInvoiceHeader.serviceTaxPercentage }}%
+                        {% endif %}
+                    </td>
+                    <td class="right">{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(0) }}</td>
                 </tr>
                 <tr>
                     <td colspan="6" class="label right">Grand Total</td>
