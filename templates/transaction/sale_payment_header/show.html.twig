@@ -75,8 +75,13 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>Total</strong></td>
+                <td colspan="6" style="text-align: right"><strong>Total Payment</strong></td>
                 <td style="text-align: right"><strong>{{ salePaymentHeader.totalAmount|default|number_format(0) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align: right"><strong>Total Retur</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.returnAmount|default|number_format(0) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
