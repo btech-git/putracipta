@@ -109,15 +109,17 @@
                     <td colspan="6" class="label right">Sub Total</td>
                     <td class="right">{{ purchaseOrderHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
-                <tr>
-                    <td colspan="6" class="label right">
-                        Diskon
-                        {% if purchaseOrderHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseOrderHeader) %}
-                            {{ purchaseOrderHeader.discountValue|default }}%
-                        {% endif %}
-                    </td>
-                    <td class="right">{{ purchaseOrderHeader.discountNominal|default|number_format(0) }}</td>
-                </tr>
+                {% if purchaseOrderHeader.discountNominal > 0.00 %}
+                    <tr>
+                        <td colspan="6" class="label right">
+                            Diskon
+                            {% if purchaseOrderHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', purchaseOrderHeader) %}
+                                {{ purchaseOrderHeader.discountValue|default }}%
+                            {% endif %}
+                        </td>
+                        <td class="right">{{ purchaseOrderHeader.discountNominal|default|number_format(0) }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="6" class="label right">
                         {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
