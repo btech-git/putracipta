@@ -15,7 +15,6 @@ class ProductType extends AbstractType
 //            ->add('productCategory', null, ['choice_label' => 'name'])
             ->add('code')
             ->add('name')
-            ->add('sellingPrice')
             ->add('minimumStock')
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('customer', null, [
