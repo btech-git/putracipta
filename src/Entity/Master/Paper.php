@@ -12,9 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'master_paper')]
 class Paper extends Master
 {
-    public const ASSOCIATION_PRICING_MODE = 'association';
-    public const WEIGHT_PRICING_MODE = 'weight';
-    public const UNIT_PRICING_MODE = 'unit';
+    public const PRICING_MODE_ASSOCIATION = 'association';
+    public const PRICING_MODE_WEIGHT = 'weight';
+    public const PRICING_MODE_UNIT = 'unit';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
