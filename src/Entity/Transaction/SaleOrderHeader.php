@@ -78,6 +78,9 @@ class SaleOrderHeader extends TransactionHeader
     #[ORM\Column(length: 20)]
     private ?string $transactionFileExtension = '';
 
+    #[ORM\Column]
+    private ?int $totalQuantity = null;
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -86,6 +89,17 @@ class SaleOrderHeader extends TransactionHeader
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
+    }
+
+    public function getSyncTotalQuantity(): string
+    {
+        $totalQuantity = 0;
+        foreach ($this->saleOrderDetails as $saleOrderDetail) {
+            if (!$saleOrderDetail->isIsCanceled()) {
+                $totalQuantity += $saleOrderDetail->getQuantity();
+            }
+        }
+        return $totalQuantity;
     }
 
     public function getSyncTaxNominal(): string
@@ -307,6 +321,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setTransactionFileExtension(string $transactionFileExtension): self
     {
         $this->transactionFileExtension = $transactionFileExtension;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?int
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(int $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }
