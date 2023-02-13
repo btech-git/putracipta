@@ -108,6 +108,36 @@
             </tr>
         </tfoot>
     </table>
+
+    <legend class="float-none w-auto text-dark px-1">Data Pengiriman</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-warning">
+                <th>Pengiriman #</th>
+                <th>Tanggal</th>
+                <th>Gudang</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                {% for deliveryDetail in saleOrderDetail.deliveryDetails %}
+                    <tr>
+                        <td>{{ deliveryDetail.deliveryHeader.codeNumber|default }}</td>
+                        <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+                        <td>{{ deliveryDetail.deliveryHeader.warehouse.name|default }}</td>
+                        <td>{{ deliveryDetail.product.name|default }}</td>
+                        <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
+                        <td>{{ deliveryDetail.unit.name|default }}</td>
+                        <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
                 
     {#<div class="d-inline-block">{{ include('transaction/sale_order_header/_delete_form.html.twig') }}</div>#}
 {% endblock %}
