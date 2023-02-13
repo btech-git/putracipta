@@ -90,6 +90,12 @@ class PurchaseReturnHeaderFormService
             $purchaseOrderDetailForMaterialOrPaper->setTotalReturn($totalReturn);
             $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
         }
+        
+        $purchaseInvoiceHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseInvoiceHeader();
+        if ($purchaseInvoiceHeader !== null) {
+            $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+            $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
+        }
     }
 
     public function save(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void

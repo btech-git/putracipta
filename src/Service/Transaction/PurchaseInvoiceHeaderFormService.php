@@ -47,11 +47,13 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceHeader->setDiscountValue($purchaseOrderHeader === null ? '0.00' : $purchaseOrderHeader->getDiscountValue());
             $purchaseInvoiceHeader->setTaxMode($purchaseOrderHeader === null ? PurchaseInvoiceHeader::TAX_MODE_NON_TAX : $purchaseOrderHeader->getTaxMode());
         }
+        
         $purchaseInvoiceHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
         $purchaseInvoiceHeader->setDueDate($purchaseInvoiceHeader->getSyncDueDate());
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
             $purchaseInvoiceDetail->setIsCanceled($purchaseInvoiceDetail->getSyncIsCanceled());
         }
+        
         foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
             $receiveDetail = $purchaseInvoiceDetail->getReceiveDetail();
             $purchaseOrderDetail = empty($receiveDetail->getPurchaseOrderDetail()) ? $receiveDetail->getPurchaseOrderPaperDetail(): $receiveDetail->getPurchaseOrderDetail();
@@ -61,12 +63,19 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
             $purchaseInvoiceDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
         }
+        
         $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
         if ($purchaseInvoiceHeader->getTaxMode() !== $purchaseInvoiceHeader::TAX_MODE_NON_TAX) {
             $purchaseInvoiceHeader->setTaxPercentage($options['vatPercentage']);
         }
         $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
         $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
+        
+        $purchaseReturnHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseReturnHeader();
+        if ($purchaseReturnHeader !== null) {
+            $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+        }
+        
         $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
     }
 
