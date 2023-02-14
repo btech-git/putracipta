@@ -67,7 +67,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'customer:company' => [FilterContain::class, FilterNotContain::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],

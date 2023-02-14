@@ -110,10 +110,10 @@
             <tr>
                 <td colspan="7" style="text-align: right">
                     <strong>
-                        {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
-                            Non PPh 23
-                        {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
-                            PPh 23 {{ saleInvoiceHeader.serviceTaxPercentage }}%
+                        {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', saleInvoiceHeader) %}
+                            Non PPh
+                        {% elseif saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
+                            PPh {{ saleInvoiceHeader.serviceTaxPercentage }}%
                         {% endif %}
                     </strong>
                 </td>
@@ -131,11 +131,6 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Total Return</strong></td>
-                <td style="text-align: right"><strong>{{ saleInvoiceHeader.totalReturn|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
                 <td colspan="7" style="text-align: right"><strong>Remaining Payment</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.remainingPayment|default|number_format(2) }}</strong></td>
                 <td></td>
@@ -146,7 +141,7 @@
     <legend class="float-none w-auto text-dark px-1">Data Pelunasan</legend>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="bg-info">
+            <tr class="bg-warning">
                 <th>Pembayaran #</th>
                 <th>Tanggal</th>
                 <th>Cek/Giro #</th>

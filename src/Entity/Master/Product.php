@@ -21,11 +21,6 @@ class Product extends Master
     #[Assert\NotBlank]
     private ?string $code = '';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?string $sellingPrice = '0.00';
-
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
@@ -55,18 +50,6 @@ class Product extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getSellingPrice(): ?string
-    {
-        return $this->sellingPrice;
-    }
-
-    public function setSellingPrice(string $sellingPrice): self
-    {
-        $this->sellingPrice = $sellingPrice;
 
         return $this;
     }

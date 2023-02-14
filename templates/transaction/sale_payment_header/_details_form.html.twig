@@ -68,6 +68,13 @@
                 <td></td>
             </tr>
             <tr>
+                <td class="text-end" colspan="4">Total Retur</td>
+                <td>
+                    {{ form_row(form.returnAmount, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
                 <td class="text-end" colspan="4">Admin Fee</td>
                 <td>
                     {{ form_row(form.administrationFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}

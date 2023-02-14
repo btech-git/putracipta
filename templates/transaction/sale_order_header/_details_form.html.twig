@@ -10,7 +10,7 @@
                 <th style="min-width: 250px">Item Code</th>
                 <th style="min-width: 250px">Description</th>
                 <th style="min-width: 150px">Tgl Kirim</th>
-                <th style="min-width: 100px">Qty</th>
+                <th style="min-width: 150px">Qty</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 150px">Harga</th>
                 <th style="min-width: 150px">DPP</th>
@@ -76,7 +76,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="7">Sub Total</td>
+                <td class="text-end" colspan="3">Total Quantity</td>
+                <td class="text-end" data-json-loader-target="placeholder"
+                    data-property-path="totalQuantity">
+                    {{ saleOrderHeader.totalQuantity|default|number_format(0) }}
+                </td>
+                <td class="text-end" colspan="3">Sub Total</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="subTotal">
                     {{ saleOrderHeader.subTotal|default|number_format(2) }}

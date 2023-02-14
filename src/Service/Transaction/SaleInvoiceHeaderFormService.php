@@ -70,6 +70,12 @@ class SaleInvoiceHeaderFormService
         }
         $saleInvoiceHeader->setServiceTaxNominal($saleInvoiceHeader->getSyncServiceTaxNominal());
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());
+        
+//        $saleReturnHeader = $deliveryHeader === null ? null : $deliveryHeader->getPurchaseReturnHeader();
+//        if ($saleReturnHeader !== null) {
+//            $saleInvoiceHeader->setTotalReturn($saleReturnHeader->getGrandTotal());
+//        }
+        
         $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
     }
 

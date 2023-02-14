@@ -60,6 +60,12 @@ class SaleReturnHeaderFormService
         
         $saleReturnHeader->setTaxNominal($saleReturnHeader->getSyncTaxNominal());
         $saleReturnHeader->setGrandTotal($saleReturnHeader->getSyncGrandTotal());
+        
+//        $saleInvoiceHeader = $deliveryHeader === null ? null : $deliveryHeader->getSaleInvoiceHeader();
+//        if ($saleInvoiceHeader !== null) {
+//            $saleInvoiceHeader->setTotalReturn($saleReturnHeader->getGrandTotal());
+//            $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
+//        }
     }
 
     public function save(SaleReturnHeader $saleReturnHeader, array $options = []): void

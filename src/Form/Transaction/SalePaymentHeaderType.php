@@ -20,6 +20,7 @@ class SalePaymentHeaderType extends AbstractType
             ->add('note')
             ->add('referenceNumber')
             ->add('administrationFee')
+            ->add('returnAmount')
             ->add('referenceDate', null, ['widget' => 'single_text'])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('paymentType', null, ['choice_label' => 'name'])

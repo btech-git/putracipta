@@ -24,6 +24,10 @@ class Transportation extends Master
     {
         return $this->id;
     }
+    
+    public function getNameAndPlateNumber() {
+        return $this->name . ' (' . $this->plateNumber . ')';
+    }
 
     public function getPlateNumber(): ?string
     {

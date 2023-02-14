@@ -105,7 +105,7 @@ class PurchaseOrderPaperDetail extends TransactionDetail
 
     public function getSyncRemainingReceive(): int
     {
-        return $this->quantity - $this->totalReceive;
+        return $this->quantity - $this->totalReceive; // + $this->totalReturn;
     }
 
     public function getSyncWeightPrice(): string
