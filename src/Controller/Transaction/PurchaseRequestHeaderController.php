@@ -30,7 +30,6 @@ class PurchaseRequestHeaderController extends AbstractController
 //            $qb->addOrderBy("{$alias}.id", 'DESC');
             if (isset($request->query->get('purchase_request_header_grid')['filter']['warehouse:name']) && isset($request->query->get('purchase_request_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
-                $add['filter']($qb, 'w', 'name', $request->query->get('purchase_request_header_grid')['filter']['warehouse:name']);
                 $add['sort']($qb, 'w', 'name', $request->query->get('purchase_request_header_grid')['sort']['warehouse:name']);
             }
         });

@@ -12,7 +12,9 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -25,13 +27,13 @@ class PurchaseRequestHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
-                    'warehouse:name' => 'Gudang',
+                    'warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
@@ -39,15 +41,18 @@ class PurchaseRequestHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
-                    'warehouse:name' => [FilterContain::class, FilterNotContain::class],
+                    'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'warehouse' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
                 ],
             ])
             ->add('sort', SortType::class, [
