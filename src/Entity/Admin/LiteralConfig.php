@@ -16,13 +16,13 @@ class LiteralConfig
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $vatPercentage = null;
+    private ?int $vatPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $serviceTaxPercentage = null;
+    private ?string $serviceTaxPercentage = '0.00';
 
     #[ORM\Column(length: 60)]
-    private ?string $ifscCode = null;
+    private ?string $ifscCode = '';
 
     public function getId(): ?int
     {
