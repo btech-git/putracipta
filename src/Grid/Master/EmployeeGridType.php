@@ -16,44 +16,28 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PaperGridType extends AbstractType
+class EmployeeGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
-                'field_label_list' => [
-                    'name' => 'Nama',
-                    'code' => 'Code',
-                    'length' => 'Panjang',
-                    'width' => 'Lebar',
-                    'weight' => 'GSM',
-                ],
+                'field_names' => ['name', 'email', 'phone', 'division', 'isInactive'],
                 'field_operators_list' => [
-                    'code' => [FilterContain::class, FilterNotContain::class],
-                    'length' => [FilterEqual::class, FilterNotEqual::class],
-                    'width' => [FilterEqual::class, FilterNotEqual::class],
-                    'weight' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'email' => [FilterContain::class, FilterNotContain::class],
+                    'phone' => [FilterContain::class, FilterNotContain::class],
+                    'division' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
-                'field_label_list' => [
-                    'name' => 'Nama',
-                    'code' => 'Code',
-                    'length' => 'Panjang',
-                    'width' => 'Lebar',
-                    'weight' => 'GSM',
-                ],
+                'field_names' => ['name', 'email', 'phone', 'division', 'isInactive'],
                 'field_operators_list' => [
-                    'code' => [SortAscending::class, SortDescending::class],
-                    'length' => [SortAscending::class, SortDescending::class],
-                    'width' => [SortAscending::class, SortDescending::class],
-                    'weight' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'email' => [SortAscending::class, SortDescending::class],
+                    'phone' => [SortAscending::class, SortDescending::class],
+                    'division' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
