@@ -20,7 +20,7 @@
         </thead>
         <tbody data-form-collection-target="items" data-action="product-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
-                <tr data-form-collection-target="item" data-item-identifier-name="productId" data-item-identifier-value="{{ detailForm.vars.value.product.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>

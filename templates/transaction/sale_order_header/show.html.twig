@@ -20,6 +20,10 @@
                 <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
+                <th>Marketing</th>
+                <td>{{ saleOrderHeader.employee.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Customer</th>
                 <td>{{ saleOrderHeader.customer.company }}</td>
             </tr>

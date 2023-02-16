@@ -24,12 +24,12 @@
                 <td>{{ purchaseInvoiceHeader.invoiceReceivedDate ? purchaseInvoiceHeader.invoiceReceivedDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Supplier Invoice #</th>
-                <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
-            </tr>
-            <tr>
                 <th>Tanggal Jatuh Tempo</th>
                 <td>{{ purchaseInvoiceHeader.dueDate ? purchaseInvoiceHeader.dueDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Supplier Invoice #</th>
+                <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
             </tr>
             <tr>
                 <th>Supplier</th>
