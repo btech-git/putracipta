@@ -75,6 +75,7 @@ class DeliveryHeaderFormService
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+            $deliveryHeader->setIsUsingFscPaper($saleOrderHeader->isIsUsingFscPaper());
             
             $totalRemainingDelivery = 0;
             foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
