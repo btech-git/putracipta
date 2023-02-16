@@ -18,6 +18,7 @@ class DeliveryDetailType extends AbstractType
             ->add('deliveredQuantity')
             ->add('isCanceled')
             ->add('lotNumber')
+            ->add('linePo')
             ->add('packaging')
             ->add('fscCode', ChoiceType::class, ['choices' => [
                 '' => '',
