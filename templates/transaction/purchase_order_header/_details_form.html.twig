@@ -25,7 +25,12 @@
                     <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                    <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                    <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {
+                            'data-controller': 'flatpickr-element',
+                            'data-action': 'change->json-loader#load',
+                            'data-item-field-name': 'purchaseRequestDetailUsageDate',
+                        }}) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
                             'data-action': 'change->json-loader#load',
