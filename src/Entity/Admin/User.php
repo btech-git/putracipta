@@ -2,6 +2,7 @@
 
 namespace App\Entity\Admin;
 
+use App\Entity\Master\Employee;
 use App\Repository\Admin\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = '';
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Employee $employee = null;
 
     public function getId(): ?int
     {
@@ -184,6 +188,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($employee === null && $this->employee !== null) {
+            $this->employee->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($employee !== null && $employee->getUser() !== $this) {
+            $employee->setUser($this);
+        }
+
+        $this->employee = $employee;
 
         return $this;
     }
