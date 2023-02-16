@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\Employee;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\SaleOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -80,6 +81,9 @@ class SaleOrderHeader extends TransactionHeader
 
     #[ORM\Column]
     private ?int $totalQuantity = 0;
+
+    #[ORM\ManyToOne]
+    private ?Employee $employee = null;
 
     public function __construct()
     {
@@ -333,6 +337,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setTotalQuantity(int $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): self
+    {
+        $this->employee = $employee;
 
         return $this;
     }
