@@ -85,6 +85,9 @@ class SaleOrderHeader extends TransactionHeader
     #[ORM\ManyToOne]
     private ?Employee $employee = null;
 
+    #[ORM\Column]
+    private ?bool $isUsingFscPaper = null;
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -349,6 +352,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setEmployee(?Employee $employee): self
     {
         $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function isIsUsingFscPaper(): ?bool
+    {
+        return $this->isUsingFscPaper;
+    }
+
+    public function setIsUsingFscPaper(bool $isUsingFscPaper): self
+    {
+        $this->isUsingFscPaper = $isUsingFscPaper;
 
         return $this;
     }

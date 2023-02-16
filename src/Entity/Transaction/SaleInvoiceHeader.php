@@ -100,6 +100,9 @@ class SaleInvoiceHeader extends TransactionHeader
     #[Assert\NotBlank]
     private ?string $serviceTaxNominal = '0.00';
 
+    #[ORM\Column]
+    private ?bool $isUsingFscPaper = null;
+
     public function __construct()
     {
         $this->salePaymentDetails = new ArrayCollection();
@@ -441,6 +444,18 @@ class SaleInvoiceHeader extends TransactionHeader
     public function setServiceTaxNominal(string $serviceTaxNominal): self
     {
         $this->serviceTaxNominal = $serviceTaxNominal;
+
+        return $this;
+    }
+
+    public function isIsUsingFscPaper(): ?bool
+    {
+        return $this->isUsingFscPaper;
+    }
+
+    public function setIsUsingFscPaper(bool $isUsingFscPaper): self
+    {
+        $this->isUsingFscPaper = $isUsingFscPaper;
 
         return $this;
     }
