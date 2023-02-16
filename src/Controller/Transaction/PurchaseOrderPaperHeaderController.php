@@ -29,7 +29,6 @@ class PurchaseOrderPaperHeaderController extends AbstractController
 
         list($count, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
-            $qb->addOrderBy("{$alias}.id", 'DESC');
             if (isset($request->query->get('purchase_order_paper_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_paper_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('purchase_order_paper_header_grid')['filter']['supplier:company']);
