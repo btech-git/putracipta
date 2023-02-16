@@ -1,0 +1,57 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Employee' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_employee_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_employee_edit', {'id': employee.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ employee.name }}</td>
+            </tr>
+            <tr>
+                <th>Start Date</th>
+                <td>{{ employee.startDate ? employee.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ employee.email }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ employee.address }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ employee.phone }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ employee.note }}</td>
+            </tr>
+            <tr>
+                <th>Division</th>
+                <td>{{ employee.division }}</td>
+            </tr>
+            <tr>
+                <th>Birth Date</th>
+                <td>{{ employee.birthDate ? employee.birthDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Birth Place</th>
+                <td>{{ employee.birthPlace }}</td>
+            </tr>
+            <tr>
+                <th>Identity Number</th>
+                <td>{{ employee.identityNumber }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('master/employee/_delete_form.html.twig') }}
+{% endblock %}

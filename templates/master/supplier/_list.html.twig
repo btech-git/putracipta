@@ -23,6 +23,9 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'email') }}>
                     Email {{ grid.sort_char(form.sort.email.vars.value) }}
                 </th>
+                <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                </th>
                 <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -41,6 +44,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'email') }} value="{{ form.filter.email.1.vars.value }}" />
                 </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -52,6 +58,7 @@
                     <td>{{ supplier.certification }}</td>
                     <td>{{ supplier.phone }}</td>
                     <td>{{ supplier.email }}</td>
+                    <td>{{ supplier.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_supplier_show', {'id': supplier.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_supplier_edit', {'id': supplier.id}) }}"><i class="bi-pencil"></i></a>
@@ -59,7 +66,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="7">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
