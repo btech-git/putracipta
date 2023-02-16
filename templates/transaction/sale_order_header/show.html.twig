@@ -36,6 +36,10 @@
                 <td>{{ saleOrderHeader.customer.paymentTerm }}</td>
             </tr>
             <tr>
+                <th>Using FSC Paper?</th>
+                <td>{{ saleOrderHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Status</th>
                 <td>{{ saleOrderHeader.transactionStatus }}</td>
             </tr>
