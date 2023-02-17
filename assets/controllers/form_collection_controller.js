@@ -7,6 +7,7 @@ export default class extends Controller {
         startIndex: Number,
         prototype: String,
         itemFieldNameAttributeName: {type: String, default: 'data-item-field-name'},
+        itemFieldActionAttributeName: {type: String, default: 'data-item-field-action'},
         itemIdentifierNameAttributeName: {type: String, default: 'data-item-identifier-name'},
         itemIdentifierValueAttributeName: {type: String, default: 'data-item-identifier-value'}
     }
@@ -55,7 +56,13 @@ export default class extends Controller {
         }
         const items = row.querySelectorAll(`[${this.itemFieldNameAttributeNameValue}]`);
         for (const item of items) {
-            putValueContent(item, getPropertyValue(data, item.getAttribute(`${this.itemFieldNameAttributeNameValue}`)));
+            putValueContent(item, getPropertyValue(data, item.getAttribute(this.itemFieldNameAttributeNameValue)));
+        }
+        const elements = row.querySelectorAll(`[${this.itemFieldActionAttributeNameValue}]`);
+        const $row = row;
+        for (const element of elements) {
+            const $element = element;
+            eval(element.getAttribute(this.itemFieldActionAttributeNameValue));
         }
         this.itemsTarget.appendChild(row);
         this.index++;
