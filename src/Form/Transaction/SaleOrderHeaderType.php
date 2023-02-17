@@ -27,6 +27,8 @@ class SaleOrderHeaderType extends AbstractType
                 'Nominal' => SaleOrderHeader::DISCOUNT_VALUE_TYPE_NOMINAL,
             ]])
             ->add('discountValue')
+            ->add('isUsingFscPaper')
+            ->add('employee', null, ['choice_label' => 'name'])
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 'Non PPn' => SaleOrderHeader::TAX_MODE_NON_TAX,
                 'Exclude PPn' => SaleOrderHeader::TAX_MODE_TAX_EXCLUSION,

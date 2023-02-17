@@ -42,6 +42,15 @@ class PurchaseReturnHeaderGridType extends AbstractType
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
+                'field_value_type_list' => [
+                    'codeNumberOrdinal' => IntegerType::class,
+                    'codeNumberMonth' => ChoiceType::class,
+                    'codeNumberYear' => IntegerType::class,
+                ],
+                'field_value_options_list' => [
+                    'codeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                ],
             ])
             ->add('sort', SortType::class, [
                 'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'note', 'grandTotal'],

@@ -12,6 +12,8 @@
                 <th style="min-width: 150px">FSC Code</th>
                 <th style="min-width: 150px">WO #</th>
                 <th style="min-width: 150px">Lot #</th>
+                <th style="min-width: 150px">PO #</th>
+                <th style="min-width: 150px">Line PO</th>
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 100px">Qty Sisa</th>
                 <th style="min-width: 100px">Qty Kirim</th>
@@ -22,13 +24,15 @@
         </thead>
         <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems customer-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm) %}
-                <tr data-form-collection-target="item" data-item-identifier-name="saleOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.saleOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
                     <td>{{ form_row(detailForm.fscCode, {'label': false}) }}</td>
                     <td></td>
                     <td>{{ form_row(detailForm.lotNumber, {'label': false}) }}</td>
+                    <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ form_row(detailForm.linePo, {'label': false}) }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default }}</td>
                     <td>{{ form_row(detailForm.deliveredQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
@@ -57,7 +61,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="7">Total Quantity</td>
+                <td class="text-end" colspan="9">Total Quantity</td>
                 <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantity">
                     {{ deliveryHeader.totalQuantity|default|number_format(0) }}

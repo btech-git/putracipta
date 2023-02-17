@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: DeliveryDetailRepository::class)]
 #[ORM\Table(name: 'transaction_delivery_detail')]
@@ -68,9 +69,20 @@ class DeliveryDetail extends TransactionDetail
     #[ORM\OneToOne(mappedBy: 'deliveryDetail', cascade: ['persist', 'remove'])]
     private ?SaleInvoiceDetail $saleInvoiceDetail = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $linePO = null;
+
     public function __construct()
     {
         $this->saleReturnDetails = new ArrayCollection();
+    }
+
+    #[Assert\Callback]
+    public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->deliveredQuantity > $this->saleOrderDetail->getRemainingDelivery()) {
+            $context->buildViolation('Quantity must be < remaining')->atPath('deliveredQuantity')->addViolation();
+        }
     }
 
     public function getSyncIsCanceled(): bool
@@ -240,6 +252,18 @@ class DeliveryDetail extends TransactionDetail
         }
 
         $this->saleInvoiceDetail = $saleInvoiceDetail;
+
+        return $this;
+    }
+
+    public function getLinePO(): ?string
+    {
+        return $this->linePO;
+    }
+
+    public function setLinePO(string $linePO): self
+    {
+        $this->linePO = $linePO;
 
         return $this;
     }

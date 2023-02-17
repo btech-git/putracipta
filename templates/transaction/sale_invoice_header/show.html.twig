@@ -24,6 +24,10 @@
                 <td>{{ saleInvoiceHeader.customer.company }}</td>
             </tr>
             <tr>
+                <th>Using FSC Paper?</th>
+                <td>{{ saleInvoiceHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>TOP (days)</th>
                 <td>{{ saleInvoiceHeader.customer.paymentTerm }}</td>
             </tr>

@@ -9,9 +9,9 @@ use App\Entity\TransactionDetail;
 use App\Repository\Transaction\ReceiveDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: ReceiveDetailRepository::class)]
 #[ORM\Table(name: 'transaction_receive_detail')]
@@ -58,6 +58,22 @@ class ReceiveDetail extends TransactionDetail
     public function __construct()
     {
         $this->purchaseReturnDetails = new ArrayCollection();
+    }
+
+    #[Assert\Callback]
+    public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
+    {
+        $detailObject = null;
+        if ($this->purchaseOrderDetail !== null && $this->purchaseOrderPaperDetail === null) {
+            $detailObject = $this->purchaseOrderDetail;
+        } else if ($this->purchaseOrderDetail === null && $this->purchaseOrderPaperDetail !== null) {
+            $detailObject = $this->purchaseOrderPaperDetail;
+        }
+        if ($detailObject !== null) {
+            if ($this->receivedQuantity > $detailObject->getRemainingReceive()) {
+                $context->buildViolation('Quantity must be < remaining')->atPath('receivedQuantity')->addViolation();
+            }
+        }
     }
 
     public function getSyncIsCanceled(): bool

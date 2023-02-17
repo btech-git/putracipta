@@ -20,6 +20,10 @@
                 <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
+                <th>Marketing</th>
+                <td>{{ saleOrderHeader.employee.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Customer</th>
                 <td>{{ saleOrderHeader.customer.company }}</td>
             </tr>
@@ -30,6 +34,10 @@
             <tr>
                 <th>TOP (days)</th>
                 <td>{{ saleOrderHeader.customer.paymentTerm }}</td>
+            </tr>
+            <tr>
+                <th>Using FSC Paper?</th>
+                <td>{{ saleOrderHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Status</th>

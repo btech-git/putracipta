@@ -22,23 +22,25 @@ class CustomerGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['company', 'name', 'phone', 'email', 'addressInvoice'],
+                'field_names' => ['company', 'name', 'phone', 'email', 'addressInvoice', 'isInactive'],
                 'field_operators_list' => [
                     'company' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'addressInvoice' => [FilterContain::class, FilterNotContain::class],
                     'phone' => [FilterContain::class, FilterNotContain::class],
                     'email' => [FilterContain::class, FilterNotContain::class],
+                    'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['company', 'name', 'phone', 'email', 'addressInvoice'],
+                'field_names' => ['company', 'name', 'phone', 'email', 'addressInvoice', 'isInactive'],
                 'field_operators_list' => [
                     'company' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'addressInvoice' => [SortAscending::class, SortDescending::class],
                     'phone' => [SortAscending::class, SortDescending::class],
                     'email' => [SortAscending::class, SortDescending::class],
+                    'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

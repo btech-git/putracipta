@@ -22,11 +22,10 @@ class PaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'unit:name'],
+                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
                     'code' => 'Code',
-                    'unit:name' => 'Satuan',
                     'length' => 'Panjang',
                     'width' => 'Lebar',
                     'weight' => 'GSM',
@@ -36,16 +35,15 @@ class PaperGridType extends AbstractType
                     'length' => [FilterEqual::class, FilterNotEqual::class],
                     'width' => [FilterEqual::class, FilterNotEqual::class],
                     'weight' => [FilterEqual::class, FilterNotEqual::class],
-                    'unit:name' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'unit:name'],
+                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
                     'code' => 'Code',
-                    'unit:name' => 'Satuan',
                     'length' => 'Panjang',
                     'width' => 'Lebar',
                     'weight' => 'GSM',
@@ -55,8 +53,8 @@ class PaperGridType extends AbstractType
                     'length' => [SortAscending::class, SortDescending::class],
                     'width' => [SortAscending::class, SortDescending::class],
                     'weight' => [SortAscending::class, SortDescending::class],
-                    'unit:name' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

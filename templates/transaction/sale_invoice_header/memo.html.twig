@@ -103,6 +103,10 @@
             <thead>
                 <tr>
                     <th class="center">PO #</th>
+                    {% if saleInvoiceHeader.isUsingFscPaper %}
+                        <th class="center">FSC Code</th>
+                        <th class="center">WO #</th>
+                    {% endif %}
                     <th class="center">Code</th>
                     <th class="center">Description</th>
                     <th class="center">Qty</th>
@@ -118,6 +122,10 @@
                         <tr>
                             {% if saleInvoiceDetail and not saleInvoiceDetail.isCanceled %}
                                 <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                {% if saleInvoiceHeader.isUsingFscPaper %}
+                                    <td class="center">{{ deliveryDetail.fscCode|default }}</td>
+                                    <td class="left"></td>
+                                {% endif %}
                                 <td class="left">{{ saleInvoiceDetail.product.code|default }}</td>
                                 <td class="left">{{ saleInvoiceDetail.product.name|default }}</td>
                                 <td class="center">{{ saleInvoiceDetail.quantity|default }}</td>
@@ -125,6 +133,10 @@
                                 <td class="right">{{ saleInvoiceDetail.unitPrice|default|number_format(0) }}</td>
                                 <td class="right">{{ saleInvoiceDetail.total|default|number_format(0) }}</td>
                             {% else %}
+                                {% if saleInvoiceHeader.isUsingFscPaper %}
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                {% endif %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
@@ -139,12 +151,12 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6" class="label right">Sub Total</td>
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">Sub Total</td>
                     <td class="right">{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 {% if saleInvoiceHeader.discountNominal > 0.00 %}
                     <tr>
-                        <td colspan="6" class="label right">
+                        <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">
                             Diskon
                             {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
                                 {{ saleInvoiceHeader.discountValue|default }}%
@@ -154,7 +166,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td colspan="6" class="label right">
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">
                         {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
                             Non PPn 0%
                         {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
@@ -163,18 +175,16 @@
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
+                {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
+                    <tr>
+                        <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">
+                            PPh 23 ({{ saleInvoiceHeader.serviceTaxPercentage }}%)
+                        </td>
+                        <td class="right">{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(0) }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
-                    <td colspan="6" class="label right">
-                        {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', saleInvoiceHeader) %}
-                            Non PPh 0%
-                        {% elseif saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
-                            PPh {{ saleInvoiceHeader.serviceTaxPercentage }}%
-                        {% endif %}
-                    </td>
-                    <td class="right">{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(0) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="6" class="label right">Grand Total</td>
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">Grand Total</td>
                     <td class="right">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
             </tfoot>
@@ -207,7 +217,7 @@
         
         <div>
             <div class="table full">
-                {% if saleInvoiceHeader.customer.isHasFscCode %}
+                {% if saleInvoiceHeader.isUsingFscPaper %}
                     <div class="cell sig">
                         <div class="signature" style="text-decoration: underline">{{ ifscCode }}</div>
                         <div>FSC Code: </div>

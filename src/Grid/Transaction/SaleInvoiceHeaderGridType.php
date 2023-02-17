@@ -52,6 +52,7 @@ class SaleInvoiceHeaderGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [

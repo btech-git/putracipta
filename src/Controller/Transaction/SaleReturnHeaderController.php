@@ -28,7 +28,6 @@ class SaleReturnHeaderController extends AbstractController
 
         list($count, $saleReturnHeaders) = $saleReturnHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
-            $qb->addOrderBy("{$alias}.id", 'DESC');
             if (isset($request->query->get('sale_return_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_return_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('sale_return_header_grid')['filter']['customer:company']);

@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\Employee;
 use App\Entity\Master\Transportation;
 use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
@@ -37,16 +38,18 @@ class DeliveryHeader extends TransactionHeader
     #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: DeliveryDetail::class)]
     private Collection $deliveryDetails;
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotNull]
-    private ?string $driverName = '';
-
     #[ORM\OneToOne(mappedBy: 'deliveryHeader', cascade: ['persist', 'remove'])]
     private ?SaleReturnHeader $saleReturnHeader = null;
 
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Transportation $transportation = null;
+
+    #[ORM\ManyToOne]
+    private ?Employee $employee = null;
+
+    #[ORM\Column]
+    private ?bool $isUsingFscPaper = null;
 
     public function __construct()
     {
@@ -140,18 +143,6 @@ class DeliveryHeader extends TransactionHeader
         return $this;
     }
 
-    public function getDriverName(): ?string
-    {
-        return $this->driverName;
-    }
-
-    public function setDriverName(string $driverName): self
-    {
-        $this->driverName = $driverName;
-
-        return $this;
-    }
-
     public function getSaleReturnHeader(): ?SaleReturnHeader
     {
         return $this->saleReturnHeader;
@@ -182,6 +173,30 @@ class DeliveryHeader extends TransactionHeader
     public function setTransportation(?Transportation $transportation): self
     {
         $this->transportation = $transportation;
+
+        return $this;
+    }
+
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): self
+    {
+        $this->employee = $employee;
+
+        return $this;
+    }
+
+    public function isIsUsingFscPaper(): ?bool
+    {
+        return $this->isUsingFscPaper;
+    }
+
+    public function setIsUsingFscPaper(bool $isUsingFscPaper): self
+    {
+        $this->isUsingFscPaper = $isUsingFscPaper;
 
         return $this;
     }

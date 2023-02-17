@@ -20,20 +20,24 @@
                 <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>customer</th>
-                <td>{{ deliveryHeader.customer.company}}</td>
+                <th>Customer</th>
+                <td>{{ deliveryHeader.customer.company|default}}</td>
+            </tr>
+            <tr>
+                <th>Using FSC Paper?</th>
+                <td>{{ deliveryHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Driver</th>
-                <td>{{ deliveryHeader.driverName }}</td>
+                <td>{{ deliveryHeader.employee.name|default }}</td>
             </tr>
             <tr>
                 <th>Kendaraan</th>
-                <td>{{ deliveryHeader.transportation.name }}</td>
+                <td>{{ deliveryHeader.transportation.name|default }}</td>
             </tr>
             <tr>
                 <th>Nopol</th>
-                <td>{{ deliveryHeader.transportation.plateNumber }}</td>
+                <td>{{ deliveryHeader.transportation.plateNumber|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -54,6 +58,8 @@
                 <th>FSC Code</th>
                 <th>WO #</th>
                 <th>Lot #</th>
+                <th>PO #</th>
+                <th>Line PO</th>
                 <th>Tgl Produksi</th>
                 <th>Qty Order</th>
                 <th>Qty Sisa</th>
@@ -71,7 +77,9 @@
                     <td>{{ deliveryDetail.fscCode|default }}</td>
                     <td></td>
                     <td>{{ deliveryDetail.lotNumber|default }}</td>
+                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td></td>
+                    <td>{{ deliveryDetail.linePo|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
@@ -83,7 +91,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8" style="text-align: right"><strong>Total</strong></td>
+                <td colspan="10" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default }}</strong></td>
                 <td colspan="3"></td>
             </tr>

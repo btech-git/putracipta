@@ -46,7 +46,7 @@
         </thead>
         <tbody>
             {% for saleOrderDetail in saleOrderDetails %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber,
                     'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber,
                     'saleOrderDetailId': saleOrderDetail.id,

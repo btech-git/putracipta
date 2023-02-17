@@ -20,8 +20,8 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'email') }}>
                     Email {{ grid.sort_char(form.sort.email.vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'addressInvoice') }}>
-                    Address {{ grid.sort_char(form.sort.addressInvoice.vars.value) }}
+                <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -39,7 +39,7 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'email') }} value="{{ form.filter.email.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'addressInvoice') }} value="{{ form.filter.addressInvoice.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -51,7 +51,7 @@
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.phone }}</td>
                     <td>{{ customer.email }}</td>
-                    <td>{{ customer.addressInvoice }}</td>
+                    <td>{{ customer.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_customer_show', {'id': customer.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_customer_edit', {'id': customer.id}) }}"><i class="bi-pencil"></i></a>
@@ -59,7 +59,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -49,6 +49,9 @@ class SaleInvoiceHeaderFormService
         $saleInvoiceHeader->setDueDate($saleInvoiceHeader->getSyncDueDate());
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
+            $deliveryHeader = $deliveryDetail->getDeliveryHeader();
+            $saleInvoiceHeader->setIsUsingFscPaper($deliveryHeader->isIsUsingFscPaper());
+            
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleInvoiceDetail->setIsCanceled($saleInvoiceDetail->getSyncIsCanceled());
             $saleInvoiceDetail->setProduct($deliveryDetail->getProduct());
