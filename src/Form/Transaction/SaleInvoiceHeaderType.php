@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
 use App\Entity\Transaction\SaleInvoiceDetail;
 use App\Entity\Transaction\SaleInvoiceHeader;
+use App\Repository\Admin\LiteralConfigRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -14,8 +15,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SaleInvoiceHeaderType extends AbstractType
 {
+    private LiteralConfigRepository $literalConfigRepository;
+
+    public function __construct(LiteralConfigRepository $literalConfigRepository)
+    {
+        $this->literalConfigRepository = $literalConfigRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $vatPercentage = $this->literalConfigRepository->findLiteralValue('vatPercentage');
+        $serviceTaxPercentage = $this->literalConfigRepository->findLiteralValue('serviceTaxPercentage');
         $builder
             ->add('invoiceTaxCodeNumber')
             ->add('transactionDate', null, ['widget' => 'single_text'])
@@ -28,11 +38,11 @@ class SaleInvoiceHeaderType extends AbstractType
             ->add('discountValue')
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 '0%' => SaleInvoiceHeader::TAX_MODE_NON_TAX,
-                '11%' => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
+                "{$vatPercentage}%" => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
             ]])
             ->add('serviceTaxMode', ChoiceType::class, ['choices' => [
-                '0%' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
-                '2%' => SaleInvoiceHeader::SERVICE_TAX_MODE_TAX,
+                '0.00%' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
+                "{$serviceTaxPercentage}%" => SaleInvoiceHeader::SERVICE_TAX_MODE_TAX,
             ]])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('saleInvoiceDetails', CollectionType::class, [
