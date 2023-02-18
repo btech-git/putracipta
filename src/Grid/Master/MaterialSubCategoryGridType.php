@@ -15,6 +15,7 @@ use App\Common\Form\Type\SortType;
 use App\Entity\Master\MaterialCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -37,9 +38,11 @@ class MaterialSubCategoryGridType extends AbstractType
                 ],
                 'field_value_type_list' => [
                     'materialCategory' => EntityType::class,
+                    'isInactive' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'materialCategory' => ['class' => MaterialCategory::class, 'choice_label' => 'name'],
+                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [

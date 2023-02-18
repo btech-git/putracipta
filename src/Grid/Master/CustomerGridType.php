@@ -13,6 +13,7 @@ use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,6 +31,12 @@ class CustomerGridType extends AbstractType
                     'phone' => [FilterContain::class, FilterNotContain::class],
                     'email' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
+                ],
+                'field_value_type_list' => [
+                    'isInactive' => ChoiceType::class,
+                ],
+                'field_value_options_list' => [
+                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [
