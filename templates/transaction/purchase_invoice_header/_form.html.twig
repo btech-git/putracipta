@@ -10,11 +10,20 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col sm-6">
-                    {{ form_row(form.transactionDate, {'label': 'Tanggal Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal Invoice', 'attr': {
+                        'data-controller': 'flatpickr-element',
+                        'data-action': 'change->json-loader#load',
+                    }}) }}
                     {{ form_row(form.invoiceReceivedDate, {'label': 'Tanggal Terima Invoice', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.supplierInvoiceCodeNumber, {'label': 'Supplier Invoice #'}) }}
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
                     {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Jatuh Tempo</label>
+                        <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.dueDate }}" readonly="readonly"
+                                data-json-loader-target="placeholder"
+                                data-property-path="dueDate" />
+                    </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -37,15 +46,6 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.receiveHeader) }}
                     </div>
-                    {# <div class="mb-3">
-                        <label class="form-label">PO #</label>
-                        <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader is null ? purchaseInvoiceHeader.receiveHeader.purchaseOrderPaperHeader.codeNumber|default : purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.codeNumber|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="receive-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderHeaderCodeNumber'}},
-                               ]|json_encode }}" />
-                    </div>#}
                     <div class="mb-3">
                         <label class="form-label">Supplier</label>
                         <input type="text" class="form-control" value="{{ purchaseInvoiceHeader.supplier.company|default }}" readonly="readonly"
