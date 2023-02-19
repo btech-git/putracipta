@@ -35,7 +35,13 @@
                     <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
                     <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
                     <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
-                    <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {
+                            'data-controller': 'flatpickr-element', 
+                            'data-action': 'change->json-loader#load',
+                            'data-item-field-name': 'usageDate',
+                        }}) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
                             'data-action': 'change->json-loader#load',

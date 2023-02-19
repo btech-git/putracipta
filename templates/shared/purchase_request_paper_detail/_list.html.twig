@@ -87,7 +87,7 @@
                     'paperWidth': purchaseRequestPaperDetail.paper.width,
                     'paperWeight': purchaseRequestPaperDetail.paper.weight,
                     'pricingMode': purchaseRequestPaperDetail.paper.pricingMode,
-                    'usageDate': purchaseRequestPaperDetail.usageDate,
+                    'usageDate': purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('Y-m-d') : '',
                     'memo': purchaseRequestPaperDetail.memo,
                     'unitId': purchaseRequestPaperDetail.unit.id,
                     'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity}|json_encode }}">
