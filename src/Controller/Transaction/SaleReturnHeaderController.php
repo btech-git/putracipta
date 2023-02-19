@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\SaleReturnHeader;
 use App\Form\Transaction\SaleReturnHeaderType;
 use App\Grid\Transaction\SaleReturnHeaderGridType;
@@ -23,11 +24,14 @@ class SaleReturnHeaderController extends AbstractController
     public function _list(Request $request, SaleReturnHeaderRepository $saleReturnHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(SaleReturnHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $saleReturnHeaders) = $saleReturnHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('sale_return_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_return_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('sale_return_header_grid')['filter']['customer:company']);

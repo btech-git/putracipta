@@ -56,18 +56,14 @@ class SaleInvoiceHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_names' => ['transactionDate', 'customer:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'id'],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
+                    'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'grandTotal' => [SortAscending::class, SortDescending::class],

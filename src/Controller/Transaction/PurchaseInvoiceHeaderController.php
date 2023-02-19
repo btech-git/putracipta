@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Form\Transaction\PurchaseInvoiceHeaderType;
 use App\Grid\Transaction\PurchaseInvoiceHeaderGridType;
@@ -23,11 +24,14 @@ class PurchaseInvoiceHeaderController extends AbstractController
     public function _list(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(PurchaseInvoiceHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $purchaseInvoiceHeaders) = $purchaseInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('purchase_invoice_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_invoice_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('purchase_invoice_header_grid')['filter']['supplier:company']);

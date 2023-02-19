@@ -53,19 +53,15 @@ class PurchasePaymentHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'supplierInvoiceCodeNumbers'],
+                'field_names' => ['transactionDate', 'supplier:company', 'supplierInvoiceCodeNumbers', 'id'],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
+                    'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'supplierInvoiceCodeNumbers' => 'Supplier Invoice #',
                     'supplier:company' => 'Supplier',
                 ],
                 'field_operators_list' => [
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
                     'supplierInvoiceCodeNumbers' => [SortAscending::class, SortDescending::class],

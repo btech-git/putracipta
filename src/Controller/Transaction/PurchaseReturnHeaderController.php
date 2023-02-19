@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\PurchaseReturnHeader;
 use App\Form\Transaction\PurchaseReturnHeaderType;
 use App\Grid\Transaction\PurchaseReturnHeaderGridType;
@@ -23,11 +24,14 @@ class PurchaseReturnHeaderController extends AbstractController
     public function _list(Request $request, PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(PurchaseReturnHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $purchaseReturnHeaders) = $purchaseReturnHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('purchase_return_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_return_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('purchase_return_header_grid')['filter']['supplier:company']);

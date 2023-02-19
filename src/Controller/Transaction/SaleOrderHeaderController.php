@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\SaleOrderHeader;
 use App\Form\Transaction\SaleOrderHeaderType;
 use App\Grid\Transaction\SaleOrderHeaderGridType;
@@ -23,11 +24,14 @@ class SaleOrderHeaderController extends AbstractController
     public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('sale_order_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_order_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('sale_order_header_grid')['filter']['customer:company']);
