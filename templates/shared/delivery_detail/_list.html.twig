@@ -13,8 +13,8 @@
                         {'destinationsTarget': '#delivery-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
-                <th style="min-width: 150px">
-                    PO #
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'saleOrderHeader:referenceNumber') }}>
+                    PO # {{ grid.sort_char(form.sort['saleOrderHeader:referenceNumber'].vars.value) }}
                 </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'product:code') }}>
                     Code {{ grid.sort_char(form.sort['product:code'].vars.value) }}
@@ -34,7 +34,9 @@
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderHeader:referenceNumber') }} value="{{ form.filter['saleOrderHeader:referenceNumber'].1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:code') }} value="{{ form.filter['product:code'].1.vars.value }}" />
                 </th>

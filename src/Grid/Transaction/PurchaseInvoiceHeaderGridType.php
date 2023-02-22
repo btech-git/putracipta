@@ -25,11 +25,9 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'id'],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
+                    'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'supplierInvoiceCodeNumber' => 'Supplier Invoice #',
                     'supplier:company' => 'Supplier',

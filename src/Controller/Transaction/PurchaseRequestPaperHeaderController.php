@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\PurchaseRequestPaperHeader;
 use App\Form\Transaction\PurchaseRequestPaperHeaderType;
 use App\Grid\Transaction\PurchaseRequestPaperHeaderGridType;
@@ -22,11 +23,14 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     public function _list(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(PurchaseRequestPaperHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('purchase_request_paper_header_grid')['filter']['warehouse:name']) && isset($request->query->get('purchase_request_paper_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
                 $add['filter']($qb, 'w', 'name', $request->query->get('purchase_request_paper_header_grid')['filter']['warehouse:name']);

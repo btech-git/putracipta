@@ -65,7 +65,7 @@
                     'materialName': purchaseRequestDetail.material.name,
                     'materialCode': purchaseRequestDetail.material.code,
                     'materialId': purchaseRequestDetail.material.id,
-                    'purchaseRequestDetailUsageDate': purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '',
+                    'purchaseRequestDetailUsageDate': purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('Y-m-d') : '',
                     'purchaseRequestDetailMemo': purchaseRequestDetail.memo,
                     'unitId': purchaseRequestDetail.unit.id,
                     'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity}|json_encode }}">

@@ -16,6 +16,7 @@ use App\Entity\Master\MaterialCategory;
 use App\Entity\Master\MaterialSubCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,28 +26,30 @@ class MaterialGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['name', 'code', 'materialCategory', 'materialSubCategory', 'isInactive'],
+                'field_names' => ['name', 'code', 'materialSubCategory', 'materialSubCategory:materialCategory', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
                     'code' => 'Code',
-                    'materialCategory' => 'Category',
+                    'materialSubCategory:materialCategory' => 'Category',
                     'materialSubCategory' => 'Sub Category',
                     'isInactive' => 'Inactive',
                 ],
                 'field_operators_list' => [
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
-                    'materialCategory' => [FilterEqual::class, FilterNotEqual::class],
+                    'materialSubCategory:materialCategory' => [FilterEqual::class, FilterNotEqual::class],
                     'materialSubCategory' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
-                    'materialCategory' => EntityType::class,
+                    'materialSubCategory:materialCategory' => EntityType::class,
                     'materialSubCategory' => EntityType::class,
+                    'isInactive' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
-                    'materialCategory' => ['class' => MaterialCategory::class, 'choice_label' => 'name'],
+                    'materialSubCategory:materialCategory' => ['class' => MaterialCategory::class, 'choice_label' => 'name'],
                     'materialSubCategory' => ['class' => MaterialSubCategory::class, 'choice_label' => 'name'],
+                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [

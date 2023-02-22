@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\DeliveryHeader;
 use App\Form\Transaction\DeliveryHeaderType;
 use App\Grid\Transaction\DeliveryHeaderGridType;
@@ -24,11 +25,14 @@ class DeliveryHeaderController extends AbstractController
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(DeliveryHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('delivery_header_grid')['filter']['customer:company']) && isset($request->query->get('delivery_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('delivery_header_grid')['filter']['customer:company']);

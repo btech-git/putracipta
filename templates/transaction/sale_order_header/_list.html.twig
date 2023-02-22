@@ -8,8 +8,8 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px" role="button">
-                    SO #
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
+                    SO # {{ grid.sort_char(form.sort.id.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}

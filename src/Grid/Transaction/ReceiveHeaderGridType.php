@@ -60,11 +60,9 @@ class ReceiveHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'id'],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
+                    'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'supplierDeliveryCodeNumber' => 'SJ Supplier #',
                     'supplier:company' => 'Supplier',
@@ -72,9 +70,7 @@ class ReceiveHeaderGridType extends AbstractType
                 ],
                 'field_operators_list' => [
                     'supplierDeliveryCodeNumber' => [SortAscending::class, SortDescending::class],
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],

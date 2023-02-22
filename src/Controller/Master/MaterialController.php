@@ -25,14 +25,15 @@ class MaterialController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $materials) = $materialRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('material_grid')['filter']['materialSubCategory:name']) && isset($request->query->get('material_grid')['sort']['materialSubCategory:name'])) {
-                $qb->innerJoin("{$alias}.materialSubCategory", 's');
-                $add['filter']($qb, 's', 'name', $request->query->get('material_grid')['filter']['materialSubCategory:name']);
+            $qb->innerJoin("{$alias}.materialSubCategory", 's');
+            $qb->innerJoin("s.materialCategory", 'c');
+            if (isset($request->query->get('material_grid')['sort']['materialSubCategory:name'])) {
                 $add['sort']($qb, 's', 'name', $request->query->get('material_grid')['sort']['materialSubCategory:name']);
             }
-            if (isset($request->query->get('material_grid')['filter']['materialCategory:name']) && isset($request->query->get('material_grid')['sort']['materialCategory:name'])) {
-                $qb->innerJoin("s.materialCategory", 'c');
-                $add['filter']($qb, 'c', 'name', $request->query->get('material_grid')['filter']['materialCategory:name']);
+            if (isset($request->query->get('material_grid')['filter']['materialSubCategory:materialCategory'])) {
+                $add['filter']($qb, 's', 'materialCategory', $request->query->get('material_grid')['filter']['materialSubCategory:materialCategory']);
+            }
+            if (isset($request->query->get('material_grid')['sort']['materialCategory:name'])) {
                 $add['sort']($qb, 'c', 'name', $request->query->get('material_grid')['sort']['materialCategory:name']);
             }
         });

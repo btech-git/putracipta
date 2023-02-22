@@ -56,18 +56,14 @@ class PurchaseRequestPaperHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'note'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'note', 'id'],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
+                    'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'warehouse:name' => 'Gudang',
                 ],
                 'field_operators_list' => [
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],

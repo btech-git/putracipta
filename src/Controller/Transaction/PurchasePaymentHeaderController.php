@@ -3,6 +3,7 @@
 namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Transaction\PurchasePaymentHeader;
 use App\Form\Transaction\PurchasePaymentHeaderType;
 use App\Grid\Transaction\PurchasePaymentHeaderGridType;
@@ -22,11 +23,14 @@ class PurchasePaymentHeaderController extends AbstractController
     public function _list(Request $request, PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(PurchasePaymentHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
         list($count, $purchasePaymentHeaders) = $purchasePaymentHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->addOrderBy("{$alias}.transactionDate", 'DESC');
             if (isset($request->query->get('purchase_payment_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_payment_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
                 $add['filter']($qb, 's', 'company', $request->query->get('purchase_payment_header_grid')['filter']['supplier:company']);

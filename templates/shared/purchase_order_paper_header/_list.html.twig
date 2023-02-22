@@ -52,7 +52,7 @@
         </thead>
         <tbody>
             {% for purchaseOrderPaperHeader in purchaseOrderPaperHeaders %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderPaperHeader.purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => {
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderPaperHeader.purchaseOrderPaperDetails|filter(purchaseOrderPaperDetail => not purchaseOrderPaperDetail.isCanceled)|slice(0)|map(purchaseOrderPaperDetail => {
                     'purchaseOrderPaperHeaderId': purchaseOrderPaperHeader.id,
                     'purchaseOrderPaperHeaderCodeNumber': purchaseOrderPaperHeader.codeNumber,
                     'purchaseOrderHeaderTransactionDate': purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '',
