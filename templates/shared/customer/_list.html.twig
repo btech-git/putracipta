@@ -44,6 +44,7 @@
                     'phone': customer.phone, 
                     'email': customer.email, 
                     'addressDelivery': customer.addressDelivery,
+                    'hasFscCode': customer.hasFscCode ? 'Yes' : 'No',
                     'paymentTerm': customer.paymentTerm}|json_encode }}">
                     <td>{{ customer.company }}</td>
                     <td>{{ customer.name }}</td>
