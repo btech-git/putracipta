@@ -63,15 +63,17 @@ class ReceiveDetail extends TransactionDetail
     #[Assert\Callback]
     public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
     {
-        $detailObject = null;
-        if ($this->purchaseOrderDetail !== null && $this->purchaseOrderPaperDetail === null) {
-            $detailObject = $this->purchaseOrderDetail;
-        } else if ($this->purchaseOrderDetail === null && $this->purchaseOrderPaperDetail !== null) {
-            $detailObject = $this->purchaseOrderPaperDetail;
-        }
-        if ($detailObject !== null) {
-            if ($this->receivedQuantity > $detailObject->getRemainingReceive()) {
-                $context->buildViolation('Quantity must be < remaining')->atPath('receivedQuantity')->addViolation();
+        if ($this->receiveHeader->getId() === null) {
+            $detailObject = null;
+            if ($this->purchaseOrderDetail !== null && $this->purchaseOrderPaperDetail === null) {
+                $detailObject = $this->purchaseOrderDetail;
+            } else if ($this->purchaseOrderDetail === null && $this->purchaseOrderPaperDetail !== null) {
+                $detailObject = $this->purchaseOrderPaperDetail;
+            }
+            if ($detailObject !== null) {
+                if ($this->receivedQuantity > $detailObject->getRemainingReceive()) {
+                    $context->buildViolation('Quantity must be < remaining')->atPath('receivedQuantity')->addViolation();
+                }
             }
         }
     }
