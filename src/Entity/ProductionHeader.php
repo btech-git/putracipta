@@ -8,13 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
-abstract class TransactionHeader
+abstract class ProductionHeader
 {
     public const MONTH_ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
     #[ORM\Column]
     #[Assert\NotNull]
     protected ?bool $isCanceled = false;
+
+    #[ORM\Column]
+    #[Assert\NotNull]
+    protected ?bool $isRead = false;
 
     #[ORM\Column]
     #[Assert\NotNull]
@@ -33,29 +37,25 @@ abstract class TransactionHeader
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\NotNull]
-    protected ?\DateTimeInterface $createdTransactionDateTime = null;
+    protected ?\DateTimeInterface $createdProductionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
+    protected ?\DateTimeInterface $modifiedProductionDateTime = null;
 
     #[ORM\ManyToOne]
     #[Assert\NotNull]
-    protected ?User $createdTransactionUser = null;
+    protected ?User $createdProductionUser = null;
 
     #[ORM\ManyToOne]
-    protected ?User $modifiedTransactionUser = null;
+    protected ?User $modifiedProductionUser = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\NotNull]
-    protected ?\DateTimeInterface $transactionDate = null;
+    protected ?\DateTimeInterface $productionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
     protected ?string $note = '';
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    protected ?bool $isRead = false;
 
     public abstract function getCodeNumberConstant(): string;
 
@@ -109,6 +109,18 @@ abstract class TransactionHeader
         return $this;
     }
 
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
+
+        return $this;
+    }
+
     public function getCodeNumberOrdinal(): ?int
     {
         return $this->codeNumberOrdinal;
@@ -145,62 +157,62 @@ abstract class TransactionHeader
         return $this;
     }
 
-    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
+    public function getCreatedProductionDateTime(): ?\DateTimeInterface
     {
-        return $this->createdTransactionDateTime;
+        return $this->createdProductionDateTime;
     }
 
-    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
+    public function setCreatedProductionDateTime(?\DateTimeInterface $createdProductionDateTime): self
     {
-        $this->createdTransactionDateTime = $createdTransactionDateTime;
+        $this->createdProductionDateTime = $createdProductionDateTime;
 
         return $this;
     }
 
-    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
+    public function getModifiedProductionDateTime(): ?\DateTimeInterface
     {
-        return $this->modifiedTransactionDateTime;
+        return $this->modifiedProductionDateTime;
     }
 
-    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
+    public function setModifiedProductionDateTime(?\DateTimeInterface $modifiedProductionDateTime): self
     {
-        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
+        $this->modifiedProductionDateTime = $modifiedProductionDateTime;
 
         return $this;
     }
 
-    public function getCreatedTransactionUser(): ?User
+    public function getCreatedProductionUser(): ?User
     {
-        return $this->createdTransactionUser;
+        return $this->createdProductionUser;
     }
 
-    public function setCreatedTransactionUser(?User $createdTransactionUser): self
+    public function setCreatedProductionUser(?User $createdProductionUser): self
     {
-        $this->createdTransactionUser = $createdTransactionUser;
+        $this->createdProductionUser = $createdProductionUser;
 
         return $this;
     }
 
-    public function getModifiedTransactionUser(): ?User
+    public function getModifiedProductionUser(): ?User
     {
-        return $this->modifiedTransactionUser;
+        return $this->modifiedProductionUser;
     }
 
-    public function setModifiedTransactionUser(?User $modifiedTransactionUser): self
+    public function setModifiedProductionUser(?User $modifiedProductionUser): self
     {
-        $this->modifiedTransactionUser = $modifiedTransactionUser;
+        $this->modifiedProductionUser = $modifiedProductionUser;
 
         return $this;
     }
 
-    public function getTransactionDate(): ?\DateTimeInterface
+    public function getProductionDate(): ?\DateTimeInterface
     {
-        return $this->transactionDate;
+        return $this->productionDate;
     }
 
-    public function setTransactionDate(?\DateTimeInterface $transactionDate): self
+    public function setProductionDate(?\DateTimeInterface $productionDate): self
     {
-        $this->transactionDate = $transactionDate;
+        $this->productionDate = $productionDate;
 
         return $this;
     }
@@ -213,18 +225,6 @@ abstract class TransactionHeader
     public function setNote(string $note): self
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function isIsRead(): ?bool
-    {
-        return $this->isRead;
-    }
-
-    public function setIsRead(bool $isRead): self
-    {
-        $this->isRead = $isRead;
 
         return $this;
     }
