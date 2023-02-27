@@ -157,6 +157,22 @@ class PurchaseOrderHeaderController extends AbstractController
         return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/hold', name: 'app_transaction_purchase_order_header_hold', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function hold(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('hold' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_HOLD);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/memo', name: 'app_transaction_purchase_order_header_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function memo(PurchaseOrderHeader $purchaseOrderHeader): Response
@@ -172,4 +188,41 @@ class PurchaseOrderHeaderController extends AbstractController
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
         ]);
     }
+    
+    #[Route('/_head', name: 'app_transaction_purchase_order_header__head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _head(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
+        $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form->handleRequest($request);
+
+        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+//            if (isset($request->query->get('purchase_order_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_header_grid')['sort']['supplier:company'])) {
+//                $qb->innerJoin("{$alias}.supplier", 's');
+//                $add['filter']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['filter']['supplier:company']);
+//                $add['sort']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['sort']['supplier:company']);
+//            }
+        });
+
+        return $this->render("transaction/purchase_order_header/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseOrderHeaders' => $purchaseOrderHeaders,
+        ]);
+    }
+
+    #[Route('/', name: 'app_transaction_purchase_order_header_head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function head(): Response
+    {
+        return $this->render("transaction/purchase_order_header/head.html.twig");
+    }
+
 }
