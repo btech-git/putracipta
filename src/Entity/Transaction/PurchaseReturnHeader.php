@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Supplier;
+use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseReturnHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -51,6 +52,9 @@ class PurchaseReturnHeader extends TransactionHeader
 
     #[ORM\OneToOne(inversedBy: 'purchaseReturnHeader', cascade: ['persist', 'remove'])]
     private ?ReceiveHeader $receiveHeader = null;
+
+    #[ORM\ManyToOne]
+    private ?Warehouse $warehouse = null;
 
     public function __construct()
     {
@@ -200,6 +204,18 @@ class PurchaseReturnHeader extends TransactionHeader
     public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
     {
         $this->receiveHeader = $receiveHeader;
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }
