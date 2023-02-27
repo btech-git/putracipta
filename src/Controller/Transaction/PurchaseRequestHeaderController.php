@@ -9,6 +9,7 @@ use App\Form\Transaction\PurchaseRequestHeaderType;
 use App\Grid\Transaction\PurchaseRequestHeaderGridType;
 use App\Repository\Transaction\PurchaseRequestHeaderRepository;
 use App\Service\Transaction\PurchaseRequestHeaderFormService;
+use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,5 +117,57 @@ class PurchaseRequestHeaderController extends AbstractController
         }
 
         return $this->redirectToRoute('app_transaction_purchase_request_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/{id}/approve', name: 'app_transaction_purchase_request_header_approve', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function approve(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('approve' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestHeader->setApprovedTransactionDateTime(new \DateTime());
+            $purchaseRequestHeader->setApprovedTransactionUser($this->getUser());
+            $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_APPROVE);
+            $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was approved successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to approve the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/{id}/reject', name: 'app_transaction_purchase_request_header_reject', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function reject(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('reject' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestHeader->setRejectedTransactionDateTime(new \DateTime());
+            $purchaseRequestHeader->setRejectedTransactionUser($this->getUser());
+            $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_REJECT);
+            $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was rejected successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to reject the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/memo', name: 'app_transaction_purchase_request_header_memo', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memo(PurchaseRequestHeader $purchaseRequestHeader): Response
+    {
+        $fileName = 'purchase-request.pdf';
+        $htmlView = $this->renderView('transaction/purchase_request_header/memo.html.twig', [
+            'purchaseRequestHeader' => $purchaseRequestHeader,
+        ]);
+
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link(.+)href=".+">/', '<link\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+        ]);
     }
 }

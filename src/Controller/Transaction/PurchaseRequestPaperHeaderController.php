@@ -9,6 +9,7 @@ use App\Form\Transaction\PurchaseRequestPaperHeaderType;
 use App\Grid\Transaction\PurchaseRequestPaperHeaderGridType;
 use App\Repository\Transaction\PurchaseRequestPaperHeaderRepository;
 use App\Service\Transaction\PurchaseRequestPaperHeaderFormService;
+use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -117,5 +118,57 @@ class PurchaseRequestPaperHeaderController extends AbstractController
         }
 
         return $this->redirectToRoute('app_transaction_purchase_request_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/{id}/approve', name: 'app_transaction_purchase_request_paper_header_approve', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function approve(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('approve' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeader->setApprovedTransactionDateTime(new \DateTime());
+            $purchaseRequestPaperHeader->setApprovedTransactionUser($this->getUser());
+            $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_APPROVE);
+            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was approved successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to approve the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/{id}/reject', name: 'app_transaction_purchase_request_paper_header_reject', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function reject(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('reject' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeader->setRejectedTransactionDateTime(new \DateTime());
+            $purchaseRequestPaperHeader->setRejectedTransactionUser($this->getUser());
+            $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_REJECT);
+            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was rejected successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to reject the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/memo', name: 'app_transaction_purchase_request_paper_header_memo', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memo(PurchaseRequestPaperHeader $purchaseRequestPaperHeader): Response
+    {
+        $fileName = 'purchase-request-paper.pdf';
+        $htmlView = $this->renderView('transaction/purchase_request_paper_header/memo.html.twig', [
+            'purchaseRequestPaperHeader' => $purchaseRequestPaperHeader,
+        ]);
+
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link(.+)href=".+">/', '<link\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+        ]);
     }
 }
