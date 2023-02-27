@@ -20,7 +20,7 @@ class ProductType extends AbstractType
             ->add('customer', null, [
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
-                    return $repository->createQueryBuilder('e')->orderBy('e.company', 'ASC');
+                    return $repository->createQueryBuilder('e')->addOrderBy('e.company', 'ASC');
                 },
             ])
             ->add('isInactive')
