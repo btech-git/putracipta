@@ -24,6 +24,7 @@ class SaleOrderHeader extends TransactionHeader
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const TRANSACTION_STATUS_DRAFT = 'draft';
+    public const TRANSACTION_STATUS_HOLD = 'hold';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
     public const TRANSACTION_STATUS_PARTIAL_DELIVERY = 'partial_delivery';
