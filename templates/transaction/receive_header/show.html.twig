@@ -36,6 +36,10 @@
                 <td>{{ receiveHeader.supplierDeliveryCodeNumber }}</td>
             </tr>
             <tr>
+                <th>Gudang</th>
+                <td>{{ receiveHeader.warehouse.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Note</th>
                 <td>{{ receiveHeader.note }}</td>
             </tr>
