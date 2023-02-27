@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'stock_adjustment_stock_header')]
 class AdjustmentStockHeader extends StockHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'AJS';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,7 +34,7 @@ class AdjustmentStockHeader extends StockHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'SAJ';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getId(): ?int

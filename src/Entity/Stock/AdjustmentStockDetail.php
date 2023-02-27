@@ -30,6 +30,11 @@ class AdjustmentStockDetail extends StockDetail
     #[ORM\JoinColumn(nullable: false)]
     private ?AdjustmentStockHeader $adjustmentStockHeader = null;
 
+    public function getQuantityDifference(): int
+    {
+        return $this->currentQuantity - $this->adjustedQuantity;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
