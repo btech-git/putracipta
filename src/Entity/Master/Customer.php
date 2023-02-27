@@ -73,6 +73,18 @@ class Customer extends Master
     #[Assert\NotNull]
     private ?bool $hasFscCode = false;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery2 = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery3 = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery4 = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery5 = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -265,6 +277,54 @@ class Customer extends Master
     public function setHasFscCode(bool $hasFscCode): self
     {
         $this->hasFscCode = $hasFscCode;
+
+        return $this;
+    }
+
+    public function getAddressDelivery2(): ?string
+    {
+        return $this->addressDelivery2;
+    }
+
+    public function setAddressDelivery2(string $addressDelivery2): self
+    {
+        $this->addressDelivery2 = $addressDelivery2;
+
+        return $this;
+    }
+
+    public function getAddressDelivery3(): ?string
+    {
+        return $this->addressDelivery3;
+    }
+
+    public function setAddressDelivery3(string $addressDelivery3): self
+    {
+        $this->addressDelivery3 = $addressDelivery3;
+
+        return $this;
+    }
+
+    public function getAddressDelivery4(): ?string
+    {
+        return $this->addressDelivery4;
+    }
+
+    public function setAddressDelivery4(string $addressDelivery4): self
+    {
+        $this->addressDelivery4 = $addressDelivery4;
+
+        return $this;
+    }
+
+    public function getAddressDelivery5(): ?string
+    {
+        return $this->addressDelivery5;
+    }
+
+    public function setAddressDelivery5(string $addressDelivery5): self
+    {
+        $this->addressDelivery5 = $addressDelivery5;
 
         return $this;
     }

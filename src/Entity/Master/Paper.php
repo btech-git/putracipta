@@ -47,6 +47,9 @@ class Paper extends Master
     #[ORM\Column(length: 60)]
     private ?string $pricingMode = null;
 
+    #[ORM\Column(length: 60)]
+    private ?string $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Paper extends Master
     public function setPricingMode(string $pricingMode): self
     {
         $this->pricingMode = $pricingMode;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
