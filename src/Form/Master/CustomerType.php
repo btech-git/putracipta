@@ -14,7 +14,7 @@ class CustomerType extends AbstractType
         $builder
 //            ->add('code')
             ->add('company')
-            ->add('name')
+            ->add('name', null, ['label' => 'PIC'])
             ->add('addressInvoice', null, ['label' => 'Alamat Penagihan (**Tekan ENTER untuk > 1 baris)'])
             ->add('addressDelivery', null, ['label' => 'Alamat Kirim 1 (**Tekan ENTER untuk > 1 baris)'])
             ->add('addressDelivery2', null, ['label' => 'Alamat Kirim 2 (**Tekan ENTER untuk > 1 baris)'])
