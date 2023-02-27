@@ -3,10 +3,12 @@
 namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Stock\MaterialRequestHeader;
 use App\Form\Stock\MaterialRequestHeaderType;
 use App\Grid\Stock\MaterialRequestHeaderGridType;
 use App\Repository\Stock\MaterialRequestHeaderRepository;
+use App\Service\Stock\MaterialRequestHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,10 @@ class MaterialRequestHeaderController extends AbstractController
     public function _list(Request $request, MaterialRequestHeaderRepository $materialRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(MaterialRequestHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
@@ -40,21 +46,23 @@ class MaterialRequestHeaderController extends AbstractController
         return $this->render("stock/material_request_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_stock_material_request_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_stock_material_request_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, MaterialRequestHeaderRepository $materialRequestHeaderRepository): Response
+    public function new(Request $request, MaterialRequestHeaderFormService $materialRequestHeaderFormService, $_format = 'html'): Response
     {
         $materialRequestHeader = new MaterialRequestHeader();
+        $materialRequestHeaderFormService->initialize($materialRequestHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialRequestHeaderType::class, $materialRequestHeader);
         $form->handleRequest($request);
+        $materialRequestHeaderFormService->finalize($materialRequestHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialRequestHeaderRepository->add($materialRequestHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $materialRequestHeaderFormService->save($materialRequestHeader);
 
             return $this->redirectToRoute('app_stock_material_request_header_show', ['id' => $materialRequestHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('stock/material_request_header/new.html.twig', [
+        return $this->renderForm("stock/material_request_header/new.{$_format}.twig", [
             'materialRequestHeader' => $materialRequestHeader,
             'form' => $form,
         ]);
@@ -69,20 +77,22 @@ class MaterialRequestHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_stock_material_request_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_stock_material_request_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, MaterialRequestHeader $materialRequestHeader, MaterialRequestHeaderRepository $materialRequestHeaderRepository): Response
+    public function edit(Request $request, MaterialRequestHeader $materialRequestHeader, MaterialRequestHeaderFormService $materialRequestHeaderFormService, $_format = 'html'): Response
     {
+        $materialRequestHeaderFormService->initialize($materialRequestHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialRequestHeaderType::class, $materialRequestHeader);
         $form->handleRequest($request);
+        $materialRequestHeaderFormService->finalize($materialRequestHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialRequestHeaderRepository->add($materialRequestHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $materialRequestHeaderFormService->save($materialRequestHeader);
 
             return $this->redirectToRoute('app_stock_material_request_header_show', ['id' => $materialRequestHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('stock/material_request_header/edit.html.twig', [
+        return $this->renderForm("stock/material_request_header/edit.{$_format}.twig", [
             'materialRequestHeader' => $materialRequestHeader,
             'form' => $form,
         ]);
