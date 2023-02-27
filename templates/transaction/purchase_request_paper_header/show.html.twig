@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <table class="table table-bordered table-striped">
+    <table class="table table-brequested table-striped">
         <tbody>
             <tr>
                 <th>Permintaan Pembelian #</th>
@@ -34,7 +34,7 @@
         </tbody>
     </table>
 
-    <table class="table table-bordered table-striped">
+    <table class="table table-brequested table-striped">
         <thead>
             <tr class="bg-info">
                 <th>Kode</th>
@@ -50,7 +50,7 @@
             {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
                 <tr>
                     <td>{{ purchaseRequestPaperDetail.paper.code|default }}</td>
-                    <td>{{ purchaseRequestPaperDetail.paper.name|default }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
                     <td style="text-align: center">{{ purchaseRequestPaperDetail.quantity|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : '' }}</td>
@@ -69,4 +69,9 @@
     </table>
     
     {#{{ include('transaction/purchase_request_paper_header/_delete_form.html.twig') }}#}
+    {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestPaperHeader) or purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_HOLD', purchaseRequestPaperHeader) %}
+        <div class="d-inline-block">{{ include('transaction/purchase_request_paper_header/_reject_form.html.twig') }}</div>
+        <div class="d-inline-block">{{ include('transaction/purchase_request_paper_header/_approve_form.html.twig') }}</div>
+    {% endif %}
+    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_request_paper_header_memo', {'id': purchaseRequestPaperHeader.id}) }}">Print Request</a></div>
 {% endblock %}
