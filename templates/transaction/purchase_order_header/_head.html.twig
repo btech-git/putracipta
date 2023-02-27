@@ -1,0 +1,55 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, purchaseOrderHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
+                    PO # {{ grid.sort_char(form.sort.id.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
+                    Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
+                </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
+                    Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
+                    Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
+                </th>
+                <th style="min-width: 90px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderHeader in purchaseOrderHeaders %}
+                <tr>
+                    <td>{{ purchaseOrderHeader.codeNumber }}</td>
+                    <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseOrderHeader.supplier.company|default }}</td>
+                    <td>{{ purchaseOrderHeader.note }}</td>
+                    <td class="text-end">{{ purchaseOrderHeader.grandTotal|default|number_format(0) }}</td>
+                    <td>{{ purchaseOrderHeader.transactionStatus }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_show', {'id': purchaseOrderHeader.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}"><i class="bi-pencil"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, purchaseOrderHeaders) }}

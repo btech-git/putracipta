@@ -147,5 +147,8 @@
         </tbody>
     </table>
                 
+    {% if saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', saleOrderHeader) %}
+        <div class="d-inline-block">{{ include('transaction/sale_order_header/_hold_form.html.twig') }}</div>
+    {% endif %}
     {#<div class="d-inline-block">{{ include('transaction/sale_order_header/_delete_form.html.twig') }}</div>#}
 {% endblock %}
