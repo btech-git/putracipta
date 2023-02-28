@@ -24,6 +24,6 @@ class NumberToFormattedTransformer implements DataTransformerInterface
 
     public function reverseTransform($formatted)
     {
-        return str_replace([$this->thousandsSeparator, $this->decimalSeparator], ['', '.'], $formatted);;
+        return str_replace([$this->thousandsSeparator, $this->decimalSeparator], ['', '.'], $formatted);
     }
 }
