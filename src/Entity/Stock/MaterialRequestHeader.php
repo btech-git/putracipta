@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'stock_material_request_header')]
 class MaterialRequestHeader extends StockHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'MRQ';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -47,7 +49,18 @@ class MaterialRequestHeader extends StockHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'MRQ';
+        return self::CODE_NUMBER_CONSTANT;
+    }
+
+    public function getSyncTotalQuantity(): int
+    {
+        $totalQuantity = 0;
+        foreach ($this->materialRequestDetails as $materialRequestDetail) {
+            if (!$materialRequestDetail->isIsCanceled()) {
+                $totalQuantity += $materialRequestDetail->getQuantity();
+            }
+        }
+        return $totalQuantity;
     }
 
     public function getId(): ?int

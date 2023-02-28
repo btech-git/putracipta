@@ -4,12 +4,16 @@ namespace App\Entity\Stock;
 
 use App\Entity\StockHeader;
 use App\Repository\Stock\MaterialReleaseHeaderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MaterialReleaseHeaderRepository::class)]
 #[ORM\Table(name: 'stock_material_release_header')]
 class MaterialReleaseHeader extends StockHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'MRL';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -30,9 +34,17 @@ class MaterialReleaseHeader extends StockHeader
     #[ORM\ManyToOne(inversedBy: 'materialReleaseHeaders')]
     private ?MaterialRequestHeader $materialRequestHeader = null;
 
+    #[ORM\OneToMany(mappedBy: 'materialReleaseHeader', targetEntity: MaterialReleaseDetail::class)]
+    private Collection $materialReleaseDetails;
+
+    public function __construct()
+    {
+        $this->materialReleaseDetails = new ArrayCollection();
+    }
+
     public function getCodeNumberConstant(): string
     {
-        return 'MRL';
+        return self::CODE_NUMBER_CONSTANT;
     }
 
     public function getId(): ?int
@@ -99,4 +111,35 @@ class MaterialReleaseHeader extends StockHeader
 
         return $this;
     }
+    
+    /**
+     * @return Collection<int, MaterialReleaseDetail>
+     */
+    public function getMaterialReleaseDetails(): Collection
+    {
+        return $this->materialReleaseDetails;
+    }
+
+    public function addMaterialReleaseDetail(MaterialReleaseDetail $materialReleaseDetail): self
+    {
+        if (!$this->materialReleaseDetails->contains($materialReleaseDetail)) {
+            $this->materialReleaseDetails->add($materialReleaseDetail);
+            $materialReleaseDetail->setMaterialReleaseHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaterialRequestDetail(MaterialReleaseDetail $materialReleaseDetail): self
+    {
+        if ($this->materialReleaseDetails->removeElement($materialReleaseDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($materialReleaseDetail->getMaterialReleaseHeader() === $this) {
+                $materialReleaseDetail->setMaterialReleaseHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

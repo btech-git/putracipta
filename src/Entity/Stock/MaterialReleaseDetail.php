@@ -30,6 +30,9 @@ class MaterialReleaseDetail extends StockDetail
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'materialReleaseDetails')]
+    private ?MaterialReleaseHeader $materialReleaseHeader = null;
+
+    #[ORM\ManyToOne(inversedBy: 'materialReleaseDetails')]
     private ?MaterialRequestDetail $materialRequestDetail = null;
 
     public function getId(): ?int
@@ -81,6 +84,18 @@ class MaterialReleaseDetail extends StockDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getMaterialReleaseHeader(): ?MaterialReleaseHeader
+    {
+        return $this->materialReleaseHeader;
+    }
+
+    public function setMaterialReleaseHeader(?MaterialReleaseHeader $materialReleaseHeader): self
+    {
+        $this->materialReleaseHeader = $materialReleaseHeader;
 
         return $this;
     }

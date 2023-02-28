@@ -3,6 +3,7 @@
 namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Stock\MaterialReleaseHeader;
 use App\Form\Stock\MaterialReleaseHeaderType;
 use App\Grid\Stock\MaterialReleaseHeaderGridType;
@@ -21,6 +22,10 @@ class MaterialReleaseHeaderController extends AbstractController
     public function _list(Request $request, MaterialReleaseHeaderRepository $materialReleaseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(MaterialReleaseHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 

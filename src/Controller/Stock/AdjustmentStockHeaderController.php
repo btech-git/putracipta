@@ -3,6 +3,7 @@
 namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Stock\AdjustmentStockHeader;
 use App\Form\Stock\AdjustmentStockHeaderType;
 use App\Grid\Stock\AdjustmentStockHeaderGridType;
@@ -21,10 +22,20 @@ class AdjustmentStockHeaderController extends AbstractController
     public function _list(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(AdjustmentStockHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria);
+        list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->query->get('adjustment_stock_header_grid')['filter']['warehouse:name']) && isset($request->query->get('adjustment_stock_header_grid')['sort']['warehouse:name'])) {
+                $qb->innerJoin("{$alias}.warehouse", 'w');
+                $add['filter']($qb, 'w', 'name', $request->query->get('adjustment_stock_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->query->get('adjustment_stock_header_grid')['sort']['warehouse:name']);
+            }
+        });
 
         return $this->renderForm("stock/adjustment_stock_header/_list.html.twig", [
             'form' => $form,
@@ -40,21 +51,23 @@ class AdjustmentStockHeaderController extends AbstractController
         return $this->render("stock/adjustment_stock_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_stock_adjustment_stock_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_stock_adjustment_stock_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
+    public function new(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
         $form->handleRequest($request);
+        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $adjustmentStockHeaderRepository->add($adjustmentStockHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
 
             return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('stock/adjustment_stock_header/new.html.twig', [
+        return $this->renderForm("stock/adjustment_stock_header/new.{$_format}.twig", [
             'adjustmentStockHeader' => $adjustmentStockHeader,
             'form' => $form,
         ]);
@@ -69,20 +82,22 @@ class AdjustmentStockHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_stock_adjustment_stock_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_stock_adjustment_stock_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
+    public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
         $form->handleRequest($request);
+        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $adjustmentStockHeaderRepository->add($adjustmentStockHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
 
             return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('stock/adjustment_stock_header/edit.html.twig', [
+        return $this->renderForm("stock/adjustment_stock_header/edit.{$_format}.twig", [
             'adjustmentStockHeader' => $adjustmentStockHeader,
             'form' => $form,
         ]);

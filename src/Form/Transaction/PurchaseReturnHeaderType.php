@@ -19,6 +19,7 @@ class PurchaseReturnHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
+            ->add('warehouse', null, ['choice_label' => 'name'])
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 '0%' => PurchaseReturnHeader::TAX_MODE_NON_TAX,
                 '11%' => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,

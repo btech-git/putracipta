@@ -3,6 +3,7 @@
 namespace App\Entity\Transaction;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\SaleReturnHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -49,6 +50,9 @@ class SaleReturnHeader extends TransactionHeader
 
     #[ORM\OneToOne(inversedBy: 'saleReturnHeader', cascade: ['persist', 'remove'])]
     private ?DeliveryHeader $deliveryHeader = null;
+
+    #[ORM\ManyToOne]
+    private ?Warehouse $warehouse = null;
 
     public function __construct()
     {
@@ -198,6 +202,18 @@ class SaleReturnHeader extends TransactionHeader
     public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
     {
         $this->deliveryHeader = $deliveryHeader;
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
+use App\Entity\Master\Employee;
 use App\Entity\Transaction\SaleOrderDetail;
 use App\Entity\Transaction\SaleOrderHeader;
 use Symfony\Component\Form\AbstractType;
@@ -28,7 +29,12 @@ class SaleOrderHeaderType extends AbstractType
             ]])
             ->add('discountValue')
             ->add('isUsingFscPaper')
-            ->add('employee', null, ['choice_label' => 'name'])
+            ->add('employee', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')->andWhere("e.division = '" . Employee::DIVISION_MARKETING . "'");
+                },
+            ])
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 'Non PPn' => SaleOrderHeader::TAX_MODE_NON_TAX,
                 'Exclude PPn' => SaleOrderHeader::TAX_MODE_TAX_EXCLUSION,

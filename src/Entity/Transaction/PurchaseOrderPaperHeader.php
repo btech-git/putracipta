@@ -5,6 +5,7 @@ namespace App\Entity\Transaction;
 use App\Entity\Admin\User;
 use App\Entity\Master\Currency;
 use App\Entity\Master\Supplier;
+use App\Entity\Production\MasterOrder;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,6 +25,7 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const TRANSACTION_STATUS_DRAFT = 'draft';
+    public const TRANSACTION_STATUS_HOLD = 'hold';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
     public const TRANSACTION_STATUS_PARTIAL_RECEIVE = 'partial_receive';
@@ -93,10 +95,14 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
 
+    #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: MasterOrder::class)]
+    private Collection $masterOrders;
+
     public function __construct()
     {
         $this->purchaseOrderPaperDetails = new ArrayCollection();
         $this->receiveHeaders = new ArrayCollection();
+        $this->masterOrders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -387,6 +393,36 @@ class PurchaseOrderPaperHeader extends TransactionHeader
             // set the owning side to null (unless already changed)
             if ($receiveHeader->getPurchaseOrderPaperHeader() === $this) {
                 $receiveHeader->setPurchaseOrderPaperHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrder>
+     */
+    public function getMasterOrders(): Collection
+    {
+        return $this->masterOrders;
+    }
+
+    public function addMasterOrder(MasterOrder $masterOrder): self
+    {
+        if (!$this->masterOrders->contains($masterOrder)) {
+            $this->masterOrders->add($masterOrder);
+            $masterOrder->setPurchaseOrderPaperHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrder(MasterOrder $masterOrder): self
+    {
+        if ($this->masterOrders->removeElement($masterOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrder->getPurchaseOrderPaperHeader() === $this) {
+                $masterOrder->setPurchaseOrderPaperHeader(null);
             }
         }
 

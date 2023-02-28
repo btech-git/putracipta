@@ -4,6 +4,7 @@ namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
+use App\Entity\Master\Employee;
 use App\Entity\Transaction\DeliveryDetail;
 use App\Entity\Transaction\DeliveryHeader;
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +19,14 @@ class DeliveryHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('warehouse', null, ['choice_label' => 'name'])
-            ->add('employee', null, ['choice_label' => 'name'])
+            ->add('employee', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                        ->andWhere("e.division = '" . Employee::DIVISION_TRANSPORTATION . "'")
+                        ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('transportation', null, ['choice_label' => 'nameAndPlateNumber'])
             ->add('note')
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])

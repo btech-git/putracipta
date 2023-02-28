@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Grid\Shared\MaterialGridType;
 use App\Repository\Master\MaterialRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,6 +20,9 @@ class MaterialController extends AbstractController
     public function _list(Request $request, MaterialRepository $materialRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortAscending::class,
+        ]);
         $form = $this->createForm(MaterialGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 

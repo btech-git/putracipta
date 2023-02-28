@@ -2,11 +2,13 @@
 
 namespace App\Entity\Transaction;
 
+use App\Entity\Admin\User;
 use App\Entity\Master\Warehouse;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseRequestPaperHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,6 +17,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PurchaseRequestPaperHeader extends TransactionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'PRP';
+    public const TRANSACTION_STATUS_DRAFT = 'draft';
+    public const TRANSACTION_STATUS_HOLD = 'hold';
+    public const TRANSACTION_STATUS_APPROVE = 'approve';
+    public const TRANSACTION_STATUS_REJECT = 'reject';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,6 +38,21 @@ class PurchaseRequestPaperHeader extends TransactionHeader
     #[Assert\Valid]
     #[Assert\Count(min: 1)]
     private Collection $purchaseRequestPaperDetails;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $approvedTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $RejectedTransactionDateTime = null;
+
+    #[ORM\ManyToOne]
+    private ?User $approvedTransactionUser = null;
+
+    #[ORM\ManyToOne]
+    private ?User $rejectedTransactionUser = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     public function __construct()
     {
@@ -109,6 +130,66 @@ class PurchaseRequestPaperHeader extends TransactionHeader
                 $purchaseRequestPaperDetail->setPurchaseRequestPaperHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->approvedTransactionDateTime;
+    }
+
+    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
+    {
+        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getRejectedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->RejectedTransactionDateTime;
+    }
+
+    public function setRejectedTransactionDateTime(?\DateTimeInterface $RejectedTransactionDateTime): self
+    {
+        $this->RejectedTransactionDateTime = $RejectedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getApprovedTransactionUser(): ?User
+    {
+        return $this->approvedTransactionUser;
+    }
+
+    public function setApprovedTransactionUser(?User $approvedTransactionUser): self
+    {
+        $this->approvedTransactionUser = $approvedTransactionUser;
+
+        return $this;
+    }
+
+    public function getRejectedTransactionUser(): ?User
+    {
+        return $this->rejectedTransactionUser;
+    }
+
+    public function setRejectedTransactionUser(?User $rejectedTransactionUser): self
+    {
+        $this->rejectedTransactionUser = $rejectedTransactionUser;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
 
         return $this;
     }

@@ -53,6 +53,10 @@ abstract class TransactionHeader
     #[Assert\NotNull]
     protected ?string $note = '';
 
+    #[ORM\Column]
+    #[Assert\NotNull]
+    protected ?bool $isRead = false;
+
     public abstract function getCodeNumberConstant(): string;
 
     public function getCodeNumber(): string
@@ -209,6 +213,18 @@ abstract class TransactionHeader
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }

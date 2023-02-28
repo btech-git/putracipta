@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Grid\Shared\CustomerGridType;
 use App\Repository\Master\CustomerRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,6 +20,9 @@ class CustomerController extends AbstractController
     public function _list(Request $request, CustomerRepository $customerRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'company' => SortAscending::class,
+        ]);
         $form = $this->createForm(CustomerGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 

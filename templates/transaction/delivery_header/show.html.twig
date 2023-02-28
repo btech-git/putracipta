@@ -28,6 +28,10 @@
                 <td>{{ deliveryHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
+                <th>Gudang</th>
+                <td>{{ deliveryHeader.warehouse.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Driver</th>
                 <td>{{ deliveryHeader.employee.name|default }}</td>
             </tr>

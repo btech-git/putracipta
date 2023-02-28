@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Grid\Shared\SupplierGridType;
 use App\Repository\Master\SupplierRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,6 +20,9 @@ class SupplierController extends AbstractController
     public function _list(Request $request, SupplierRepository $supplierRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'company' => SortAscending::class,
+        ]);
         $form = $this->createForm(SupplierGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 

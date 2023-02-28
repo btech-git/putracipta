@@ -157,6 +157,22 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         return $this->redirectToRoute('app_transaction_purchase_order_paper_header_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/hold', name: 'app_transaction_purchase_order_paper_header_hold', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function hold(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('hold' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderPaperHeader->setTransactionStatus(PurchaseOrderPaperHeader::TRANSACTION_STATUS_HOLD);
+            $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/memo', name: 'app_transaction_purchase_order_paper_header_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function memo(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): Response
