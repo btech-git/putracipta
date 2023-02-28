@@ -2,7 +2,6 @@
 
 {% block body %}
     {% set menu = {
-        'DASHBOARD':{},
         'ADMINISTRATION': {
             'User Management': ['app_admin_user_index', ['ROLE_USER']],
             'Transaction Settings': ['app_admin_literal_config_index', ['ROLE_USER']],
@@ -73,6 +72,11 @@
                     </a>
                     <div class="mb-sm-auto mb-0 overflow-auto" style="max-height: 512px">
                         <ul class="nav nav-pills flex-column align-items-center align-items-sm-start" id="menu">
+                            <li class="w-100 {% if app.request.attributes.get("_route") == 'app_home_page' %}bg-light border border-3 border-primary rounded{% endif %}">
+                                <a href="{{ path('app_home_page') }}" class="nav-link px-0 align-middle">
+                                    <span class="ps-1 d-none d-sm-inline {% if app.request.attributes.get("_route") == 'app_home_page' %}text-dark{% else %}text-white{% endif %}">DASHBOARD</span>
+                                </a>
+                            </li>
                             {% set activeRoute = '' %}
                             {% set replaces = {'index': '*', 'new': '*', 'edit': '*', 'show': '*', 'head': '*'} %}
                             {% set views = menu|map(v1 => app.request.attributes.get("_route")|replace(replaces) in v1|map(v2 => v2[0]|replace(replaces))) %}
