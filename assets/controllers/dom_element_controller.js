@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import { putValueContent, getPropertyValue, formatter } from '../helpers';
+import * as helper from '../helpers';
 
 export default class extends Controller {
     doNothing(event) {
@@ -12,7 +12,7 @@ export default class extends Controller {
     }
 
     bind(event) {
-        const $format = formatter;
+        const $helper = helper;
         const $event = event;
         const $element = this.element;
         for (const spec of event.params.bindSpecifications) {
@@ -85,12 +85,12 @@ export default class extends Controller {
 
     putContent(event) {
         const content = this.getNormalizedTemplate(event.params.putContentTemplate, event.detail);
-        putValueContent(this.element, content);
+        helper.putValueContent(this.element, content);
     }
 
     getNormalizedTemplate(template, values) {
         return template.replace(/(?<=^|[^$])\$\{([^}]+)\}/g, function(match, p1) {
-            return getPropertyValue(values, p1);
+            return helper.getPropertyValue(values, p1);
         });
     }
 };
