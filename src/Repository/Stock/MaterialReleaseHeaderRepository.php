@@ -26,8 +26,8 @@ class MaterialReleaseHeaderRepository extends ServiceEntityRepository
         $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
-        $lastPurchaseOrderHeader = $query->getOneOrNullResult();
+        $lastMaterialReleaseHeader = $query->getOneOrNullResult();
 
-        return $lastPurchaseOrderHeader;
+        return $lastMaterialReleaseHeader;
     }
 }
