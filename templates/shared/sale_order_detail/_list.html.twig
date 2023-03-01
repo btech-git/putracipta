@@ -49,6 +49,8 @@
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber,
                     'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber,
+                    'customerCompany': saleOrderDetail.saleOrderHeader.customer.company,
+                    'saleOrderHeaderDate': saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '',
                     'saleOrderDetailId': saleOrderDetail.id,
                     'productName': saleOrderDetail.product.name,
                     'productId': saleOrderDetail.product.id,
