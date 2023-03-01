@@ -3,6 +3,7 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Entity\Transaction\PurchasePaymentDetail;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class PurchasePaymentDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('amount')
+            ->add('amount', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('isCanceled')
             ->add('account', null, ['choice_label' => 'name'])

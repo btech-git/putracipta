@@ -3,6 +3,7 @@
 namespace App\Form\Transaction;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Product;
 use App\Entity\Transaction\SaleOrderDetail;
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +16,7 @@ class SaleOrderDetailType extends AbstractType
     {
         $builder
             ->add('quantity')
-            ->add('unitPrice')
+            ->add('unitPrice', FormattedNumberType::class, ['decimals' => 2])
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
             ->add('unit', null, ['choice_label' => 'name'])
