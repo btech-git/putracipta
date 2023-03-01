@@ -12,7 +12,10 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\StockHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,35 +25,50 @@ class MaterialReleaseHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['totalQuantity', 'departmentName', 'workOrderNumber', 'partNumber', 'isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'createdTransactionDateTime', 'modifiedTransactionDateTime', 'transactionDate', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'departmentName', 'workOrderNumber', 'partNumber', 'note'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                    'departmentName' => 'Departemen',
+                    'workOrderNumber' => 'WO #',
+                    'partNumber' => 'Part #',
+                ],
                 'field_operators_list' => [
-                    'totalQuantity' => [FilterEqual::class, FilterNotEqual::class],
-                    'departmentName' => [FilterContain::class, FilterNotContain::class],
-                    'workOrderNumber' => [FilterContain::class, FilterNotContain::class],
-                    'partNumber' => [FilterContain::class, FilterNotContain::class],
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'createdTransactionDateTime' => [FilterEqual::class, FilterNotEqual::class],
-                    'modifiedTransactionDateTime' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'departmentName' => [FilterContain::class, FilterNotContain::class],
+                    'workOrderNumber' => [FilterContain::class, FilterNotContain::class],
+                    'partNumber' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                ],
+                'field_value_type_list' => [
+                    'codeNumberOrdinal' => IntegerType::class,
+                    'codeNumberMonth' => ChoiceType::class,
+                    'codeNumberYear' => IntegerType::class,
+                ],
+                'field_value_options_list' => [
+                    'codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['totalQuantity', 'departmentName', 'workOrderNumber', 'partNumber', 'isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'createdTransactionDateTime', 'modifiedTransactionDateTime', 'transactionDate', 'note'],
+                'field_names' => ['transactionDate', 'departmentName', 'workOrderNumber', 'partNumber', 'note', 'id'],
+                'field_label_list' => [
+                    'id' => 'Code Number',
+                    'transactionDate' => 'Tanggal',
+                    'departmentName' => 'Departemen',
+                    'workOrderNumber' => 'WO #',
+                    'partNumber' => 'Part #',
+                ],
                 'field_operators_list' => [
-                    'totalQuantity' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'departmentName' => [SortAscending::class, SortDescending::class],
                     'workOrderNumber' => [SortAscending::class, SortDescending::class],
                     'partNumber' => [SortAscending::class, SortDescending::class],
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
-                    'createdTransactionDateTime' => [SortAscending::class, SortDescending::class],
-                    'modifiedTransactionDateTime' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
