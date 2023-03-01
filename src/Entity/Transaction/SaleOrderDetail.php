@@ -4,6 +4,7 @@ namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
 use App\Entity\Master\Unit;
+use App\Entity\Production\MasterOrder;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\SaleOrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -61,9 +62,13 @@ class SaleOrderDetail extends TransactionDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $unitPriceBeforeTax = null;
 
+    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrder::class)]
+    private Collection $masterOrders;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
+        $this->masterOrders = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -238,6 +243,36 @@ class SaleOrderDetail extends TransactionDetail
     public function setUnitPriceBeforeTax(string $unitPriceBeforeTax): self
     {
         $this->unitPriceBeforeTax = $unitPriceBeforeTax;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrder>
+     */
+    public function getMasterOrders(): Collection
+    {
+        return $this->masterOrders;
+    }
+
+    public function addMasterOrder(MasterOrder $masterOrder): self
+    {
+        if (!$this->masterOrders->contains($masterOrder)) {
+            $this->masterOrders->add($masterOrder);
+            $masterOrder->setSaleOrderDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrder(MasterOrder $masterOrder): self
+    {
+        if ($this->masterOrders->removeElement($masterOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrder->getSaleOrderDetail() === $this) {
+                $masterOrder->setSaleOrderDetail(null);
+            }
+        }
 
         return $this;
     }
