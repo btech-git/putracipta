@@ -26,10 +26,9 @@
                     <td>
                         {{ form_row(detailForm.amount, {'label': false, 'attr': {
                             'data-controller': 'dom-element',
-                            'data-action': 'dom-element#bind change->json-loader#load', 
-                            'size': 3,
+                            'data-action': 'change->dom-element#bind change->json-loader#load', 
                             'data-dom-element-bind-specifications-param': [
-                                {'destinationsTarget': "\##{detailForm.amount.vars.id}-format", 'action': 'setPropertyValue', 'descriptor': {'property': 'textContent', 'value': '$format.number($element.value, 2)'}}
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 2)'}}
                             ]|json_encode,
                         }}) }}
                         <div id="{{ detailForm.amount.vars.id }}-format" class="text-end">{{ detailForm.vars.value.amount|default|number_format(0) }}</div>

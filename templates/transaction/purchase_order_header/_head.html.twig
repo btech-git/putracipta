@@ -7,24 +7,24 @@
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
-                    PO # {{ grid.sort_char(form.sort.id.vars.value) }}
+            <tr class="table-primary">
+                <th style="min-width: 280px">
+                    PO # 
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                <th style="min-width: 150px">
+                    Tanggal
                 </th>
-                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
-                    Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
+                <th style="min-width: 250px">
+                    Supplier
                 </th>
-                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                <th style="min-width: 200px">
+                    Note
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                <th style="min-width: 150px">
+                    Total
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
-                    Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
+                <th style="min-width: 150px">
+                    Status
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>

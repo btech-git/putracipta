@@ -68,7 +68,11 @@
                     </td>
                     <td>
                         {{ form_row(detailForm.associationPrice, {'label': false, 'attr': {
-                            'data-action': 'change->json-loader#load',
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 2)'}}
+                            ]|json_encode,
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
                                 if (pricingMode === "weight") {
@@ -78,11 +82,16 @@
                                 }
                             ',
                         }}) }}
-                        <div id="{{ detailForm.associationPrice.vars.id }}-format" class="text-end">{{ detailForm.vars.value.associationPrice|default|number_format(2) }}</div>
                     </td>
                     <td>
                         {{ form_row(detailForm.weightPrice, {'label': false, 'attr': {
-                            'data-action': 'change->json-loader#load',
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 2)'}}
+                            ]|json_encode,
+                            'data-json-loader-target': 'placeholder',
+                            'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.weightPrice",
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
                                 if (pricingMode === "association") {
@@ -99,9 +108,10 @@
                     </td>
                     <td>
                         {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
-                            'data-action': 'dom-element#bind change->json-loader#load',
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-json-loader-target': 'placeholder',
-                            'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.unitPriceRaw",
+                            'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.unitPrice",
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
                                 if (pricingMode === "association") {
