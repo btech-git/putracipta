@@ -19,31 +19,24 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MasterOrderGridType extends AbstractType
+class WorkOrderGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate', 'printingMachine', 'designCode', 'productCode', 'quantityOrder', 'quantityPrinting', 'deliveryDate'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'productionDate' => 'Tanggal',
-                    'deliveryDate' => 'Tanggal Kirim',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'productionDate' => [FilterEqual::class, FilterNotEqual::class],
-                    'deliveryDate' => [FilterEqual::class, FilterNotEqual::class],
-                    'printingMachine' => [FilterContain::class, FilterNotContain::class],
-                    'designCode' => [FilterContain::class, FilterNotContain::class],
-                    'productCode' => [FilterContain::class, FilterNotContain::class],
-                    'quantityOrder' => [FilterEqual::class, FilterNotEqual::class],
-                    'quantityPrinting' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -56,7 +49,7 @@ class MasterOrderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['productionDate', 'printingMachine', 'designCode', 'productCode', 'quantityOrder', 'quantityPrinting', 'deliveryDate', 'id'],
+                'field_names' => ['productionDate', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -66,12 +59,6 @@ class MasterOrderGridType extends AbstractType
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
                     'productionDate' => [SortAscending::class, SortDescending::class],
-                    'printingMachine' => [SortAscending::class, SortDescending::class],
-                    'designCode' => [SortAscending::class, SortDescending::class],
-                    'productCode' => [SortAscending::class, SortDescending::class],
-                    'quantityOrder' => [SortAscending::class, SortDescending::class],
-                    'quantityPrinting' => [SortAscending::class, SortDescending::class],
-                    'deliveryDate' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

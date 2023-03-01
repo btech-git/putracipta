@@ -12,7 +12,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
-use App\Entity\StockHeader;
+use App\Entity\ProductionHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -51,7 +51,7 @@ class ProductPrototypeGridType extends AbstractType
                     'codeNumberYear' => IntegerType::class,
                 ],
                 'field_value_options_list' => [
-                    'codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
+                    'codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
                     'productionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
