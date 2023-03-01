@@ -50,6 +50,10 @@ class Paper extends Master
     #[ORM\Column(length: 60)]
     private ?string $type = null;
 
+    public function getPaperNameSizeCombination() {
+        return $this->name . ' ' . $this->length . ' x ' . $this->width . ' x ' . $this->weight;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
