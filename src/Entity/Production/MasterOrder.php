@@ -4,10 +4,14 @@ namespace App\Entity\Production;
 
 use App\Entity\Master\Customer;
 use App\Entity\Master\Paper;
+use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
+use App\Entity\Transaction\SaleOrderDetail;
 use App\Entity\Transaction\SaleOrderHeader;
 use App\Repository\Production\MasterOrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,6 +20,33 @@ use Doctrine\ORM\Mapping as ORM;
 class MasterOrder extends ProductionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'PMO';
+    public const WORK_ORDER_DESIGN = 'design';
+    public const WORK_ORDER_MOUNTAGE = 'mountage';
+    public const WORK_ORDER_CUTTING_MACHINE = 'cutting_machine';
+    public const WORK_ORDER_PRINTING = 'printing';
+    public const WORK_ORDER_PON = 'pon';
+    public const WORK_ORDER_CUTTING_FINISHING = 'cutting_finishing';
+    public const WORK_ORDER_VARNISH = 'varnish';
+    public const WORK_ORDER_GLUEING = 'glueing';
+    public const WORK_ORDER_STITCHING = 'stitching';
+    public const WORK_ORDER_FINISHING = 'finishing';
+    public const WORK_ORDER_PACKING = 'packing';
+    public const WORK_ORDER_QC_PRINTING = 'qc_printing';
+    public const WORK_ORDER_QC_FINISHING = 'qc_finishing';
+    public const WORK_ORDER_QC_SORTING = 'qc_sorting';
+    public const WORK_ORDER_QC_OUTGOING = 'qc_outgoing';
+    public const WORK_ORDER_PRINTING_CHECKLIST = 'printing_checklist';
+    public const WORK_ORDER_MOUNTAGE_CHECKLIST = 'mountage_checklist';
+    public const WORK_ORDER_POND_CHECKLIST = 'pond_checklist';
+    public const WORK_ORDER_REWORK = 'rework';
+    public const WORK_ORDER_DEMOLITION = 'demolition';
+    public const PRINTING_STATUS_PROOF_PRINT = 'proof_print';
+    public const PRINTING_STATUS_NEW_ORDER = 'new_order';
+    public const PRINTING_STATUS_REPEAT_ORDER = 'repeat_order';
+    public const PRINTING_STATUS_REVISE_DESIGN = 'revise_design';
+    public const DIECUT_BLADE_NEW = 'new';
+    public const DIECUT_BLADE_OLD = 'old';
+    public const DIECUT_BLADE_REVISION = 'revision';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,9 +61,6 @@ class MasterOrder extends ProductionHeader
 
     #[ORM\Column(length: 60)]
     private ?string $designCode = '';
-
-    #[ORM\Column(length: 60)]
-    private ?string $productCode = '';
 
     #[ORM\Column]
     private ?int $quantityOrder = 0;
@@ -54,9 +82,6 @@ class MasterOrder extends ProductionHeader
 
     #[ORM\Column]
     private ?bool $isUsingHotStamping = false;
-
-    #[ORM\ManyToOne(inversedBy: 'masterOrders')]
-    private ?SaleOrderHeader $saleOrderHeader = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deliveryDate = null;
@@ -232,6 +257,29 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $mountageSizeWidth = null;
 
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $workOrderDistribution = [];
+
+    #[ORM\Column(length: 100)]
+    private ?string $printingStatusData = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $diecutBladeData = null;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrder::class)]
+    private Collection $workOrders;
+
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
+
+    #[ORM\ManyToOne(inversedBy: 'masterOrders')]
+    private ?SaleOrderDetail $saleOrderDetail = null;
+
+    public function __construct()
+    {
+        $this->workOrders = new ArrayCollection();
+    }
+
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
@@ -274,18 +322,6 @@ class MasterOrder extends ProductionHeader
     public function setDesignCode(string $designCode): self
     {
         $this->designCode = $designCode;
-
-        return $this;
-    }
-
-    public function getProductCode(): ?string
-    {
-        return $this->productCode;
-    }
-
-    public function setProductCode(string $productCode): self
-    {
-        $this->productCode = $productCode;
 
         return $this;
     }
@@ -370,18 +406,6 @@ class MasterOrder extends ProductionHeader
     public function setIsUsingHotStamping(bool $isUsingHotStamping): self
     {
         $this->isUsingHotStamping = $isUsingHotStamping;
-
-        return $this;
-    }
-
-    public function getSaleOrderHeader(): ?SaleOrderHeader
-    {
-        return $this->saleOrderHeader;
-    }
-
-    public function setSaleOrderHeader(?SaleOrderHeader $saleOrderHeader): self
-    {
-        $this->saleOrderHeader = $saleOrderHeader;
 
         return $this;
     }
@@ -1078,6 +1102,96 @@ class MasterOrder extends ProductionHeader
     public function setMountageSizeWidth(string $mountageSizeWidth): self
     {
         $this->mountageSizeWidth = $mountageSizeWidth;
+
+        return $this;
+    }
+
+    public function getWorkOrderDistribution(): array
+    {
+        return $this->workOrderDistribution;
+    }
+
+    public function setWorkOrderDistribution(array $workOrderDistribution): self
+    {
+        $this->workOrderDistribution = $workOrderDistribution;
+
+        return $this;
+    }
+
+    public function getPrintingStatusData(): ?string
+    {
+        return $this->printingStatusData;
+    }
+
+    public function setPrintingStatusData(string $printingStatusData): self
+    {
+        $this->printingStatusData = $printingStatusData;
+
+        return $this;
+    }
+
+    public function getDiecutBladeData(): ?string
+    {
+        return $this->diecutBladeData;
+    }
+
+    public function setDiecutBladeData(string $diecutBladeData): self
+    {
+        $this->diecutBladeData = $diecutBladeData;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrder>
+     */
+    public function getWorkOrders(): Collection
+    {
+        return $this->workOrders;
+    }
+
+    public function addWorkOrder(WorkOrder $workOrder): self
+    {
+        if (!$this->workOrders->contains($workOrder)) {
+            $this->workOrders->add($workOrder);
+            $workOrder->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrder(WorkOrder $workOrder): self
+    {
+        if ($this->workOrders->removeElement($workOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrder->getMasterOrder() === $this) {
+                $workOrder->setMasterOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getSaleOrderDetail(): ?SaleOrderDetail
+    {
+        return $this->saleOrderDetail;
+    }
+
+    public function setSaleOrderDetail(?SaleOrderDetail $saleOrderDetail): self
+    {
+        $this->saleOrderDetail = $saleOrderDetail;
 
         return $this;
     }

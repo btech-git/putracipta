@@ -21,6 +21,17 @@ class ProductPrototype extends ProductionHeader
     public const DATA_SOURCE_EMAIL = 'email';
     public const DATA_SOURCE_CD = 'cd';
     public const DATA_SOURCE_PRINT_SAMPLE = 'print_sample';
+    public const VARNISH_WB = 'wb';
+    public const VARNISH_UV = 'uv';
+    public const VARNISH_OPV = 'opv';
+    public const LAMINATING_GLOSS = 'gloss';
+    public const LAMINATING_DOFF = 'doff';
+    public const PROCESS_DIECUT = 'diecut';
+    public const PROCESS_EMBOSS = 'emboss';
+    public const PROCESS_LOCK = 'lock_bottom';
+    public const PROCESS_JOINT = 'lem_joint';
+    public const PROCESS_HOTSTAMP = 'hotstamp';
+    public const PROCESS_JILID = 'jilid_buku';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -65,18 +76,6 @@ class ProductPrototype extends ProductionHeader
     #[Assert\NotNull]
     private ?string $finishing = '';
 
-    #[ORM\Column(length: 100)]
-    #[Assert\NotNull]
-    private ?string $varnish = '';
-
-    #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $laminating = '';
-
-    #[ORM\Column(length: 100)]
-    #[Assert\NotNull]
-    private ?string $processList = '';
-
     #[ORM\Column(length: 20)]
     #[Assert\NotNull]
     private ?string $productionFileExtension = '';
@@ -95,6 +94,15 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $dataSource = [];
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $varnishList = [];
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $laminatingList = [];
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $processList = [];
 
     public function getCodeNumberConstant(): string
     {
@@ -226,42 +234,6 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getVarnish(): ?string
-    {
-        return $this->varnish;
-    }
-
-    public function setVarnish(string $varnish): self
-    {
-        $this->varnish = $varnish;
-
-        return $this;
-    }
-
-    public function getLaminating(): ?string
-    {
-        return $this->laminating;
-    }
-
-    public function setLaminating(string $laminating): self
-    {
-        $this->laminating = $laminating;
-
-        return $this;
-    }
-
-    public function getProcessList(): ?string
-    {
-        return $this->processList;
-    }
-
-    public function setProcessList(string $processList): self
-    {
-        $this->processList = $processList;
-
-        return $this;
-    }
-
     public function getProductionFileExtension(): ?string
     {
         return $this->productionFileExtension;
@@ -318,6 +290,42 @@ class ProductPrototype extends ProductionHeader
     public function setDataSource(array $dataSource): self
     {
         $this->dataSource = $dataSource;
+
+        return $this;
+    }
+
+    public function getVarnishList(): array
+    {
+        return $this->varnishList;
+    }
+
+    public function setVarnishList(array $varnishList): self
+    {
+        $this->varnishList = $varnishList;
+
+        return $this;
+    }
+
+    public function getLaminatingList(): array
+    {
+        return $this->laminatingList;
+    }
+
+    public function setLaminatingList(array $laminatingList): self
+    {
+        $this->laminatingList = $laminatingList;
+
+        return $this;
+    }
+
+    public function getProcessList(): array
+    {
+        return $this->processList;
+    }
+
+    public function setProcessList(array $processList): self
+    {
+        $this->processList = $processList;
 
         return $this;
     }
