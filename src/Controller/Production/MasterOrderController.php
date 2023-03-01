@@ -54,7 +54,7 @@ class MasterOrderController extends AbstractController
         $masterOrderFormService->initialize($masterOrder, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderType::class, $masterOrder);
         $form->handleRequest($request);
-//        $registerNewProductFormService->finalize($registerNewProduct);
+        $masterOrderFormService->finalize($masterOrder);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
 //            $masterOrderRepository->add($masterOrder, true);
@@ -85,7 +85,7 @@ class MasterOrderController extends AbstractController
         $masterOrderFormService->initialize($masterOrder, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderType::class, $masterOrder);
         $form->handleRequest($request);
-//        $masterOrderFormService->finalize($masterOrder);
+        $masterOrderFormService->finalize($masterOrder);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
 //            $masterOrderRepository->add($masterOrder, true);
