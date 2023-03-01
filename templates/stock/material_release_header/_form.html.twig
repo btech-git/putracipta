@@ -1,11 +1,81 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <div class="d-grid">
-        <button class="btn btn-secondary"
-                data-controller="dom-element"
-                data-action="dom-element#confirm"
-                data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-            Save
-        </button>
-    </div>
-{{ form_end(form) }}
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+
+    {{ form_start(form) }}
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Header</legend>
+            <div class="row">
+                <div class="col sm-6">
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
+                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
+                    {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
+                </div>
+                <div class="col sm-6">
+                    <div class="mb-3">
+                        <label for="{{ form.materialRequestHeader.vars.id }}-text" class="form-label">Material Request #</label>
+                        {{ form_row(form.materialRequestHeader, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'material-request-header-table:data-table:select@document->dom-element#bind material-request-paper-header-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'eventTypes': ['material-request-header-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderId'}},
+                                    {'eventTypes': ['material-request-paper-header-table:data-table:select'], 'action': 'removeAttribute', 'descriptor': {'name': 'value'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.materialRequestHeader.vars.id }}-text" class="form-control {% if not form.materialRequestHeader.vars.valid %}is-invalid{% endif %}" value="{{ materialReleaseHeader.materialRequestHeader.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#material-request-header-dialog"
+                               data-controller="dom-element"
+                               data-action="material-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestCodeNumber'}},
+                               ]|json_encode }}" />
+                        {{ form_errors(form.materialRequestHeader) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Request</label>
+                        <input type="text" class="form-control" value="{{ materialReleaseHeader.materialRequestHeader.transactionDate|default ? materialReleaseHeader.materialRequestHeader.transactionDate|date('d M Y') : '' }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="material-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderTransactionDate'}},
+                               ]|json_encode }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col sm-12">
+                    {{ form_row(form.note) }}
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Details</legend>
+            {{ include('stock/material_release_header/_details_form.html.twig') }}
+        </fieldset>
+
+        <div class="d-grid">
+            <button class="btn btn-success"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+
+    {#{{ dialog.start('material-request-header-dialog', 'Material Request List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_material_request_header__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}#}
+</div>
