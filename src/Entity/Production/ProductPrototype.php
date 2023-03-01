@@ -7,15 +7,20 @@ use App\Entity\Master\Employee;
 use App\Entity\Master\Material;
 use App\Entity\Master\Paper;
 use App\Entity\ProductionHeader;
-use App\Repository\Production\RegisterNewProductRepository;
+use App\Repository\Production\ProductPrototypeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: RegisterNewProductRepository::class)]
-#[ORM\Table(name: 'production_register_new_product')]
-class RegisterNewProduct extends ProductionHeader
+#[ORM\Entity(repositoryClass: ProductPrototypeRepository::class)]
+#[ORM\Table(name: 'production_product_prototype')]
+class ProductPrototype extends ProductionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'RNP';
+    public const DATA_SOURCE_HARD_FA = 'hard_fa';
+    public const DATA_SOURCE_EMAIL = 'email';
+    public const DATA_SOURCE_CD = 'cd';
+    public const DATA_SOURCE_PRINT_SAMPLE = 'print_sample';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -41,10 +46,6 @@ class RegisterNewProduct extends ProductionHeader
     #[ORM\Column(length: 20)]
     #[Assert\NotNull]
     private ?string $measurement = '';
-
-    #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $dataSource = '';
 
     #[ORM\ManyToOne]
     #[Assert\NotNull]
@@ -91,6 +92,9 @@ class RegisterNewProduct extends ProductionHeader
     #[ORM\Column]
     #[Assert\NotNull]
     private ?int $quantityProduction = 0;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $dataSource = [];
 
     public function getCodeNumberConstant(): string
     {
@@ -158,18 +162,6 @@ class RegisterNewProduct extends ProductionHeader
     public function setMeasurement(string $measurement): self
     {
         $this->measurement = $measurement;
-
-        return $this;
-    }
-
-    public function getDataSource(): ?string
-    {
-        return $this->dataSource;
-    }
-
-    public function setDataSource(string $dataSource): self
-    {
-        $this->dataSource = $dataSource;
 
         return $this;
     }
@@ -314,6 +306,18 @@ class RegisterNewProduct extends ProductionHeader
     public function setQuantityProduction(int $quantityProduction): self
     {
         $this->quantityProduction = $quantityProduction;
+
+        return $this;
+    }
+
+    public function getDataSource(): array
+    {
+        return $this->dataSource;
+    }
+
+    public function setDataSource(array $dataSource): self
+    {
+        $this->dataSource = $dataSource;
 
         return $this;
     }

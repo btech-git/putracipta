@@ -40,9 +40,6 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column]
     private ?int $quantityStock = 0;
 
-    #[ORM\Column(length: 20)]
-    private ?string $measurement = '';
-
     #[ORM\Column(length: 60)]
     private ?string $color = '';
 
@@ -54,9 +51,6 @@ class MasterOrder extends ProductionHeader
 
     #[ORM\Column]
     private ?int $quantityPrinting = 0;
-
-    #[ORM\Column(length: 20)]
-    private ?string $mountageSize = '';
 
     #[ORM\Column]
     private ?bool $isUsingHotStamping = false;
@@ -223,6 +217,21 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $packagingPlasticSize = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $dimensionLength = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $dimensionWidth = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $dimensionHeight = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $mountageSizeLength = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $mountageSizeWidth = null;
+
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
@@ -305,18 +314,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    public function getMeasurement(): ?string
-    {
-        return $this->measurement;
-    }
-
-    public function setMeasurement(string $measurement): self
-    {
-        $this->measurement = $measurement;
-
-        return $this;
-    }
-
     public function getColor(): ?string
     {
         return $this->color;
@@ -361,18 +358,6 @@ class MasterOrder extends ProductionHeader
     public function setQuantityPrinting(int $quantityPrinting): self
     {
         $this->quantityPrinting = $quantityPrinting;
-
-        return $this;
-    }
-
-    public function getMountageSize(): ?string
-    {
-        return $this->mountageSize;
-    }
-
-    public function setMountageSize(string $mountageSize): self
-    {
-        $this->mountageSize = $mountageSize;
 
         return $this;
     }
@@ -1033,6 +1018,66 @@ class MasterOrder extends ProductionHeader
     public function setPackagingPlasticSize(string $packagingPlasticSize): self
     {
         $this->packagingPlasticSize = $packagingPlasticSize;
+
+        return $this;
+    }
+
+    public function getDimensionLength(): ?string
+    {
+        return $this->dimensionLength;
+    }
+
+    public function setDimensionLength(string $dimensionLength): self
+    {
+        $this->dimensionLength = $dimensionLength;
+
+        return $this;
+    }
+
+    public function getDimensionWidth(): ?string
+    {
+        return $this->dimensionWidth;
+    }
+
+    public function setDimensionWidth(string $dimensionWidth): self
+    {
+        $this->dimensionWidth = $dimensionWidth;
+
+        return $this;
+    }
+
+    public function getDimensionHeight(): ?string
+    {
+        return $this->dimensionHeight;
+    }
+
+    public function setDimensionHeight(string $dimensionHeight): self
+    {
+        $this->dimensionHeight = $dimensionHeight;
+
+        return $this;
+    }
+
+    public function getMountageSizeLength(): ?string
+    {
+        return $this->mountageSizeLength;
+    }
+
+    public function setMountageSizeLength(string $mountageSizeLength): self
+    {
+        $this->mountageSizeLength = $mountageSizeLength;
+
+        return $this;
+    }
+
+    public function getMountageSizeWidth(): ?string
+    {
+        return $this->mountageSizeWidth;
+    }
+
+    public function setMountageSizeWidth(string $mountageSizeWidth): self
+    {
+        $this->mountageSizeWidth = $mountageSizeWidth;
 
         return $this;
     }
