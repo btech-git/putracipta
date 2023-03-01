@@ -2,8 +2,10 @@
 
 namespace App\Form\Master;
 
+//use App\Entity\Master\MaterialSubCategory;
 use App\Entity\Master\Supplier;
 use Symfony\Component\Form\AbstractType;
+//use Symfony\Component\Form\Extension\Core\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,9 +23,13 @@ class SupplierType extends AbstractType
             ->add('email')
             ->add('taxNumber', null, ['label' => 'NPWP'])
             ->add('paymentTerm', null, ['label' => 'TOP (hari)'])
-            ->add('certification', null, ['label' => 'Category'])
+            ->add('certification', null, [])
             ->add('currency', null, ['choice_label' => 'name'])
             ->add('account', null, ['choice_label' => 'name'])
+            ->add('categoryList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'Gloss' => Supplier::WORK_ORDER_PRINT,
+                'Doff' => Supplier::WORK_ORDER_DESIGN,
+            ]])
             ->add('note')
             ->add('isInactive')
         ;
