@@ -33,9 +33,23 @@ class ProductPrototypeType extends AbstractType
             ->add('color')
             ->add('quantityBlade')
             ->add('finishing')
-            ->add('varnish')
-            ->add('laminating')
-            ->add('processList')
+            ->add('varnishList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'WB' => ProductPrototype::VARNISH_WB,
+                'UV/Spot' => ProductPrototype::VARNISH_UV,
+                'OPV' => ProductPrototype::VARNISH_OPV,
+            ]])
+            ->add('laminatingList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'Gloss' => ProductPrototype::LAMINATING_GLOSS,
+                'Doff' => ProductPrototype::LAMINATING_DOFF,
+            ]])
+            ->add('processList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'Diecut' => ProductPrototype::PROCESS_DIECUT,
+                'Emboss' => ProductPrototype::PROCESS_EMBOSS,
+                'Lock Bottom' => ProductPrototype::PROCESS_LOCK,
+                'Lem Joint' => ProductPrototype::PROCESS_JOINT,
+                'Hot Stamp' => ProductPrototype::PROCESS_HOTSTAMP,
+                'Jilid Buku' => ProductPrototype::PROCESS_JILID,
+            ]])
 //            ->add('productionFileExtension')
             ->add('productionDate', null, ['widget' => 'single_text'])
             ->add('note')
