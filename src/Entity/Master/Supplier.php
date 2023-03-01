@@ -4,7 +4,6 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\SupplierRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'master_supplier')]
 class Supplier extends Master
 {
+//    public const WORK_ORDER_DESIGN = 'design';
+//    public const WORK_ORDER_PRINT = 'print';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -66,10 +68,8 @@ class Supplier extends Master
     #[Assert\NotNull]
     private ?Currency $currency = null;
 
-    public function __construct()
-    {
-        $this->purchaseOrderHeaders = new ArrayCollection();
-    }
+//    #[ORM\Column(type: Types::ARRAY)]
+//    private array $categoryList = [];
 
     public function getId(): ?int
     {
@@ -219,4 +219,16 @@ class Supplier extends Master
 
         return $this;
     }
+
+//    public function getCategoryList(): array
+//    {
+//        return $this->categoryList;
+//    }
+//
+//    public function setCategoryList(array $categoryList): self
+//    {
+//        $this->categoryList = $categoryList;
+//
+//        return $this;
+//    }
 }
