@@ -1,0 +1,305 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Master Order' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_production_master_order_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_edit', {'id': masterOrder.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Printing Machine</th>
+                <td>{{ masterOrder.printingMachine }}</td>
+            </tr>
+            <tr>
+                <th>Design Code</th>
+                <td>{{ masterOrder.designCode }}</td>
+            </tr>
+            <tr>
+                <th>Product Code</th>
+                <td>{{ masterOrder.productCode }}</td>
+            </tr>
+            <tr>
+                <th>Quantity Order</th>
+                <td>{{ masterOrder.quantityOrder }}</td>
+            </tr>
+            <tr>
+                <th>Quantity Stock</th>
+                <td>{{ masterOrder.quantityStock }}</td>
+            </tr>
+            <tr>
+                <th>Measurement</th>
+                <td>{{ masterOrder.measurement }}</td>
+            </tr>
+            <tr>
+                <th>Color</th>
+                <td>{{ masterOrder.color }}</td>
+            </tr>
+            <tr>
+                <th>Finishing</th>
+                <td>{{ masterOrder.finishing }}</td>
+            </tr>
+            <tr>
+                <th>Quantity Printing</th>
+                <td>{{ masterOrder.quantityPrinting }}</td>
+            </tr>
+            <tr>
+                <th>Mountage Size</th>
+                <td>{{ masterOrder.mountageSize }}</td>
+            </tr>
+            <tr>
+                <th>Is Using Hot Stamping</th>
+                <td>{{ masterOrder.isUsingHotStamping ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Delivery Date</th>
+                <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Printing Status</th>
+                <td>{{ masterOrder.printingStatus }}</td>
+            </tr>
+            <tr>
+                <th>Die Cut Blade</th>
+                <td>{{ masterOrder.dieCutBlade }}</td>
+            </tr>
+            <tr>
+                <th>Die Cut Blade Number</th>
+                <td>{{ masterOrder.dieCutBladeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Die Line Film Number</th>
+                <td>{{ masterOrder.dieLineFilmNumber }}</td>
+            </tr>
+            <tr>
+                <th>Layout Model File Extension</th>
+                <td>{{ masterOrder.layoutModelFileExtension }}</td>
+            </tr>
+            <tr>
+                <th>Insit Percentage</th>
+                <td>{{ masterOrder.insitPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Quantity Paper</th>
+                <td>{{ masterOrder.quantityPaper }}</td>
+            </tr>
+            <tr>
+                <th>Paper Mountage</th>
+                <td>{{ masterOrder.paperMountage }}</td>
+            </tr>
+            <tr>
+                <th>Paper Plano Length</th>
+                <td>{{ masterOrder.paperPlanoLength }}</td>
+            </tr>
+            <tr>
+                <th>Paper Plano Width</th>
+                <td>{{ masterOrder.paperPlanoWidth }}</td>
+            </tr>
+            <tr>
+                <th>Cutting Length Size1</th>
+                <td>{{ masterOrder.cuttingLengthSize1 }}</td>
+            </tr>
+            <tr>
+                <th>Cutting Width Size1</th>
+                <td>{{ masterOrder.cuttingWidthSize1 }}</td>
+            </tr>
+            <tr>
+                <th>Cutting Length Size2</th>
+                <td>{{ masterOrder.cuttingLengthSize2 }}</td>
+            </tr>
+            <tr>
+                <th>Cutting Width Size2</th>
+                <td>{{ masterOrder.cuttingWidthSize2 }}</td>
+            </tr>
+            <tr>
+                <th>Paper Requirement</th>
+                <td>{{ masterOrder.paperRequirement }}</td>
+            </tr>
+            <tr>
+                <th>Printing Insit</th>
+                <td>{{ masterOrder.printingInsit }}</td>
+            </tr>
+            <tr>
+                <th>Paper Total</th>
+                <td>{{ masterOrder.paperTotal }}</td>
+            </tr>
+            <tr>
+                <th>Ink Cyan Percentage</th>
+                <td>{{ masterOrder.inkCyanPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink Cyan Weight</th>
+                <td>{{ masterOrder.inkCyanWeight }}</td>
+            </tr>
+            <tr>
+                <th>Ink Magenta Percentage</th>
+                <td>{{ masterOrder.inkMagentaPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink Magenta Weight</th>
+                <td>{{ masterOrder.inkMagentaWeight }}</td>
+            </tr>
+            <tr>
+                <th>Ink Yellow Percentage</th>
+                <td>{{ masterOrder.inkYellowPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink Yellow Weight</th>
+                <td>{{ masterOrder.inkYellowWeight }}</td>
+            </tr>
+            <tr>
+                <th>Ink Black Percentage</th>
+                <td>{{ masterOrder.inkBlackPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink Black Weight</th>
+                <td>{{ masterOrder.inkBlackWeight }}</td>
+            </tr>
+            <tr>
+                <th>Ink K1Percentage</th>
+                <td>{{ masterOrder.inkK1Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink K1Weight</th>
+                <td>{{ masterOrder.inkK1Weight }}</td>
+            </tr>
+            <tr>
+                <th>Ink K2Percentage</th>
+                <td>{{ masterOrder.inkK2Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink K2Weight</th>
+                <td>{{ masterOrder.inkK2Weight }}</td>
+            </tr>
+            <tr>
+                <th>Ink K3Percentage</th>
+                <td>{{ masterOrder.inkK3Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink K3Weight</th>
+                <td>{{ masterOrder.inkK3Weight }}</td>
+            </tr>
+            <tr>
+                <th>Ink K4Percentage</th>
+                <td>{{ masterOrder.inkK4Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink K4Weight</th>
+                <td>{{ masterOrder.inkK4Weight }}</td>
+            </tr>
+            <tr>
+                <th>Ink Opv Percentage</th>
+                <td>{{ masterOrder.inkOpvPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Ink Opv Weight</th>
+                <td>{{ masterOrder.inkOpvWeight }}</td>
+            </tr>
+            <tr>
+                <th>Ink Laminating Size</th>
+                <td>{{ masterOrder.inkLaminatingSize }}</td>
+            </tr>
+            <tr>
+                <th>Ink Laminating Quantity</th>
+                <td>{{ masterOrder.inkLaminatingQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Glue Quantity</th>
+                <td>{{ masterOrder.packagingGlueQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Glue Weight</th>
+                <td>{{ masterOrder.packagingGlueWeight }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Rubber Quantity</th>
+                <td>{{ masterOrder.packagingRubberQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Rubber Weight</th>
+                <td>{{ masterOrder.packagingRubberWeight }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Paper Quantity</th>
+                <td>{{ masterOrder.packagingPaperQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Paper Weight</th>
+                <td>{{ masterOrder.packagingPaperWeight }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Box Quantity</th>
+                <td>{{ masterOrder.packagingBoxQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Box Weight</th>
+                <td>{{ masterOrder.packagingBoxWeight }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Tape Large Quantity</th>
+                <td>{{ masterOrder.packagingTapeLargeQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Tape Large Size</th>
+                <td>{{ masterOrder.packagingTapeLargeSize }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Tape Small Quantity</th>
+                <td>{{ masterOrder.packagingTapeSmallQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Tape Small Size</th>
+                <td>{{ masterOrder.packagingTapeSmallSize }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Plastic Quantity</th>
+                <td>{{ masterOrder.packagingPlasticQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Packaging Plastic Size</th>
+                <td>{{ masterOrder.packagingPlasticSize }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ masterOrder.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Is Read</th>
+                <td>{{ masterOrder.isRead ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Ordinal</th>
+                <td>{{ masterOrder.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Month</th>
+                <td>{{ masterOrder.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ masterOrder.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Created Production Date Time</th>
+                <td>{{ masterOrder.createdProductionDateTime ? masterOrder.createdProductionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified Production Date Time</th>
+                <td>{{ masterOrder.modifiedProductionDateTime ? masterOrder.modifiedProductionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Production Date</th>
+                <td>{{ masterOrder.productionDate ? masterOrder.productionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ masterOrder.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('production/master_order/_delete_form.html.twig') }}
+{% endblock %}

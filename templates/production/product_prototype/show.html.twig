@@ -1,0 +1,97 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Formulir Produk Baru' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_production_product_prototype_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_production_product_prototype_edit', {'id': productPrototype.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Marketing</th>
+                <td>{{ productPrototype.employee.name }}</td>
+            </tr>
+            <tr>
+                <th>Customer</th>
+                <td>{{ productPrototype.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Kode Produk</th>
+                <td>{{ productPrototype.productCode }}</td>
+            </tr>
+            <tr>
+                <th>Nama Produk</th>
+                <td>{{ productPrototype.productName }}</td>
+            </tr>
+            <tr>
+                <th>Ukuran Jadi</th>
+                <td>{{ productPrototype.measurement }}</td>
+            </tr>
+            <tr>
+                <th>Sumber Data</th>
+                <td>{{ productPrototype.dataSource ? productPrototype.dataSource|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Material EP</th>
+                <td>{{ productPrototype.paper.code }}</td>
+            </tr>
+            <tr>
+                <th>Varnish/Laminating</th>
+                <td>{{ productPrototype.isVarnish ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ productPrototype.quantityEngineering }}</td>
+            </tr>
+            <tr>
+                <th>Material FEP/PS</th>
+                <td>{{ productPrototype.material.code }}</td>
+            </tr>
+            <tr>
+                <th>Warna (TC/Pantone)</th>
+                <td>{{ productPrototype.color }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ productPrototype.quantityEngineering }}</td>
+            </tr>
+            <tr>
+                <th>Jumlah Mata</th>
+                <td>{{ productPrototype.quantityBlade }}</td>
+            </tr>
+            <tr>
+                <th>Finishing</th>
+                <td>{{ productPrototype.finishing }}</td>
+            </tr>
+            <tr>
+                <th>Varnish</th>
+                <td>{{ productPrototype.varnish }}</td>
+            </tr>
+            <tr>
+                <th>Laminating</th>
+                <td>{{ productPrototype.laminating }}</td>
+            </tr>
+            <tr>
+                <th>Proses</th>
+                <td>{{ productPrototype.processList }}</td>
+            </tr>
+            <tr>
+                <th>Keterangan</th>
+                <td>{{ productPrototype.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ productPrototype.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('production/product_prototype/_delete_form.html.twig') }}
+{% endblock %}
