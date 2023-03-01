@@ -2,6 +2,8 @@
 
 namespace App\Form\Stock;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Product;
 use App\Entity\Stock\AdjustmentStockDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,8 +16,8 @@ class AdjustmentStockDetailType extends AbstractType
         $builder
             ->add('currentQuantity')
             ->add('adjustedQuantity')
-            ->add('product')
-            ->add('adjustmentStockHeader')
+            ->add('product', EntityHiddenType::class, array('class' => Product::class))
+            ->add('isCanceled')
         ;
     }
 

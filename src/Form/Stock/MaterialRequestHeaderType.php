@@ -2,8 +2,10 @@
 
 namespace App\Form\Stock;
 
+use App\Entity\Stock\MaterialRequestDetail;
 use App\Entity\Stock\MaterialRequestHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,21 +14,20 @@ class MaterialRequestHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('totalQuantity')
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('departmentName')
             ->add('workOrderNumber')
             ->add('partNumber')
-            ->add('pickupDate')
-            ->add('isCanceled')
-            ->add('codeNumberOrdinal')
-            ->add('codeNumberMonth')
-            ->add('codeNumberYear')
-            ->add('createdTransactionDateTime')
-            ->add('modifiedTransactionDateTime')
-            ->add('transactionDate')
+            ->add('pickupDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('createdTransactionUser')
-            ->add('modifiedTransactionUser')
+            ->add('materialRequestDetails', CollectionType::class, [
+                'entry_type' => MaterialRequestDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new MaterialRequestDetail(),
+                'label' => false,
+            ])
         ;
     }
 

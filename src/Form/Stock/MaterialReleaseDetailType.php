@@ -3,7 +3,7 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Material;
+use App\Entity\Stock\MaterialRequestDetail;
 use App\Entity\Stock\MaterialReleaseDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,10 +16,9 @@ class MaterialReleaseDetailType extends AbstractType
         $builder
             ->add('quantity')
             ->add('memo')
-            ->add('isCanceled')
             ->add('unit', null, ['choice_label' => 'name'])
-            ->add('material', EntityHiddenType::class, ['class' => Material::class])
-            ->add('materialRequestDetail', EntityHiddenType::class, array('class' => MaterialRequestDetail::class))
+            ->add('materialRequestDetail', EntityHiddenType::class, ['class' => MaterialRequestDetail::class])
+            ->add('isCanceled')
         ;
     }
 
