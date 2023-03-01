@@ -15,8 +15,6 @@
                     {{ form_row(form.productCode, {'label': 'Kode Produk'}) }}
                     {{ form_row(form.productName, {'label': 'Nama Produk'}) }}
                     {{ form_row(form.measurement, {'label': 'Ukuran Jadi'}) }}
-                    {{ form_row(form.laminating, {'label': 'Laminating'}) }}
-                    {{ form_row(form.processList, {'label': 'Proses'}) }}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -64,14 +62,6 @@
                                ]|json_encode }}" />
                     </div>
                     {{ form_row(form.dataSource, {'label': 'Sumber Data'}) }}
-                    {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata'}) }}
-                    {{ form_row(form.finishing, {'label': 'Finishing'}) }}
-                    {{ form_row(form.varnish, {'label': 'Varnish'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col sm-12">
-                    {{ form_row(form.note, {'label': 'Keterangan'}) }}
                 </div>
             </div>
         </fieldset>
@@ -150,10 +140,20 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.materialName'}},
                                ]|json_encode }}" />
                     </div>
+                    {{ form_row(form.finishing, {'label': 'Finishing'}) }}
+                    {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
+                    {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
                 </div>
                 <div class="col sm-6">
                     {{ form_row(form.quantityProduction, {'label': 'Quantity'}) }}
                     {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
+                    {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata'}) }}
+                    {{ form_row(form.processList, {'label': 'Proses'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col sm-12">
+                    {{ form_row(form.note, {'label': 'Keterangan'}) }}
                 </div>
             </div>
         </fieldset>

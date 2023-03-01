@@ -23,40 +23,32 @@
                     {{ form_row(form.mountageSizeWidth, {'label': false}) }}
                     {{ form_row(form.isUsingHotStamping, {'label': 'Hot Stamping'}) }}
                     {{ form_row(form.printingStatus, {'label': 'Status Cetakan'}) }}
-                    {{ form_row(form.dieCutBlade, {'label': 'Pisau Die Cut'}) }}
-                    {{ form_row(form.dieCutBladeNumber, {'label': 'No. Pisau Diecut'}) }}
-                    {{ form_row(form.dieLineFilmNumber, {'label': 'No. Film Dieline Diecut'}) }}
-                    <div class="mb-3">
-                        <label class="form-label">Ukuran Jadi (mm)</label>
-                        <input type="text" class="form-control" name="form[dimensionLength]" id="form_dimension_length"/>
-                        <input type="text" class="form-control" name="form[dimensionWidth]" id="form_dimension_width"/>
-                        <input type="text" class="form-control" name="form[dimensionHeight]" id="form_dimension_height"/>
-                    </div>
+                    {{ form_row(form.printingStatusData, {'label': false}) }}
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
-                        <label for="{{ form.saleOrderHeader.vars.id }}-text" class="form-label">PO Customer #</label>
-                        {{ form_row(form.saleOrderHeader, {
+                        <label for="{{ form.saleOrderDetail.vars.id }}-text" class="form-label">PO Customer #</label>
+                        {{ form_row(form.saleOrderDetail, {
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'sale-order-detail-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderId'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderDetailId'}},
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.saleOrderHeader.vars.id }}-text" class="form-control {% if not form.saleOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.saleOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.saleOrderDetail.vars.id }}-text" class="form-control {% if not form.saleOrderDetail.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#sale-order-detail-dialog"
                                data-controller="dom-element"
                                data-action="sale-order-detail-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderCodeNumber'}},
                                ]|json_encode }}" />
-                        {{ form_errors(form.saleOrderHeader) }}
+                        {{ form_errors(form.saleOrderDetail) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tanggal PO</label>
-                        <input type="text" class="form-control" value="{{ masterOrder.saleOrderHeader.transactionDate|default ? masterOrder.saleOrderHeader.transactionDate|date('d M Y') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.transactionDate|default ? masterOrder.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="sale-order-detail-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -65,7 +57,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Customer</label>
-                        <input type="text" class="form-control" value="{{ masterOrder.saleOrderHeader.customer.company|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.customer.company|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="sale-order-detail-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -119,6 +111,13 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
                     </div>
+                    {{ form_row(form.dimensionLength, {'label': 'Ukuran Jadi (mm)'}) }}
+                    {{ form_row(form.dimensionWidth, {'label': false}) }}
+                    {{ form_row(form.dimensionHeight, {'label': false}) }}
+                    {{ form_row(form.dieCutBlade, {'label': 'Pisau Die Cut'}) }}
+                    {{ form_row(form.dieCutBladeData, {'label': false}) }}
+                    {{ form_row(form.dieCutBladeNumber, {'label': 'No. Pisau Diecut'}) }}
+                    {{ form_row(form.dieLineFilmNumber, {'label': 'No. Film Dieline Diecut'}) }}
                 </div>
             </div>
         </fieldset>
@@ -238,6 +237,15 @@
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
+            <div class="row">
+                <div class="col sm-6">
+                    {{ form_row(form.workOrderDistribution, {'label': 'Distribusi WO'}) }}
+                </div>
+                
+                <div class="col sm-6">
+                </div>
+            </div>
+                
             <div class="row">
                 <div class="col sm-12">
                     {{ form_row(form.note, {'label': 'Catatan'}) }}

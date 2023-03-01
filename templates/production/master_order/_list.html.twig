@@ -8,527 +8,98 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'printingMachine') }}>
-                    Printing Machine {{ grid.sort_char(form.sort.printingMachine.vars.value) }}
+                <th style="min-width: 280px" role="button">
+                    Master Order #
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'designCode') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                </th>
+                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'printingMachine') }}>
+                    Mesin {{ grid.sort_char(form.sort.printingMachine.vars.value) }}
+                </th>
+                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'designCode') }}>
                     Design Code {{ grid.sort_char(form.sort.designCode.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'productCode') }}>
+                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'productCode') }}>
                     Product Code {{ grid.sort_char(form.sort.productCode.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'quantityOrder') }}>
+                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'quantityOrder') }}>
                     Quantity Order {{ grid.sort_char(form.sort.quantityOrder.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'quantityStock') }}>
-                    Quantity Stock {{ grid.sort_char(form.sort.quantityStock.vars.value) }}
+                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'quantityPrinting') }}>
+                    Quantity Cetak {{ grid.sort_char(form.sort.quantityPrinting.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'measurement') }}>
-                    Measurement {{ grid.sort_char(form.sort.measurement.vars.value) }}
+                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
+                    Tanggal Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'color') }}>
-                    Color {{ grid.sort_char(form.sort.color.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'finishing') }}>
-                    Finishing {{ grid.sort_char(form.sort.finishing.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'quantityPrinting') }}>
-                    Quantity Printing {{ grid.sort_char(form.sort.quantityPrinting.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'mountageSize') }}>
-                    Mountage Size {{ grid.sort_char(form.sort.mountageSize.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isUsingHotStamping') }}>
-                    Is Using Hot Stamping {{ grid.sort_char(form.sort.isUsingHotStamping.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
-                    Delivery Date {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'printingStatus') }}>
-                    Printing Status {{ grid.sort_char(form.sort.printingStatus.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'dieCutBlade') }}>
-                    Die Cut Blade {{ grid.sort_char(form.sort.dieCutBlade.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'dieCutBladeNumber') }}>
-                    Die Cut Blade Number {{ grid.sort_char(form.sort.dieCutBladeNumber.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'dieLineFilmNumber') }}>
-                    Die Line Film Number {{ grid.sort_char(form.sort.dieLineFilmNumber.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'layoutModelFileExtension') }}>
-                    Layout Model File Extension {{ grid.sort_char(form.sort.layoutModelFileExtension.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'insitPercentage') }}>
-                    Insit Percentage {{ grid.sort_char(form.sort.insitPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'quantityPaper') }}>
-                    Quantity Paper {{ grid.sort_char(form.sort.quantityPaper.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'paperMountage') }}>
-                    Paper Mountage {{ grid.sort_char(form.sort.paperMountage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'paperPlanoLength') }}>
-                    Paper Plano Length {{ grid.sort_char(form.sort.paperPlanoLength.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'paperPlanoWidth') }}>
-                    Paper Plano Width {{ grid.sort_char(form.sort.paperPlanoWidth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'cuttingLengthSize1') }}>
-                    Cutting Length Size1 {{ grid.sort_char(form.sort.cuttingLengthSize1.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'cuttingWidthSize1') }}>
-                    Cutting Width Size1 {{ grid.sort_char(form.sort.cuttingWidthSize1.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'cuttingLengthSize2') }}>
-                    Cutting Length Size2 {{ grid.sort_char(form.sort.cuttingLengthSize2.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'cuttingWidthSize2') }}>
-                    Cutting Width Size2 {{ grid.sort_char(form.sort.cuttingWidthSize2.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'paperRequirement') }}>
-                    Paper Requirement {{ grid.sort_char(form.sort.paperRequirement.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'printingInsit') }}>
-                    Printing Insit {{ grid.sort_char(form.sort.printingInsit.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'paperTotal') }}>
-                    Paper Total {{ grid.sort_char(form.sort.paperTotal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkCyanPercentage') }}>
-                    Ink Cyan Percentage {{ grid.sort_char(form.sort.inkCyanPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkCyanWeight') }}>
-                    Ink Cyan Weight {{ grid.sort_char(form.sort.inkCyanWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkMagentaPercentage') }}>
-                    Ink Magenta Percentage {{ grid.sort_char(form.sort.inkMagentaPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkMagentaWeight') }}>
-                    Ink Magenta Weight {{ grid.sort_char(form.sort.inkMagentaWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkYellowPercentage') }}>
-                    Ink Yellow Percentage {{ grid.sort_char(form.sort.inkYellowPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkYellowWeight') }}>
-                    Ink Yellow Weight {{ grid.sort_char(form.sort.inkYellowWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkBlackPercentage') }}>
-                    Ink Black Percentage {{ grid.sort_char(form.sort.inkBlackPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkBlackWeight') }}>
-                    Ink Black Weight {{ grid.sort_char(form.sort.inkBlackWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK1Percentage') }}>
-                    Ink K1Percentage {{ grid.sort_char(form.sort.inkK1Percentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK1Weight') }}>
-                    Ink K1Weight {{ grid.sort_char(form.sort.inkK1Weight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK2Percentage') }}>
-                    Ink K2Percentage {{ grid.sort_char(form.sort.inkK2Percentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK2Weight') }}>
-                    Ink K2Weight {{ grid.sort_char(form.sort.inkK2Weight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK3Percentage') }}>
-                    Ink K3Percentage {{ grid.sort_char(form.sort.inkK3Percentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK3Weight') }}>
-                    Ink K3Weight {{ grid.sort_char(form.sort.inkK3Weight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK4Percentage') }}>
-                    Ink K4Percentage {{ grid.sort_char(form.sort.inkK4Percentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkK4Weight') }}>
-                    Ink K4Weight {{ grid.sort_char(form.sort.inkK4Weight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkOpvPercentage') }}>
-                    Ink Opv Percentage {{ grid.sort_char(form.sort.inkOpvPercentage.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkOpvWeight') }}>
-                    Ink Opv Weight {{ grid.sort_char(form.sort.inkOpvWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkLaminatingSize') }}>
-                    Ink Laminating Size {{ grid.sort_char(form.sort.inkLaminatingSize.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'inkLaminatingQuantity') }}>
-                    Ink Laminating Quantity {{ grid.sort_char(form.sort.inkLaminatingQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingGlueQuantity') }}>
-                    Packaging Glue Quantity {{ grid.sort_char(form.sort.packagingGlueQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingGlueWeight') }}>
-                    Packaging Glue Weight {{ grid.sort_char(form.sort.packagingGlueWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingRubberQuantity') }}>
-                    Packaging Rubber Quantity {{ grid.sort_char(form.sort.packagingRubberQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingRubberWeight') }}>
-                    Packaging Rubber Weight {{ grid.sort_char(form.sort.packagingRubberWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingPaperQuantity') }}>
-                    Packaging Paper Quantity {{ grid.sort_char(form.sort.packagingPaperQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingPaperWeight') }}>
-                    Packaging Paper Weight {{ grid.sort_char(form.sort.packagingPaperWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingBoxQuantity') }}>
-                    Packaging Box Quantity {{ grid.sort_char(form.sort.packagingBoxQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingBoxWeight') }}>
-                    Packaging Box Weight {{ grid.sort_char(form.sort.packagingBoxWeight.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingTapeLargeQuantity') }}>
-                    Packaging Tape Large Quantity {{ grid.sort_char(form.sort.packagingTapeLargeQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingTapeLargeSize') }}>
-                    Packaging Tape Large Size {{ grid.sort_char(form.sort.packagingTapeLargeSize.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingTapeSmallQuantity') }}>
-                    Packaging Tape Small Quantity {{ grid.sort_char(form.sort.packagingTapeSmallQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingTapeSmallSize') }}>
-                    Packaging Tape Small Size {{ grid.sort_char(form.sort.packagingTapeSmallSize.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingPlasticQuantity') }}>
-                    Packaging Plastic Quantity {{ grid.sort_char(form.sort.packagingPlasticQuantity.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'packagingPlasticSize') }}>
-                    Packaging Plastic Size {{ grid.sort_char(form.sort.packagingPlasticSize.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isCanceled') }}>
-                    Is Canceled {{ grid.sort_char(form.sort.isCanceled.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'isRead') }}>
-                    Is Read {{ grid.sort_char(form.sort.isRead.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
-                    Code Number Ordinal {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberMonth') }}>
-                    Code Number Month {{ grid.sort_char(form.sort.codeNumberMonth.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'codeNumberYear') }}>
-                    Code Number Year {{ grid.sort_char(form.sort.codeNumberYear.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'createdProductionDateTime') }}>
-                    Created Production Date Time {{ grid.sort_char(form.sort.createdProductionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'modifiedProductionDateTime') }}>
-                    Modified Production Date Time {{ grid.sort_char(form.sort.modifiedProductionDateTime.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
-                    Production Date {{ grid.sort_char(form.sort.productionDate.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
-                <th></th>
+                <th style="min-width: 90px" ></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'printingMachine') }} value="{{ form.filter.printingMachine.1.vars.value }}" />
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Production\\MasterOrder::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\ProductionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'designCode') }} value="{{ form.filter.designCode.1.vars.value }}" />
+                    <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'productCode') }} value="{{ form.filter.productCode.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'printingMachine') }} value="{{ form.filter.printingMachine.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantityOrder') }} value="{{ form.filter.quantityOrder.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'designCode') }} value="{{ form.filter.designCode.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantityStock') }} value="{{ form.filter.quantityStock.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'productCode') }} value="{{ form.filter.productCode.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'measurement') }} value="{{ form.filter.measurement.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantityOrder') }} value="{{ form.filter.quantityOrder.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'color') }} value="{{ form.filter.color.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantityPrinting') }} value="{{ form.filter.quantityPrinting.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'finishing') }} value="{{ form.filter.finishing.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantityPrinting') }} value="{{ form.filter.quantityPrinting.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'mountageSize') }} value="{{ form.filter.mountageSize.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isUsingHotStamping') }} value="{{ form.filter.isUsingHotStamping.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'printingStatus') }} value="{{ form.filter.printingStatus.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'dieCutBlade') }} value="{{ form.filter.dieCutBlade.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'dieCutBladeNumber') }} value="{{ form.filter.dieCutBladeNumber.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'dieLineFilmNumber') }} value="{{ form.filter.dieLineFilmNumber.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'layoutModelFileExtension') }} value="{{ form.filter.layoutModelFileExtension.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'insitPercentage') }} value="{{ form.filter.insitPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantityPaper') }} value="{{ form.filter.quantityPaper.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paperMountage') }} value="{{ form.filter.paperMountage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paperPlanoLength') }} value="{{ form.filter.paperPlanoLength.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paperPlanoWidth') }} value="{{ form.filter.paperPlanoWidth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'cuttingLengthSize1') }} value="{{ form.filter.cuttingLengthSize1.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'cuttingWidthSize1') }} value="{{ form.filter.cuttingWidthSize1.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'cuttingLengthSize2') }} value="{{ form.filter.cuttingLengthSize2.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'cuttingWidthSize2') }} value="{{ form.filter.cuttingWidthSize2.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paperRequirement') }} value="{{ form.filter.paperRequirement.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'printingInsit') }} value="{{ form.filter.printingInsit.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paperTotal') }} value="{{ form.filter.paperTotal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkCyanPercentage') }} value="{{ form.filter.inkCyanPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkCyanWeight') }} value="{{ form.filter.inkCyanWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkMagentaPercentage') }} value="{{ form.filter.inkMagentaPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkMagentaWeight') }} value="{{ form.filter.inkMagentaWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkYellowPercentage') }} value="{{ form.filter.inkYellowPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkYellowWeight') }} value="{{ form.filter.inkYellowWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkBlackPercentage') }} value="{{ form.filter.inkBlackPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkBlackWeight') }} value="{{ form.filter.inkBlackWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK1Percentage') }} value="{{ form.filter.inkK1Percentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK1Weight') }} value="{{ form.filter.inkK1Weight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK2Percentage') }} value="{{ form.filter.inkK2Percentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK2Weight') }} value="{{ form.filter.inkK2Weight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK3Percentage') }} value="{{ form.filter.inkK3Percentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK3Weight') }} value="{{ form.filter.inkK3Weight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK4Percentage') }} value="{{ form.filter.inkK4Percentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkK4Weight') }} value="{{ form.filter.inkK4Weight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkOpvPercentage') }} value="{{ form.filter.inkOpvPercentage.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkOpvWeight') }} value="{{ form.filter.inkOpvWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkLaminatingSize') }} value="{{ form.filter.inkLaminatingSize.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'inkLaminatingQuantity') }} value="{{ form.filter.inkLaminatingQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingGlueQuantity') }} value="{{ form.filter.packagingGlueQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingGlueWeight') }} value="{{ form.filter.packagingGlueWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingRubberQuantity') }} value="{{ form.filter.packagingRubberQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingRubberWeight') }} value="{{ form.filter.packagingRubberWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingPaperQuantity') }} value="{{ form.filter.packagingPaperQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingPaperWeight') }} value="{{ form.filter.packagingPaperWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingBoxQuantity') }} value="{{ form.filter.packagingBoxQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingBoxWeight') }} value="{{ form.filter.packagingBoxWeight.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingTapeLargeQuantity') }} value="{{ form.filter.packagingTapeLargeQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingTapeLargeSize') }} value="{{ form.filter.packagingTapeLargeSize.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingTapeSmallQuantity') }} value="{{ form.filter.packagingTapeSmallQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingTapeSmallSize') }} value="{{ form.filter.packagingTapeSmallSize.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingPlasticQuantity') }} value="{{ form.filter.packagingPlasticQuantity.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'packagingPlasticSize') }} value="{{ form.filter.packagingPlasticSize.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isCanceled') }} value="{{ form.filter.isCanceled.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isRead') }} value="{{ form.filter.isRead.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberMonth') }} value="{{ form.filter.codeNumberMonth.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'createdProductionDateTime') }} value="{{ form.filter.createdProductionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'modifiedProductionDateTime') }} value="{{ form.filter.modifiedProductionDateTime.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             {% for masterOrder in masterOrders %}
-                <tr>
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'masterOrderId': masterOrder.id, 
+                    'masterOrderCodeNumber': masterOrder.codeNumber, 
+                    'masterOrderDate': masterOrder.productionDate ? masterOrder.productionDate|date('d M Y') : '', 
+                    'masterOrderPrintingMachine': masterOrder.printingMachine, 
+                    'customerCompany': masterOrder.customer.company,
+                    'saleOrderCodeNumber': masterOrder.saleOrderDetail.saleOrderHeader.codeNumber,
+                    'productCode': masterOrder.product.code,
+                    'productName': masterOrder.product.name,
+                    'masterOrderDesignCode': masterOrder.designCode,
+                    'masterOrderQuantity': masterOrder.quantityOrder}|json_encode }}">
+                    <td>{{ masterOrder.codeNumber }}</td>
+                    <td>{{ masterOrder.productionDate ? masterOrder.productionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrder.printingMachine }}</td>
                     <td>{{ masterOrder.designCode }}</td>
-                    <td>{{ masterOrder.productCode }}</td>
+                    <td>{{ masterOrder.product.code }}</td>
                     <td>{{ masterOrder.quantityOrder }}</td>
-                    <td>{{ masterOrder.quantityStock }}</td>
-                    <td>{{ masterOrder.measurement }}</td>
-                    <td>{{ masterOrder.color }}</td>
-                    <td>{{ masterOrder.finishing }}</td>
                     <td>{{ masterOrder.quantityPrinting }}</td>
-                    <td>{{ masterOrder.mountageSize }}</td>
-                    <td>{{ masterOrder.isUsingHotStamping ? 'Yes' : 'No' }}</td>
-                    <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ masterOrder.printingStatus }}</td>
-                    <td>{{ masterOrder.dieCutBlade }}</td>
-                    <td>{{ masterOrder.dieCutBladeNumber }}</td>
-                    <td>{{ masterOrder.dieLineFilmNumber }}</td>
-                    <td>{{ masterOrder.layoutModelFileExtension }}</td>
-                    <td>{{ masterOrder.insitPercentage }}</td>
-                    <td>{{ masterOrder.quantityPaper }}</td>
-                    <td>{{ masterOrder.paperMountage }}</td>
-                    <td>{{ masterOrder.paperPlanoLength }}</td>
-                    <td>{{ masterOrder.paperPlanoWidth }}</td>
-                    <td>{{ masterOrder.cuttingLengthSize1 }}</td>
-                    <td>{{ masterOrder.cuttingWidthSize1 }}</td>
-                    <td>{{ masterOrder.cuttingLengthSize2 }}</td>
-                    <td>{{ masterOrder.cuttingWidthSize2 }}</td>
-                    <td>{{ masterOrder.paperRequirement }}</td>
-                    <td>{{ masterOrder.printingInsit }}</td>
-                    <td>{{ masterOrder.paperTotal }}</td>
-                    <td>{{ masterOrder.inkCyanPercentage }}</td>
-                    <td>{{ masterOrder.inkCyanWeight }}</td>
-                    <td>{{ masterOrder.inkMagentaPercentage }}</td>
-                    <td>{{ masterOrder.inkMagentaWeight }}</td>
-                    <td>{{ masterOrder.inkYellowPercentage }}</td>
-                    <td>{{ masterOrder.inkYellowWeight }}</td>
-                    <td>{{ masterOrder.inkBlackPercentage }}</td>
-                    <td>{{ masterOrder.inkBlackWeight }}</td>
-                    <td>{{ masterOrder.inkK1Percentage }}</td>
-                    <td>{{ masterOrder.inkK1Weight }}</td>
-                    <td>{{ masterOrder.inkK2Percentage }}</td>
-                    <td>{{ masterOrder.inkK2Weight }}</td>
-                    <td>{{ masterOrder.inkK3Percentage }}</td>
-                    <td>{{ masterOrder.inkK3Weight }}</td>
-                    <td>{{ masterOrder.inkK4Percentage }}</td>
-                    <td>{{ masterOrder.inkK4Weight }}</td>
-                    <td>{{ masterOrder.inkOpvPercentage }}</td>
-                    <td>{{ masterOrder.inkOpvWeight }}</td>
-                    <td>{{ masterOrder.inkLaminatingSize }}</td>
-                    <td>{{ masterOrder.inkLaminatingQuantity }}</td>
-                    <td>{{ masterOrder.packagingGlueQuantity }}</td>
-                    <td>{{ masterOrder.packagingGlueWeight }}</td>
-                    <td>{{ masterOrder.packagingRubberQuantity }}</td>
-                    <td>{{ masterOrder.packagingRubberWeight }}</td>
-                    <td>{{ masterOrder.packagingPaperQuantity }}</td>
-                    <td>{{ masterOrder.packagingPaperWeight }}</td>
-                    <td>{{ masterOrder.packagingBoxQuantity }}</td>
-                    <td>{{ masterOrder.packagingBoxWeight }}</td>
-                    <td>{{ masterOrder.packagingTapeLargeQuantity }}</td>
-                    <td>{{ masterOrder.packagingTapeLargeSize }}</td>
-                    <td>{{ masterOrder.packagingTapeSmallQuantity }}</td>
-                    <td>{{ masterOrder.packagingTapeSmallSize }}</td>
-                    <td>{{ masterOrder.packagingPlasticQuantity }}</td>
-                    <td>{{ masterOrder.packagingPlasticSize }}</td>
-                    <td>{{ masterOrder.isCanceled ? 'Yes' : 'No' }}</td>
-                    <td>{{ masterOrder.isRead ? 'Yes' : 'No' }}</td>
-                    <td>{{ masterOrder.codeNumberOrdinal }}</td>
-                    <td>{{ masterOrder.codeNumberMonth }}</td>
-                    <td>{{ masterOrder.codeNumberYear }}</td>
-                    <td>{{ masterOrder.createdProductionDateTime ? masterOrder.createdProductionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ masterOrder.modifiedProductionDateTime ? masterOrder.modifiedProductionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ masterOrder.productionDate ? masterOrder.productionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ masterOrder.note }}</td>
+                    <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('d M Y') : '' }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_show', {'id': masterOrder.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_edit', {'id': masterOrder.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_show', {'id': masterOrder.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_edit', {'id': masterOrder.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="73">No records found</td>
+                    <td colspan="10">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

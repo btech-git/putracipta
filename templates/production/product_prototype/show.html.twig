@@ -11,8 +11,12 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
+                <th>Produk Baru #</th>
+                <td>{{ productPrototype.getCodeNumber }}</td>
+            </tr>
+            <tr>
                 <th>Tanggal</th>
-                <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Marketing</th>
@@ -72,15 +76,15 @@
             </tr>
             <tr>
                 <th>Varnish</th>
-                <td>{{ productPrototype.varnish }}</td>
+                <td>{{ productPrototype.dataSource ? productPrototype.varnishList|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Laminating</th>
-                <td>{{ productPrototype.laminating }}</td>
+                <td>{{ productPrototype.dataSource ? productPrototype.laminatingList|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Proses</th>
-                <td>{{ productPrototype.processList }}</td>
+                <td>{{ productPrototype.dataSource ? productPrototype.processList|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Keterangan</th>

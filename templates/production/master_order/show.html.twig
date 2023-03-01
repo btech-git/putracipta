@@ -11,6 +11,14 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
+                <th>Master Order #</th>
+                <td>{{ masterOrder.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ masterOrder.productionDate ? masterOrder.productionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Printing Machine</th>
                 <td>{{ masterOrder.printingMachine }}</td>
             </tr>
@@ -20,7 +28,11 @@
             </tr>
             <tr>
                 <th>Product Code</th>
-                <td>{{ masterOrder.productCode }}</td>
+                <td>{{ masterOrder.product.code }}</td>
+            </tr>
+            <tr>
+                <th>Product Name</th>
+                <td>{{ masterOrder.product.name }}</td>
             </tr>
             <tr>
                 <th>Quantity Order</th>
@@ -29,10 +41,6 @@
             <tr>
                 <th>Quantity Stock</th>
                 <td>{{ masterOrder.quantityStock }}</td>
-            </tr>
-            <tr>
-                <th>Measurement</th>
-                <td>{{ masterOrder.measurement }}</td>
             </tr>
             <tr>
                 <th>Color</th>
@@ -47,16 +55,12 @@
                 <td>{{ masterOrder.quantityPrinting }}</td>
             </tr>
             <tr>
-                <th>Mountage Size</th>
-                <td>{{ masterOrder.mountageSize }}</td>
-            </tr>
-            <tr>
                 <th>Is Using Hot Stamping</th>
                 <td>{{ masterOrder.isUsingHotStamping ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Delivery Date</th>
-                <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('Y-m-d') : '' }}</td>
+                <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Printing Status</th>
@@ -263,36 +267,16 @@
                 <td>{{ masterOrder.packagingPlasticSize }}</td>
             </tr>
             <tr>
+                <th>Distribusi WO</th>
+                <td>{{ masterOrder.workOrderDistribution ? masterOrder.workOrderDistribution|join(', ') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Is Canceled</th>
                 <td>{{ masterOrder.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Is Read</th>
                 <td>{{ masterOrder.isRead ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ masterOrder.codeNumberOrdinal }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Month</th>
-                <td>{{ masterOrder.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ masterOrder.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Production Date Time</th>
-                <td>{{ masterOrder.createdProductionDateTime ? masterOrder.createdProductionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Production Date Time</th>
-                <td>{{ masterOrder.modifiedProductionDateTime ? masterOrder.modifiedProductionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Production Date</th>
-                <td>{{ masterOrder.productionDate ? masterOrder.productionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
