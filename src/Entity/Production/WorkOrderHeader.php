@@ -4,13 +4,13 @@ namespace App\Entity\Production;
 
 use App\Entity\Master\Material;
 use App\Entity\ProductionHeader;
-use App\Repository\Production\WorkOrderRepository;
+use App\Repository\Production\WorkOrderHeaderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WorkOrderRepository::class)]
-#[ORM\Table(name: 'production_work_order')]
-class WorkOrder extends ProductionHeader
+#[ORM\Entity(repositoryClass: WorkOrderHeaderRepository::class)]
+#[ORM\Table(name: 'production_work_order_header')]
+class WorkOrderHeader extends ProductionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'PWO';
     public const STATUS_NEW = 'new';
@@ -21,7 +21,7 @@ class WorkOrder extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrders')]
+    #[ORM\ManyToOne(inversedBy: 'workOrderHeaders')]
     private ?MasterOrder $masterOrder = null;
 
     #[ORM\Column(length: 60)]

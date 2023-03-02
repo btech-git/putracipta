@@ -8,7 +8,6 @@ use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use App\Entity\Transaction\SaleOrderDetail;
-use App\Entity\Transaction\SaleOrderHeader;
 use App\Repository\Production\MasterOrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -266,18 +265,18 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column(length: 100)]
     private ?string $diecutBladeData = null;
 
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrder::class)]
-    private Collection $workOrders;
-
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrders')]
     private ?SaleOrderDetail $saleOrderDetail = null;
 
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderHeader::class)]
+    private Collection $workOrderHeaders;
+
     public function __construct()
     {
-        $this->workOrders = new ArrayCollection();
+        $this->workOrderHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -1142,36 +1141,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, WorkOrder>
-     */
-    public function getWorkOrders(): Collection
-    {
-        return $this->workOrders;
-    }
-
-    public function addWorkOrder(WorkOrder $workOrder): self
-    {
-        if (!$this->workOrders->contains($workOrder)) {
-            $this->workOrders->add($workOrder);
-            $workOrder->setMasterOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWorkOrder(WorkOrder $workOrder): self
-    {
-        if ($this->workOrders->removeElement($workOrder)) {
-            // set the owning side to null (unless already changed)
-            if ($workOrder->getMasterOrder() === $this) {
-                $workOrder->setMasterOrder(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -1192,6 +1161,36 @@ class MasterOrder extends ProductionHeader
     public function setSaleOrderDetail(?SaleOrderDetail $saleOrderDetail): self
     {
         $this->saleOrderDetail = $saleOrderDetail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderHeader>
+     */
+    public function getWorkOrderHeaders(): Collection
+    {
+        return $this->workOrderHeaders;
+    }
+
+    public function addWorkOrderHeader(WorkOrderHeader $workOrderHeader): self
+    {
+        if (!$this->workOrderHeaders->contains($workOrderHeader)) {
+            $this->workOrderHeaders->add($workOrderHeader);
+            $workOrderHeader->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderHeader(WorkOrderHeader $workOrderHeader): self
+    {
+        if ($this->workOrderHeaders->removeElement($workOrderHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderHeader->getMasterOrder() === $this) {
+                $workOrderHeader->setMasterOrder(null);
+            }
+        }
 
         return $this;
     }
