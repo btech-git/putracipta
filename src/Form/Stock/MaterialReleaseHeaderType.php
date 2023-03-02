@@ -17,10 +17,6 @@ class MaterialReleaseHeaderType extends AbstractType
     {
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
-            ->add('departmentName')
-            ->add('workOrderNumber')
-            ->add('partNumber')
-            ->add('isCanceled')
             ->add('note')
             ->add('materialRequestHeader', EntityHiddenType::class, ['class' => MaterialRequestHeader::class])
             ->add('materialReleaseDetails', CollectionType::class, [
