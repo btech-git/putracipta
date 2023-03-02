@@ -4,6 +4,7 @@ namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Form\Transaction\PurchaseOrderHeaderType;
 use App\Grid\Transaction\PurchaseOrderHeaderGridType;
@@ -52,6 +53,35 @@ class PurchaseOrderHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("transaction/purchase_order_header/index.html.twig");
+    }
+    
+    #[Route('/_head', name: 'app_transaction_purchase_order_header__head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _head(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
+
+        return $this->renderForm("transaction/purchase_order_header/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseOrderHeaders' => $purchaseOrderHeaders,
+        ]);
+    }
+
+    #[Route('/head', name: 'app_transaction_purchase_order_header_head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function head(): Response
+    {
+        return $this->render("transaction/purchase_order_header/head.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_header_new', methods: ['GET', 'POST'])]
@@ -188,41 +218,4 @@ class PurchaseOrderHeaderController extends AbstractController
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
         ]);
     }
-    
-    #[Route('/_head', name: 'app_transaction_purchase_order_header__head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
-    public function _head(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
-    {
-        $criteria = new DataCriteria();
-        $criteria->setSort([
-            'transactionDate' => SortDescending::class,
-            'id' => SortDescending::class,
-        ]);
-        $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
-        $form->handleRequest($request);
-
-        list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.isRead = false");
-//            if (isset($request->query->get('purchase_order_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_header_grid')['sort']['supplier:company'])) {
-//                $qb->innerJoin("{$alias}.supplier", 's');
-//                $add['filter']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['filter']['supplier:company']);
-//                $add['sort']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['sort']['supplier:company']);
-//            }
-        });
-
-        return $this->render("transaction/purchase_order_header/_head.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'purchaseOrderHeaders' => $purchaseOrderHeaders,
-        ]);
-    }
-
-    #[Route('/', name: 'app_transaction_purchase_order_header_head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
-    public function head(): Response
-    {
-        return $this->render("transaction/purchase_order_header/head.html.twig");
-    }
-
 }

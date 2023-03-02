@@ -4,6 +4,7 @@ namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use App\Form\Transaction\PurchaseOrderPaperHeaderType;
 use App\Grid\Transaction\PurchaseOrderPaperHeaderGridType;
@@ -52,6 +53,35 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("transaction/purchase_order_paper_header/index.html.twig");
+    }
+
+    #[Route('/_head', name: 'app_transaction_purchase_order_paper_header__head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _head(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
+
+        return $this->renderForm("transaction/purchase_order_paper_header/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseOrderPaperHeaders' => $purchaseOrderPaperHeaders,
+        ]);
+    }
+
+    #[Route('/head', name: 'app_transaction_purchase_order_paper_header_head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function head(): Response
+    {
+        return $this->render("transaction/purchase_order_paper_header/head.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_paper_header_new', methods: ['GET', 'POST'])]
