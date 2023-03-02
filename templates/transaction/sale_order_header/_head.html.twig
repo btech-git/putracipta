@@ -2,20 +2,20 @@
 
 {{ grid.form(form) }}
 
-{{ grid.info(form, count, purchaseOrderHeaders) }}
+{{ grid.info(form, count, saleOrderHeaders) }}
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary">
                 <th style="min-width: 280px">
-                    PO # 
+                    SO # 
                 </th>
                 <th style="min-width: 150px">
                     Tanggal
                 </th>
                 <th style="min-width: 250px">
-                    Supplier
+                    Customer
                 </th>
                 <th style="min-width: 200px">
                     Note
@@ -30,16 +30,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for purchaseOrderHeader in purchaseOrderHeaders %}
+            {% for saleOrderHeader in saleOrderHeaders %}
                 <tr>
-                    <td>{{ purchaseOrderHeader.codeNumber }}</td>
-                    <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseOrderHeader.supplier.company|default }}</td>
-                    <td>{{ purchaseOrderHeader.note }}</td>
-                    <td class="text-end">{{ purchaseOrderHeader.grandTotal|default|number_format(0) }}</td>
-                    <td>{{ purchaseOrderHeader.transactionStatus }}</td>
+                    <td>{{ saleOrderHeader.codeNumber }}</td>
+                    <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ saleOrderHeader.customer.company|default }}</td>
+                    <td>{{ saleOrderHeader.note }}</td>
+                    <td class="text-end">{{ saleOrderHeader.grandTotal|default|number_format(0) }}</td>
+                    <td>{{ saleOrderHeader.transactionStatus }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_show', {'id': purchaseOrderHeader.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_sale_order_header_show', {'id': saleOrderHeader.id}) }}"><i class="bi-search"></i></a>
                     </td>
                 </tr>
             {% else %}
@@ -51,4 +51,4 @@
     </table>
 </div>
 
-{{ grid.navigation(form, count, purchaseOrderHeaders) }}
+{{ grid.navigation(form, count, saleOrderHeaders) }}
