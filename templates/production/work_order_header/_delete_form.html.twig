@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('app_production_work_order_delete', {'id': workOrder.id}) }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ workOrder.id) }}">
+<form method="post" action="{{ path('app_production_work_order_header_delete', {'id': workOrderHeader.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ workOrderHeader.id) }}">
     <div class="d-grid">
         <button class="btn btn-danger btn-sm"
                 data-controller="dom-element"

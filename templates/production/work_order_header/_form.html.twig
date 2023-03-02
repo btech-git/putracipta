@@ -21,7 +21,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.masterOrder.vars.id }}-text" class="form-control {% if not form.masterOrder.vars.valid %}is-invalid{% endif %}" value="{{ workOrder.masterOrder.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.masterOrder.vars.id }}-text" class="form-control {% if not form.masterOrder.vars.valid %}is-invalid{% endif %}" value="{{ workOrderHeader.masterOrder.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#master-order-dialog"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
@@ -32,7 +32,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tanggal MO</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.productionDate|default ? workOrder.masterOrder.productionDate|date('d M Y') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.productionDate|default ? workOrderHeader.masterOrder.productionDate|date('d M Y') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -41,7 +41,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mesin</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.printingMachine|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.printingMachine|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -50,7 +50,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Customer</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.customer.company|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.customer.company|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -59,7 +59,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">PO Customer #</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.saleOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.saleOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -68,7 +68,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Kode Produk</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.product.code|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.product.code|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -77,7 +77,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Produk</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.product.name|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.product.name|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -86,7 +86,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Kode Design</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.designCode|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.designCode|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -95,7 +95,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Quantity Order</label>
-                        <input type="text" class="form-control" value="{{ workOrder.masterOrder.quantityOrder|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.quantityOrder|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -129,7 +129,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.material.vars.id }}-text" class="form-control {% if not form.material.vars.valid %}is-invalid{% endif %}" value="{{ workOrder.material.name|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.material.vars.id }}-text" class="form-control {% if not form.material.vars.valid %}is-invalid{% endif %}" value="{{ workOrderHeader.material.name|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#material-dialog"
                                data-controller="dom-element"
                                data-action="material-table:data-table:select@document->dom-element#bind"
@@ -140,7 +140,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Kode Bahan</label>
-                        <input type="text" class="form-control" value="{{ workOrder.material.code|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderHeader.material.code|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="material-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
