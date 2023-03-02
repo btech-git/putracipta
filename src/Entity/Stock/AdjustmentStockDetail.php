@@ -35,6 +35,12 @@ class AdjustmentStockDetail extends StockDetail
         return $this->currentQuantity - $this->adjustedQuantity;
     }
 
+    public function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->adjustmentStockHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

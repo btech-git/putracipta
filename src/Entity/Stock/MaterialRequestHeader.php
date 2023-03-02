@@ -41,6 +41,9 @@ class MaterialRequestHeader extends StockHeader
     #[ORM\OneToMany(mappedBy: 'materialRequestHeader', targetEntity: MaterialReleaseHeader::class)]
     private Collection $materialReleaseHeaders;
 
+    #[ORM\Column]
+    private ?int $totalQuantityRemaining = null;
+
     public function __construct()
     {
         $this->materialRequestDetails = new ArrayCollection();
@@ -58,6 +61,17 @@ class MaterialRequestHeader extends StockHeader
         foreach ($this->materialRequestDetails as $materialRequestDetail) {
             if (!$materialRequestDetail->isIsCanceled()) {
                 $totalQuantity += $materialRequestDetail->getQuantity();
+            }
+        }
+        return $totalQuantity;
+    }
+
+    public function getSyncTotalQuantityRemaining(): int
+    {
+        $totalQuantity = 0;
+        foreach ($this->materialRequestDetails as $materialRequestDetail) {
+            if (!$materialRequestDetail->isIsCanceled()) {
+                $totalQuantity += $materialRequestDetail->getQuantityRemaining();
             }
         }
         return $totalQuantity;
@@ -184,6 +198,18 @@ class MaterialRequestHeader extends StockHeader
                 $materialReleaseHeader->setMaterialRequestHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalQuantityRemaining(): ?int
+    {
+        return $this->totalQuantityRemaining;
+    }
+
+    public function setTotalQuantityRemaining(int $totalQuantityRemaining): self
+    {
+        $this->totalQuantityRemaining = $totalQuantityRemaining;
 
         return $this;
     }

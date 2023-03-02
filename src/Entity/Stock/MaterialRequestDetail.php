@@ -37,9 +37,26 @@ class MaterialRequestDetail extends StockDetail
     #[ORM\OneToMany(mappedBy: 'materialRequestDetail', targetEntity: MaterialReleaseDetail::class)]
     private Collection $materialReleaseDetails;
 
+    #[ORM\Column]
+    private ?int $quantityRelease = 0;
+
+    #[ORM\Column]
+    private ?int $quantityRemaining = 0;
+
     public function __construct()
     {
         $this->materialReleaseDetails = new ArrayCollection();
+    }
+
+    public function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->materialRequestHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
+    public function getSyncQuantityRemaining(): int
+    {
+        return $this->quantity - $this->quantityRelease;
     }
 
     public function getId(): ?int
@@ -133,6 +150,30 @@ class MaterialRequestDetail extends StockDetail
                 $materialReleaseDetail->setMaterialRequestDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantityRelease(): ?int
+    {
+        return $this->quantityRelease;
+    }
+
+    public function setQuantityRelease(int $quantityRelease): self
+    {
+        $this->quantityRelease = $quantityRelease;
+
+        return $this;
+    }
+
+    public function getQuantityRemaining(): ?int
+    {
+        return $this->quantityRemaining;
+    }
+
+    public function setQuantityRemaining(int $quantityRemaining): self
+    {
+        $this->quantityRemaining = $quantityRemaining;
 
         return $this;
     }

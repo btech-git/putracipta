@@ -42,6 +42,17 @@ class MaterialReleaseHeader extends StockHeader
         $this->materialReleaseDetails = new ArrayCollection();
     }
 
+    public function getSyncTotalQuantity(): int
+    {
+        $totalQuantity = 0;
+        foreach ($this->materialReleaseDetails as $materialReleaseDetail) {
+            if (!$materialReleaseDetail->isIsCanceled()) {
+                $totalQuantity += $materialReleaseDetail->getQuantity();
+            }
+        }
+        return $totalQuantity;
+    }
+
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
@@ -130,7 +141,7 @@ class MaterialReleaseHeader extends StockHeader
         return $this;
     }
 
-    public function removeMaterialRequestDetail(MaterialReleaseDetail $materialReleaseDetail): self
+    public function removeMaterialReleaseDetail(MaterialReleaseDetail $materialReleaseDetail): self
     {
         if ($this->materialReleaseDetails->removeElement($materialReleaseDetail)) {
             // set the owning side to null (unless already changed)

@@ -35,6 +35,12 @@ class MaterialReleaseDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'materialReleaseDetails')]
     private ?MaterialRequestDetail $materialRequestDetail = null;
 
+    public function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->materialReleaseHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
