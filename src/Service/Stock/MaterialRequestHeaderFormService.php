@@ -40,7 +40,12 @@ class MaterialRequestHeaderFormService
 
     public function finalize(MaterialRequestHeader $materialRequestHeader, array $options = []): void
     {
+        foreach ($materialRequestHeader->getMaterialRequestDetails() as $materialRequestDetail) {
+            $materialRequestDetail->setIsCanceled($materialRequestDetail->getSyncIsCanceled());
+            $materialRequestDetail->setQuantityRemaining($materialRequestDetail->getSyncQuantityRemaining());
+        }
         $materialRequestHeader->setTotalQuantity($materialRequestHeader->getSyncTotalQuantity());
+        $materialRequestHeader->setTotalQuantityRemaining($materialRequestHeader->getSyncTotalQuantityRemaining());
     }
 
     public function save(MaterialRequestHeader $materialRequestHeader, array $options = []): void
