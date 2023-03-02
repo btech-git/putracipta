@@ -11,8 +11,12 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Total Quantity</th>
-                <td>{{ materialReleaseHeader.totalQuantity }}</td>
+                <th>Pengeluaran Material #</th>
+                <td>{{ materialReleaseHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ materialReleaseHeader.transactionDate ? materialReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Department Name</th>
@@ -27,39 +31,47 @@
                 <td>{{ materialReleaseHeader.partNumber }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
-                <td>{{ materialReleaseHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ materialReleaseHeader.codeNumberOrdinal }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Month</th>
-                <td>{{ materialReleaseHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ materialReleaseHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ materialReleaseHeader.createdTransactionDateTime ? materialReleaseHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ materialReleaseHeader.modifiedTransactionDateTime ? materialReleaseHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
-                <td>{{ materialReleaseHeader.transactionDate ? materialReleaseHeader.transactionDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
                 <th>Note</th>
                 <td>{{ materialReleaseHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ materialReleaseHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
 
-    {{ include('stock/material_release_header/_delete_form.html.twig') }}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                <th>Nama Material</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>Keterangan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for materialReleaseDetail in materialReleaseHeader.materialReleaseDetails %}
+                <tr>
+                    <td>{{ materialReleaseDetail.material.code|default }}</td>
+                    <td>{{ materialReleaseDetail.material.name|default }}</td>
+                    <td style="text-align: center">{{ materialReleaseDetail.quantity|default }}</td>
+                    <td>{{ materialReleaseDetail.unit.name|default }}</td>
+                    <td>{{ materialReleaseDetail.memo|default }}</td>
+                    <td>{{ materialReleaseDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2" style="text-align: right"><strong>Total</strong></td>
+                <td style="text-align: center"><strong>{{ materialReleaseHeader.totalQuantity|default }}</strong></td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    {#{{ include('stock/material_release_header/_delete_form.html.twig') }}#}
 {% endblock %}

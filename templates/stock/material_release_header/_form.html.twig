@@ -11,9 +11,24 @@
             <div class="row">
                 <div class="col sm-6">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
-                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
-                    {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Departemen</label>
+                        <input type="text" class="form-control" value="{{ materialReleaseHeader.materialRequestHeader.departmentName|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="material-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderDepartment'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Part #</label>
+                        <input type="text" class="form-control" value="{{ materialReleaseHeader.materialRequestHeader.partNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="material-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderPartNumber'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
                 <div class="col sm-6">
                     <div class="mb-3">
@@ -21,10 +36,9 @@
                         {{ form_row(form.materialRequestHeader, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'material-request-header-table:data-table:select@document->dom-element#bind material-request-paper-header-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'material-request-header-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'eventTypes': ['material-request-header-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderId'}},
-                                    {'eventTypes': ['material-request-paper-header-table:data-table:select'], 'action': 'removeAttribute', 'descriptor': {'name': 'value'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderId'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -33,7 +47,7 @@
                                data-controller="dom-element"
                                data-action="material-request-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderCodeNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.materialRequestHeader) }}
                     </div>
@@ -44,6 +58,15 @@
                                data-action="material-request-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderTransactionDate'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">WO #</label>
+                        <input type="text" class="form-control" value="{{ materialReleaseHeader.materialRequestHeader.workOrderNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="material-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].materialRequestHeaderWorkOrderNumber'}},
                                ]|json_encode }}" />
                     </div>
                 </div>
@@ -72,10 +95,10 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {#{{ dialog.start('material-request-header-dialog', 'Material Request List') }}
+    {{ dialog.start('material-request-header-dialog', 'Material Request List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_material_request_header__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
-    {{ dialog.end() }}#}
+    {{ dialog.end() }}
 </div>
