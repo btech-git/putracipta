@@ -26,10 +26,10 @@ class SupplierType extends AbstractType
             ->add('certification', null, [])
             ->add('currency', null, ['choice_label' => 'name'])
             ->add('account', null, ['choice_label' => 'name'])
-            ->add('categoryList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-                'Gloss' => Supplier::WORK_ORDER_PRINT,
-                'Doff' => Supplier::WORK_ORDER_DESIGN,
-            ]])
+//            ->add('categoryList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+//                'Gloss' => Supplier::WORK_ORDER_PRINT,
+//                'Doff' => Supplier::WORK_ORDER_DESIGN,
+//            ]])
             ->add('note')
             ->add('isInactive')
         ;
