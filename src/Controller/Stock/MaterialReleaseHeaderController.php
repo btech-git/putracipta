@@ -8,6 +8,7 @@ use App\Entity\Stock\MaterialReleaseHeader;
 use App\Form\Stock\MaterialReleaseHeaderType;
 use App\Grid\Stock\MaterialReleaseHeaderGridType;
 use App\Repository\Stock\MaterialReleaseHeaderRepository;
+use App\Service\Stock\MaterialReleaseHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,21 +46,23 @@ class MaterialReleaseHeaderController extends AbstractController
         return $this->render("stock/material_release_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_stock_material_release_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_stock_material_release_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, MaterialReleaseHeaderRepository $materialReleaseHeaderRepository): Response
+    public function new(Request $request, MaterialReleaseHeaderFormService $materialReleaseHeaderFormService, $_format = 'html'): Response
     {
         $materialReleaseHeader = new MaterialReleaseHeader();
+        $materialReleaseHeaderFormService->initialize($materialReleaseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialReleaseHeaderType::class, $materialReleaseHeader);
         $form->handleRequest($request);
+        $materialReleaseHeaderFormService->finalize($materialReleaseHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialReleaseHeaderRepository->add($materialReleaseHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $materialReleaseHeaderFormService->save($materialReleaseHeader);
 
             return $this->redirectToRoute('app_stock_material_release_header_show', ['id' => $materialReleaseHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('stock/material_release_header/new.html.twig', [
+        return $this->renderForm("stock/material_release_header/new.{$_format}.twig", [
             'materialReleaseHeader' => $materialReleaseHeader,
             'form' => $form,
         ]);
@@ -74,20 +77,22 @@ class MaterialReleaseHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_stock_material_release_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_stock_material_release_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, MaterialReleaseHeader $materialReleaseHeader, MaterialReleaseHeaderRepository $materialReleaseHeaderRepository): Response
+    public function edit(Request $request, MaterialReleaseHeader $materialReleaseHeader, MaterialReleaseHeaderFormService $materialReleaseHeaderFormService, $_format = 'html'): Response
     {
+        $materialReleaseHeaderFormService->initialize($materialReleaseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialReleaseHeaderType::class, $materialReleaseHeader);
         $form->handleRequest($request);
+        $materialReleaseHeaderFormService->finalize($materialReleaseHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialReleaseHeaderRepository->add($materialReleaseHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $materialReleaseHeaderFormService->save($materialReleaseHeader);
 
             return $this->redirectToRoute('app_stock_material_release_header_show', ['id' => $materialReleaseHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('stock/material_release_header/edit.html.twig', [
+        return $this->renderForm("stock/material_release_header/edit.{$_format}.twig", [
             'materialReleaseHeader' => $materialReleaseHeader,
             'form' => $form,
         ]);
