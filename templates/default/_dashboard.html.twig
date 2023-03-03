@@ -12,11 +12,11 @@
         </thead>
         <tbody>
             <tr>
-                <td class="text-center font-weight-bold">{{ purchaseOrderHeaderCount }}</td>
-                <td class="text-center font-weight-bold">{{ purchaseOrderPaperHeaderCount }}</td>
-                <td class="text-center font-weight-bold">{{ purchaseInvoiceHeaderCount }}</td>
-                <td class="text-center font-weight-bold">{{ saleOrderHeaderCount }}</td>
-                <td class="text-center font-weight-bold">{{ saleInvoiceHeaderCount }}</td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_order_header_head') }}">{{ purchaseOrderHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_order_paper_header_head') }}">{{ purchaseOrderPaperHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_invoice_header_head') }}">{{ purchaseInvoiceHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_sale_order_header_head') }}">{{ saleOrderHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_sale_invoice_header_head') }}">{{ saleInvoiceHeaderCount }}</a></td>
             </tr>
         </tbody>
     </table>
