@@ -10,6 +10,7 @@ use App\Entity\TransactionHeader;
 use App\Repository\Transaction\DeliveryHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -49,7 +50,10 @@ class DeliveryHeader extends TransactionHeader
     private ?Employee $employee = null;
 
     #[ORM\Column]
-    private ?bool $isUsingFscPaper = null;
+    private ?bool $isUsingFscPaper = false;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $deliveryAddress = '';
 
     public function __construct()
     {
@@ -197,6 +201,18 @@ class DeliveryHeader extends TransactionHeader
     public function setIsUsingFscPaper(bool $isUsingFscPaper): self
     {
         $this->isUsingFscPaper = $isUsingFscPaper;
+
+        return $this;
+    }
+
+    public function getDeliveryAddress(): ?string
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(string $deliveryAddress): self
+    {
+        $this->deliveryAddress = $deliveryAddress;
 
         return $this;
     }
