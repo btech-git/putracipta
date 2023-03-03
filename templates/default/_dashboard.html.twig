@@ -1,6 +1,5 @@
-<h6>Dashboard</h6>
-
 <div>
+    <h6>New Transactions</h6>
     <table class="table table-bordered">
         <thead class="table-primary">
             <tr>
@@ -13,11 +12,11 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ purchaseOrderHeaderCount }}</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td class="text-center font-weight-bold">{{ purchaseOrderHeaderCount }}</td>
+                <td class="text-center font-weight-bold">{{ purchaseOrderPaperHeaderCount }}</td>
+                <td class="text-center font-weight-bold">{{ purchaseInvoiceHeaderCount }}</td>
+                <td class="text-center font-weight-bold">{{ saleOrderHeaderCount }}</td>
+                <td class="text-center font-weight-bold">{{ saleInvoiceHeaderCount }}</td>
             </tr>
         </tbody>
     </table>
