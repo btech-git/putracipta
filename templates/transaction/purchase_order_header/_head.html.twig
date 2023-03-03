@@ -39,7 +39,7 @@
                     <td class="text-end">{{ purchaseOrderHeader.grandTotal|default|number_format(0) }}</td>
                     <td>{{ purchaseOrderHeader.transactionStatus }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_show', {'id': purchaseOrderHeader.id}) }}"><i class="bi-search"></i></a>
+                        {{ include('transaction/purchase_order_header/_read_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}

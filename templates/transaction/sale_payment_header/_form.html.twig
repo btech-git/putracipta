@@ -9,12 +9,12 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.referenceNumber, {'label': 'Nomor Cek / Giro'}) }}
                     {{ form_row(form.referenceDate, {'label': 'Tanggal Cek / Giro', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
                         {{ form_row(form.customer, {
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note) }}
                 </div>
             </div>

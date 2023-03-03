@@ -9,12 +9,12 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                     {{ form_row(form.transportation, {'label': 'Kendaraan'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
                         {{ form_row(form.customer, {
@@ -41,20 +41,12 @@
                            data-dom-element-bind-specifications-param="{{ [
                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.hasFscCode'}},
                            ]|json_encode }}" />
-                    <div class="mb-3">
-                        <label class="form-label">Alamat Kirim</label>
-                        <input type="text" class="form-control" value="{{ deliveryHeader.customer.addressDelivery|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="customer-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.addressDelivery'}},
-                               ]|json_encode }}" />
-                    </div>
+                    {{ form_row(form.deliveryAddress, {'label': 'Alamat Kirim'}) }}
                     {{ form_row(form.employee, {'label': 'Sopir'}) }}
                 </div>
             </div>
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note) }}
                 </div>
             </div>

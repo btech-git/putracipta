@@ -9,15 +9,15 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                 </div>
             </div>
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note) }}
                 </div>
             </div>

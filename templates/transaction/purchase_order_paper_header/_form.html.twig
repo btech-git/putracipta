@@ -9,7 +9,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal PO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     <div class="mb-3">
                         <label class="form-label">Category</label>
@@ -21,7 +21,7 @@
                                ]|json_encode }}" />
                     </div>
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.supplier.vars.id }}-text" class="form-label">Supplier</label>
                         {{ form_row(form.supplier, {
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note) }}
                 </div>
             </div>
