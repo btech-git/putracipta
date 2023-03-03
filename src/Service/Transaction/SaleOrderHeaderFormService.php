@@ -59,6 +59,10 @@ class SaleOrderHeaderFormService
         $saleOrderHeader->setTaxNominal($saleOrderHeader->getSyncTaxNominal());
         $saleOrderHeader->setGrandTotal($saleOrderHeader->getSyncGrandTotal());
         $saleOrderHeader->setTotalRemainingDelivery($saleOrderHeader->getSyncTotalRemainingDelivery());
+
+        if ($options['transactionFile']) {
+            $saleOrderHeader->setTransactionFileExtension($options['transactionFile']->guessExtension());
+        }
     }
 
     public function save(SaleOrderHeader $saleOrderHeader, array $options = []): void
@@ -68,5 +72,16 @@ class SaleOrderHeaderFormService
             $this->saleOrderDetailRepository->add($saleOrderDetail);
         }
         $this->entityManager->flush();
+    }
+
+    public function uploadFile(SaleOrderHeader $saleOrderHeader, $transactionFile, $uploadDirectory): void
+    {
+        if ($transactionFile) {
+            try {
+                $filename = $saleOrderHeader->getId() . '.' . $saleOrderHeader->getTransactionFileExtension();
+                $transactionFile->move($uploadDirectory, $filename);
+            } catch (FileException $e) {
+            }
+        }
     }
 }
