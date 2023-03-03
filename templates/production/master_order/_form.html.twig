@@ -9,7 +9,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.printingMachine, {'label': 'Mesin Cetak'}) }}
@@ -19,13 +19,20 @@
                     {{ form_row(form.color, {'label': 'Warna / Pantone'}) }}
                     {{ form_row(form.finishing, {'label': 'Finishing'}) }}
                     {{ form_row(form.quantityPrinting, {'label': 'Jumlah Up Cetak'}) }}
-                    {{ form_row(form.mountageSizeLength, {'label': 'Ukuran Mountage / Kris (cm)'}) }}
-                    {{ form_row(form.mountageSizeWidth, {'label': false}) }}
+                    <label class="form-label">Ukuran Mountage / Kris (cm)</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.mountageSizeLength, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.mountageSizeWidth, {'label': false}) }}
+                        </div>
+                    </div>
                     {{ form_row(form.isUsingHotStamping, {'label': 'Hot Stamping'}) }}
                     {{ form_row(form.printingStatus, {'label': 'Status Cetakan'}) }}
                     {{ form_row(form.printingStatusData, {'label': false}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.saleOrderDetail.vars.id }}-text" class="form-label">PO Customer #</label>
                         {{ form_row(form.saleOrderDetail, {
@@ -125,7 +132,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Kebutuhan Material Kertas</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.insitPercentage, {'label': '% Insit'}) }}
                     {{ form_row(form.quantityPaper, {'label': 'Quantity Kertas (Rim)'}) }}
                     {{ form_row(form.paperMountage, {'label': 'Mountage Kertas (Up)'}) }}
@@ -136,7 +143,7 @@
                     {{ form_row(form.cuttingLengthSize2, {'label': 'Uk Potong 2'}) }}
                     {{ form_row(form.cuttingWidthSize2, {'label': 'Uk Potong 2'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.paperRequirement, {'label': 'Kebutuhan (dreek)'}) }}
                     {{ form_row(form.printingInsit, {'label': 'Insit cetak (dreek)'}) }}
                     {{ form_row(form.paperTotal, {'label': 'Total Kertas (dreek)'}) }}
@@ -185,7 +192,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Estimasi Tinta / Chemical</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.inkCyanPercentage, {'label': 'Cyan %'}) }}
                     {{ form_row(form.inkCyanWeight, {'label': 'Cyan kg'}) }}
                     {{ form_row(form.inkMagentaPercentage, {'label': 'Magenta %'}) }}
@@ -197,7 +204,7 @@
                     {{ form_row(form.inkOpvPercentage, {'label': 'OPV / WB / UV %'}) }}
                     {{ form_row(form.inkOpvWeight, {'label': 'OPV / WB / UV kg'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.inkK1Percentage, {'label': 'K-1 %'}) }}
                     {{ form_row(form.inkK1Weight, {'label': 'K-1 kg'}) }}
                     {{ form_row(form.inkK2Percentage, {'label': 'K-2 %'}) }}
@@ -215,7 +222,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Estimasi Packaging</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.packagingGlueQuantity, {'label': 'Lem (cm/pcs)'}) }}
                     {{ form_row(form.packagingGlueWeight, {'label': 'Lem (kg)'}) }}
                     {{ form_row(form.packagingRubberQuantity, {'label': 'Karet (pcs/ikat)'}) }}
@@ -225,7 +232,7 @@
                     {{ form_row(form.packagingBoxQuantity, {'label': 'Dus (pcs/dus)'}) }}
                     {{ form_row(form.packagingBoxWeight, {'label': 'Dus (pcs)'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.packagingTapeLargeQuantity, {'label': 'Lakban >besar (cm/pack)'}) }}
                     {{ form_row(form.packagingTapeLargeSize, {'label': 'Lakban >besar (roll)'}) }}
                     {{ form_row(form.packagingTapeSmallQuantity, {'label': 'Lakban >kecil (cm/pack)'}) }}
@@ -238,16 +245,16 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.workOrderDistribution, {'label': 'Distribusi WO'}) }}
                 </div>
                 
-                <div class="col sm-6">
+                <div class="col">
                 </div>
             </div>
                 
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note, {'label': 'Catatan'}) }}
                 </div>
             </div>

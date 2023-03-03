@@ -9,14 +9,14 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.productionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
                     {{ form_row(form.productCode, {'label': 'Kode Produk'}) }}
                     {{ form_row(form.productName, {'label': 'Nama Produk'}) }}
                     {{ form_row(form.measurement, {'label': 'Ukuran Jadi'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
                         {{ form_row(form.customer, {
@@ -69,7 +69,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">EP</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.paper.vars.id }}-text" class="form-label">Material</label>
                         {{ form_row(form.paper, {
@@ -100,7 +100,7 @@
                                ]|json_encode }}" />
                     </div>
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.quantityEngineering, {'label': 'Quantity'}) }}
                     {{ form_row(form.isVarnish, {'label': 'Varnish/Laminating'}) }}
                 </div>
@@ -110,7 +110,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">FEP/PS</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.material.vars.id }}-text" class="form-label">Material</label>
                         {{ form_row(form.material, {
@@ -144,7 +144,7 @@
                     {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
                     {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.quantityProduction, {'label': 'Quantity'}) }}
                     {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
                     {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata'}) }}
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note, {'label': 'Keterangan'}) }}
                 </div>
             </div>
