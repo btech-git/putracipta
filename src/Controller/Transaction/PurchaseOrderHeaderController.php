@@ -84,6 +84,18 @@ class PurchaseOrderHeaderController extends AbstractController
         return $this->render("transaction/purchase_order_header/head.html.twig");
     }
 
+    #[Route('/{id}/read', name: 'app_transaction_purchase_order_header_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function read(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeader->setIsRead(true);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response

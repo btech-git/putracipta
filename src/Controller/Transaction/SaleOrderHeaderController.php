@@ -91,22 +91,11 @@ class SaleOrderHeaderController extends AbstractController
         $saleOrderHeaderFormService->initialize($saleOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
         $form->handleRequest($request);
-        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
+        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $transactionFile = $form->get('transactionFile')->getData();
-//            if ($transactionFile) {
-//                $fileExtension = $transactionFile->guessExtension();
-//                $saleOrderHeader->setTransactionFileExtension($fileExtension);
-                $saleOrderHeaderFormService->save($saleOrderHeader);
-//                try {
-//                    $dir = $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order';
-//                    $filename = $saleOrderHeader->getId() . '.' . $fileExtension;
-//                    $transactionFile->move($dir, $filename);
-//                } catch (FileException $e) {
-//                    // ... handle exception if something happens during file upload
-//                }
-//            }
+            $saleOrderHeaderFormService->save($saleOrderHeader);
+            $saleOrderHeaderFormService->uploadFile($saleOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
 
             return $this->redirectToRoute('app_transaction_sale_order_header_show', ['id' => $saleOrderHeader->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -133,10 +122,11 @@ class SaleOrderHeaderController extends AbstractController
         $saleOrderHeaderFormService->initialize($saleOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
         $form->handleRequest($request);
-        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
+        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $saleOrderHeaderFormService->save($saleOrderHeader);
+            $saleOrderHeaderFormService->uploadFile($saleOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
 
             return $this->redirectToRoute('app_transaction_sale_order_header_show', ['id' => $saleOrderHeader->getId()], Response::HTTP_SEE_OTHER);
         }
