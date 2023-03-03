@@ -37,7 +37,7 @@ class MasterOrderFormService
     public function finalize(MasterOrder $masterOrder, array $options = []): void
     {
         $saleOrderDetail = $masterOrder->getSaleOrderDetail();
-        $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+        $saleOrderHeader = $saleOrderDetail === null ? null : $saleOrderDetail->getSaleOrderHeader();
         $masterOrder->setCustomer($saleOrderHeader === null ? null : $saleOrderHeader->getCustomer());
         $masterOrder->setProduct($saleOrderDetail === null ? null : $saleOrderDetail->getProduct());
         
