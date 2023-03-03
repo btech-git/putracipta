@@ -9,18 +9,18 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
                     {{ form_row(form.partNumber, {'label': 'Part #'}) }}
                 </div>
-                <div class="col sm-6">
+                <div class="col">
                     {{ form_row(form.pickupDate, {'label': 'Tanggal Ambil', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
                 </div>
             </div>
             <div class="row">
-                <div class="col sm-12">
+                <div class="col">
                     {{ form_row(form.note) }}
                 </div>
             </div>
