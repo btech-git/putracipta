@@ -10,6 +10,8 @@ use App\Entity\Transaction\SaleOrderDetail;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -123,6 +125,14 @@ class MasterOrderType extends AbstractType
                 'WO Penghancuran' => MasterOrder::WORK_ORDER_DEMOLITION,
                 'WO Rework' => MasterOrder::WORK_ORDER_REWORK,
             ]])
+            ->add('processList', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => '',
+                'label' => false,
+            ])
         ;
     }
 

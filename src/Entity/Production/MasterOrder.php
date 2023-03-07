@@ -274,6 +274,9 @@ class MasterOrder extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderHeader::class)]
     private Collection $workOrderHeaders;
 
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $processList = [];
+
     public function __construct()
     {
         $this->workOrderHeaders = new ArrayCollection();
@@ -1191,6 +1194,18 @@ class MasterOrder extends ProductionHeader
                 $workOrderHeader->setMasterOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProcessList(): array
+    {
+        return $this->processList;
+    }
+
+    public function setProcessList(array $processList): self
+    {
+        $this->processList = $processList;
 
         return $this;
     }
