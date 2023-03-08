@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Transaction\PurchaseReturnDetail;
 use App\Entity\Transaction\PurchaseReturnHeader;
 use App\Entity\Transaction\ReceiveHeader;
+use App\Repository\Admin\LiteralConfigRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -14,16 +15,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PurchaseReturnHeaderType extends AbstractType
 {
+    private LiteralConfigRepository $literalConfigRepository;
+
+    public function __construct(LiteralConfigRepository $literalConfigRepository)
+    {
+        $this->literalConfigRepository = $literalConfigRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $vatPercentage = $this->literalConfigRepository->findLiteralValue('vatPercentage');
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('warehouse', null, ['choice_label' => 'name'])
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 '0%' => PurchaseReturnHeader::TAX_MODE_NON_TAX,
-                '11%' => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,
-//                'Include PPn' => SaleReturnHeader::TAX_MODE_TAX_INCLUSION,
+                "{$vatPercentage}%" => PurchaseReturnHeader::TAX_MODE_TAX_EXCLUSION,
             ]])
             ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
             ->add('purchaseReturnDetails', CollectionType::class, [
