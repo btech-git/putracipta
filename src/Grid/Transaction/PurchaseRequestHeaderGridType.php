@@ -27,7 +27,7 @@ class PurchaseRequestHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'transactionStatus', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -42,6 +42,7 @@ class PurchaseRequestHeaderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -56,7 +57,7 @@ class PurchaseRequestHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'note', 'id'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'transactionStatus', 'note', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
@@ -66,6 +67,7 @@ class PurchaseRequestHeaderGridType extends AbstractType
                     'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
+                    'transactionStatus' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
