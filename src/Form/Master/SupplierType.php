@@ -4,6 +4,7 @@ namespace App\Form\Master;
 
 //use App\Entity\Master\MaterialSubCategory;
 use App\Entity\Master\Supplier;
+use App\Repository\Master\MaterialCategoryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 //use Symfony\Component\Form\Extension\Core\Type\EntityType;
@@ -12,6 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SupplierType extends AbstractType
 {
+    private MaterialCategoryRepository $materialCategoryRepository;
+
+    public function __construct(MaterialCategoryRepository $materialCategoryRepository)
+    {
+        $this->materialCategoryRepository = $materialCategoryRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -27,10 +35,12 @@ class SupplierType extends AbstractType
             ->add('certification', null, [])
             ->add('currency', null, ['choice_label' => 'name'])
             ->add('account', null, ['choice_label' => 'name'])
-            ->add('categoryList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-                'Gloss' => Supplier::WORK_ORDER_PRINT,
-                'Doff' => Supplier::WORK_ORDER_DESIGN,
-            ]])
+            ->add('categoryList', ChoiceType::class, [
+                'multiple' => true,
+                'expanded' => true,
+                'choices' => array_map(fn($materialCategory) => $materialCategory->getName(), $this->materialCategoryRepository->findAll()),
+                'choice_label' => fn($choice) => $choice,
+            ])
             ->add('note')
             ->add('isInactive')
         ;
