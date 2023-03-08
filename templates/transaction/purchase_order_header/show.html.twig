@@ -51,6 +51,7 @@
             <tr class="bg-info">
                 <th>Item Code</th>
                 <th>Description</th>
+                <th>Tanggal Kirim</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
                 <th>Harga</th>
@@ -64,6 +65,7 @@
                 <tr>
                     <td>{{ purchaseOrderDetail.material.code|default }}</td>
                     <td>{{ purchaseOrderDetail.material.name|default }}</td>
+                    <td>{{ purchaseOrderDetail.deliveryDate ? purchaseOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.quantity|default }}</td>
                     <td>{{ purchaseOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
@@ -75,17 +77,17 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>Sub Total</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="6" style="text-align: right">
+                <td colspan="7" style="text-align: right">
                     <strong>
                         {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
                             Non PPn 0%
@@ -100,7 +102,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="6" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>

@@ -51,6 +51,7 @@
             <tr class="bg-info">
                 <th>Item Code</th>
                 <th>Description</th>
+                <th>Tanggal Kirim</th>
                 <th>P</th>
                 <th>L</th>
                 <th>GR</th>
@@ -70,6 +71,7 @@
                 <tr>
                     <td>{{ purchaseOrderPaperDetail.paper.code|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperDetail.length|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.width|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.weight|default }}</td>
@@ -87,17 +89,17 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="12" style="text-align: right"><strong>Sub Total</strong></td>
+                <td colspan="13" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="12" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
+                <td colspan="13" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="12" style="text-align: right">
+                <td colspan="13" style="text-align: right">
                     <strong>
                         {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
                             Non PPn 0%
@@ -112,7 +114,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="12" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="13" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
