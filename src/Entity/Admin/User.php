@@ -33,21 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 60)]
     private ?string $name = '';
 
-    #[ORM\Column(length: 60)]
-    private ?string $email = '';
-
-    #[ORM\Column(length: 60)]
-    private ?string $address = '';
-
-    #[ORM\Column(length: 20)]
-    private ?string $phone = '';
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = '';
-
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Employee $employee = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -140,76 +125,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getNote(): ?string
-    {
-        return $this->note;
-    }
-
-    public function setNote(string $note): self
-    {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    public function getEmployee(): ?Employee
-    {
-        return $this->employee;
-    }
-
-    public function setEmployee(?Employee $employee): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($employee === null && $this->employee !== null) {
-            $this->employee->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($employee !== null && $employee->getUser() !== $this) {
-            $employee->setUser($this);
-        }
-
-        $this->employee = $employee;
 
         return $this;
     }
