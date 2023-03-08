@@ -21,15 +21,15 @@
             </tr>
             <tr>
                 <th>Supplier</th>
-                <td>{{ purchaseOrderHeader.supplier.company }}</td>
+                <td>{{ purchaseOrderHeader.supplier.company|default }}</td>
             </tr>
             <tr>
                 <th>TOP (days)</th>
-                <td>{{ purchaseOrderHeader.supplier.paymentTerm }}</td>
+                <td>{{ purchaseOrderHeader.supplier.paymentTerm|default }}</td>
             </tr>
             <tr>
                 <th>Currency</th>
-                <td>{{ purchaseOrderHeader.supplier.currency.name }}</td>
+                <td>{{ purchaseOrderHeader.supplier.currency.name|default }}</td>
             </tr>
             <tr>
                 <th>Status</th>

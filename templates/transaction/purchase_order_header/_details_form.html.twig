@@ -38,9 +38,11 @@
                             'data-item-field-name': 'purchaseRequestDetailQuantity',
                         }}) }}
                     </td>
-                    <td>{{ form_row(detailForm.unit, {'label': false, 'attr': {
+                    <td>
+                        {{ form_row(detailForm.unit, {'label': false, 'attr': {
                             'data-item-field-name': 'unitId',
-                        }}) }}</td>
+                        }}) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
                             'data-controller': 'dom-element',
