@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Entity\Master\Account;
 use App\Form\Master\AccountType;
 use App\Grid\Master\AccountGridType;
@@ -21,10 +22,18 @@ class AccountController extends AbstractController
     public function _list(Request $request, AccountRepository $accountRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortAscending::class,
+        ]);
         $form = $this->createForm(AccountGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $accounts) = $accountRepository->fetchData($criteria);
+        list($count, $accounts) = $accountRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->innerJoin("{$alias}.accountCategory", 's');
+            if (isset($request->query->get('account_grid')['sort']['accountCategory:name'])) {
+                $add['sort']($qb, 's', 'name', $request->query->get('account_grid')['sort']['accountCategory:name']);
+            }
+        });
 
         return $this->renderForm("master/account/_list.html.twig", [
             'form' => $form,

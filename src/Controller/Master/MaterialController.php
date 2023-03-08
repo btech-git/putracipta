@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Entity\Master\Material;
 use App\Form\Master\MaterialType;
 use App\Grid\Master\MaterialGridType;
@@ -21,6 +22,9 @@ class MaterialController extends AbstractController
     public function _list(Request $request, MaterialRepository $materialRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortAscending::class,
+        ]);
         $form = $this->createForm(MaterialGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
