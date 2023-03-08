@@ -21,7 +21,7 @@
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" data-item-identifier-name="deliveryDetailId" data-item-identifier-value="{{ detailForm.vars.value.deliveryDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.deliveryDetail, {'attr': {'data-item-field-name': 'deliveryDetailId'}}) }}</td>
-                    <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
                     <td class="text-center" data-json-loader-target="placeholder"
