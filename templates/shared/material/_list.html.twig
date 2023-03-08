@@ -8,11 +8,7 @@
     <table class="table table-bordered table-striped" id="material-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 0">
-                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
-                        {'destinationsTarget': '#material-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
-                    ]|json_encode }}" />
-                </th>
+                <th></th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
@@ -35,10 +31,20 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'materialCategory:name') }} value="{{ form.filter['materialCategory:name'].1.vars.value }}" />
+                    <select class="form-select" {{ grid.filter_link_item(form, 'materialSubCategory:materialCategory') }}>
+                        <option value="" {% if form.filter['materialSubCategory:materialCategory'].1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter['materialSubCategory:materialCategory'].1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter['materialSubCategory:materialCategory'].1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
+                    <select class="form-select" {{ grid.filter_link_item(form, 'materialSubCategory') }}>
+                        <option value="" {% if form.filter.materialSubCategory.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.materialSubCategory.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.materialSubCategory.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
                 </th>
             </tr>
         </thead>
