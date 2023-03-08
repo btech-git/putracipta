@@ -20,25 +20,17 @@ class UserGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['username', 'name', 'email', 'address', 'phone', 'note'],
+                'field_names' => ['username', 'name'],
                 'field_operators_list' => [
                     'username' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterEqual::class, FilterNotEqual::class],
-                    'email' => [FilterEqual::class, FilterNotEqual::class],
-                    'address' => [FilterEqual::class, FilterNotEqual::class],
-                    'phone' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [FilterEqual::class, FilterNotEqual::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['username', 'name', 'email', 'address', 'phone', 'note'],
+                'field_names' => ['username', 'name'],
                 'field_operators_list' => [
                     'username' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
-                    'email' => [SortAscending::class, SortDescending::class],
-                    'address' => [SortAscending::class, SortDescending::class],
-                    'phone' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
