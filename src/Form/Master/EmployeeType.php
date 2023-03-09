@@ -14,6 +14,7 @@ class EmployeeType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('user', null, ['choice_label' => 'username'])
             ->add('email')
             ->add('address')
             ->add('phone')
