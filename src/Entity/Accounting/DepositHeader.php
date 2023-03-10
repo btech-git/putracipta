@@ -7,12 +7,15 @@ use App\Entity\Master\Account;
 use App\Repository\Accounting\DepositHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DepositHeaderRepository::class)]
 #[ORM\Table(name: 'accounting_deposit_header')]
 class DepositHeader extends AccountingHeader
 {
+    public const CODE_NUMBER_CONSTANT = 'DPS';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,6 +28,9 @@ class DepositHeader extends AccountingHeader
     #[ORM\OneToMany(mappedBy: 'depositHeader', targetEntity: DepositDetail::class)]
     private Collection $depositDetails;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalAmount = null;
+
     public function __construct()
     {
         $this->depositDetails = new ArrayCollection();
@@ -32,7 +38,18 @@ class DepositHeader extends AccountingHeader
 
     public function getCodeNumberConstant(): string
     {
-        return 'DPS';
+        return self::CODE_NUMBER_CONSTANT;
+    }
+
+    public function getSyncTotalAmount(): string
+    {
+        $total = '0.00';
+        foreach ($this->depositDetails as $depositDetail) {
+            if (!$depositDetail->isIsCanceled()) {
+                $total += $depositDetail->getAmount();
+            }
+        }
+        return $total;
     }
 
     public function getId(): ?int
@@ -78,6 +95,18 @@ class DepositHeader extends AccountingHeader
                 $depositDetail->setDepositHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalAmount(): ?string
+    {
+        return $this->totalAmount;
+    }
+
+    public function setTotalAmount(string $totalAmount): self
+    {
+        $this->totalAmount = $totalAmount;
 
         return $this;
     }
