@@ -3,10 +3,12 @@
 namespace App\Controller\Accounting;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Accounting\DepositHeader;
 use App\Form\Accounting\DepositHeaderType;
 use App\Grid\Accounting\DepositHeaderGridType;
 use App\Repository\Accounting\DepositHeaderRepository;
+use App\Service\Accounting\DepositHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,10 @@ class DepositHeaderController extends AbstractController
     public function _list(Request $request, DepositHeaderRepository $depositHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(DepositHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
@@ -40,21 +46,23 @@ class DepositHeaderController extends AbstractController
         return $this->render("accounting/deposit_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_accounting_deposit_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_accounting_deposit_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, DepositHeaderRepository $depositHeaderRepository): Response
+    public function new(Request $request, DepositHeaderFormService $depositHeaderFormService, $_format = 'html'): Response
     {
         $depositHeader = new DepositHeader();
+        $depositHeaderFormService->initialize($depositHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DepositHeaderType::class, $depositHeader);
         $form->handleRequest($request);
+        $depositHeaderFormService->finalize($depositHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $depositHeaderRepository->add($depositHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $depositHeaderFormService->save($depositHeader);
 
             return $this->redirectToRoute('app_accounting_deposit_header_show', ['id' => $depositHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('accounting/deposit_header/new.html.twig', [
+        return $this->renderForm("accounting/deposit_header/new.{$_format}.twig", [
             'depositHeader' => $depositHeader,
             'form' => $form,
         ]);
@@ -69,20 +77,22 @@ class DepositHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_accounting_deposit_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_accounting_deposit_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, DepositHeader $depositHeader, DepositHeaderRepository $depositHeaderRepository): Response
+    public function edit(Request $request, DepositHeader $depositHeader, DepositHeaderFormService $depositHeaderFormService, $_format = 'html'): Response
     {
+        $depositHeaderFormService->initialize($depositHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DepositHeaderType::class, $depositHeader);
         $form->handleRequest($request);
+        $depositHeaderFormService->finalize($depositHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $depositHeaderRepository->add($depositHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $depositHeaderFormService->save($depositHeader);
 
             return $this->redirectToRoute('app_accounting_deposit_header_show', ['id' => $depositHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('accounting/deposit_header/edit.html.twig', [
+        return $this->renderForm("accounting/deposit_header/edit.{$_format}.twig", [
             'depositHeader' => $depositHeader,
             'form' => $form,
         ]);

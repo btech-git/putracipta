@@ -3,10 +3,12 @@
 namespace App\Controller\Accounting;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Accounting\ExpenseHeader;
 use App\Form\Accounting\ExpenseHeaderType;
 use App\Grid\Accounting\ExpenseHeaderGridType;
 use App\Repository\Accounting\ExpenseHeaderRepository;
+use App\Service\Accounting\ExpenseHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,10 @@ class ExpenseHeaderController extends AbstractController
     public function _list(Request $request, ExpenseHeaderRepository $expenseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(ExpenseHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
@@ -40,21 +46,23 @@ class ExpenseHeaderController extends AbstractController
         return $this->render("accounting/expense_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_accounting_expense_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_accounting_expense_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, ExpenseHeaderRepository $expenseHeaderRepository): Response
+    public function new(Request $request, ExpenseHeaderFormService $expenseHeaderFormService, $_format = 'html'): Response
     {
         $expenseHeader = new ExpenseHeader();
+        $expenseHeaderFormService->initialize($expenseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ExpenseHeaderType::class, $expenseHeader);
         $form->handleRequest($request);
+        $expenseHeaderFormService->finalize($expenseHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $expenseHeaderRepository->add($expenseHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $expenseHeaderFormService->save($expenseHeader);
 
             return $this->redirectToRoute('app_accounting_expense_header_show', ['id' => $expenseHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('accounting/expense_header/new.html.twig', [
+        return $this->renderForm("accounting/expense_header/new.{$_format}.twig", [
             'expenseHeader' => $expenseHeader,
             'form' => $form,
         ]);
@@ -69,20 +77,22 @@ class ExpenseHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_accounting_expense_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_accounting_expense_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderRepository $expenseHeaderRepository): Response
+    public function edit(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderFormService $expenseHeaderFormService, $_format = 'html'): Response
     {
+        $expenseHeaderFormService->initialize($expenseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ExpenseHeaderType::class, $expenseHeader);
         $form->handleRequest($request);
+        $expenseHeaderFormService->finalize($expenseHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $expenseHeaderRepository->add($expenseHeader, true);
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $expenseHeaderFormService->save($expenseHeader);
 
             return $this->redirectToRoute('app_accounting_expense_header_show', ['id' => $expenseHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('accounting/expense_header/edit.html.twig', [
+        return $this->renderForm("accounting/expense_header/edit.{$_format}.twig", [
             'expenseHeader' => $expenseHeader,
             'form' => $form,
         ]);
