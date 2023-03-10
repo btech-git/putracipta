@@ -2,9 +2,11 @@
 
 namespace App\Service\Transaction;
 
+use App\Entity\Admin\LiteralConfig;
 use App\Entity\Transaction\SaleInvoiceHeader;
 use App\Entity\Transaction\SalePaymentDetail;
 use App\Entity\Transaction\SalePaymentHeader;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Transaction\SalePaymentDetailRepository;
 use App\Repository\Transaction\SalePaymentHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,12 +16,14 @@ class SalePaymentHeaderFormService
     private EntityManagerInterface $entityManager;
     private SalePaymentHeaderRepository $salePaymentHeaderRepository;
     private SalePaymentDetailRepository $salePaymentDetailRepository;
+    private LiteralConfigRepository $literalConfigRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->salePaymentHeaderRepository = $entityManager->getRepository(SalePaymentHeader::class);
         $this->salePaymentDetailRepository = $entityManager->getRepository(SalePaymentDetail::class);
+        $this->literalConfigRepository = $entityManager->getRepository(LiteralConfig::class);
     }
 
     public function initialize(SalePaymentHeader $salePaymentHeader, array $options = []): void
@@ -54,7 +58,8 @@ class SalePaymentHeaderFormService
             $totalPayment += $salePaymentDetail->getAmount();
             $saleInvoiceHeader->setTotalPayment($totalPayment);
             $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
-            if ($saleInvoiceHeader->getRemainingPayment() > '0.00') {
+            $remainingTolerance = $this->literalConfigRepository->findLiteralValue('paymentRemainingTolerance');
+            if ($saleInvoiceHeader->getRemainingPayment() > $remainingTolerance) {
                 $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_PARTIAL_PAYMENT);
             } else {
                 $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
