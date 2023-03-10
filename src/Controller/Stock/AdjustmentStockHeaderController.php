@@ -8,6 +8,7 @@ use App\Entity\Stock\AdjustmentStockHeader;
 use App\Form\Stock\AdjustmentStockHeaderType;
 use App\Grid\Stock\AdjustmentStockHeaderGridType;
 use App\Repository\Stock\AdjustmentStockHeaderRepository;
+use App\Service\Stock\AdjustmentStockHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
