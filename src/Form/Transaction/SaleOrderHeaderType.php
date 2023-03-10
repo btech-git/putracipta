@@ -54,12 +54,13 @@ class SaleOrderHeaderType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '5120k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
+                            'application/pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG image',
+                        'mimeTypesMessage' => 'Please upload a valid JPEG, PNG or PDF',
                     ])
                 ],
             ])

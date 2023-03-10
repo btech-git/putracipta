@@ -7,13 +7,22 @@ use App\Entity\Master\Customer;
 use App\Entity\Master\Employee;
 use App\Entity\Transaction\DeliveryDetail;
 use App\Entity\Transaction\DeliveryHeader;
+use App\Repository\Master\CustomerRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeliveryHeaderType extends AbstractType
 {
+    private CustomerRepository $customerRepository;
+
+    public function __construct(CustomerRepository $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -29,6 +38,7 @@ class DeliveryHeaderType extends AbstractType
             ])
             ->add('transportation', null, ['choice_label' => 'nameAndPlateNumber'])
             ->add('note')
+            ->add('deliveryAddress', ChoiceType::class, ['choices' => ['' => '']])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('deliveryDetails', CollectionType::class, [
                 'entry_type' => DeliveryDetailType::class,
