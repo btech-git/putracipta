@@ -15,6 +15,7 @@ class LiteralConfigType extends AbstractType
             ->add('ifscCode', null, ['label' => 'FSC Code'])
             ->add('vatPercentage', null, ['label' => 'VAT'])
             ->add('serviceTaxPercentage', null, ['label' => 'PPh 23'])
+            ->add('paymentRemainingTolerance', null, ['label' => 'Toleransi Sisa Pembayaran'])
         ;
     }
 
