@@ -2,7 +2,10 @@
 
 namespace App\Form\Accounting;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Accounting\DepositDetail;
+use App\Entity\Master\Account;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,11 +16,10 @@ class DepositDetailType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('amount')
+            ->add('amount', FormattedNumberType::class, ['decimals' => 2])
             ->add('isCanceled')
             ->add('memo')
-            ->add('account')
-            ->add('depositHeader')
+            ->add('account', EntityHiddenType::class, ['class' => Account::class])
         ;
     }
 

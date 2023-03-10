@@ -13,17 +13,8 @@ class JournalVoucherHeaderType extends AbstractType
     {
         $builder
             ->add('isCanceled')
-            ->add('codeNumberOrdinal')
-            ->add('codeNumberMonth')
-            ->add('codeNumberYear')
-            ->add('createdTransactionDateTime')
-            ->add('modifiedTransactionDateTime')
-            ->add('approvedTransactionDateTime')
-            ->add('transactionDate')
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('createdTransactionUser')
-            ->add('modifiedTransactionUser')
-            ->add('approvedTransactionUser')
         ;
     }
 

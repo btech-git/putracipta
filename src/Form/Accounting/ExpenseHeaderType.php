@@ -2,8 +2,10 @@
 
 namespace App\Form\Accounting;
 
+use App\Entity\Accounting\ExpenseDetail;
 use App\Entity\Accounting\ExpenseHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,19 +14,17 @@ class ExpenseHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isCanceled')
-            ->add('codeNumberOrdinal')
-            ->add('codeNumberMonth')
-            ->add('codeNumberYear')
-            ->add('createdTransactionDateTime')
-            ->add('modifiedTransactionDateTime')
-            ->add('approvedTransactionDateTime')
-            ->add('transactionDate')
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('account')
-            ->add('createdTransactionUser')
-            ->add('modifiedTransactionUser')
-            ->add('approvedTransactionUser')
+            ->add('account', null, ['choice_label' => 'name'])
+            ->add('expenseDetails', CollectionType::class, [
+                'entry_type' => ExpenseDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new ExpenseDetail(),
+                'label' => false,
+            ])
         ;
     }
 

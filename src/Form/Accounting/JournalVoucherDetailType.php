@@ -16,8 +16,7 @@ class JournalVoucherDetailType extends AbstractType
             ->add('creditAmount')
             ->add('isCanceled')
             ->add('memo')
-            ->add('account')
-            ->add('journalVoucherHeader')
+            ->add('account', null, ['choice_label' => 'name'])
         ;
     }
 
