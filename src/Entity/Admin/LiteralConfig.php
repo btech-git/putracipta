@@ -24,6 +24,9 @@ class LiteralConfig
     #[ORM\Column(length: 60)]
     private ?string $ifscCode = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $paymentRemainingTolerance = '0.00';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class LiteralConfig
     public function setIfscCode(string $ifscCode): self
     {
         $this->ifscCode = $ifscCode;
+
+        return $this;
+    }
+
+    public function getPaymentRemainingTolerance(): ?string
+    {
+        return $this->paymentRemainingTolerance;
+    }
+
+    public function setPaymentRemainingTolerance(string $paymentRemainingTolerance): self
+    {
+        $this->paymentRemainingTolerance = $paymentRemainingTolerance;
 
         return $this;
     }
