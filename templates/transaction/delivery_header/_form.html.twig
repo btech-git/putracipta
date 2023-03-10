@@ -41,7 +41,21 @@
                            data-dom-element-bind-specifications-param="{{ [
                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.hasFscCode'}},
                            ]|json_encode }}" />
-                    {#{{ form_row(form.deliveryAddress, {'label': 'Alamat Kirim'}) }}#}
+                    {{ form_row(form.deliveryAddress, {
+                        'label': 'Alamat Kirim',
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'customer-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery}">${$event.detail.addressDelivery}</option>`'}, 'condition': '$event.detail.addressDelivery !== ""'},
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery2}">${$event.detail.addressDelivery2}</option>`'}, 'condition': '$event.detail.addressDelivery2 !== ""'},
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery3}">${$event.detail.addressDelivery3}</option>`'}, 'condition': '$event.detail.addressDelivery3 !== ""'},
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery4}">${$event.detail.addressDelivery4}</option>`'}, 'condition': '$event.detail.addressDelivery4 !== ""'},
+                                {'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery5}">${$event.detail.addressDelivery5}</option>`'}, 'condition': '$event.detail.addressDelivery5 !== ""'},
+                            ]|json_encode,
+                        },
+                    }) }}
                     {{ form_row(form.employee, {'label': 'Sopir'}) }}
                 </div>
             </div>
