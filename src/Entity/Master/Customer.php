@@ -74,16 +74,16 @@ class Customer extends Master
     private ?bool $hasFscCode = false;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery2 = null;
+    private ?string $addressDelivery2 = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery3 = null;
+    private ?string $addressDelivery3 = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery4 = null;
+    private ?string $addressDelivery4 = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery5 = null;
+    private ?string $addressDelivery5 = '';
 
     public function __construct()
     {
