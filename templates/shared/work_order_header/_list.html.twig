@@ -1,0 +1,92 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, workOrderHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="work-order-header-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 280px" role="button">
+                    Work Order #
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                </th>
+                <th style="min-width: 150px"  role="button">
+                    Customer
+                </th>
+                <th style="min-width: 150px"  role="button">
+                    PO Customer # 
+                </th>
+                <th style="min-width: 150px"  role="button">
+                    Master Order # 
+                </th>
+                <th style="min-width: 150px"  role="button">
+                    Produk 
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Production\\WorkOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\ProductionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for workOrderHeader in workOrderHeaders %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'workOrderHeaderId': workOrderHeader.id, 
+                    'workOrderHeaderCodeNumber': workOrderHeader.codeNumber, 
+                    'workOrderHeaderDate': workOrderHeader.productionDate ? workOrderHeader.productionDate|date('d M Y') : '', 
+                    'workOrderHeaderOrderUp': workOrderHeader.orderUp,
+                    'customerCompany': workOrderHeader.masterOrder.customer.company,
+                    'productCode': workOrderHeader.masterOrder.product.code,
+                    'productName': workOrderHeader.masterOrder.product.name,
+                    'masterOrderDeliveryDate': workOrderHeader.masterOrder.deliveryDate ? workOrderHeader.masterOrder.deliveryDate|date('d M Y') : '', 
+                    'masterOrderCodeNumber': workOrderHeader.masterOrder.codeNumber,
+                    'masterOrderPrintingMachine': workOrderHeader.masterOrder.printingMachine,
+                    'masterOrderDesignCode': workOrderHeader.masterOrder.designCode,
+                    'masterOrderPrintingStatus': workOrderHeader.masterOrder.printingStatus,
+                    'masterOrderQuantityStock': workOrderHeader.masterOrder.quantityStock,
+                    'masterOrderColor': workOrderHeader.masterOrder.color,
+                    'masterOrderDimensionLength': workOrderHeader.masterOrder.dimensionLength,
+                    'masterOrderDimensionWidth': workOrderHeader.masterOrder.dimensionWidth,
+                    'masterOrderDimensionHeight': workOrderHeader.masterOrder.dimensionHeight,
+                    'masterOrderPaperMountage': workOrderHeader.masterOrder.paperMountage,
+                    'masterOrderPaperTotal': workOrderHeader.masterOrder.paperTotal,
+                    'masterOrderFinishing': workOrderHeader.masterOrder.finishing,
+                    'masterOrderQuantityOrder': workOrderHeader.masterOrder.quantityOrder}|json_encode }}">
+                    <td>{{ workOrderHeader.codeNumber }}</td>
+                    <td>{{ workOrderHeader.productionDate ? workOrderHeader.productionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ workOrderHeader.masterOrder.customer.company }}</td>
+                    <td>{{ workOrderHeader.masterOrder.saleOrderDetail.saleOrderHeader.codeNumber }}</td>
+                    <td>{{ workOrderHeader.masterOrder.codeNumber }}</td>
+                    <td>{{ workOrderHeader.masterOrder.product.code }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, workOrderHeaders) }}
