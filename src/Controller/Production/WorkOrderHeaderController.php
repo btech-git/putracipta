@@ -51,7 +51,6 @@ class WorkOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $workOrderHeaderRepository->add($workOrderHeader, true);
             $workOrderHeaderFormService->save($workOrderHeader);
 
             return $this->redirectToRoute('app_production_work_order_header_show', ['id' => $workOrderHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +80,6 @@ class WorkOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $workOrderHeaderRepository->add($workOrderHeader, true);
             $workOrderHeaderFormService->save($workOrderHeader);
 
             return $this->redirectToRoute('app_production_work_order_header_show', ['id' => $workOrderHeader->getId()], Response::HTTP_SEE_OTHER);
