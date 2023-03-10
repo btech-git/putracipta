@@ -32,7 +32,6 @@ class SupplierType extends AbstractType
             ->add('email')
             ->add('taxNumber', null, ['label' => 'NPWP'])
             ->add('paymentTerm', null, ['label' => 'TOP (hari)'])
-            ->add('certification', null, [])
             ->add('currency', null, ['choice_label' => 'name'])
             ->add('account', null, ['choice_label' => 'name'])
             ->add('categoryList', ChoiceType::class, [

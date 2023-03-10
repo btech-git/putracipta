@@ -14,8 +14,8 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     PIC {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'certification') }}>
-                    Category {{ grid.sort_char(form.sort.certification.vars.value) }}
+                <th style="min-width: 150px">
+                    Category
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'phone') }}>
                     Phone {{ grid.sort_char(form.sort.phone.vars.value) }}
@@ -35,9 +35,7 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'certification') }} value="{{ form.filter.certification.1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'phone') }} value="{{ form.filter.phone.1.vars.value }}" />
                 </th>
@@ -60,7 +58,7 @@
                 <tr>
                     <td>{{ supplier.company }}</td>
                     <td>{{ supplier.name }}</td>
-                    <td>{{ supplier.certification }}</td>
+                    <td>{{ supplier.categoryList ? supplier.categoryList|join(', ') : '' }}</td>
                     <td>{{ supplier.phone }}</td>
                     <td>{{ supplier.email }}</td>
                     <td>{{ supplier.isInactive ? 'Yes' : 'No' }}</td>

@@ -13,11 +13,11 @@
                     {{ form_row(form.transactionDate, {'label': 'Tanggal PO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     <div class="mb-3">
                         <label class="form-label">Category</label>
-                        <input type="text" class="form-control" value="{{ purchaseOrderPaperHeader.supplier.certification|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ purchaseOrderPaperHeader.supplier.categoryList|default ? supplier.categoryList|join(', ') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="supplier-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.certification'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.category'}},
                                ]|json_encode }}" />
                     </div>
                 </div>

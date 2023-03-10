@@ -60,7 +60,7 @@ class Employee extends Master
     #[Assert\NotNull]
     private ?string $identityNumber = '';
 
-    #[ORM\OneToOne(inversedBy: 'employee', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     public function getId(): ?int

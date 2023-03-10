@@ -60,10 +60,6 @@ class Supplier extends Master
     #[Assert\GreaterThanOrEqual(0)]
     private ?int $paymentTerm = 0;
 
-    #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $certification = '';
-
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     #[Assert\NotNull]
     private ?Currency $currency = null;
@@ -192,18 +188,6 @@ class Supplier extends Master
     public function setPaymentTerm(int $paymentTerm): self
     {
         $this->paymentTerm = $paymentTerm;
-
-        return $this;
-    }
-
-    public function getCertification(): ?string
-    {
-        return $this->certification;
-    }
-
-    public function setCertification(string $certification): self
-    {
-        $this->certification = $certification;
 
         return $this;
     }

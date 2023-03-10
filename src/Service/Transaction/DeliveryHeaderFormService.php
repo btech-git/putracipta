@@ -95,7 +95,6 @@ class DeliveryHeaderFormService
     {
         $this->deliveryHeaderRepository->add($deliveryHeader);
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
-            $deliveryDetail = $deliveryDetail->getSaleOrderDetail();
             $this->deliveryDetailRepository->add($deliveryDetail);
         }
         $this->entityManager->flush();

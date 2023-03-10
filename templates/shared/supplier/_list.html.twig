@@ -43,7 +43,7 @@
                     'supplierCompany': supplier.company, 
                     'currencyCode': supplier.currency.code|default,
                     'currencyIsLocal': supplier.currency.isLocal|default,
-                    'certification': supplier.certification,
+                    'category': supplier.categoryList ? supplier.categoryList|join(', ') : '',
                     'paymentTerm': supplier.paymentTerm}|json_encode }}">
                     <td>{{ supplier.company }}</td>
                     <td>{{ supplier.name }}</td>
