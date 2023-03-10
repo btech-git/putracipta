@@ -10,42 +10,6 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    <div class="row">
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-sm table-bordered table-striped" id="process-table" data-controller="data-table">
-                                <tbody>
-                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '123'}|json_encode }}">
-                                        <td>123</td>
-                                    </tr>
-                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '456'}|json_encode }}">
-                                        <td>456</td>
-                                    </tr>
-                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '789'}|json_encode }}">
-                                        <td>789</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div data-controller="form-collection" class="col border border-secondary rounded"
-                             data-form-collection-start-index-value="{{ form.processList|length > 0 ? form.processList|last.vars.name + 1 : 0 }}"
-                             data-form-collection-prototype-value="{{ _self.process_collection_item(form.processList.vars.prototype)|e('html_attr') }}">
-                            <div data-form-collection-target="items" data-action="process-table:data-table:select@document->form-collection#addCollectionItem">
-                                {% macro process_collection_item(processForm) %}
-                                    <div data-form-collection-target="item" data-item-identifier-name="processName" data-item-identifier-value="{{ processForm.vars.value|default }}">
-                                        <div class="d-inline-block w-75">
-                                            {{ form_widget(processForm, {'attr': {'data-item-field-name': 'processName', 'readonly': true, 'class': 'form-control-sm'}}) }}
-                                        </div>
-                                        <div class="d-inline-block">
-                                            <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                                        </div>
-                                    </div>
-                                {% endmacro %}
-                                {% for processForm in form.processList %}
-                                    {{ _self.process_collection_item(processForm) }}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
                     {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                     {{ form_row(form.printingMachine, {'label': 'Mesin Cetak'}) }}
@@ -467,8 +431,83 @@
                 <div class="col">
                     {{ form_row(form.workOrderDistribution, {'label': 'Distribusi WO'}) }}
                 </div>
-                
                 <div class="col">
+                    <div class="row">
+                        <label class="form-label">Urutan Proses</label>
+                        <div class="col border border-secondary rounded">
+                            <table class="table table-sm table-bordered table-striped" id="process-table" data-controller="data-table">
+                                <tbody>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Potong Bahan'}|json_encode }}">
+                                        <td>Potong Bahan</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Cetak'}|json_encode }}">
+                                        <td>Cetak</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'OPV / MATT'}|json_encode }}">
+                                        <td>OPV / MATT</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'WB / Free WB'}|json_encode }}">
+                                        <td>WB / Free WB</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'UV / Spot UV'}|json_encode }}">
+                                        <td>UV / Spot UV</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Laminating'}|json_encode }}">
+                                        <td>Laminating</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Calendering'}|json_encode }}">
+                                        <td>Calendering</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Laminasi Flute'}|json_encode }}">
+                                        <td>Laminasi Flute</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Hot Stamp'}|json_encode }}">
+                                        <td>Hot Stamp</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Stitching'}|json_encode }}">
+                                        <td>Stitching</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Potong Jadi'}|json_encode }}">
+                                        <td>Potong Jadi</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Embos'}|json_encode }}">
+                                        <td>Embos</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'PON'}|json_encode }}">
+                                        <td>PON</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Kopek'}|json_encode }}">
+                                        <td>Kopek</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Sortir'}|json_encode }}">
+                                        <td>Sortir</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': 'Lem / Gerinda'}|json_encode }}">
+                                        <td>Lem / Gerinda</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div data-controller="form-collection" class="col border border-secondary rounded"
+                             data-form-collection-start-index-value="{{ form.processList|length > 0 ? form.processList|last.vars.name + 1 : 0 }}"
+                             data-form-collection-prototype-value="{{ _self.process_collection_item(form.processList.vars.prototype)|e('html_attr') }}">
+                            <div data-form-collection-target="items" data-action="process-table:data-table:select@document->form-collection#addCollectionItem">
+                                {% macro process_collection_item(processForm) %}
+                                    <div data-form-collection-target="item" data-item-identifier-name="processName" data-item-identifier-value="{{ processForm.vars.value|default }}">
+                                        <div class="d-inline-block w-75">
+                                            {{ form_widget(processForm, {'attr': {'data-item-field-name': 'processName', 'readonly': true, 'class': 'form-control-sm'}}) }}
+                                        </div>
+                                        <div class="d-inline-block">
+                                            <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
+                                        </div>
+                                    </div>
+                                {% endmacro %}
+                                {% for processForm in form.processList %}
+                                    {{ _self.process_collection_item(processForm) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
                 

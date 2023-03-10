@@ -93,15 +93,6 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.masterOrderDesignCode'}},
                                ]|json_encode }}" />
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Quantity Order</label>
-                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.quantityOrder|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="master-order-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.masterOrderQuantity'}},
-                               ]|json_encode }}" />
-                    </div>
                 </div>
                 <div class="col">
                     {{ form_row(form.productionDate, {'label': 'Tanggal WO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
@@ -111,6 +102,15 @@
                     {{ form_row(form.insit, {'label': 'Insit'}) }}
                     {{ form_row(form.packingMaterialBox, {'label': 'Bahan Packing Dus'}) }}
                     {{ form_row(form.packingMaterialPaper, {'label': 'Bahan Packing Kertas'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Quantity Order</label>
+                        <input type="text" class="form-control" value="{{ workOrderHeader.masterOrder.quantityOrder|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="master-order-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.masterOrderQuantity'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -147,17 +147,49 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.materialCode'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.printingKrisLength, {'label': 'Kris Cetak'}) }}
+                        
+                    <label class="form-label">Kris Cetak</label>
+                    <div class="row">
+                        <div class="col">
+                    {{ form_row(form.printingKrisLength, {'label': false}) }}
+                        </div>
+                        <div class="col">
                     {{ form_row(form.printingKrisWidth, {'label': false}) }}
-                    {{ form_row(form.planoSizeLength, {'label': 'Ukuran Plano'}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Ukuran Plano</label>
+                    <div class="row">
+                        <div class="col">
+                    {{ form_row(form.planoSizeLength, {'label': false}) }}
+                        </div>
+                        <div class="col">
                     {{ form_row(form.planoSizeWidth, {'label': false}) }}
+                        </div>
+                    </div>
                     {{ form_row(form.planoQuantity, {'label': 'Jumlah'}) }}
                 </div>
                 <div class="col">
-                    {{ form_row(form.cuttingLength1, {'label': 'Ukuran Potong'}) }}
+                        
+                    <label class="form-label">Ukuran Potong 1</label>
+                    <div class="row">
+                        <div class="col">
+                    {{ form_row(form.cuttingLength1, {'label': false}) }}
+                        </div>
+                        <div class="col">
                     {{ form_row(form.cuttingWidth1, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Ukuran Potong 2</label>
+                    <div class="row">
+                        <div class="col">
                     {{ form_row(form.cuttingLength2, {'label': false}) }}
+                        </div>
+                        <div class="col">
                     {{ form_row(form.cuttingWidth2, {'label': false}) }}
+                        </div>
+                    </div>
                     {{ form_row(form.cuttingQuantity, {'label': 'Jumlah'}) }}
                     {{ form_row(form.cuttingInsit, {'label': 'Insheet'}) }}
                     {{ form_row(form.planoConversion, {'label': '1 Plano jadi'}) }}
