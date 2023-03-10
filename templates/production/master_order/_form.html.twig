@@ -55,8 +55,15 @@
                         </div>
                     </div>
                     {{ form_row(form.isUsingHotStamping, {'label': 'Hot Stamping'}) }}
-                    {{ form_row(form.printingStatus, {'label': 'Status Cetakan'}) }}
-                    {{ form_row(form.printingStatusData, {'label': false}) }}
+                    <label class="form-label">Status Cetakan</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.printingStatus, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.printingStatusData, {'label': false}) }}   
+                        </div>
+                    </div>
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -144,11 +151,27 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.dimensionLength, {'label': 'Ukuran Jadi (mm)'}) }}
-                    {{ form_row(form.dimensionWidth, {'label': false}) }}
-                    {{ form_row(form.dimensionHeight, {'label': false}) }}
-                    {{ form_row(form.dieCutBlade, {'label': 'Pisau Die Cut'}) }}
-                    {{ form_row(form.dieCutBladeData, {'label': false}) }}
+                    <label class="form-label">Ukuran Jadi (mm)</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.dimensionLength, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.dimensionWidth, {'label': false}) }} 
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.dimensionHeight, {'label': false}) }}
+                        </div>
+                    </div>
+                    <label class="form-label">Pisau Die Cut</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.dieCutBlade, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.dieCutBladeData, {'label': false}) }}
+                        </div>
+                    </div>
                     {{ form_row(form.dieCutBladeNumber, {'label': 'No. Pisau Diecut'}) }}
                     {{ form_row(form.dieLineFilmNumber, {'label': 'No. Film Dieline Diecut'}) }}
                 </div>
@@ -162,12 +185,35 @@
                     {{ form_row(form.insitPercentage, {'label': '% Insit'}) }}
                     {{ form_row(form.quantityPaper, {'label': 'Quantity Kertas (Rim)'}) }}
                     {{ form_row(form.paperMountage, {'label': 'Mountage Kertas (Up)'}) }}
-                    {{ form_row(form.paperPlanoLength, {'label': 'Uk Plano Kertas'}) }}
-                    {{ form_row(form.paperPlanoWidth, {'label': 'Uk Plano Kertas'}) }}
-                    {{ form_row(form.cuttingLengthSize1, {'label': 'Uk Potong 1'}) }}
-                    {{ form_row(form.cuttingWidthSize1, {'label': 'Uk Potong 1'}) }}
-                    {{ form_row(form.cuttingLengthSize2, {'label': 'Uk Potong 2'}) }}
-                    {{ form_row(form.cuttingWidthSize2, {'label': 'Uk Potong 2'}) }}
+                    <label class="form-label">Uk Plano Kertas</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.paperPlanoLength, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.paperPlanoWidth, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Uk Potong 1</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.cuttingLengthSize1, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.cuttingWidthSize1, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Uk Potong 2</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.cuttingLengthSize2, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.cuttingWidthSize2, {'label': false}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col">
                     {{ form_row(form.paperRequirement, {'label': 'Kebutuhan (dreek)'}) }}
@@ -219,28 +265,109 @@
             <legend class="float-none w-auto text-dark px-1">Estimasi Tinta / Chemical</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.inkCyanPercentage, {'label': 'Cyan %'}) }}
-                    {{ form_row(form.inkCyanWeight, {'label': 'Cyan kg'}) }}
-                    {{ form_row(form.inkMagentaPercentage, {'label': 'Magenta %'}) }}
-                    {{ form_row(form.inkMagentaWeight, {'label': 'Magenta kg'}) }}
-                    {{ form_row(form.inkYellowPercentage, {'label': 'Yellow %'}) }}
-                    {{ form_row(form.inkYellowWeight, {'label': 'Yellow kg'}) }}
-                    {{ form_row(form.inkBlackPercentage, {'label': 'Black %'}) }}
-                    {{ form_row(form.inkBlackWeight, {'label': 'Black kg'}) }}
-                    {{ form_row(form.inkOpvPercentage, {'label': 'OPV / WB / UV %'}) }}
-                    {{ form_row(form.inkOpvWeight, {'label': 'OPV / WB / UV kg'}) }}
+                        
+                    <label class="form-label">Cyan</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkCyanPercentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkCyanWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Magenta</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkMagentaPercentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkMagentaWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Yellow</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkYellowPercentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkYellowWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Black</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkBlackPercentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkBlackWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">OPV / WB / UV</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkOpvPercentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkOpvWeight, {'label': false}) }}
+                        </div>
+                    </div>
                 </div>
+                        
                 <div class="col">
-                    {{ form_row(form.inkK1Percentage, {'label': 'K-1 %'}) }}
-                    {{ form_row(form.inkK1Weight, {'label': 'K-1 kg'}) }}
-                    {{ form_row(form.inkK2Percentage, {'label': 'K-2 %'}) }}
-                    {{ form_row(form.inkK2Weight, {'label': 'K-2 kg'}) }}
-                    {{ form_row(form.inkK3Percentage, {'label': 'K-3 %'}) }}
-                    {{ form_row(form.inkK3Weight, {'label': 'K-3 kg'}) }}
-                    {{ form_row(form.inkK4Percentage, {'label': 'K-4 %'}) }}
-                    {{ form_row(form.inkK4Weight, {'label': 'K-4 kg'}) }}
-                    {{ form_row(form.inkLaminatingSize, {'label': 'Laminating cm'}) }}
-                    {{ form_row(form.inkLaminatingQuantity, {'label': 'Laminating roll'}) }}
+                        
+                    <label class="form-label">K-1</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkK1Percentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkK1Weight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">K-2</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkK2Percentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkK2Weight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">K-3</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkK3Percentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkK3Weight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">K-4</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkK4Percentage, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkK4Weight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Laminating</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.inkLaminatingSize, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.inkLaminatingQuantity, {'label': false}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -249,22 +376,78 @@
             <legend class="float-none w-auto text-dark px-1">Estimasi Packaging</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.packagingGlueQuantity, {'label': 'Lem (cm/pcs)'}) }}
-                    {{ form_row(form.packagingGlueWeight, {'label': 'Lem (kg)'}) }}
-                    {{ form_row(form.packagingRubberQuantity, {'label': 'Karet (pcs/ikat)'}) }}
-                    {{ form_row(form.packagingRubberWeight, {'label': 'Karet (pcs)'}) }}
-                    {{ form_row(form.packagingPaperQuantity, {'label': 'Kertas Packing (pcs/pack)'}) }}
-                    {{ form_row(form.packagingPaperWeight, {'label': 'Kertas Packing (Lbr)'}) }}
-                    {{ form_row(form.packagingBoxQuantity, {'label': 'Dus (pcs/dus)'}) }}
-                    {{ form_row(form.packagingBoxWeight, {'label': 'Dus (pcs)'}) }}
+                        
+                    <label class="form-label">Lem</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingGlueQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingGlueWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Karet</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingRubberQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingRubberWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Kertas Packing</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingPaperQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingPaperWeight, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Dus</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingBoxQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingBoxWeight, {'label': false}) }}
+                        </div>
+                    </div>
                 </div>
+                        
                 <div class="col">
-                    {{ form_row(form.packagingTapeLargeQuantity, {'label': 'Lakban >besar (cm/pack)'}) }}
-                    {{ form_row(form.packagingTapeLargeSize, {'label': 'Lakban >besar (roll)'}) }}
-                    {{ form_row(form.packagingTapeSmallQuantity, {'label': 'Lakban >kecil (cm/pack)'}) }}
-                    {{ form_row(form.packagingTapeSmallSize, {'label': 'Lakban >kecil (roll)'}) }}
-                    {{ form_row(form.packagingPlasticQuantity, {'label': 'Plastik (cm2/pack)'}) }}
-                    {{ form_row(form.packagingPlasticSize, {'label': 'Plastik (m2)'}) }}
+                    <label class="form-label">Lakban >besar</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingTapeLargeQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingTapeLargeSize, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Lakban >kecil</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingTapeSmallQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingTapeSmallSize, {'label': false}) }}
+                        </div>
+                    </div>
+                        
+                    <label class="form-label">Plastik</label>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.packagingPlasticQuantity, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.packagingPlasticSize, {'label': false}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
