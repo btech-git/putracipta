@@ -5,6 +5,8 @@ namespace App\Entity\Production;
 use App\Entity\Master\Material;
 use App\Entity\ProductionHeader;
 use App\Repository\Production\WorkOrderHeaderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -80,6 +82,22 @@ class WorkOrderHeader extends ProductionHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $planoConversion = '0.00';
+
+    #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderPrepress::class)]
+    private Collection $workOrderPrepresses;
+
+    #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderCuttingHeader::class)]
+    private Collection $workOrderCuttingHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderColorMixing::class)]
+    private Collection $workOrderColorMixings;
+
+    public function __construct()
+    {
+        $this->workOrderPrepresses = new ArrayCollection();
+        $this->workOrderCuttingHeaders = new ArrayCollection();
+        $this->workOrderColorMixings = new ArrayCollection();
+    }
 
     public function getCodeNumberConstant(): string
     {
@@ -327,6 +345,96 @@ class WorkOrderHeader extends ProductionHeader
     public function setPlanoConversion(string $planoConversion): self
     {
         $this->planoConversion = $planoConversion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderPrepress>
+     */
+    public function getWorkOrderPrepresses(): Collection
+    {
+        return $this->workOrderPrepresses;
+    }
+
+    public function addWorkOrderPrepress(WorkOrderPrepress $workOrderPrepress): self
+    {
+        if (!$this->workOrderPrepresses->contains($workOrderPrepress)) {
+            $this->workOrderPrepresses->add($workOrderPrepress);
+            $workOrderPrepress->setWorkOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderPrepress(WorkOrderPrepress $workOrderPrepress): self
+    {
+        if ($this->workOrderPrepresses->removeElement($workOrderPrepress)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderPrepress->getWorkOrderHeader() === $this) {
+                $workOrderPrepress->setWorkOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderCuttingHeader>
+     */
+    public function getWorkOrderCuttingHeaders(): Collection
+    {
+        return $this->workOrderCuttingHeaders;
+    }
+
+    public function addWorkOrderCuttingHeader(WorkOrderCuttingHeader $workOrderCuttingHeader): self
+    {
+        if (!$this->workOrderCuttingHeaders->contains($workOrderCuttingHeader)) {
+            $this->workOrderCuttingHeaders->add($workOrderCuttingHeader);
+            $workOrderCuttingHeader->setWorkOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderCuttingHeader(WorkOrderCuttingHeader $workOrderCuttingHeader): self
+    {
+        if ($this->workOrderCuttingHeaders->removeElement($workOrderCuttingHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderCuttingHeader->getWorkOrderHeader() === $this) {
+                $workOrderCuttingHeader->setWorkOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderColorMixing>
+     */
+    public function getWorkOrderColorMixings(): Collection
+    {
+        return $this->workOrderColorMixings;
+    }
+
+    public function addWorkOrderColorMixing(WorkOrderColorMixing $workOrderColorMixing): self
+    {
+        if (!$this->workOrderColorMixings->contains($workOrderColorMixing)) {
+            $this->workOrderColorMixings->add($workOrderColorMixing);
+            $workOrderColorMixing->setWorkOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderColorMixing(WorkOrderColorMixing $workOrderColorMixing): self
+    {
+        if ($this->workOrderColorMixings->removeElement($workOrderColorMixing)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderColorMixing->getWorkOrderHeader() === $this) {
+                $workOrderColorMixing->setWorkOrderHeader(null);
+            }
+        }
 
         return $this;
     }
