@@ -10,30 +10,40 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    <div id="process-table" data-controller="data-table">
-                        <div data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '123'}|json_encode }}">
-                            123
+                    <div class="row">
+                        <div class="col border border-secondary rounded">
+                            <table class="table table-sm table-bordered table-striped" id="process-table" data-controller="data-table">
+                                <tbody>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '123'}|json_encode }}">
+                                        <td>123</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '456'}|json_encode }}">
+                                        <td>456</td>
+                                    </tr>
+                                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '789'}|json_encode }}">
+                                        <td>789</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '456'}|json_encode }}">
-                            456
-                        </div>
-                        <div data-action="click->data-table#select" data-data-table-values-param="{{ {'processName': '789'}|json_encode }}">
-                            789
-                        </div>
-                    </div>
-                    <div data-controller="form-collection"
-                         data-form-collection-start-index-value="{{ form.processList|length > 0 ? form.processList|last.vars.name + 1 : 0 }}"
-                         data-form-collection-prototype-value="{{ _self.collection_item(form.processList.vars.prototype)|e('html_attr') }}">
-                        <div data-form-collection-target="items" data-action="process-table:data-table:select@document->form-collection#addCollectionItem">
-                            {% macro collection_item(processForm) %}
-                                <div data-form-collection-target="item">
-                                    {{ form_widget(processForm, {'attr': {'data-item-field-name': 'processName'}}) }}
-                                    <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                                </div>
-                            {% endmacro %}
-                            {% for processForm in form.processList %}
-                                {{ _self.collection_item(processForm) }}
-                            {% endfor %}
+                        <div data-controller="form-collection" class="col border border-secondary rounded"
+                             data-form-collection-start-index-value="{{ form.processList|length > 0 ? form.processList|last.vars.name + 1 : 0 }}"
+                             data-form-collection-prototype-value="{{ _self.process_collection_item(form.processList.vars.prototype)|e('html_attr') }}">
+                            <div data-form-collection-target="items" data-action="process-table:data-table:select@document->form-collection#addCollectionItem">
+                                {% macro process_collection_item(processForm) %}
+                                    <div data-form-collection-target="item" data-item-identifier-name="processName" data-item-identifier-value="{{ processForm.vars.value|default }}">
+                                        <div class="d-inline-block w-75">
+                                            {{ form_widget(processForm, {'attr': {'data-item-field-name': 'processName', 'readonly': true, 'class': 'form-control-sm'}}) }}
+                                        </div>
+                                        <div class="d-inline-block">
+                                            <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
+                                        </div>
+                                    </div>
+                                {% endmacro %}
+                                {% for processForm in form.processList %}
+                                    {{ _self.process_collection_item(processForm) }}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                     {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
