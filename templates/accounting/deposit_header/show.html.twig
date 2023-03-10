@@ -11,43 +11,61 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Is Canceled</th>
-                <td>{{ depositHeader.isCanceled ? 'Yes' : 'No' }}</td>
+                <th>Penerimaan #</th>
+                <td>{{ depositHeader.getCodeNumber }}</td>
             </tr>
             <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ depositHeader.codeNumberOrdinal }}</td>
+                <th>Tanggal</th>
+                <td>{{ depositHeader.transactionDate ? depositHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Code Number Month</th>
-                <td>{{ depositHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ depositHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ depositHeader.createdTransactionDateTime ? depositHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ depositHeader.modifiedTransactionDateTime ? depositHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Approved Transaction Date Time</th>
-                <td>{{ depositHeader.approvedTransactionDateTime ? depositHeader.approvedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
-                <td>{{ depositHeader.transactionDate ? depositHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <th>Account</th>
+                <td>{{ depositHeader.account.name|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ depositHeader.note }}</td>
             </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ depositHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
-    {{ include('accounting/deposit_header/_delete_form.html.twig') }}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                <th>Nama</th>
+                <th>Category</th>
+                <th>Deskripsi</th>
+                <th>Keterangan</th>
+                <th>Jumlah</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for depositDetail in depositHeader.depositDetails %}
+                <tr>
+                    <td>{{ depositDetail.account.code|default }}</td>
+                    <td>{{ depositDetail.account.name|default }}</td>
+                    <td>{{ depositDetail.account.accountCategory.name|default }}</td>
+                    <td>{{ depositDetail.description|default }}</td>
+                    <td>{{ depositDetail.memo|default }}</td>
+                    <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
+                    <td>{{ depositDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-end"><strong>Total</strong></td>
+                <td class="text-end"><strong>{{ depositHeader.totalAmount|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    {#{{ include('accounting/deposit_header/_delete_form.html.twig') }}#}
 {% endblock %}
