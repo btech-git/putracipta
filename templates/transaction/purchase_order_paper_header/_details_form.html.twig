@@ -26,7 +26,7 @@
         </thead>
         <tbody data-form-collection-target="items" data-action="paper-table:data-table:select@document->form-collection#addCollectionItem purchase-request-paper-detail-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
-                <tr data-form-collection-target="item" data-item-identifier-name="paperId" data-item-identifier-value="{{ detailForm.vars.value.paper.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.purchaseRequestPaperDetail, {'attr': {'data-item-field-name': 'purchaseRequestPaperDetailId'}}) }}</td>
                     <td class="d-none" data-item-field-name="pricingMode">{{ detailForm.vars.value.paper.pricingMode|default }}</td>
