@@ -7,6 +7,7 @@
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Product Id</th>
+                <th style="min-width: 150px">PO #</th>
                 <th style="min-width: 150px">Item Code</th>
                 <th style="min-width: 150px">Description</th>
                 <th style="min-width: 70px">Qty</th>
@@ -20,6 +21,9 @@
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" data-item-identifier-name="deliveryDetailId" data-item-identifier-value="{{ detailForm.vars.value.deliveryDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.deliveryDetail, {'attr': {'data-item-field-name': 'deliveryDetailId'}}) }}</td>
+                    <td data-item-field-name="saleOrderHeaderReferenceNumber">
+                        {{ detailForm.vars.value.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}
+                    </td>
                     <td data-item-field-name="productCode">
                         {{ detailForm.vars.value.product.code|default }}
                     </td>

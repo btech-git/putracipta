@@ -57,6 +57,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="bg-info">
+                <th>PO #</th>
                 <th>Kode</th>
                 <th>Nama Barang</th>
                 <th>FSC Code</th>
@@ -76,6 +77,7 @@
         <tbody>
             {% for deliveryDetail in deliveryHeader.deliveryDetails %}
                 <tr>
+                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ deliveryDetail.product.code|default }}</td>
                     <td>{{ deliveryDetail.product.name|default }}</td>
                     <td>{{ deliveryDetail.fscCode|default }}</td>
@@ -95,7 +97,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="10" style="text-align: right"><strong>Total</strong></td>
+                <td colspan="11" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default }}</strong></td>
                 <td colspan="3"></td>
             </tr>

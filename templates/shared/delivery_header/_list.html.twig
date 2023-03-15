@@ -53,6 +53,7 @@
                     'deliveryHeaderTransactionDate': deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '', 
                     'customerCompany': deliveryHeader.customer.company|default,
                     'deliveryDetailId': deliveryDetail.id, 
+                    'saleOrderHeaderReferenceNumber': deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default, 
                     'productName': deliveryDetail.product.name|default, 
                     'productCode': deliveryDetail.product.code|default, 
                     'unitName': deliveryDetail.unit.name})|json_encode }}">
