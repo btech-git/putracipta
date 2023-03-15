@@ -25,7 +25,7 @@ class SaleOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'grandTotal', 'note', 'transactionStatus'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'referenceNumber', 'customer:company', 'grandTotal', 'note', 'transactionStatus'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -40,6 +40,7 @@ class SaleOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
+                    'referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
@@ -54,7 +55,7 @@ class SaleOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'customer:company', 'grandTotal', 'note', 'transactionStatus', 'id'],
+                'field_names' => ['transactionDate', 'customer:company', 'grandTotal', 'referenceNumber', 'note', 'transactionStatus', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
@@ -65,6 +66,7 @@ class SaleOrderHeaderGridType extends AbstractType
                     'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
+                    'referenceNumber' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
