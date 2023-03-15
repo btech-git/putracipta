@@ -22,7 +22,6 @@ class EmployeeType extends AbstractType
             ->add('birthPlace', null, ['label' => 'Tempat Lahir'])
             ->add('identityNumber', null, ['label' => 'KTP'])
             ->add('division', ChoiceType::class, ['choices' => [
-                'Sales' => Employee::DIVISION_SALES,
                 'Marketing' => Employee::DIVISION_MARKETING,
                 'Transportation' => Employee::DIVISION_TRANSPORTATION,
                 'Warehouse' => Employee::DIVISION_WAREHOUSE,
