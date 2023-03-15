@@ -80,8 +80,10 @@ class DeliveryDetail extends TransactionDetail
     #[Assert\Callback]
     public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
     {
-        if ($this->deliveredQuantity > $this->saleOrderDetail->getRemainingDelivery()) {
-            $context->buildViolation('Quantity must be < remaining')->atPath('deliveredQuantity')->addViolation();
+        if ($this->deliveryHeader->getId() === null) {
+            if ($this->deliveredQuantity > $this->saleOrderDetail->getRemainingDelivery()) {
+                $context->buildViolation('Quantity must be < remaining')->atPath('deliveredQuantity')->addViolation();
+            }
         }
     }
 

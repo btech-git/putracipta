@@ -38,7 +38,7 @@ class DeliveryHeaderType extends AbstractType
             ])
             ->add('transportation', null, ['choice_label' => 'nameAndPlateNumber'])
             ->add('note')
-            ->add('deliveryAddress', ChoiceType::class, ['choices' => ['' => '']])
+//            ->add('deliveryAddress', ChoiceType::class, ['choices' => ['' => '']])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('deliveryDetails', CollectionType::class, [
                 'entry_type' => DeliveryDetailType::class,

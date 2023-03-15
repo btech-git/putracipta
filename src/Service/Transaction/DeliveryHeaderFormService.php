@@ -63,11 +63,13 @@ class DeliveryHeaderFormService
             $oldDeliveryDetails = $this->deliveryDetailRepository->findBySaleOrderDetail($saleOrderDetail);
             $totalDelivery = 0;
             foreach ($oldDeliveryDetails as $oldDeliveryDetail) {
-                if ($oldDeliveryDetail->getId() !== $deliveryDetail->getId()) {
+                if ($oldDeliveryDetail->getId() !== $deliveryDetail->getId() && $oldDeliveryDetail->isIsCanceled() === false) {
                     $totalDelivery += $oldDeliveryDetail->getDeliveredQuantity();
                 }
             }
-            $totalDelivery += $deliveryDetail->getDeliveredQuantity();
+            if ($deliveryDetail->isIsCanceled() === false) {
+                $totalDelivery += $deliveryDetail->getDeliveredQuantity();
+            }
             $saleOrderDetail->setTotalDelivery($totalDelivery);
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
         }
