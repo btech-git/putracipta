@@ -66,7 +66,7 @@
                 <th>Line PO</th>
                 <th>Tgl Produksi</th>
                 <th>Qty Order</th>
-                <th>Qty Sisa</th>
+                <th>Total Terkirim</th>
                 <th>Qty Kirim</th>
                 <th>Satuan</th>
                 <th>Kemasan</th>
@@ -85,7 +85,7 @@
                     <td></td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.totalDelivery|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
                     <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>

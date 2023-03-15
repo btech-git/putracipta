@@ -49,6 +49,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="bg-info">
+                <th>PO #</th>
                 <th>Item Code</th>
                 <th>Description</th>
                 <th>Quantity</th>
@@ -61,6 +62,7 @@
         <tbody>
             {% for saleReturnDetail in saleReturnHeader.saleReturnDetails %}
                 <tr>
+                    <td>{{ saleReturnDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ saleReturnDetail.product.code|default }}</td>
                     <td>{{ saleReturnDetail.product.name|default }}</td>
                     <td style="text-align: right">{{ saleReturnDetail.quantity|default }}</td>
@@ -73,12 +75,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
+                <td colspan="6" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleReturnHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right">
+                <td colspan="6" style="text-align: right">
                     <strong>
                         {% if saleReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', saleReturnHeader) %}
                             Non PPn 0%
@@ -93,7 +95,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="6" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleReturnHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>

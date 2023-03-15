@@ -17,6 +17,9 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'referenceNumber') }}>
+                    PO # {{ grid.sort_char(form.sort.referenceNumber.vars.value) }}
+                </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -47,6 +50,9 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'referenceNumber') }} value="{{ form.filter.referenceNumber.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th>
@@ -64,6 +70,7 @@
                     <td>{{ saleOrderHeader.codeNumber }}</td>
                     <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ saleOrderHeader.customer.company|default }}</td>
+                    <td>{{ saleOrderHeader.referenceNumber }}</td>
                     <td>{{ saleOrderHeader.note }}</td>
                     <td class="text-end">{{ saleOrderHeader.grandTotal|default|number_format(0) }}</td>
                     <td>{{ saleOrderHeader.transactionStatus }}</td>

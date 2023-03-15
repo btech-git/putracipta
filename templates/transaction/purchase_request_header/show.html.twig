@@ -28,6 +28,10 @@
                 <td>{{ purchaseRequestHeader.note }}</td>
             </tr>
             <tr>
+                <th>Status</th>
+                <td>{{ purchaseRequestHeader.transactionStatus }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ purchaseRequestHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
