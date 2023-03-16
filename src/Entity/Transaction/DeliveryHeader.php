@@ -37,6 +37,8 @@ class DeliveryHeader extends TransactionHeader
     private ?Warehouse $warehouse = null;
 
     #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: DeliveryDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $deliveryDetails;
 
     #[ORM\OneToOne(mappedBy: 'deliveryHeader', cascade: ['persist', 'remove'])]
