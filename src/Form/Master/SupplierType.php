@@ -37,7 +37,7 @@ class SupplierType extends AbstractType
             ->add('categoryList', ChoiceType::class, [
                 'multiple' => true,
                 'expanded' => true,
-                'choices' => array_map(fn($materialCategory) => $materialCategory->getName(), $this->materialCategoryRepository->findAll()),
+                'choices' => array_map(fn($materialCategory) => $materialCategory->getName(), $this->materialCategoryRepository->findByIsInactive(false)),
                 'choice_label' => fn($choice) => $choice,
             ])
             ->add('note')
