@@ -92,11 +92,15 @@ class WorkOrderHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderColorMixing::class)]
     private Collection $workOrderColorMixings;
 
+    #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderOffsetPrintingHeader::class)]
+    private Collection $workOrderOffsetPrintingHeaders;
+
     public function __construct()
     {
         $this->workOrderPrepresses = new ArrayCollection();
         $this->workOrderCuttingHeaders = new ArrayCollection();
         $this->workOrderColorMixings = new ArrayCollection();
+        $this->workOrderOffsetPrintingHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -433,6 +437,36 @@ class WorkOrderHeader extends ProductionHeader
             // set the owning side to null (unless already changed)
             if ($workOrderColorMixing->getWorkOrderHeader() === $this) {
                 $workOrderColorMixing->setWorkOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderOffsetPrintingHeader>
+     */
+    public function getWorkOrderOffsetPrintingHeaders(): Collection
+    {
+        return $this->workOrderOffsetPrintingHeaders;
+    }
+
+    public function addWorkOrderOffsetPrintingHeader(WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader): self
+    {
+        if (!$this->workOrderOffsetPrintingHeaders->contains($workOrderOffsetPrintingHeader)) {
+            $this->workOrderOffsetPrintingHeaders->add($workOrderOffsetPrintingHeader);
+            $workOrderOffsetPrintingHeader->setWorkOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderOffsetPrintingHeader(WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader): self
+    {
+        if ($this->workOrderOffsetPrintingHeaders->removeElement($workOrderOffsetPrintingHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderOffsetPrintingHeader->getWorkOrderHeader() === $this) {
+                $workOrderOffsetPrintingHeader->setWorkOrderHeader(null);
             }
         }
 
