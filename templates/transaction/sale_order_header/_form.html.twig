@@ -22,6 +22,7 @@
                                ]|json_encode }}" />
                     </div>
                     {{ form_row(form.isUsingFscPaper, {'label': 'Using FSC Paper'}) }}
+                    {{ form_row(form.transactionFile, {'label': saleOrderHeader.transactionFileExtension == null ? 'Upload File' : 'File Uploaded'}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -67,7 +68,6 @@
             </div>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.transactionFile) }}
                     {{ form_row(form.note) }}
                 </div>
             </div>

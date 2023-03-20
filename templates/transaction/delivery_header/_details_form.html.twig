@@ -28,18 +28,38 @@
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
-                    <td>{{ form_row(detailForm.fscCode, {'label': false, 'attr': {
-                        'data-item-field-action': '
-                            const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
-                            if (hasFscCode === "No") {
-                                $element.setAttribute("readonly", "readonly");
-                            }
-                        ',
-                    }}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.fscCode, {'label': false, 'attr': {
+                            'data-item-field-action': '
+                                const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
+                                if (hasFscCode === "No") {
+                                    $element.setAttribute("readonly", "readonly");
+                                }
+                            ',
+                        }}) }}
+                    </td>
                     <td></td>
-                    <td>{{ form_row(detailForm.lotNumber, {'label': false}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.lotNumber, {'label': false, 'attr': {
+                            'data-item-field-action': '
+                                const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
+                                if (hasFscCode === "No") {
+                                    $element.setAttribute("readonly", "readonly");
+                                }
+                            ',
+                        }}) }}
+                    </td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ form_row(detailForm.linePo, {'label': false}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.linePo, {'label': false, 'attr': {
+                            'data-item-field-action': '
+                                const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
+                                if (hasFscCode === "Yes") {
+                                    $element.setAttribute("readonly", "readonly");
+                                }
+                            ',
+                        }}) }}
+                    </td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default }}</td>
                     <td>{{ form_row(detailForm.deliveredQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>

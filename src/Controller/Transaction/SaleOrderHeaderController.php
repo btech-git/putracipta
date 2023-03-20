@@ -157,12 +157,28 @@ class SaleOrderHeaderController extends AbstractController
     public function hold(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('hold' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
-            $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_HOLD);
+            $saleOrderHeader->setIsOnHold(true);
             $saleOrderHeaderRepository->add($saleOrderHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_sale_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/release', name: 'app_transaction_sale_order_header_release', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function release(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('release' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
+            $saleOrderHeader->setIsOnHold(false);
+            $saleOrderHeaderRepository->add($saleOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
         }
 
         return $this->redirectToRoute('app_transaction_sale_order_header_index', [], Response::HTTP_SEE_OTHER);

@@ -48,6 +48,10 @@
                 <td>{{ saleOrderHeader.note }}</td>
             </tr>
             <tr>
+                <th>Transaction On Hold?</th>
+                <td>{{ saleOrderHeader.isOnHold ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ saleOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
@@ -147,9 +151,12 @@
         </tbody>
     </table>
                 
-    {% if saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', saleOrderHeader) %}
+    {% if saleOrderHeader.isOnHold == false %}
         <div class="d-inline-block">{{ include('transaction/sale_order_header/_hold_form.html.twig') }}</div>
+    {% else %}
+        <div class="d-inline-block">{{ include('transaction/sale_order_header/_release_form.html.twig') }}</div>
     {% endif %}
+    
     <div class="text-center">
         {% if saleOrderHeader.transactionFileExtension == 'pdf' %}
             <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order PDF File</a>

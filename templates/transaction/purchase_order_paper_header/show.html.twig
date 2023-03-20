@@ -40,6 +40,10 @@
                 <td>{{ purchaseOrderPaperHeader.note }}</td>
             </tr>
             <tr>
+                <th>Transaction On Hold?</th>
+                <td>{{ purchaseOrderPaperHeader.isOnHold ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ purchaseOrderPaperHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
@@ -152,12 +156,16 @@
     </table>
         
     {#<div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_delete_form.html.twig') }}</div>#}
-    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) or purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_HOLD', purchaseOrderPaperHeader) %}
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) %}
         <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}
-    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) %}
+    
+    {% if purchaseOrderPaperHeader.isOnHold == false %}
         <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_hold_form.html.twig') }}</div>
+    {% else %}
+        <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_release_form.html.twig') }}</div>
     {% endif %}
+    
     <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
 {% endblock %}

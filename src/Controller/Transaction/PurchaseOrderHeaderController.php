@@ -204,12 +204,28 @@ class PurchaseOrderHeaderController extends AbstractController
     public function hold(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('hold' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
-            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_HOLD);
+            $purchaseOrderHeader->setIsOnHold(true);
             $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/release', name: 'app_transaction_purchase_order_header_release', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function release(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('release' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeader->setIsOnHold(false);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
         }
 
         return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);

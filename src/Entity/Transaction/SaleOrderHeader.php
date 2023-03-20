@@ -23,7 +23,6 @@ class SaleOrderHeader extends TransactionHeader
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
     public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const TRANSACTION_STATUS_DRAFT = 'draft';
-    public const TRANSACTION_STATUS_HOLD = 'hold';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
     public const TRANSACTION_STATUS_PARTIAL_DELIVERY = 'partial_delivery';
@@ -88,6 +87,9 @@ class SaleOrderHeader extends TransactionHeader
 
     #[ORM\Column]
     private ?bool $isUsingFscPaper = null;
+
+    #[ORM\Column]
+    private ?bool $isOnHold = null;
 
     public function __construct()
     {
@@ -365,6 +367,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setIsUsingFscPaper(bool $isUsingFscPaper): self
     {
         $this->isUsingFscPaper = $isUsingFscPaper;
+
+        return $this;
+    }
+
+    public function isIsOnHold(): ?bool
+    {
+        return $this->isOnHold;
+    }
+
+    public function setIsOnHold(bool $isOnHold): self
+    {
+        $this->isOnHold = $isOnHold;
 
         return $this;
     }
