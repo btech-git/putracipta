@@ -15,9 +15,33 @@
                 <td>{{ supplier.company }}</td>
             </tr>
             <tr>
-                <th>PIC</th>
+                <th>PIC 1</th>
                 <td>{{ supplier.name }}</td>
             </tr>
+            {% if (supplier.name2 != '') %}
+                <tr>
+                    <th>PIC 2</th>
+                    <td>{{ supplier.name2 }}</td>
+                </tr>
+            {% endif %}
+            {% if (supplier.name3 != '') %}
+                <tr>
+                    <th>PIC 3</th>
+                    <td>{{ supplier.name3 }}</td>
+                </tr>
+            {% endif %}
+            {% if (supplier.name4 != '') %}
+                <tr>
+                    <th>PIC 4</th>
+                    <td>{{ supplier.name4 }}</td>
+                </tr>
+            {% endif %}
+            {% if (supplier.name5 != '') %}
+                <tr>
+                    <th>PIC 5</th>
+                    <td>{{ supplier.name5 }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th>Address</th>
                 <td>{{ supplier.address }}</td>
