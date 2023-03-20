@@ -55,6 +55,7 @@ class DeliveryHeader extends TransactionHeader
     private ?bool $isUsingFscPaper = false;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $deliveryAddress = '';
 
     public function __construct()
