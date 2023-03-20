@@ -15,13 +15,61 @@
                 <td>{{ customer.company }}</td>
             </tr>
             <tr>
-                <th>PIC</th>
+                <th>PIC 1</th>
                 <td>{{ customer.name }}</td>
             </tr>
+            {% if (customer.name2 != '') %}
+                <tr>
+                    <th>PIC 2</th>
+                    <td>{{ customer.name2 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.name3 != '') %}
+                <tr>
+                    <th>PIC 3</th>
+                    <td>{{ customer.name3 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.name4 != '') %}
+                <tr>
+                    <th>PIC 4</th>
+                    <td>{{ customer.name4 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.name5 != '') %}
+                <tr>
+                    <th>PIC 5</th>
+                    <td>{{ customer.name5 }}</td>
+                </tr>
+            {% endif %}
             <tr>
-                <th>Alamat Kirim</th>
+                <th>Alamat Kirim 1</th>
                 <td>{{ customer.addressDelivery }}</td>
             </tr>
+            {% if (customer.addressDelivery2 != '') %}
+                <tr>
+                    <th>Alamat Kirim 2</th>
+                    <td>{{ customer.addressDelivery2 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.addressDelivery3 != '') %}
+                <tr>
+                    <th>Alamat Kirim 3</th>
+                    <td>{{ customer.addressDelivery3 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.addressDelivery4 != '') %}
+                <tr>
+                    <th>Alamat Kirim 4</th>
+                    <td>{{ customer.addressDelivery4 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.addressDelivery5 != '') %}
+                <tr>
+                    <th>Alamat Kirim 5</th>
+                    <td>{{ customer.addressDelivery5 }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th>Alamat Penagihan</th>
                 <td>{{ customer.addressInvoice }}</td>

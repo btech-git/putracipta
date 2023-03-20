@@ -25,7 +25,11 @@ class SupplierType extends AbstractType
         $builder
 //            ->add('code')
             ->add('company')
-            ->add('name', null, ['label' => 'PIC'])
+            ->add('name', null, ['label' => 'PIC 1'])
+            ->add('name2', null, ['label' => 'PIC 2'])
+            ->add('name3', null, ['label' => 'PIC 3'])
+            ->add('name4', null, ['label' => 'PIC 4'])
+            ->add('name5', null, ['label' => 'PIC 5'])
             ->add('address', null, ['label' => 'Alamat (**Tekan ENTER untuk > 1 baris)'])
             ->add('phone')
             ->add('fax')
