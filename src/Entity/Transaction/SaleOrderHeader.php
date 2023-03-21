@@ -86,10 +86,10 @@ class SaleOrderHeader extends TransactionHeader
     private ?Employee $employee = null;
 
     #[ORM\Column]
-    private ?bool $isUsingFscPaper = null;
+    private ?bool $isUsingFscPaper = false;
 
     #[ORM\Column]
-    private ?bool $isOnHold = null;
+    private ?bool $isOnHold = false;
 
     public function __construct()
     {

@@ -98,7 +98,7 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private Collection $masterOrders;
 
     #[ORM\Column]
-    private ?bool $isOnHold = null;
+    private ?bool $isOnHold = false;
 
     public function __construct()
     {
