@@ -50,6 +50,7 @@
                     'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber,
                     'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber,
                     'customerCompany': saleOrderDetail.saleOrderHeader.customer.company,
+                    'saleOrderHeaderIsUsingFscPaper': saleOrderDetail.saleOrderHeader.isUsingFscPaper ? 'Yes' : 'No',
                     'saleOrderHeaderDate': saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '',
                     'saleOrderDetailId': saleOrderDetail.id,
                     'productName': saleOrderDetail.product.name,
