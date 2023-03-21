@@ -66,9 +66,10 @@
                 <th>PO #</th>
                 <th>Line PO</th>
                 <th>Tgl Produksi</th>
+                <th>Qty Kirim</th>
                 <th>Qty Order</th>
                 <th>Total Terkirim</th>
-                <th>Qty Kirim</th>
+                <th>Qty Sisa</th>
                 <th>Satuan</th>
                 <th>Kemasan</th>
                 <th></th>
@@ -86,9 +87,10 @@
                     <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td></td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.totalDelivery|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default }}</td>
                     <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>
                     <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
@@ -97,9 +99,9 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="11" style="text-align: right"><strong>Total</strong></td>
+                <td colspan="9" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default }}</strong></td>
-                <td colspan="3"></td>
+                <td colspan="6"></td>
             </tr>
         </tfoot>
     </table>

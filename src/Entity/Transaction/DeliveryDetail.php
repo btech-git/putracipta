@@ -44,7 +44,6 @@ class DeliveryDetail extends TransactionDetail
     private ?string $packaging = '';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'deliveryDetails')]
@@ -56,7 +55,6 @@ class DeliveryDetail extends TransactionDetail
     private ?SaleOrderDetail $saleOrderDetail = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(length: 20)]

@@ -99,15 +99,15 @@
             <thead>
                 <tr>
                     <th class="center">Product Name</th>
-                    <th class="center">Product Code</th>
+                    <th class="center">Code No.</th>
+                    <th class="center">WO no. / Tgl Prod</th>
                     {% if deliveryHeader.isUsingFscPaper %}
                         <th class="center">FSC Code</th>
-                        <th class="center">WO # / Tgl Produksi</th>
+                        <th class="center">Lot no.</th>
                     {% else %}
                         <th class="center">Line PO</th>
                     {% endif %}
-                    <th class="center">Lot #</th>
-                    <th class="center">PO #</th>
+                    <th class="center">Customer PO</th>
                     <th class="center">Quantity</th>
                     <th class="center">Kemasan</th>
                 </tr>
@@ -120,29 +120,16 @@
                             {% if deliveryDetail and not deliveryDetail.isCanceled %}
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
+                                <td class="left"></td>
                                 {% if deliveryHeader.isUsingFscPaper %}
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
-                                    <td class="left"></td>
+                                    <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
                                 {% else %}
-                                    <td class="center">{{ deliveryDetail.linePO|default }}</td>
+                                    <td class="center">{{ deliveryDetail.linePo|default }}</td>
                                 {% endif %}
-                                <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 <td class="center">{{ deliveryDetail.deliveredQuantity|default }} {{ deliveryDetail.unit.name|default }}</td>
                                 <td class="center">{{ deliveryDetail.packaging|default }}</td>
-                            {% else %}
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                {% if deliveryHeader.isUsingFscPaper %}
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                {% else %}
-                                    <td>&nbsp;</td>
-                                {% endif %}
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
                             {% endif %}
                         </tr>
                     {% endfor %}

@@ -37,6 +37,8 @@ class DeliveryHeader extends TransactionHeader
     private ?Warehouse $warehouse = null;
 
     #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: DeliveryDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $deliveryDetails;
 
     #[ORM\OneToOne(mappedBy: 'deliveryHeader', cascade: ['persist', 'remove'])]
@@ -53,6 +55,7 @@ class DeliveryHeader extends TransactionHeader
     private ?bool $isUsingFscPaper = false;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $deliveryAddress = '';
 
     public function __construct()

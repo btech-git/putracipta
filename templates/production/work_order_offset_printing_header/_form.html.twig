@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
      data-action="data-table:select->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'click': 'id'}|json_encode }}"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-method-value="POST"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
@@ -22,7 +22,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.workOrderHeader.vars.id }}-text" class="form-control {% if not form.workOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ workOrderCuttingHeader.workOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.workOrderHeader.vars.id }}-text" class="form-control {% if not form.workOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#work-order-header-dialog"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
@@ -33,7 +33,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tanggal WO</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.productionDate|default ? workOrderCuttingHeader.workOrderHeader.productionDate|date('d M Y') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.productionDate|default ? workOrderOffsetPrintingHeader.workOrderHeader.productionDate|date('d M Y') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -42,7 +42,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tanggal Kirim</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.deliveryDate|default ? workOrderCuttingHeader.workOrderHeader.masterOrder.deliveryDate|date('d M Y') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.deliveryDate|default ? workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.deliveryDate|date('d M Y') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -51,7 +51,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Master Order #</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.codeNumber|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.codeNumber|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -60,7 +60,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mesin</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.printingMachine|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.printingMachine|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -69,7 +69,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Customer</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.customer.company|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.customer.company|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -78,7 +78,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Kode Produk</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.product.code|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.product.code|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -87,7 +87,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Produk</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.product.name|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.product.name|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -96,7 +96,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Kode Design</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.designCode|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.designCode|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -107,7 +107,7 @@
                 <div class="col">
                     <div class="mb-3">
                         <label class="form-label">Status Cetakan</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.printingStatus|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.printingStatus|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -116,7 +116,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Quantity Order</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.quantityOrder|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.quantityOrder|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -125,7 +125,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Stock / Kekurangan</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.quantityStock|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.quantityStock|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -134,7 +134,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Warna / Pantone</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.color|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.color|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -144,7 +144,7 @@
                     <label class="form-label">Ukuran Jadi (mm)</label>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.dimensionLength|default }}" readonly="readonly"
+                            <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.dimensionLength|default }}" readonly="readonly"
                                    data-controller="dom-element"
                                    data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                    data-dom-element-bind-specifications-param="{{ [
@@ -152,7 +152,7 @@
                                    ]|json_encode }}" />
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.dimensionWidth|default }}" readonly="readonly"
+                            <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.dimensionWidth|default }}" readonly="readonly"
                                    data-controller="dom-element"
                                    data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                    data-dom-element-bind-specifications-param="{{ [
@@ -160,7 +160,7 @@
                                    ]|json_encode }}" />
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.dimensionHeight|default }}" readonly="readonly"
+                            <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.dimensionHeight|default }}" readonly="readonly"
                                    data-controller="dom-element"
                                    data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                    data-dom-element-bind-specifications-param="{{ [
@@ -170,7 +170,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ukuran Mountage</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.paperMountage|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.paperMountage|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -179,7 +179,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Jumlah Dreek</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.paperTotal|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.paperTotal|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -188,7 +188,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Finishing</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.masterOrder.finishing|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.masterOrder.finishing|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -197,7 +197,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Up/s (Mata)</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.workOrderHeader.orderUp|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.orderUp|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -211,20 +211,63 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.employeeIdWorkOrderReturn, {'label': 'WO dikembalikan oleh'}) }}
-                    {{ form_row(form.workOrderReturnDate, {'label': 'Tanggal Pengembalian WO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.printingQuality, {'label': 'Kualitas Hasil Cetak'}) }}
+                    {{ form_row(form.speedPerHour, {'label': 'Speed/Jam'}) }}
+                    {{ form_row(form.note, {'label': 'Catatan'}) }}
                 </div>
                 <div class="col">
-                    {{ form_row(form.isSizeFit, {'label': 'Sesuai Ukuran'}) }}
-                    {{ form_row(form.note, {'label': 'Catatan'}) }}
+                    {{ form_row(form.waterLevel, {'label': 'Air'}) }}
+                    {{ form_row(form.alcoholLevel, {'label': 'Alkohol'}) }}
+                    {{ form_row(form.fountainLevel, {'label': 'Fountain'}) }}
+                    {{ form_row(form.wbLevel, {'label': 'WB'}) }}
                 </div>
             </div>
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Details</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" id="new-detail-button">Add Details</button>
-            {{ include('production/work_order_cutting_header/_details_form.html.twig') }}
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th colspan="4" class="text-center">Jumlah TINTA & PLATE yang dipakai</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Warna</th>
+                                <th class="text-center">Unit Cetak</th>
+                                <th class="text-center">Pakai TINTA</th>
+                                <th class="text-center">Pakai PLATE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cyan</td>
+                                <td>{{ form_row(form.cyanPrintingQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.cyanInkQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.cyanPlateQuantity, {'label': false}) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Magenta</td>
+                                <td>{{ form_row(form.magentaPrintingQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.magentaInkQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.magentaPlateQuantity, {'label': false}) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Yellow</td>
+                                <td>{{ form_row(form.yellowPrintingQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.yellowInkQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.yellowPlateQuantity, {'label': false}) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Black</td>
+                                <td>{{ form_row(form.blackPrintingQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.blackInkQuantity, {'label': false}) }}</td>
+                                <td>{{ form_row(form.blackPlateQuantity, {'label': false}) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </fieldset>
 
         <div class="d-grid">

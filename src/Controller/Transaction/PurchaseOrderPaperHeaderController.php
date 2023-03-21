@@ -192,12 +192,28 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function hold(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('hold' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
-            $purchaseOrderPaperHeader->setTransactionStatus(PurchaseOrderPaperHeader::TRANSACTION_STATUS_HOLD);
+            $purchaseOrderPaperHeader->setIsOnHold(true);
             $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/release', name: 'app_transaction_purchase_order_paper_header_release', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function release(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('release' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderPaperHeader->setIsOnHold(false);
+            $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
         }
 
         return $this->redirectToRoute('app_transaction_purchase_order_paper_header_index', [], Response::HTTP_SEE_OTHER);

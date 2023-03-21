@@ -57,6 +57,9 @@ abstract class ProductionHeader
     #[Assert\NotNull]
     protected ?string $note = '';
 
+    #[ORM\Column(length: 20)]
+    private ?string $codeNumberText = '';
+
     public abstract function getCodeNumberConstant(): string;
 
     public function getCodeNumber(): string
@@ -225,6 +228,18 @@ abstract class ProductionHeader
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getCodeNumberText(): ?string
+    {
+        return $this->codeNumberText;
+    }
+
+    public function setCodeNumberText(string $codeNumberText): self
+    {
+        $this->codeNumberText = $codeNumberText;
 
         return $this;
     }

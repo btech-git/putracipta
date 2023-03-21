@@ -9,8 +9,8 @@ use App\Entity\Transaction\DeliveryDetail;
 use App\Entity\Transaction\DeliveryHeader;
 use App\Repository\Master\CustomerRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -38,7 +38,7 @@ class DeliveryHeaderType extends AbstractType
             ])
             ->add('transportation', null, ['choice_label' => 'nameAndPlateNumber'])
             ->add('note')
-//            ->add('deliveryAddress', ChoiceType::class, ['choices' => ['' => '']])
+            ->add('deliveryAddress', TextType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('deliveryDetails', CollectionType::class, [
                 'entry_type' => DeliveryDetailType::class,

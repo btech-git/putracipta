@@ -67,6 +67,18 @@ class Supplier extends Master
     #[ORM\Column(type: Types::ARRAY)]
     private array $categoryList = [];
 
+    #[ORM\Column(length: 100)]
+    private ?string $name2 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name3 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name4 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name5 = '';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -212,6 +224,54 @@ class Supplier extends Master
     public function setCategoryList(array $categoryList): self
     {
         $this->categoryList = $categoryList;
+
+        return $this;
+    }
+
+    public function getName2(): ?string
+    {
+        return $this->name2;
+    }
+
+    public function setName2(string $name2): self
+    {
+        $this->name2 = $name2;
+
+        return $this;
+    }
+
+    public function getName3(): ?string
+    {
+        return $this->name3;
+    }
+
+    public function setName3(string $name3): self
+    {
+        $this->name3 = $name3;
+
+        return $this;
+    }
+
+    public function getName4(): ?string
+    {
+        return $this->name4;
+    }
+
+    public function setName4(string $name4): self
+    {
+        $this->name4 = $name4;
+
+        return $this;
+    }
+
+    public function getName5(): ?string
+    {
+        return $this->name5;
+    }
+
+    public function setName5(string $name5): self
+    {
+        $this->name5 = $name5;
 
         return $this;
     }
