@@ -64,7 +64,7 @@ class DeliveryHeaderController extends AbstractController
     public function new(Request $request, DeliveryHeaderFormService $deliveryHeaderFormService, $_format = 'html'): Response
     {
         $deliveryHeader = new DeliveryHeader();
-        $deliveryHeaderFormService->initialize($deliveryHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $deliveryHeaderFormService->initialize($deliveryHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DeliveryHeaderType::class, $deliveryHeader);
         $form->handleRequest($request);
         $deliveryHeaderFormService->finalize($deliveryHeader);
@@ -94,7 +94,7 @@ class DeliveryHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, DeliveryHeader $deliveryHeader, DeliveryHeaderFormService $deliveryHeaderFormService, $_format = 'html'): Response
     {
-        $deliveryHeaderFormService->initialize($deliveryHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $deliveryHeaderFormService->initialize($deliveryHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DeliveryHeaderType::class, $deliveryHeader);
         $form->handleRequest($request);
         $deliveryHeaderFormService->finalize($deliveryHeader);
