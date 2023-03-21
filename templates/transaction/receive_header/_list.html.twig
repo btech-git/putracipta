@@ -14,7 +14,9 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px">PO #</th>
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'purchaseOrderId') }}>
+                    PO # {{ grid.sort_char(form.sort.purchaseOrderId.vars.value) }}
+                </th>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
                 </th>
@@ -42,7 +44,18 @@
                 <th>
                     <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderCodeNumberOrdinal') }} value="{{ form.filter.purchaseOrderCodeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/PO*/</small></span>
+                    <select {{ grid.filter_link_item(form, 'purchaseOrderCodeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.purchaseOrderCodeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderCodeNumberYear') }} value="{{ form.filter.purchaseOrderCodeNumberYear.1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
                 </th>

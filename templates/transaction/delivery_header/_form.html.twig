@@ -35,12 +35,6 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.customer) }}
                     </div>
-                    <input type="hidden" id="{{ form.customer.vars.id }}-has-fsc-code"
-                           data-controller="dom-element"
-                           data-action="customer-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.hasFscCode'}},
-                           ]|json_encode }}" />
                     <div id="customer-delivery-address-1" class="d-none">{{ deliveryHeader.customer.addressDelivery|default }}</div>
                     <div id="customer-delivery-address-2" class="d-none">{{ deliveryHeader.customer.addressDelivery2|default }}</div>
                     <div id="customer-delivery-address-3" class="d-none">{{ deliveryHeader.customer.addressDelivery3|default }}</div>

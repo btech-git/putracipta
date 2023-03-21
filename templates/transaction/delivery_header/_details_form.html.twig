@@ -26,12 +26,13 @@
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
+                    <td class="d-none" data-item-field-name="saleOrderHeaderIsUsingFscPaper">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No' }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
                     <td>
                         {{ form_row(detailForm.fscCode, {'label': false, 'attr': {
                             'data-item-field-action': '
-                                const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
+                                const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
                                 if (hasFscCode === "No") {
                                     $element.setAttribute("readonly", "readonly");
                                 }
@@ -42,7 +43,7 @@
                     <td>
                         {{ form_row(detailForm.lotNumber, {'label': false, 'attr': {
                             'data-item-field-action': '
-                                const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
+                                const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
                                 if (hasFscCode === "No") {
                                     $element.setAttribute("readonly", "readonly");
                                 }
@@ -53,7 +54,7 @@
                     <td>
                         {{ form_row(detailForm.linePo, {'label': false, 'attr': {
                             'data-item-field-action': '
-                                const hasFscCode = document.querySelector("#' ~ form.customer.vars.id  ~ '-has-fsc-code").value;
+                                const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
                                 if (hasFscCode === "Yes") {
                                     $element.setAttribute("readonly", "readonly");
                                 }
