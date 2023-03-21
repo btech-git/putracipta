@@ -9,6 +9,10 @@ label.form-label, legend.col-form-label {
     text-transform: capitalize;
 }
 
+[readonly], [readonly]:focus {
+    background-color: #CFD8DC;
+}
+
 select[readonly] {
     pointer-events: none;
 }
