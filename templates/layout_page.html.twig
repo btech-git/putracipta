@@ -84,7 +84,7 @@
                                 </a>
                             </li>
                             {% set activeRoute = '' %}
-                            {% set replaces = {'index': '*', 'new': '*', 'edit': '*', 'show': '*', 'head': '*'} %}
+                            {% set replaces = {'index': '*', 'new': '*', 'edit': '*', 'show': '*', 'head': '*', 'add': '*'} %}
                             {% set views = menu|map(v1 => app.request.attributes.get("_route")|replace(replaces) in v1|map(v2 => v2[0]|replace(replaces))) %}
                             {% for title, content in menu %}
                                 <li>
