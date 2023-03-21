@@ -27,11 +27,14 @@ class ReceiveHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'supplier:company', 'supplierDeliveryCodeNumber', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'purchaseOrderCodeNumberOrdinal', 'purchaseOrderCodeNumberMonth', 'purchaseOrderCodeNumberYear', 'transactionDate', 'warehouse', 'supplier:company', 'supplierDeliveryCodeNumber', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
+                    'purchaseOrderCodeNumberOrdinal' => 'PO Code Number',
+                    'purchaseOrderCodeNumberMonth' => '',
+                    'purchaseOrderCodeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'supplierDeliveryCodeNumber' => 'SJ Supplier #',
                     'supplier:company' => 'Supplier',
@@ -42,6 +45,9 @@ class ReceiveHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
+                    'purchaseOrderCodeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
+                    'purchaseOrderCodeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
+                    'purchaseOrderCodeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
@@ -51,18 +57,23 @@ class ReceiveHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'purchaseOrderCodeNumberOrdinal' => IntegerType::class,
+                    'purchaseOrderCodeNumberMonth' => ChoiceType::class,
+                    'purchaseOrderCodeNumberYear' => IntegerType::class,
                     'warehouse' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
+                    'purchaseOrderCodeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'id'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'purchaseOrderId', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
+                    'purchaseOrderId' => 'PO Code Number',
                     'transactionDate' => 'Tanggal',
                     'supplierDeliveryCodeNumber' => 'SJ Supplier #',
                     'supplier:company' => 'Supplier',
@@ -71,6 +82,7 @@ class ReceiveHeaderGridType extends AbstractType
                 'field_operators_list' => [
                     'supplierDeliveryCodeNumber' => [SortAscending::class, SortDescending::class],
                     'id' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderId' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
