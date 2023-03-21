@@ -57,6 +57,12 @@ class ReceiveHeaderFormService
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
         $purchaseOrderHeaderForMaterialOrPaper = $this->getPurchaseOrderHeaderForMaterialOrPaper($receiveHeader);
+        if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
+            $receiveHeader->setPurchaseOrderCodeNumberOrdinal($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberOrdinal());
+            $receiveHeader->setPurchaseOrderCodeNumberMonth($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberMonth());
+            $receiveHeader->setPurchaseOrderCodeNumberYear($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberYear());
+            $receiveHeader->setPurchaseOrderId($purchaseOrderHeaderForMaterialOrPaper->getId());
+        }
         $receiveHeader->setSupplier($purchaseOrderHeaderForMaterialOrPaper === null ? null : $purchaseOrderHeaderForMaterialOrPaper->getSupplier());
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);

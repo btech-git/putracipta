@@ -31,13 +31,9 @@ class DeliveryHeaderFormService
 
     public function initialize(DeliveryHeader $deliveryHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($deliveryHeader->getId())) {
-            $lastDeliveryHeader = $this->deliveryHeaderRepository->findRecentBy($year, $month);
-            $currentDeliveryHeader = ($lastDeliveryHeader === null) ? $deliveryHeader : $lastDeliveryHeader;
-            $deliveryHeader->setCodeNumberToNext($currentDeliveryHeader->getCodeNumber(), $year, $month);
-
             $deliveryHeader->setCreatedTransactionDateTime($datetime);
             $deliveryHeader->setCreatedTransactionUser($user);
         } else {
@@ -48,7 +44,13 @@ class DeliveryHeaderFormService
 
     public function finalize(DeliveryHeader $deliveryHeader, array $options = []): void
     {
-//        $deliveryHeader->setCustomer($saleOrderHeader === null ? null : $saleOrderHeader->getCustomer());
+        if ($deliveryHeader->getTransactionDate() !== null) {
+            $year = $deliveryHeader->getTransactionDate()->format('y');
+            $month = $deliveryHeader->getTransactionDate()->format('m');
+            $lastDeliveryHeader = $this->deliveryHeaderRepository->findRecentBy($year, $month);
+            $currentDeliveryHeader = ($lastDeliveryHeader === null) ? $deliveryHeader : $lastDeliveryHeader;
+            $deliveryHeader->setCodeNumberToNext($currentDeliveryHeader->getCodeNumber(), $year, $month);
+        }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
