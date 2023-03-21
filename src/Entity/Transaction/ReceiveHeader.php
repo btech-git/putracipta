@@ -8,6 +8,7 @@ use App\Entity\TransactionHeader;
 use App\Repository\Transaction\ReceiveHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -52,6 +53,18 @@ class ReceiveHeader extends TransactionHeader
 
     #[ORM\OneToOne(mappedBy: 'receiveHeader', cascade: ['persist', 'remove'])]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
+
+    #[ORM\Column]
+    private ?int $purchaseOrderCodeNumberOrdinal = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $purchaseOrderCodeNumberMonth = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $purchaseOrderCodeNumberYear = 0;
+
+    #[ORM\Column]
+    private ?int $purchaseOrderId = null;
 
     public function __construct()
     {
@@ -221,6 +234,54 @@ class ReceiveHeader extends TransactionHeader
         }
 
         $this->purchaseInvoiceHeader = $purchaseInvoiceHeader;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderCodeNumberOrdinal(): ?int
+    {
+        return $this->purchaseOrderCodeNumberOrdinal;
+    }
+
+    public function setPurchaseOrderCodeNumberOrdinal(int $purchaseOrderCodeNumberOrdinal): self
+    {
+        $this->purchaseOrderCodeNumberOrdinal = $purchaseOrderCodeNumberOrdinal;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderCodeNumberMonth(): ?int
+    {
+        return $this->purchaseOrderCodeNumberMonth;
+    }
+
+    public function setPurchaseOrderCodeNumberMonth(int $purchaseOrderCodeNumberMonth): self
+    {
+        $this->purchaseOrderCodeNumberMonth = $purchaseOrderCodeNumberMonth;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderCodeNumberYear(): ?int
+    {
+        return $this->purchaseOrderCodeNumberYear;
+    }
+
+    public function setPurchaseOrderCodeNumberYear(int $purchaseOrderCodeNumberYear): self
+    {
+        $this->purchaseOrderCodeNumberYear = $purchaseOrderCodeNumberYear;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderId(): ?int
+    {
+        return $this->purchaseOrderId;
+    }
+
+    public function setPurchaseOrderId(int $purchaseOrderId): self
+    {
+        $this->purchaseOrderId = $purchaseOrderId;
 
         return $this;
     }
