@@ -57,7 +57,7 @@ class SalePaymentHeaderController extends AbstractController
     public function new(Request $request, SalePaymentHeaderFormService $salePaymentHeaderFormService, $_format = 'html'): Response
     {
         $salePaymentHeader = new SalePaymentHeader();
-        $salePaymentHeaderFormService->initialize($salePaymentHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $salePaymentHeaderFormService->initialize($salePaymentHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SalePaymentHeaderType::class, $salePaymentHeader);
         $form->handleRequest($request);
         $salePaymentHeaderFormService->finalize($salePaymentHeader);
@@ -87,7 +87,7 @@ class SalePaymentHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, SalePaymentHeader $salePaymentHeader, SalePaymentHeaderFormService $salePaymentHeaderFormService, $_format = 'html'): Response
     {
-        $salePaymentHeaderFormService->initialize($salePaymentHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $salePaymentHeaderFormService->initialize($salePaymentHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SalePaymentHeaderType::class, $salePaymentHeader);
         $form->handleRequest($request);
         $salePaymentHeaderFormService->finalize($salePaymentHeader);

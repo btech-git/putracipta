@@ -57,7 +57,7 @@ class PurchaseRequestHeaderController extends AbstractController
     public function new(Request $request, PurchaseRequestHeaderFormService $purchaseRequestHeaderFormService, $_format = 'html'): Response
     {
         $purchaseRequestHeader = new PurchaseRequestHeader();
-        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseRequestHeaderType::class, $purchaseRequestHeader);
         $form->handleRequest($request);
         $purchaseRequestHeaderFormService->finalize($purchaseRequestHeader);
@@ -87,7 +87,7 @@ class PurchaseRequestHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderFormService $purchaseRequestHeaderFormService, $_format = 'html'): Response
     {
-        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseRequestHeaderType::class, $purchaseRequestHeader);
         $form->handleRequest($request);
         $purchaseRequestHeaderFormService->finalize($purchaseRequestHeader);

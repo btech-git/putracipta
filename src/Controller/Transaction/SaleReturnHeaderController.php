@@ -58,7 +58,7 @@ class SaleReturnHeaderController extends AbstractController
     public function new(Request $request, SaleReturnHeaderFormService $saleReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleReturnHeader = new SaleReturnHeader();
-        $saleReturnHeaderFormService->initialize($saleReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $saleReturnHeaderFormService->initialize($saleReturnHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleReturnHeaderType::class, $saleReturnHeader);
         $form->handleRequest($request);
         $saleReturnHeaderFormService->finalize($saleReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -88,7 +88,7 @@ class SaleReturnHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, SaleReturnHeader $saleReturnHeader, SaleReturnHeaderFormService $saleReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
-        $saleReturnHeaderFormService->initialize($saleReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $saleReturnHeaderFormService->initialize($saleReturnHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleReturnHeaderType::class, $saleReturnHeader);
         $form->handleRequest($request);
         $saleReturnHeaderFormService->finalize($saleReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);

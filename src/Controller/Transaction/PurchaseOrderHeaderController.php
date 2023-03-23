@@ -101,7 +101,7 @@ class PurchaseOrderHeaderController extends AbstractController
     public function new(Request $request, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderHeader = new PurchaseOrderHeader();
-        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -131,7 +131,7 @@ class PurchaseOrderHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
-        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -226,6 +226,22 @@ class PurchaseOrderHeaderController extends AbstractController
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/complete', name: 'app_transaction_purchase_order_header_complete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function complete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('complete' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was completed successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to completed the transaction.'));
         }
 
         return $this->redirectToRoute('app_transaction_purchase_order_header_index', [], Response::HTTP_SEE_OTHER);

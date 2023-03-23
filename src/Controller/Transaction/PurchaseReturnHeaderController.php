@@ -58,7 +58,7 @@ class PurchaseReturnHeaderController extends AbstractController
     public function new(Request $request, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseReturnHeader = new PurchaseReturnHeader();
-        $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseReturnHeaderType::class, $purchaseReturnHeader);
         $form->handleRequest($request);
         $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -88,7 +88,7 @@ class PurchaseReturnHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
-        $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseReturnHeaderType::class, $purchaseReturnHeader);
         $form->handleRequest($request);
         $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
