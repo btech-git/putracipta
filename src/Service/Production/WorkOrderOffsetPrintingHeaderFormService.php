@@ -19,13 +19,9 @@ class WorkOrderOffsetPrintingHeaderFormService
 
     public function initialize(WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderOffsetPrintingHeader->getId())) {
-            $lastWorkOrderOffsetPrintingHeader = $this->workOrderOffsetPrintingHeaderRepository->findRecentBy($year, $month);
-            $currentWorkOrderOffsetPrintingHeader = ($lastWorkOrderOffsetPrintingHeader === null) ? $workOrderOffsetPrintingHeader : $lastWorkOrderOffsetPrintingHeader;
-            $workOrderOffsetPrintingHeader->setCodeNumberToNext($currentWorkOrderOffsetPrintingHeader->getCodeNumber(), $year, $month);
-
             $workOrderOffsetPrintingHeader->setCreatedProductionDateTime($datetime);
             $workOrderOffsetPrintingHeader->setCreatedProductionUser($user);
         } else {
@@ -36,6 +32,14 @@ class WorkOrderOffsetPrintingHeaderFormService
 
     public function finalize(WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader, array $options = []): void
     {
+        if ($workOrderOffsetPrintingHeader->getTransactionDate() !== null) {
+            $year = $workOrderOffsetPrintingHeader->getTransactionDate()->format('y');
+            $month = $workOrderOffsetPrintingHeader->getTransactionDate()->format('m');
+            $lastWorkOrderOffsetPrintingHeader = $this->workOrderOffsetPrintingHeaderRepository->findRecentBy($year, $month);
+            $currentWorkOrderOffsetPrintingHeader = ($lastWorkOrderOffsetPrintingHeader === null) ? $workOrderOffsetPrintingHeader : $lastWorkOrderOffsetPrintingHeader;
+            $workOrderOffsetPrintingHeader->setCodeNumberToNext($currentWorkOrderOffsetPrintingHeader->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

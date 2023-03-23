@@ -23,13 +23,9 @@ class MaterialRequestHeaderFormService
 
     public function initialize(MaterialRequestHeader $materialRequestHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($materialRequestHeader->getId())) {
-            $lastMaterialRequestHeader = $this->materialRequestHeaderRepository->findRecentBy($year, $month);
-            $currentMaterialRequestHeader = ($lastMaterialRequestHeader === null) ? $materialRequestHeader : $lastMaterialRequestHeader;
-            $materialRequestHeader->setCodeNumberToNext($currentMaterialRequestHeader->getCodeNumber(), $year, $month);
-
             $materialRequestHeader->setCreatedTransactionDateTime($datetime);
             $materialRequestHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class MaterialRequestHeaderFormService
 
     public function finalize(MaterialRequestHeader $materialRequestHeader, array $options = []): void
     {
+        if ($materialRequestHeader->getTransactionDate() !== null) {
+            $year = $materialRequestHeader->getTransactionDate()->format('y');
+            $month = $materialRequestHeader->getTransactionDate()->format('m');
+            $lastMaterialRequestHeader = $this->materialRequestHeaderRepository->findRecentBy($year, $month);
+            $currentMaterialRequestHeader = ($lastMaterialRequestHeader === null) ? $materialRequestHeader : $lastMaterialRequestHeader;
+            $materialRequestHeader->setCodeNumberToNext($currentMaterialRequestHeader->getCodeNumber(), $year, $month);
+
+        }
         foreach ($materialRequestHeader->getMaterialRequestDetails() as $materialRequestDetail) {
             $materialRequestDetail->setIsCanceled($materialRequestDetail->getSyncIsCanceled());
             $materialRequestDetail->setQuantityRemaining($materialRequestDetail->getSyncQuantityRemaining());

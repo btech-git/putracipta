@@ -29,13 +29,9 @@ class PurchaseReturnHeaderFormService
 
     public function initialize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($purchaseReturnHeader->getId())) {
-            $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year, $month);
-            $currentPurchaseReturnHeader = ($lastPurchaseReturnHeader === null) ? $purchaseReturnHeader : $lastPurchaseReturnHeader;
-            $purchaseReturnHeader->setCodeNumberToNext($currentPurchaseReturnHeader->getCodeNumber(), $year, $month);
-
             $purchaseReturnHeader->setCreatedTransactionDateTime($datetime);
             $purchaseReturnHeader->setCreatedTransactionUser($user);
         } else {
@@ -46,6 +42,14 @@ class PurchaseReturnHeaderFormService
 
     public function finalize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
+        if ($purchaseReturnHeader->getTransactionDate() !== null) {
+            $year = $purchaseReturnHeader->getTransactionDate()->format('y');
+            $month = $purchaseReturnHeader->getTransactionDate()->format('m');
+            $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year, $month);
+            $currentPurchaseReturnHeader = ($lastPurchaseReturnHeader === null) ? $purchaseReturnHeader : $lastPurchaseReturnHeader;
+            $purchaseReturnHeader->setCodeNumberToNext($currentPurchaseReturnHeader->getCodeNumber(), $year, $month);
+
+        }
         $receiveHeader = $purchaseReturnHeader->getReceiveHeader();
         $purchaseReturnHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {

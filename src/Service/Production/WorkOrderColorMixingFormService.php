@@ -19,13 +19,9 @@ class WorkOrderColorMixingFormService
 
     public function initialize(WorkOrderColorMixing $workOrderColorMixing, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderColorMixing->getId())) {
-            $lastWorkOrderColorMixing = $this->workOrderColorMixingRepository->findRecentBy($year, $month);
-            $currentWorkOrderColorMixing = ($lastWorkOrderColorMixing === null) ? $workOrderColorMixing : $lastWorkOrderColorMixing;
-            $workOrderColorMixing->setCodeNumberToNext($currentWorkOrderColorMixing->getCodeNumber(), $year, $month);
-
             $workOrderColorMixing->setCreatedProductionDateTime($datetime);
             $workOrderColorMixing->setCreatedProductionUser($user);
         } else {
@@ -36,6 +32,14 @@ class WorkOrderColorMixingFormService
 
     public function finalize(WorkOrderColorMixing $workOrderColorMixing, array $options = []): void
     {
+        if ($workOrderColorMixing->getTransactionDate() !== null) {
+            $year = $workOrderColorMixing->getTransactionDate()->format('y');
+            $month = $workOrderColorMixing->getTransactionDate()->format('m');
+            $lastWorkOrderColorMixing = $this->workOrderColorMixingRepository->findRecentBy($year, $month);
+            $currentWorkOrderColorMixing = ($lastWorkOrderColorMixing === null) ? $workOrderColorMixing : $lastWorkOrderColorMixing;
+            $workOrderColorMixing->setCodeNumberToNext($currentWorkOrderColorMixing->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

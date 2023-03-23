@@ -23,13 +23,9 @@ class ExpenseHeaderFormService
 
     public function initialize(ExpenseHeader $expenseHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($expenseHeader->getId())) {
-            $lastExpenseHeader = $this->expenseHeaderRepository->findRecentBy($year, $month);
-            $currentExpenseHeader = ($lastExpenseHeader === null) ? $expenseHeader : $lastExpenseHeader;
-            $expenseHeader->setCodeNumberToNext($currentExpenseHeader->getCodeNumber(), $year, $month);
-
             $expenseHeader->setCreatedTransactionDateTime($datetime);
             $expenseHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class ExpenseHeaderFormService
 
     public function finalize(ExpenseHeader $expenseHeader, array $options = []): void
     {
+        if ($expenseHeader->getTransactionDate() !== null) {
+            $year = $expenseHeader->getTransactionDate()->format('y');
+            $month = $expenseHeader->getTransactionDate()->format('m');
+            $lastExpenseHeader = $this->expenseHeaderRepository->findRecentBy($year, $month);
+            $currentExpenseHeader = ($lastExpenseHeader === null) ? $expenseHeader : $lastExpenseHeader;
+            $expenseHeader->setCodeNumberToNext($currentExpenseHeader->getCodeNumber(), $year, $month);
+
+        }
         $expenseHeader->setTotalAmount($expenseHeader->getSyncTotalAmount());        
     }
 

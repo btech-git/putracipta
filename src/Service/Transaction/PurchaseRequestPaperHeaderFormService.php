@@ -23,13 +23,9 @@ class PurchaseRequestPaperHeaderFormService
 
     public function initialize(PurchaseRequestPaperHeader $purchaseRequestPaperHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($purchaseRequestPaperHeader->getId())) {
-            $lastPurchaseRequestPaperHeader = $this->purchaseRequestPaperHeaderRepository->findRecentBy($year, $month);
-            $currentPurchaseRequestPaperHeader = ($lastPurchaseRequestPaperHeader === null) ? $purchaseRequestPaperHeader : $lastPurchaseRequestPaperHeader;
-            $purchaseRequestPaperHeader->setCodeNumberToNext($currentPurchaseRequestPaperHeader->getCodeNumber(), $year, $month);
-
             $purchaseRequestPaperHeader->setCreatedTransactionDateTime($datetime);
             $purchaseRequestPaperHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class PurchaseRequestPaperHeaderFormService
 
     public function finalize(PurchaseRequestPaperHeader $purchaseRequestPaperHeader, array $options = []): void
     {
+        if ($purchaseRequestPaperHeader->getTransactionDate() !== null) {
+            $year = $purchaseRequestPaperHeader->getTransactionDate()->format('y');
+            $month = $purchaseRequestPaperHeader->getTransactionDate()->format('m');
+            $lastPurchaseRequestPaperHeader = $this->purchaseRequestPaperHeaderRepository->findRecentBy($year, $month);
+            $currentPurchaseRequestPaperHeader = ($lastPurchaseRequestPaperHeader === null) ? $purchaseRequestPaperHeader : $lastPurchaseRequestPaperHeader;
+            $purchaseRequestPaperHeader->setCodeNumberToNext($currentPurchaseRequestPaperHeader->getCodeNumber(), $year, $month);
+
+        }
         foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {
             $purchaseRequestPaperDetail->setIsCanceled($purchaseRequestPaperDetail->getSyncIsCanceled());
         }

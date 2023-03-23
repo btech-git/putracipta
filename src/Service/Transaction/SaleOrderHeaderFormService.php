@@ -23,13 +23,9 @@ class SaleOrderHeaderFormService
 
     public function initialize(SaleOrderHeader $saleOrderHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($saleOrderHeader->getId())) {
-            $lastSaleOrderHeader = $this->saleOrderHeaderRepository->findRecentBy($year, $month);
-            $currentSaleOrderHeader = ($lastSaleOrderHeader === null) ? $saleOrderHeader : $lastSaleOrderHeader;
-            $saleOrderHeader->setCodeNumberToNext($currentSaleOrderHeader->getCodeNumber(), $year, $month);
-
             $saleOrderHeader->setCreatedTransactionDateTime($datetime);
             $saleOrderHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class SaleOrderHeaderFormService
 
     public function finalize(SaleOrderHeader $saleOrderHeader, array $options = []): void
     {
+        if ($saleOrderHeader->getTransactionDate() !== null) {
+            $year = $saleOrderHeader->getTransactionDate()->format('y');
+            $month = $saleOrderHeader->getTransactionDate()->format('m');
+            $lastSaleOrderHeader = $this->saleOrderHeaderRepository->findRecentBy($year, $month);
+            $currentSaleOrderHeader = ($lastSaleOrderHeader === null) ? $saleOrderHeader : $lastSaleOrderHeader;
+            $saleOrderHeader->setCodeNumberToNext($currentSaleOrderHeader->getCodeNumber(), $year, $month);
+
+        }
         foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
         }

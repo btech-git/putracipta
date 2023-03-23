@@ -19,13 +19,9 @@ class MasterOrderFormService
 
     public function initialize(MasterOrder $masterOrder, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($masterOrder->getId())) {
-            $lastMasterOrder = $this->masterOrderRepository->findRecentBy($year, $month);
-            $currentMasterOrder = ($lastMasterOrder === null) ? $masterOrder : $lastMasterOrder;
-            $masterOrder->setCodeNumberToNext($currentMasterOrder->getCodeNumber(), $year, $month);
-
             $masterOrder->setCreatedProductionDateTime($datetime);
             $masterOrder->setCreatedProductionUser($user);
         } else {
@@ -36,6 +32,14 @@ class MasterOrderFormService
 
     public function finalize(MasterOrder $masterOrder, array $options = []): void
     {
+        if ($masterOrder->getTransactionDate() !== null) {
+            $year = $masterOrder->getTransactionDate()->format('y');
+            $month = $masterOrder->getTransactionDate()->format('m');
+            $lastMasterOrder = $this->masterOrderRepository->findRecentBy($year, $month);
+            $currentMasterOrder = ($lastMasterOrder === null) ? $masterOrder : $lastMasterOrder;
+            $masterOrder->setCodeNumberToNext($currentMasterOrder->getCodeNumber(), $year, $month);
+
+        }
         $saleOrderDetail = $masterOrder->getSaleOrderDetail();
         $saleOrderHeader = $saleOrderDetail === null ? null : $saleOrderDetail->getSaleOrderHeader();
         $masterOrder->setCustomer($saleOrderHeader === null ? null : $saleOrderHeader->getCustomer());

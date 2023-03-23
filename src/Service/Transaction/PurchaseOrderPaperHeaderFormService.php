@@ -23,13 +23,9 @@ class PurchaseOrderPaperHeaderFormService
 
     public function initialize(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($purchaseOrderPaperHeader->getId())) {
-            $lastPurchaseOrderPaperHeader = $this->purchaseOrderPaperHeaderRepository->findRecentBy($year, $month);
-            $currentPurchaseOrderPaperHeader = ($lastPurchaseOrderPaperHeader === null) ? $purchaseOrderPaperHeader : $lastPurchaseOrderPaperHeader;
-            $purchaseOrderPaperHeader->setCodeNumberToNext($currentPurchaseOrderPaperHeader->getCodeNumber(), $year, $month);
-
             $purchaseOrderPaperHeader->setCreatedTransactionDateTime($datetime);
             $purchaseOrderPaperHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class PurchaseOrderPaperHeaderFormService
 
     public function finalize(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
+        if ($purchaseOrderPaperHeader->getTransactionDate() !== null) {
+            $year = $purchaseOrderPaperHeader->getTransactionDate()->format('y');
+            $month = $purchaseOrderPaperHeader->getTransactionDate()->format('m');
+            $lastPurchaseOrderPaperHeader = $this->purchaseOrderPaperHeaderRepository->findRecentBy($year, $month);
+            $currentPurchaseOrderPaperHeader = ($lastPurchaseOrderPaperHeader === null) ? $purchaseOrderPaperHeader : $lastPurchaseOrderPaperHeader;
+            $purchaseOrderPaperHeader->setCodeNumberToNext($currentPurchaseOrderPaperHeader->getCodeNumber(), $year, $month);
+
+        }
         if ($purchaseOrderPaperHeader->getTaxMode() !== $purchaseOrderPaperHeader::TAX_MODE_NON_TAX) {
             $purchaseOrderPaperHeader->setTaxPercentage($options['vatPercentage']);
         } else {
