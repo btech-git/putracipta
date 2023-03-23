@@ -37,6 +37,7 @@ class PurchasePaymentHeader extends TransactionHeader
     private Collection $purchasePaymentDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $totalAmount = '0.00';
 
     #[ORM\Column(length: 60)]

@@ -54,9 +54,11 @@ class DeliveryHeader extends TransactionHeader
     #[ORM\Column]
     private ?bool $isUsingFscPaper = false;
 
+    #[ORM\Column(length: 100)]
+    private ?string $saleOrderReferenceNumbers = '';
+
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank]
-    private ?string $deliveryAddress = '';
+    private ?string $addressDelivery = '';
 
     public function __construct()
     {
@@ -208,14 +210,26 @@ class DeliveryHeader extends TransactionHeader
         return $this;
     }
 
-    public function getDeliveryAddress(): ?string
+    public function getSaleOrderReferenceNumbers(): ?string
     {
-        return $this->deliveryAddress;
+        return $this->saleOrderReferenceNumbers;
     }
 
-    public function setDeliveryAddress(string $deliveryAddress): self
+    public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
     {
-        $this->deliveryAddress = $deliveryAddress;
+        $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
+
+        return $this;
+    }
+
+    public function getAddressDelivery(): ?string
+    {
+        return $this->addressDelivery;
+    }
+
+    public function setAddressDelivery(string $addressDelivery): self
+    {
+        $this->addressDelivery = $addressDelivery;
 
         return $this;
     }

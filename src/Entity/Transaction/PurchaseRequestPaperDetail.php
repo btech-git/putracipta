@@ -33,15 +33,12 @@ class PurchaseRequestPaperDetail extends TransactionDetail
     private ?string $memo = '';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Paper $paper = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestPaperDetails')]
-    #[Assert\NotNull]
     private ?PurchaseRequestPaperHeader $purchaseRequestPaperHeader = null;
 
     #[ORM\OneToOne(mappedBy: 'purchaseRequestPaperDetail', cascade: ['persist', 'remove'])]

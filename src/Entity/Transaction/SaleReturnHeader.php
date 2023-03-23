@@ -31,21 +31,27 @@ class SaleReturnHeader extends TransactionHeader
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $taxPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
     private ?Customer $customer = null;
 
     #[ORM\OneToMany(mappedBy: 'saleReturnHeader', targetEntity: SaleReturnDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $saleReturnDetails;
 
     #[ORM\OneToOne(inversedBy: 'saleReturnHeader', cascade: ['persist', 'remove'])]
@@ -53,6 +59,10 @@ class SaleReturnHeader extends TransactionHeader
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
+
+    #[ORM\Column(length: 100)]
+    #[Assert\NotNull]
+    private ?string $saleOrderReferenceNumbers = '';
 
     public function __construct()
     {
@@ -214,6 +224,18 @@ class SaleReturnHeader extends TransactionHeader
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
+
+        return $this;
+    }
+
+    public function getSaleOrderReferenceNumbers(): ?string
+    {
+        return $this->saleOrderReferenceNumbers;
+    }
+
+    public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
+    {
+        $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
 
         return $this;
     }

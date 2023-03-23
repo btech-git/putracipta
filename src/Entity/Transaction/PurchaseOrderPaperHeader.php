@@ -49,18 +49,23 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $taxPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $grandTotal = '0.00';
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalRemainingReceive = 0;
 
     #[ORM\Column(length: 60)]
@@ -74,7 +79,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private ?\DateTimeInterface $rejectedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne]
@@ -98,6 +102,7 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     private Collection $masterOrders;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?bool $isOnHold = false;
 
     public function __construct()

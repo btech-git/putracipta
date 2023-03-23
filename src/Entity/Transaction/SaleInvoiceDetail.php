@@ -20,21 +20,15 @@ class SaleInvoiceDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleInvoiceDetails')]
@@ -43,6 +37,10 @@ class SaleInvoiceDetail extends TransactionDetail
 
     #[ORM\OneToOne(inversedBy: 'saleInvoiceDetail', cascade: ['persist', 'remove'])]
     private ?DeliveryDetail $deliveryDetail = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $return_amount = '0.00';
 
     public function getSyncIsCanceled(): bool
     {
@@ -128,6 +126,18 @@ class SaleInvoiceDetail extends TransactionDetail
     public function setDeliveryDetail(?DeliveryDetail $deliveryDetail): self
     {
         $this->deliveryDetail = $deliveryDetail;
+
+        return $this;
+    }
+
+    public function getReturnAmount(): ?string
+    {
+        return $this->return_amount;
+    }
+
+    public function setReturnAmount(string $return_amount): self
+    {
+        $this->return_amount = $return_amount;
 
         return $this;
     }

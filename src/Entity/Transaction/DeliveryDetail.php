@@ -28,6 +28,7 @@ class DeliveryDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $orderedQuantity = 0;
 
     #[ORM\Column]
@@ -68,7 +69,8 @@ class DeliveryDetail extends TransactionDetail
     private ?SaleInvoiceDetail $saleInvoiceDetail = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $linePO = null;
+    #[Assert\NotNull]
+    private ?string $linePO = '';
 
     public function __construct()
     {
@@ -89,6 +91,17 @@ class DeliveryDetail extends TransactionDetail
     {
         $isCanceled = $this->deliveryHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
+    }
+
+    public function getSyncTotalReturn(): int
+    {
+        $total = 0;
+        foreach ($this->saleReturnDetails as $saleReturnDetail) {
+            if (!$saleReturnDetail->isIsCanceled()) {
+                $total += $saleReturnDetail->getTotal();
+            }
+        }
+        return $total;
     }
 
     public function getId(): ?int

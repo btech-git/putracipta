@@ -47,12 +47,15 @@ class PurchaseOrderDetail extends TransactionDetail
     private ?Unit $unit = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalReceive = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalReturn = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $remainingReceive = 0;
 
     #[ORM\OneToOne(inversedBy: 'purchaseOrderDetail', cascade: ['persist', 'remove'])]
@@ -62,10 +65,12 @@ class PurchaseOrderDetail extends TransactionDetail
     private ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $unitPriceBeforeTax = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $total = null;
+    #[Assert\NotNull]
+    private ?string $total = '0.00';
 
     public function __construct()
     {

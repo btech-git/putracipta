@@ -28,6 +28,7 @@ class PurchaseRequestHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
@@ -52,6 +53,7 @@ class PurchaseRequestHeader extends TransactionHeader
     private ?User $rejectedTransactionUser = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     public function __construct()

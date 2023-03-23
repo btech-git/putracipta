@@ -47,36 +47,39 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     private ?string $unitPrice = '0.00';
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalReceive = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalReturn = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $remainingReceive = 0;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
-    #[Assert\NotNull]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperDetail', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $length = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $width = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotNull]
     private ?string $weight = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Paper $paper = null;
 
     #[ORM\OneToOne(inversedBy: 'purchaseOrderPaperDetail', cascade: ['persist', 'remove'])]
@@ -87,10 +90,12 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     private ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $unitPriceBeforeTax = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $total = null;
+    #[Assert\NotNull]
+    private ?string $total = '0.00';
 
     public function __construct()
     {

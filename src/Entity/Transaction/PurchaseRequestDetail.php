@@ -25,19 +25,15 @@ class PurchaseRequestDetail extends TransactionDetail
     private ?int $quantity = 0;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestDetails')]
-    #[Assert\NotNull]
     private ?PurchaseRequestHeader $purchaseRequestHeader = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull]
     private ?\DateTimeInterface $usageDate = null;
 
     #[ORM\Column(length: 100)]

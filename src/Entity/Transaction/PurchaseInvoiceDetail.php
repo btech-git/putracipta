@@ -21,9 +21,11 @@ class PurchaseInvoiceDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]

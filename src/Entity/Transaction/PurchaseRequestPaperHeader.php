@@ -52,6 +52,7 @@ class PurchaseRequestPaperHeader extends TransactionHeader
     private ?User $rejectedTransactionUser = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotNull]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     public function __construct()

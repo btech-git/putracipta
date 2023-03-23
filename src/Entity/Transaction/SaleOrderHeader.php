@@ -55,31 +55,39 @@ class SaleOrderHeader extends TransactionHeader
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $taxPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $saleOrderDetails;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalRemainingDelivery = 0;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotNull]
     private ?string $transactionFileExtension = '';
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
@@ -90,6 +98,9 @@ class SaleOrderHeader extends TransactionHeader
 
     #[ORM\Column]
     private ?bool $isOnHold = false;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery = '';
 
     public function __construct()
     {
@@ -379,6 +390,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setIsOnHold(bool $isOnHold): self
     {
         $this->isOnHold = $isOnHold;
+
+        return $this;
+    }
+
+    public function getAddressDelivery(): ?string
+    {
+        return $this->addressDelivery;
+    }
+
+    public function setAddressDelivery(string $addressDelivery): self
+    {
+        $this->addressDelivery = $addressDelivery;
 
         return $this;
     }
