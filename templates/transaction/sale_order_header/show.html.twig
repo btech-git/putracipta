@@ -154,11 +154,13 @@
             {% endfor %}
         </tbody>
     </table>
-                
-    {% if saleOrderHeader.isOnHold == false %}
-        <div class="d-inline-block">{{ include('transaction/sale_order_header/_hold_form.html.twig') }}</div>
-    {% else %}
-        <div class="d-inline-block">{{ include('transaction/sale_order_header/_release_form.html.twig') }}</div>
+        
+    {% if saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', saleOrderHeader) or saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', saleOrderHeader) %}
+        {% if saleOrderHeader.isOnHold == false %}
+            <div class="d-inline-block">{{ include('transaction/sale_order_header/_hold_form.html.twig') }}</div>
+        {% else %}
+            <div class="d-inline-block">{{ include('transaction/sale_order_header/_release_form.html.twig') }}</div>
+        {% endif %}
     {% endif %}
     
     <div class="text-center">

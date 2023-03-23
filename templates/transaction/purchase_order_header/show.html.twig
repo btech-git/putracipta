@@ -3,7 +3,9 @@
 {% block title 'Show Purchase Order Material' %}
 
 {% block toolbar %}
-    <div class="d-inline-block">{{ include('transaction/purchase_order_header/_complete_form.html.twig') }}</div>
+    {% if purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderHeader) %}
+        <div class="d-inline-block">{{ include('transaction/purchase_order_header/_complete_form.html.twig') }}</div>
+    {% endif %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
     <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_new') }}">Add</a>
@@ -150,10 +152,12 @@
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_approve_form.html.twig') }}</div>
     {% endif %}
     
-    {% if purchaseOrderHeader.isOnHold == false %}
-        <div class="d-inline-block">{{ include('transaction/purchase_order_header/_hold_form.html.twig') }}</div>
-    {% else %}
-        <div class="d-inline-block">{{ include('transaction/purchase_order_header/_release_form.html.twig') }}</div>
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
+        {% if purchaseOrderHeader.isOnHold == false %}
+            <div class="d-inline-block">{{ include('transaction/purchase_order_header/_hold_form.html.twig') }}</div>
+        {% else %}
+            <div class="d-inline-block">{{ include('transaction/purchase_order_header/_release_form.html.twig') }}</div>
+        {% endif %}
     {% endif %}
     
     <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
