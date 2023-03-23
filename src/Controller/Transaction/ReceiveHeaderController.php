@@ -62,7 +62,7 @@ class ReceiveHeaderController extends AbstractController
     public function new(Request $request, ReceiveHeaderFormService $receiveHeaderFormService, $_format = 'html'): Response
     {
         $receiveHeader = new ReceiveHeader();
-        $receiveHeaderFormService->initialize($receiveHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $receiveHeaderFormService->initialize($receiveHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ReceiveHeaderType::class, $receiveHeader);
         $form->handleRequest($request);
         $receiveHeaderFormService->finalize($receiveHeader);
@@ -92,7 +92,7 @@ class ReceiveHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderFormService $receiveHeaderFormService, $_format = 'html'): Response
     {
-        $receiveHeaderFormService->initialize($receiveHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $receiveHeaderFormService->initialize($receiveHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ReceiveHeaderType::class, $receiveHeader);
         $form->handleRequest($request);
         $receiveHeaderFormService->finalize($receiveHeader);
