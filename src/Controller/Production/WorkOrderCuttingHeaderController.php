@@ -46,9 +46,10 @@ class WorkOrderCuttingHeaderController extends AbstractController
     public function new(Request $request, WorkOrderCuttingHeaderFormService $workOrderCuttingHeaderFormService, $_format = 'html'): Response
     {
         $workOrderCuttingHeader = new WorkOrderCuttingHeader();
-        $workOrderCuttingHeaderFormService->initialize($workOrderCuttingHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderCuttingHeaderFormService->initialize($workOrderCuttingHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderCuttingHeaderType::class, $workOrderCuttingHeader);
         $form->handleRequest($request);
+        $workOrderCuttingHeaderFormService->finalize($workOrderCuttingHeader);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderCuttingHeaderFormService->save($workOrderCuttingHeader);
@@ -75,9 +76,10 @@ class WorkOrderCuttingHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, WorkOrderCuttingHeader $workOrderCuttingHeader, WorkOrderCuttingHeaderFormService $workOrderCuttingHeaderFormService, $_format = 'html'): Response
     {
-        $workOrderCuttingHeaderFormService->initialize($workOrderCuttingHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderCuttingHeaderFormService->initialize($workOrderCuttingHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderCuttingHeaderType::class, $workOrderCuttingHeader);
         $form->handleRequest($request);
+        $workOrderCuttingHeaderFormService->finalize($workOrderCuttingHeader);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderCuttingHeaderFormService->save($workOrderCuttingHeader);
