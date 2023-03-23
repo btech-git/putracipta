@@ -51,7 +51,7 @@ class MaterialRequestHeaderController extends AbstractController
     public function new(Request $request, MaterialRequestHeaderFormService $materialRequestHeaderFormService, $_format = 'html'): Response
     {
         $materialRequestHeader = new MaterialRequestHeader();
-        $materialRequestHeaderFormService->initialize($materialRequestHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $materialRequestHeaderFormService->initialize($materialRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialRequestHeaderType::class, $materialRequestHeader);
         $form->handleRequest($request);
         $materialRequestHeaderFormService->finalize($materialRequestHeader);
@@ -81,7 +81,7 @@ class MaterialRequestHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, MaterialRequestHeader $materialRequestHeader, MaterialRequestHeaderFormService $materialRequestHeaderFormService, $_format = 'html'): Response
     {
-        $materialRequestHeaderFormService->initialize($materialRequestHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $materialRequestHeaderFormService->initialize($materialRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialRequestHeaderType::class, $materialRequestHeader);
         $form->handleRequest($request);
         $materialRequestHeaderFormService->finalize($materialRequestHeader);

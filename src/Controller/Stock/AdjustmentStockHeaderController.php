@@ -57,7 +57,7 @@ class AdjustmentStockHeaderController extends AbstractController
     public function new(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
@@ -87,7 +87,7 @@ class AdjustmentStockHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
