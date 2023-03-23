@@ -3,6 +3,7 @@
 {% block title 'Show Purchase Order Kertas' %}
 
 {% block toolbar %}
+    <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_complete_form.html.twig') }}</div>
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}">Edit</a>
     <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_paper_header_new') }}">Add</a>

@@ -21,7 +21,6 @@
                         data-property-path="dueDate" />
                     </div>
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
-                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -53,6 +52,7 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
                                ]|json_encode }}" />
                     </div>
+                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element'}}) }}
                 </div>
             </div>
             <div class="row">

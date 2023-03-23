@@ -1,8 +1,9 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Purchase Order' %}
+{% block title 'Show Purchase Order Material' %}
 
 {% block toolbar %}
+    <div class="d-inline-block">{{ include('transaction/purchase_order_header/_complete_form.html.twig') }}</div>
     <a class="btn btn-primary btn-sm" href="{{ path('app_transaction_purchase_order_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
     <a class="btn btn-success btn-sm" href="{{ path('app_transaction_purchase_order_header_new') }}">Add</a>

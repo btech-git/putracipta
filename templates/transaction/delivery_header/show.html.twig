@@ -24,6 +24,10 @@
                 <td>{{ deliveryHeader.customer.company|default}}</td>
             </tr>
             <tr>
+                <th>Alamat Kirim</th>
+                <td>{{ deliveryHeader.addressDelivery|default}}</td>
+            </tr>
+            <tr>
                 <th>Using FSC Paper?</th>
                 <td>{{ deliveryHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>

@@ -17,6 +17,9 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'saleOrderReferenceNumbers') }}>
+                    PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumbers.vars.value) }}
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
@@ -45,6 +48,9 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
+                </th>
+                <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>
                         <option value="" {% if form.filter.warehouse.1.vars.value == '' %}selected="selected"{% endif %}></option>
                         {% for choice in form.filter.warehouse.1.vars.choices %}
@@ -64,6 +70,7 @@
                     <td>{{ deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ deliveryHeader.customer.company|default }}</td>
+                    <td>{{ deliveryHeader.saleOrderReferenceNumbers }}</td>
                     <td>{{ deliveryHeader.warehouse.name|default }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                     <td>

@@ -60,10 +60,10 @@
                                     {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery3}">${$event.detail.addressDelivery3}</option>`'}, 'condition': '$event.detail.addressDelivery3 !== ""'},
                                     {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery4}">${$event.detail.addressDelivery4}</option>`'}, 'condition': '$event.detail.addressDelivery4 !== ""'},
                                     {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery5}">${$event.detail.addressDelivery5}</option>`'}, 'condition': '$event.detail.addressDelivery5 !== ""'},
-                                    {'eventTypes': ['change'], 'destinationsTarget': '#' ~ form.deliveryAddress.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value'}},
+                                    {'eventTypes': ['change'], 'destinationsTarget': '#' ~ form.addressDelivery.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value'}},
                                 ]|json_encode }}">
                         </select>
-                        {{ form_row(form.deliveryAddress, {'label': false, 'attr': {'class': 'd-none'}}) }}
+                        {{ form_row(form.addressDelivery, {'label': false, 'attr': {'class': 'd-none'}}) }}
                     </div>
                     {{ form_row(form.employee, {'label': 'Sopir'}) }}
                 </div>
