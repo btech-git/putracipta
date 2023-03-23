@@ -25,13 +25,14 @@ class SalePaymentHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
@@ -40,6 +41,7 @@ class SalePaymentHeaderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                    'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -52,17 +54,19 @@ class SalePaymentHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'customer:company', 'note', 'id'],
+                'field_names' => ['transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

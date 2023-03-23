@@ -27,13 +27,14 @@ class DeliveryHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'customer:company', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
                     'warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
@@ -44,6 +45,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                    'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -58,12 +60,13 @@ class DeliveryHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'customer:company', 'note', 'id'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                     'warehouse:name' => 'Gudang',
+                    'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
@@ -71,6 +74,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
