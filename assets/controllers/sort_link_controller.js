@@ -13,11 +13,11 @@ export default class extends Controller {
     post(event) {
         const valueIndex = event.params.valueList.indexOf(event.currentTarget.dataset.sortOrder);
         const panel = document.querySelector(this.panelTargetValue);
-        const fieldName = event.params.fieldName;
+        const fieldList = event.params.fieldList;
         const valueList = event.params.valueList;
         const nextIndex = (valueIndex + 1) % valueList.length;
         const values = [valueList[nextIndex]];
         event.currentTarget.dataset.sortOrder = valueList[nextIndex];
-        this.dispatch('sync', {prefix: 'sort-panel', target: panel, detail: {[fieldName]: values}});
+        this.dispatch('sync', {prefix: 'sort-panel', target: panel, detail: {fieldList, values}});
     }
 };

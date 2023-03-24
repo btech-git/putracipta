@@ -13,7 +13,7 @@ export default class extends Controller {
     post(event) {
         const currentValue = event.currentTarget.value;
         const panel = document.querySelector(this.panelTargetValue);
-        const fieldName = event.params.fieldName;
+        const fieldList = event.params.fieldList;
         const valuesMap = event.params.valuesMap;
         const specialValuesMap = event.params.specialValuesMap;
         let values = [];
@@ -23,6 +23,6 @@ export default class extends Controller {
             values = valuesMap;
         }
         values = values.map(value => value === true ? currentValue : (value === false ? null : value));
-        this.dispatch('sync', {prefix: 'filter-panel', target: panel, detail: {[fieldName]: values}});
+        this.dispatch('sync', {prefix: 'filter-panel', target: panel, detail: {fieldList, values}});
     }
 };

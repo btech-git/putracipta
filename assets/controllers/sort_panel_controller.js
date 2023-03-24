@@ -24,9 +24,9 @@ export default class extends Controller {
     }
 
     sync(event) {
-        Object.entries(event.detail).forEach(([field, values]) => {
-            for (let i = 0; i < values.length; i++) {
-                this.fieldRef[field][i].value = values[i];
+        event.detail.fieldList.forEach(field => {
+            for (let i = 0; i < event.detail.values.length; i++) {
+                this.fieldRef[field][i].value = event.detail.values[i];
             }
         });
         const form = document.querySelector(this.formTargetValue);

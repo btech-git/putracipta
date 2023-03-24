@@ -14,20 +14,22 @@
     data-controller="sort-link" data-sort-link-panel-target-value="#{{ form.sort.vars.id }}"
 {% endmacro %}
 
-{% macro filter_link_item(form, field, values_map = null, special_values_map = null) %}
-    {%- set filter_values_map = values_map == null ? [form.filter[field].0.vars.choices.0.value, true] : values_map -%}
+{% macro filter_link_item(form, fields, values_map = null, special_values_map = null) %}
+    {%- set field_list = fields is iterable ? fields : [fields] -%}
+    {%- set filter_values_map = values_map == null ? [form.filter[field_list[0]].0.vars.choices.0.value, true] : values_map -%}
     {%- set filter_special_values_map = special_values_map == null ? {'': ['']} : special_values_map -%}
     data-action="change->filter-link#post"
-    data-filter-link-field-name-param="{{ field }}"
+    data-filter-link-field-list-param="{{ field_list|json_encode }}"
     data-filter-link-values-map-param="{{ filter_values_map|json_encode }}"
     data-filter-link-special-values-map-param="{{ filter_special_values_map|json_encode }}"
 {% endmacro %}
 
-{% macro sort_link_item(form, field, value_list = null) %}
-    {%- set sort_value_list = value_list == null ? form.sort[field].vars.choices|map(choice => choice.value) : value_list -%}
+{% macro sort_link_item(form, fields, value_list = null) %}
+    {%- set field_list = fields is iterable ? fields : [fields] -%}
+    {%- set sort_value_list = value_list == null ? form.sort[field_list[0]].vars.choices|map(choice => choice.value) : value_list -%}
     data-action="click->sort-link#reset click->sort-link#post"
-    data-sort-order="{{ form.sort[field].vars.value|default }}"
-    data-sort-link-field-name-param="{{ field }}"
+    data-sort-order="{{ form.sort[field_list[0]].vars.value|default }}"
+    data-sort-link-field-list-param="{{ field_list|json_encode }}"
     data-sort-link-value-list-param="{{ sort_value_list|json_encode }}"
 {% endmacro %}
 
