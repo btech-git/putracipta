@@ -9,7 +9,7 @@ label.form-label, legend.col-form-label {
     text-transform: capitalize;
 }
 
-[readonly], [readonly]:focus {
+[readonly]:not(.readonly-form-input), [readonly]:not(.readonly-form-input):focus {
     background-color: #CFD8DC;
 }
 
