@@ -12,10 +12,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
-use App\Entity\TransactionHeader;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,22 +39,13 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                     'transactionStatus' => [FilterContain::class, FilterNotContain::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
                 ],
-                'field_value_type_list' => [
-                    'codeNumberOrdinal' => IntegerType::class,
-                    'codeNumberMonth' => ChoiceType::class,
-                    'codeNumberYear' => IntegerType::class,
-                ],
                 'field_value_options_list' => [
-                    'codeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
                 'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'supplierInvoiceCodeNumber' => 'Supplier Invoice #',
                     'supplier:company' => 'Supplier',

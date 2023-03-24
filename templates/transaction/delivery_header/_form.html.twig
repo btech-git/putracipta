@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
                     {{ form_row(form.transportation, {'label': 'Kendaraan'}) }}
                 </div>
@@ -26,7 +26,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ deliveryHeader.customer.company|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control readonly-form-input {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ deliveryHeader.customer.company|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#customer-dialog"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"

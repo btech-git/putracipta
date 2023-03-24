@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                 </div>
                 <div class="col">
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}

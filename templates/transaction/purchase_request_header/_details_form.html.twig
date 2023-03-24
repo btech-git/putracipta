@@ -28,7 +28,7 @@
                             'data-item-field-name': 'unitId',
                         }}) }}
                     </td>
-                    <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'size': 3}}) }}</td>
+                    <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'size': 3}}) }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}

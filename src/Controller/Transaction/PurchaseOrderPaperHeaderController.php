@@ -28,7 +28,6 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         $criteria = new DataCriteria();
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
-            'id' => SortDescending::class,
         ]);
         $form = $this->createForm(PurchaseOrderPaperHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);

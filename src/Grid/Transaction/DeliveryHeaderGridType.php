@@ -60,16 +60,20 @@ class DeliveryHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'id'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
-                    'id' => 'Code Number',
+                    'codeNumberOrdinal' => '',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                     'warehouse:name' => 'Gudang',
                     'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
-                    'id' => [SortAscending::class, SortDescending::class],
+                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],

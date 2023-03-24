@@ -28,7 +28,6 @@ class SaleInvoiceHeaderController extends AbstractController
         $criteria = new DataCriteria();
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
-            'id' => SortDescending::class,
         ]);
         $form = $this->createForm(SaleInvoiceHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);

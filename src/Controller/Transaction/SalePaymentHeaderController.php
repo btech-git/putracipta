@@ -25,7 +25,6 @@ class SalePaymentHeaderController extends AbstractController
         $criteria = new DataCriteria();
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
-            'id' => SortDescending::class,
         ]);
         $form = $this->createForm(SalePaymentHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);

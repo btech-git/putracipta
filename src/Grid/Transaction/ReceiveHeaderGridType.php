@@ -70,10 +70,14 @@ class ReceiveHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'purchaseOrderId', 'id'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'purchaseOrderCodeNumberYear', 'purchaseOrderCodeNumberMonth', 'purchaseOrderCodeNumberOrdinal', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
-                    'id' => 'Code Number',
-                    'purchaseOrderId' => 'PO Code Number',
+                    'codeNumberOrdinal' => '',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => 'Code Number',
+                    'purchaseOrderCodeNumberOrdinal' => '',
+                    'purchaseOrderCodeNumberMonth' => '',
+                    'purchaseOrderCodeNumberYear' => 'PO Code Number',
                     'transactionDate' => 'Tanggal',
                     'supplierDeliveryCodeNumber' => 'SJ Supplier #',
                     'supplier:company' => 'Supplier',
@@ -81,8 +85,12 @@ class ReceiveHeaderGridType extends AbstractType
                 ],
                 'field_operators_list' => [
                     'supplierDeliveryCodeNumber' => [SortAscending::class, SortDescending::class],
-                    'id' => [SortAscending::class, SortDescending::class],
-                    'purchaseOrderId' => [SortAscending::class, SortDescending::class],
+                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderCodeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderCodeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderCodeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],

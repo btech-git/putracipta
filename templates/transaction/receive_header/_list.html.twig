@@ -8,14 +8,14 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
-                    Penerimaan # {{ grid.sort_char(form.sort.id.vars.value) }}
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear']) }}>
+                    Penerimaan # {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'purchaseOrderId') }}>
-                    PO # {{ grid.sort_char(form.sort.purchaseOrderId.vars.value) }}
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, ['purchaseOrderCodeNumberOrdinal', 'purchaseOrderCodeNumberMonth', 'purchaseOrderCodeNumberYear']) }}>
+                    PO # {{ grid.sort_char(form.sort.purchaseOrderCodeNumberOrdinal.vars.value) }}
                 </th>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
