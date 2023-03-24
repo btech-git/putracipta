@@ -17,6 +17,9 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'saleOrderReferenceNumbers') }}>
+                    PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumbers.vars.value) }}
+                </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -42,6 +45,9 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th></th>
@@ -53,6 +59,7 @@
                     <td>{{ saleReturnHeader.codeNumber }}</td>
                     <td>{{ saleReturnHeader.transactionDate ? saleReturnHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ saleReturnHeader.customer.company|default }}</td>
+                    <td>{{ saleReturnHeader.saleOrderReferenceNumbers }}</td>
                     <td>{{ saleReturnHeader.note }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_transaction_sale_return_header_show', {'id': saleReturnHeader.id}) }}"><i class="bi-search"></i></a>

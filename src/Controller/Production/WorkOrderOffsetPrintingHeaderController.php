@@ -46,9 +46,10 @@ class WorkOrderOffsetPrintingHeaderController extends AbstractController
     public function new(Request $request, WorkOrderOffsetPrintingHeaderFormService $workOrderOffsetPrintingHeaderFormService, $_format = 'html'): Response
     {
         $workOrderOffsetPrintingHeader = new WorkOrderOffsetPrintingHeader();
-        $workOrderOffsetPrintingHeaderFormService->initialize($workOrderOffsetPrintingHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderOffsetPrintingHeaderFormService->initialize($workOrderOffsetPrintingHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderOffsetPrintingHeaderType::class, $workOrderOffsetPrintingHeader);
         $form->handleRequest($request);
+        $workOrderOffsetPrintingHeaderFormService->finalize($workOrderOffsetPrintingHeader);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderOffsetPrintingHeaderFormService->save($workOrderOffsetPrintingHeader);
@@ -75,9 +76,10 @@ class WorkOrderOffsetPrintingHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader, WorkOrderOffsetPrintingHeaderFormService $workOrderOffsetPrintingHeaderFormService, $_format = 'html'): Response
     {
-        $workOrderOffsetPrintingHeaderFormService->initialize($workOrderOffsetPrintingHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderOffsetPrintingHeaderFormService->initialize($workOrderOffsetPrintingHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderOffsetPrintingHeaderType::class, $workOrderOffsetPrintingHeader);
         $form->handleRequest($request);
+        $workOrderOffsetPrintingHeaderFormService->finalize($workOrderOffsetPrintingHeader);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderOffsetPrintingHeaderFormService->save($workOrderOffsetPrintingHeader);

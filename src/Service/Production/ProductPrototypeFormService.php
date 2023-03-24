@@ -19,13 +19,9 @@ class ProductPrototypeFormService
 
     public function initialize(ProductPrototype $productPrototype, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($productPrototype->getId())) {
-            $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year, $month);
-            $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
-            $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
-
             $productPrototype->setCreatedProductionDateTime($datetime);
             $productPrototype->setCreatedProductionUser($user);
         } else {
@@ -36,6 +32,14 @@ class ProductPrototypeFormService
 
     public function finalize(ProductPrototype $productPrototype, array $options = []): void
     {
+        if ($productPrototype->getTransactionDate() !== null) {
+            $year = $productPrototype->getTransactionDate()->format('y');
+            $month = $productPrototype->getTransactionDate()->format('m');
+            $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year, $month);
+            $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
+            $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

@@ -51,7 +51,7 @@ class MaterialReleaseHeaderController extends AbstractController
     public function new(Request $request, MaterialReleaseHeaderFormService $materialReleaseHeaderFormService, $_format = 'html'): Response
     {
         $materialReleaseHeader = new MaterialReleaseHeader();
-        $materialReleaseHeaderFormService->initialize($materialReleaseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $materialReleaseHeaderFormService->initialize($materialReleaseHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialReleaseHeaderType::class, $materialReleaseHeader);
         $form->handleRequest($request);
         $materialReleaseHeaderFormService->finalize($materialReleaseHeader);
@@ -81,7 +81,7 @@ class MaterialReleaseHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, MaterialReleaseHeader $materialReleaseHeader, MaterialReleaseHeaderFormService $materialReleaseHeaderFormService, $_format = 'html'): Response
     {
-        $materialReleaseHeaderFormService->initialize($materialReleaseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $materialReleaseHeaderFormService->initialize($materialReleaseHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MaterialReleaseHeaderType::class, $materialReleaseHeader);
         $form->handleRequest($request);
         $materialReleaseHeaderFormService->finalize($materialReleaseHeader);

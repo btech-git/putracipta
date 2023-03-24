@@ -88,7 +88,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     public function new(Request $request, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseInvoiceHeader = new PurchaseInvoiceHeader();
-        $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseInvoiceHeaderType::class, $purchaseInvoiceHeader);
         $form->handleRequest($request);
         $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -118,7 +118,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
-        $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseInvoiceHeaderType::class, $purchaseInvoiceHeader);
         $form->handleRequest($request);
         $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);

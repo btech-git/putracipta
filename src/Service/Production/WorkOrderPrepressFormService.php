@@ -19,13 +19,9 @@ class WorkOrderPrepressFormService
 
     public function initialize(WorkOrderPrepress $workOrderPrepress, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderPrepress->getId())) {
-            $lastWorkOrderPrepress = $this->workOrderPrepressRepository->findRecentBy($year, $month);
-            $currentWorkOrderPrepress = ($lastWorkOrderPrepress === null) ? $workOrderPrepress : $lastWorkOrderPrepress;
-            $workOrderPrepress->setCodeNumberToNext($currentWorkOrderPrepress->getCodeNumber(), $year, $month);
-
             $workOrderPrepress->setCreatedProductionDateTime($datetime);
             $workOrderPrepress->setCreatedProductionUser($user);
         } else {
@@ -36,6 +32,14 @@ class WorkOrderPrepressFormService
 
     public function finalize(WorkOrderPrepress $workOrderPrepress, array $options = []): void
     {
+        if ($workOrderPrepress->getTransactionDate() !== null) {
+            $year = $workOrderPrepress->getTransactionDate()->format('y');
+            $month = $workOrderPrepress->getTransactionDate()->format('m');
+            $lastWorkOrderPrepress = $this->workOrderPrepressRepository->findRecentBy($year, $month);
+            $currentWorkOrderPrepress = ($lastWorkOrderPrepress === null) ? $workOrderPrepress : $lastWorkOrderPrepress;
+            $workOrderPrepress->setCodeNumberToNext($currentWorkOrderPrepress->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

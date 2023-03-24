@@ -46,9 +46,10 @@ class WorkOrderColorMixingController extends AbstractController
     public function new(Request $request, WorkOrderColorMixingFormService $workOrderColorMixingFormService, $_format = 'html'): Response
     {
         $workOrderColorMixing = new WorkOrderColorMixing();
-        $workOrderColorMixingFormService->initialize($workOrderColorMixing, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderColorMixingFormService->initialize($workOrderColorMixing, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderColorMixingType::class, $workOrderColorMixing);
         $form->handleRequest($request);
+        $workOrderColorMixingFormService->finalize($workOrderColorMixing);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderColorMixingFormService->save($workOrderColorMixing);
@@ -75,9 +76,10 @@ class WorkOrderColorMixingController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, WorkOrderColorMixing $workOrderColorMixing, WorkOrderColorMixingFormService $workOrderColorMixingFormService, $_format = 'html'): Response
     {
-        $workOrderColorMixingFormService->initialize($workOrderColorMixing, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderColorMixingFormService->initialize($workOrderColorMixing, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderColorMixingType::class, $workOrderColorMixing);
         $form->handleRequest($request);
+        $workOrderColorMixingFormService->finalize($workOrderColorMixing);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderColorMixingFormService->save($workOrderColorMixing);

@@ -23,13 +23,9 @@ class DepositHeaderFormService
 
     public function initialize(DepositHeader $depositHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($depositHeader->getId())) {
-            $lastDepositHeader = $this->depositHeaderRepository->findRecentBy($year, $month);
-            $currentDepositHeader = ($lastDepositHeader === null) ? $depositHeader : $lastDepositHeader;
-            $depositHeader->setCodeNumberToNext($currentDepositHeader->getCodeNumber(), $year, $month);
-
             $depositHeader->setCreatedTransactionDateTime($datetime);
             $depositHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class DepositHeaderFormService
 
     public function finalize(DepositHeader $depositHeader, array $options = []): void
     {
+        if ($depositHeader->getTransactionDate() !== null) {
+            $year = $depositHeader->getTransactionDate()->format('y');
+            $month = $depositHeader->getTransactionDate()->format('m');
+            $lastDepositHeader = $this->depositHeaderRepository->findRecentBy($year, $month);
+            $currentDepositHeader = ($lastDepositHeader === null) ? $depositHeader : $lastDepositHeader;
+            $depositHeader->setCodeNumberToNext($currentDepositHeader->getCodeNumber(), $year, $month);
+
+        }
         $depositHeader->setTotalAmount($depositHeader->getSyncTotalAmount());        
     }
 

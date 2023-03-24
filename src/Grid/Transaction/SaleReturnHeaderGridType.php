@@ -25,13 +25,14 @@ class SaleReturnHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'note', 'grandTotal'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'grandTotal'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [FilterEqual::class, FilterNotEqual::class],
@@ -41,6 +42,7 @@ class SaleReturnHeaderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                    'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -53,11 +55,12 @@ class SaleReturnHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'customer:company', 'note', 'grandTotal', 'id'],
+                'field_names' => ['transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'grandTotal', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
                     'grandTotal' => [SortAscending::class, SortDescending::class],
@@ -65,6 +68,7 @@ class SaleReturnHeaderGridType extends AbstractType
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

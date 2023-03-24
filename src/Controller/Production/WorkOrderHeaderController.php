@@ -46,9 +46,10 @@ class WorkOrderHeaderController extends AbstractController
     public function new(Request $request, WorkOrderHeaderFormService $workOrderHeaderFormService, $_format = 'html'): Response
     {
         $workOrderHeader = new WorkOrderHeader();
-        $workOrderHeaderFormService->initialize($workOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderHeaderFormService->initialize($workOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderHeaderType::class, $workOrderHeader);
         $form->handleRequest($request);
+        $workOrderHeaderFormService->finalize($workOrderHeader);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderHeaderFormService->save($workOrderHeader);
@@ -75,9 +76,10 @@ class WorkOrderHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, WorkOrderHeader $workOrderHeader, WorkOrderHeaderFormService $workOrderHeaderFormService, $_format = 'html'): Response
     {
-        $workOrderHeaderFormService->initialize($workOrderHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderHeaderFormService->initialize($workOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderHeaderType::class, $workOrderHeader);
         $form->handleRequest($request);
+        $workOrderHeaderFormService->finalize($workOrderHeader);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderHeaderFormService->save($workOrderHeader);

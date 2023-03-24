@@ -24,6 +24,7 @@ class ReceiveHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalQuantity = 0;
 
     #[ORM\Column(length: 60)]
@@ -55,16 +56,20 @@ class ReceiveHeader extends TransactionHeader
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $purchaseOrderCodeNumberOrdinal = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotNull]
     private ?int $purchaseOrderCodeNumberMonth = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\NotNull]
     private ?int $purchaseOrderCodeNumberYear = 0;
 
     #[ORM\Column]
-    private ?int $purchaseOrderId = null;
+    #[Assert\NotNull]
+    private ?int $purchaseOrderId = 0;
 
     public function __construct()
     {

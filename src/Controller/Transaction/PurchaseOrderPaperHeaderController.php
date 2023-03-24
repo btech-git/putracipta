@@ -89,7 +89,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function new(Request $request, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderPaperHeader = new PurchaseOrderPaperHeader();
-        $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderPaperHeaderType::class, $purchaseOrderPaperHeader);
         $form->handleRequest($request);
         $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -119,7 +119,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
-        $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseOrderPaperHeaderType::class, $purchaseOrderPaperHeader);
         $form->handleRequest($request);
         $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
@@ -214,6 +214,22 @@ class PurchaseOrderPaperHeaderController extends AbstractController
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/complete', name: 'app_transaction_purchase_order_paper_header_complete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function complete(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('complete' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderPaperHeader->setTransactionStatus(PurchaseOrderPaperHeader::TRANSACTION_STATUS_FULL_RECEIVE);
+            $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was closed successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to closed the transaction.'));
         }
 
         return $this->redirectToRoute('app_transaction_purchase_order_paper_header_index', [], Response::HTTP_SEE_OTHER);

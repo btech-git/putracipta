@@ -33,20 +33,21 @@ class SaleOrderDetail extends TransactionDetail
     private ?string $unitPrice = '0.00';
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalDelivery = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $totalReturn = 0;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $remainingDelivery = 0;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleOrderDetails')]
@@ -60,7 +61,8 @@ class SaleOrderDetail extends TransactionDetail
     private ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $unitPriceBeforeTax = null;
+    #[Assert\NotNull]
+    private ?string $unitPriceBeforeTax = '0.00';
 
     #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrder::class)]
     private Collection $masterOrders;

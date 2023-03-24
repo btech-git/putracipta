@@ -51,7 +51,7 @@ class DepositHeaderController extends AbstractController
     public function new(Request $request, DepositHeaderFormService $depositHeaderFormService, $_format = 'html'): Response
     {
         $depositHeader = new DepositHeader();
-        $depositHeaderFormService->initialize($depositHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $depositHeaderFormService->initialize($depositHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DepositHeaderType::class, $depositHeader);
         $form->handleRequest($request);
         $depositHeaderFormService->finalize($depositHeader);
@@ -81,7 +81,7 @@ class DepositHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, DepositHeader $depositHeader, DepositHeaderFormService $depositHeaderFormService, $_format = 'html'): Response
     {
-        $depositHeaderFormService->initialize($depositHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $depositHeaderFormService->initialize($depositHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DepositHeaderType::class, $depositHeader);
         $form->handleRequest($request);
         $depositHeaderFormService->finalize($depositHeader);

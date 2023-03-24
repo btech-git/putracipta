@@ -58,7 +58,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     public function new(Request $request, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response
     {
         $purchaseRequestPaperHeader = new PurchaseRequestPaperHeader();
-        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseRequestPaperHeaderType::class, $purchaseRequestPaperHeader);
         $form->handleRequest($request);
         $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader);
@@ -88,7 +88,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response
     {
-        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(PurchaseRequestPaperHeaderType::class, $purchaseRequestPaperHeader);
         $form->handleRequest($request);
         $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader);

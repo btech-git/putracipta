@@ -25,13 +25,9 @@ class PurchasePaymentHeaderFormService
 
     public function initialize(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($purchasePaymentHeader->getId())) {
-            $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year, $month);
-            $currentPurchasePaymentHeader = ($lastPurchasePaymentHeader === null) ? $purchasePaymentHeader : $lastPurchasePaymentHeader;
-            $purchasePaymentHeader->setCodeNumberToNext($currentPurchasePaymentHeader->getCodeNumber(), $year, $month);
-
             $purchasePaymentHeader->setCreatedTransactionDateTime($datetime);
             $purchasePaymentHeader->setCreatedTransactionUser($user);
         } else {
@@ -42,6 +38,14 @@ class PurchasePaymentHeaderFormService
 
     public function finalize(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
+        if ($purchasePaymentHeader->getTransactionDate() !== null) {
+            $year = $purchasePaymentHeader->getTransactionDate()->format('y');
+            $month = $purchasePaymentHeader->getTransactionDate()->format('m');
+            $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year, $month);
+            $currentPurchasePaymentHeader = ($lastPurchasePaymentHeader === null) ? $purchasePaymentHeader : $lastPurchasePaymentHeader;
+            $purchasePaymentHeader->setCodeNumberToNext($currentPurchasePaymentHeader->getCodeNumber(), $year, $month);
+
+        }
         foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
             $purchasePaymentDetail->setIsCanceled($purchasePaymentDetail->getSyncIsCanceled());
         }

@@ -24,6 +24,7 @@ class SalePaymentHeader extends TransactionHeader
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $totalAmount = '0.00';
 
     #[ORM\Column(length: 60)]
@@ -42,16 +43,24 @@ class SalePaymentHeader extends TransactionHeader
     private ?PaymentType $paymentType = null;
 
     #[ORM\OneToMany(mappedBy: 'salePaymentHeader', targetEntity: SalePaymentDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $salePaymentDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $administrationFee = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $receivedAmount = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $returnAmount = '0.00';
+
+    #[ORM\Column(length: 100)]
+    private ?string $saleOrderReferenceNumbers = '';
 
     public function __construct()
     {
@@ -206,6 +215,18 @@ class SalePaymentHeader extends TransactionHeader
     public function setReturnAmount(string $returnAmount): self
     {
         $this->returnAmount = $returnAmount;
+
+        return $this;
+    }
+
+    public function getSaleOrderReferenceNumbers(): ?string
+    {
+        return $this->saleOrderReferenceNumbers;
+    }
+
+    public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
+    {
+        $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
 
         return $this;
     }

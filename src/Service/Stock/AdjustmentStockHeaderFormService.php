@@ -23,13 +23,9 @@ class AdjustmentStockHeaderFormService
 
     public function initialize(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($adjustmentStockHeader->getId())) {
-            $lastAdjustmentStockHeader = $this->adjustmentStockHeaderRepository->findRecentBy($year, $month);
-            $currentAdjustmentStockHeader = ($lastAdjustmentStockHeader === null) ? $adjustmentStockHeader : $lastAdjustmentStockHeader;
-            $adjustmentStockHeader->setCodeNumberToNext($currentAdjustmentStockHeader->getCodeNumber(), $year, $month);
-
             $adjustmentStockHeader->setCreatedTransactionDateTime($datetime);
             $adjustmentStockHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class AdjustmentStockHeaderFormService
 
     public function finalize(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void
     {
+        if ($adjustmentStockHeader->getTransactionDate() !== null) {
+            $year = $adjustmentStockHeader->getTransactionDate()->format('y');
+            $month = $adjustmentStockHeader->getTransactionDate()->format('m');
+            $lastAdjustmentStockHeader = $this->adjustmentStockHeaderRepository->findRecentBy($year, $month);
+            $currentAdjustmentStockHeader = ($lastAdjustmentStockHeader === null) ? $adjustmentStockHeader : $lastAdjustmentStockHeader;
+            $adjustmentStockHeader->setCodeNumberToNext($currentAdjustmentStockHeader->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

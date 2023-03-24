@@ -51,7 +51,7 @@ class MasterOrderController extends AbstractController
     public function new(Request $request, MasterOrderFormService $masterOrderFormService, $_format = 'html'): Response
     {
         $masterOrder = new MasterOrder();
-        $masterOrderFormService->initialize($masterOrder, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $masterOrderFormService->initialize($masterOrder, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderType::class, $masterOrder);
         $form->handleRequest($request);
         $masterOrderFormService->finalize($masterOrder);
@@ -82,7 +82,7 @@ class MasterOrderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, MasterOrder $masterOrder, MasterOrderFormService $masterOrderFormService, $_format = 'html'): Response
     {
-        $masterOrderFormService->initialize($masterOrder, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $masterOrderFormService->initialize($masterOrder, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderType::class, $masterOrder);
         $form->handleRequest($request);
         $masterOrderFormService->finalize($masterOrder);

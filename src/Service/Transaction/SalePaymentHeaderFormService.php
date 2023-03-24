@@ -28,13 +28,9 @@ class SalePaymentHeaderFormService
 
     public function initialize(SalePaymentHeader $salePaymentHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($salePaymentHeader->getId())) {
-            $lastSalePaymentHeader = $this->salePaymentHeaderRepository->findRecentBy($year, $month);
-            $currentSalePaymentHeader = ($lastSalePaymentHeader === null) ? $salePaymentHeader : $lastSalePaymentHeader;
-            $salePaymentHeader->setCodeNumberToNext($currentSalePaymentHeader->getCodeNumber(), $year, $month);
-
             $salePaymentHeader->setCreatedTransactionDateTime($datetime);
             $salePaymentHeader->setCreatedTransactionUser($user);
         } else {
@@ -45,6 +41,14 @@ class SalePaymentHeaderFormService
 
     public function finalize(SalePaymentHeader $salePaymentHeader, array $options = []): void
     {
+        if ($salePaymentHeader->getTransactionDate() !== null) {
+            $year = $salePaymentHeader->getTransactionDate()->format('y');
+            $month = $salePaymentHeader->getTransactionDate()->format('m');
+            $lastSalePaymentHeader = $this->salePaymentHeaderRepository->findRecentBy($year, $month);
+            $currentSalePaymentHeader = ($lastSalePaymentHeader === null) ? $salePaymentHeader : $lastSalePaymentHeader;
+            $salePaymentHeader->setCodeNumberToNext($currentSalePaymentHeader->getCodeNumber(), $year, $month);
+
+        }
         foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
             $salePaymentDetail->setIsCanceled($salePaymentDetail->getSyncIsCanceled());
             $saleInvoiceHeader = $salePaymentDetail->getSaleInvoiceHeader();
@@ -67,6 +71,13 @@ class SalePaymentHeaderFormService
         }
         $salePaymentHeader->setTotalAmount($salePaymentHeader->getSyncTotalAmount());
         $salePaymentHeader->setReceivedAmount($salePaymentHeader->getSyncReceivedAmount());
+        
+        $saleOrderReferenceNumberList = array();
+        foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
+            $saleInvoiceHeader = $salePaymentDetail->getSaleInvoiceHeader();
+            $saleOrderReferenceNumberList[] = $saleInvoiceHeader->getSaleOrderReferenceNumbers();
+        }
+        $salePaymentHeader->setSaleOrderReferenceNumbers(implode(',', $saleOrderReferenceNumberList));
     }
 
     public function save(SalePaymentHeader $salePaymentHeader, array $options = []): void

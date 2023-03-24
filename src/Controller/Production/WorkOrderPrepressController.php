@@ -46,9 +46,10 @@ class WorkOrderPrepressController extends AbstractController
     public function new(Request $request, WorkOrderPrepressFormService $workOrderPrepressFormService, $_format = 'html'): Response
     {
         $workOrderPrepress = new WorkOrderPrepress();
-        $workOrderPrepressFormService->initialize($workOrderPrepress, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderPrepressFormService->initialize($workOrderPrepress, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderPrepressType::class, $workOrderPrepress);
         $form->handleRequest($request);
+        $workOrderPrepressFormService->finalize($workOrderPrepress);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderPrepressFormService->save($workOrderPrepress);
@@ -75,9 +76,10 @@ class WorkOrderPrepressController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, WorkOrderPrepress $workOrderPrepress, WorkOrderPrepressFormService $workOrderPrepressFormService, $_format = 'html'): Response
     {
-        $workOrderPrepressFormService->initialize($workOrderPrepress, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $workOrderPrepressFormService->initialize($workOrderPrepress, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(WorkOrderPrepressType::class, $workOrderPrepress);
         $form->handleRequest($request);
+        $workOrderPrepressFormService->finalize($workOrderPrepress);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $workOrderPrepressFormService->save($workOrderPrepress);

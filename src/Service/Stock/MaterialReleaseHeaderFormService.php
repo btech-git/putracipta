@@ -23,13 +23,9 @@ class MaterialReleaseHeaderFormService
 
     public function initialize(MaterialReleaseHeader $materialReleaseHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($materialReleaseHeader->getId())) {
-            $lastMaterialReleaseHeader = $this->materialReleaseHeaderRepository->findRecentBy($year, $month);
-            $currentMaterialReleaseHeader = ($lastMaterialReleaseHeader === null) ? $materialReleaseHeader : $lastMaterialReleaseHeader;
-            $materialReleaseHeader->setCodeNumberToNext($currentMaterialReleaseHeader->getCodeNumber(), $year, $month);
-
             $materialReleaseHeader->setCreatedTransactionDateTime($datetime);
             $materialReleaseHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,6 +36,14 @@ class MaterialReleaseHeaderFormService
 
     public function finalize(MaterialReleaseHeader $materialReleaseHeader, array $options = []): void
     {
+        if ($materialReleaseHeader->getTransactionDate() !== null) {
+            $year = $materialReleaseHeader->getTransactionDate()->format('y');
+            $month = $materialReleaseHeader->getTransactionDate()->format('m');
+            $lastMaterialReleaseHeader = $this->materialReleaseHeaderRepository->findRecentBy($year, $month);
+            $currentMaterialReleaseHeader = ($lastMaterialReleaseHeader === null) ? $materialReleaseHeader : $lastMaterialReleaseHeader;
+            $materialReleaseHeader->setCodeNumberToNext($currentMaterialReleaseHeader->getCodeNumber(), $year, $month);
+
+        }
         $materialRequestHeader = $materialReleaseHeader->getMaterialRequestHeader();
         if ($materialRequestHeader !== null) {
             $materialReleaseHeader->setDepartmentName($materialRequestHeader->getDepartmentName());

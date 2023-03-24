@@ -31,7 +31,7 @@
                                 {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 2)'}}
                             ]|json_encode,
                         }}) }}
-                        <div id="{{ detailForm.amount.vars.id }}-format" class="text-end">{{ detailForm.vars.value.amount|default|number_format(0) }}</div>
+                        {#<div id="{{ detailForm.amount.vars.id }}-format" class="text-end">{{ detailForm.vars.value.amount|default|number_format(0) }}</div>#}
                     </td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
@@ -66,13 +66,13 @@
                 </td>
                 <td></td>
             </tr>
-            <tr>
+            {#<tr>
                 <td class="text-end" colspan="4">Total Retur</td>
                 <td>
                     {{ form_row(form.returnAmount, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
                 </td>
                 <td></td>
-            </tr>
+            </tr>#}
             <tr>
                 <td class="text-end" colspan="4">Admin Fee</td>
                 <td>

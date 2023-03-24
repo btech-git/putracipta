@@ -31,15 +31,19 @@ class PurchaseReturnHeader extends TransactionHeader
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $taxPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]

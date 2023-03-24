@@ -23,13 +23,9 @@ class SaleReturnHeaderFormService
 
     public function initialize(SaleReturnHeader $saleReturnHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($saleReturnHeader->getId())) {
-            $lastSaleReturnHeader = $this->saleReturnHeaderRepository->findRecentBy($year, $month);
-            $currentSaleReturnHeader = ($lastSaleReturnHeader === null) ? $saleReturnHeader : $lastSaleReturnHeader;
-            $saleReturnHeader->setCodeNumberToNext($currentSaleReturnHeader->getCodeNumber(), $year, $month);
-
             $saleReturnHeader->setCreatedTransactionDateTime($datetime);
             $saleReturnHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,7 +36,19 @@ class SaleReturnHeaderFormService
 
     public function finalize(SaleReturnHeader $saleReturnHeader, array $options = []): void
     {
+        if ($saleReturnHeader->getTransactionDate() !== null) {
+            $year = $saleReturnHeader->getTransactionDate()->format('y');
+            $month = $saleReturnHeader->getTransactionDate()->format('m');
+            $lastSaleReturnHeader = $this->saleReturnHeaderRepository->findRecentBy($year, $month);
+            $currentSaleReturnHeader = ($lastSaleReturnHeader === null) ? $saleReturnHeader : $lastSaleReturnHeader;
+            $saleReturnHeader->setCodeNumberToNext($currentSaleReturnHeader->getCodeNumber(), $year, $month);
+
+        }
         $deliveryHeader = $saleReturnHeader->getDeliveryHeader();
+        if ($deliveryHeader !== null) {
+            $saleReturnHeader->setSaleOrderReferenceNumbers($deliveryHeader->getSaleOrderReferenceNumbers());
+        }
+        
         $saleReturnHeader->setCustomer($deliveryHeader === null ? null : $deliveryHeader->getCustomer());
         foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
             $saleReturnDetail->setIsCanceled($saleReturnDetail->getSyncIsCanceled());
@@ -49,6 +57,13 @@ class SaleReturnHeaderFormService
             $saleReturnDetail->setProduct($deliveryDetail->getProduct());
             $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
+            
+            $saleInvoiceDetail = $deliveryDetail->getSaleInvoiceDetail();
+            if ($saleInvoiceDetail !== null) {
+                $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
+                $saleInvoiceHeader = $saleInvoiceDetail->getSaleInvoiceHeader();
+                $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
+            }
         }
         $saleReturnHeader->setSubTotal($saleReturnHeader->getSyncSubTotal());
         
@@ -61,11 +76,6 @@ class SaleReturnHeaderFormService
         $saleReturnHeader->setTaxNominal($saleReturnHeader->getSyncTaxNominal());
         $saleReturnHeader->setGrandTotal($saleReturnHeader->getSyncGrandTotal());
         
-//        $saleInvoiceHeader = $deliveryHeader === null ? null : $deliveryHeader->getSaleInvoiceHeader();
-//        if ($saleInvoiceHeader !== null) {
-//            $saleInvoiceHeader->setTotalReturn($saleReturnHeader->getGrandTotal());
-//            $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
-//        }
     }
 
     public function save(SaleReturnHeader $saleReturnHeader, array $options = []): void

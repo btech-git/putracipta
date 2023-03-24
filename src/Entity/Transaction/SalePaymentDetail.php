@@ -31,11 +31,9 @@ class SalePaymentDetail extends TransactionDetail
     private ?Account $account = null;
 
     #[ORM\ManyToOne(inversedBy: 'salePaymentDetails')]
-    #[Assert\NotNull]
     private ?SaleInvoiceHeader $saleInvoiceHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'salePaymentDetails')]
-    #[Assert\NotNull]
     private ?SalePaymentHeader $salePaymentHeader = null;
 
     public function getSyncIsCanceled(): bool

@@ -23,6 +23,7 @@ class ReceiveDetail extends TransactionDetail
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $orderedQuantity = 0;
 
     #[ORM\Column]

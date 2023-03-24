@@ -19,13 +19,9 @@ class WorkOrderHeaderFormService
 
     public function initialize(WorkOrderHeader $workOrderHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderHeader->getId())) {
-            $lastWorkOrderHeader = $this->workOrderHeaderRepository->findRecentBy($year, $month);
-            $currentWorkOrderHeader = ($lastWorkOrderHeader === null) ? $workOrderHeader : $lastWorkOrderHeader;
-            $workOrderHeader->setCodeNumberToNext($currentWorkOrderHeader->getCodeNumber(), $year, $month);
-
             $workOrderHeader->setCreatedProductionDateTime($datetime);
             $workOrderHeader->setCreatedProductionUser($user);
         } else {
@@ -36,6 +32,14 @@ class WorkOrderHeaderFormService
 
     public function finalize(WorkOrderHeader $workOrderHeader, array $options = []): void
     {
+        if ($workOrderHeader->getTransactionDate() !== null) {
+            $year = $workOrderHeader->getTransactionDate()->format('y');
+            $month = $workOrderHeader->getTransactionDate()->format('m');
+            $lastWorkOrderHeader = $this->workOrderHeaderRepository->findRecentBy($year, $month);
+            $currentWorkOrderHeader = ($lastWorkOrderHeader === null) ? $workOrderHeader : $lastWorkOrderHeader;
+            $workOrderHeader->setCodeNumberToNext($currentWorkOrderHeader->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

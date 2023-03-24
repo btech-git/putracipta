@@ -23,13 +23,9 @@ class SaleInvoiceHeaderFormService
 
     public function initialize(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($saleInvoiceHeader->getId())) {
-            $lastSaleInvoiceHeader = $this->saleInvoiceHeaderRepository->findRecentBy($year, $month);
-            $currentSaleInvoiceHeader = ($lastSaleInvoiceHeader === null) ? $saleInvoiceHeader : $lastSaleInvoiceHeader;
-            $saleInvoiceHeader->setCodeNumberToNext($currentSaleInvoiceHeader->getCodeNumber(), $year, $month);
-
             $saleInvoiceHeader->setCreatedTransactionDateTime($datetime);
             $saleInvoiceHeader->setCreatedTransactionUser($user);
         } else {
@@ -40,12 +36,14 @@ class SaleInvoiceHeaderFormService
 
     public function finalize(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
     {
-//        $deliveryHeader = $saleInvoiceHeader->getDeliveryHeader();
-//        $saleOrderHeader = $deliveryHeader === null ? null : $deliveryHeader->getSaleOrderHeader();
-//        $saleInvoiceHeader->setCustomer($deliveryHeader === null ? null : $deliveryHeader->getCustomer());
-//        $saleInvoiceHeader->setDiscountValueType($saleOrderHeader === null ? SaleInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE : $saleOrderHeader->getDiscountValueType());
-//        $saleInvoiceHeader->setDiscountValue($saleOrderHeader === null ? '0.00' : $saleOrderHeader->getDiscountValue());
-//        $saleInvoiceHeader->setTaxMode($saleOrderHeader === null ? SaleInvoiceHeader::TAX_MODE_NON_TAX : $saleOrderHeader->getTaxMode());
+        if ($saleInvoiceHeader->getTransactionDate() !== null) {
+            $year = $saleInvoiceHeader->getTransactionDate()->format('y');
+            $month = $saleInvoiceHeader->getTransactionDate()->format('m');
+            $lastSaleInvoiceHeader = $this->saleInvoiceHeaderRepository->findRecentBy($year, $month);
+            $currentSaleInvoiceHeader = ($lastSaleInvoiceHeader === null) ? $saleInvoiceHeader : $lastSaleInvoiceHeader;
+            $saleInvoiceHeader->setCodeNumberToNext($currentSaleInvoiceHeader->getCodeNumber(), $year, $month);
+
+        }
         $saleInvoiceHeader->setDueDate($saleInvoiceHeader->getSyncDueDate());
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
@@ -58,8 +56,10 @@ class SaleInvoiceHeaderFormService
             $saleInvoiceDetail->setQuantity($deliveryDetail->getDeliveredQuantity());
             $saleInvoiceDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleInvoiceDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
+            $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
         }
         $saleInvoiceHeader->setSubTotal($saleInvoiceHeader->getSyncSubTotal());
+        $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
         if ($saleInvoiceHeader->getTaxMode() !== $saleInvoiceHeader::TAX_MODE_NON_TAX) {
             $saleInvoiceHeader->setTaxPercentage($options['vatPercentage']);
         } else {
@@ -73,13 +73,16 @@ class SaleInvoiceHeaderFormService
         }
         $saleInvoiceHeader->setServiceTaxNominal($saleInvoiceHeader->getSyncServiceTaxNominal());
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());
-        
-//        $saleReturnHeader = $deliveryHeader === null ? null : $deliveryHeader->getPurchaseReturnHeader();
-//        if ($saleReturnHeader !== null) {
-//            $saleInvoiceHeader->setTotalReturn($saleReturnHeader->getGrandTotal());
-//        }
-        
         $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
+        
+        $saleOrderReferenceNumberList = array();
+        foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
+            $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
+            $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+            $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+            $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
+        }
+        $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(',', $saleOrderReferenceNumberList));
     }
 
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void

@@ -51,7 +51,7 @@ class ExpenseHeaderController extends AbstractController
     public function new(Request $request, ExpenseHeaderFormService $expenseHeaderFormService, $_format = 'html'): Response
     {
         $expenseHeader = new ExpenseHeader();
-        $expenseHeaderFormService->initialize($expenseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $expenseHeaderFormService->initialize($expenseHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ExpenseHeaderType::class, $expenseHeader);
         $form->handleRequest($request);
         $expenseHeaderFormService->finalize($expenseHeader);
@@ -81,7 +81,7 @@ class ExpenseHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderFormService $expenseHeaderFormService, $_format = 'html'): Response
     {
-        $expenseHeaderFormService->initialize($expenseHeader, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $expenseHeaderFormService->initialize($expenseHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ExpenseHeaderType::class, $expenseHeader);
         $form->handleRequest($request);
         $expenseHeaderFormService->finalize($expenseHeader);

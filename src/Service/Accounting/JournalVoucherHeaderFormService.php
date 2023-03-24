@@ -23,13 +23,9 @@ class JournalVoucherHeaderFormService
 
     public function initialize(JournalVoucherHeader $journalVoucherHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($journalVoucherHeader->getId())) {
-            $lastJournalVoucherHeader = $this->journalVoucherHeaderRepository->findRecentBy($year, $month);
-            $currentJournalVoucherHeader = ($lastJournalVoucherHeader === null) ? $journalVoucherHeader : $lastJournalVoucherHeader;
-            $journalVoucherHeader->setCodeNumberToNext($currentJournalVoucherHeader->getCodeNumber(), $year, $month);
-
             $journalVoucherHeader->setCreatedAccountingDateTime($datetime);
             $journalVoucherHeader->setCreatedAccountingUser($user);
         } else {
@@ -40,6 +36,14 @@ class JournalVoucherHeaderFormService
 
     public function finalize(JournalVoucherHeader $journalVoucherHeader, array $options = []): void
     {
+        if ($journalVoucherHeader->getTransactionDate() !== null) {
+            $year = $journalVoucherHeader->getTransactionDate()->format('y');
+            $month = $journalVoucherHeader->getTransactionDate()->format('m');
+            $lastJournalVoucherHeader = $this->journalVoucherHeaderRepository->findRecentBy($year, $month);
+            $currentJournalVoucherHeader = ($lastJournalVoucherHeader === null) ? $journalVoucherHeader : $lastJournalVoucherHeader;
+            $journalVoucherHeader->setCodeNumberToNext($currentJournalVoucherHeader->getCodeNumber(), $year, $month);
+
+        }
         
     }
 

@@ -48,24 +48,31 @@ class SaleInvoiceHeader extends TransactionHeader
     private ?string $taxMode = self::TAX_MODE_NON_TAX;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $taxPercentage = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $grandTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $totalPayment = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $totalReturn = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
     private ?string $remainingPayment = '0.00';
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -86,6 +93,8 @@ class SaleInvoiceHeader extends TransactionHeader
     private Collection $salePaymentDetails;
 
     #[ORM\OneToMany(mappedBy: 'saleInvoiceHeader', targetEntity: SaleInvoiceDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $saleInvoiceDetails;
 
     #[ORM\Column(length: 20)]
@@ -101,7 +110,11 @@ class SaleInvoiceHeader extends TransactionHeader
     private ?string $serviceTaxNominal = '0.00';
 
     #[ORM\Column]
-    private ?bool $isUsingFscPaper = null;
+    #[Assert\NotNull]
+    private ?bool $isUsingFscPaper = false;
+
+    #[ORM\Column(length: 100)]
+    private ?string $saleOrderReferenceNumbers = '';
 
     public function __construct()
     {
@@ -124,6 +137,17 @@ class SaleInvoiceHeader extends TransactionHeader
         return $this->getSubTotal() * $this->serviceTaxPercentage / 100;
     }
 
+    public function getSyncTotalReturn(): string
+    {
+        $totalReturn = '0.00';
+        foreach ($this->saleInvoiceDetails as $saleInvoiceDetail) {
+            if (!$saleInvoiceDetail->isIsCanceled()) {
+                $totalReturn += $saleInvoiceDetail->getReturnAmount();
+            }
+        }
+        return $totalReturn;
+    }
+
     public function getSyncSubTotal(): string
     {
         $subTotal = '0.00';
@@ -137,7 +161,7 @@ class SaleInvoiceHeader extends TransactionHeader
 
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal - $this->serviceTaxNominal;
+        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal - $this->serviceTaxNominal - $this->totalReturn;
         return $grandTotal;
     }
 
@@ -154,7 +178,7 @@ class SaleInvoiceHeader extends TransactionHeader
 
     public function getSyncRemainingPayment(): string
     {
-        return $this->grandTotal - $this->totalPayment;
+        return $this->grandTotal - $this->totalPayment - $this->totalReturn;
     }
 
     public function getDiscountNominal(): string
@@ -456,6 +480,18 @@ class SaleInvoiceHeader extends TransactionHeader
     public function setIsUsingFscPaper(bool $isUsingFscPaper): self
     {
         $this->isUsingFscPaper = $isUsingFscPaper;
+
+        return $this;
+    }
+
+    public function getSaleOrderReferenceNumbers(): ?string
+    {
+        return $this->saleOrderReferenceNumbers;
+    }
+
+    public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
+    {
+        $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
 
         return $this;
     }

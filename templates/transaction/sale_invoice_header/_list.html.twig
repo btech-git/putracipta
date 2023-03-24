@@ -17,8 +17,14 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'saleOrderReferenceNumbers') }}>
+                    PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumbers.vars.value) }}
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
                     Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'totalReturn') }}>
+                    Retur {{ grid.sort_char(form.sort.totalReturn.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'totalPayment') }}>
                     Payment {{ grid.sort_char(form.sort.totalPayment.vars.value) }}
@@ -51,7 +57,13 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'totalReturn') }} value="{{ form.filter.totalReturn.1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'totalPayment') }} value="{{ form.filter.totalPayment.1.vars.value }}" />
@@ -71,7 +83,9 @@
                     <td>{{ saleInvoiceHeader.codeNumber }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ saleInvoiceHeader.customer.company|default }}</td>
+                    <td>{{ saleInvoiceHeader.saleOrderReferenceNumbers }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.grandTotal|number_format(0) }}</td>
+                    <td class="text-end">{{ saleInvoiceHeader.totalReturn|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalPayment|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.remainingPayment|number_format(0) }}</td>
                     <td>{{ saleInvoiceHeader.transactionStatus }}</td>
@@ -82,7 +96,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8">No records found</td>
+                    <td colspan="10">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

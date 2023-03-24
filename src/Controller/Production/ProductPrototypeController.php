@@ -51,13 +51,12 @@ class ProductPrototypeController extends AbstractController
     public function new(Request $request, ProductPrototypeFormService $productPrototypeFormService, $_format = 'html'): Response
     {
         $productPrototype = new ProductPrototype();
-        $productPrototypeFormService->initialize($productPrototype, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $productPrototypeFormService->initialize($productPrototype, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductPrototypeType::class, $productPrototype);
         $form->handleRequest($request);
-//        $productPrototypeFormService->finalize($productPrototype);
+        $productPrototypeFormService->finalize($productPrototype);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $productPrototypeRepository->add($productPrototype, true);
             $productPrototypeFormService->save($productPrototype);
 
             return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);
@@ -82,13 +81,12 @@ class ProductPrototypeController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, ProductPrototype $productPrototype, ProductPrototypeFormService $productPrototypeFormService, $_format = 'html'): Response
     {
-        $productPrototypeFormService->initialize($productPrototype, ['year' => date('y'), 'month' => date('m'), 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $productPrototypeFormService->initialize($productPrototype, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductPrototypeType::class, $productPrototype);
         $form->handleRequest($request);
-//        $masterOrderFormService->finalize($masterOrder);
+        $productPrototypeFormService->finalize($productPrototype);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $productPrototypeRepository->add($productPrototype, true);
             $productPrototypeFormService->save($productPrototype);
 
             return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);

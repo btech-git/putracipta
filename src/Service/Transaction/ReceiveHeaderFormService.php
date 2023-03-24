@@ -39,13 +39,9 @@ class ReceiveHeaderFormService
 
     public function initialize(ReceiveHeader $receiveHeader, array $options = []): void
     {
-        list($year, $month, $datetime, $user) = [$options['year'], $options['month'], $options['datetime'], $options['user']];
+        list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($receiveHeader->getId())) {
-            $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year, $month);
-            $currentReceiveHeader = ($lastReceiveHeader === null) ? $receiveHeader : $lastReceiveHeader;
-            $receiveHeader->setCodeNumberToNext($currentReceiveHeader->getCodeNumber(), $year, $month);
-
             $receiveHeader->setCreatedTransactionDateTime($datetime);
             $receiveHeader->setCreatedTransactionUser($user);
         } else {
@@ -56,6 +52,14 @@ class ReceiveHeaderFormService
 
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
+        if ($receiveHeader->getTransactionDate() !== null) {
+            $year = $receiveHeader->getTransactionDate()->format('y');
+            $month = $receiveHeader->getTransactionDate()->format('m');
+            $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year, $month);
+            $currentReceiveHeader = ($lastReceiveHeader === null) ? $receiveHeader : $lastReceiveHeader;
+            $receiveHeader->setCodeNumberToNext($currentReceiveHeader->getCodeNumber(), $year, $month);
+
+        }
         $purchaseOrderHeaderForMaterialOrPaper = $this->getPurchaseOrderHeaderForMaterialOrPaper($receiveHeader);
         if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
             $receiveHeader->setPurchaseOrderCodeNumberOrdinal($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberOrdinal());
