@@ -13,8 +13,8 @@
                     {{ form_row(form.transactionDate, {'label': 'Tanggal SO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.referenceNumber, {'label': 'Customer PO #'}) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
-                    {{ form_row(form.isUsingFscPaper, {'label': 'Using FSC Paper'}) }}
                     {{ form_row(form.transactionFile, {'label': saleOrderHeader.transactionFileExtension == null ? 'Upload File' : 'File Uploaded'}) }}
+                    {{ form_row(form.isUsingFscPaper, {'label': 'Using FSC Paper'}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -67,14 +67,35 @@
                         </select>
                         {{ form_row(form.addressDelivery, {'label': false, 'attr': {'class': 'd-none'}}) }}
                     </div>
+                    <div id="customer-name-1" class="d-none">{{ saleOrderHeader.customer.name|default }}</div>
+                    <div id="customer-name-2" class="d-none">{{ saleOrderHeader.customer.name2|default }}</div>
+                    <div id="customer-name-3" class="d-none">{{ saleOrderHeader.customer.name3|default }}</div>
+                    <div id="customer-name-4" class="d-none">{{ saleOrderHeader.customer.name4|default }}</div>
+                    <div id="customer-name-5" class="d-none">{{ saleOrderHeader.customer.name5|default }}</div>
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.email|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="customer-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.email'}},
-                               ]|json_encode }}" />
+                        <label class="form-label">PIC</label>
+                        <select class="form-select"
+                                data-controller="dom-element"
+                                data-action="DOMContentLoaded@document->dom-element#bind customer-table:data-table:select@document->dom-element#bind change->dom-element#bind"
+                                data-dom-element-bind-specifications-param="{{ [
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value=""></option>`'}},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-1").textContent}"' ~ (saleOrderHeader.customer is not null and saleOrderHeader.customerName == saleOrderHeader.customer.name ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-1").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-1").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-2").textContent}"' ~ (saleOrderHeader.customer is not null and saleOrderHeader.customerName == saleOrderHeader.customer.name2 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-2").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-2").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-3").textContent}"' ~ (saleOrderHeader.customer is not null and saleOrderHeader.customerName == saleOrderHeader.customer.name3 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-3").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-3").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-4").textContent}"' ~ (saleOrderHeader.customer is not null and saleOrderHeader.customerName == saleOrderHeader.customer.name4 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-4").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-4").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-5").textContent}"' ~ (saleOrderHeader.customer is not null and saleOrderHeader.customerName == saleOrderHeader.customer.name5 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-5").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-5").textContent !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value=""></option>`'}},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name}">${$event.detail.name}</option>`'}, 'condition': '$event.detail.name !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name2}">${$event.detail.name2}</option>`'}, 'condition': '$event.detail.name2 !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name3}">${$event.detail.name3}</option>`'}, 'condition': '$event.detail.name3 !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name4}">${$event.detail.name4}</option>`'}, 'condition': '$event.detail.name4 !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name5}">${$event.detail.name5}</option>`'}, 'condition': '$event.detail.name5 !== ""'},
+                                    {'eventTypes': ['change'], 'destinationsTarget': '#' ~ form.customerName.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value'}},
+                                ]|json_encode }}">
+                        </select>
+                        {{ form_row(form.customerName, {'label': false, 'attr': {'class': 'd-none'}}) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">TOP (hari)</label>

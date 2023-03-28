@@ -28,6 +28,10 @@
                 <td>{{ saleOrderHeader.customer.company }}</td>
             </tr>
             <tr>
+                <th>PIC</th>
+                <td>{{ saleOrderHeader.customerName }}</td>
+            </tr>
+            <tr>
                 <th>Alamat Kirim</th>
                 <td>{{ saleOrderHeader.addressDelivery }}</td>
             </tr>
@@ -168,6 +172,8 @@
             <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order PDF File</a>
         {% elseif saleOrderHeader.transactionFileExtension == 'jpg' or saleOrderHeader.transactionFileExtension == 'jpeg' or saleOrderHeader.transactionFileExtension == 'png' %}
             <img width="512px" height="512px" src="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}" alt="Sale Order Image" />
+        {% elseif saleOrderHeader.transactionFileExtension == 'xls' or saleOrderHeader.transactionFileExtension == 'xlsx' %}
+            <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order Excel File</a>
         {% endif %}
     </div>
     {#<div class="d-inline-block">{{ include('transaction/sale_order_header/_delete_form.html.twig') }}</div>#}
