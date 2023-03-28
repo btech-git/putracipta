@@ -65,7 +65,6 @@ class ReceiveHeaderFormService
             $receiveHeader->setPurchaseOrderCodeNumberOrdinal($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberOrdinal());
             $receiveHeader->setPurchaseOrderCodeNumberMonth($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberMonth());
             $receiveHeader->setPurchaseOrderCodeNumberYear($purchaseOrderHeaderForMaterialOrPaper->getCodeNumberYear());
-            $receiveHeader->setPurchaseOrderId($purchaseOrderHeaderForMaterialOrPaper->getId());
         }
         $receiveHeader->setSupplier($purchaseOrderHeaderForMaterialOrPaper === null ? null : $purchaseOrderHeaderForMaterialOrPaper->getSupplier());
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
