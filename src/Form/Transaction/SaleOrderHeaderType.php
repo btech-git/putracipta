@@ -50,6 +50,7 @@ class SaleOrderHeaderType extends AbstractType
                 'label' => false,
             ])
             ->add('addressDelivery', TextType::class)
+            ->add('customerName', TextType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('transactionFile', FileType::class, [
                 'mapped' => false,
@@ -61,6 +62,7 @@ class SaleOrderHeaderType extends AbstractType
                             'image/jpeg',
                             'image/png',
                             'application/pdf',
+                            'application/vnd.ms-excel',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPEG, PNG or PDF',
                     ])
