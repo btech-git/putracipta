@@ -128,7 +128,7 @@
                                     <td class="center">{{ deliveryDetail.linePo|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                <td class="center">{{ deliveryDetail.deliveredQuantity|default }} {{ deliveryDetail.unit.name|default }}</td>
+                                <td class="center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }} {{ deliveryDetail.unit.name|default }}</td>
                                 <td class="center">{{ deliveryDetail.packaging|default }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
