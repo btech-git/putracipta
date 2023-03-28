@@ -48,7 +48,7 @@
                     <td class="text-end">{{ purchaseInvoiceHeader.remainingPayment|number_format(0) }}</td>
                     <td>{{ purchaseInvoiceHeader.transactionStatus }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_purchase_invoice_header_show', {'id': purchaseInvoiceHeader.id}) }}"><i class="bi-search"></i></a>
+                        {{ include('transaction/purchase_invoice_header/_read_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}
