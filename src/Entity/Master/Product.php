@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'master_product')]
+#[UniqueEntity('code')]
 class Product extends Master
 {
     #[ORM\Id]
@@ -17,7 +18,7 @@ class Product extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 60, unique: true)]
     #[Assert\NotBlank]
     private ?string $code = '';
 

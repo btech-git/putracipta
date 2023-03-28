@@ -25,7 +25,6 @@ class Employee extends Master
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(length: 60)]
@@ -49,7 +48,6 @@ class Employee extends Master
     private ?string $division = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull]
     private ?\DateTimeInterface $birthDate = null;
 
     #[ORM\Column(length: 60)]
