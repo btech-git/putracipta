@@ -68,9 +68,9 @@
                 <tr>
                     <td>{{ receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default }}</td>
                     <td>{{ receiveDetail.material is null ? receiveDetail.paper.paperNameSizeCombination|default : receiveDetail.material.name|default }}</td>
-                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity : receiveDetail.purchaseOrderDetail.quantity|default }}</td>
-                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.remainingReceive : receiveDetail.purchaseOrderDetail.remainingReceive|default }}</td>
-                    <td style="text-align: right">{{ receiveDetail.receivedQuantity|default }}</td>
+                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity : receiveDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.remainingReceive : receiveDetail.purchaseOrderDetail.remainingReceive|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ receiveDetail.receivedQuantity|default|number_format(0) }}</td>
                     <td>{{ receiveDetail.unit.name|default }}</td>
                     <td>{{ receiveDetail.memo|default }}</td>
                     <td>{{ receiveDetail.isCanceled ? 'Canceled' : '' }}</td>

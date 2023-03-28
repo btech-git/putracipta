@@ -91,10 +91,10 @@
                     <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td></td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.totalDelivery|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.totalDelivery|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default|number_format(0) }}</td>
                     <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>
                     <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>

@@ -86,7 +86,7 @@
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                    <td style="text-align: right">{{ saleOrderDetail.quantity|default }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>

@@ -82,7 +82,7 @@
                     <td>{{ purchaseOrderPaperDetail.length|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.width|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.weight|default }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
