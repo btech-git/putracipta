@@ -99,7 +99,7 @@ class DeliveryHeaderFormService
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
         }
-        $deliveryHeader->setSaleOrderReferenceNumbers(implode(',', $saleOrderReferenceNumberList));
+        $deliveryHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
     }
 
     public function save(DeliveryHeader $deliveryHeader, array $options = []): void
