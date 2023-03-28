@@ -24,16 +24,23 @@ class SaleOrderDetailController extends AbstractController
 
         list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $customerId = '';
+            $qb->innerJoin("{$alias}.saleOrderHeader", 's');
+            $qb->innerJoin("{$alias}.product", 'p');
+            $qb->innerJoin("{$alias}.unit", 'u');
+            
             if (isset($request->query->get('delivery_header')['customer'])) {
                 $customerId = $request->query->get('delivery_header')['customer'];
             }
             if (!empty($customerId)) {
-                $qb->innerJoin("{$alias}.saleOrderHeader", 's');
                 $qb->andWhere("IDENTITY(s.customer) = :customerId");
                 $qb->setParameter('customerId', $customerId);
             }
             
-            $qb->innerJoin("{$alias}.product", 'p');
+            if (isset($request->query->get('sale_order_detail_grid')['filter']['saleOrderHeader:referenceNumber']) && isset($request->query->get('sale_order_detail_grid')['sort']['saleOrderHeader:referenceNumber'])) {
+                $add['filter']($qb, 's', 'referenceNumber', $request->query->get('sale_order_detail_grid')['filter']['saleOrderHeader:referenceNumber']);
+                $add['sort']($qb, 's', 'referenceNumber', $request->query->get('sale_order_detail_grid')['sort']['saleOrderHeader:referenceNumber']);
+            }
+            
             if (isset($request->query->get('sale_order_detail_grid')['filter']['product:code']) && isset($request->query->get('sale_order_detail_grid')['sort']['product:code'])) {
                 $add['filter']($qb, 'p', 'code', $request->query->get('sale_order_detail_grid')['filter']['product:code']);
                 $add['sort']($qb, 'p', 'code', $request->query->get('sale_order_detail_grid')['sort']['product:code']);
@@ -45,7 +52,6 @@ class SaleOrderDetailController extends AbstractController
             }
             
             if (isset($request->query->get('sale_order_detail_grid')['filter']['unit:name']) && isset($request->query->get('sale_order_detail_grid')['sort']['unit:name'])) {
-                $qb->innerJoin("{$alias}.unit", 'u');
                 $add['filter']($qb, 'u', 'name', $request->query->get('sale_order_detail_grid')['filter']['unit:name']);
                 $add['sort']($qb, 'u', 'name', $request->query->get('sale_order_detail_grid')['sort']['unit:name']);
             }
