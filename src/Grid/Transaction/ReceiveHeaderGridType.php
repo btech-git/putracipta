@@ -77,7 +77,7 @@ class ReceiveHeaderGridType extends AbstractType
                     'codeNumberYear' => 'Code Number',
                     'purchaseOrderCodeNumberOrdinal' => '',
                     'purchaseOrderCodeNumberMonth' => '',
-                    'purchaseOrderCodeNumberYear' => 'PO Code Number',
+                    'purchaseOrderCodeNumberYear' => 'PO #',
                     'transactionDate' => 'Tanggal',
                     'supplierDeliveryCodeNumber' => 'SJ Supplier #',
                     'supplier:company' => 'Supplier',
