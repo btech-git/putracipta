@@ -13,6 +13,9 @@
                         {'destinationsTarget': '#sale-order-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
                     ]|json_encode }}" />
                 </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'saleOrderHeader:referenceNumber') }}>
+                    Customer PO # {{ grid.sort_char(form.sort['saleOrderHeader:referenceNumber'].vars.value) }}
+                </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'product:code') }}>
                     Code {{ grid.sort_char(form.sort['product:code'].vars.value) }}
                 </th>
@@ -22,15 +25,12 @@
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
                     Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
                 </th>
-                <th style="min-width: 150px">
-                    SO #
-                </th>
-                <th style="min-width: 150px">
-                    Tanggal
-                </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderHeader:referenceNumber') }} value="{{ form.filter['saleOrderHeader:referenceNumber'].1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:code') }} value="{{ form.filter['product:code'].1.vars.value }}" />
                 </th>
@@ -40,31 +40,28 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
                 </th>
-                <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for saleOrderDetail in saleOrderDetails %}
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
-                    'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber,
-                    'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber,
-                    'customerCompany': saleOrderDetail.saleOrderHeader.customer.company,
-                    'saleOrderHeaderIsUsingFscPaper': saleOrderDetail.saleOrderHeader.isUsingFscPaper ? 'Yes' : 'No',
+                    'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber|default,
+                    'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber|default,
+                    'customerCompany': saleOrderDetail.saleOrderHeader.customer.company|default,
+                    'saleOrderHeaderIsUsingFscPaper': saleOrderDetail.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No',
                     'saleOrderHeaderDate': saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '',
                     'saleOrderDetailId': saleOrderDetail.id,
-                    'productName': saleOrderDetail.product.name,
-                    'productId': saleOrderDetail.product.id,
-                    'productCode': saleOrderDetail.product.code,
-                    'unitName': saleOrderDetail.unit.name,
+                    'productName': saleOrderDetail.product.name|default,
+                    'productId': saleOrderDetail.product.id|default,
+                    'productCode': saleOrderDetail.product.code|default,
+                    'unitName': saleOrderDetail.unit.name|default,
                     'saleOrderDetailQuantityRemaining': saleOrderDetail.remainingDelivery|default|number_format(0),
                     'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
-                    <td>{{ saleOrderDetail.saleOrderHeader.codeNumber|default }}</td>
-                    <td>{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                 </tr>
             {% else %}
                 <tr>
