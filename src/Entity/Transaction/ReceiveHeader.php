@@ -67,10 +67,6 @@ class ReceiveHeader extends TransactionHeader
     #[Assert\NotNull]
     private ?int $purchaseOrderCodeNumberYear = 0;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $purchaseOrderId = 0;
-
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -275,18 +271,6 @@ class ReceiveHeader extends TransactionHeader
     public function setPurchaseOrderCodeNumberYear(int $purchaseOrderCodeNumberYear): self
     {
         $this->purchaseOrderCodeNumberYear = $purchaseOrderCodeNumberYear;
-
-        return $this;
-    }
-
-    public function getPurchaseOrderId(): ?int
-    {
-        return $this->purchaseOrderId;
-    }
-
-    public function setPurchaseOrderId(int $purchaseOrderId): self
-    {
-        $this->purchaseOrderId = $purchaseOrderId;
 
         return $this;
     }
