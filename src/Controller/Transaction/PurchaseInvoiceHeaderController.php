@@ -82,6 +82,18 @@ class PurchaseInvoiceHeaderController extends AbstractController
         return $this->render("transaction/purchase_invoice_header/head.html.twig");
     }
 
+    #[Route('/{id}/read', name: 'app_transaction_purchase_invoice_header_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function read(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $purchaseInvoiceHeader->getId(), $request->request->get('_token'))) {
+            $purchaseInvoiceHeader->setIsRead(true);
+            $purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_invoice_header_show', ['id' => $purchaseInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_transaction_purchase_invoice_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
