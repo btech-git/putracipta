@@ -6,11 +6,12 @@ use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'master_product')]
-#[UniqueEntity('code')]
+#[UniqueEntity(['code', 'name'])]
 class Product extends Master
 {
     #[ORM\Id]
@@ -18,7 +19,7 @@ class Product extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60, unique: true)]
+    #[ORM\Column(length: 60)]
     #[Assert\NotBlank]
     private ?string $code = '';
 

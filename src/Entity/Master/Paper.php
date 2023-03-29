@@ -6,11 +6,12 @@ use App\Entity\Master;
 use App\Repository\Master\PaperRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaperRepository::class)]
 #[ORM\Table(name: 'master_paper')]
-#[UniqueEntity('code')]
+#[UniqueEntity(['code', 'name'])]
 class Paper extends Master
 {
     public const PRICING_MODE_ASSOCIATION = 'association';
@@ -22,7 +23,7 @@ class Paper extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60, unique: true)]
+    #[ORM\Column(length: 60)]
     #[Assert\NotBlank]
     private ?string $code = '';
 
