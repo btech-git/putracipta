@@ -1,5 +1,5 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward"
+     data-action="data-table:select->event-emitter#forward click->event-emitter#forward"
      data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'click': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-method-value="POST"
