@@ -91,7 +91,7 @@
                                 <td class="left">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                                 <td class="right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
                                 <td class="right">{{ purchaseOrderPaperDetail.total|default|number_format(0) }}</td>
-                            {% else %}
+                            {% elseif not purchaseOrderPaperDetail %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

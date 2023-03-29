@@ -60,7 +60,7 @@
                                 <td class="left">{{ purchaseRequestPaperDetail.unit.name|default }}</td>
                                 <td class="left">{{ purchaseRequestPaperDetail.usageDate|default ? purchaseRequestPaperDetail.usageDate|date('d M Y') }}</td>
                                 <td class="left">{{ purchaseRequestPaperDetail.memo|default }}</td>
-                            {% else %}
+                            {% elseif not purchaseRequestPaperDetail %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

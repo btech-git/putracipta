@@ -132,7 +132,7 @@
                                 <td class="left">{{ saleInvoiceDetail.unit.name|default }}</td>
                                 <td class="right">{{ saleInvoiceDetail.unitPrice|default|number_format(0) }}</td>
                                 <td class="right">{{ saleInvoiceDetail.total|default|number_format(0) }}</td>
-                            {% else %}
+                            {% elseif not saleInvoiceDetail %}
                                 {% if saleInvoiceHeader.isUsingFscPaper %}
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
