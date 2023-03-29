@@ -104,7 +104,7 @@ class SaleOrderHeader extends TransactionHeader
     private ?string $addressDelivery = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $customerName = null;
+    private ?string $customerName = '';
 
     public function __construct()
     {
