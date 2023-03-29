@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaleOrderHeaderRepository::class)]
 #[ORM\Table(name: 'transaction_sale_order_header')]
+#[UniqueEntity('referenceNumber')]
 class SaleOrderHeader extends TransactionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'SO';
@@ -33,7 +34,7 @@ class SaleOrderHeader extends TransactionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 60, unique: true)]
     #[Assert\NotBlank]
     private ?string $referenceNumber = '';
 
@@ -75,7 +76,6 @@ class SaleOrderHeader extends TransactionHeader
 
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetail::class)]
     #[Assert\Valid]
-    #[Assert\Count(min: 1)]
     private Collection $saleOrderDetails;
 
     #[ORM\Column]
@@ -101,6 +101,9 @@ class SaleOrderHeader extends TransactionHeader
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $addressDelivery = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $customerName = null;
 
     public function __construct()
     {
@@ -402,6 +405,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setAddressDelivery(string $addressDelivery): self
     {
         $this->addressDelivery = $addressDelivery;
+
+        return $this;
+    }
+
+    public function getCustomerName(): ?string
+    {
+        return $this->customerName;
+    }
+
+    public function setCustomerName(string $customerName): self
+    {
+        $this->customerName = $customerName;
 
         return $this;
     }

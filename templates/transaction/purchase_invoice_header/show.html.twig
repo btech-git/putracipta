@@ -95,7 +95,7 @@
                 <tr>
                     <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.code|default : purchaseInvoiceDetail.material.code|default }}</td>
                     <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.paperNameSizeCombination|default : purchaseInvoiceDetail.material.name|default }}</td>
-                    <td style="text-align: center">{{ purchaseInvoiceDetail.quantity|default }}</td>
+                    <td style="text-align: center">{{ purchaseInvoiceDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseInvoiceDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>

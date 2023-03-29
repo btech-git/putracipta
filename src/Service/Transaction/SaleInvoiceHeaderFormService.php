@@ -82,7 +82,7 @@ class SaleInvoiceHeaderFormService
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
         }
-        $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(',', $saleOrderReferenceNumberList));
+        $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
     }
 
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void

@@ -82,6 +82,18 @@ class SaleOrderHeaderController extends AbstractController
         return $this->render("transaction/sale_order_header/head.html.twig");
     }
 
+    #[Route('/{id}/read', name: 'app_transaction_sale_order_header_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function read(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
+            $saleOrderHeader->setIsRead(true);
+            $saleOrderHeaderRepository->add($saleOrderHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_sale_order_header_show', ['id' => $saleOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_transaction_sale_order_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response

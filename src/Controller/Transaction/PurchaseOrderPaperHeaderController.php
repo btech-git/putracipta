@@ -83,6 +83,18 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         return $this->render("transaction/purchase_order_paper_header/head.html.twig");
     }
 
+    #[Route('/{id}/read', name: 'app_transaction_purchase_order_paper_header_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function read(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderPaperHeader->setIsRead(true);
+            $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_order_paper_header_show', ['id' => $purchaseOrderPaperHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_transaction_purchase_order_paper_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response

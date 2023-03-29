@@ -28,6 +28,10 @@
                 <td>{{ saleOrderHeader.customer.company }}</td>
             </tr>
             <tr>
+                <th>PIC</th>
+                <td>{{ saleOrderHeader.customerName }}</td>
+            </tr>
+            <tr>
                 <th>Alamat Kirim</th>
                 <td>{{ saleOrderHeader.addressDelivery }}</td>
             </tr>
@@ -82,7 +86,7 @@
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                    <td style="text-align: right">{{ saleOrderDetail.quantity|default }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
@@ -168,6 +172,8 @@
             <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order PDF File</a>
         {% elseif saleOrderHeader.transactionFileExtension == 'jpg' or saleOrderHeader.transactionFileExtension == 'jpeg' or saleOrderHeader.transactionFileExtension == 'png' %}
             <img width="512px" height="512px" src="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}" alt="Sale Order Image" />
+        {% elseif saleOrderHeader.transactionFileExtension == 'xls' or saleOrderHeader.transactionFileExtension == 'xlsx' %}
+            <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order Excel File</a>
         {% endif %}
     </div>
     {#<div class="d-inline-block">{{ include('transaction/sale_order_header/_delete_form.html.twig') }}</div>#}

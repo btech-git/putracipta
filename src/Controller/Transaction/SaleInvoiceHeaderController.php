@@ -83,6 +83,18 @@ class SaleInvoiceHeaderController extends AbstractController
         return $this->render("transaction/sale_invoice_header/head.html.twig");
     }
 
+    #[Route('/{id}/read', name: 'app_transaction_sale_invoice_header_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function read(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $saleInvoiceHeader->getId(), $request->request->get('_token'))) {
+            $saleInvoiceHeader->setIsRead(true);
+            $saleInvoiceHeaderRepository->add($saleInvoiceHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_sale_invoice_header_show', ['id' => $saleInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_transaction_sale_invoice_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response

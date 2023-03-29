@@ -77,7 +77,7 @@ class SalePaymentHeaderFormService
             $saleInvoiceHeader = $salePaymentDetail->getSaleInvoiceHeader();
             $saleOrderReferenceNumberList[] = $saleInvoiceHeader->getSaleOrderReferenceNumbers();
         }
-        $salePaymentHeader->setSaleOrderReferenceNumbers(implode(',', $saleOrderReferenceNumberList));
+        $salePaymentHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
     }
 
     public function save(SalePaymentHeader $salePaymentHeader, array $options = []): void

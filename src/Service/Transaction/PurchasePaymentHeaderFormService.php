@@ -73,7 +73,7 @@ class PurchasePaymentHeaderFormService
             $purchaseInvoiceHeader = $purchasePaymentDetail->getPurchaseInvoiceHeader();
             $supplierInvoiceCodeNumberList[] = $purchaseInvoiceHeader->getSupplierInvoiceCodeNumber();
         }
-        $purchasePaymentHeader->setSupplierInvoiceCodeNumbers(implode(',', $supplierInvoiceCodeNumberList));
+        $purchasePaymentHeader->setSupplierInvoiceCodeNumbers(implode(', ', $supplierInvoiceCodeNumberList));
     }
 
     public function save(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void

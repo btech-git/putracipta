@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaperRepository::class)]
 #[ORM\Table(name: 'master_paper')]
+#[UniqueEntity('code')]
 class Paper extends Master
 {
     public const PRICING_MODE_ASSOCIATION = 'association';
@@ -21,7 +22,7 @@ class Paper extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 60, unique: true)]
     #[Assert\NotBlank]
     private ?string $code = '';
 

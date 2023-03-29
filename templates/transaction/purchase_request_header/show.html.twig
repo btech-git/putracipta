@@ -55,7 +55,7 @@
                 <tr>
                     <td>{{ purchaseRequestDetail.material.code|default }}</td>
                     <td>{{ purchaseRequestDetail.material.name|default }}</td>
-                    <td style="text-align: center">{{ purchaseRequestDetail.quantity|default }}</td>
+                    <td style="text-align: center">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseRequestDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestDetail.memo|default }}</td>

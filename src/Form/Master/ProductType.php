@@ -2,6 +2,8 @@
 
 namespace App\Form\Master;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Customer;
 use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,12 +19,13 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('minimumStock')
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
-            ->add('customer', null, [
-                'choice_label' => 'name',
-                'query_builder' => function($repository) {
-                    return $repository->createQueryBuilder('e')->addOrderBy('e.company', 'ASC');
-                },
-            ])
+            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+//            ->add('customer', null, [
+//                'choice_label' => 'name',
+//                'query_builder' => function($repository) {
+//                    return $repository->createQueryBuilder('e')->addOrderBy('e.company', 'ASC');
+//                },
+//            ])
             ->add('isInactive')
         ;
     }
