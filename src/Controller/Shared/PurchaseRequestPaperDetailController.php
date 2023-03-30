@@ -27,7 +27,7 @@ class PurchaseRequestPaperDetailController extends AbstractController
             $sub = $new(PurchaseOrderPaperDetail::class, 'h');
             $sub->andWhere("IDENTITY(h.purchaseRequestPaperDetail) = {$alias}.id");
             $qb->leftJoin("{$alias}.purchaseOrderPaperDetail", 'd');
-            $qb->andWhere($qb->expr()->orX('d.isCanceled = false', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
+            $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->innerJoin("{$alias}.paper", 'p');
             
