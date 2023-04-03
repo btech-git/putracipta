@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.productionDate, {'label': 'Tanggal Potong', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.productionDate, {'label': 'Tanggal Potong', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     <div class="mb-3">
                         <label for="{{ form.workOrderHeader.vars.id }}-text" class="form-label">Work Order #</label>
                         {{ form_row(form.workOrderHeader, {
@@ -22,7 +22,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.workOrderHeader.vars.id }}-text" class="form-control {% if not form.workOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.workOrderHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.workOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ workOrderOffsetPrintingHeader.workOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#work-order-header-dialog"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"

@@ -32,9 +32,9 @@ class WorkOrderColorMixingFormService
 
     public function finalize(WorkOrderColorMixing $workOrderColorMixing, array $options = []): void
     {
-        if ($workOrderColorMixing->getTransactionDate() !== null) {
-            $year = $workOrderColorMixing->getTransactionDate()->format('y');
-            $month = $workOrderColorMixing->getTransactionDate()->format('m');
+        if ($workOrderColorMixing->getProductionDate() !== null) {
+            $year = $workOrderColorMixing->getProductionDate()->format('y');
+            $month = $workOrderColorMixing->getProductionDate()->format('m');
             $lastWorkOrderColorMixing = $this->workOrderColorMixingRepository->findRecentBy($year, $month);
             $currentWorkOrderColorMixing = ($lastWorkOrderColorMixing === null) ? $workOrderColorMixing : $lastWorkOrderColorMixing;
             $workOrderColorMixing->setCodeNumberToNext($currentWorkOrderColorMixing->getCodeNumber(), $year, $month);

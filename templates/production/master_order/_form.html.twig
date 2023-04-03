@@ -10,8 +10,8 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
-                    {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.printingMachine, {'label': 'Mesin Cetak'}) }}
                     {{ form_row(form.designCode, {'label': 'Kode Design'}) }}
                     {{ form_row(form.quantityOrder, {'label': 'Quantity Order'}) }}
@@ -51,7 +51,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.saleOrderDetail.vars.id }}-text" class="form-control {% if not form.saleOrderDetail.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.saleOrderDetail.vars.id }}-text" class="form-control readonly-form-input {% if not form.saleOrderDetail.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#sale-order-detail-dialog"
                                data-controller="dom-element"
                                data-action="sale-order-detail-table:data-table:select@document->dom-element#bind"
@@ -107,7 +107,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.paper.name|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.paper.name|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#paper-dialog"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
@@ -125,16 +125,30 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
                     </div>
-                    <label class="form-label">Ukuran Jadi (mm)</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.dimensionLength, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.dimensionWidth, {'label': false}) }} 
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.dimensionHeight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Ukuran Jadi (mm)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">P</span>
+                                    {{ form_widget(form.dimensionLength) }}
+                                    {{ form_errors(form.dimensionLength) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">L</span>
+                                    {{ form_widget(form.dimensionWidth) }} 
+                                    {{ form_errors(form.dimensionWidth) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">T</span>
+                                    {{ form_widget(form.dimensionHeight) }}
+                                    {{ form_errors(form.dimensionHeight) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <label class="form-label">Pisau Die Cut</label>
@@ -204,7 +218,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-control {% if not form.purchaseOrderPaperHeader.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.purchaseOrderPaperHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.purchaseOrderPaperHeader.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.purchaseOrderPaperHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#purchase-order-paper-header-dialog"
                                data-controller="dom-element"
                                data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"

@@ -32,9 +32,9 @@ class WorkOrderCuttingHeaderFormService
 
     public function finalize(WorkOrderCuttingHeader $workOrderCuttingHeader, array $options = []): void
     {
-        if ($workOrderCuttingHeader->getTransactionDate() !== null) {
-            $year = $workOrderCuttingHeader->getTransactionDate()->format('y');
-            $month = $workOrderCuttingHeader->getTransactionDate()->format('m');
+        if ($workOrderCuttingHeader->getProductionDate() !== null) {
+            $year = $workOrderCuttingHeader->getProductionDate()->format('y');
+            $month = $workOrderCuttingHeader->getProductionDate()->format('m');
             $lastWorkOrderCuttingHeader = $this->workOrderCuttingHeaderRepository->findRecentBy($year, $month);
             $currentWorkOrderCuttingHeader = ($lastWorkOrderCuttingHeader === null) ? $workOrderCuttingHeader : $lastWorkOrderCuttingHeader;
             $workOrderCuttingHeader->setCodeNumberToNext($currentWorkOrderCuttingHeader->getCodeNumber(), $year, $month);

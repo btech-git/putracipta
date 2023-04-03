@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.productionDate, {'label': 'Tanggal Prepress', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.productionDate, {'label': 'Tanggal Prepress', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     <div class="mb-3">
                         <label for="{{ form.workOrderHeader.vars.id }}-text" class="form-label">Work Order #</label>
                         {{ form_row(form.workOrderHeader, {
@@ -22,7 +22,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.workOrderHeader.vars.id }}-text" class="form-control {% if not form.workOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ workOrderPrepress.workOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.workOrderHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.workOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ workOrderPrepress.workOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#work-order-header-dialog"
                                data-controller="dom-element"
                                data-action="work-order-header-table:data-table:select@document->dom-element#bind"
@@ -234,72 +234,72 @@
                             <tr>
                                 <td rowspan="4">CTcP</td>
                                 <td class="text-center">C</td>
-                                <td>{{ form_row(form.internalCyanBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalCyanBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalCyanRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalCyanRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalCyanDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalCyanDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.internalCyanBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalCyanBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalCyanRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalCyanRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalCyanDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalCyanDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                                 <td>{{ form_row(form.internalCyanDowntimeMemo, {'label': false}) }}</td>
                             </tr>
                             <tr>
                                 <td class="text-center">M</td>
-                                <td>{{ form_row(form.internalMagentaBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalMagentaBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalMagentaRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalMagentaRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalMagentaDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalMagentaDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.internalMagentaBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalMagentaBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalMagentaRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalMagentaRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalMagentaDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalMagentaDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                                 <td>{{ form_row(form.internalMagentaDowntimeMemo, {'label': false}) }}</td>
                             </tr>
                             <tr>
                                 <td class="text-center">Y</td>
-                                <td>{{ form_row(form.internalYellowBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalYellowBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalYellowRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalYellowRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalYellowDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalYellowDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.internalYellowBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalYellowBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalYellowRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalYellowRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalYellowDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalYellowDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                                 <td>{{ form_row(form.internalYellowDowntimeMemo, {'label': false}) }}</td>
                             </tr>
                             <tr>
                                 <td class="text-center">B</td>
-                                <td>{{ form_row(form.internalBlackBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalBlackBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalBlackRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalBlackRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalBlackDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.internalBlackDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.internalBlackBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalBlackBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalBlackRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalBlackRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalBlackDowntimeStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.internalBlackDowntimeEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                                 <td>{{ form_row(form.internalBlackDowntimeMemo, {'label': false}) }}</td>
                             </tr>
                             <tr>
                                 <td rowspan="4">Plate Subcon</td>
                                 <td class="text-center">C</td>
-                                <td>{{ form_row(form.subconCyanBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconCyanBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconCyanRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconCyanRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.subconCyanBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconCyanBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconCyanRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconCyanRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                             </tr>
                             <tr>
                                 <td class="text-center">M</td>
-                                <td>{{ form_row(form.subconMagentaBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconMagentaBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconMagentaRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconMagentaRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.subconMagentaBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconMagentaBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconMagentaRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconMagentaRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                             </tr>
                             <tr>
                                 <td class="text-center">Y</td>
-                                <td>{{ form_row(form.subconYellowBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconYellowBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconYellowRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconYellowRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.subconYellowBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconYellowBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconYellowRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconYellowRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                             </tr>
                             <tr>
                                 <td class="text-center">B</td>
-                                <td>{{ form_row(form.subconBlackBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconBlackBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconBlackRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
-                                <td>{{ form_row(form.subconBlackRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element'}}) }}</td>
+                                <td>{{ form_row(form.subconBlackBeginningOutputStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconBlackBeginningOutputEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconBlackRevisionStartDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
+                                <td>{{ form_row(form.subconBlackRevisionEndDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -318,7 +318,7 @@
                 <div class="col">
                     {{ form_row(form.employeeIdPlateRelease, {'label': 'Plate Diserahkan kepada'}) }}
                     {{ form_row(form.employeeIdWorkOrderReturn, {'label': 'WO dikembalikan oleh'}) }}
-                    {{ form_row(form.workOrderReturnDate, {'label': 'Tanggal Pengembalian WO', 'attr': {'data-controller': 'flatpickr-element'}}) }}
+                    {{ form_row(form.workOrderReturnDate, {'label': 'Tanggal Pengembalian WO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                 </div>
             </div>
         </fieldset>

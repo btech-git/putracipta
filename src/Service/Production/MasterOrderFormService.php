@@ -32,9 +32,9 @@ class MasterOrderFormService
 
     public function finalize(MasterOrder $masterOrder, array $options = []): void
     {
-        if ($masterOrder->getTransactionDate() !== null) {
-            $year = $masterOrder->getTransactionDate()->format('y');
-            $month = $masterOrder->getTransactionDate()->format('m');
+        if ($masterOrder->getProductionDate() !== null) {
+            $year = $masterOrder->getProductionDate()->format('y');
+            $month = $masterOrder->getProductionDate()->format('m');
             $lastMasterOrder = $this->masterOrderRepository->findRecentBy($year, $month);
             $currentMasterOrder = ($lastMasterOrder === null) ? $masterOrder : $lastMasterOrder;
             $masterOrder->setCodeNumberToNext($currentMasterOrder->getCodeNumber(), $year, $month);

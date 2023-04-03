@@ -32,9 +32,9 @@ class WorkOrderHeaderFormService
 
     public function finalize(WorkOrderHeader $workOrderHeader, array $options = []): void
     {
-        if ($workOrderHeader->getTransactionDate() !== null) {
-            $year = $workOrderHeader->getTransactionDate()->format('y');
-            $month = $workOrderHeader->getTransactionDate()->format('m');
+        if ($workOrderHeader->getProductionDate() !== null) {
+            $year = $workOrderHeader->getProductionDate()->format('y');
+            $month = $workOrderHeader->getProductionDate()->format('m');
             $lastWorkOrderHeader = $this->workOrderHeaderRepository->findRecentBy($year, $month);
             $currentWorkOrderHeader = ($lastWorkOrderHeader === null) ? $workOrderHeader : $lastWorkOrderHeader;
             $workOrderHeader->setCodeNumberToNext($currentWorkOrderHeader->getCodeNumber(), $year, $month);

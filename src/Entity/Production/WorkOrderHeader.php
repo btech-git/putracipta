@@ -95,12 +95,20 @@ class WorkOrderHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderOffsetPrintingHeader::class)]
     private Collection $workOrderOffsetPrintingHeaders;
 
+    #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderVarnishHeader::class)]
+    private Collection $workOrderVarnishHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'workOrderHeader', targetEntity: WorkOrderVarnishSpotHeader::class)]
+    private Collection $workOrderVarnishSpotHeaders;
+
     public function __construct()
     {
         $this->workOrderPrepresses = new ArrayCollection();
         $this->workOrderCuttingHeaders = new ArrayCollection();
         $this->workOrderColorMixings = new ArrayCollection();
         $this->workOrderOffsetPrintingHeaders = new ArrayCollection();
+        $this->workOrderVarnishHeaders = new ArrayCollection();
+        $this->workOrderVarnishSpotHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -467,6 +475,66 @@ class WorkOrderHeader extends ProductionHeader
             // set the owning side to null (unless already changed)
             if ($workOrderOffsetPrintingHeader->getWorkOrderHeader() === $this) {
                 $workOrderOffsetPrintingHeader->setWorkOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderVarnishHeader>
+     */
+    public function getWorkOrderVarnishHeaders(): Collection
+    {
+        return $this->workOrderVarnishHeaders;
+    }
+
+    public function addWorkOrderVarnishHeader(WorkOrderVarnishHeader $workOrderVarnishHeader): self
+    {
+        if (!$this->workOrderVarnishHeaders->contains($workOrderVarnishHeader)) {
+            $this->workOrderVarnishHeaders->add($workOrderVarnishHeader);
+            $workOrderVarnishHeader->setWorkOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderVarnishHeader(WorkOrderVarnishHeader $workOrderVarnishHeader): self
+    {
+        if ($this->workOrderVarnishHeaders->removeElement($workOrderVarnishHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderVarnishHeader->getWorkOrderHeader() === $this) {
+                $workOrderVarnishHeader->setWorkOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderVarnishSpotHeader>
+     */
+    public function getWorkOrderVarnishSpotHeaders(): Collection
+    {
+        return $this->workOrderVarnishSpotHeaders;
+    }
+
+    public function addWorkOrderVarnishSpotHeader(WorkOrderVarnishSpotHeader $workOrderVarnishSpotHeader): self
+    {
+        if (!$this->workOrderVarnishSpotHeaders->contains($workOrderVarnishSpotHeader)) {
+            $this->workOrderVarnishSpotHeaders->add($workOrderVarnishSpotHeader);
+            $workOrderVarnishSpotHeader->setWorkOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderVarnishSpotHeader(WorkOrderVarnishSpotHeader $workOrderVarnishSpotHeader): self
+    {
+        if ($this->workOrderVarnishSpotHeaders->removeElement($workOrderVarnishSpotHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderVarnishSpotHeader->getWorkOrderHeader() === $this) {
+                $workOrderVarnishSpotHeader->setWorkOrderHeader(null);
             }
         }
 

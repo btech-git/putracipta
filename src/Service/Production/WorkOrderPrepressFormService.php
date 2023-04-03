@@ -32,9 +32,9 @@ class WorkOrderPrepressFormService
 
     public function finalize(WorkOrderPrepress $workOrderPrepress, array $options = []): void
     {
-        if ($workOrderPrepress->getTransactionDate() !== null) {
-            $year = $workOrderPrepress->getTransactionDate()->format('y');
-            $month = $workOrderPrepress->getTransactionDate()->format('m');
+        if ($workOrderPrepress->getProductionDate() !== null) {
+            $year = $workOrderPrepress->getProductionDate()->format('y');
+            $month = $workOrderPrepress->getProductionDate()->format('m');
             $lastWorkOrderPrepress = $this->workOrderPrepressRepository->findRecentBy($year, $month);
             $currentWorkOrderPrepress = ($lastWorkOrderPrepress === null) ? $workOrderPrepress : $lastWorkOrderPrepress;
             $workOrderPrepress->setCodeNumberToNext($currentWorkOrderPrepress->getCodeNumber(), $year, $month);

@@ -32,9 +32,9 @@ class ProductPrototypeFormService
 
     public function finalize(ProductPrototype $productPrototype, array $options = []): void
     {
-        if ($productPrototype->getTransactionDate() !== null) {
-            $year = $productPrototype->getTransactionDate()->format('y');
-            $month = $productPrototype->getTransactionDate()->format('m');
+        if ($productPrototype->getProductionDate() !== null) {
+            $year = $productPrototype->getProductionDate()->format('y');
+            $month = $productPrototype->getProductionDate()->format('m');
             $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year, $month);
             $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
             $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
