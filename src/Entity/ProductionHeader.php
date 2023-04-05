@@ -22,17 +22,14 @@ abstract class ProductionHeader
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     protected ?int $codeNumberOrdinal = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     protected ?int $codeNumberMonth = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     protected ?int $codeNumberYear = 0;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
