@@ -49,7 +49,7 @@ class SaleOrderHeaderType extends AbstractType
                 'prototype_data' => new SaleOrderDetail(),
                 'label' => false,
             ])
-            ->add('addressDelivery', TextType::class)
+            ->add('deliveryAddressOrdinal', TextType::class)
             ->add('customerName', TextType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('transactionFile', FileType::class, [

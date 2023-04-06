@@ -25,6 +25,7 @@ class PurchaseOrderPaperDetailType extends AbstractType
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('purchaseRequestPaperDetail', EntityHiddenType::class, array('class' => PurchaseRequestPaperDetail::class))
             ->add('unit', null, ['choice_label' => 'name'])
+            ->add('isTransactionClosed')
             ->add('isCanceled')
         ;
     }

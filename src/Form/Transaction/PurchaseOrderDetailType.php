@@ -8,6 +8,7 @@ use App\Entity\Master\Material;
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseRequestDetail;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,7 @@ class PurchaseOrderDetailType extends AbstractType
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
             ->add('purchaseRequestDetail', EntityHiddenType::class, array('class' => PurchaseRequestDetail::class))
             ->add('unit', null, ['choice_label' => 'name'])
+            ->add('isTransactionClosed')
             ->add('isCanceled')
         ;
     }
