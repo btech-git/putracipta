@@ -21,6 +21,7 @@
                 <th style="min-width: 150px">H. Satuan</th>
                 <th style="min-width: 150px">DPP</th>
                 <th style="min-width: 150px">Total</th>
+                <th style="width: 0">Close</th>
                 <th style="width: 0"></th>
             </tr>
         </thead>
@@ -135,6 +136,7 @@
                         data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.total">
                         {{ detailForm.vars.value.total|default|number_format(2) }}
                     </td>
+                    <td>{{ form_row(detailForm.isTransactionClosed, {'label': false}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>

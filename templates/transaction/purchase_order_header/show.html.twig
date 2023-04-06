@@ -64,6 +64,7 @@
                 <th>Harga</th>
                 <th>DPP</th>
                 <th>Total</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>
@@ -78,6 +79,7 @@
                     <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
+                    <td>{{ purchaseOrderDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
                     <td>{{ purchaseOrderDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
@@ -86,12 +88,12 @@
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right">
@@ -106,12 +108,12 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
         </tfoot>
     </table>

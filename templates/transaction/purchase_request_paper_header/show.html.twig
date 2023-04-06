@@ -72,6 +72,32 @@
         </tfoot>
     </table>
     
+    <legend class="float-none w-auto text-dark px-1">Data Order Pembelian Kertas</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-warning">
+                <th>PO Kertas #</th>
+                <th>Tanggal</th>
+                <th>Kertas</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
+                    <tr>
+                        <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                        <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.quantity|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.unit.name|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.isCanceled|default ? 'Canceled' : '' }}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
     {#{{ include('transaction/purchase_request_paper_header/_delete_form.html.twig') }}#}
     {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestPaperHeader) or purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_HOLD', purchaseRequestPaperHeader) %}
         <div class="d-inline-block">{{ include('transaction/purchase_request_paper_header/_reject_form.html.twig') }}</div>

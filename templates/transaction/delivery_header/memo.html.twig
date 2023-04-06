@@ -52,9 +52,12 @@
                     </div>
                 </div>
             </div>
+            <div class="header">
+                <h2 class="title">SURAT JALAN</h2>
+            </div>
         </div>
         
-        <br /><hr />
+        <hr />
         
         <div class="note">
             <div class="table full">
@@ -66,7 +69,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">{{ deliveryHeader.addressDelivery|default|nl2br }}</div>
+                            <div class="cell value">{{ attribute(deliveryHeader.customer, 'addressDelivery' ~ deliveryHeader.deliveryAddressOrdinal)|default|nl2br }}</div>
                         </div>
                     </div>
                 </div>
@@ -96,16 +99,16 @@
                 <tr>
                     <th class="center">Product Name</th>
                     <th class="center">Code No.</th>
-                    <th class="center">WO no. / Tgl Prod</th>
+                    <th class="center" style="max-width: 70px">WO no. / Tgl Prod</th>
                     {% if deliveryHeader.isUsingFscPaper %}
-                        <th class="center">FSC Code</th>
-                        <th class="center">Lot no.</th>
+                        <th class="center" style="max-width: 70px">FSC Code</th>
+                        <th class="center" style="min-width: 120px">Lot no.</th>
                     {% else %}
                         <th class="center">Line PO</th>
                     {% endif %}
                     <th class="center">Customer PO</th>
-                    <th class="center">Quantity</th>
-                    <th class="center">Kemasan</th>
+                    <th class="center" style="max-width: 70px">Qty (pcs)</th>
+                    <th class="center" style="min-width: 120px">Kemasan</th>
                 </tr>
             </thead>
             <tbody>
@@ -124,7 +127,7 @@
                                     <td class="center">{{ deliveryDetail.linePo|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                <td class="center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }} {{ deliveryDetail.unit.name|default }}</td>
+                                <td class="center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
                                 <td class="center">{{ deliveryDetail.packaging|default }}</td>
                             {% elseif not deliveryDetail %}
                                 <td>&nbsp;</td>
@@ -196,7 +199,7 @@
                     <div class="blank">&nbsp;</div>
                     <div class="blank">&nbsp;</div>
                     <div class="blank">&nbsp;</div>
-                    <div class="blank">&nbsp;</div>
+                    <div class="blank">(..........................................)</div>
                 </div>
                 <div class="cell sig">
                     <div>Driver</div>

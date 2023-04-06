@@ -15,7 +15,7 @@
                 <th style="min-width: 150px">PO #</th>
                 <th style="min-width: 150px">Line PO</th>
                 <th style="min-width: 100px">Qty Order</th>
-                <th style="min-width: 100px">Qty Sisa</th>
+                <th style="min-width: 100px">OS PO</th>
                 <th style="min-width: 100px">Qty Kirim</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 150px">Kemasan</th>
@@ -41,25 +41,11 @@
                     </td>
                     <td></td>
                     <td>
-                        {{ form_row(detailForm.lotNumber, {'label': false, 'attr': {
-                            'data-item-field-action': '
-                                const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
-                                if (hasFscCode === "No") {
-                                    $element.setAttribute("readonly", "readonly");
-                                }
-                            ',
-                        }}) }}
+                        {{ form_row(detailForm.lotNumber, {'label': false}) }}
                     </td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>
-                        {{ form_row(detailForm.linePo, {'label': false, 'attr': {
-                            'data-item-field-action': '
-                                const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
-                                if (hasFscCode === "Yes") {
-                                    $element.setAttribute("readonly", "readonly");
-                                }
-                            ',
-                        }}) }}
+                        {{ form_row(detailForm.linePo, {'label': false}) }}
                     </td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default }}</td>

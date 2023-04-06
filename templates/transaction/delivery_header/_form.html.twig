@@ -35,36 +35,6 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.customer) }}
                     </div>
-                    <div id="customer-delivery-address-1" class="d-none">{{ deliveryHeader.customer.addressDelivery|default }}</div>
-                    <div id="customer-delivery-address-2" class="d-none">{{ deliveryHeader.customer.addressDelivery2|default }}</div>
-                    <div id="customer-delivery-address-3" class="d-none">{{ deliveryHeader.customer.addressDelivery3|default }}</div>
-                    <div id="customer-delivery-address-4" class="d-none">{{ deliveryHeader.customer.addressDelivery4|default }}</div>
-                    <div id="customer-delivery-address-5" class="d-none">{{ deliveryHeader.customer.addressDelivery5|default }}</div>
-                    <div class="mb-3">
-                        <label class="form-label">Alamat Kirim</label>
-                        <select class="form-select"
-                                data-controller="dom-element"
-                                data-action="DOMContentLoaded@document->dom-element#bind customer-table:data-table:select@document->dom-element#bind change->dom-element#bind"
-                                data-dom-element-bind-specifications-param="{{ [
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value=""></option>`'}},
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-delivery-address-1").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.addressDelivery == deliveryHeader.customer.addressDelivery ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-delivery-address-1").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-delivery-address-1").textContent !== ""'},
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-delivery-address-2").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.addressDelivery == deliveryHeader.customer.addressDelivery2 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-delivery-address-2").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-delivery-address-2").textContent !== ""'},
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-delivery-address-3").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.addressDelivery == deliveryHeader.customer.addressDelivery3 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-delivery-address-3").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-delivery-address-3").textContent !== ""'},
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-delivery-address-4").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.addressDelivery == deliveryHeader.customer.addressDelivery4 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-delivery-address-4").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-delivery-address-4").textContent !== ""'},
-                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-delivery-address-5").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.addressDelivery == deliveryHeader.customer.addressDelivery5 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-delivery-address-5").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-delivery-address-5").textContent !== ""'},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value=""></option>`'}},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery}">${$event.detail.addressDelivery}</option>`'}, 'condition': '$event.detail.addressDelivery !== ""'},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery2}">${$event.detail.addressDelivery2}</option>`'}, 'condition': '$event.detail.addressDelivery2 !== ""'},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery3}">${$event.detail.addressDelivery3}</option>`'}, 'condition': '$event.detail.addressDelivery3 !== ""'},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery4}">${$event.detail.addressDelivery4}</option>`'}, 'condition': '$event.detail.addressDelivery4 !== ""'},
-                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.addressDelivery5}">${$event.detail.addressDelivery5}</option>`'}, 'condition': '$event.detail.addressDelivery5 !== ""'},
-                                    {'eventTypes': ['change'], 'destinationsTarget': '#' ~ form.addressDelivery.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value'}},
-                                ]|json_encode }}">
-                        </select>
-                        {{ form_row(form.addressDelivery, {'label': false, 'attr': {'class': 'd-none'}}) }}
-                    </div>
                     {{ form_row(form.employee, {'label': 'Sopir'}) }}
                 </div>
             </div>

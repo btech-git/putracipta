@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th>Alamat Kirim</th>
-                <td>{{ deliveryHeader.addressDelivery|default}}</td>
+                <td>{{ attribute(deliveryHeader.customer, 'addressDelivery' ~ deliveryHeader.deliveryAddressOrdinal)|default|nl2br }}</td>
             </tr>
             <tr>
                 <th>Using FSC Paper?</th>
@@ -73,7 +73,7 @@
                 <th>Qty Kirim</th>
                 <th>Qty Order</th>
                 <th>Total Terkirim</th>
-                <th>Qty Sisa</th>
+                <th>OS PO</th>
                 <th>Satuan</th>
                 <th>Kemasan</th>
                 <th></th>
