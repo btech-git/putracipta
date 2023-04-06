@@ -56,6 +56,14 @@ class PurchaseOrderHeaderFormService
             $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
             $purchaseOrderDetail->setUnitPriceBeforeTax($purchaseOrderDetail->getSyncUnitPriceBeforeTax());
             $purchaseOrderDetail->setTotal($purchaseOrderDetail->getSyncTotal());
+            
+            if ($purchaseOrderDetail->getRemainingReceive() === 0) {
+                $purchaseOrderDetail->setIsTransactionClosed(true);
+            }
+            
+            if ($purchaseOrderDetail->isIsTransactionClosed() === true or $purchaseOrderDetail->isIsCanceled() === true) {
+                $purchaseOrderDetail->setRemainingReceive(0);
+            }
         }
         $supplier = $purchaseOrderHeader->getSupplier();
         $purchaseOrderHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());

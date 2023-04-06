@@ -47,6 +47,7 @@ class SaleReturnHeaderFormService
         $deliveryHeader = $saleReturnHeader->getDeliveryHeader();
         if ($deliveryHeader !== null) {
             $saleReturnHeader->setSaleOrderReferenceNumbers($deliveryHeader->getSaleOrderReferenceNumbers());
+            $deliveryHeader->setHasReturnTransaction(true);
         }
         
         $saleReturnHeader->setCustomer($deliveryHeader === null ? null : $deliveryHeader->getCustomer());

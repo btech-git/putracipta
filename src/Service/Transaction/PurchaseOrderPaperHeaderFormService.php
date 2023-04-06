@@ -65,6 +65,14 @@ class PurchaseOrderPaperHeaderFormService
             $purchaseOrderPaperDetail->setRemainingReceive($purchaseOrderPaperDetail->getSyncRemainingReceive());
             $purchaseOrderPaperDetail->setUnitPriceBeforeTax($purchaseOrderPaperDetail->getSyncUnitPriceBeforeTax());
             $purchaseOrderPaperDetail->setTotal($purchaseOrderPaperDetail->getSyncTotal());
+            
+            if ($purchaseOrderPaperDetail->getRemainingReceive() === 0) {
+                $purchaseOrderPaperDetail->setIsTransactionClosed(true);
+            }
+            
+            if ($purchaseOrderPaperDetail->isIsTransactionClosed() === true or $purchaseOrderPaperDetail->isIsCanceled() === true) {
+                $purchaseOrderPaperDetail->setRemainingReceive(0);
+            }
         }
         $supplier = $purchaseOrderPaperHeader->getSupplier();
         $purchaseOrderPaperHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
