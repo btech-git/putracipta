@@ -20,7 +20,7 @@ class CustomerType extends AbstractType
             ->add('name4', null, ['label' => 'PIC 4'])
             ->add('name5', null, ['label' => 'PIC 5'])
             ->add('addressInvoice', null, ['label' => 'Alamat Penagihan (**Tekan ENTER untuk > 1 baris)'])
-            ->add('addressDelivery', null, ['label' => 'Alamat Kirim 1 (**Tekan ENTER untuk > 1 baris)'])
+            ->add('addressDelivery1', null, ['label' => 'Alamat Kirim 1 (**Tekan ENTER untuk > 1 baris)'])
             ->add('addressDelivery2', null, ['label' => 'Alamat Kirim 2 (**Tekan ENTER untuk > 1 baris)'])
             ->add('addressDelivery3', null, ['label' => 'Alamat Kirim 3 (**Tekan ENTER untuk > 1 baris)'])
             ->add('addressDelivery4', null, ['label' => 'Alamat Kirim 4 (**Tekan ENTER untuk > 1 baris)'])

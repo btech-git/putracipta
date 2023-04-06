@@ -21,6 +21,7 @@ class PaperType extends AbstractType
             ->add('weight', null, ['label' => 'Berat (GSM)'])
             ->add('pricingMode', null, ['label' => 'Pricing Mode'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
+            ->add('note')
             ->add('isInactive')
             ->add('pricingMode', ChoiceType::class, ['label' => 'Metode Input Harga', 'choices' => [
                 'Asosiasi' => Paper::PRICING_MODE_ASSOCIATION,

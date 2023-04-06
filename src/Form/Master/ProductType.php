@@ -26,6 +26,7 @@ class ProductType extends AbstractType
 //                    return $repository->createQueryBuilder('e')->addOrderBy('e.company', 'ASC');
 //                },
 //            ])
+            ->add('note')
             ->add('isInactive')
         ;
     }

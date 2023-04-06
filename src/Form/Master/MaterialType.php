@@ -17,10 +17,13 @@ class MaterialType extends AbstractType
             ->add('name')
             ->add('thickness', null, ['label' => 'Ketebalan'])
             ->add('variant', null, ['label' => 'Varian'])
+            ->add('weight', null, ['label' => 'Berat (GR)'])
             ->add('length', null, ['label' => 'Panjang'])
             ->add('width', null, ['label' => 'Lebar'])
-            ->add('weight', null, ['label' => 'Berat (GR)'])
+            ->add('density')
+            ->add('viscosity', null, ['label' => 'Viskositas'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
+            ->add('note')
             ->add('isInactive')
         ;
     }
