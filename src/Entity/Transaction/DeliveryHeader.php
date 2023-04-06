@@ -57,8 +57,11 @@ class DeliveryHeader extends TransactionHeader
     #[ORM\Column(length: 100)]
     private ?string $saleOrderReferenceNumbers = '';
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery = '';
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $deliveryAddressOrdinal = 0;
+
+    #[ORM\Column]
+    private ?bool $hasReturnTransaction = false;
 
     public function __construct()
     {
@@ -222,14 +225,26 @@ class DeliveryHeader extends TransactionHeader
         return $this;
     }
 
-    public function getAddressDelivery(): ?string
+    public function getDeliveryAddressOrdinal(): ?int
     {
-        return $this->addressDelivery;
+        return $this->deliveryAddressOrdinal;
     }
 
-    public function setAddressDelivery(string $addressDelivery): self
+    public function setDeliveryAddressOrdinal(int $deliveryAddressOrdinal): self
     {
-        $this->addressDelivery = $addressDelivery;
+        $this->deliveryAddressOrdinal = $deliveryAddressOrdinal;
+
+        return $this;
+    }
+
+    public function isHasReturnTransaction(): ?bool
+    {
+        return $this->hasReturnTransaction;
+    }
+
+    public function setHasReturnTransaction(bool $hasReturnTransaction): self
+    {
+        $this->hasReturnTransaction = $hasReturnTransaction;
 
         return $this;
     }

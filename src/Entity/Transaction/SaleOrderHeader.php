@@ -100,11 +100,13 @@ class SaleOrderHeader extends TransactionHeader
     #[ORM\Column]
     private ?bool $isOnHold = false;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $addressDelivery = '';
-
     #[ORM\Column(length: 100)]
     private ?string $customerName = '';
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\GreaterThan(0)]
+    #[Assert\LessThan(6)]
+    private ?int $deliveryAddressOrdinal = 0;
 
     public function __construct()
     {
@@ -398,18 +400,6 @@ class SaleOrderHeader extends TransactionHeader
         return $this;
     }
 
-    public function getAddressDelivery(): ?string
-    {
-        return $this->addressDelivery;
-    }
-
-    public function setAddressDelivery(string $addressDelivery): self
-    {
-        $this->addressDelivery = $addressDelivery;
-
-        return $this;
-    }
-
     public function getCustomerName(): ?string
     {
         return $this->customerName;
@@ -418,6 +408,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setCustomerName(string $customerName): self
     {
         $this->customerName = $customerName;
+
+        return $this;
+    }
+
+    public function getDeliveryAddressOrdinal(): ?int
+    {
+        return $this->deliveryAddressOrdinal;
+    }
+
+    public function setDeliveryAddressOrdinal(int $deliveryAddressOrdinal): self
+    {
+        $this->deliveryAddressOrdinal = $deliveryAddressOrdinal;
 
         return $this;
     }

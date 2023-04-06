@@ -74,6 +74,9 @@ class PurchaseOrderDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?string $total = '0.00';
 
+    #[ORM\Column]
+    private ?bool $isTransactionClosed = false;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -275,6 +278,18 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setTotal(string $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function isIsTransactionClosed(): ?bool
+    {
+        return $this->isTransactionClosed;
+    }
+
+    public function setIsTransactionClosed(bool $isTransactionClosed): self
+    {
+        $this->isTransactionClosed = $isTransactionClosed;
 
         return $this;
     }
