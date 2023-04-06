@@ -54,6 +54,16 @@ class Material extends Master
     #[Assert\GreaterThanOrEqual(0)]
     private ?int $width = 0;
 
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    private ?string $note = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $density = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $viscosity = '';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +161,42 @@ class Material extends Master
     public function setWidth(int $width): self
     {
         $this->width = $width;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): self
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    public function getDensity(): ?string
+    {
+        return $this->density;
+    }
+
+    public function setDensity(string $density): self
+    {
+        $this->density = $density;
+
+        return $this;
+    }
+
+    public function getViscosity(): ?string
+    {
+        return $this->viscosity;
+    }
+
+    public function setViscosity(string $viscosity): self
+    {
+        $this->viscosity = $viscosity;
 
         return $this;
     }

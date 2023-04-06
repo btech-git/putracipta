@@ -52,6 +52,10 @@ class Paper extends Master
     #[ORM\Column(length: 60)]
     private ?string $type = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    private ?string $note = null;
+
     public function getPaperNameSizeCombination() {
         return $this->name . ' ' . $this->length . ' x ' . $this->width . ' x ' . $this->weight;
     }
@@ -141,6 +145,18 @@ class Paper extends Master
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

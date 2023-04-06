@@ -51,10 +51,6 @@ class Customer extends Master
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
-    private ?string $addressDelivery = '';
-
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotNull]
     private ?string $addressInvoice = '';
 
     #[ORM\Column]
@@ -96,6 +92,9 @@ class Customer extends Master
 
     #[ORM\Column(length: 100)]
     private ?string $name5 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery1 = '';
 
     public function __construct()
     {
@@ -217,18 +216,6 @@ class Customer extends Master
                 $product->setCustomer(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getAddressDelivery(): ?string
-    {
-        return $this->addressDelivery;
-    }
-
-    public function setAddressDelivery(string $addressDelivery): self
-    {
-        $this->addressDelivery = $addressDelivery;
 
         return $this;
     }
@@ -385,6 +372,18 @@ class Customer extends Master
     public function setName5(string $name5): self
     {
         $this->name5 = $name5;
+
+        return $this;
+    }
+
+    public function getAddressDelivery1(): ?string
+    {
+        return $this->addressDelivery1;
+    }
+
+    public function setAddressDelivery1(string $addressDelivery1): self
+    {
+        $this->addressDelivery1 = $addressDelivery1;
 
         return $this;
     }

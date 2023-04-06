@@ -39,6 +39,10 @@ class Product extends Master
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Customer $customer = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    private ?string $note = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -100,6 +104,18 @@ class Product extends Master
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }
