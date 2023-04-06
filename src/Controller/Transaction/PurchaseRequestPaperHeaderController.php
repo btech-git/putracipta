@@ -4,6 +4,7 @@ namespace App\Controller\Transaction;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Entity\Transaction\PurchaseRequestPaperHeader;
 use App\Form\Transaction\PurchaseRequestPaperHeaderType;
 use App\Grid\Transaction\PurchaseRequestPaperHeaderGridType;
@@ -52,6 +53,47 @@ class PurchaseRequestPaperHeaderController extends AbstractController
         return $this->render("transaction/purchase_request_paper_header/index.html.twig");
     }
 
+    #[Route('/_head', name: 'app_transaction_purchase_request_paper_header__head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _head(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
+
+        return $this->renderForm("transaction/purchase_request_paper_header/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseRequestPaperHeaders' => $purchaseRequestPaperHeaders,
+        ]);
+    }
+
+    #[Route('/head', name: 'app_transaction_purchase_request_paper_header_head', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function head(): Response
+    {
+        return $this->render("transaction/purchase_request_paper_header/head.html.twig");
+    }
+
+    #[Route('/{id}/read', name: 'app_transaction_purchase_request_paper_header_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function read(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeader->setIsRead(true);
+            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_paper_header_show', ['id' => $purchaseRequestPaperHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_transaction_purchase_request_paper_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(Request $request, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response

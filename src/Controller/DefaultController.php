@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
+use App\Entity\Transaction\PurchaseRequestHeader;
+use App\Entity\Transaction\PurchaseRequestPaperHeader;
 use App\Entity\Transaction\PurchaseInvoiceHeader;
 use App\Entity\Transaction\SaleOrderHeader;
 use App\Entity\Transaction\SaleInvoiceHeader;
@@ -29,6 +31,16 @@ class DefaultController extends AbstractController
     public function _dashboard(EntityManagerInterface $entityManager): Response
     {
         $criteria = new DataCriteria();
+        $purchaseRequestHeaderRepository = $entityManager->getRepository(PurchaseRequestHeader::class);
+        $purchaseRequestHeaderCount = $purchaseRequestHeaderRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
+        $purchaseRequestPaperHeaderRepository = $entityManager->getRepository(PurchaseRequestPaperHeader::class);
+        $purchaseRequestPaperHeaderCount = $purchaseRequestPaperHeaderRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
         $purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
         $purchaseOrderHeaderCount = $purchaseOrderHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
@@ -56,6 +68,8 @@ class DefaultController extends AbstractController
         });
 
         return $this->render('default/_dashboard.html.twig', [
+            'purchaseRequestHeaderCount' => $purchaseRequestHeaderCount,
+            'purchaseRequestPaperHeaderCount' => $purchaseRequestPaperHeaderCount,
             'purchaseOrderHeaderCount' => $purchaseOrderHeaderCount,
             'purchaseOrderPaperHeaderCount' => $purchaseOrderPaperHeaderCount,
             'purchaseInvoiceHeaderCount' => $purchaseInvoiceHeaderCount,
