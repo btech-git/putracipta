@@ -242,28 +242,28 @@ class MasterOrder extends ProductionHeader
     private ?string $packagingPlasticSize = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $dimensionLength = null;
+    private ?string $dimensionLength = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $dimensionWidth = null;
+    private ?string $dimensionWidth = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $dimensionHeight = null;
+    private ?string $dimensionHeight = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $mountageSizeLength = null;
+    private ?string $mountageSizeLength = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $mountageSizeWidth = null;
+    private ?string $mountageSizeWidth = '0.00';
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $workOrderDistribution = [];
 
     #[ORM\Column(length: 100)]
-    private ?string $printingStatusData = null;
+    private ?string $printingStatusData = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $diecutBladeData = null;
+    private ?string $diecutBladeData = '';
 
     #[ORM\ManyToOne]
     private ?Product $product = null;
@@ -276,6 +276,30 @@ class MasterOrder extends ProductionHeader
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $processList = [];
+
+    #[ORM\Column]
+    private ?int $quantityProduction = 0;
+
+    #[ORM\Column(length: 60)]
+    private ?string $pantone = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $colorPantoneAdditional = '';
+
+    #[ORM\Column]
+    private ?int $quantityPrinting2 = 0;
+
+    #[ORM\Column(length: 60)]
+    private ?string $inkK1Color = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $inkK2Color = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $inkK3Color = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $inkK4Color = '';
 
     public function __construct()
     {
@@ -1206,6 +1230,102 @@ class MasterOrder extends ProductionHeader
     public function setProcessList(array $processList): self
     {
         $this->processList = $processList;
+
+        return $this;
+    }
+
+    public function getQuantityProduction(): ?int
+    {
+        return $this->quantityProduction;
+    }
+
+    public function setQuantityProduction(int $quantityProduction): self
+    {
+        $this->quantityProduction = $quantityProduction;
+
+        return $this;
+    }
+
+    public function getPantone(): ?string
+    {
+        return $this->pantone;
+    }
+
+    public function setPantone(string $pantone): self
+    {
+        $this->pantone = $pantone;
+
+        return $this;
+    }
+
+    public function getColorPantoneAdditional(): ?string
+    {
+        return $this->colorPantoneAdditional;
+    }
+
+    public function setColorPantoneAdditional(string $colorPantoneAdditional): self
+    {
+        $this->colorPantoneAdditional = $colorPantoneAdditional;
+
+        return $this;
+    }
+
+    public function getQuantityPrinting2(): ?int
+    {
+        return $this->quantityPrinting2;
+    }
+
+    public function setQuantityPrinting2(int $quantityPrinting2): self
+    {
+        $this->quantityPrinting2 = $quantityPrinting2;
+
+        return $this;
+    }
+
+    public function getInkK1Color(): ?string
+    {
+        return $this->inkK1Color;
+    }
+
+    public function setInkK1Color(string $inkK1Color): self
+    {
+        $this->inkK1Color = $inkK1Color;
+
+        return $this;
+    }
+
+    public function getInkK2Color(): ?string
+    {
+        return $this->inkK2Color;
+    }
+
+    public function setInkK2Color(string $inkK2Color): self
+    {
+        $this->inkK2Color = $inkK2Color;
+
+        return $this;
+    }
+
+    public function getInkK3Color(): ?string
+    {
+        return $this->inkK3Color;
+    }
+
+    public function setInkK3Color(string $inkK3Color): self
+    {
+        $this->inkK3Color = $inkK3Color;
+
+        return $this;
+    }
+
+    public function getInkK4Color(): ?string
+    {
+        return $this->inkK4Color;
+    }
+
+    public function setInkK4Color(string $inkK4Color): self
+    {
+        $this->inkK4Color = $inkK4Color;
 
         return $this;
     }

@@ -141,18 +141,33 @@
                                ]|json_encode }}" />
                     </div>
                     {{ form_row(form.finishing, {'label': 'Finishing'}) }}
-                    {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
-                    {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
                 </div>
                 <div class="col">
                     {{ form_row(form.quantityProduction, {'label': 'Quantity'}) }}
                     {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
                     {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata'}) }}
+                </div>
+            </div>
+        </fieldset>
+                
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
+                    {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
+                </div>
+                <div class="col">
                     {{ form_row(form.processList, {'label': 'Proses'}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col">
+                    {{ form_row(form.transactionFile, {
+                        'label': transactionFileExists ? 'A File has been uploaded' : 'Upload File', 
+                        'label_attr': {
+                            'class': transactionFileExists ? 'text-danger fw-bold' : ''
+                        }
+                    }) }}
                     {{ form_row(form.note, {'label': 'Keterangan'}) }}
                 </div>
             </div>

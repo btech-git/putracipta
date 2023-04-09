@@ -14,18 +14,66 @@
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.printingMachine, {'label': 'Mesin Cetak'}) }}
                     {{ form_row(form.designCode, {'label': 'Kode Design'}) }}
-                    {{ form_row(form.quantityOrder, {'label': 'Quantity Order'}) }}
-                    {{ form_row(form.quantityStock, {'label': 'Stock / Kekurangan (pcs)'}) }}
-                    {{ form_row(form.color, {'label': 'Warna / Pantone'}) }}
-                    {{ form_row(form.finishing, {'label': 'Finishing'}) }}
-                    {{ form_row(form.quantityPrinting, {'label': 'Jumlah Up Cetak'}) }}
-                    <label class="form-label">Ukuran Mountage / Kris (cm)</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.mountageSizeLength, {'label': false}) }}
+                    {{ form_row(form.quantityOrder, {'label': 'Quantity Order (pcs)'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Stock/Kekurangan (pcs)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.quantityStock) }}
+                                    {{ form_errors(form.quantityStock) }}
+                                    <span class="input-group-text">/</span>
+                                    {{ form_widget(form.quantityProduction) }}
+                                    {{ form_errors(form.quantityProduction) }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ form_row(form.mountageSizeWidth, {'label': false}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Warna / Pantone</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.color) }}
+                                    {{ form_errors(form.color) }}
+                                    <span class="input-group-text">/</span>
+                                    {{ form_widget(form.pantone) }}
+                                    {{ form_errors(form.pantone) }}
+                                    <span class="input-group-text">+</span>
+                                    {{ form_widget(form.colorPantoneAdditional) }}
+                                    {{ form_errors(form.colorPantoneAdditional) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_row(form.finishing, {'label': 'Finishing'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Jumlah Up Cetak</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.quantityPrinting) }}
+                                    {{ form_errors(form.quantityPrinting) }}
+                                    <span class="input-group-text">&</span>
+                                    {{ form_widget(form.quantityPrinting2) }}
+                                    {{ form_errors(form.quantityPrinting2) }}
+                                    <span class="input-group-text">Up/s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ukuran Mountage / Kris (cm)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.mountageSizeLength) }}
+                                    {{ form_errors(form.mountageSizeLength) }}
+                                    <span class="input-group-text">x</span>
+                                    {{ form_widget(form.mountageSizeWidth) }}
+                                    {{ form_errors(form.mountageSizeWidth) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {{ form_row(form.isUsingHotStamping, {'label': 'Hot Stamping'}) }}
@@ -117,12 +165,12 @@
                         {{ form_errors(form.paper) }}
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Kode Kertas</label>
-                        <input type="text" class="form-control" value="{{ masterOrder.paper.code|default }}" readonly="readonly"
+                        <label class="form-label">Gram</label>
+                        <input type="text" class="form-control" value="{{ masterOrder.paper.weight|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWeight'}},
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
@@ -173,33 +221,46 @@
                     {{ form_row(form.insitPercentage, {'label': '% Insit'}) }}
                     {{ form_row(form.quantityPaper, {'label': 'Quantity Kertas (Rim)'}) }}
                     {{ form_row(form.paperMountage, {'label': 'Mountage Kertas (Up)'}) }}
-                    <label class="form-label">Uk Plano Kertas</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.paperPlanoLength, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.paperPlanoWidth, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">Uk Potong 1</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.cuttingLengthSize1, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.cuttingWidthSize1, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Uk Plano Kertas (cm)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.paperPlanoLength) }}
+                                    {{ form_errors(form.paperPlanoLength) }}
+                                    <span class="input-group-text">x</span>
+                                    {{ form_widget(form.paperPlanoWidth) }}
+                                    {{ form_errors(form.paperPlanoWidth) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">Uk Potong 2</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.cuttingLengthSize2, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Uk Potong 1 (cm)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.cuttingLengthSize1) }}
+                                    {{ form_errors(form.cuttingLengthSize1) }}
+                                    <span class="input-group-text">x</span>
+                                    {{ form_widget(form.cuttingWidthSize1) }}
+                                    {{ form_errors(form.cuttingWidthSize1) }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ form_row(form.cuttingWidthSize2, {'label': false}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Uk Potong 2 (cm)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.cuttingLengthSize2) }}
+                                    {{ form_errors(form.cuttingLengthSize2) }}
+                                    <span class="input-group-text">x</span>
+                                    {{ form_widget(form.cuttingWidthSize2) }}
+                                    {{ form_errors(form.cuttingWidthSize2) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -253,107 +314,179 @@
             <legend class="float-none w-auto text-dark px-1">Estimasi Tinta / Chemical</legend>
             <div class="row">
                 <div class="col">
-                        
-                    <label class="form-label">Cyan</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkCyanPercentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkCyanWeight, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">Magenta</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkMagentaPercentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkMagentaWeight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Cyan</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkCyanPercentage) }}
+                                    {{ form_errors(form.inkCyanPercentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkCyanWeight) }}
+                                    {{ form_errors(form.inkCyanWeight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">Yellow</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkYellowPercentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkYellowWeight, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">Black</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkBlackPercentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkBlackWeight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Magenta</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkMagentaPercentage) }}
+                                    {{ form_errors(form.inkMagentaPercentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkMagentaWeight) }}
+                                    {{ form_errors(form.inkMagentaWeight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">OPV / WB / UV</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkOpvPercentage, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Yellow</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkYellowPercentage) }}
+                                    {{ form_errors(form.inkYellowPercentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkYellowWeight) }}
+                                    {{ form_errors(form.inkYellowWeight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ form_row(form.inkOpvWeight, {'label': false}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Black</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkBlackPercentage) }}
+                                    {{ form_errors(form.inkBlackPercentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkBlackWeight) }}
+                                    {{ form_errors(form.inkBlackWeight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">OPV / WB / UV</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkOpvPercentage) }}
+                                    {{ form_errors(form.inkOpvPercentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkOpvWeight) }}
+                                    {{ form_errors(form.inkOpvWeight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                         
                 <div class="col">
-                        
-                    <label class="form-label">K-1</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkK1Percentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkK1Weight, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">K-2</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkK2Percentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkK2Weight, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">K-3</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkK3Percentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkK3Weight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">K-1</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkK1Color) }}
+                                    {{ form_errors(form.inkK1Color) }}
+                                    <span class="input-group-text">:</span>
+                                    {{ form_widget(form.inkK1Percentage) }}
+                                    {{ form_errors(form.inkK1Percentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkK1Weight) }}
+                                    {{ form_errors(form.inkK1Weight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">K-4</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkK4Percentage, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.inkK4Weight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">K-2</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkK2Color) }}
+                                    {{ form_errors(form.inkK2Color) }}
+                                    <span class="input-group-text">:</span>
+                                    {{ form_widget(form.inkK2Percentage) }}
+                                    {{ form_errors(form.inkK2Percentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkK2Weight) }}
+                                    {{ form_errors(form.inkK2Weight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">Laminating</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.inkLaminatingSize, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">K-3</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkK3Color) }}
+                                    {{ form_errors(form.inkK3Color) }}
+                                    <span class="input-group-text">:</span>
+                                    {{ form_widget(form.inkK3Percentage) }}
+                                    {{ form_errors(form.inkK3Percentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkK3Weight) }}
+                                    {{ form_errors(form.inkK3Weight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ form_row(form.inkLaminatingQuantity, {'label': false}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">K-4</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkK4Color) }}
+                                    {{ form_errors(form.inkK4Color) }}
+                                    <span class="input-group-text">:</span>
+                                    {{ form_widget(form.inkK4Percentage) }}
+                                    {{ form_errors(form.inkK4Percentage) }}
+                                    <span class="input-group-text">%</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkK4Weight) }}
+                                    {{ form_errors(form.inkK4Weight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Laminating</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.inkLaminatingSize) }}
+                                    {{ form_errors(form.inkLaminatingSize) }}
+                                    <span class="input-group-text">cm</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.inkLaminatingQuantity) }}
+                                    {{ form_errors(form.inkLaminatingQuantity) }}
+                                    <span class="input-group-text">roll</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -364,76 +497,119 @@
             <legend class="float-none w-auto text-dark px-1">Estimasi Packaging</legend>
             <div class="row">
                 <div class="col">
-                        
-                    <label class="form-label">Lem</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingGlueQuantity, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.packagingGlueWeight, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">Karet</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingRubberQuantity, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.packagingRubberWeight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Lem</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingGlueQuantity) }}
+                                    {{ form_errors(form.packagingGlueQuantity) }}
+                                    <span class="input-group-text">cm/pcs</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingGlueWeight) }}
+                                    {{ form_errors(form.packagingGlueWeight) }}
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">Kertas Packing</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingPaperQuantity, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.packagingPaperWeight, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Karet</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingRubberQuantity) }}
+                                    {{ form_errors(form.packagingRubberQuantity) }}
+                                    <span class="input-group-text">pcs/ikat</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingRubberWeight) }}
+                                    {{ form_errors(form.packagingRubberWeight) }}
+                                    <span class="input-group-text">pcs</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">Dus</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingBoxQuantity, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Kertas Packing</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingPaperQuantity) }}
+                                    {{ form_errors(form.packagingPaperQuantity) }}
+                                    <span class="input-group-text">pcs/pack</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingPaperWeight) }}
+                                    {{ form_errors(form.packagingPaperWeight) }}
+                                    <span class="input-group-text">lbr</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ form_row(form.packagingBoxWeight, {'label': false}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dus</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingBoxQuantity) }}
+                                    {{ form_errors(form.packagingBoxQuantity) }}
+                                    <span class="input-group-text">pcs/dus</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingBoxWeight) }}
+                                    {{ form_errors(form.packagingBoxWeight) }}
+                                    <span class="input-group-text">pcs</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                         
                 <div class="col">
-                    <label class="form-label">Lakban >besar</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingTapeLargeQuantity, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.packagingTapeLargeSize, {'label': false}) }}
-                        </div>
-                    </div>
-                        
-                    <label class="form-label">Lakban >kecil</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingTapeSmallQuantity, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.packagingTapeSmallSize, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Lakban >besar</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingTapeLargeQuantity) }}
+                                    {{ form_errors(form.packagingTapeLargeQuantity) }}
+                                    <span class="input-group-text">cm/pack(dus)</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingTapeLargeSize) }}
+                                    {{ form_errors(form.packagingTapeLargeSize) }}
+                                    <span class="input-group-text">roll</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    <label class="form-label">Plastik</label>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.packagingPlasticQuantity, {'label': false}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Lakban >kecil</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingTapeSmallQuantity) }}
+                                    {{ form_errors(form.packagingTapeSmallQuantity) }}
+                                    <span class="input-group-text">cm/pack(dus)</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingTapeSmallSize) }}
+                                    {{ form_errors(form.packagingTapeSmallSize) }}
+                                    <span class="input-group-text">roll</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            {{ form_row(form.packagingPlasticSize, {'label': false}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Plastik</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.packagingPlasticQuantity) }}
+                                    {{ form_errors(form.packagingPlasticQuantity) }}
+                                    <span class="input-group-text">cm2/pack</span>
+                                    <span class="input-group-text">=</span>
+                                    {{ form_widget(form.packagingPlasticSize) }}
+                                    {{ form_errors(form.packagingPlasticSize) }}
+                                    <span class="input-group-text">m2</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -96,6 +96,10 @@
             </tr>
         </tbody>
     </table>
+    
+    <div class="text-center">
+        <img width="512px" height="512px" src="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}" alt="Product Prototype Image" />
+    </div>
 
-    {{ include('production/product_prototype/_delete_form.html.twig') }}
+    {#{{ include('production/product_prototype/_delete_form.html.twig') }}#}
 {% endblock %}

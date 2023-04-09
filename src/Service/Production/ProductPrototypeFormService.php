@@ -38,14 +38,27 @@ class ProductPrototypeFormService
             $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year, $month);
             $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
             $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
-
         }
         
+        if ($options['transactionFile']) {
+            $productPrototype->setProductionFileExtension($options['transactionFile']->guessExtension());
+        }
     }
 
     public function save(ProductPrototype $productPrototype, array $options = []): void
     {
         $this->productPrototypeRepository->add($productPrototype);
         $this->entityManager->flush();
+    }
+
+    public function uploadFile(ProductPrototype $productPrototype, $transactionFile, $uploadDirectory): void
+    {
+        if ($transactionFile) {
+            try {
+                $filename = $productPrototype->getId() . '.' . $productPrototype->getProductionFileExtension();
+                $transactionFile->move($uploadDirectory, $filename);
+            } catch (FileException $e) {
+            }
+        }
     }
 }

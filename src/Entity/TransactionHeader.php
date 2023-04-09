@@ -54,6 +54,9 @@ abstract class TransactionHeader
     #[Assert\NotNull]
     protected ?bool $isRead = false;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    protected ?int $codeNumberVersion = 0;
+
     public abstract function getCodeNumberConstant(): string;
 
     public function getCodeNumber(): string
@@ -61,6 +64,11 @@ abstract class TransactionHeader
         $numerals = self::MONTH_ROMAN_NUMERALS;
 
         return sprintf('%04d/%s/%s/%02d', intval($this->codeNumberOrdinal), $this->getCodeNumberConstant(), $numerals[intval($this->codeNumberMonth)], intval($this->codeNumberYear));
+    }
+
+    public function getCodeNumberWithVersion(): string
+    {
+        return $this->getCodeNumber() . '-' . $this->codeNumberVersion;
     }
 
     public function setCodeNumber($codeNumber): self
@@ -222,6 +230,18 @@ abstract class TransactionHeader
     public function setIsRead(bool $isRead): self
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function getCodeNumberVersion(): ?int
+    {
+        return $this->codeNumberVersion;
+    }
+
+    public function setCodeNumberVersion(int $codeNumberVersion): self
+    {
+        $this->codeNumberVersion = $codeNumberVersion;
 
         return $this;
     }

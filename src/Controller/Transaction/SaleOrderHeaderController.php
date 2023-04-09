@@ -114,6 +114,7 @@ class SaleOrderHeaderController extends AbstractController
         return $this->renderForm("transaction/sale_order_header/new.{$_format}.twig", [
             'saleOrderHeader' => $saleOrderHeader,
             'form' => $form,
+            'transactionFileExists' => false,
         ]);
     }
 
@@ -145,6 +146,7 @@ class SaleOrderHeaderController extends AbstractController
         return $this->renderForm("transaction/sale_order_header/edit.{$_format}.twig", [
             'saleOrderHeader' => $saleOrderHeader,
             'form' => $form,
+            'transactionFileExists' => file_exists($this->getParameter('kernel.project_dir') . '/public/uploads/sale-order/' . $saleOrderHeader->getId() . '.' . $saleOrderHeader->getTransactionFileExtension()),
         ]);
     }
 

@@ -57,7 +57,7 @@ class Paper extends Master
     private ?string $note = null;
 
     public function getPaperNameSizeCombination() {
-        return $this->name . ' ' . $this->length . ' x ' . $this->width . ' x ' . $this->weight;
+        return $this->name . ' ' . $this->weight . ' x ' . $this->length . ' x ' . $this->width;
     }
     
     public function getId(): ?int

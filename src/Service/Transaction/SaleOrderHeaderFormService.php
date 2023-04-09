@@ -32,6 +32,8 @@ class SaleOrderHeaderFormService
             $saleOrderHeader->setModifiedTransactionDateTime($datetime);
             $saleOrderHeader->setModifiedTransactionUser($user);
         }
+        
+        $saleOrderHeader->setCodeNumberVersion($saleOrderHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(SaleOrderHeader $saleOrderHeader, array $options = []): void
