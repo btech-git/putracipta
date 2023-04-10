@@ -38,7 +38,7 @@ class SaleOrderHeaderFormService
 
     public function finalize(SaleOrderHeader $saleOrderHeader, array $options = []): void
     {
-        if ($saleOrderHeader->getTransactionDate() !== null) {
+        if ($saleOrderHeader->getTransactionDate() !== null && $saleOrderHeader->getId() === null) {
             $year = $saleOrderHeader->getTransactionDate()->format('y');
             $month = $saleOrderHeader->getTransactionDate()->format('m');
             $lastSaleOrderHeader = $this->saleOrderHeaderRepository->findRecentBy($year, $month);

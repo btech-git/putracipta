@@ -36,7 +36,7 @@ class SaleInvoiceHeaderFormService
 
     public function finalize(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
     {
-        if ($saleInvoiceHeader->getTransactionDate() !== null) {
+        if ($saleInvoiceHeader->getTransactionDate() !== null && $saleInvoiceHeader->getId() === null) {
             $year = $saleInvoiceHeader->getTransactionDate()->format('y');
             $month = $saleInvoiceHeader->getTransactionDate()->format('m');
             $lastSaleInvoiceHeader = $this->saleInvoiceHeaderRepository->findRecentBy($year, $month);

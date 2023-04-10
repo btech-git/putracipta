@@ -44,7 +44,7 @@ class DeliveryHeaderFormService
 
     public function finalize(DeliveryHeader $deliveryHeader, array $options = []): void
     {
-        if ($deliveryHeader->getTransactionDate() !== null) {
+        if ($deliveryHeader->getTransactionDate() !== null && $deliveryHeader->getId() === null) {
             $year = $deliveryHeader->getTransactionDate()->format('y');
             $month = $deliveryHeader->getTransactionDate()->format('m');
             $lastDeliveryHeader = $this->deliveryHeaderRepository->findRecentBy($year, $month);

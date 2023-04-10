@@ -36,7 +36,7 @@ class SaleReturnHeaderFormService
 
     public function finalize(SaleReturnHeader $saleReturnHeader, array $options = []): void
     {
-        if ($saleReturnHeader->getTransactionDate() !== null) {
+        if ($saleReturnHeader->getTransactionDate() !== null && $saleReturnHeader->getId() === null) {
             $year = $saleReturnHeader->getTransactionDate()->format('y');
             $month = $saleReturnHeader->getTransactionDate()->format('m');
             $lastSaleReturnHeader = $this->saleReturnHeaderRepository->findRecentBy($year, $month);

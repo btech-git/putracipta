@@ -42,7 +42,7 @@ class PurchaseReturnHeaderFormService
 
     public function finalize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
-        if ($purchaseReturnHeader->getTransactionDate() !== null) {
+        if ($purchaseReturnHeader->getTransactionDate() !== null && $purchaseReturnHeader->getId() === null) {
             $year = $purchaseReturnHeader->getTransactionDate()->format('y');
             $month = $purchaseReturnHeader->getTransactionDate()->format('m');
             $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year, $month);

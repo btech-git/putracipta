@@ -36,7 +36,7 @@ class PurchaseInvoiceHeaderFormService
 
     public function finalize(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void
     {
-        if ($purchaseInvoiceHeader->getTransactionDate() !== null) {
+        if ($purchaseInvoiceHeader->getTransactionDate() !== null && $purchaseInvoiceHeader->getId() === null) {
             $year = $purchaseInvoiceHeader->getTransactionDate()->format('y');
             $month = $purchaseInvoiceHeader->getTransactionDate()->format('m');
             $lastPurchaseInvoiceHeader = $this->purchaseInvoiceHeaderRepository->findRecentBy($year, $month);

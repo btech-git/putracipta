@@ -36,7 +36,7 @@ class PurchaseRequestHeaderFormService
 
     public function finalize(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void
     {
-        if ($purchaseRequestHeader->getTransactionDate() !== null) {
+        if ($purchaseRequestHeader->getTransactionDate() !== null && $purchaseRequestHeader->getId() === null) {
             $year = $purchaseRequestHeader->getTransactionDate()->format('y');
             $month = $purchaseRequestHeader->getTransactionDate()->format('m');
             $lastPurchaseRequestHeader = $this->purchaseRequestHeaderRepository->findRecentBy($year, $month);

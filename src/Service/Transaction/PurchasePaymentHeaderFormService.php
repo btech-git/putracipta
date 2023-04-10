@@ -38,7 +38,7 @@ class PurchasePaymentHeaderFormService
 
     public function finalize(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
-        if ($purchasePaymentHeader->getTransactionDate() !== null) {
+        if ($purchasePaymentHeader->getTransactionDate() !== null && $purchasePaymentHeader->getId() === null) {
             $year = $purchasePaymentHeader->getTransactionDate()->format('y');
             $month = $purchasePaymentHeader->getTransactionDate()->format('m');
             $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year, $month);

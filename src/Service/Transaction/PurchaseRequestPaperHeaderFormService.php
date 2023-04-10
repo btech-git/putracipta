@@ -36,7 +36,7 @@ class PurchaseRequestPaperHeaderFormService
 
     public function finalize(PurchaseRequestPaperHeader $purchaseRequestPaperHeader, array $options = []): void
     {
-        if ($purchaseRequestPaperHeader->getTransactionDate() !== null) {
+        if ($purchaseRequestPaperHeader->getTransactionDate() !== null && $purchaseRequestPaperHeader->getId() === null) {
             $year = $purchaseRequestPaperHeader->getTransactionDate()->format('y');
             $month = $purchaseRequestPaperHeader->getTransactionDate()->format('m');
             $lastPurchaseRequestPaperHeader = $this->purchaseRequestPaperHeaderRepository->findRecentBy($year, $month);

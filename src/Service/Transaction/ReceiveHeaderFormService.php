@@ -52,7 +52,7 @@ class ReceiveHeaderFormService
 
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
-        if ($receiveHeader->getTransactionDate() !== null) {
+        if ($receiveHeader->getTransactionDate() !== null && $receiveHeader->getId() === null) {
             $year = $receiveHeader->getTransactionDate()->format('y');
             $month = $receiveHeader->getTransactionDate()->format('m');
             $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year, $month);

@@ -41,7 +41,7 @@ class SalePaymentHeaderFormService
 
     public function finalize(SalePaymentHeader $salePaymentHeader, array $options = []): void
     {
-        if ($salePaymentHeader->getTransactionDate() !== null) {
+        if ($salePaymentHeader->getTransactionDate() !== null && $salePaymentHeader->getId() === null) {
             $year = $salePaymentHeader->getTransactionDate()->format('y');
             $month = $salePaymentHeader->getTransactionDate()->format('m');
             $lastSalePaymentHeader = $this->salePaymentHeaderRepository->findRecentBy($year, $month);
