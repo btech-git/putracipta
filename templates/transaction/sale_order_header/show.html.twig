@@ -150,7 +150,7 @@
                         <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                         <td>{{ deliveryDetail.deliveryHeader.warehouse.name|default }}</td>
                         <td>{{ deliveryDetail.product.name|default }}</td>
-                        <td class="text-center">{{ deliveryDetail.deliveredQuantity|default }}</td>
+                        <td class="text-center">{{ deliveryDetail.quantity|default }}</td>
                         <td>{{ deliveryDetail.unit.name|default }}</td>
                         <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>

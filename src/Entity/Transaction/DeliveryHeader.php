@@ -63,6 +63,9 @@ class DeliveryHeader extends TransactionHeader
     #[ORM\Column]
     private ?bool $hasReturnTransaction = false;
 
+    #[ORM\Column(length: 100)]
+    private ?string $customerName = '';
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -78,7 +81,7 @@ class DeliveryHeader extends TransactionHeader
         $totalQuantity = 0;
         foreach ($this->deliveryDetails as $deliveryDetail) {
             if (!$deliveryDetail->isIsCanceled()) {
-                $totalQuantity += $deliveryDetail->getDeliveredQuantity();
+                $totalQuantity += $deliveryDetail->getQuantity();
             }
         }
         return $totalQuantity;
@@ -245,6 +248,18 @@ class DeliveryHeader extends TransactionHeader
     public function setHasReturnTransaction(bool $hasReturnTransaction): self
     {
         $this->hasReturnTransaction = $hasReturnTransaction;
+
+        return $this;
+    }
+
+    public function getCustomerName(): ?string
+    {
+        return $this->customerName;
+    }
+
+    public function setCustomerName(string $customerName): self
+    {
+        $this->customerName = $customerName;
 
         return $this;
     }

@@ -29,11 +29,6 @@ class DeliveryDetail extends TransactionDetail
 
     #[ORM\Column]
     #[Assert\NotNull]
-    private ?int $orderedQuantity = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?int $deliveredQuantity = 0;
 
     #[ORM\Column(length: 20)]
@@ -72,6 +67,12 @@ class DeliveryDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?string $linePO = '';
 
+    #[ORM\Column]
+    private ?int $remainingQuantity = null;
+
+    #[ORM\Column]
+    private ?int $quantity = null;
+
     public function __construct()
     {
         $this->saleReturnDetails = new ArrayCollection();
@@ -81,8 +82,8 @@ class DeliveryDetail extends TransactionDetail
     public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
     {
         if ($this->deliveryHeader->getId() === null) {
-            if ($this->deliveredQuantity > $this->saleOrderDetail->getRemainingDelivery()) {
-                $context->buildViolation('Quantity must be < remaining')->atPath('deliveredQuantity')->addViolation();
+            if ($this->quantity > $this->saleOrderDetail->getRemainingDelivery()) {
+                $context->buildViolation('Quantity must be < remaining')->atPath('quantity')->addViolation();
             }
         }
     }
@@ -107,18 +108,6 @@ class DeliveryDetail extends TransactionDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOrderedQuantity(): ?int
-    {
-        return $this->orderedQuantity;
-    }
-
-    public function setOrderedQuantity(int $orderedQuantity): self
-    {
-        $this->orderedQuantity = $orderedQuantity;
-
-        return $this;
     }
 
     public function getDeliveredQuantity(): ?int
@@ -277,6 +266,30 @@ class DeliveryDetail extends TransactionDetail
     public function setLinePO(string $linePO): self
     {
         $this->linePO = $linePO;
+
+        return $this;
+    }
+
+    public function getRemainingQuantity(): ?int
+    {
+        return $this->remainingQuantity;
+    }
+
+    public function setRemainingQuantity(int $remainingQuantity): self
+    {
+        $this->remainingQuantity = $remainingQuantity;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

@@ -55,6 +55,10 @@ class DeliveryHeaderFormService
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
             $deliveryDetail->setUnit($saleOrderDetail->getUnit());
+            if ($deliveryHeader->getId() === null) {
+                $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalDelivery());
+                $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingDelivery());
+            }
             $deliveryHeader->setDeliveryAddressOrdinal($saleOrderDetail->getSaleOrderHeader()->getDeliveryAddressOrdinal());
         }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
@@ -67,11 +71,11 @@ class DeliveryHeaderFormService
             $totalDelivery = 0;
             foreach ($oldDeliveryDetails as $oldDeliveryDetail) {
                 if ($oldDeliveryDetail->getId() !== $deliveryDetail->getId() && $oldDeliveryDetail->isIsCanceled() === false) {
-                    $totalDelivery += $oldDeliveryDetail->getDeliveredQuantity();
+                    $totalDelivery += $oldDeliveryDetail->getQuantity();
                 }
             }
             if ($deliveryDetail->isIsCanceled() === false) {
-                $totalDelivery += $deliveryDetail->getDeliveredQuantity();
+                $totalDelivery += $deliveryDetail->getQuantity();
             }
             $saleOrderDetail->setTotalDelivery($totalDelivery);
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());

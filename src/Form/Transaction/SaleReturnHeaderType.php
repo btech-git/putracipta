@@ -28,6 +28,7 @@ class SaleReturnHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
+            ->add('isProductExchange')
             ->add('warehouse', null, ['choice_label' => 'name'])
             ->add('taxMode', ChoiceType::class, ['choices' => [
                 '0%' => SaleReturnHeader::TAX_MODE_NON_TAX,

@@ -24,6 +24,10 @@
                 <td>{{ deliveryHeader.customer.company|default}}</td>
             </tr>
             <tr>
+                <th>PIC</th>
+                <td>{{ deliveryHeader.customerName|default}}</td>
+            </tr>
+            <tr>
                 <th>Alamat Kirim</th>
                 <td>{{ attribute(deliveryHeader.customer, 'addressDelivery' ~ deliveryHeader.deliveryAddressOrdinal)|default|nl2br }}</td>
             </tr>
@@ -91,10 +95,10 @@
                     <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td></td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.totalDelivery|default|number_format(0) }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.remainingDelivery|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
                     <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>
                     <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>

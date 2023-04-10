@@ -55,15 +55,26 @@ class SaleReturnHeaderFormService
             $saleReturnDetail->setIsCanceled($saleReturnDetail->getSyncIsCanceled());
             $deliveryDetail = $saleReturnDetail->getDeliveryDetail();
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+            $saleInvoiceDetail = $deliveryDetail->getSaleInvoiceDetail();
+            
             $saleReturnDetail->setProduct($deliveryDetail->getProduct());
             $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
             
-            $saleInvoiceDetail = $deliveryDetail->getSaleInvoiceDetail();
-            if ($saleInvoiceDetail !== null) {
-                $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
-                $saleInvoiceHeader = $saleInvoiceDetail->getSaleInvoiceHeader();
-                $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
+            if ($saleReturnHeader->isIsProductExchange()) {
+                $totalReturn = $saleOrderDetail->getTotalReturn();
+                if ($saleReturnDetail->isIsCanceled() === false) {
+                    $totalReturn += $saleReturnDetail->getQuantity();
+                }
+
+                $saleOrderDetail->setTotalReturn($totalReturn);
+                $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
+            } else {
+                if ($saleInvoiceDetail !== null) {
+                    $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
+                    $saleInvoiceHeader = $saleInvoiceDetail->getSaleInvoiceHeader();
+                    $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
+                }
             }
         }
         $saleReturnHeader->setSubTotal($saleReturnHeader->getSyncSubTotal());

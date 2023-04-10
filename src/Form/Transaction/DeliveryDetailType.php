@@ -15,7 +15,7 @@ class DeliveryDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('deliveredQuantity')
+            ->add('quantity')
             ->add('isCanceled')
             ->add('lotNumber')
             ->add('linePo')

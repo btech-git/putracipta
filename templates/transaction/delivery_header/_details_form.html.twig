@@ -49,7 +49,7 @@
                     </td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default }}</td>
-                    <td>{{ form_row(detailForm.deliveredQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.saleOrderDetail.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.packaging, {'label': false}) }}</td>
                     <td>

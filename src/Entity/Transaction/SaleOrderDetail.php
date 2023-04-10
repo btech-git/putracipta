@@ -81,12 +81,25 @@ class SaleOrderDetail extends TransactionDetail
 
     public function getSyncRemainingDelivery(): int
     {
-        return $this->quantity - $this->totalDelivery;
+        return $this->quantity - $this->totalDelivery + $this->totalReturn;
     }
 
     public function getSyncUnitPriceBeforeTax(): string
     {
         return $this->saleOrderHeader->getTaxMode() === $this->saleOrderHeader::TAX_MODE_TAX_INCLUSION ? $this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100) : $this->unitPrice;
+    }
+
+    public function getSyncTotalQuantityReturn(): int
+    {
+        $total = 0;
+        
+        foreach ($this->getDeliveryDetails() as $deliveryDetail) {
+            foreach ($deliveryDetail->getSaleReturnDetails() as $saleReturnDetail) {
+                $total += $saleReturnDetail->isIsCanceled() === false ? $saleReturnDetail->getQuantity() : 0;
+            }
+        }
+        
+        return $total;
     }
 
     public function getTotal(): string

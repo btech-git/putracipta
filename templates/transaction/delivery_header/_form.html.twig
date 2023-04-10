@@ -35,6 +35,36 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.customer) }}
                     </div>
+                    <div id="customer-name-1" class="d-none">{{ deliveryHeader.customer.name|default }}</div>
+                    <div id="customer-name-2" class="d-none">{{ deliveryHeader.customer.name2|default }}</div>
+                    <div id="customer-name-3" class="d-none">{{ deliveryHeader.customer.name3|default }}</div>
+                    <div id="customer-name-4" class="d-none">{{ deliveryHeader.customer.name4|default }}</div>
+                    <div id="customer-name-5" class="d-none">{{ deliveryHeader.customer.name5|default }}</div>
+                    <div class="mb-3">
+                        <label class="form-label">PIC</label>
+                        <select class="form-select"
+                                data-controller="dom-element"
+                                data-action="DOMContentLoaded@document->dom-element#bind customer-table:data-table:select@document->dom-element#bind change->dom-element#bind"
+                                data-dom-element-bind-specifications-param="{{ [
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value=""></option>`'}},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-1").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.customerName == deliveryHeader.customer.name ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-1").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-1").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-2").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.customerName == deliveryHeader.customer.name2 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-2").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-2").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-3").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.customerName == deliveryHeader.customer.name3 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-3").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-3").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-4").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.customerName == deliveryHeader.customer.name4 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-4").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-4").textContent !== ""'},
+                                    {'eventTypes': ['DOMContentLoaded'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${document.querySelector("#customer-name-5").textContent}"' ~ (deliveryHeader.customer is not null and deliveryHeader.customerName == deliveryHeader.customer.name5 ? ' selected="selected"' : '') ~ '>${document.querySelector("#customer-name-5").textContent}</option>`'}, 'condition': 'document.querySelector("#customer-name-5").textContent !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'replace', 'content': '""'}},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value=""></option>`'}},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name}">${$event.detail.name}</option>`'}, 'condition': '$event.detail.name !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name2}">${$event.detail.name2}</option>`'}, 'condition': '$event.detail.name2 !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name3}">${$event.detail.name3}</option>`'}, 'condition': '$event.detail.name3 !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name4}">${$event.detail.name4}</option>`'}, 'condition': '$event.detail.name4 !== ""'},
+                                    {'eventTypes': ['customer-table:data-table:select'], 'action': 'putHtmlContent', 'descriptor': {'mode': 'append', 'content': '`<option value="${$event.detail.name5}">${$event.detail.name5}</option>`'}, 'condition': '$event.detail.name5 !== ""'},
+                                    {'eventTypes': ['change'], 'destinationsTarget': '#' ~ form.customerName.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value'}},
+                                ]|json_encode }}">
+                        </select>
+                        {{ form_row(form.customerName, {'label': false, 'attr': {'class': 'd-none'}}) }}
+                    </div>
                     {{ form_row(form.employee, {'label': 'Sopir'}) }}
                 </div>
             </div>

@@ -64,6 +64,9 @@ class SaleReturnHeader extends TransactionHeader
     #[Assert\NotNull]
     private ?string $saleOrderReferenceNumbers = '';
 
+    #[ORM\Column]
+    private ?bool $isProductExchange = false;
+
     public function __construct()
     {
         $this->saleReturnDetails = new ArrayCollection();
@@ -236,6 +239,18 @@ class SaleReturnHeader extends TransactionHeader
     public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
     {
         $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
+
+        return $this;
+    }
+
+    public function isIsProductExchange(): ?bool
+    {
+        return $this->isProductExchange;
+    }
+
+    public function setIsProductExchange(bool $isProductExchange): self
+    {
+        $this->isProductExchange = $isProductExchange;
 
         return $this;
     }
