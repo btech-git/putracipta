@@ -63,8 +63,9 @@ class SaleOrderHeaderType extends AbstractType
                             'image/png',
                             'application/pdf',
                             'application/vnd.ms-excel',
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid JPEG, PNG or PDF',
+                        'mimeTypesMessage' => 'Please upload a valid JPEG, PNG, PDF, or Excel',
                     ])
                 ],
             ])
