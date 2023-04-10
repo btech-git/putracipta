@@ -14,6 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'transaction_purchase_request_paper_detail')]
 class PurchaseRequestPaperDetail extends TransactionDetail
 {
+    public const TRANSACTION_STATUS_OPEN = 'open';
+    public const TRANSACTION_STATUS_PURCHASE = 'purchase';
+    public const TRANSACTION_STATUS_RECEIVE = 'receive';
+    public const TRANSACTION_STATUS_CLOSE = 'close';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,6 +48,9 @@ class PurchaseRequestPaperDetail extends TransactionDetail
 
     #[ORM\OneToOne(mappedBy: 'purchaseRequestPaperDetail', cascade: ['persist', 'remove'])]
     private ?PurchaseOrderPaperDetail $purchaseOrderPaperDetail = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = self::TRANSACTION_STATUS_OPEN;
 
     public function getSyncIsCanceled(): bool
     {
@@ -145,6 +153,18 @@ class PurchaseRequestPaperDetail extends TransactionDetail
         }
 
         $this->purchaseOrderPaperDetail = $purchaseOrderPaperDetail;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
 
         return $this;
     }

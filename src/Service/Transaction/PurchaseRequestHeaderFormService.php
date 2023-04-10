@@ -46,6 +46,7 @@ class PurchaseRequestHeaderFormService
         }
         foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
             $purchaseRequestDetail->setIsCanceled($purchaseRequestDetail->getSyncIsCanceled());
+            $purchaseRequestDetail->setTransactionStatus(PurchaseRequestDetail::TRANSACTION_STATUS_OPEN);
         }
         $purchaseRequestHeader->setTotalQuantity($purchaseRequestHeader->getSyncTotalQuantity());
     }

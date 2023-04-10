@@ -6,6 +6,7 @@ use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Entity\Transaction\PurchaseOrderPaperDetail;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
+use App\Entity\Transaction\PurchaseRequestDetail;
 use App\Entity\Transaction\ReceiveDetail;
 use App\Entity\Transaction\ReceiveHeader;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
@@ -94,6 +95,15 @@ class ReceiveHeaderFormService
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
             $totalRemaining += $purchaseOrderDetailForMaterialOrPaper->getRemainingReceive();
+        
+            $purchaseRequestDetailForMaterialOrPaper = $this->getPurchaseRequestDetailForMaterialOrPaper($receiveDetail);
+            if ($purchaseRequestDetailForMaterialOrPaper !== null) {
+                if ($totalRemaining > 0) {
+                    $purchaseRequestDetailForMaterialOrPaper->setTransactionStatus(PurchaseRequestDetail::TRANSACTION_STATUS_RECEIVE);
+                } else {
+                    $purchaseRequestDetailForMaterialOrPaper->setTransactionStatus(PurchaseRequestDetail::TRANSACTION_STATUS_CLOSE);
+                }
+            }
         }
         if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
             if ($totalRemaining > 0) {
@@ -154,6 +164,19 @@ class ReceiveHeaderFormService
             return $purchaseOrderDetail;
         } else if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail !== null) {
             return $purchaseOrderPaperDetail;
+        }
+    }
+
+    private function getPurchaseRequestDetailForMaterialOrPaper(ReceiveDetail $receiveDetail)
+    {
+        $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+        $purchaseOrderPaperDetail = $receiveDetail->getPurchaseOrderPaperDetail();
+        if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail === null) {
+            return null;
+        } else if ($purchaseOrderPaperDetail === null && $purchaseOrderDetail !== null) {
+            return $purchaseOrderDetail->getPurchaseRequestDetail();
+        } else if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail !== null) {
+            return $purchaseOrderPaperDetail->getPurchaseRequestPaperDetail();
         }
     }
 

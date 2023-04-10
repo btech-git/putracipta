@@ -68,7 +68,7 @@ class ReceiveHeader extends TransactionHeader
     private ?int $purchaseOrderCodeNumberYear = 0;
 
     #[ORM\Column]
-    private ?bool $hasReturnTransaction = null;
+    private ?bool $hasReturnTransaction = false;
 
     public function __construct()
     {

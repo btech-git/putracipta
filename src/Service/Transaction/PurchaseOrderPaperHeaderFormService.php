@@ -4,6 +4,7 @@ namespace App\Service\Transaction;
 
 use App\Entity\Transaction\PurchaseOrderPaperDetail;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
+use App\Entity\Transaction\PurchaseRequestPaperDetail;
 use App\Repository\Transaction\PurchaseOrderPaperDetailRepository;
 use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,6 +73,11 @@ class PurchaseOrderPaperHeaderFormService
             
             if ($purchaseOrderPaperDetail->isIsTransactionClosed() === true or $purchaseOrderPaperDetail->isIsCanceled() === true) {
                 $purchaseOrderPaperDetail->setRemainingReceive(0);
+            }
+            
+            $purchaseRequestPaperDetail = $purchaseOrderPaperDetail->getPurchaseRequestPaperDetail();
+            if ($purchaseRequestPaperDetail !== null && $purchaseOrderPaperHeader->getId() === null) {
+                $purchaseRequestPaperDetail->setTransactionStatus(PurchaseRequestPaperDetail::TRANSACTION_STATUS_PURCHASE);
             }
         }
         $supplier = $purchaseOrderPaperHeader->getSupplier();

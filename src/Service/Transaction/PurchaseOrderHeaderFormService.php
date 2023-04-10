@@ -4,6 +4,7 @@ namespace App\Service\Transaction;
 
 use App\Entity\Transaction\PurchaseOrderDetail;
 use App\Entity\Transaction\PurchaseOrderHeader;
+use App\Entity\Transaction\PurchaseRequestDetail;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -64,6 +65,12 @@ class PurchaseOrderHeaderFormService
             if ($purchaseOrderDetail->isIsTransactionClosed() === true or $purchaseOrderDetail->isIsCanceled() === true) {
                 $purchaseOrderDetail->setRemainingReceive(0);
             }
+            
+            $purchaseRequestDetail = $purchaseOrderDetail->getPurchaseRequestDetail();
+            if ($purchaseRequestDetail !== null && $purchaseOrderHeader->getId() === null) {
+                $purchaseRequestDetail->setTransactionStatus(PurchaseRequestDetail::TRANSACTION_STATUS_PURCHASE);
+            }
+            
         }
         $supplier = $purchaseOrderHeader->getSupplier();
         $purchaseOrderHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
