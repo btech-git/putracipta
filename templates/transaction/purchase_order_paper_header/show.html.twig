@@ -43,6 +43,10 @@
                 <td>{{ purchaseOrderPaperHeader.note }}</td>
             </tr>
             <tr>
+                <th>Retur Transaksi</th>
+                <td>{{ purchaseOrderPaperHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction On Hold?</th>
                 <td>{{ purchaseOrderPaperHeader.isOnHold ? 'Yes' : 'No' }}</td>
             </tr>

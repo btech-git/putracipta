@@ -105,6 +105,9 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     #[Assert\NotNull]
     private ?bool $isOnHold = false;
 
+    #[ORM\Column]
+    private ?bool $hasReturnTransaction = false;
+
     public function __construct()
     {
         $this->purchaseOrderPaperDetails = new ArrayCollection();
@@ -444,6 +447,18 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     public function setIsOnHold(bool $isOnHold): self
     {
         $this->isOnHold = $isOnHold;
+
+        return $this;
+    }
+
+    public function isHasReturnTransaction(): ?bool
+    {
+        return $this->hasReturnTransaction;
+    }
+
+    public function setHasReturnTransaction(bool $hasReturnTransaction): self
+    {
+        $this->hasReturnTransaction = $hasReturnTransaction;
 
         return $this;
     }

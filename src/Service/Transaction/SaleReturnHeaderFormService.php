@@ -54,12 +54,14 @@ class SaleReturnHeaderFormService
         foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
             $saleReturnDetail->setIsCanceled($saleReturnDetail->getSyncIsCanceled());
             $deliveryDetail = $saleReturnDetail->getDeliveryDetail();
-            $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleInvoiceDetail = $deliveryDetail->getSaleInvoiceDetail();
+            $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+            $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             
             $saleReturnDetail->setProduct($deliveryDetail->getProduct());
             $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
+            $saleOrderHeader->setHasReturnTransaction(true);
             
             if ($saleReturnHeader->isIsProductExchange()) {
                 $totalReturn = $saleOrderDetail->getTotalReturn();

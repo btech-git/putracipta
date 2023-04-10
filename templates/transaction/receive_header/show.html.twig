@@ -44,6 +44,10 @@
                 <td>{{ receiveHeader.note }}</td>
             </tr>
             <tr>
+                <th>Retur Transaksi</th>
+                <td>{{ receiveHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ receiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

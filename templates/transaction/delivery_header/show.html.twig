@@ -56,6 +56,10 @@
                 <td>{{ deliveryHeader.note }}</td>
             </tr>
             <tr>
+                <th>Retur Transaksi</th>
+                <td>{{ deliveryHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ deliveryHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

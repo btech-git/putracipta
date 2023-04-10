@@ -108,6 +108,9 @@ class SaleOrderHeader extends TransactionHeader
     #[Assert\LessThan(6)]
     private ?int $deliveryAddressOrdinal = 0;
 
+    #[ORM\Column]
+    private ?bool $hasReturnTransaction = false;
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -420,6 +423,18 @@ class SaleOrderHeader extends TransactionHeader
     public function setDeliveryAddressOrdinal(int $deliveryAddressOrdinal): self
     {
         $this->deliveryAddressOrdinal = $deliveryAddressOrdinal;
+
+        return $this;
+    }
+
+    public function isHasReturnTransaction(): ?bool
+    {
+        return $this->hasReturnTransaction;
+    }
+
+    public function setHasReturnTransaction(bool $hasReturnTransaction): self
+    {
+        $this->hasReturnTransaction = $hasReturnTransaction;
 
         return $this;
     }
