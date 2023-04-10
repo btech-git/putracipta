@@ -58,6 +58,14 @@
                 <th>Satuan</th>
                 <td>{{ material.unit.name }}</td>
             </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ material.note }}</td>
+            </tr>
+            <tr>
+                <th>Inactive</th>
+                <td>{{ material.isInactive ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
