@@ -136,7 +136,11 @@
                         data-property-path="purchaseOrderPaperDetails.{{ detailForm.vars.name }}.total">
                         {{ detailForm.vars.value.total|default|number_format(2) }}
                     </td>
-                    <td>{{ form_row(detailForm.isTransactionClosed, {'label': false}) }}</td>
+                    <td>
+                        {% if (detailForm.vars.value.id != null) %}
+                            {{ form_row(detailForm.isTransactionClosed, {'label': false}) }}
+                        {% endif %}
+                    </td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>

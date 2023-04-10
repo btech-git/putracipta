@@ -20,6 +20,7 @@ class SaleOrderDetailType extends AbstractType
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
             ->add('unit', null, ['choice_label' => 'name'])
+            ->add('isTransactionClosed')
             ->add('isCanceled')
         ;
     }

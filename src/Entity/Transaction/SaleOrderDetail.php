@@ -67,6 +67,9 @@ class SaleOrderDetail extends TransactionDetail
     #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrder::class)]
     private Collection $masterOrders;
 
+    #[ORM\Column]
+    private ?bool $isTransactionClosed = false;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -288,6 +291,18 @@ class SaleOrderDetail extends TransactionDetail
                 $masterOrder->setSaleOrderDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsTransactionClosed(): ?bool
+    {
+        return $this->isTransactionClosed;
+    }
+
+    public function setIsTransactionClosed(bool $isTransactionClosed): self
+    {
+        $this->isTransactionClosed = $isTransactionClosed;
 
         return $this;
     }

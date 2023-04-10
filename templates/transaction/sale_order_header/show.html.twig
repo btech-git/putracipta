@@ -81,6 +81,7 @@
                 <th>Harga</th>
                 <th>DPP</th>
                 <th>Total</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>
@@ -95,6 +96,7 @@
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                    <td>{{ saleOrderDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
                     <td>{{ saleOrderDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
@@ -103,12 +105,12 @@
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right">
@@ -123,12 +125,12 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
         </tfoot>
     </table>
@@ -154,7 +156,7 @@
                         <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                         <td>{{ deliveryDetail.deliveryHeader.warehouse.name|default }}</td>
                         <td>{{ deliveryDetail.product.name|default }}</td>
-                        <td class="text-center">{{ deliveryDetail.quantity|default }}</td>
+                        <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ deliveryDetail.unit.name|default }}</td>
                         <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
@@ -189,7 +191,7 @@
                             <td>{{ saleReturnDetail.saleReturnHeader.transactionDate ? saleReturnDetail.saleReturnHeader.transactionDate|date('d M Y') : '' }}</td>
                             <td>{{ saleReturnDetail.saleReturnHeader.warehouse.name|default }}</td>
                             <td>{{ saleReturnDetail.product.name|default }}</td>
-                            <td class="text-center">{{ saleReturnDetail.quantity|default }}</td>
+                            <td class="text-center">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
                             <td>{{ saleReturnDetail.unit.name|default }}</td>
                             <td>{{ saleReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
                         </tr>

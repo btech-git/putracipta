@@ -48,6 +48,14 @@ class SaleOrderHeaderFormService
         }
         foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
+            
+            if ($saleOrderDetail->getRemainingDelivery() === 0) {
+                $saleOrderDetail->setIsTransactionClosed(true);
+            }
+            
+            if ($saleOrderDetail->isIsTransactionClosed() === true or $saleOrderDetail->isIsCanceled() === true) {
+                $saleOrderDetail->setRemainingDelivery(0);
+            }
         }
         
         if ($saleOrderHeader->getTaxMode() !== $saleOrderHeader::TAX_MODE_NON_TAX) {
