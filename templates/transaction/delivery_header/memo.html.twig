@@ -65,8 +65,8 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Kepada:</div>
-                            <div class="cell value">{{ deliveryHeader.customer.company|default }}</div>
+                            <div class="cell label" style="min-width: 60px">Kepada:</div>
+                            <div class="cell value" style="max-width: 150px">{{ deliveryHeader.customer.company|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
@@ -77,8 +77,8 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">SJ #</div>
-                            <div class="cell value">{{ deliveryHeader.codeNumber|default }}</div>
+                            <div class="cell label" style="min-width: 130px">SJ #</div>
+                            <div class="cell value" style="min-width: 100px">{{ deliveryHeader.codeNumber|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Kirim</div>
@@ -128,7 +128,7 @@
                                     <td class="center">{{ deliveryDetail.linePo|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                <td class="center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
+                                <td class="center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                                 <td class="center">{{ deliveryDetail.packaging|default }}</td>
                             {% elseif not deliveryDetail %}
                                 <td>&nbsp;</td>

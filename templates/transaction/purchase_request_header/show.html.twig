@@ -56,7 +56,7 @@
                 <tr>
                     <td>{{ purchaseRequestDetail.material.code|default }}</td>
                     <td>{{ purchaseRequestDetail.material.name|default }}</td>
-                    <td style="text-align: center">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseRequestDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestDetail.memo|default }}</td>
@@ -67,8 +67,8 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2" style="text-align: right"><strong>Total</strong></td>
-                <td style="text-align: center"><strong>{{ purchaseRequestHeader.totalQuantity|default }}</strong></td>
+                <td colspan="2" class="text-end"><strong>Total</strong></td>
+                <td class="text-center"><strong>{{ purchaseRequestHeader.totalQuantity|default }}</strong></td>
                 <td colspan="5"></td>
             </tr>
         </tfoot>
@@ -92,7 +92,7 @@
                     <td>{{ purchaseRequestDetail.purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
                     <td>{{ purchaseRequestDetail.purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseRequestDetail.purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestDetail.purchaseOrderDetail.material.name|default }}</td>
-                    <td>{{ purchaseRequestDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center">{{ purchaseRequestDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseRequestDetail.purchaseOrderDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestDetail.purchaseOrderDetail.isCanceled|default ? 'Canceled' : '' }}</td>
                 </tr>
@@ -100,33 +100,38 @@
         </tbody>
     </table>
         
-    {#<legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="bg-primary">
-                <th>Penerimaan #</th>
-                <th>Tanggal</th>
-                <th>Material</th>
-                <th>Quantity</th>
-                <th>Satuan</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
-                {% for receiveDetail in purchaseRequestDetail.purchaseOrderDetail.receiveDetails %}
-                    <tr>
-                        <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
-                        <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                        <td>{{ receiveDetail.material.name|default }}</td>
-                        <td>{{ receiveDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ receiveDetail.unit.name|default }}</td>
-                        <td>{{ receiveDetail.isCanceled|default ? 'Canceled' : '' }}</td>
-                    </tr>
+    {% set showReceive = purchaseRequestHeader.purchaseRequestDetails|map(purchaseRequestDetail => purchaseRequestDetail.purchaseOrderDetail is not null)|reduce((a, b) => a or b, false) %}
+    {% if showReceive %}
+        <legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-primary">
+                    <th>Penerimaan #</th>
+                    <th>Tanggal</th>
+                    <th>Material</th>
+                    <th>Quantity</th>
+                    <th>Satuan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
+                    {% if purchaseRequestDetail.purchaseOrderDetail is not null %}
+                        {% for receiveDetail in purchaseRequestDetail.purchaseOrderDetail.receiveDetails %}
+                            <tr>
+                                <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                                <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ receiveDetail.material.name|default }}</td>
+                                <td class="text-center">{{ receiveDetail.quantity|default|number_format(0) }}</td>
+                                <td>{{ receiveDetail.unit.name|default }}</td>
+                                <td>{{ receiveDetail.isCanceled|default ? 'Canceled' : '' }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>#}
+            </tbody>
+        </table>
+    {% endif %}
        
     {#{{ include('transaction/purchase_request_header/_delete_form.html.twig') }}#}
     {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestHeader) or purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_HOLD', purchaseRequestHeader) %}

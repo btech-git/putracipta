@@ -65,8 +65,8 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Kepada:</div>
-                            <div class="cell value">{{ saleInvoiceHeader.customer.company|default }}</div>
+                            <div class="cell label" style="min-width: 60px">Kepada:</div>
+                            <div class="cell value" style="max-width: 100px">{{ saleInvoiceHeader.customer.company|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
@@ -81,8 +81,8 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Invoice #</div>
-                            <div class="cell value">{{ saleInvoiceHeader.codeNumber|default }}</div>
+                            <div class="cell label" style="min-width: 130px">Invoice #</div>
+                            <div class="cell value" style="min-width: 100px">{{ saleInvoiceHeader.codeNumber|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Invoice</div>
