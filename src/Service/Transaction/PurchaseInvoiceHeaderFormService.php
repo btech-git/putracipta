@@ -32,6 +32,8 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceHeader->setModifiedTransactionDateTime($datetime);
             $purchaseInvoiceHeader->setModifiedTransactionUser($user);
         }
+        
+        $purchaseInvoiceHeader->setCodeNumberVersion($purchaseInvoiceHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void

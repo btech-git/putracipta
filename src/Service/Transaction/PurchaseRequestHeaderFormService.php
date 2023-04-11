@@ -32,6 +32,8 @@ class PurchaseRequestHeaderFormService
             $purchaseRequestHeader->setModifiedTransactionDateTime($datetime);
             $purchaseRequestHeader->setModifiedTransactionUser($user);
         }
+        
+        $purchaseRequestHeader->setCodeNumberVersion($purchaseRequestHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void

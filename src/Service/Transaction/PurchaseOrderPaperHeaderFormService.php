@@ -33,6 +33,8 @@ class PurchaseOrderPaperHeaderFormService
             $purchaseOrderPaperHeader->setModifiedTransactionDateTime($datetime);
             $purchaseOrderPaperHeader->setModifiedTransactionUser($user);
         }
+        
+        $purchaseOrderPaperHeader->setCodeNumberVersion($purchaseOrderPaperHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void

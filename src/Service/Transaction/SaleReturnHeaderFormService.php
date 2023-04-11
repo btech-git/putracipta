@@ -32,6 +32,8 @@ class SaleReturnHeaderFormService
             $saleReturnHeader->setModifiedTransactionDateTime($datetime);
             $saleReturnHeader->setModifiedTransactionUser($user);
         }
+        
+        $saleReturnHeader->setCodeNumberVersion($saleReturnHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(SaleReturnHeader $saleReturnHeader, array $options = []): void

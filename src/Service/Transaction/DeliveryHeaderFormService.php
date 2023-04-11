@@ -40,6 +40,8 @@ class DeliveryHeaderFormService
             $deliveryHeader->setModifiedTransactionDateTime($datetime);
             $deliveryHeader->setModifiedTransactionUser($user);
         }
+        
+        $deliveryHeader->setCodeNumberVersion($deliveryHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(DeliveryHeader $deliveryHeader, array $options = []): void

@@ -37,6 +37,8 @@ class SalePaymentHeaderFormService
             $salePaymentHeader->setModifiedTransactionDateTime($datetime);
             $salePaymentHeader->setModifiedTransactionUser($user);
         }
+        
+        $salePaymentHeader->setCodeNumberVersion($salePaymentHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(SalePaymentHeader $salePaymentHeader, array $options = []): void
