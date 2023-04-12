@@ -78,7 +78,7 @@ class PurchaseOrderPaperHeaderFormService
             }
             
             $purchaseRequestPaperDetail = $purchaseOrderPaperDetail->getPurchaseRequestPaperDetail();
-            if ($purchaseRequestPaperDetail !== null && $purchaseOrderPaperHeader->getId() === null) {
+            if ($purchaseRequestPaperDetail !== null) {
                 $purchaseRequestPaperDetail->setTransactionStatus(PurchaseRequestPaperDetail::TRANSACTION_STATUS_PURCHASE);
             }
         }
