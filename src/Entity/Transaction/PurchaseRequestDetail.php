@@ -16,8 +16,8 @@ class PurchaseRequestDetail extends TransactionDetail
 {
     public const TRANSACTION_STATUS_OPEN = 'open';
     public const TRANSACTION_STATUS_PURCHASE = 'purchase';
-    public const TRANSACTION_STATUS_RECEIVE = 'receive';
-    public const TRANSACTION_STATUS_CLOSE = 'close';
+    public const TRANSACTION_STATUS_RECEIVE = 'part_rcv';
+    public const TRANSACTION_STATUS_CLOSE = 'full_rcv';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
