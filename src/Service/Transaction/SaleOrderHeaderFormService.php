@@ -46,10 +46,13 @@ class SaleOrderHeaderFormService
             $saleOrderHeader->setCodeNumberToNext($currentSaleOrderHeader->getCodeNumber(), $year, $month);
 
         }
+        
         foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
+            $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
+            $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
             
-            if ($saleOrderDetail->getRemainingDelivery() === 0) {
+            if ($saleOrderDetail->getRemainingDelivery() <= 0) {
                 $saleOrderDetail->setIsTransactionClosed(true);
             }
             
@@ -64,10 +67,6 @@ class SaleOrderHeaderFormService
             $saleOrderHeader->setTaxPercentage(0);
         }
         
-        foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
-            $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
-            $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
-        }
         $saleOrderHeader->setTotalQuantity($saleOrderHeader->getSyncTotalQuantity());
         $saleOrderHeader->setSubTotal($saleOrderHeader->getSyncSubTotal());
         $saleOrderHeader->setTaxNominal($saleOrderHeader->getSyncTaxNominal());

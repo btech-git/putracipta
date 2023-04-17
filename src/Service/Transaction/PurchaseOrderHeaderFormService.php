@@ -56,6 +56,10 @@ class PurchaseOrderHeaderFormService
         
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
+            if ($purchaseOrderDetail->isIsCanceled()) {
+                $purchaseOrderDetail->setPurchaseRequestDetail(null);
+            }
+            
             $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
             $purchaseOrderDetail->setUnitPriceBeforeTax($purchaseOrderDetail->getSyncUnitPriceBeforeTax());
             $purchaseOrderDetail->setTotal($purchaseOrderDetail->getSyncTotal());
