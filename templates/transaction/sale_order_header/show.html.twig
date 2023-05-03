@@ -195,10 +195,6 @@
                             <td>{{ saleReturnDetail.unit.name|default }}</td>
                             <td>{{ saleReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="7">No Records Found</td>
-                        </tr>
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
