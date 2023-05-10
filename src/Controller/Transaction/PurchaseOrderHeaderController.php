@@ -257,7 +257,7 @@ class PurchaseOrderHeaderController extends AbstractController
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
         $pdfGenerator->generate($htmlView, $fileName, [
-            fn($html, $chrootDir) => preg_replace('/<link(.+)href=".+">/', '<link\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
         ]);
     }
