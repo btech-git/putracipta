@@ -29,29 +29,37 @@ class ProductPrototypeType extends AbstractType
                 'Sample Cetakan' => ProductPrototype::DATA_SOURCE_PRINT_SAMPLE,
             ]])
             ->add('developmentType', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-                'EP' => ProductPrototype::DEVELOPMENT_TYPE_EP,
-                'FEP' => ProductPrototype::DEVELOPMENT_TYPE_FEP,
-                'PS' => ProductPrototype::DEVELOPMENT_TYPE_PS,
+                'EP (Engineering Piloting)' => ProductPrototype::DEVELOPMENT_TYPE_EP,
+                'FEP (Final Engineering Piloting)' => ProductPrototype::DEVELOPMENT_TYPE_FEP,
+                'PP (Production Planning)' => ProductPrototype::DEVELOPMENT_TYPE_PP,
+                'PS (Production Schedule)' => ProductPrototype::DEVELOPMENT_TYPE_PS,
             ]])
-            ->add('quantityEngineering')
             ->add('quantityProduction')
             ->add('color')
             ->add('quantityBlade')
-            ->add('varnishList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-                'WB' => ProductPrototype::VARNISH_WB,
-                'UV/Spot' => ProductPrototype::VARNISH_UV,
-                'OPV' => ProductPrototype::VARNISH_OPV,
+            ->add('coatingList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'OPV Matt' => ProductPrototype::COATING_OPV_MATT,
+                'OPV Glossy' => ProductPrototype::COATING_OPV_GLOSSY,
+                'WB Matt' => ProductPrototype::COATING_WB_MATT,
+                'WB Glossy Full' => ProductPrototype::COATING_WB_GLOSSY_FULL,
+                'WB Glossy Free' => ProductPrototype::COATING_WB_GLOSSY_FREE,
+                'WB Calendering' => ProductPrototype::COATING_WB_CALENDERING,
+                'UV Glossy Full' => ProductPrototype::COATING_UV_GLOSSY_FULL,
+                'UV Glossy Free' => ProductPrototype::COATING_UV_GLOSSY_FREE,
+                'UV Glossy Spot' => ProductPrototype::COATING_UV_GLOSSY_SPOT,
             ]])
             ->add('laminatingList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-                'Gloss' => ProductPrototype::LAMINATING_GLOSS,
-                'Doff' => ProductPrototype::LAMINATING_DOFF,
+                'Matt' => ProductPrototype::LAMINATING_MATT,
+                'Dov' => ProductPrototype::LAMINATING_DOV,
             ]])
             ->add('processList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'Printing' => ProductPrototype::PROCESS_PRINTING,
+                'Coating' => ProductPrototype::PROCESS_COATING,
                 'Diecut' => ProductPrototype::PROCESS_DIECUT,
                 'Emboss' => ProductPrototype::PROCESS_EMBOSS,
-                'Lock Bottom' => ProductPrototype::PROCESS_LOCK,
-                'Lem Joint' => ProductPrototype::PROCESS_JOINT,
                 'Hot Stamp' => ProductPrototype::PROCESS_HOTSTAMP,
+                'Lem Lock Bottom' => ProductPrototype::PROCESS_LOCK_BOTTOM,
+                'Lem Straight Joint' => ProductPrototype::PROCESS_STRAIGHT_JOINT,
                 'Jilid Buku' => ProductPrototype::PROCESS_JILID,
             ]])
             ->add('transactionFile', FileType::class, [
@@ -77,8 +85,7 @@ class ProductPrototypeType extends AbstractType
                 },
             ])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
-            ->add('paperEp', EntityHiddenType::class, array('class' => Paper::class))
-            ->add('paperFep', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
         ;
     }
 

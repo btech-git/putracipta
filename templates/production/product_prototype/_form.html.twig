@@ -10,11 +10,18 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
+                    {{ form_row(form.developmentType, {'label': 'Proses Development'}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.dataSource, {'label': 'Sumber Data'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     {{ form_row(form.productionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
                     {{ form_row(form.productCode, {'label': 'Kode Produk'}) }}
                     {{ form_row(form.productName, {'label': 'Nama Produk'}) }}
-                    {{ form_row(form.measurement, {'label': 'Ukuran Jadi'}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -61,25 +68,18 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.email'}},
                                ]|json_encode }}" />
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.dataSource, {'label': 'Sumber Data'}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.developmentType, {'label': 'Development'}) }}
-                        </div>
-                    </div>
+                    {{ form_row(form.measurement, {'label': 'Ukuran Jadi'}) }}
                 </div>
             </div>
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">EP</legend>
+            <legend class="float-none w-auto text-dark px-1">SPESIFIKASI</legend>
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="{{ form.paperEp.vars.id }}-text" class="form-label">Material Kertas</label>
-                        {{ form_row(form.paperEp, {
+                        <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
+                        {{ form_row(form.paper, {
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'paper-table:data-table:select@document->dom-element#bind',
@@ -88,21 +88,19 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.paperEp.vars.id }}-text" class="form-control readonly-form-input {% if not form.paperEp.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paperEp.code|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paper.code|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#paper-ep-dialog"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
-                        {{ form_errors(form.paperEp) }}
+                        {{ form_errors(form.paper) }}
                     </div>
-                </div>
                     
-                <div class="col">
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.paperEp.paperNameSizeCombination|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.paper.paperNameSizeCombination|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -112,86 +110,33 @@
                 </div>
                     
                 <div class="col">
-                    {{ form_row(form.quantityEngineering, {'label': 'Quantity'}) }}
+                    {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
+                    {{ form_row(form.quantityProduction, {'label': 'Quantity (pcs)'}) }}
+                    {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata (up/sheet)'}) }}
                 </div>
             </div>
         </fieldset>
-
+  
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">FEP/PS</legend>
+            <legend class="float-none w-auto text-dark px-1">FINISHING</legend>
             <div class="row">
                 <div class="col">
-                    <div class="mb-3">
-                        <label for="{{ form.paperFep.vars.id }}-text" class="form-label">Material Kertas</label>
-                        {{ form_row(form.paperFep, {
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'paper-table:data-table:select@document->dom-element#bind',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperId'}},
-                                ]|json_encode,
-                            },
-                        }) }}
-                        <input type="text" id="{{ form.paperFep.vars.id }}-text" class="form-control readonly-form-input {% if not form.paperFep.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paperFep.code|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#paper-fep-dialog"
-                               data-controller="dom-element"
-                               data-action="paper-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
-                               ]|json_encode }}" />
-                        {{ form_errors(form.paperFep) }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.paperFep.paperNameSizeCombination|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="paper-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
-                               ]|json_encode }}" />
-                    </div>
+                    {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
                 </div>
                 <div class="col">
-                    {{ form_row(form.quantityProduction, {'label': 'Quantity'}) }}
-                    {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
-                    {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata'}) }}
+                    {{ form_row(form.coatingList, {'label': 'Coating'}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.processList, {'label': 'Proses'}) }}
                 </div>
             </div>
         </fieldset>
-                
-        <div class="row">
-            <div class="col">
-                <fieldset class="border border-secondary rounded mb-3 p-3">
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
-                        </div>
-                </fieldset>
-            </div>
-            <div class="col">
-                <fieldset class="border border-secondary rounded mb-3 p-3">
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
-                        </div>
-                </fieldset>
-            </div>
-            <div class="col">
-                <fieldset class="border border-secondary rounded mb-3 p-3">
-                    <div class="row">
-                        <div class="col">
-                            {{ form_row(form.processList, {'label': 'Proses'}) }}
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionFile, {
-                        'label': transactionFileExists ? 'A File has been uploaded' : 'Upload File', 
+                        'label': transactionFileExists ? 'A Layout File has been uploaded' : 'Upload Layout File', 
                         'label_attr': {
                             'class': transactionFileExists ? 'text-danger fw-bold' : ''
                         }

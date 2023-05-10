@@ -2,6 +2,7 @@
 
 namespace App\Entity\Production;
 
+use App\Entity\Master;
 use App\Entity\Master\Customer;
 use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
@@ -20,20 +21,29 @@ class ProductPrototype extends ProductionHeader
     public const DATA_SOURCE_EMAIL = 'email';
     public const DATA_SOURCE_CD = 'cd';
     public const DATA_SOURCE_PRINT_SAMPLE = 'print_sample';
-    public const VARNISH_WB = 'wb';
-    public const VARNISH_UV = 'uv';
-    public const VARNISH_OPV = 'opv';
-    public const LAMINATING_GLOSS = 'gloss';
-    public const LAMINATING_DOFF = 'doff';
+    public const COATING_OPV_MATT = 'opv_matt';
+    public const COATING_OPV_GLOSSY = 'opv_glossy';
+    public const COATING_WB_MATT = 'wb_matt';
+    public const COATING_WB_GLOSSY_FULL = 'wb_glossy_full';
+    public const COATING_WB_GLOSSY_FREE = 'wb_glossy_free';
+    public const COATING_WB_CALENDERING = 'wb_glossy_calendering';
+    public const COATING_UV_GLOSSY_FULL = 'uv_glossy_full';
+    public const COATING_UV_GLOSSY_FREE = 'uv_glossy_free';
+    public const COATING_UV_GLOSSY_SPOT = 'uv_glossy_spot';
+    public const LAMINATING_MATT = 'matt';
+    public const LAMINATING_DOV = 'dov';
+    public const PROCESS_PRINTING = 'printing';
+    public const PROCESS_COATING = 'coating';
     public const PROCESS_DIECUT = 'diecut';
     public const PROCESS_EMBOSS = 'emboss';
-    public const PROCESS_LOCK = 'lock_bottom';
-    public const PROCESS_JOINT = 'lem_joint';
     public const PROCESS_HOTSTAMP = 'hotstamp';
+    public const PROCESS_LOCK_BOTTOM = 'lem_lock_bottom';
+    public const PROCESS_STRAIGHT_JOINT = 'lem_straight_joint';
     public const PROCESS_JILID = 'jilid_buku';
-    public const DEVELOPMENT_TYPE_EP = 'ep';
-    public const DEVELOPMENT_TYPE_FEP = 'fep';
-    public const DEVELOPMENT_TYPE_PS = 'ps';
+    public const DEVELOPMENT_TYPE_EP = 'engineering_piloting';
+    public const DEVELOPMENT_TYPE_FEP = 'final_engineering_piloting';
+    public const DEVELOPMENT_TYPE_PP = 'production_planning';
+    public const DEVELOPMENT_TYPE_PS = 'production_schedule';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -73,17 +83,10 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\Column]
     #[Assert\NotNull]
-    private ?int $quantityEngineering = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
     private ?int $quantityProduction = 0;
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $dataSource = [];
-
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $varnishList = [];
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $laminatingList = [];
@@ -95,10 +98,10 @@ class ProductPrototype extends ProductionHeader
     private array $developmentType = [];
 
     #[ORM\ManyToOne]
-    private ?Paper $paperEp = null;
+    private ?Paper $paper = null;
 
-    #[ORM\ManyToOne]
-    private ?Paper $paperFep = null;
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $coatingList = [];
 
     public function getCodeNumberConstant(): string
     {
@@ -206,18 +209,6 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getQuantityEngineering(): ?int
-    {
-        return $this->quantityEngineering;
-    }
-
-    public function setQuantityEngineering(int $quantityEngineering): self
-    {
-        $this->quantityEngineering = $quantityEngineering;
-
-        return $this;
-    }
-
     public function getQuantityProduction(): ?int
     {
         return $this->quantityProduction;
@@ -238,18 +229,6 @@ class ProductPrototype extends ProductionHeader
     public function setDataSource(array $dataSource): self
     {
         $this->dataSource = $dataSource;
-
-        return $this;
-    }
-
-    public function getVarnishList(): array
-    {
-        return $this->varnishList;
-    }
-
-    public function setVarnishList(array $varnishList): self
-    {
-        $this->varnishList = $varnishList;
 
         return $this;
     }
@@ -290,26 +269,26 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getPaperEp(): ?Paper
+    public function getPaper(): ?Paper
     {
-        return $this->paperEp;
+        return $this->paper;
     }
 
-    public function setPaperEp(?Paper $paperEp): self
+    public function setPaper(?Paper $paper): self
     {
-        $this->paperEp = $paperEp;
+        $this->paper = $paper;
 
         return $this;
     }
 
-    public function getPaperFep(): ?Paper
+    public function getCoatingList(): array
     {
-        return $this->paperFep;
+        return $this->coatingList;
     }
 
-    public function setPaperFep(?Paper $paperFep): self
+    public function setCoatingList(array $coatingList): self
     {
-        $this->paperFep = $paperFep;
+        $this->coatingList = $coatingList;
 
         return $this;
     }

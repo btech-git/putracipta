@@ -9,39 +9,36 @@
 
 {% block content %}
     <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th colspan='4' class='text-center'>HEADER</th>
-            </tr>
-        </thead>
         <tbody>
+            <tr>
+                <th>Proses Development</th>
+                <td colspan="3">{{ productPrototype.developmentType ? productPrototype.developmentType|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Sumber Data</th>
+                <td colspan="3">{{ productPrototype.dataSource ? productPrototype.dataSource|join(', ') : '' }}</td>
+            </tr>
             <tr>
                 <th>Produk Baru #</th>
                 <td>{{ productPrototype.getCodeNumber }}</td>
-                <th>Customer</th>
-                <td>{{ productPrototype.customer.name|default }}</td>
+                <th>Kode Produk</th>
+                <td>{{ productPrototype.productCode }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
                 <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
-                <th>Marketing</th>
-                <td>{{ productPrototype.employee.name|default }}</td>
-            </tr>
-            <tr>
-                <th>Kode Produk</th>
-                <td>{{ productPrototype.productCode }}</td>
-                <th>Sumber Data</th>
-                <td>{{ productPrototype.dataSource ? productPrototype.dataSource|join(', ') : '' }}</td>
-            </tr>
-            <tr>
                 <th>Nama Produk</th>
                 <td>{{ productPrototype.productName }}</td>
-                <th>Development</th>
-                <td>{{ productPrototype.developmentType ? productPrototype.developmentType|join(', ') : '' }}</td>
             </tr>
             <tr>
+                <th>Customer</th>
+                <td>{{ productPrototype.customer.name|default }}</td>
                 <th>Ukuran Jadi</th>
                 <td>{{ productPrototype.measurement }}</td>
+            </tr>
+            <tr>
+                <th>Marketing</th>
+                <td>{{ productPrototype.employee.name|default }}</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -51,54 +48,46 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th colspan='6' class='text-center'>EP</th>
+                <th colspan='6' class='text-center'>SPESIFIKASI</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th>Material EP Code</th>
-                <td>{{ productPrototype.paperEp.code|default }}</td>
-                <th>Material EP Name</th>
-                <td>{{ productPrototype.paperEp.paperNameSizeCombination|default }}</td>
-                <th>Quantity</th>
-                <td>{{ productPrototype.quantityEngineering }}</td>
+                <th>Material Kertas</th>
+                <td>{{ productPrototype.paper.code|default }}</td>
             </tr>
-        </tbody>
-    </table>
-                
-    <table class="table table-bordered table-striped">
-        <thead>
             <tr>
-                <th colspan='6' class='text-center'>FEP/PS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>Material FEP/PS Code</th>
-                <td colspan='2'>{{ productPrototype.paperFep.code|default }}</td>
-                <th>Material FEP/PS Name</th>
-                <td colspan='2'>{{ productPrototype.paperFep.paperNameSizeCombination|default }}</td>
+                <th>Material Name</th>
+                <td>{{ productPrototype.paper.paperNameSizeCombination|default }}</td>
             </tr>
             <tr>
                 <th>Warna (TC/Pantone)</th>
                 <td>{{ productPrototype.color }}</td>
-                <th>Quantity</th>
-                <td>{{ productPrototype.quantityEngineering }}</td>
-                <th>Jumlah Mata</th>
+            <tr>
+                <th>Quantity (pcs)</th>
+                <td>{{ productPrototype.quantityProduction }}</td>
+            </tr>
+            <tr>
+                <th>Jumlah Mata (up/sheet)</th>
                 <td>{{ productPrototype.quantityBlade }}</td>
             </tr>
         </tbody>
     </table>
-                
+                      
     <table class="table table-bordered table-striped">
-        <tbody>
+        <thead>
             <tr>
-                <th>Varnish</th>
-                <td>{{ productPrototype.dataSource ? productPrototype.varnishList|join(', ') : '' }}</td>
+                <th colspan='6' class='text-center'>FINISHING</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <th>Laminating</th>
                 <td>{{ productPrototype.dataSource ? productPrototype.laminatingList|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Coating</th>
+                <td>{{ productPrototype.dataSource ? productPrototype.coatingList|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Proses</th>
@@ -116,6 +105,7 @@
     </table>
     
     <div class="text-center">
+        <h4>Layout</h4>
         <img width="256px" src="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}" alt="Product Prototype Image" />
     </div>
 
