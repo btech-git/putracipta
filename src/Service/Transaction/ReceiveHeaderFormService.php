@@ -91,6 +91,7 @@ class ReceiveHeaderFormService
             $totalReceive += $receiveDetail->getReceivedQuantity();
             $purchaseOrderDetailForMaterialOrPaper->setTotalReceive($totalReceive);
             $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
+            $receiveDetail->setRemainingQuantity($purchaseOrderDetailForMaterialOrPaper->getRemainingReceive());
         }
         
         $totalRemaining = 0;
