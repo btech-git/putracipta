@@ -7,6 +7,7 @@ use App\Entity\Transaction\PurchaseOrderPaperDetail;
 use App\Entity\Transaction\PurchaseReturnDetail;
 use App\Entity\Transaction\PurchaseReturnHeader;
 use App\Entity\Transaction\ReceiveDetail;
+use App\Entity\Transaction\ReceiveHeader;
 use App\Repository\Transaction\PurchaseReturnDetailRepository;
 use App\Repository\Transaction\PurchaseReturnHeaderRepository;
 use App\Repository\Transaction\ReceiveDetailRepository;
@@ -51,12 +52,12 @@ class PurchaseReturnHeaderFormService
 
         }
         $receiveHeader = $purchaseReturnHeader->getReceiveHeader();
-        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader() !== null ? $receiveHeader->getPurchaseOrderPaperHeader() : $receiveHeader->getPurchaseOrderHeader();
+        $purchaseOrderHeaderForMaterialOrPaper = $this->getPurchaseOrderHeaderForMaterialOrPaper($receiveHeader);
         $purchaseReturnHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
         $receiveHeader->setHasReturnTransaction(true);
         
-        if ($purchaseOrderHeader !== null) {
-            $purchaseOrderHeader->setHasReturnTransaction(true);
+        if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
+            $purchaseOrderHeaderForMaterialOrPaper->setHasReturnTransaction(true);
         }
         
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
@@ -116,6 +117,19 @@ class PurchaseReturnHeaderFormService
             $this->purchaseReturnDetailRepository->add($purchaseReturnDetail);
         }
         $this->entityManager->flush();
+    }
+
+    private function getPurchaseOrderHeaderForMaterialOrPaper(ReceiveHeader $receiveHeader)
+    {
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
+        $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
+        if ($purchaseOrderHeader === null && $purchaseOrderPaperHeader === null) {
+            return null;
+        } else if ($purchaseOrderPaperHeader === null && $purchaseOrderHeader !== null) {
+            return $purchaseOrderHeader;
+        } else if ($purchaseOrderHeader === null && $purchaseOrderPaperHeader !== null) {
+            return $purchaseOrderPaperHeader;
+        }
     }
 
     private function getPurchaseOrderDetailForMaterialOrPaper(ReceiveDetail $receiveDetail)
