@@ -19,9 +19,6 @@ class WorkOrderPrepress extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrderPrepresses')]
-    private ?WorkOrderHeader $workOrderHeader = null;
-
     #[ORM\Column]
     private ?int $quantityPlateNew = 0;
 
@@ -175,6 +172,9 @@ class WorkOrderPrepress extends ProductionHeader
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $subconBlackRevisionEndDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'workOrderPrepresses')]
+    private ?MasterOrder $masterOrder = null;
+
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
@@ -183,18 +183,6 @@ class WorkOrderPrepress extends ProductionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkOrderHeader(): ?WorkOrderHeader
-    {
-        return $this->workOrderHeader;
-    }
-
-    public function setWorkOrderHeader(?WorkOrderHeader $workOrderHeader): self
-    {
-        $this->workOrderHeader = $workOrderHeader;
-
-        return $this;
     }
 
     public function getQuantityPlateNew(): ?int
@@ -805,6 +793,18 @@ class WorkOrderPrepress extends ProductionHeader
     public function setSubconBlackRevisionEndDate(?\DateTimeInterface $subconBlackRevisionEndDate): self
     {
         $this->subconBlackRevisionEndDate = $subconBlackRevisionEndDate;
+
+        return $this;
+    }
+
+    public function getMasterOrder(): ?MasterOrder
+    {
+        return $this->masterOrder;
+    }
+
+    public function setMasterOrder(?MasterOrder $masterOrder): self
+    {
+        $this->masterOrder = $masterOrder;
 
         return $this;
     }

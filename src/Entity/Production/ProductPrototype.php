@@ -4,7 +4,6 @@ namespace App\Entity\Production;
 
 use App\Entity\Master\Customer;
 use App\Entity\Master\Employee;
-use App\Entity\Master\Material;
 use App\Entity\Master\Paper;
 use App\Entity\ProductionHeader;
 use App\Repository\Production\ProductPrototypeRepository;
@@ -32,6 +31,9 @@ class ProductPrototype extends ProductionHeader
     public const PROCESS_JOINT = 'lem_joint';
     public const PROCESS_HOTSTAMP = 'hotstamp';
     public const PROCESS_JILID = 'jilid_buku';
+    public const DEVELOPMENT_TYPE_EP = 'ep';
+    public const DEVELOPMENT_TYPE_FEP = 'fep';
+    public const DEVELOPMENT_TYPE_PS = 'ps';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -58,13 +60,6 @@ class ProductPrototype extends ProductionHeader
     #[Assert\NotNull]
     private ?string $measurement = '';
 
-    #[ORM\ManyToOne]
-    #[Assert\NotNull]
-    private ?Paper $paper = null;
-
-    #[ORM\Column]
-    private ?bool $isVarnish = false;
-
     #[ORM\Column(length: 60)]
     private ?string $color = '';
 
@@ -72,17 +67,9 @@ class ProductPrototype extends ProductionHeader
     #[Assert\NotNull]
     private ?int $quantityBlade = 0;
 
-    #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $finishing = '';
-
     #[ORM\Column(length: 20)]
     #[Assert\NotNull]
     private ?string $productionFileExtension = '';
-
-    #[ORM\ManyToOne]
-    #[Assert\NotNull]
-    private ?Material $material = null;
 
     #[ORM\Column]
     #[Assert\NotNull]
@@ -103,6 +90,15 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $processList = [];
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $developmentType = [];
+
+    #[ORM\ManyToOne]
+    private ?Paper $paperEp = null;
+
+    #[ORM\ManyToOne]
+    private ?Paper $paperFep = null;
 
     public function getCodeNumberConstant(): string
     {
@@ -174,30 +170,6 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getPaper(): ?Paper
-    {
-        return $this->paper;
-    }
-
-    public function setPaper(?Paper $paper): self
-    {
-        $this->paper = $paper;
-
-        return $this;
-    }
-
-    public function isIsVarnish(): ?bool
-    {
-        return $this->isVarnish;
-    }
-
-    public function setIsVarnish(bool $isVarnish): self
-    {
-        $this->isVarnish = $isVarnish;
-
-        return $this;
-    }
-
     public function getColor(): ?string
     {
         return $this->color;
@@ -222,18 +194,6 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getFinishing(): ?string
-    {
-        return $this->finishing;
-    }
-
-    public function setFinishing(string $finishing): self
-    {
-        $this->finishing = $finishing;
-
-        return $this;
-    }
-
     public function getProductionFileExtension(): ?string
     {
         return $this->productionFileExtension;
@@ -242,18 +202,6 @@ class ProductPrototype extends ProductionHeader
     public function setProductionFileExtension(string $productionFileExtension): self
     {
         $this->productionFileExtension = $productionFileExtension;
-
-        return $this;
-    }
-
-    public function getMaterial(): ?Material
-    {
-        return $this->material;
-    }
-
-    public function setMaterial(?Material $material): self
-    {
-        $this->material = $material;
 
         return $this;
     }
@@ -326,6 +274,42 @@ class ProductPrototype extends ProductionHeader
     public function setProcessList(array $processList): self
     {
         $this->processList = $processList;
+
+        return $this;
+    }
+
+    public function getDevelopmentType(): array
+    {
+        return $this->developmentType;
+    }
+
+    public function setDevelopmentType(array $developmentType): self
+    {
+        $this->developmentType = $developmentType;
+
+        return $this;
+    }
+
+    public function getPaperEp(): ?Paper
+    {
+        return $this->paperEp;
+    }
+
+    public function setPaperEp(?Paper $paperEp): self
+    {
+        $this->paperEp = $paperEp;
+
+        return $this;
+    }
+
+    public function getPaperFep(): ?Paper
+    {
+        return $this->paperFep;
+    }
+
+    public function setPaperFep(?Paper $paperFep): self
+    {
+        $this->paperFep = $paperFep;
 
         return $this;
     }

@@ -20,9 +20,6 @@ class WorkOrderOffsetPrintingHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrderOffsetPrintingHeaders')]
-    private ?WorkOrderHeader $workOrderHeader = null;
-
     #[ORM\Column(length: 100)]
     private ?string $printingQuality = null;
 
@@ -80,6 +77,9 @@ class WorkOrderOffsetPrintingHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'workOrderOffsetPrintingHeader', targetEntity: WorkOrderOffsetPrintingDetail::class)]
     private Collection $workOrderOffsetPrintingDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'workOrderOffsetPrintingHeaders')]
+    private ?MasterOrder $masterOrder = null;
+
     public function __construct()
     {
         $this->workOrderOffsetPrintingDetails = new ArrayCollection();
@@ -93,18 +93,6 @@ class WorkOrderOffsetPrintingHeader extends ProductionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkOrderHeader(): ?WorkOrderHeader
-    {
-        return $this->workOrderHeader;
-    }
-
-    public function setWorkOrderHeader(?WorkOrderHeader $workOrderHeader): self
-    {
-        $this->workOrderHeader = $workOrderHeader;
-
-        return $this;
     }
 
     public function getPrintingQuality(): ?string
@@ -349,6 +337,18 @@ class WorkOrderOffsetPrintingHeader extends ProductionHeader
                 $workOrderOffsetPrintingDetail->setWorkOrderOffsetPrintingHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasterOrder(): ?MasterOrder
+    {
+        return $this->masterOrder;
+    }
+
+    public function setMasterOrder(?MasterOrder $masterOrder): self
+    {
+        $this->masterOrder = $masterOrder;
 
         return $this;
     }

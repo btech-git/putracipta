@@ -21,9 +21,6 @@ class WorkOrderCuttingHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrderCuttingHeaders')]
-    private ?WorkOrderHeader $workOrderHeader = null;
-
     #[ORM\Column]
     private ?bool $isSizeFit = false;
 
@@ -39,6 +36,9 @@ class WorkOrderCuttingHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'workOrderCuttingHeader', targetEntity: WorkOrderCuttingFinishedDetail::class)]
     private Collection $workOrderCuttingFinishedDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'workOrderCuttingHeaders')]
+    private ?MasterOrder $masterOrder = null;
+
     public function __construct()
     {
         $this->workOrderCuttingMaterialDetails = new ArrayCollection();
@@ -53,18 +53,6 @@ class WorkOrderCuttingHeader extends ProductionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkOrderHeader(): ?WorkOrderHeader
-    {
-        return $this->workOrderHeader;
-    }
-
-    public function setWorkOrderHeader(?WorkOrderHeader $workOrderHeader): self
-    {
-        $this->workOrderHeader = $workOrderHeader;
-
-        return $this;
     }
 
     public function isIsSizeFit(): ?bool
@@ -159,6 +147,18 @@ class WorkOrderCuttingHeader extends ProductionHeader
                 $workOrderCuttingFinishedDetail->setWorkOrderCuttingHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasterOrder(): ?MasterOrder
+    {
+        return $this->masterOrder;
+    }
+
+    public function setMasterOrder(?MasterOrder $masterOrder): self
+    {
+        $this->masterOrder = $masterOrder;
 
         return $this;
     }

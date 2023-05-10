@@ -19,26 +19,26 @@ use Doctrine\ORM\Mapping as ORM;
 class MasterOrder extends ProductionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'PMO';
-    public const WORK_ORDER_DESIGN = 'design';
-    public const WORK_ORDER_MOUNTAGE = 'mountage';
-    public const WORK_ORDER_CUTTING_MACHINE = 'cutting_machine';
-    public const WORK_ORDER_PRINTING = 'printing';
-    public const WORK_ORDER_PON = 'pon';
-    public const WORK_ORDER_CUTTING_FINISHING = 'cutting_finishing';
-    public const WORK_ORDER_VARNISH = 'varnish';
-    public const WORK_ORDER_GLUEING = 'glueing';
-    public const WORK_ORDER_STITCHING = 'stitching';
-    public const WORK_ORDER_FINISHING = 'finishing';
-    public const WORK_ORDER_PACKING = 'packing';
-    public const WORK_ORDER_QC_PRINTING = 'qc_printing';
-    public const WORK_ORDER_QC_FINISHING = 'qc_finishing';
-    public const WORK_ORDER_QC_SORTING = 'qc_sorting';
-    public const WORK_ORDER_QC_OUTGOING = 'qc_outgoing';
-    public const WORK_ORDER_PRINTING_CHECKLIST = 'printing_checklist';
-    public const WORK_ORDER_MOUNTAGE_CHECKLIST = 'mountage_checklist';
-    public const WORK_ORDER_POND_CHECKLIST = 'pond_checklist';
-    public const WORK_ORDER_REWORK = 'rework';
-    public const WORK_ORDER_DEMOLITION = 'demolition';
+    public const WORK_ORDER_DISTRIBUTION_DESIGN = 'design';
+    public const WORK_ORDER_DISTRIBUTION_MOUNTAGE = 'mountage';
+    public const WORK_ORDER_DISTRIBUTION_CUTTING_MACHINE = 'cutting_machine';
+    public const WORK_ORDER_DISTRIBUTION_PRINTING = 'printing';
+    public const WORK_ORDER_DISTRIBUTION_PON = 'pon';
+    public const WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING = 'cutting_finishing';
+    public const WORK_ORDER_DISTRIBUTION_VARNISH = 'varnish';
+    public const WORK_ORDER_DISTRIBUTION_GLUEING = 'glueing';
+    public const WORK_ORDER_DISTRIBUTION_STITCHING = 'stitching';
+    public const WORK_ORDER_DISTRIBUTION_FINISHING = 'finishing';
+    public const WORK_ORDER_DISTRIBUTION_PACKING = 'packing';
+    public const WORK_ORDER_DISTRIBUTION_QC_PRINTING = 'qc_printing';
+    public const WORK_ORDER_DISTRIBUTION_QC_FINISHING = 'qc_finishing';
+    public const WORK_ORDER_DISTRIBUTION_QC_SORTING = 'qc_sorting';
+    public const WORK_ORDER_DISTRIBUTION_QC_OUTGOING = 'qc_outgoing';
+    public const WORK_ORDER_DISTRIBUTION_PRINTING_CHECKLIST = 'printing_checklist';
+    public const WORK_ORDER_DISTRIBUTION_MOUNTAGE_CHECKLIST = 'mountage_checklist';
+    public const WORK_ORDER_DISTRIBUTION_POND_CHECKLIST = 'pond_checklist';
+    public const WORK_ORDER_DISTRIBUTION_REWORK = 'rework';
+    public const WORK_ORDER_DISTRIBUTION_DEMOLITION = 'demolition';
     public const PRINTING_STATUS_PROOF_PRINT = 'proof_print';
     public const PRINTING_STATUS_NEW_ORDER = 'new_order';
     public const PRINTING_STATUS_REPEAT_ORDER = 'repeat_order';
@@ -271,9 +271,6 @@ class MasterOrder extends ProductionHeader
     #[ORM\ManyToOne(inversedBy: 'masterOrders')]
     private ?SaleOrderDetail $saleOrderDetail = null;
 
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderHeader::class)]
-    private Collection $workOrderHeaders;
-
     #[ORM\Column(type: Types::ARRAY)]
     private array $processList = [];
 
@@ -301,9 +298,32 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column(length: 60)]
     private ?string $inkK4Color = '';
 
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderColorMixing::class)]
+    private Collection $workOrderColorMixings;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderCuttingHeader::class)]
+    private Collection $workOrderCuttingHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderOffsetPrintingHeader::class)]
+    private Collection $workOrderOffsetPrintingHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderPrepress::class)]
+    private Collection $workOrderPrepresses;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderVarnishHeader::class)]
+    private Collection $workOrderVarnishHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderVarnishSpotHeader::class)]
+    private Collection $workOrderVarnishSpotHeaders;
+
     public function __construct()
     {
-        $this->workOrderHeaders = new ArrayCollection();
+        $this->workOrderColorMixings = new ArrayCollection();
+        $this->workOrderCuttingHeaders = new ArrayCollection();
+        $this->workOrderOffsetPrintingHeaders = new ArrayCollection();
+        $this->workOrderPrepresses = new ArrayCollection();
+        $this->workOrderVarnishHeaders = new ArrayCollection();
+        $this->workOrderVarnishSpotHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -1192,36 +1212,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, WorkOrderHeader>
-     */
-    public function getWorkOrderHeaders(): Collection
-    {
-        return $this->workOrderHeaders;
-    }
-
-    public function addWorkOrderHeader(WorkOrderHeader $workOrderHeader): self
-    {
-        if (!$this->workOrderHeaders->contains($workOrderHeader)) {
-            $this->workOrderHeaders->add($workOrderHeader);
-            $workOrderHeader->setMasterOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWorkOrderHeader(WorkOrderHeader $workOrderHeader): self
-    {
-        if ($this->workOrderHeaders->removeElement($workOrderHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($workOrderHeader->getMasterOrder() === $this) {
-                $workOrderHeader->setMasterOrder(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getProcessList(): array
     {
         return $this->processList;
@@ -1326,6 +1316,186 @@ class MasterOrder extends ProductionHeader
     public function setInkK4Color(string $inkK4Color): self
     {
         $this->inkK4Color = $inkK4Color;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderColorMixing>
+     */
+    public function getWorkOrderColorMixings(): Collection
+    {
+        return $this->workOrderColorMixings;
+    }
+
+    public function addWorkOrderColorMixing(WorkOrderColorMixing $workOrderColorMixing): self
+    {
+        if (!$this->workOrderColorMixings->contains($workOrderColorMixing)) {
+            $this->workOrderColorMixings->add($workOrderColorMixing);
+            $workOrderColorMixing->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderColorMixing(WorkOrderColorMixing $workOrderColorMixing): self
+    {
+        if ($this->workOrderColorMixings->removeElement($workOrderColorMixing)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderColorMixing->getMasterOrder() === $this) {
+                $workOrderColorMixing->setMasterOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderCuttingHeader>
+     */
+    public function getWorkOrderCuttingHeaders(): Collection
+    {
+        return $this->workOrderCuttingHeaders;
+    }
+
+    public function addWorkOrderCuttingHeader(WorkOrderCuttingHeader $workOrderCuttingHeader): self
+    {
+        if (!$this->workOrderCuttingHeaders->contains($workOrderCuttingHeader)) {
+            $this->workOrderCuttingHeaders->add($workOrderCuttingHeader);
+            $workOrderCuttingHeader->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderCuttingHeader(WorkOrderCuttingHeader $workOrderCuttingHeader): self
+    {
+        if ($this->workOrderCuttingHeaders->removeElement($workOrderCuttingHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderCuttingHeader->getMasterOrder() === $this) {
+                $workOrderCuttingHeader->setMasterOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderOffsetPrintingHeader>
+     */
+    public function getWorkOrderOffsetPrintingHeaders(): Collection
+    {
+        return $this->workOrderOffsetPrintingHeaders;
+    }
+
+    public function addWorkOrderOffsetPrintingHeader(WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader): self
+    {
+        if (!$this->workOrderOffsetPrintingHeaders->contains($workOrderOffsetPrintingHeader)) {
+            $this->workOrderOffsetPrintingHeaders->add($workOrderOffsetPrintingHeader);
+            $workOrderOffsetPrintingHeader->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderOffsetPrintingHeader(WorkOrderOffsetPrintingHeader $workOrderOffsetPrintingHeader): self
+    {
+        if ($this->workOrderOffsetPrintingHeaders->removeElement($workOrderOffsetPrintingHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderOffsetPrintingHeader->getMasterOrder() === $this) {
+                $workOrderOffsetPrintingHeader->setMasterOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderPrepress>
+     */
+    public function getWorkOrderPrepresses(): Collection
+    {
+        return $this->workOrderPrepresses;
+    }
+
+    public function addWorkOrderPrepress(WorkOrderPrepress $workOrderPrepress): self
+    {
+        if (!$this->workOrderPrepresses->contains($workOrderPrepress)) {
+            $this->workOrderPrepresses->add($workOrderPrepress);
+            $workOrderPrepress->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderPrepress(WorkOrderPrepress $workOrderPrepress): self
+    {
+        if ($this->workOrderPrepresses->removeElement($workOrderPrepress)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderPrepress->getMasterOrder() === $this) {
+                $workOrderPrepress->setMasterOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderVarnishHeader>
+     */
+    public function getWorkOrderVarnishHeaders(): Collection
+    {
+        return $this->workOrderVarnishHeaders;
+    }
+
+    public function addWorkOrderVarnishHeader(WorkOrderVarnishHeader $workOrderVarnishHeader): self
+    {
+        if (!$this->workOrderVarnishHeaders->contains($workOrderVarnishHeader)) {
+            $this->workOrderVarnishHeaders->add($workOrderVarnishHeader);
+            $workOrderVarnishHeader->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderVarnishHeader(WorkOrderVarnishHeader $workOrderVarnishHeader): self
+    {
+        if ($this->workOrderVarnishHeaders->removeElement($workOrderVarnishHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderVarnishHeader->getMasterOrder() === $this) {
+                $workOrderVarnishHeader->setMasterOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkOrderVarnishSpotHeader>
+     */
+    public function getWorkOrderVarnishSpotHeaders(): Collection
+    {
+        return $this->workOrderVarnishSpotHeaders;
+    }
+
+    public function addWorkOrderVarnishSpotHeader(WorkOrderVarnishSpotHeader $workOrderVarnishSpotHeader): self
+    {
+        if (!$this->workOrderVarnishSpotHeaders->contains($workOrderVarnishSpotHeader)) {
+            $this->workOrderVarnishSpotHeaders->add($workOrderVarnishSpotHeader);
+            $workOrderVarnishSpotHeader->setMasterOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkOrderVarnishSpotHeader(WorkOrderVarnishSpotHeader $workOrderVarnishSpotHeader): self
+    {
+        if ($this->workOrderVarnishSpotHeaders->removeElement($workOrderVarnishSpotHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($workOrderVarnishSpotHeader->getMasterOrder() === $this) {
+                $workOrderVarnishSpotHeader->setMasterOrder(null);
+            }
+        }
 
         return $this;
     }

@@ -17,44 +17,11 @@ class WorkOrderColorMixing extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrderColorMixings')]
-    private ?WorkOrderHeader $workOrderHeader = null;
-
     #[ORM\Column]
     private ?int $paperInseetUsedUsage = null;
 
     #[ORM\Column]
     private ?int $paperInseetNewUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $cyanInkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $magentaInkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $yellowInkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $blackInkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $k1InkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $k2InkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $k3InkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $k4InkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $opvInkUsage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $laminatingInkUsage = null;
 
     #[ORM\Column(length: 100)]
     private ?string $specialColorMixFirstOneName = null;
@@ -152,6 +119,9 @@ class WorkOrderColorMixing extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $specialColorMixFourthFourWeight = null;
 
+    #[ORM\ManyToOne(inversedBy: 'workOrderColorMixings')]
+    private ?MasterOrder $masterOrder = null;
+
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
@@ -160,18 +130,6 @@ class WorkOrderColorMixing extends ProductionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkOrderHeader(): ?WorkOrderHeader
-    {
-        return $this->workOrderHeader;
-    }
-
-    public function setWorkOrderHeader(?WorkOrderHeader $workOrderHeader): self
-    {
-        $this->workOrderHeader = $workOrderHeader;
-
-        return $this;
     }
 
     public function getPaperInseetUsedUsage(): ?int
@@ -194,126 +152,6 @@ class WorkOrderColorMixing extends ProductionHeader
     public function setPaperInseetNewUsage(int $paperInseetNewUsage): self
     {
         $this->paperInseetNewUsage = $paperInseetNewUsage;
-
-        return $this;
-    }
-
-    public function getCyanInkUsage(): ?string
-    {
-        return $this->cyanInkUsage;
-    }
-
-    public function setCyanInkUsage(string $cyanInkUsage): self
-    {
-        $this->cyanInkUsage = $cyanInkUsage;
-
-        return $this;
-    }
-
-    public function getMagentaInkUsage(): ?string
-    {
-        return $this->magentaInkUsage;
-    }
-
-    public function setMagentaInkUsage(string $magentaInkUsage): self
-    {
-        $this->magentaInkUsage = $magentaInkUsage;
-
-        return $this;
-    }
-
-    public function getYellowInkUsage(): ?string
-    {
-        return $this->yellowInkUsage;
-    }
-
-    public function setYellowInkUsage(string $yellowInkUsage): self
-    {
-        $this->yellowInkUsage = $yellowInkUsage;
-
-        return $this;
-    }
-
-    public function getBlackInkUsage(): ?string
-    {
-        return $this->blackInkUsage;
-    }
-
-    public function setBlackInkUsage(string $blackInkUsage): self
-    {
-        $this->blackInkUsage = $blackInkUsage;
-
-        return $this;
-    }
-
-    public function getK1InkUsage(): ?string
-    {
-        return $this->k1InkUsage;
-    }
-
-    public function setK1InkUsage(string $k1InkUsage): self
-    {
-        $this->k1InkUsage = $k1InkUsage;
-
-        return $this;
-    }
-
-    public function getK2InkUsage(): ?string
-    {
-        return $this->k2InkUsage;
-    }
-
-    public function setK2InkUsage(string $k2InkUsage): self
-    {
-        $this->k2InkUsage = $k2InkUsage;
-
-        return $this;
-    }
-
-    public function getK3InkUsage(): ?string
-    {
-        return $this->k3InkUsage;
-    }
-
-    public function setK3InkUsage(string $k3InkUsage): self
-    {
-        $this->k3InkUsage = $k3InkUsage;
-
-        return $this;
-    }
-
-    public function getK4InkUsage(): ?string
-    {
-        return $this->k4InkUsage;
-    }
-
-    public function setK4InkUsage(string $k4InkUsage): self
-    {
-        $this->k4InkUsage = $k4InkUsage;
-
-        return $this;
-    }
-
-    public function getOpvInkUsage(): ?string
-    {
-        return $this->opvInkUsage;
-    }
-
-    public function setOpvInkUsage(string $opvInkUsage): self
-    {
-        $this->opvInkUsage = $opvInkUsage;
-
-        return $this;
-    }
-
-    public function getLaminatingInkUsage(): ?string
-    {
-        return $this->laminatingInkUsage;
-    }
-
-    public function setLaminatingInkUsage(string $laminatingInkUsage): self
-    {
-        $this->laminatingInkUsage = $laminatingInkUsage;
 
         return $this;
     }
@@ -698,6 +536,18 @@ class WorkOrderColorMixing extends ProductionHeader
     public function setSpecialColorMixFourthFourWeight(string $specialColorMixFourthFourWeight): self
     {
         $this->specialColorMixFourthFourWeight = $specialColorMixFourthFourWeight;
+
+        return $this;
+    }
+
+    public function getMasterOrder(): ?MasterOrder
+    {
+        return $this->masterOrder;
+    }
+
+    public function setMasterOrder(?MasterOrder $masterOrder): self
+    {
+        $this->masterOrder = $masterOrder;
 
         return $this;
     }

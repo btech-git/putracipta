@@ -21,9 +21,6 @@ class WorkOrderVarnishHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrderVarnishHeaders')]
-    private ?WorkOrderHeader $workOrderHeader = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $uvOilQuantity = '0.00';
 
@@ -45,6 +42,9 @@ class WorkOrderVarnishHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'workOrderVarnishHeader', targetEntity: WorkOrderVarnishProductionDetail::class)]
     private Collection $workOrderVarnishProductionDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'workOrderVarnishHeaders')]
+    private ?MasterOrder $masterOrder = null;
+
     public function __construct()
     {
         $this->workOrderVarnishSettingDetails = new ArrayCollection();
@@ -59,18 +59,6 @@ class WorkOrderVarnishHeader extends ProductionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkOrderHeader(): ?WorkOrderHeader
-    {
-        return $this->workOrderHeader;
-    }
-
-    public function setWorkOrderHeader(?WorkOrderHeader $workOrderHeader): self
-    {
-        $this->workOrderHeader = $workOrderHeader;
-
-        return $this;
     }
 
     public function getUvOilQuantity(): ?string
@@ -189,6 +177,18 @@ class WorkOrderVarnishHeader extends ProductionHeader
                 $workOrderVarnishProductionDetail->setWorkOrderVarnishHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasterOrder(): ?MasterOrder
+    {
+        return $this->masterOrder;
+    }
+
+    public function setMasterOrder(?MasterOrder $masterOrder): self
+    {
+        $this->masterOrder = $masterOrder;
 
         return $this;
     }

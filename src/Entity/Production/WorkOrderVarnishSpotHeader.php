@@ -21,9 +21,6 @@ class WorkOrderVarnishSpotHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workOrderVarnishSpotHeaders')]
-    private ?WorkOrderHeader $workOrderHeader = null;
-
     #[ORM\Column(length: 60)]
     private ?string $varnishType = '';
 
@@ -48,6 +45,9 @@ class WorkOrderVarnishSpotHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'workOrderVarnishSpotHeader', targetEntity: WorkOrderVarnishSpotProductionDetail::class)]
     private Collection $workOrderVarnishSpotProductionDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'workOrderVarnishSpotHeaders')]
+    private ?MasterOrder $masterOrder = null;
+
     public function __construct()
     {
         $this->workOrderVarnishSpotSettingDetails = new ArrayCollection();
@@ -62,18 +62,6 @@ class WorkOrderVarnishSpotHeader extends ProductionHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getWorkOrderHeader(): ?WorkOrderHeader
-    {
-        return $this->workOrderHeader;
-    }
-
-    public function setWorkOrderHeader(?WorkOrderHeader $workOrderHeader): self
-    {
-        $this->workOrderHeader = $workOrderHeader;
-
-        return $this;
     }
 
     public function getVarnishType(): ?string
@@ -204,6 +192,18 @@ class WorkOrderVarnishSpotHeader extends ProductionHeader
                 $workOrderVarnishSpotProductionDetail->setWorkOrderVarnishSpotHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasterOrder(): ?MasterOrder
+    {
+        return $this->masterOrder;
+    }
+
+    public function setMasterOrder(?MasterOrder $masterOrder): self
+    {
+        $this->masterOrder = $masterOrder;
 
         return $this;
     }
