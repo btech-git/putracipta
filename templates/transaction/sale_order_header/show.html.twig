@@ -134,72 +134,85 @@
             </tr>
         </tfoot>
     </table>
-
-    <legend class="float-none w-auto text-dark px-1">Data Pengiriman</legend>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="bg-warning">
-                <th>Pengiriman #</th>
-                <th>Tanggal</th>
-                <th>Gudang</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Satuan</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
-                {% for deliveryDetail in saleOrderDetail.deliveryDetails %}
-                    <tr>
-                        <td>{{ deliveryDetail.deliveryHeader.codeNumber|default }}</td>
-                        <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
-                        <td>{{ deliveryDetail.deliveryHeader.warehouse.name|default }}</td>
-                        <td>{{ deliveryDetail.product.name|default }}</td>
-                        <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ deliveryDetail.unit.name|default }}</td>
-                        <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
+                
+    <ul class="nav nav-tabs" id="delivery-sale-return-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="delivery-header-tab" data-bs-toggle="tab" data-bs-target="#delivery-header-tab-pane" type="button" role="tab" aria-controls="delivery-header-tab-pane" aria-selected="true">Pengiriman</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sale-return-header-tab" data-bs-toggle="tab" data-bs-target="#sale-return-header-tab-pane" type="button" role="tab" aria-controls="sale-return-header-tab-pane" aria-selected="false">Retur</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="delivery-sale-return-tab-content">
+        <div class="tab-pane fade show active" id="delivery-header-tab-pane" role="tabpanel" aria-labelledby="delivery-header-tab" tabindex="0">
+            <legend class="float-none w-auto text-dark px-1">Data Pengiriman</legend>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="bg-warning">
+                        <th>Pengiriman #</th>
+                        <th>Tanggal</th>
+                        <th>Gudang</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Satuan</th>
+                        <th></th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7">No Records Found</td>
-                    </tr>
-                {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>
-        
-    <legend class="float-none w-auto text-dark px-1">Data Retur</legend>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="bg-primary">
-                <th>Retur #</th>
-                <th>Tanggal</th>
-                <th>Gudang</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Satuan</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
-                {% for deliveryDetail in saleOrderDetail.deliveryDetails %}
-                    {% for saleReturnDetail in deliveryDetail.saleReturnDetails %}
-                        <tr>
-                            <td>{{ saleReturnDetail.saleReturnHeader.codeNumber|default }}</td>
-                            <td>{{ saleReturnDetail.saleReturnHeader.transactionDate ? saleReturnDetail.saleReturnHeader.transactionDate|date('d M Y') : '' }}</td>
-                            <td>{{ saleReturnDetail.saleReturnHeader.warehouse.name|default }}</td>
-                            <td>{{ saleReturnDetail.product.name|default }}</td>
-                            <td class="text-center">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
-                            <td>{{ saleReturnDetail.unit.name|default }}</td>
-                            <td>{{ saleReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
-                        </tr>
+                </thead>
+                <tbody>
+                    {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                        {% for deliveryDetail in saleOrderDetail.deliveryDetails %}
+                            <tr>
+                                <td>{{ deliveryDetail.deliveryHeader.codeNumber|default }}</td>
+                                <td>{{ deliveryDetail.deliveryHeader.transactionDate ? deliveryDetail.deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ deliveryDetail.deliveryHeader.warehouse.name|default }}</td>
+                                <td>{{ deliveryDetail.product.name|default }}</td>
+                                <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
+                                <td>{{ deliveryDetail.unit.name|default }}</td>
+                                <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">No Records Found</td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="sale-return-header-tab-pane" role="tabpanel" aria-labelledby="sale-return-header-tab" tabindex="0">
+            <legend class="float-none w-auto text-dark px-1">Data Retur</legend>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="bg-primary">
+                        <th>Retur #</th>
+                        <th>Tanggal</th>
+                        <th>Gudang</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Satuan</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                        {% for deliveryDetail in saleOrderDetail.deliveryDetails %}
+                            {% for saleReturnDetail in deliveryDetail.saleReturnDetails %}
+                                <tr>
+                                    <td>{{ saleReturnDetail.saleReturnHeader.codeNumber|default }}</td>
+                                    <td>{{ saleReturnDetail.saleReturnHeader.transactionDate ? saleReturnDetail.saleReturnHeader.transactionDate|date('d M Y') : '' }}</td>
+                                    <td>{{ saleReturnDetail.saleReturnHeader.warehouse.name|default }}</td>
+                                    <td>{{ saleReturnDetail.product.name|default }}</td>
+                                    <td class="text-center">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
+                                    <td>{{ saleReturnDetail.unit.name|default }}</td>
+                                    <td>{{ saleReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
         
     {#<div class="d-inline-block">{{ include('transaction/sale_order_header/_delete_form.html.twig') }}</div>#}
     {% if saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', saleOrderHeader) %}
