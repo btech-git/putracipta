@@ -51,7 +51,7 @@ class PurchaseReturnHeaderFormService
 
         }
         $receiveHeader = $purchaseReturnHeader->getReceiveHeader();
-        $purchaseOrderHeader = empty($receiveHeader->getPurchaseOrderHeader()) ? $receiveHeader->getPurchaseOrderPaperHeader() : $receiveHeader->getPurchaseOrderHeader();
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader() !== null ? $receiveHeader->getPurchaseOrderPaperHeader() : $receiveHeader->getPurchaseOrderHeader();
         $purchaseReturnHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
         $receiveHeader->setHasReturnTransaction(true);
         
