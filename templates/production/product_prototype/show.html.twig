@@ -19,13 +19,13 @@
                 <th>Produk Baru #</th>
                 <td>{{ productPrototype.getCodeNumber }}</td>
                 <th>Customer</th>
-                <td>{{ productPrototype.customer.name }}</td>
+                <td>{{ productPrototype.customer.name|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
                 <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
                 <th>Marketing</th>
-                <td>{{ productPrototype.employee.name }}</td>
+                <td>{{ productPrototype.employee.name|default }}</td>
             </tr>
             <tr>
                 <th>Kode Produk</th>
@@ -57,9 +57,9 @@
         <tbody>
             <tr>
                 <th>Material EP Code</th>
-                <td>{{ productPrototype.paperEp.code }}</td>
+                <td>{{ productPrototype.paperEp.code|default }}</td>
                 <th>Material EP Name</th>
-                <td>{{ productPrototype.paperEp.paperNameSizeCombination }}</td>
+                <td>{{ productPrototype.paperEp.paperNameSizeCombination|default }}</td>
                 <th>Quantity</th>
                 <td>{{ productPrototype.quantityEngineering }}</td>
             </tr>
@@ -75,9 +75,9 @@
         <tbody>
             <tr>
                 <th>Material FEP/PS Code</th>
-                <td colspan='2'>{{ productPrototype.paperFep.code }}</td>
+                <td colspan='2'>{{ productPrototype.paperFep.code|default }}</td>
                 <th>Material FEP/PS Name</th>
-                <td colspan='2'>{{ productPrototype.paperFep.paperNameSizeCombination }}</td>
+                <td colspan='2'>{{ productPrototype.paperFep.paperNameSizeCombination|default }}</td>
             </tr>
             <tr>
                 <th>Warna (TC/Pantone)</th>
