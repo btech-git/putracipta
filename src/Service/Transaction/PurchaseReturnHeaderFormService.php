@@ -51,15 +51,12 @@ class PurchaseReturnHeaderFormService
 
         }
         $receiveHeader = $purchaseReturnHeader->getReceiveHeader();
-        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
-        $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
+        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader()=== null ? $receiveHeader->getPurchaseOrderPaperHeader() : $receiveHeader->getPurchaseOrderHeader();
         $purchaseReturnHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
         $receiveHeader->setHasReturnTransaction(true);
         
         if ($purchaseOrderHeader !== null) {
             $purchaseOrderHeader->setHasReturnTransaction(true);
-        } else {
-            $purchaseOrderPaperHeader->setHasReturnTransaction(true);
         }
         
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
