@@ -3,7 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Production\WorkOrderHeader;
+use App\Entity\Production\MasterOrder;
 use App\Entity\Production\WorkOrderColorMixing;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,16 +16,6 @@ class WorkOrderColorMixingType extends AbstractType
         $builder
             ->add('paperInseetUsedUsage')
             ->add('paperInseetNewUsage')
-            ->add('cyanInkUsage')
-            ->add('magentaInkUsage')
-            ->add('yellowInkUsage')
-            ->add('blackInkUsage')
-            ->add('k1InkUsage')
-            ->add('k2InkUsage')
-            ->add('k3InkUsage')
-            ->add('k4InkUsage')
-            ->add('opvInkUsage')
-            ->add('laminatingInkUsage')
             ->add('specialColorMixFirstOneName')
             ->add('specialColorMixFirstOneWeight')
             ->add('specialColorMixFirstTwoName')
@@ -60,7 +50,7 @@ class WorkOrderColorMixingType extends AbstractType
             ->add('specialColorMixFourthFourWeight')
             ->add('note')
             ->add('productionDate', null, ['widget' => 'single_text'])
-            ->add('workOrderHeader', EntityHiddenType::class, ['class' => WorkOrderHeader::class])
+            ->add('masterOrder', EntityHiddenType::class, ['class' => MasterOrder::class])
         ;
     }
 

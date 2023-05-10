@@ -6,7 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 //use App\Entity\Production\WorkOrderCuttingFinishedDetail;
 use App\Entity\Production\WorkOrderCuttingHeader;
 use App\Entity\Production\WorkOrderCuttingMaterialDetail;
-use App\Entity\Production\WorkOrderHeader;
+use App\Entity\Production\MasterOrder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ class WorkOrderCuttingHeaderType extends AbstractType
             ->add('workOrderReturnDate', null, ['widget' => 'single_text'])
             ->add('productionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('workOrderHeader', EntityHiddenType::class, ['class' => WorkOrderHeader::class])
+            ->add('masterOrder', EntityHiddenType::class, ['class' => MasterOrder::class])
             ->add('employeeIdWorkOrderReturn', null, ['choice_label' => 'name'])
             ->add('workOrderCuttingMaterialDetails', CollectionType::class, [
                 'entry_type' => WorkOrderCuttingMaterialDetailType::class,

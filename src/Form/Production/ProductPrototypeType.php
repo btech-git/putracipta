@@ -5,7 +5,6 @@ namespace App\Form\Production;
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
 use App\Entity\Master\Employee;
-use App\Entity\Master\Material;
 use App\Entity\Master\Paper;
 use App\Entity\Production\ProductPrototype;
 use Symfony\Component\Form\AbstractType;
@@ -29,12 +28,15 @@ class ProductPrototypeType extends AbstractType
                 'CD' => ProductPrototype::DATA_SOURCE_CD,
                 'Sample Cetakan' => ProductPrototype::DATA_SOURCE_PRINT_SAMPLE,
             ]])
-            ->add('isVarnish')
+            ->add('developmentType', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+                'EP' => ProductPrototype::DEVELOPMENT_TYPE_EP,
+                'FEP' => ProductPrototype::DEVELOPMENT_TYPE_FEP,
+                'PS' => ProductPrototype::DEVELOPMENT_TYPE_PS,
+            ]])
             ->add('quantityEngineering')
             ->add('quantityProduction')
             ->add('color')
             ->add('quantityBlade')
-            ->add('finishing')
             ->add('varnishList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'WB' => ProductPrototype::VARNISH_WB,
                 'UV/Spot' => ProductPrototype::VARNISH_UV,
@@ -75,8 +77,8 @@ class ProductPrototypeType extends AbstractType
                 },
             ])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
-            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
-            ->add('material', EntityHiddenType::class, array('class' => Material::class))
+            ->add('paperEp', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('paperFep', EntityHiddenType::class, array('class' => Paper::class))
         ;
     }
 

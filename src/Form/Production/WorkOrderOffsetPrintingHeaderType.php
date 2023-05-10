@@ -3,7 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Production\WorkOrderHeader;
+use App\Entity\Production\MasterOrder;
 use App\Entity\Production\WorkOrderOffsetPrintingHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +34,7 @@ class WorkOrderOffsetPrintingHeaderType extends AbstractType
             ->add('blackPlateQuantity')
             ->add('productionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('workOrderHeader', EntityHiddenType::class, ['class' => WorkOrderHeader::class])
+            ->add('masterOrder', EntityHiddenType::class, ['class' => MasterOrder::class])
         ;
     }
 

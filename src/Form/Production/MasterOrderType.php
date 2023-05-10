@@ -11,9 +11,11 @@ use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class MasterOrderType extends AbstractType
 {
@@ -53,7 +55,6 @@ class MasterOrderType extends AbstractType
             ->add('dieCutBladeData')
             ->add('dieCutBladeNumber')
             ->add('dieLineFilmNumber')
-//            ->add('layoutModelFileExtension')
             ->add('insitPercentage')
             ->add('quantityPaper')
             ->add('paperMountage')
@@ -112,26 +113,26 @@ class MasterOrderType extends AbstractType
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('workOrderDistribution', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-                'WO Design' => MasterOrder::WORK_ORDER_DESIGN,
-                'WO Mountage / Prepress' => MasterOrder::WORK_ORDER_MOUNTAGE,
-                'WO Mesin Potong' => MasterOrder::WORK_ORDER_CUTTING_MACHINE,
-                'WO Cetak/Sablon' => MasterOrder::WORK_ORDER_PRINTING,
-                'WO PON/BOBST' => MasterOrder::WORK_ORDER_PON,
-                'WO Potong Jadi' => MasterOrder::WORK_ORDER_CUTTING_FINISHING,
-                'WO Varnish/Laminating' => MasterOrder::WORK_ORDER_VARNISH,
-                'WO Mesin Lem' => MasterOrder::WORK_ORDER_GLUEING,
-                'WO Mesin Stitching' => MasterOrder::WORK_ORDER_STITCHING,
-                'WO Finishing' => MasterOrder::WORK_ORDER_FINISHING,
-                'WO Packing' => MasterOrder::WORK_ORDER_PACKING,
-                'WO QC Printing' => MasterOrder::WORK_ORDER_QC_PRINTING,
-                'WO QC Finishing' => MasterOrder::WORK_ORDER_QC_FINISHING,
-                'WO QC Sortir' => MasterOrder::WORK_ORDER_QC_SORTING,
-                'WO QC Outgoing' => MasterOrder::WORK_ORDER_QC_OUTGOING,
-                'WO Printing Checklist' => MasterOrder::WORK_ORDER_PRINTING_CHECKLIST,
-                'WO Mountage Checklist' => MasterOrder::WORK_ORDER_MOUNTAGE_CHECKLIST,
-                'WO Pond Checklist' => MasterOrder::WORK_ORDER_POND_CHECKLIST,
-                'WO Penghancuran' => MasterOrder::WORK_ORDER_DEMOLITION,
-                'WO Rework' => MasterOrder::WORK_ORDER_REWORK,
+                'WO Design' => MasterOrder::WORK_ORDER_DISTRIBUTION_DESIGN,
+                'WO Mountage / Prepress' => MasterOrder::WORK_ORDER_DISTRIBUTION_MOUNTAGE,
+                'WO Mesin Potong' => MasterOrder::WORK_ORDER_DISTRIBUTION_CUTTING_MACHINE,
+                'WO Cetak/Sablon' => MasterOrder::WORK_ORDER_DISTRIBUTION_PRINTING,
+                'WO PON/BOBST' => MasterOrder::WORK_ORDER_DISTRIBUTION_PON,
+                'WO Potong Jadi' => MasterOrder::WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING,
+                'WO Varnish/Laminating' => MasterOrder::WORK_ORDER_DISTRIBUTION_VARNISH,
+                'WO Mesin Lem' => MasterOrder::WORK_ORDER_DISTRIBUTION_GLUEING,
+                'WO Mesin Stitching' => MasterOrder::WORK_ORDER_DISTRIBUTION_STITCHING,
+                'WO Finishing' => MasterOrder::WORK_ORDER_DISTRIBUTION_FINISHING,
+                'WO Packing' => MasterOrder::WORK_ORDER_DISTRIBUTION_PACKING,
+                'WO QC Printing' => MasterOrder::WORK_ORDER_DISTRIBUTION_QC_PRINTING,
+                'WO QC Finishing' => MasterOrder::WORK_ORDER_DISTRIBUTION_QC_FINISHING,
+                'WO QC Sortir' => MasterOrder::WORK_ORDER_DISTRIBUTION_QC_SORTING,
+                'WO QC Outgoing' => MasterOrder::WORK_ORDER_DISTRIBUTION_QC_OUTGOING,
+                'WO Printing Checklist' => MasterOrder::WORK_ORDER_DISTRIBUTION_PRINTING_CHECKLIST,
+                'WO Mountage Checklist' => MasterOrder::WORK_ORDER_DISTRIBUTION_MOUNTAGE_CHECKLIST,
+                'WO Pond Checklist' => MasterOrder::WORK_ORDER_DISTRIBUTION_POND_CHECKLIST,
+                'WO Penghancuran' => MasterOrder::WORK_ORDER_DISTRIBUTION_DEMOLITION,
+                'WO Rework' => MasterOrder::WORK_ORDER_DISTRIBUTION_REWORK,
             ]])
             ->add('processList', CollectionType::class, [
                 'entry_type' => TextType::class,
@@ -140,6 +141,20 @@ class MasterOrderType extends AbstractType
                 'by_reference' => false,
                 'prototype_data' => '',
                 'label' => false,
+            ])
+            ->add('transactionFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5120k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG',
+                    ])
+                ],
             ])
         ;
     }
