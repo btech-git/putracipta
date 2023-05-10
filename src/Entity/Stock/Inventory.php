@@ -20,22 +20,22 @@ class Inventory
     private ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $transactionType = null;
+    private ?string $transactionType = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $transactionSubject = null;
+    private ?string $transactionSubject = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $note = null;
+    private ?string $note = '';
 
     #[ORM\Column]
-    private ?int $quantityIn = null;
+    private ?int $quantityIn = 0;
 
     #[ORM\Column]
-    private ?int $quantityOut = null;
+    private ?int $quantityOut = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $purchasePrice = null;
+    private ?string $purchasePrice = '0.00';
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]

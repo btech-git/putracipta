@@ -17,10 +17,10 @@ class AdjustmentStockDetail extends StockDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $currentQuantity = null;
+    private ?int $currentQuantity = 0;
 
     #[ORM\Column]
-    private ?int $adjustedQuantity = null;
+    private ?int $adjustedQuantity = 0;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]

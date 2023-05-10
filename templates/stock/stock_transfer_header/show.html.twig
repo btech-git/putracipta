@@ -1,0 +1,73 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Stock Transfer Header' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_stock_transfer_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_transfer_header_edit', {'id': stockTransferHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Stock Transfer #</th>
+                <td>{{ stockTransferHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Transfer</th>
+                <td>{{ stockTransferHeader.transactionDate ? stockTransferHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Gudang Asal</th>
+                <td>{{ stockTransferHeader.warehouseFrom.name }}</td>
+            </tr>
+            <tr>
+                <th>Gudang Tujuan</th>
+                <td>{{ stockTransferHeader.warehouseTo.name }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ stockTransferHeader.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ stockTransferHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                <th>Nama Material</th>
+                <th>Quantity</th>
+                <th>Satuan</th>
+                <th>Keterangan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stockTransferDetail in stockTransferHeader.stockTransferDetails %}
+                <tr>
+                    <td>{{ stockTransferDetail.material.code|default }}</td>
+                    <td>{{ stockTransferDetail.material.name|default }}</td>
+                    <td style="text-align: center">{{ stockTransferDetail.quantity|default }}</td>
+                    <td>{{ stockTransferDetail.unit.name|default }}</td>
+                    <td>{{ stockTransferDetail.memo|default }}</td>
+                    <td>{{ stockTransferDetail.isCanceled ? 'Canceled' : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2" style="text-align: right"><strong>Total</strong></td>
+                <td style="text-align: center"><strong>{{ stockTransferHeader.totalQuantity|default }}</strong></td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    {#{{ include('stock/stock_transfer_header/_delete_form.html.twig') }}#}
+{% endblock %}

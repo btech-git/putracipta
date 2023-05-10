@@ -1,0 +1,89 @@
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+
+    {{ form_start(form) }}
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Header</legend>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {#{% if stockTransferHeader.id is null %}
+                        <div class="mb-3">
+                            <label class="form-label">Transfer Type</label>
+                            <select id="purchase-order-header-mode" class="form-control"
+                                    data-controller="dom-element"
+                                    data-action="change->dom-element#bind"
+                                    data-dom-element-bind-specifications-param="{{ [
+                                        {'destinationsTarget': "\##{form.purchaseOrderHeader.vars.id}-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "paper"'},
+                                        {'destinationsTarget': "\##{form.purchaseOrderHeader.vars.id}-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "ordinary"'},
+                                        {'destinationsTarget': "\##{form.purchaseOrderPaperHeader.vars.id}-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "ordinary"'},
+                                        {'destinationsTarget': "\##{form.purchaseOrderPaperHeader.vars.id}-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "paper"'},
+                                    ]|json_encode }}">
+                                <option value="">-- Pilih --</option>
+                                <option value="ordinary" {% if form.purchaseOrderHeader.vars.value != '' and form.purchaseOrderPaperHeader.vars.value == ''  %}selected="selected"{% endif %}>Material</option>
+                                <option value="paper" {% if form.purchaseOrderPaperHeader.vars.value != '' and form.purchaseOrderHeader.vars.value == '' %}selected="selected"{% endif %}>Kertas</option>
+                                <option value="product" {% if form.purchaseOrderPaperHeader.vars.value != '' and form.purchaseOrderHeader.vars.value == '' %}selected="selected"{% endif %}>Product</option>
+                            </select>
+                        </div>
+                    {% endif %}#}
+                </div>
+                <div class="col">
+                    {{ form_row(form.warehouseFrom, {'label': 'Gudang Asal #'}) }}
+                    {{ form_row(form.warehouseTo, {'label': 'Gudang Tujuan #'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.note) }}
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Details</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#paper-dialog">Add Kertas</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Product</button>
+            {{ include('stock/stock_transfer_header/_details_form.html.twig') }}
+        </fieldset>
+
+        <div class="d-grid">
+            <button class="btn btn-success"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+
+    {{ dialog.start('material-dialog', 'Material List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="material-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+    
+    {{ dialog.start('paper-dialog', 'Paper List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="paper-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+    
+    {{ dialog.start('product-dialog', 'Product List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="product-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+</div>

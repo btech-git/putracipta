@@ -42,7 +42,7 @@ class MaterialRequestHeader extends StockHeader
     private Collection $materialReleaseHeaders;
 
     #[ORM\Column]
-    private ?int $totalQuantityRemaining = null;
+    private ?int $totalQuantityRemaining = 0;
 
     public function __construct()
     {
