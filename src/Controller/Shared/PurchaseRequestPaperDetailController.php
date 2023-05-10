@@ -29,6 +29,7 @@ class PurchaseRequestPaperDetailController extends AbstractController
             $qb->leftJoin("{$alias}.purchaseOrderPaperDetail", 'd');
             $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
             $qb->innerJoin("{$alias}.paper", 'p');
             
             if (isset($request->query->get('purchase_request_paper_detail_grid')['filter']['paper:name']) && isset($request->query->get('purchase_request_paper_detail_grid')['sort']['paper:name'])) {
