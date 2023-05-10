@@ -9,6 +9,7 @@ use App\Form\Production\MasterOrderType;
 use App\Grid\Production\MasterOrderGridType;
 use App\Repository\Production\MasterOrderRepository;
 use App\Service\Production\MasterOrderFormService;
+use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,11 +55,11 @@ class MasterOrderController extends AbstractController
         $masterOrderFormService->initialize($masterOrder, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderType::class, $masterOrder);
         $form->handleRequest($request);
-        $masterOrderFormService->finalize($masterOrder);
+        $masterOrderFormService->finalize($masterOrder, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $masterOrderRepository->add($masterOrder, true);
             $masterOrderFormService->save($masterOrder);
+            $masterOrderFormService->uploadFile($masterOrder, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/master-order');
 
             return $this->redirectToRoute('app_production_master_order_show', ['id' => $masterOrder->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -66,6 +67,7 @@ class MasterOrderController extends AbstractController
         return $this->renderForm("production/master_order/new.{$_format}.twig", [
             'masterOrder' => $masterOrder,
             'form' => $form,
+            'transactionFileExists' => false,
         ]);
     }
 
@@ -85,11 +87,11 @@ class MasterOrderController extends AbstractController
         $masterOrderFormService->initialize($masterOrder, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderType::class, $masterOrder);
         $form->handleRequest($request);
-        $masterOrderFormService->finalize($masterOrder);
+        $masterOrderFormService->finalize($masterOrder, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
-//            $masterOrderRepository->add($masterOrder, true);
             $masterOrderFormService->save($masterOrder);
+            $masterOrderFormService->uploadFile($masterOrder, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/master-order');
 
             return $this->redirectToRoute('app_production_master_order_show', ['id' => $masterOrder->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -97,9 +99,60 @@ class MasterOrderController extends AbstractController
         return $this->renderForm("production/master_order/edit.{$_format}.twig", [
             'masterOrder' => $masterOrder,
             'form' => $form,
+            'transactionFileExists' => file_exists($this->getParameter('kernel.project_dir') . '/public/uploads/master-order/' . $masterOrder->getId() . '.' . $masterOrder->getLayoutModelFileExtension()),
         ]);
     }
 
+    #[Route('/{id}/memo_master_order', name: 'app_production_master_order_memo_master_order', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memoMasterOrder(MasterOrder $masterOrder): Response
+    {
+        $fileName = 'master_order.pdf';
+        $htmlView = $this->renderView('production/master_order/memo_master_order.html.twig', [
+            'masterOrder' => $masterOrder,
+        ]);
+
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrder->getId() . '.' . $masterOrder->getLayoutModelFileExtension() . '">', $html),
+        ]);
+    }
+    
+    #[Route('/{id}/memo_work_order', name: 'app_production_master_order_memo_work_order', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memoWorkOrder(MasterOrder $masterOrder): Response
+    {
+        $fileName = 'work_order.pdf';
+        $htmlView = $this->renderView('production/master_order/memo_work_order.html.twig', [
+            'masterOrder' => $masterOrder,
+        ]);
+
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrder->getId() . '.' . $masterOrder->getLayoutModelFileExtension() . '">', $html),
+        ]);
+    }
+    
+    #[Route('/{id}/memo_work_order_color_mixing', name: 'app_production_master_order_memo_work_order_color_mixing', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memoWorkOrderColorMixing(MasterOrder $masterOrder): Response
+    {
+        $fileName = 'work_order_color_mixing.pdf';
+        $htmlView = $this->renderView('production/master_order/memo_work_order_color_mixing.html.twig', [
+            'masterOrder' => $masterOrder,
+        ]);
+
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+        ]);
+    }
+    
     #[Route('/{id}/delete', name: 'app_production_master_order_delete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, MasterOrder $masterOrder, MasterOrderRepository $masterOrderRepository): Response
