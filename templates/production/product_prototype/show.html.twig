@@ -9,71 +9,89 @@
 
 {% block content %}
     <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>HEADER</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
                 <th>Produk Baru #</th>
                 <td>{{ productPrototype.getCodeNumber }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal</th>
-                <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Marketing</th>
-                <td>{{ productPrototype.employee.name }}</td>
-            </tr>
-            <tr>
                 <th>Customer</th>
                 <td>{{ productPrototype.customer.name }}</td>
             </tr>
             <tr>
+                <th>Tanggal</th>
+                <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
+                <th>Marketing</th>
+                <td>{{ productPrototype.employee.name }}</td>
+            </tr>
+            <tr>
                 <th>Kode Produk</th>
                 <td>{{ productPrototype.productCode }}</td>
-            </tr>
-            <tr>
-                <th>Nama Produk</th>
-                <td>{{ productPrototype.productName }}</td>
-            </tr>
-            <tr>
-                <th>Ukuran Jadi</th>
-                <td>{{ productPrototype.measurement }}</td>
-            </tr>
-            <tr>
                 <th>Sumber Data</th>
                 <td>{{ productPrototype.dataSource ? productPrototype.dataSource|join(', ') : '' }}</td>
             </tr>
             <tr>
-                <th>Material EP</th>
-                <td>{{ productPrototype.paper.code }}</td>
+                <th>Nama Produk</th>
+                <td>{{ productPrototype.productName }}</td>
+                <th>Development</th>
+                <td>{{ productPrototype.developmentType ? productPrototype.developmentType|join(', ') : '' }}</td>
             </tr>
             <tr>
-                <th>Varnish/Laminating</th>
-                <td>{{ productPrototype.isVarnish ? 'Yes' : 'No' }}</td>
+                <th>Ukuran Jadi</th>
+                <td>{{ productPrototype.measurement }}</td>
+                <td></td>
+                <td></td>
             </tr>
+        </tbody>
+    </table>
+                
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
+                <th colspan='6' class='text-center'>EP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Material EP Code</th>
+                <td>{{ productPrototype.paperEp.code }}</td>
+                <th>Material EP Name</th>
+                <td>{{ productPrototype.paperEp.paperNameSizeCombination }}</td>
                 <th>Quantity</th>
                 <td>{{ productPrototype.quantityEngineering }}</td>
             </tr>
+        </tbody>
+    </table>
+                
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <th>Material FEP/PS</th>
-                <td>{{ productPrototype.material.code }}</td>
+                <th colspan='6' class='text-center'>FEP/PS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Material FEP/PS Code</th>
+                <td colspan='2'>{{ productPrototype.paperFep.code }}</td>
+                <th>Material FEP/PS Name</th>
+                <td colspan='2'>{{ productPrototype.paperFep.paperNameSizeCombination }}</td>
             </tr>
             <tr>
                 <th>Warna (TC/Pantone)</th>
                 <td>{{ productPrototype.color }}</td>
-            </tr>
-            <tr>
                 <th>Quantity</th>
                 <td>{{ productPrototype.quantityEngineering }}</td>
-            </tr>
-            <tr>
                 <th>Jumlah Mata</th>
                 <td>{{ productPrototype.quantityBlade }}</td>
             </tr>
-            <tr>
-                <th>Finishing</th>
-                <td>{{ productPrototype.finishing }}</td>
-            </tr>
+        </tbody>
+    </table>
+                
+    <table class="table table-bordered table-striped">
+        <tbody>
             <tr>
                 <th>Varnish</th>
                 <td>{{ productPrototype.dataSource ? productPrototype.varnishList|join(', ') : '' }}</td>

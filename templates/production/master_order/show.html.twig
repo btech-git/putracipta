@@ -9,281 +9,236 @@
 
 {% block content %}
     <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>HEADER</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
                 <th>Master Order #</th>
                 <td>{{ masterOrder.getCodeNumber }}</td>
+                <th>PO Customer #</th>
+                <td>{{ masterOrder.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
                 <td>{{ masterOrder.productionDate ? masterOrder.productionDate|date('d M Y') : '' }}</td>
+                <th>Tanggal PO</th>
+                <td>{{ masterOrder.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrder.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Printing Machine</th>
+                <th>Tanggal Kirim</th>
+                <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('d M Y') : '' }}</td>
+                <th>Customer</th>
+                <td>{{ masterOrder.customer.company|default }}</td>
+            </tr>
+            <tr>
+                <th>Mesin Cetak</th>
                 <td>{{ masterOrder.printingMachine }}</td>
+                <th>Kode Produk</th>
+                <td>{{ masterOrder.product.code|default }}</td>
             </tr>
             <tr>
-                <th>Design Code</th>
+                <th>Kode Design</th>
                 <td>{{ masterOrder.designCode }}</td>
+                <th>Kode Produk</th>
+                <td>{{ masterOrder.product.name|default }}</td>
             </tr>
             <tr>
-                <th>Product Code</th>
-                <td>{{ masterOrder.product.code }}</td>
-            </tr>
-            <tr>
-                <th>Product Name</th>
-                <td>{{ masterOrder.product.name }}</td>
-            </tr>
-            <tr>
-                <th>Quantity Order</th>
+                <th>Quantity Order (pcs)</th>
                 <td>{{ masterOrder.quantityOrder }}</td>
+                <th>Material Kertas</th>
+                <td>{{ masterOrder.paper.paperNameSizeCombination|default }}</td>
             </tr>
             <tr>
-                <th>Quantity Stock</th>
-                <td>{{ masterOrder.quantityStock }}</td>
+                <th>Stock/Kekurangan (pcs)</th>
+                <td>{{ masterOrder.quantityStock }} / {{ masterOrder.quantityProduction }}</td>
+                <th>Ukuran Jadi (mm)</th>
+                <td>{{ masterOrder.dimensionLength }} x {{ masterOrder.dimensionWidth }} x {{ masterOrder.dimensionHeight }}</td>
             </tr>
             <tr>
-                <th>Color</th>
-                <td>{{ masterOrder.color }}</td>
+                <th>Warna/Pantone</th>
+                <td>{{ masterOrder.color }} / {{ masterOrder.pantone }} + {{ masterOrder.colorPantoneAdditional }}</td>
+                <th>Pisau Die Cut</th>
+                <td>{{ masterOrder.dieCutBlade }} : {{ masterOrder.dieCutBladeData }}</td>
             </tr>
             <tr>
                 <th>Finishing</th>
                 <td>{{ masterOrder.finishing }}</td>
-            </tr>
-            <tr>
-                <th>Quantity Printing</th>
-                <td>{{ masterOrder.quantityPrinting }}</td>
-            </tr>
-            <tr>
-                <th>Is Using Hot Stamping</th>
-                <td>{{ masterOrder.isUsingHotStamping ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Delivery Date</th>
-                <td>{{ masterOrder.deliveryDate ? masterOrder.deliveryDate|date('d M Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Printing Status</th>
-                <td>{{ masterOrder.printingStatus }}</td>
-            </tr>
-            <tr>
-                <th>Die Cut Blade</th>
-                <td>{{ masterOrder.dieCutBlade }}</td>
-            </tr>
-            <tr>
-                <th>Die Cut Blade Number</th>
+                <th>No. Pisau Die Cut</th>
                 <td>{{ masterOrder.dieCutBladeNumber }}</td>
             </tr>
             <tr>
-                <th>Die Line Film Number</th>
+                <th>Jumlah Up Cetak</th>
+                <td>{{ masterOrder.quantityPrinting }} & {{ masterOrder.quantityPrinting2 }}</td>
+                <th>No. Film Dieline</th>
                 <td>{{ masterOrder.dieLineFilmNumber }}</td>
             </tr>
             <tr>
-                <th>Layout Model File Extension</th>
-                <td>{{ masterOrder.layoutModelFileExtension }}</td>
+                <th>Ukuran Mountage / Kris (cm)</th>
+                <td>{{ masterOrder.mountageSizeLength }} x {{ masterOrder.mountageSizeWidth }}</td>
+                <th>Status Cetakan</th>
+                <td>{{ masterOrder.printingStatus }} : {{ masterOrder.printingStatusData }}</td>
             </tr>
             <tr>
-                <th>Insit Percentage</th>
+                <th>Hot Stamping</th>
+                <td>{{ masterOrder.isUsingHotStamping ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+         
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>KEBUTUHAN MATERIAL KERTAS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>% Insit</th>
                 <td>{{ masterOrder.insitPercentage }}</td>
-            </tr>
-            <tr>
-                <th>Quantity Paper</th>
-                <td>{{ masterOrder.quantityPaper }}</td>
-            </tr>
-            <tr>
-                <th>Paper Mountage</th>
-                <td>{{ masterOrder.paperMountage }}</td>
-            </tr>
-            <tr>
-                <th>Paper Plano Length</th>
-                <td>{{ masterOrder.paperPlanoLength }}</td>
-            </tr>
-            <tr>
-                <th>Paper Plano Width</th>
-                <td>{{ masterOrder.paperPlanoWidth }}</td>
-            </tr>
-            <tr>
-                <th>Cutting Length Size1</th>
-                <td>{{ masterOrder.cuttingLengthSize1 }}</td>
-            </tr>
-            <tr>
-                <th>Cutting Width Size1</th>
-                <td>{{ masterOrder.cuttingWidthSize1 }}</td>
-            </tr>
-            <tr>
-                <th>Cutting Length Size2</th>
-                <td>{{ masterOrder.cuttingLengthSize2 }}</td>
-            </tr>
-            <tr>
-                <th>Cutting Width Size2</th>
-                <td>{{ masterOrder.cuttingWidthSize2 }}</td>
-            </tr>
-            <tr>
-                <th>Paper Requirement</th>
+                <th>Kebutuhan (dreek)</th>
                 <td>{{ masterOrder.paperRequirement }}</td>
             </tr>
             <tr>
-                <th>Printing Insit</th>
+                <th>Quantity Kertas (rim)</th>
+                <td>{{ masterOrder.quantityPaper }}</td>
+                <th>Insit Cetak (dreek)</th>
                 <td>{{ masterOrder.printingInsit }}</td>
             </tr>
             <tr>
-                <th>Paper Total</th>
+                <th>Mountage Kertas (up)</th>
+                <td>{{ masterOrder.paperMountage }}</td>
+                <th>Total Kertas (dreek)</th>
                 <td>{{ masterOrder.paperTotal }}</td>
             </tr>
             <tr>
-                <th>Ink Cyan Percentage</th>
-                <td>{{ masterOrder.inkCyanPercentage }}</td>
+                <th>Uk Plano Kertas (cm)</th>
+                <td>{{ masterOrder.paperPlanoLength }} x {{ masterOrder.paperPlanoWidth }}</td>
+                <th>PO Kertas #</th>
+                <td>{{ masterOrder.purchaseOrderPaperHeader.getCodeNumber|default }}</td>
             </tr>
             <tr>
-                <th>Ink Cyan Weight</th>
-                <td>{{ masterOrder.inkCyanWeight }}</td>
+                <th>Uk Potong 1 (cm)</th>
+                <td>{{ masterOrder.cuttingLengthSize1 }} x {{ masterOrder.cuttingWidthSize1 }}</td>
+                <th>Tanggal</th>
+                <td>{{ masterOrder.purchaseOrderPaperHeader.transactionDate ? masterOrder.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Ink Magenta Percentage</th>
-                <td>{{ masterOrder.inkMagentaPercentage }}</td>
+                <th>Uk Potong 2 (cm)</th>
+                <td>{{ masterOrder.cuttingLengthSize2 }} x {{ masterOrder.cuttingWidthSize2 }}</td>
+                <th>Supplier</th>
+                <td>{{ masterOrder.purchaseOrderPaperHeader.supplier.company|default }}</td>
+            </tr>
+        </tbody>
+    </table>
+         
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>ESTIMASI TINTA / CHEMICAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Cyan</th>
+                <td>{{ masterOrder.inkCyanPercentage }}% = {{ masterOrder.inkCyanWeight }} kg</td>
+                <th>K-1</th>
+                <td>{{ masterOrder.inkK1Color }} : {{ masterOrder.inkK1Percentage }}% = {{ masterOrder.inkK1Weight }} kg</td>
             </tr>
             <tr>
-                <th>Ink Magenta Weight</th>
-                <td>{{ masterOrder.inkMagentaWeight }}</td>
+                <th>Magenta</th>
+                <td>{{ masterOrder.inkMagentaPercentage }}% = {{ masterOrder.inkMagentaWeight }} kg</td>
+                <th>K-2</th>
+                <td>{{ masterOrder.inkK2Color }} : {{ masterOrder.inkK2Percentage }}% = {{ masterOrder.inkK2Weight }} kg</td>
             </tr>
             <tr>
-                <th>Ink Yellow Percentage</th>
-                <td>{{ masterOrder.inkYellowPercentage }}</td>
+                <th>Yellow</th>
+                <td>{{ masterOrder.inkYellowPercentage }}% = {{ masterOrder.inkYellowWeight }} kg</td>
+                <th>K-3</th>
+                <td>{{ masterOrder.inkK3Color }} : {{ masterOrder.inkK3Percentage }}% = {{ masterOrder.inkK3Weight }} kg</td>
             </tr>
             <tr>
-                <th>Ink Yellow Weight</th>
-                <td>{{ masterOrder.inkYellowWeight }}</td>
+                <th>Black</th>
+                <td>{{ masterOrder.inkBlackPercentage }}% = {{ masterOrder.inkBlackWeight }} kg</td>
+                <th>K-4</th>
+                <td>{{ masterOrder.inkK4Color }} : {{ masterOrder.inkK4Percentage }}% = {{ masterOrder.inkK4Weight }} kg</td>
             </tr>
             <tr>
-                <th>Ink Black Percentage</th>
-                <td>{{ masterOrder.inkBlackPercentage }}</td>
+                <th>OPV/WB/UV</th>
+                <td>{{ masterOrder.inkOpvPercentage }}% = {{ masterOrder.inkOpvWeight }} KG</td>
+                <th>Laminating</th>
+                <td>{{ masterOrder.inkLaminatingSize }} cm = {{ masterOrder.inkLaminatingQuantity }} roll</td>
+            </tr>
+        </tbody>
+    </table>
+         
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>ESTIMASI PACKAGING</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Lem</th>
+                <td>{{ masterOrder.packagingGlueQuantity }} cm/pcs = {{ masterOrder.packagingGlueWeight }} kg</td>
+                <th>Lakban >besar</th>
+                <td>{{ masterOrder.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrder.packagingTapeLargeSize }} roll</td>
             </tr>
             <tr>
-                <th>Ink Black Weight</th>
-                <td>{{ masterOrder.inkBlackWeight }}</td>
+                <th>Karet</th>
+                <td>{{ masterOrder.packagingRubberQuantity }} pcs/ikat = {{ masterOrder.packagingRubberWeight }} pcs</td>
+                <th>Lakban >kecil</th>
+                <td>{{ masterOrder.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrder.packagingTapeSmallSize }} roll</td>
             </tr>
             <tr>
-                <th>Ink K1Percentage</th>
-                <td>{{ masterOrder.inkK1Percentage }}</td>
+                <th>Kertas Packing</th>
+                <td>{{ masterOrder.packagingPaperQuantity }} pcs/pak = {{ masterOrder.packagingPaperWeight }} lbr</td>
+                <th>Plastik</th>
+                <td>{{ masterOrder.packagingPlasticQuantity }} cm2/pack = {{ masterOrder.packagingPlasticSize }} m2</td>
             </tr>
             <tr>
-                <th>Ink K1Weight</th>
-                <td>{{ masterOrder.inkK1Weight }}</td>
+                <th>Dus</th>
+                <td>{{ masterOrder.packagingBoxQuantity }} pcs/dus = {{ masterOrder.packagingBoxWeight }} pcs</td>
+                <td></td>
+                <td></td>
             </tr>
-            <tr>
-                <th>Ink K2Percentage</th>
-                <td>{{ masterOrder.inkK2Percentage }}</td>
-            </tr>
-            <tr>
-                <th>Ink K2Weight</th>
-                <td>{{ masterOrder.inkK2Weight }}</td>
-            </tr>
-            <tr>
-                <th>Ink K3Percentage</th>
-                <td>{{ masterOrder.inkK3Percentage }}</td>
-            </tr>
-            <tr>
-                <th>Ink K3Weight</th>
-                <td>{{ masterOrder.inkK3Weight }}</td>
-            </tr>
-            <tr>
-                <th>Ink K4Percentage</th>
-                <td>{{ masterOrder.inkK4Percentage }}</td>
-            </tr>
-            <tr>
-                <th>Ink K4Weight</th>
-                <td>{{ masterOrder.inkK4Weight }}</td>
-            </tr>
-            <tr>
-                <th>Ink Opv Percentage</th>
-                <td>{{ masterOrder.inkOpvPercentage }}</td>
-            </tr>
-            <tr>
-                <th>Ink Opv Weight</th>
-                <td>{{ masterOrder.inkOpvWeight }}</td>
-            </tr>
-            <tr>
-                <th>Ink Laminating Size</th>
-                <td>{{ masterOrder.inkLaminatingSize }}</td>
-            </tr>
-            <tr>
-                <th>Ink Laminating Quantity</th>
-                <td>{{ masterOrder.inkLaminatingQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Glue Quantity</th>
-                <td>{{ masterOrder.packagingGlueQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Glue Weight</th>
-                <td>{{ masterOrder.packagingGlueWeight }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Rubber Quantity</th>
-                <td>{{ masterOrder.packagingRubberQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Rubber Weight</th>
-                <td>{{ masterOrder.packagingRubberWeight }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Paper Quantity</th>
-                <td>{{ masterOrder.packagingPaperQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Paper Weight</th>
-                <td>{{ masterOrder.packagingPaperWeight }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Box Quantity</th>
-                <td>{{ masterOrder.packagingBoxQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Box Weight</th>
-                <td>{{ masterOrder.packagingBoxWeight }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Tape Large Quantity</th>
-                <td>{{ masterOrder.packagingTapeLargeQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Tape Large Size</th>
-                <td>{{ masterOrder.packagingTapeLargeSize }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Tape Small Quantity</th>
-                <td>{{ masterOrder.packagingTapeSmallQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Tape Small Size</th>
-                <td>{{ masterOrder.packagingTapeSmallSize }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Plastic Quantity</th>
-                <td>{{ masterOrder.packagingPlasticQuantity }}</td>
-            </tr>
-            <tr>
-                <th>Packaging Plastic Size</th>
-                <td>{{ masterOrder.packagingPlasticSize }}</td>
-            </tr>
+        </tbody>
+    </table>
+         
+    <table class="table table-bordered table-striped">
+        <tbody>
             <tr>
                 <th>Distribusi WO</th>
                 <td>{{ masterOrder.workOrderDistribution ? masterOrder.workOrderDistribution|join(', ') : '' }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
-                <td>{{ masterOrder.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Is Read</th>
-                <td>{{ masterOrder.isRead ? 'Yes' : 'No' }}</td>
+                <th>Urutan Proses</th>
+                <td>{{ masterOrder.processList ? masterOrder.processList|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ masterOrder.note }}</td>
             </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ masterOrder.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
-    {{ include('production/master_order/_delete_form.html.twig') }}
+    {#{{ include('production/master_order/_delete_form.html.twig') }}#}
+    <br />
+    <div class="d-inline-block">
+        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_memo_master_order', {'id': masterOrder.id}) }}">Print Master Order</a>
+        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_memo_work_order', {'id': masterOrder.id}) }}">Print SPK</a>
+        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_memo_work_order_color_mixing', {'id': masterOrder.id}) }}">Print WO Color Mixing</a>
+    </div>
+    
+    <div class="text-center">
+        <img width="512px" height="512px" src="{{ asset('uploads/master-order/' ~ masterOrder.id ~ '.' ~ masterOrder.layoutModelFileExtension) }}" alt="Layout Model Image" />
+    </div>
+
 {% endblock %}

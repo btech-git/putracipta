@@ -61,7 +61,14 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.email'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.dataSource, {'label': 'Sumber Data'}) }}
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.dataSource, {'label': 'Sumber Data'}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.developmentType, {'label': 'Development'}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -71,8 +78,8 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="{{ form.paper.vars.id }}-text" class="form-label">Material</label>
-                        {{ form_row(form.paper, {
+                        <label for="{{ form.paperEp.vars.id }}-text" class="form-label">Material Kertas</label>
+                        {{ form_row(form.paperEp, {
                             'attr': {
                                 'data-controller': 'dom-element',
                                 'data-action': 'paper-table:data-table:select@document->dom-element#bind',
@@ -81,18 +88,21 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paper.code|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#paper-dialog"
+                        <input type="text" id="{{ form.paperEp.vars.id }}-text" class="form-control readonly-form-input {% if not form.paperEp.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paperEp.code|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#paper-ep-dialog"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
-                        {{ form_errors(form.paper) }}
+                        {{ form_errors(form.paperEp) }}
                     </div>
+                </div>
+                    
+                <div class="col">
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.paper.name|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.paperEp.paperNameSizeCombination|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -100,9 +110,9 @@
                                ]|json_encode }}" />
                     </div>
                 </div>
+                    
                 <div class="col">
                     {{ form_row(form.quantityEngineering, {'label': 'Quantity'}) }}
-                    {{ form_row(form.isVarnish, {'label': 'Varnish/Laminating'}) }}
                 </div>
             </div>
         </fieldset>
@@ -112,35 +122,34 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="{{ form.material.vars.id }}-text" class="form-label">Material</label>
-                        {{ form_row(form.material, {
+                        <label for="{{ form.paperFep.vars.id }}-text" class="form-label">Material Kertas</label>
+                        {{ form_row(form.paperFep, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'material-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'paper-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.materialId'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperId'}},
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.material.vars.id }}-text" class="form-control readonly-form-input {% if not form.material.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.material.code|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#material-dialog"
+                        <input type="text" id="{{ form.paperFep.vars.id }}-text" class="form-control readonly-form-input {% if not form.paperFep.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paperFep.code|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#paper-fep-dialog"
                                data-controller="dom-element"
-                               data-action="material-table:data-table:select@document->dom-element#bind"
+                               data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.materialCode'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
-                        {{ form_errors(form.material) }}
+                        {{ form_errors(form.paperFep) }}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.material.name|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.paperFep.paperNameSizeCombination|default }}" readonly="readonly"
                                data-controller="dom-element"
-                               data-action="material-table:data-table:select@document->dom-element#bind"
+                               data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.materialName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.finishing, {'label': 'Finishing'}) }}
                 </div>
                 <div class="col">
                     {{ form_row(form.quantityProduction, {'label': 'Quantity'}) }}
@@ -150,16 +159,35 @@
             </div>
         </fieldset>
                 
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <div class="row">
-                <div class="col">
-                    {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
-                    {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
-                </div>
-                <div class="col">
-                    {{ form_row(form.processList, {'label': 'Proses'}) }}
-                </div>
+        <div class="row">
+            <div class="col">
+                <fieldset class="border border-secondary rounded mb-3 p-3">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.varnishList, {'label': 'Varnish'}) }}
+                        </div>
+                </fieldset>
             </div>
+            <div class="col">
+                <fieldset class="border border-secondary rounded mb-3 p-3">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.laminatingList, {'label': 'Laminating'}) }}
+                        </div>
+                </fieldset>
+            </div>
+            <div class="col">
+                <fieldset class="border border-secondary rounded mb-3 p-3">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.processList, {'label': 'Proses'}) }}
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionFile, {
@@ -192,7 +220,14 @@
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('paper-dialog', 'Paper List') }}
+    {{ dialog.start('paper-ep-dialog', 'Paper List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('paper-fep-dialog', 'Paper List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true">
