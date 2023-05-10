@@ -52,13 +52,16 @@ class PurchaseReturnHeaderFormService
 
         }
         $receiveHeader = $purchaseReturnHeader->getReceiveHeader();
-//        $purchaseOrderHeaderForMaterialOrPaper = $this->getPurchaseOrderHeaderForMaterialOrPaper($receiveHeader);
         $purchaseReturnHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
-        $receiveHeader->setHasReturnTransaction(true);
         
-//        if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
-//            $purchaseOrderHeaderForMaterialOrPaper->setHasReturnTransaction(true);
-//        }
+        if ($receiveHeader !== null) {
+            $receiveHeader->setHasReturnTransaction(true);
+            $purchaseOrderHeaderForMaterialOrPaper = $this->getPurchaseOrderHeaderForMaterialOrPaper($receiveHeader);
+            
+            if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
+                $purchaseOrderHeaderForMaterialOrPaper->setHasReturnTransaction(true);
+            }
+        }
         
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
             $purchaseReturnDetail->setIsCanceled($purchaseReturnDetail->getSyncIsCanceled());
