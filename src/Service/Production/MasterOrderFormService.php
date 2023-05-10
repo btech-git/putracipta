@@ -45,11 +45,25 @@ class MasterOrderFormService
         $masterOrder->setCustomer($saleOrderHeader === null ? null : $saleOrderHeader->getCustomer());
         $masterOrder->setProduct($saleOrderDetail === null ? null : $saleOrderDetail->getProduct());
         
+        if ($options['transactionFile']) {
+            $masterOrder->setLayoutModelFileExtension($options['transactionFile']->guessExtension());
+        }
     }
 
     public function save(MasterOrder $masterOrder, array $options = []): void
     {
         $this->masterOrderRepository->add($masterOrder);
         $this->entityManager->flush();
+    }
+
+    public function uploadFile(MasterOrder $masterOrder, $transactionFile, $uploadDirectory): void
+    {
+        if ($transactionFile) {
+            try {
+                $filename = $masterOrder->getId() . '.' . $masterOrder->getLayoutModelFileExtension();
+                $transactionFile->move($uploadDirectory, $filename);
+            } catch (FileException $e) {
+            }
+        }
     }
 }
