@@ -78,9 +78,10 @@ class ReceiveHeaderFormService
             $receiveDetail->setUnit($purchaseOrderDetailForMaterialOrPaper === null ? null : $purchaseOrderDetailForMaterialOrPaper->getUnit());
         }
         $receiveHeader->setTotalQuantity($receiveHeader->getSyncTotalQuantity());
+        
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
-            $oldReceiveDetails = $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetailForMaterialOrPaper);
+            $oldReceiveDetails = empty($receiveDetail->getPurchaseOrderDetail()) ? $this->receiveDetailRepository->findByPurchaseOrderPaperDetail($purchaseOrderDetailForMaterialOrPaper) : $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetailForMaterialOrPaper);
             $totalReceive = 0;
             foreach ($oldReceiveDetails as $oldReceiveDetail) {
                 if ($oldReceiveDetail->getId() !== $receiveDetail->getId()) {
@@ -91,6 +92,7 @@ class ReceiveHeaderFormService
             $purchaseOrderDetailForMaterialOrPaper->setTotalReceive($totalReceive);
             $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
         }
+        
         $totalRemaining = 0;
         foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
             $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
@@ -105,6 +107,7 @@ class ReceiveHeaderFormService
                 }
             }
         }
+        
         if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
             if ($totalRemaining > 0) {
                 $purchaseOrderHeaderForMaterialOrPaper->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE);
