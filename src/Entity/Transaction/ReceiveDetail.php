@@ -24,10 +24,6 @@ class ReceiveDetail extends TransactionDetail
 
     #[ORM\Column]
     #[Assert\NotNull]
-    private ?int $orderedQuantity = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
     private ?int $receivedQuantity = 0;
 
@@ -55,6 +51,9 @@ class ReceiveDetail extends TransactionDetail
 
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
+
+    #[ORM\Column]
+    private ?int $remainingQuantity = null;
 
     public function __construct()
     {
@@ -88,18 +87,6 @@ class ReceiveDetail extends TransactionDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOrderedQuantity(): ?int
-    {
-        return $this->orderedQuantity;
-    }
-
-    public function setOrderedQuantity(int $orderedQuantity): self
-    {
-        $this->orderedQuantity = $orderedQuantity;
-
-        return $this;
     }
 
     public function getReceivedQuantity(): ?int
@@ -224,6 +211,18 @@ class ReceiveDetail extends TransactionDetail
     public function setPaper(?Paper $paper): self
     {
         $this->paper = $paper;
+
+        return $this;
+    }
+
+    public function getRemainingQuantity(): ?int
+    {
+        return $this->remainingQuantity;
+    }
+
+    public function setRemainingQuantity(int $remainingQuantity): self
+    {
+        $this->remainingQuantity = $remainingQuantity;
 
         return $this;
     }
