@@ -155,7 +155,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.paper.name|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.paper.paperNameSizeCombination|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#paper-dialog"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
