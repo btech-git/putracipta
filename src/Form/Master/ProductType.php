@@ -17,15 +17,11 @@ class ProductType extends AbstractType
 //            ->add('productCategory', null, ['choice_label' => 'name'])
             ->add('code')
             ->add('name')
-            ->add('minimumStock')
+            ->add('length', null, ['label' => 'Panjang'])
+            ->add('width', null, ['label' => 'Lebar'])
+            ->add('height', null, ['label' => 'Tebal'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
-//            ->add('customer', null, [
-//                'choice_label' => 'name',
-//                'query_builder' => function($repository) {
-//                    return $repository->createQueryBuilder('e')->addOrderBy('e.company', 'ASC');
-//                },
-//            ])
             ->add('note')
             ->add('isInactive')
         ;

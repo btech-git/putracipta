@@ -71,6 +71,7 @@ class ProductPrototypeType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
+                            'application/pdf',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPEG or PNG',
                     ])

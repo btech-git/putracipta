@@ -79,11 +79,7 @@
                 <th>Ukuran Mountage / Kris (cm)</th>
                 <td>{{ masterOrder.mountageSizeLength }} x {{ masterOrder.mountageSizeWidth }}</td>
                 <th>Status Cetakan</th>
-                <td>{{ masterOrder.printingStatus }} : {{ masterOrder.printingStatusData }}</td>
-            </tr>
-            <tr>
-                <th>Hot Stamping</th>
-                <td>{{ masterOrder.isUsingHotStamping ? 'Yes' : 'No' }}</td>
+                <td>{{ masterOrder.printingStatus ? masterOrder.printingStatus|join(', ') : '' }} : {{ masterOrder.printingStatusData }}</td>
             </tr>
         </tbody>
     </table>

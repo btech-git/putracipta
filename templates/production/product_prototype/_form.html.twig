@@ -35,7 +35,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control readonly-form-input {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ deliveryHeader.customer.company|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control readonly-form-input {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.customer.company|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#customer-dialog"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
@@ -52,7 +52,7 @@
                            ]|json_encode }}" />
                     <div class="mb-3">
                         <label class="form-label">Phone</label>
-                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.phone|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.customer.phone|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -61,7 +61,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.email|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.customer.email|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

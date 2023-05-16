@@ -23,11 +23,6 @@ class Product extends Master
     #[Assert\NotBlank]
     private ?string $code = '';
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?int $minimumStock = 0;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?ProductCategory $productCategory = null;
 
@@ -43,6 +38,15 @@ class Product extends Master
     #[Assert\NotNull]
     private ?string $note = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $length = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $width = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $height = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -56,18 +60,6 @@ class Product extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getMinimumStock(): ?int
-    {
-        return $this->minimumStock;
-    }
-
-    public function setMinimumStock(int $minimumStock): self
-    {
-        $this->minimumStock = $minimumStock;
 
         return $this;
     }
@@ -116,6 +108,42 @@ class Product extends Master
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getLength(): ?string
+    {
+        return $this->length;
+    }
+
+    public function setLength(string $length): self
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    public function getWidth(): ?string
+    {
+        return $this->width;
+    }
+
+    public function setWidth(string $width): self
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function getHeight(): ?string
+    {
+        return $this->height;
+    }
+
+    public function setHeight(string $height): self
+    {
+        $this->height = $height;
 
         return $this;
     }

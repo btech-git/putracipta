@@ -14,7 +14,6 @@
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.printingMachine, {'label': 'Mesin Cetak'}) }}
                     {{ form_row(form.designCode, {'label': 'Kode Design'}) }}
-                    {{ form_row(form.quantityOrder, {'label': 'Quantity Order (pcs)'}) }}
                     <div class="mb-3">
                         <label class="form-label">Stock/Kekurangan (pcs)</label>
                         <div class="row">
@@ -76,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    {{ form_row(form.isUsingHotStamping, {'label': 'Hot Stamping'}) }}
+                                
                     <label class="form-label">Status Cetakan</label>
                     <div class="row">
                         <div class="col">
@@ -86,6 +85,7 @@
                             {{ form_row(form.printingStatusData, {'label': false}) }}   
                         </div>
                     </div>
+                    {{ form_row(form.dieLineFilmNumber, {'label': 'No. Film Dieline Diecut'}) }}                        
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -99,12 +99,12 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.saleOrderDetail.vars.id }}-text" class="form-control readonly-form-input {% if not form.saleOrderDetail.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.codeNumber|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.saleOrderDetail.vars.id }}-text" class="form-control readonly-form-input {% if not form.saleOrderDetail.vars.valid %}is-invalid{% endif %}" value="{{ masterOrder.saleOrderDetail.saleOrderHeader.referenceNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#sale-order-detail-dialog"
                                data-controller="dom-element"
                                data-action="sale-order-detail-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderReferenceNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.saleOrderDetail) }}
                     </div>
@@ -144,6 +144,69 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
                                ]|json_encode }}" />
                     </div>
+                    {{ form_row(form.quantityOrder, {
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'sale-order-detail-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderDetailQuantity'}},
+                            ]|json_encode,
+                        },
+                        'label': 'Quantity Order (pcs)',
+                    }) }}
+                    <div class="mb-3">
+                        <label class="form-label">Ukuran Jadi (mm)</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">P</span>
+                                    {{ form_widget(form.dimensionLength, {
+                                        'attr': {
+                                            'data-controller': 'dom-element',
+                                            'data-action': 'sale-order-detail-table:data-table:select@document->dom-element#bind',
+                                            'data-dom-element-bind-specifications-param': [
+                                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productLength'}},
+                                            ]|json_encode,
+                                        },
+                                        'label': 'Quantity Order (pcs)',
+                                    }) }}
+                                    {{ form_errors(form.dimensionLength) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">L</span>
+                                    {{ form_widget(form.dimensionWidth, {
+                                        'attr': {
+                                            'data-controller': 'dom-element',
+                                            'data-action': 'sale-order-detail-table:data-table:select@document->dom-element#bind',
+                                            'data-dom-element-bind-specifications-param': [
+                                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productWidth'}},
+                                            ]|json_encode,
+                                        },
+                                        'label': 'Quantity Order (pcs)',
+                                    }) }} 
+                                    {{ form_errors(form.dimensionWidth) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">T</span>
+                                    {{ form_widget(form.dimensionHeight, {
+                                        'attr': {
+                                            'data-controller': 'dom-element',
+                                            'data-action': 'sale-order-detail-table:data-table:select@document->dom-element#bind',
+                                            'data-dom-element-bind-specifications-param': [
+                                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productHeight'}},
+                                            ]|json_encode,
+                                        },
+                                        'label': 'Quantity Order (pcs)',
+                                    }) }}
+                                    {{ form_errors(form.dimensionHeight) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
                         {{ form_row(form.paper, {
@@ -173,32 +236,6 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWeight'}},
                                ]|json_encode }}" />
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Ukuran Jadi (mm)</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <span class="input-group-text">P</span>
-                                    {{ form_widget(form.dimensionLength) }}
-                                    {{ form_errors(form.dimensionLength) }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <span class="input-group-text">L</span>
-                                    {{ form_widget(form.dimensionWidth) }} 
-                                    {{ form_errors(form.dimensionWidth) }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <span class="input-group-text">T</span>
-                                    {{ form_widget(form.dimensionHeight) }}
-                                    {{ form_errors(form.dimensionHeight) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <label class="form-label">Pisau Die Cut</label>
                     <div class="row">
                         <div class="col">
@@ -209,7 +246,6 @@
                         </div>
                     </div>
                     {{ form_row(form.dieCutBladeNumber, {'label': 'No. Pisau Diecut'}) }}
-                    {{ form_row(form.dieLineFilmNumber, {'label': 'No. Film Dieline Diecut'}) }}
                 </div>
             </div>
         </fieldset>
@@ -398,7 +434,7 @@
                         
                 <div class="col">
                     <div class="mb-3">
-                        <label class="form-label">K-1</label>
+                        <label class="form-label">Khusus-1</label>
                         <div class="row">
                             <div class="col">
                                 <div class="input-group">
@@ -417,7 +453,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">K-2</label>
+                        <label class="form-label">Khusus-2</label>
                         <div class="row">
                             <div class="col">
                                 <div class="input-group">
@@ -436,7 +472,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">K-3</label>
+                        <label class="form-label">Khusus-3</label>
                         <div class="row">
                             <div class="col">
                                 <div class="input-group">
@@ -455,7 +491,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">K-4</label>
+                        <label class="form-label">Khusus-4</label>
                         <div class="row">
                             <div class="col">
                                 <div class="input-group">

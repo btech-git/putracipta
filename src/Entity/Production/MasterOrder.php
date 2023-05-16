@@ -79,14 +79,8 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column]
     private ?int $quantityPrinting = 0;
 
-    #[ORM\Column]
-    private ?bool $isUsingHotStamping = false;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deliveryDate = null;
-
-    #[ORM\Column(length: 60)]
-    private ?string $printingStatus = '';
 
     #[ORM\Column(length: 60)]
     private ?string $dieCutBlade = '';
@@ -316,6 +310,9 @@ class MasterOrder extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderVarnishSpotHeader::class)]
     private Collection $workOrderVarnishSpotHeaders;
 
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $printingStatus = [];
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -444,18 +441,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    public function isIsUsingHotStamping(): ?bool
-    {
-        return $this->isUsingHotStamping;
-    }
-
-    public function setIsUsingHotStamping(bool $isUsingHotStamping): self
-    {
-        $this->isUsingHotStamping = $isUsingHotStamping;
-
-        return $this;
-    }
-
     public function getDeliveryDate(): ?\DateTimeInterface
     {
         return $this->deliveryDate;
@@ -464,18 +449,6 @@ class MasterOrder extends ProductionHeader
     public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
     {
         $this->deliveryDate = $deliveryDate;
-
-        return $this;
-    }
-
-    public function getPrintingStatus(): ?string
-    {
-        return $this->printingStatus;
-    }
-
-    public function setPrintingStatus(string $printingStatus): self
-    {
-        $this->printingStatus = $printingStatus;
 
         return $this;
     }
@@ -1496,6 +1469,18 @@ class MasterOrder extends ProductionHeader
                 $workOrderVarnishSpotHeader->setMasterOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrintingStatus(): array
+    {
+        return $this->printingStatus;
+    }
+
+    public function setPrintingStatus(array $printingStatus): self
+    {
+        $this->printingStatus = $printingStatus;
 
         return $this;
     }

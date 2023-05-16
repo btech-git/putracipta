@@ -39,8 +39,7 @@ class MasterOrderType extends AbstractType
             ->add('quantityPrinting2')
             ->add('mountageSizeLength')
             ->add('mountageSizeWidth')
-            ->add('isUsingHotStamping')
-            ->add('printingStatus', ChoiceType::class, ['choices' => [
+            ->add('printingStatus', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'Proof Print' => MasterOrder::PRINTING_STATUS_PROOF_PRINT,
                 'New Order' => MasterOrder::PRINTING_STATUS_NEW_ORDER,
                 'Repeat Order' => MasterOrder::PRINTING_STATUS_REPEAT_ORDER,
@@ -151,6 +150,7 @@ class MasterOrderType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
+                            'application/pdf',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPEG or PNG',
                     ])
