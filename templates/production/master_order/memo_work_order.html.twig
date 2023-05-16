@@ -102,7 +102,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Status</div>
-                            <div class="cell value">{{ masterOrder.printingStatus|default }}</div>
+                            <div class="cell value">{{ masterOrder.printingStatus ? masterOrder.printingStatus|join(', ') : '' }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Warna</div>

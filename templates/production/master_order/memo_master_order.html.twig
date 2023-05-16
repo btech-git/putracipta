@@ -131,7 +131,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Status Cetakan</div>
-                            <div class="cell value">{{ masterOrder.printingStatus }} : {{ masterOrder.printingStatusData }}</div>
+                            <div class="cell value">{{ masterOrder.printingStatus ? masterOrder.printingStatus|join(', ') : '' }} : {{ masterOrder.printingStatusData }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Pisau Die Cut</div>
