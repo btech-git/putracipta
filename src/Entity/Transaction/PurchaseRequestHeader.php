@@ -19,6 +19,7 @@ class PurchaseRequestHeader extends TransactionHeader
     public const CODE_NUMBER_CONSTANT = 'PRM';
     public const TRANSACTION_STATUS_DRAFT = 'draft';
     public const TRANSACTION_STATUS_HOLD = 'hold';
+    public const TRANSACTION_STATUS_RELEASE = 'release';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
     
@@ -55,6 +56,12 @@ class PurchaseRequestHeader extends TransactionHeader
     #[ORM\Column(length: 60)]
     #[Assert\NotNull]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
+
+    #[ORM\Column]
+    private ?bool $isViewed = false;
+
+    #[ORM\Column]
+    private ?bool $isOnHold = false;
 
     public function __construct()
     {
@@ -192,6 +199,30 @@ class PurchaseRequestHeader extends TransactionHeader
     public function setTransactionStatus(string $transactionStatus): self
     {
         $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
+    public function isIsViewed(): ?bool
+    {
+        return $this->isViewed;
+    }
+
+    public function setIsViewed(bool $isViewed): self
+    {
+        $this->isViewed = $isViewed;
+
+        return $this;
+    }
+
+    public function isIsOnHold(): ?bool
+    {
+        return $this->isOnHold;
+    }
+
+    public function setIsOnHold(bool $isOnHold): self
+    {
+        $this->isOnHold = $isOnHold;
 
         return $this;
     }
