@@ -70,15 +70,15 @@
                                             <td>EP (Engineering Piloting)</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentType ? 'V' : '' }}</td>
+                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_FEP', productPrototype) in productPrototype.developmentType ? 'V' : '' }}</td>
                                             <td>FEP (Final Engineering Piloting)</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentType ? 'V' : '' }}</td>
+                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_PP', productPrototype) in productPrototype.developmentType ? 'V' : '' }}</td>
                                             <td>PP (Production Planning)</td>
                                         </tr>
                                         <tr>
-                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentType ? 'V' : '' }}</td>
+                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_PS', productPrototype) in productPrototype.developmentType ? 'V' : '' }}</td>
                                             <td>PS (Production Schedule)</td>
                                         </tr>
                                     </tbody>
@@ -215,33 +215,33 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_OPV_MATT', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_OPV_MATT', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 90px">OPV Matt</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_MATT', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_MATT', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 90px">WB Matt</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_UV_GLOSSY_FULL', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_UV_GLOSSY_FULL', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 90px">UV Glossy Full</td>
                                             </tr>
                                             <tr>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_OPV_GLOSSY', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_OPV_GLOSSY', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 150px">OPV Glossy</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_GLOSSY_FULL', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_GLOSSY_FULL', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 150px">WB Glossy Full</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_UV_GLOSSY_FREE', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_UV_GLOSSY_FREE', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 150px">UV Glossy Free</td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td style="min-width: 90px"></td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_GLOSSY_FREE', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_GLOSSY_FREE', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 90px">WB Glossy Free</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_UV_GLOSSY_SPOT', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_UV_GLOSSY_SPOT', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 90px">UV Glossy Spot</td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td></td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_CALENDERING', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('COATING_WB_CALENDERING', productPrototype) in productPrototype.coatingList ? 'V' : '' }}</td>
                                                 <td style="min-width: 90px">WB Calendering</td>
                                                 <td></td>
                                                 <td></td>
@@ -257,27 +257,27 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_PRINTING', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_PRINTING', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 90px">Printing</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_HOTSTAMP', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_HOTSTAMP', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 150px">Hot Stamp</td>
                                             </tr>
                                             <tr>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_COATING', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_COATING', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 90px">Coating</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_LOCK_BOTTOM', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_LOCK_BOTTOM', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 150px">Lem Lock Bottom</td>
                                             </tr>
                                             <tr>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_DIECUT', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_DIECUT', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 90px">Diecut</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_STRAIGHT_JOINT', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_STRAIGHT_JOINT', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 150px">Lem Straight Joint</td>
                                             </tr>
                                             <tr>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_EMBOSS', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_EMBOSS', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 90px">Emboss</td>
-                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_JILID', productPrototype) in productPrototype.laminatingList ? 'V' : '' }}</td>
+                                                <td style="text-align: center; border: 1px solid; min-width: 9px">{{ constant('PROCESS_JILID', productPrototype) in productPrototype.processList ? 'V' : '' }}</td>
                                                 <td style="width: 150px">Jilid Buku</td>
                                             </tr>
                                         </tbody>
