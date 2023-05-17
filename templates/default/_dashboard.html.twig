@@ -3,8 +3,24 @@
     <table class="table table-bordered">
         <thead class="table-primary">
             <tr>
-                <th>Request Material</th>
-                <th>Request Kertas</th>
+                <th>Draft Request Material</th>
+                <th>Draft Request Kertas</th>
+                <th>Approved Request Material</th>
+                <th>Approved Request Kertas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_request_header_head') }}">{{ purchaseRequestHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_request_paper_header_head') }}">{{ purchaseRequestPaperHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_request_header_approval') }}">{{ purchaseRequestHeaderCountApproval }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_request_paper_header_approval') }}">{{ purchaseRequestPaperHeaderCountApproval }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
                 <th>PO Material</th>
                 <th>PO Kertas</th>
                 <th>Invoice Pembelian</th>
@@ -14,8 +30,6 @@
         </thead>
         <tbody>
             <tr>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_request_header_head') }}">{{ purchaseRequestHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_request_paper_header_head') }}">{{ purchaseRequestPaperHeaderCount }}</a></td>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_order_header_head') }}">{{ purchaseOrderHeaderCount }}</a></td>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_order_paper_header_head') }}">{{ purchaseOrderPaperHeaderCount }}</a></td>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_transaction_purchase_invoice_header_head') }}">{{ purchaseInvoiceHeaderCount }}</a></td>
