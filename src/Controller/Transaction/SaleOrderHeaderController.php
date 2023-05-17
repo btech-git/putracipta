@@ -233,4 +233,19 @@ class SaleOrderHeaderController extends AbstractController
         return $this->redirectToRoute('app_transaction_sale_order_header_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/done', name: 'app_transaction_sale_order_header_done', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function done(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('done' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
+            $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_DONE);
+            $saleOrderHeaderRepository->add($saleOrderHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was done successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to complete the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_sale_order_header_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

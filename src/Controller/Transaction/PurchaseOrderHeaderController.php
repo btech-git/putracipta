@@ -204,6 +204,7 @@ class PurchaseOrderHeaderController extends AbstractController
     {
         if ($this->isCsrfTokenValid('hold' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
             $purchaseOrderHeader->setIsOnHold(true);
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_HOLD);
             $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
@@ -220,6 +221,7 @@ class PurchaseOrderHeaderController extends AbstractController
     {
         if ($this->isCsrfTokenValid('release' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
             $purchaseOrderHeader->setIsOnHold(false);
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_RELEASE);
             $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));

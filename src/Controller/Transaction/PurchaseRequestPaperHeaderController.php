@@ -66,6 +66,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
         list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isRead = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'draft'");
         });
 
         return $this->renderForm("transaction/purchase_request_paper_header/_head.html.twig", [
@@ -88,6 +89,48 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     {
         if ($this->isCsrfTokenValid('read' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
             $purchaseRequestPaperHeader->setIsRead(true);
+            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_paper_header_show', ['id' => $purchaseRequestPaperHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/_approval', name: 'app_transaction_purchase_request_paper_header__approval', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _approval(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isViewed = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
+        });
+
+        return $this->renderForm("transaction/purchase_request_paper_header/_approval.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseRequestPaperHeaders' => $purchaseRequestPaperHeaders,
+        ]);
+    }
+
+    #[Route('/approval', name: 'app_transaction_purchase_request_paper_header_approval', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function approval(): Response
+    {
+        return $this->render("transaction/purchase_request_paper_header/approval.html.twig");
+    }
+
+    #[Route('/{id}/view', name: 'app_transaction_purchase_request_paper_header_view', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function view(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('view' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeader->setIsViewed(true);
             $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
         }
 
@@ -211,5 +254,39 @@ class PurchaseRequestPaperHeaderController extends AbstractController
             fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
         ]);
+    }
+
+    #[Route('/{id}/hold', name: 'app_transaction_purchase_request_paper_header_hold', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function hold(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('hold' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeader->setIsOnHold(true);
+            $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_HOLD);
+            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_paper_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/release', name: 'app_transaction_purchase_request_paper_header_release', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function release(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('release' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeader->setIsOnHold(false);
+            $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_RELEASE);
+            $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_paper_header_index', [], Response::HTTP_SEE_OTHER);
     }
 }

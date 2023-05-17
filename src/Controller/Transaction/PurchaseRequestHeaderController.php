@@ -65,6 +65,7 @@ class PurchaseRequestHeaderController extends AbstractController
         list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isRead = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'draft'");
         });
 
         return $this->renderForm("transaction/purchase_request_header/_head.html.twig", [
@@ -87,6 +88,48 @@ class PurchaseRequestHeaderController extends AbstractController
     {
         if ($this->isCsrfTokenValid('read' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
             $purchaseRequestHeader->setIsRead(true);
+            $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_header_show', ['id' => $purchaseRequestHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/_approval', name: 'app_transaction_purchase_request_header__approval', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _approval(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isViewed = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
+        });
+
+        return $this->renderForm("transaction/purchase_request_header/_approval.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseRequestHeaders' => $purchaseRequestHeaders,
+        ]);
+    }
+
+    #[Route('/approval', name: 'app_transaction_purchase_request_header_approval', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function approval(): Response
+    {
+        return $this->render("transaction/purchase_request_header/approval.html.twig");
+    }
+
+    #[Route('/{id}/view', name: 'app_transaction_purchase_request_header_view', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function view(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('view' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestHeader->setIsViewed(true);
             $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
         }
 
@@ -210,5 +253,39 @@ class PurchaseRequestHeaderController extends AbstractController
             fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
         ]);
+    }
+    
+    #[Route('/{id}/hold', name: 'app_transaction_purchase_request_header_hold', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function hold(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('hold' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestHeader->setIsOnHold(true);
+            $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_HOLD);
+            $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was hold successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to hold the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/release', name: 'app_transaction_purchase_request_header_release', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function release(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('release' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestHeader->setIsOnHold(false);
+            $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_RELEASE);
+            $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The transaction was release successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to release the transaction.'));
+        }
+
+        return $this->redirectToRoute('app_transaction_purchase_request_header_index', [], Response::HTTP_SEE_OTHER);
     }
 }
