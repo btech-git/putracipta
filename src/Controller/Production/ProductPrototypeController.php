@@ -9,6 +9,7 @@ use App\Form\Production\ProductPrototypeType;
 use App\Grid\Production\ProductPrototypeGridType;
 use App\Repository\Production\ProductPrototypeRepository;
 use App\Service\Production\ProductPrototypeFormService;
+use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,5 +116,21 @@ class ProductPrototypeController extends AbstractController
         }
 
         return $this->redirectToRoute('app_production_product_prototype_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/memo', name: 'app_production_product_prototype_memo', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function memo(ProductPrototype $productPrototype): Response
+    {
+        $fileName = 'form_produk_baru.pdf';
+        $htmlView = $this->renderView('production/product_prototype/memo.html.twig', [
+            'productPrototype' => $productPrototype,
+        ]);
+
+        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
+        $pdfGenerator->generate($htmlView, $fileName, [
+            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/product-prototype/' . $productPrototype->getId() . '.' . $productPrototype->getProductionFileExtension() . '">', $html),
+        ]);
     }
 }
