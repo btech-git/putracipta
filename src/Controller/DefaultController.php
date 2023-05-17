@@ -35,11 +35,23 @@ class DefaultController extends AbstractController
         $purchaseRequestHeaderCount = $purchaseRequestHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isRead = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Draft'");
         });
         $purchaseRequestPaperHeaderRepository = $entityManager->getRepository(PurchaseRequestPaperHeader::class);
         $purchaseRequestPaperHeaderCount = $purchaseRequestPaperHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isRead = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Draft'");
+        });
+        $purchaseRequestHeaderCountApproval = $purchaseRequestHeaderRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isViewed = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
+        });
+        $purchaseRequestPaperHeaderCountApproval = $purchaseRequestPaperHeaderRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isViewed = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
         });
         $purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
         $purchaseOrderHeaderCount = $purchaseOrderHeaderRepository->fetchCount($criteria, function($qb, $alias) {
@@ -70,6 +82,8 @@ class DefaultController extends AbstractController
         return $this->render('default/_dashboard.html.twig', [
             'purchaseRequestHeaderCount' => $purchaseRequestHeaderCount,
             'purchaseRequestPaperHeaderCount' => $purchaseRequestPaperHeaderCount,
+            'purchaseRequestHeaderCountApproval' => $purchaseRequestHeaderCountApproval,
+            'purchaseRequestPaperHeaderCountApproval' => $purchaseRequestPaperHeaderCountApproval,
             'purchaseOrderHeaderCount' => $purchaseOrderHeaderCount,
             'purchaseOrderPaperHeaderCount' => $purchaseOrderPaperHeaderCount,
             'purchaseInvoiceHeaderCount' => $purchaseInvoiceHeaderCount,
