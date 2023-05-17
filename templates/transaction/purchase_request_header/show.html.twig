@@ -156,7 +156,7 @@
         <div class="d-inline-block">{{ include('transaction/purchase_request_header/_approve_form.html.twig') }}</div>
     {% endif %}
     
-    {% if purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestHeader) and purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseRequestHeader) %}
+    {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_REJECT', purchaseRequestHeader) and purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseRequestHeader) %}
         {% if purchaseRequestHeader.isOnHold == false %}
             <div class="d-inline-block">{{ include('transaction/purchase_request_header/_hold_form.html.twig') }}</div>
         {% else %}

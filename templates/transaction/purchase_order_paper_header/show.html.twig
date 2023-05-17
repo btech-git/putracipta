@@ -170,7 +170,7 @@
         <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}
     
-    {% if purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) %}
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_REJECT', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) %}
         {% if purchaseOrderPaperHeader.isOnHold == false %}
             <div class="d-inline-block">{{ include('transaction/purchase_order_paper_header/_hold_form.html.twig') }}</div>
         {% else %}
