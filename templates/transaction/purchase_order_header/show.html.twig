@@ -153,12 +153,12 @@
     </table>
         
     {#<div class="d-inline-block">{{ include('transaction/purchase_order_header/_delete_form.html.twig') }}</div>#}
-    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) %}
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderHeader) %}
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_approve_form.html.twig') }}</div>
     {% endif %}
     
-    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
+    {% if purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseOrderHeader) and purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
         {% if purchaseOrderHeader.isOnHold == false %}
             <div class="d-inline-block">{{ include('transaction/purchase_order_header/_hold_form.html.twig') }}</div>
         {% else %}
