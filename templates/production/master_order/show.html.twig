@@ -234,7 +234,11 @@
     </div>
     
     <div class="text-center">
-        <img width="256px" src="{{ asset('uploads/master-order/' ~ masterOrder.id ~ '.' ~ masterOrder.layoutModelFileExtension) }}" alt="Layout Model Image" />
+        {% if masterOrder.layoutModelFileExtension == 'pdf' %}
+            <a target="_blank" href="{{ asset('uploads/master-order/' ~ masterOrder.id ~ '.' ~ masterOrder.layoutModelFileExtension) }}">Layout PDF File</a>
+        {% elseif masterOrder.layoutModelFileExtension == 'jpg' or masterOrder.layoutModelFileExtension == 'jpeg' or masterOrder.layoutModelFileExtension == 'png' %}
+            <img width="256px" src="{{ asset('uploads/master-order/' ~ masterOrder.id ~ '.' ~ masterOrder.layoutModelFileExtension) }}" alt="Layout Model Image" />
+        {% endif %}
     </div>
 
 {% endblock %}

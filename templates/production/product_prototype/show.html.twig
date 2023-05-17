@@ -103,10 +103,21 @@
             </tr>
         </tbody>
     </table>
+            
+    <br />
+    
+    <div class="d-inline-block">
+        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_product_prototype_memo', {'id': productPrototype.id}) }}">Print Formulir Produk Baru</a>
+    </div>
+    
     
     <div class="text-center">
         <h4>Layout</h4>
-        <img width="256px" src="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}" alt="Product Prototype Image" />
+        {% if productPrototype.productionFileExtension == 'pdf' %}
+            <a target="_blank" href="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}">Layout PDF File</a>
+        {% elseif productPrototype.productionFileExtension == 'jpg' or productPrototype.productionFileExtension == 'jpeg' or productPrototype.productionFileExtension == 'png' %}
+            <img width="256px" src="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}" alt="Product Prototype Image" />
+        {% endif %}
     </div>
 
     {#{{ include('production/product_prototype/_delete_form.html.twig') }}#}
