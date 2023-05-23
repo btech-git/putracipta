@@ -98,4 +98,25 @@ class PurchaseOrderPaperHeaderFormService
         }
         $this->entityManager->flush();
     }
+
+    public function copyFrom(PurchaseOrderPaperHeader $sourcePurchaseOrderPaperHeader): PurchaseOrderPaperHeader
+    {
+        $purchaseOrderPaperHeader = new PurchaseOrderPaperHeader();
+        $purchaseOrderPaperHeader->setSupplier($sourcePurchaseOrderPaperHeader->getSupplier());
+        foreach ($sourcePurchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $sourcePurchaseOrderPaperDetail) {
+            $purchaseOrderPaperDetail = new PurchaseOrderPaperDetail();
+            $purchaseOrderPaperDetail->setPaper($sourcePurchaseOrderPaperDetail->getPaper());
+            $purchaseOrderPaperDetail->setLength($sourcePurchaseOrderPaperDetail->getLength());
+            $purchaseOrderPaperDetail->setWidth($sourcePurchaseOrderPaperDetail->getWidth());
+            $purchaseOrderPaperDetail->setWeight($sourcePurchaseOrderPaperDetail->getWeight());
+            $purchaseOrderPaperDetail->setQuantity($sourcePurchaseOrderPaperDetail->getQuantity());
+            $purchaseOrderPaperDetail->setUnit($sourcePurchaseOrderPaperDetail->getUnit());
+            $purchaseOrderPaperDetail->setApkiValue($sourcePurchaseOrderPaperDetail->getApkiValue());
+            $purchaseOrderPaperDetail->setAssociationPrice($sourcePurchaseOrderPaperDetail->getAssociationPrice());
+            $purchaseOrderPaperDetail->setWeightPrice($sourcePurchaseOrderPaperDetail->getWeightPrice());
+            $purchaseOrderPaperDetail->setUnitPrice($sourcePurchaseOrderPaperDetail->getUnitPrice());
+            $purchaseOrderPaperHeader->addPurchaseOrderPaperDetail($purchaseOrderPaperDetail);
+        }
+        return $purchaseOrderPaperHeader;
+    }
 }

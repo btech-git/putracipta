@@ -94,4 +94,19 @@ class PurchaseOrderHeaderFormService
         }
         $this->entityManager->flush();
     }
+
+    public function copyFrom(PurchaseOrderHeader $sourcePurchaseOrderHeader): PurchaseOrderHeader
+    {
+        $purchaseOrderHeader = new PurchaseOrderHeader();
+        $purchaseOrderHeader->setSupplier($sourcePurchaseOrderHeader->getSupplier());
+        foreach ($sourcePurchaseOrderHeader->getPurchaseOrderDetails() as $sourcePurchaseOrderDetail) {
+            $purchaseOrderDetail = new PurchaseOrderDetail();
+            $purchaseOrderDetail->setMaterial($sourcePurchaseOrderDetail->getMaterial());
+            $purchaseOrderDetail->setQuantity($sourcePurchaseOrderDetail->getQuantity());
+            $purchaseOrderDetail->setUnit($sourcePurchaseOrderDetail->getUnit());
+            $purchaseOrderDetail->setUnitPrice($sourcePurchaseOrderDetail->getUnitPrice());
+            $purchaseOrderHeader->addPurchaseOrderDetail($purchaseOrderDetail);
+        }
+        return $purchaseOrderHeader;
+    }
 }

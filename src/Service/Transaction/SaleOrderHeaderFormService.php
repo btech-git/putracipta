@@ -97,4 +97,20 @@ class SaleOrderHeaderFormService
             }
         }
     }
+
+    public function copyFrom(SaleOrderHeader $sourceSaleOrderHeader): SaleOrderHeader
+    {
+        $saleOrderHeader = new SaleOrderHeader();
+        $saleOrderHeader->setCustomer($sourceSaleOrderHeader->getCustomer());
+        $saleOrderHeader->setIsUsingFscPaper($sourceSaleOrderHeader->isIsUsingFscPaper());
+        foreach ($sourceSaleOrderHeader->getSaleOrderDetails() as $sourceSaleOrderDetail) {
+            $saleOrderDetail = new SaleOrderDetail();
+            $saleOrderDetail->setProduct($sourceSaleOrderDetail->getProduct());
+            $saleOrderDetail->setQuantity($sourceSaleOrderDetail->getQuantity());
+            $saleOrderDetail->setUnit($sourceSaleOrderDetail->getUnit());
+            $saleOrderDetail->setUnitPrice($sourceSaleOrderDetail->getUnitPrice());
+            $saleOrderHeader->addSaleOrderDetail($saleOrderDetail);
+        }
+        return $saleOrderHeader;
+    }
 }
