@@ -15,7 +15,7 @@
                 <th style="min-width: 150px">Harga</th>
                 <th style="min-width: 150px">DPP</th>
                 <th style="min-width: 150px">Total</th>
-                <th style="width: 0">Close</th>
+                <th style="width: 0">{% if (form.vars.value.id != null) %}Close{% endif %}</th>
                 <th style="width: 0"></th>
             </tr>
         </thead>
@@ -63,9 +63,9 @@
                         {{ detailForm.vars.value.total|default|number_format(2) }}
                     </td>
                     <td>
-                        {% if (detailForm.vars.value.id != null) %}
+                        <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                             {{ form_row(detailForm.isTransactionClosed, {'label': false}) }}
-                        {% endif %}
+                        </div>
                     </td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
@@ -99,6 +99,7 @@
                     {{ purchaseOrderHeader.subTotal|default|number_format(2) }}
                 </td>
                 <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td class="text-end" colspan="7">
@@ -111,6 +112,7 @@
                     {{ purchaseOrderHeader.discountNominal|default|number_format(2) }}
                 </td>
                 <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td class="text-end" colspan="7">
@@ -122,6 +124,7 @@
                     {{ purchaseOrderHeader.taxNominal|default|number_format(2) }}
                 </td>
                 <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td class="text-end" colspan="7">Grand Total</td>
@@ -129,6 +132,7 @@
                     data-property-path="grandTotal">
                     {{ purchaseOrderHeader.grandTotal|default|number_format(2) }}
                 </td>
+                <td></td>
                 <td></td>
             </tr>
         </tfoot>
