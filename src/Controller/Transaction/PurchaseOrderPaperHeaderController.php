@@ -126,6 +126,29 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         ]);
     }
 
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_transaction_purchase_order_paper_header_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function newRepeat(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
+    {
+        $sourcePurchaseOrderPaperHeader = $purchaseOrderPaperHeaderRepository->find($request->attributes->getInt('source_id'));
+        $purchaseOrderPaperHeader = $purchaseOrderPaperHeaderFormService->copyFrom($sourcePurchaseOrderPaperHeader);
+        $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(PurchaseOrderPaperHeaderType::class, $purchaseOrderPaperHeader);
+        $form->handleRequest($request);
+        $purchaseOrderPaperHeaderFormService->finalize($purchaseOrderPaperHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
+
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseOrderPaperHeaderFormService->save($purchaseOrderPaperHeader);
+
+            return $this->redirectToRoute('app_transaction_purchase_order_paper_header_show', ['id' => $purchaseOrderPaperHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("transaction/purchase_order_paper_header/new_repeat.{$_format}.twig", [
+            'purchaseOrderPaperHeader' => $purchaseOrderPaperHeader,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_order_paper_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response

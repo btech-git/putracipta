@@ -127,6 +127,29 @@ class SaleOrderHeaderController extends AbstractController
         ]);
     }
 
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_transaction_sale_order_header_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function newRepeat(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
+    {
+        $sourceSaleOrderHeader = $saleOrderHeaderRepository->find($request->attributes->getInt('source_id'));
+        $saleOrderHeader = $saleOrderHeaderFormService->copyFrom($sourceSaleOrderHeader);
+        $saleOrderHeaderFormService->initialize($saleOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
+        $form->handleRequest($request);
+        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
+
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $saleOrderHeaderFormService->save($saleOrderHeader);
+
+            return $this->redirectToRoute('app_transaction_sale_order_header_show', ['id' => $saleOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("transaction/sale_order_header/new_repeat.{$_format}.twig", [
+            'saleOrderHeader' => $saleOrderHeader,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_sale_order_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response

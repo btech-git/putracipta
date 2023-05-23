@@ -126,6 +126,29 @@ class PurchaseOrderHeaderController extends AbstractController
         ]);
     }
 
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_transaction_purchase_order_header_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function newRepeat(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
+    {
+        $sourcePurchaseOrderHeader = $purchaseOrderHeaderRepository->find($request->attributes->getInt('source_id'));
+        $purchaseOrderHeader = $purchaseOrderHeaderFormService->copyFrom($sourcePurchaseOrderHeader);
+        $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(PurchaseOrderHeaderType::class, $purchaseOrderHeader);
+        $form->handleRequest($request);
+        $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
+
+        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+            $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
+
+            return $this->redirectToRoute('app_transaction_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("transaction/purchase_order_header/new_repeat.{$_format}.twig", [
+            'purchaseOrderHeader' => $purchaseOrderHeader,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}/edit.{_format}', name: 'app_transaction_purchase_order_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
