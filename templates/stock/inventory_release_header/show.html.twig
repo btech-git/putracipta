@@ -1,0 +1,65 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Inventory Release Header' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_inventory_release_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_release_header_edit', {'id': inventoryReleaseHeader.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Total Quantity</th>
+                <td>{{ inventoryReleaseHeader.totalQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Department Name</th>
+                <td>{{ inventoryReleaseHeader.departmentName }}</td>
+            </tr>
+            <tr>
+                <th>Work Order Number</th>
+                <td>{{ inventoryReleaseHeader.workOrderNumber }}</td>
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <td>{{ inventoryReleaseHeader.partNumber }}</td>
+            </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ inventoryReleaseHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Ordinal</th>
+                <td>{{ inventoryReleaseHeader.codeNumberOrdinal }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Month</th>
+                <td>{{ inventoryReleaseHeader.codeNumberMonth }}</td>
+            </tr>
+            <tr>
+                <th>Code Number Year</th>
+                <td>{{ inventoryReleaseHeader.codeNumberYear }}</td>
+            </tr>
+            <tr>
+                <th>Created Transaction Date Time</th>
+                <td>{{ inventoryReleaseHeader.createdTransactionDateTime ? inventoryReleaseHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified Transaction Date Time</th>
+                <td>{{ inventoryReleaseHeader.modifiedTransactionDateTime ? inventoryReleaseHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Date</th>
+                <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ inventoryReleaseHeader.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('stock/inventory_release_header/_delete_form.html.twig') }}
+{% endblock %}

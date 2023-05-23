@@ -1,9 +1,9 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Manage Material Request' %}
+{% block title 'Manage Inventory Request Header' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_stock_material_request_header_new') }}">Add</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_stock_inventory_request_header_new') }}">Add</a>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
     {% endfor %}
 
     <div data-controller="html-loader"
-         data-html-loader-url-value="{{ path('app_stock_material_request_header__list') }}"
+         data-html-loader-url-value="{{ path('app_stock_inventory_request_header__list') }}"
          data-html-loader-auto-load-value="true">
     </div>
 {% endblock %}

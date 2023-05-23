@@ -1,8 +1,8 @@
 <div class="table-responsive">
     <table class="table table-bordered"
        data-controller="form-collection"
-       data-form-collection-start-index-value="{{ form.adjustmentStockDetails|length > 0 ? form.adjustmentStockDetails|last.vars.name + 1 : 0 }}"
-       data-form-collection-prototype-value="{{ _self.collection_item(form.adjustmentStockDetails.vars.prototype, form)|e('html_attr') }}"
+       data-form-collection-start-index-value="{{ form.adjustmentStockProductDetails|length > 0 ? form.adjustmentStockProductDetails|last.vars.name + 1 : 0 }}"
+       data-form-collection-prototype-value="{{ _self.collection_item(form.adjustmentStockProductDetails.vars.prototype, form)|e('html_attr') }}"
        data-action="form-collection:collection-item-removed->json-loader#load:self">
         <thead class="table-secondary">
             <tr>
@@ -22,9 +22,9 @@
                     <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
-                    <td class="text-center" data-item-field-name="adjustmentStockDetailQuantityCurrent">{{ detailForm.vars.value.quantity|default }}</td>
-                    <td>{{ form_row(detailForm.adjustedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
-                    <td class="text-center" data-item-field-name="adjustmentStockDetailQuantityDifference">{{ detailForm.vars.value.quantityDifference|default }}</td>
+                    <td class="text-center" data-item-field-name="adjustmentStockProductDetailQuantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
+                    <td>{{ form_row(detailForm.quantityAdjustment, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td class="text-center" data-item-field-name="adjustmentStockProductDetailQuantityDifference">{{ detailForm.vars.value.quantityDifference|default }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.product.unit.name|default }}</td>
                     <td>
                         <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
@@ -43,7 +43,7 @@
                     </td>
                 </tr>
             {% endmacro %}
-            {% for detailForm in form.adjustmentStockDetails %}
+            {% for detailForm in form.adjustmentStockProductDetails %}
                 {{ _self.collection_item(detailForm, form) }}
             {% endfor %}
         </tbody>

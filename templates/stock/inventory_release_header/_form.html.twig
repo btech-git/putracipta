@@ -1,0 +1,87 @@
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+
+    {{ form_start(form) }}
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Header</legend>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal Release', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.releaseMode, {'label': 'Jenis'}) }}
+                    {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
+                    {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
+                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
+                    <div class="mb-3">
+                        <label for="{{ form.inventoryRequestHeader.vars.id }}-text" class="form-label">Request #</label>
+                        {{ form_row(form.inventoryRequestHeader, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'inventory-request-header-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.inventoryRequestHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.inventoryRequestHeader.vars.valid %}is-invalid{% endif %}" value="{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#inventory-request-header-dialog"
+                               data-controller="dom-element"
+                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderCodeNumber'}},
+                               ]|json_encode }}" />
+                        {{ form_errors(form.inventoryRequestHeader) }}
+                    </div>
+                    {#<div class="mb-3">
+                        <label class="form-label">Tanggal Request</label>
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.inventoryRequestHeader.transactionDate ? inventoryReleaseHeader.inventoryRequestHeader.transactionDate|date('Y-m-d') : '' }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderTransactionDate'}},
+                               ]|json_encode }}" />
+                    </div>#}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.note) }}
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
+            {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
+            {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
+        </fieldset>
+
+        <div class="d-grid">
+            <button class="btn btn-success"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+
+    {{ dialog.start('inventory-request-header-dialog', 'Material Request List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_inventory_request_header__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+</div>

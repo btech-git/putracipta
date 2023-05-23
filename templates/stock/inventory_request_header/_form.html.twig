@@ -10,13 +10,15 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
-                    {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
-                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal Request', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.pickupDate, {'label': 'Tanggal Pickup', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.requestMode, {'label': 'Jenis'}) }}
                 </div>
                 <div class="col">
-                    {{ form_row(form.pickupDate, {'label': 'Tanggal Ambil', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
+                    {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
                     {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
+                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
                 </div>
             </div>
             <div class="row">
@@ -27,9 +29,15 @@
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Details</legend>
+            <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
             <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
-            {{ include('stock/material_request_header/_details_form.html.twig') }}
+            {{ include('stock/inventory_request_header/_details_material_form.html.twig') }}
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#paper-dialog">Add Kertas</button>
+            {{ include('stock/inventory_request_header/_details_paper_form.html.twig') }}
         </fieldset>
 
         <div class="d-grid">
@@ -48,7 +56,15 @@
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_material__list') }}"
              data-html-loader-auto-load-value="true"
-             data-action="customer-table:data-table:select@document->html-loader#load">
+             data-action="material-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+    
+    {{ dialog.start('paper-dialog', 'Kertas List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="paper-table:data-table:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 </div>

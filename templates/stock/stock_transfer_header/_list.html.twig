@@ -7,6 +7,7 @@
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear']) }}>
                     Transfer # {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>

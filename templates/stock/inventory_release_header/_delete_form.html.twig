@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('app_stock_material_release_header_delete', {'id': materialReleaseHeader.id}) }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ materialReleaseHeader.id) }}">
+<form method="post" action="{{ path('app_stock_inventory_release_header_delete', {'id': inventoryReleaseHeader.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ inventoryReleaseHeader.id) }}">
     <div class="d-grid">
         <button class="btn btn-danger btn-sm"
                 data-controller="dom-element"
