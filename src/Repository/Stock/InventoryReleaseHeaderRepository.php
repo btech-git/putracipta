@@ -5,29 +5,29 @@ namespace App\Repository\Stock;
 use App\Common\Doctrine\Repository\EntityAdd;
 use App\Common\Doctrine\Repository\EntityDataFetch;
 use App\Common\Doctrine\Repository\EntityRemove;
-use App\Entity\Stock\MaterialReleaseHeader;
+use App\Entity\Stock\InventoryReleaseHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class MaterialReleaseHeaderRepository extends ServiceEntityRepository
+class InventoryReleaseHeaderRepository extends ServiceEntityRepository
 {
     use EntityDataFetch, EntityAdd, EntityRemove;
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MaterialReleaseHeader::class);
+        parent::__construct($registry, InventoryReleaseHeader::class);
     }
 
     public function findRecentBy($year, $month)
     {
-        $dql = 'SELECT e FROM ' . MaterialReleaseHeader::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
+        $dql = 'SELECT e FROM ' . InventoryReleaseHeader::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
-        $lastMaterialReleaseHeader = $query->getOneOrNullResult();
+        $lastInventoryReleaseHeader = $query->getOneOrNullResult();
 
-        return $lastMaterialReleaseHeader;
+        return $lastInventoryReleaseHeader;
     }
 }
