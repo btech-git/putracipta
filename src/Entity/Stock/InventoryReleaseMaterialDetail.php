@@ -5,12 +5,12 @@ namespace App\Entity\Stock;
 use App\Entity\Master\Material;
 use App\Entity\Master\Unit;
 use App\Entity\StockDetail;
-use App\Repository\Stock\MaterialReleaseDetailRepository;
+use App\Repository\Stock\InventoryReleaseMaterialDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MaterialReleaseDetailRepository::class)]
-#[ORM\Table(name: 'stock_material_release_detail')]
-class MaterialReleaseDetail extends StockDetail
+#[ORM\Entity(repositoryClass: InventoryReleaseMaterialDetailRepository::class)]
+#[ORM\Table(name: 'stock_inventory_release_material_detail')]
+class InventoryReleaseMaterialDetail extends StockDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -29,11 +29,11 @@ class MaterialReleaseDetail extends StockDetail
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
 
-    #[ORM\ManyToOne(inversedBy: 'materialReleaseDetails')]
-    private ?MaterialReleaseHeader $materialReleaseHeader = null;
+    #[ORM\ManyToOne(inversedBy: 'inventoryReleaseMaterialDetails')]
+    private ?InventoryReleaseHeader $inventoryReleaseHeader = null;
 
-    #[ORM\ManyToOne(inversedBy: 'materialReleaseDetails')]
-    private ?MaterialRequestDetail $materialRequestDetail = null;
+    #[ORM\ManyToOne(inversedBy: 'inventoryReleaseMaterialDetails')]
+    private ?InventoryRequestMaterialDetail $inventoryRequestMaterialDetail = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -94,26 +94,26 @@ class MaterialReleaseDetail extends StockDetail
         return $this;
     }
 
-    public function getMaterialReleaseHeader(): ?MaterialReleaseHeader
+    public function getInventoryReleaseHeader(): ?InventoryReleaseHeader
     {
-        return $this->materialReleaseHeader;
+        return $this->inventoryReleaseHeader;
     }
 
-    public function setMaterialReleaseHeader(?MaterialReleaseHeader $materialReleaseHeader): self
+    public function setInventoryReleaseHeader(?InventoryReleaseHeader $inventoryReleaseHeader): self
     {
-        $this->materialReleaseHeader = $materialReleaseHeader;
+        $this->inventoryReleaseHeader = $inventoryReleaseHeader;
 
         return $this;
     }
 
-    public function getMaterialRequestDetail(): ?MaterialRequestDetail
+    public function getInventoryRequestMaterialDetail(): ?InventoryRequestMaterialDetail
     {
-        return $this->materialRequestDetail;
+        return $this->inventoryRequestMaterialDetail;
     }
 
-    public function setMaterialRequestDetail(?MaterialRequestDetail $materialRequestDetail): self
+    public function setInventoryRequestMaterialDetail(?InventoryRequestMaterialDetail $inventoryRequestMaterialDetail): self
     {
-        $this->materialRequestDetail = $materialRequestDetail;
+        $this->inventoryRequestMaterialDetail = $inventoryRequestMaterialDetail;
 
         return $this;
     }

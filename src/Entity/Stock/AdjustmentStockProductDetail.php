@@ -4,12 +4,12 @@ namespace App\Entity\Stock;
 
 use App\Entity\Master\Product;
 use App\Entity\StockDetail;
-use App\Repository\Stock\AdjustmentStockDetailRepository;
+use App\Repository\Stock\AdjustmentStockProductDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AdjustmentStockDetailRepository::class)]
-#[ORM\Table(name: 'stock_adjustment_stock_detail')]
-class AdjustmentStockDetail extends StockDetail
+#[ORM\Entity(repositoryClass: AdjustmentStockProductDetailRepository::class)]
+#[ORM\Table(name: 'stock_adjustment_stock_product_detail')]
+class AdjustmentStockProductDetail extends StockDetail
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,23 +17,19 @@ class AdjustmentStockDetail extends StockDetail
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $currentQuantity = 0;
+    private ?int $quantityCurrent = 0;
 
     #[ORM\Column]
-    private ?int $adjustedQuantity = 0;
+    private ?int $quantityAdjustment = 0;
+
+    #[ORM\Column]
+    private ?int $quantityDifference = 0;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(inversedBy: 'adjustmentStockDetails')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'adjustmentStockProductDetails')]
     private ?AdjustmentStockHeader $adjustmentStockHeader = null;
-
-    public function getQuantityDifference(): int
-    {
-        return $this->currentQuantity - $this->adjustedQuantity;
-    }
 
     public function getSyncIsCanceled(): bool
     {
@@ -46,26 +42,38 @@ class AdjustmentStockDetail extends StockDetail
         return $this->id;
     }
 
-    public function getCurrentQuantity(): ?int
+    public function getQuantityCurrent(): ?int
     {
-        return $this->currentQuantity;
+        return $this->quantityCurrent;
     }
 
-    public function setCurrentQuantity(int $currentQuantity): self
+    public function setQuantityCurrent(int $quantityCurrent): self
     {
-        $this->currentQuantity = $currentQuantity;
+        $this->quantityCurrent = $quantityCurrent;
 
         return $this;
     }
 
-    public function getAdjustedQuantity(): ?int
+    public function getQuantityAdjustment(): ?int
     {
-        return $this->adjustedQuantity;
+        return $this->quantityAdjustment;
     }
 
-    public function setAdjustedQuantity(int $adjustedQuantity): self
+    public function setQuantityAdjustment(int $quantityAdjustment): self
     {
-        $this->adjustedQuantity = $adjustedQuantity;
+        $this->quantityAdjustment = $quantityAdjustment;
+
+        return $this;
+    }
+
+    public function getQuantityDifference(): ?int
+    {
+        return $this->quantityDifference;
+    }
+
+    public function setQuantityDifference(int $quantityDifference): self
+    {
+        $this->quantityDifference = $quantityDifference;
 
         return $this;
     }

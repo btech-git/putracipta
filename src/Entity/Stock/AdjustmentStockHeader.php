@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 class AdjustmentStockHeader extends StockHeader
 {
     public const CODE_NUMBER_CONSTANT = 'AJS';
+    public const MODE_MATERIAL = 'material';
+    public const MODE_PAPER = 'paper';
+    public const MODE_PRODUCT = 'product';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,12 +27,23 @@ class AdjustmentStockHeader extends StockHeader
     #[ORM\JoinColumn(nullable: false)]
     private ?Warehouse $warehouse = null;
 
-    #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockDetail::class)]
-    private Collection $adjustmentStockDetails;
+    #[ORM\Column(length: 20)]
+    private ?string $adjustmentMode = null;
+
+    #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockMaterialDetail::class)]
+    private Collection $adjustmentStockMaterialDetails;
+
+    #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockPaperDetail::class)]
+    private Collection $adjustmentStockPaperDetails;
+
+    #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockProductDetail::class)]
+    private Collection $adjustmentStockProductDetails;
 
     public function __construct()
     {
-        $this->adjustmentStockDetails = new ArrayCollection();
+        $this->adjustmentStockMaterialDetails = new ArrayCollection();
+        $this->adjustmentStockPaperDetails = new ArrayCollection();
+        $this->adjustmentStockProductDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -54,30 +68,114 @@ class AdjustmentStockHeader extends StockHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, AdjustmentStockDetail>
-     */
-    public function getAdjustmentStockDetails(): Collection
-    {
-        return $this->adjustmentStockDetails;
-    }
-
-    public function addAdjustmentStockDetail(AdjustmentStockDetail $adjustmentStockDetail): self
-    {
-        if (!$this->adjustmentStockDetails->contains($adjustmentStockDetail)) {
-            $this->adjustmentStockDetails->add($adjustmentStockDetail);
-            $adjustmentStockDetail->setAdjustmentStockHeader($this);
-        }
-
-        return $this;
-    }
-
     public function removeAdjustmentStockDetail(AdjustmentStockDetail $adjustmentStockDetail): self
     {
         if ($this->adjustmentStockDetails->removeElement($adjustmentStockDetail)) {
             // set the owning side to null (unless already changed)
             if ($adjustmentStockDetail->getAdjustmentStockHeader() === $this) {
                 $adjustmentStockDetail->setAdjustmentStockHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAdjustmentMode(): ?string
+    {
+        return $this->adjustmentMode;
+    }
+
+    public function setAdjustmentMode(string $adjustmentMode): self
+    {
+        $this->adjustmentMode = $adjustmentMode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdjustmentStockMaterialDetail>
+     */
+    public function getAdjustmentStockMaterialDetails(): Collection
+    {
+        return $this->adjustmentStockMaterialDetails;
+    }
+
+    public function addAdjustmentStockMaterialDetail(AdjustmentStockMaterialDetail $adjustmentStockMaterialDetail): self
+    {
+        if (!$this->adjustmentStockMaterialDetails->contains($adjustmentStockMaterialDetail)) {
+            $this->adjustmentStockMaterialDetails->add($adjustmentStockMaterialDetail);
+            $adjustmentStockMaterialDetail->setAdjustmentStockHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdjustmentStockMaterialDetail(AdjustmentStockMaterialDetail $adjustmentStockMaterialDetail): self
+    {
+        if ($this->adjustmentStockMaterialDetails->removeElement($adjustmentStockMaterialDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($adjustmentStockMaterialDetail->getAdjustmentStockHeader() === $this) {
+                $adjustmentStockMaterialDetail->setAdjustmentStockHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdjustmentStockPaperDetail>
+     */
+    public function getAdjustmentStockPaperDetails(): Collection
+    {
+        return $this->adjustmentStockPaperDetails;
+    }
+
+    public function addAdjustmentStockPaperDetail(AdjustmentStockPaperDetail $adjustmentStockPaperDetail): self
+    {
+        if (!$this->adjustmentStockPaperDetails->contains($adjustmentStockPaperDetail)) {
+            $this->adjustmentStockPaperDetails->add($adjustmentStockPaperDetail);
+            $adjustmentStockPaperDetail->setAdjustmentStockHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdjustmentStockPaperDetail(AdjustmentStockPaperDetail $adjustmentStockPaperDetail): self
+    {
+        if ($this->adjustmentStockPaperDetails->removeElement($adjustmentStockPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($adjustmentStockPaperDetail->getAdjustmentStockHeader() === $this) {
+                $adjustmentStockPaperDetail->setAdjustmentStockHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdjustmentStockProductDetail>
+     */
+    public function getAdjustmentStockProductDetails(): Collection
+    {
+        return $this->adjustmentStockProductDetails;
+    }
+
+    public function addAdjustmentStockProductDetail(AdjustmentStockProductDetail $adjustmentStockProductDetail): self
+    {
+        if (!$this->adjustmentStockProductDetails->contains($adjustmentStockProductDetail)) {
+            $this->adjustmentStockProductDetails->add($adjustmentStockProductDetail);
+            $adjustmentStockProductDetail->setAdjustmentStockHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdjustmentStockProductDetail(AdjustmentStockProductDetail $adjustmentStockProductDetail): self
+    {
+        if ($this->adjustmentStockProductDetails->removeElement($adjustmentStockProductDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($adjustmentStockProductDetail->getAdjustmentStockHeader() === $this) {
+                $adjustmentStockProductDetail->setAdjustmentStockHeader(null);
             }
         }
 

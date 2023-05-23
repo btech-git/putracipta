@@ -15,14 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
 class StockTransferHeader extends StockHeader
 {
     public const CODE_NUMBER_CONSTANT = 'TRF';
+    public const MODE_MATERIAL = 'material';
+    public const MODE_PAPER = 'paper';
+    public const MODE_PRODUCT = 'product';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferDetail::class)]
-    private Collection $stockTransferDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantity = null;
@@ -33,9 +33,24 @@ class StockTransferHeader extends StockHeader
     #[ORM\ManyToOne]
     private ?Warehouse $warehouseTo = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $transferMode = null;
+
+    #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferMaterialDetail::class)]
+    private Collection $stockTransferMaterialDetails;
+
+    #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferPaperDetail::class)]
+    private Collection $stockTransferPaperDetails;
+
+    #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferProductDetail::class)]
+    private Collection $stockTransferProductDetails;
+
     public function __construct()
     {
         $this->stockTransferDetails = new ArrayCollection();
+        $this->stockTransferMaterialDetails = new ArrayCollection();
+        $this->stockTransferPaperDetails = new ArrayCollection();
+        $this->stockTransferProductDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -57,36 +72,6 @@ class StockTransferHeader extends StockHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, StockTransferDetail>
-     */
-    public function getStockTransferDetails(): Collection
-    {
-        return $this->stockTransferDetails;
-    }
-
-    public function addStockTransferDetail(StockTransferDetail $stockTransferDetail): self
-    {
-        if (!$this->stockTransferDetails->contains($stockTransferDetail)) {
-            $this->stockTransferDetails->add($stockTransferDetail);
-            $stockTransferDetail->setStockTransferHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStockTransferDetail(StockTransferDetail $stockTransferDetail): self
-    {
-        if ($this->stockTransferDetails->removeElement($stockTransferDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($stockTransferDetail->getStockTransferHeader() === $this) {
-                $stockTransferDetail->setStockTransferHeader(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getTotalQuantity(): ?string
@@ -121,6 +106,108 @@ class StockTransferHeader extends StockHeader
     public function setWarehouseTo(?Warehouse $warehouseTo): self
     {
         $this->warehouseTo = $warehouseTo;
+
+        return $this;
+    }
+
+    public function getTransferMode(): ?string
+    {
+        return $this->transferMode;
+    }
+
+    public function setTransferMode(string $transferMode): self
+    {
+        $this->transferMode = $transferMode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockTransferMaterialDetail>
+     */
+    public function getStockTransferMaterialDetails(): Collection
+    {
+        return $this->stockTransferMaterialDetails;
+    }
+
+    public function addStockTransferMaterialDetail(StockTransferMaterialDetail $stockTransferMaterialDetail): self
+    {
+        if (!$this->stockTransferMaterialDetails->contains($stockTransferMaterialDetail)) {
+            $this->stockTransferMaterialDetails->add($stockTransferMaterialDetail);
+            $stockTransferMaterialDetail->setStockTransferHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockTransferMaterialDetail(StockTransferMaterialDetail $stockTransferMaterialDetail): self
+    {
+        if ($this->stockTransferMaterialDetails->removeElement($stockTransferMaterialDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($stockTransferMaterialDetail->getStockTransferHeader() === $this) {
+                $stockTransferMaterialDetail->setStockTransferHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockTransferPaperDetail>
+     */
+    public function getStockTransferPaperDetails(): Collection
+    {
+        return $this->stockTransferPaperDetails;
+    }
+
+    public function addStockTransferPaperDetail(StockTransferPaperDetail $stockTransferPaperDetail): self
+    {
+        if (!$this->stockTransferPaperDetails->contains($stockTransferPaperDetail)) {
+            $this->stockTransferPaperDetails->add($stockTransferPaperDetail);
+            $stockTransferPaperDetail->setStockTransferHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockTransferPaperDetail(StockTransferPaperDetail $stockTransferPaperDetail): self
+    {
+        if ($this->stockTransferPaperDetails->removeElement($stockTransferPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($stockTransferPaperDetail->getStockTransferHeader() === $this) {
+                $stockTransferPaperDetail->setStockTransferHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockTransferProductDetail>
+     */
+    public function getStockTransferProductDetails(): Collection
+    {
+        return $this->stockTransferProductDetails;
+    }
+
+    public function addStockTransferProductDetail(StockTransferProductDetail $stockTransferProductDetail): self
+    {
+        if (!$this->stockTransferProductDetails->contains($stockTransferProductDetail)) {
+            $this->stockTransferProductDetails->add($stockTransferProductDetail);
+            $stockTransferProductDetail->setStockTransferHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockTransferProductDetail(StockTransferProductDetail $stockTransferProductDetail): self
+    {
+        if ($this->stockTransferProductDetails->removeElement($stockTransferProductDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($stockTransferProductDetail->getStockTransferHeader() === $this) {
+                $stockTransferProductDetail->setStockTransferHeader(null);
+            }
+        }
 
         return $this;
     }
