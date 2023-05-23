@@ -2,9 +2,13 @@
 
 namespace App\Service\Stock;
 
-use App\Entity\Stock\StockTransferDetail;
+use App\Entity\Stock\StockTransferMaterialDetail;
+use App\Entity\Stock\StockTransferPaperDetail;
+use App\Entity\Stock\StockTransferProductDetail;
 use App\Entity\Stock\StockTransferHeader;
-use App\Repository\Stock\StockTransferDetailRepository;
+use App\Repository\Stock\StockTransferMaterialDetailRepository;
+use App\Repository\Stock\StockTransferPaperDetailRepository;
+use App\Repository\Stock\StockTransferProductDetailRepository;
 use App\Repository\Stock\StockTransferHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,13 +16,17 @@ class StockTransferHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private StockTransferHeaderRepository $stockTransferHeaderRepository;
-    private StockTransferDetailRepository $stockTransferDetailRepository;
+    private StockTransferMaterialDetailRepository $stockTransferMaterialDetailRepository;
+    private StockTransferPaperDetailRepository $stockTransferPaperDetailRepository;
+    private StockTransferProductDetailRepository $stockTransferProductDetailRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->stockTransferHeaderRepository = $entityManager->getRepository(StockTransferHeader::class);
-        $this->stockTransferDetailRepository = $entityManager->getRepository(StockTransferDetail::class);
+        $this->stockTransferMaterialDetailRepository = $entityManager->getRepository(StockTransferMaterialDetail::class);
+        $this->stockTransferPaperDetailRepository = $entityManager->getRepository(StockTransferPaperDetail::class);
+        $this->stockTransferProductDetailRepository = $entityManager->getRepository(StockTransferProductDetail::class);
     }
 
     public function initialize(StockTransferHeader $stockTransferHeader, array $options = []): void
@@ -44,8 +52,14 @@ class StockTransferHeaderFormService
             $stockTransferHeader->setCodeNumberToNext($currentStockTransferHeader->getCodeNumber(), $year, $month);
 
         }
-        foreach ($stockTransferHeader->getStockTransferDetails() as $stockTransferDetail) {
-            $stockTransferDetail->setIsCanceled($stockTransferDetail->getSyncIsCanceled());
+        foreach ($stockTransferHeader->getStockTransferMaterialDetails() as $stockTransferMaterialDetail) {
+            $stockTransferMaterialDetail->setIsCanceled($stockTransferMaterialDetail->getSyncIsCanceled());
+        }
+        foreach ($stockTransferHeader->getStockTransferPaperDetails() as $stockTransferPaperDetail) {
+            $stockTransferPaperDetail->setIsCanceled($stockTransferPaperDetail->getSyncIsCanceled());
+        }
+        foreach ($stockTransferHeader->getStockTransferProductDetails() as $stockTransferProductDetail) {
+            $stockTransferProductDetail->setIsCanceled($stockTransferProductDetail->getSyncIsCanceled());
         }
         $stockTransferHeader->setTotalQuantity($stockTransferHeader->getSyncTotalQuantity());
     }
@@ -53,8 +67,14 @@ class StockTransferHeaderFormService
     public function save(StockTransferHeader $stockTransferHeader, array $options = []): void
     {
         $this->stockTransferHeaderRepository->add($stockTransferHeader);
-        foreach ($stockTransferHeader->getStockTransferDetails() as $stockTransferDetail) {
-            $this->stockTransferDetailRepository->add($stockTransferDetail);
+        foreach ($stockTransferHeader->getStockTransferMaterialDetails() as $stockTransferMaterialDetail) {
+            $this->stockTransferMaterialDetailRepository->add($stockTransferMaterialDetail);
+        }
+        foreach ($stockTransferHeader->getStockTransferPaperDetails() as $stockTransferPaperDetail) {
+            $this->stockTransferPaperDetailRepository->add($stockTransferPaperDetail);
+        }
+        foreach ($stockTransferHeader->getStockTransferProductDetails() as $stockTransferProductDetail) {
+            $this->stockTransferProductDetailRepository->add($stockTransferProductDetail);
         }
         $this->entityManager->flush();
     }

@@ -2,9 +2,13 @@
 
 namespace App\Service\Stock;
 
-use App\Entity\Stock\AdjustmentStockDetail;
+use App\Entity\Stock\AdjustmentStockMaterialDetail;
+use App\Entity\Stock\AdjustmentStockPaperDetail;
+use App\Entity\Stock\AdjustmentStockProductDetail;
 use App\Entity\Stock\AdjustmentStockHeader;
-use App\Repository\Stock\AdjustmentStockDetailRepository;
+use App\Repository\Stock\AdjustmentStockMaterialDetailRepository;
+use App\Repository\Stock\AdjustmentStockPaperDetailRepository;
+use App\Repository\Stock\AdjustmentStockProductDetailRepository;
 use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,13 +16,17 @@ class AdjustmentStockHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository;
-    private AdjustmentStockDetailRepository $adjustmentStockDetailRepository;
+    private AdjustmentStockMaterialDetailRepository $adjustmentStockMaterialDetailRepository;
+    private AdjustmentStockPaperDetailRepository $adjustmentStockPaperDetailRepository;
+    private AdjustmentStockProductDetailRepository $adjustmentStockProductDetailRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->adjustmentStockHeaderRepository = $entityManager->getRepository(AdjustmentStockHeader::class);
-        $this->adjustmentStockDetailRepository = $entityManager->getRepository(AdjustmentStockDetail::class);
+        $this->adjustmentStockMaterialDetailRepository = $entityManager->getRepository(AdjustmentStockMaterialDetail::class);
+        $this->adjustmentStockPaperDetailRepository = $entityManager->getRepository(AdjustmentStockPaperDetail::class);
+        $this->adjustmentStockProductDetailRepository = $entityManager->getRepository(AdjustmentStockProductDetail::class);
     }
 
     public function initialize(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void
@@ -45,13 +53,28 @@ class AdjustmentStockHeaderFormService
 
         }
         
+        foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
+            $adjustmentStockMaterialDetail->setIsCanceled($adjustmentStockMaterialDetail->getSyncIsCanceled());
+        }
+        foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
+            $adjustmentStockPaperDetail->setIsCanceled($adjustmentStockPaperDetail->getSyncIsCanceled());
+        }
+        foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
+            $adjustmentStockProductDetail->setIsCanceled($adjustmentStockProductDetail->getSyncIsCanceled());
+        }
     }
 
     public function save(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void
     {
         $this->adjustmentStockHeaderRepository->add($adjustmentStockHeader);
-        foreach ($adjustmentStockHeader->getAdjustmentStockDetails() as $adjustmentStockDetail) {
-            $this->adjustmentStockDetailRepository->add($adjustmentStockDetail);
+        foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
+            $this->adjustmentStockMaterialDetailRepository->add($adjustmentStockMaterialDetail);
+        }
+        foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
+            $this->adjustmentStockPaperDetailRepository->add($adjustmentStockPaperDetail);
+        }
+        foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
+            $this->adjustmentStockProductDetailRepository->add($adjustmentStockProductDetail);
         }
         $this->entityManager->flush();
     }
