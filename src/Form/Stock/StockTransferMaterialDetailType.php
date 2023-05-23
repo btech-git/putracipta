@@ -3,28 +3,29 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Product;
-use App\Entity\Stock\AdjustmentStockDetail;
+use App\Entity\Master\Material;
+use App\Entity\Stock\StockTransferMaterialDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdjustmentStockDetailType extends AbstractType
+class StockTransferMaterialDetailType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('currentQuantity')
-            ->add('adjustedQuantity')
-            ->add('product', EntityHiddenType::class, array('class' => Product::class))
+            ->add('quantity')
+            ->add('memo')
             ->add('isCanceled')
+            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('material', EntityHiddenType::class, ['class' => Material::class])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => AdjustmentStockDetail::class,
+            'data_class' => StockTransferMaterialDetail::class,
         ]);
     }
 }
