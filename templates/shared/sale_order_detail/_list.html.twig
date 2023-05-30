@@ -23,6 +23,9 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'product:name') }}>
                     Name {{ grid.sort_char(form.sort['product:name'].vars.value) }}
                 </th>
+                <th style="min-width: 100px" role="button">
+                    Quantity
+                </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
                     Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
                 </th>
@@ -60,8 +63,8 @@
                     'productWidth': saleOrderDetail.product.width|default,
                     'productHeight': saleOrderDetail.product.height|default,
                     'unitName': saleOrderDetail.unit.name|default,
-                    'saleOrderDetailQuantityRemaining': saleOrderDetail.remainingDelivery|default,
-                    'saleOrderDetailQuantity': saleOrderDetail.quantity|default}|json_encode }}">
+                    'saleOrderDetailQuantityRemaining': saleOrderDetail.remainingDelivery|default|number_format(0),
+                    'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
