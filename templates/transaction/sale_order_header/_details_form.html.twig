@@ -50,9 +50,9 @@
                         {{ detailForm.vars.value.total|default|number_format(2) }}
                     </td>
                     <td>
-                        {% if (detailForm.vars.value.id != null) %}
+                        <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
                             {{ form_row(detailForm.isTransactionClosed, {'label': false}) }}
-                        {% endif %}
+                        </div>
                     </td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
