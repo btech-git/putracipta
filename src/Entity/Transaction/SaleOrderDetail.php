@@ -5,6 +5,7 @@ namespace App\Entity\Transaction;
 use App\Entity\Master\Product;
 use App\Entity\Master\Unit;
 use App\Entity\Production\MasterOrder;
+use App\Entity\Production\MasterOrderDetail;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\SaleOrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -70,10 +71,14 @@ class SaleOrderDetail extends TransactionDetail
     #[ORM\Column]
     private ?bool $isTransactionClosed = false;
 
+    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrderDetail::class)]
+    private Collection $masterOrderDetails;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
         $this->masterOrders = new ArrayCollection();
+        $this->masterOrderDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -303,6 +308,36 @@ class SaleOrderDetail extends TransactionDetail
     public function setIsTransactionClosed(bool $isTransactionClosed): self
     {
         $this->isTransactionClosed = $isTransactionClosed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderDetail>
+     */
+    public function getMasterOrderDetails(): Collection
+    {
+        return $this->masterOrderDetails;
+    }
+
+    public function addMasterOrderDetail(MasterOrderDetail $masterOrderDetail): self
+    {
+        if (!$this->masterOrderDetails->contains($masterOrderDetail)) {
+            $this->masterOrderDetails->add($masterOrderDetail);
+            $masterOrderDetail->setSaleOrderDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderDetail(MasterOrderDetail $masterOrderDetail): self
+    {
+        if ($this->masterOrderDetails->removeElement($masterOrderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderDetail->getSaleOrderDetail() === $this) {
+                $masterOrderDetail->setSaleOrderDetail(null);
+            }
+        }
 
         return $this;
     }
