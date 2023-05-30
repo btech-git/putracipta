@@ -15,9 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
 class StockTransferHeader extends StockHeader
 {
     public const CODE_NUMBER_CONSTANT = 'TRF';
-    public const MODE_MATERIAL = 'material';
-    public const MODE_PAPER = 'paper';
-    public const MODE_PRODUCT = 'product';
+    public const TRANSFER_MODE_MATERIAL = 'material';
+    public const TRANSFER_MODE_PAPER = 'paper';
+    public const TRANSFER_MODE_PRODUCT = 'product';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +25,7 @@ class StockTransferHeader extends StockHeader
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalQuantity = null;
+    private ?string $totalQuantity = '0.00';
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouseFrom = null;
@@ -34,7 +34,7 @@ class StockTransferHeader extends StockHeader
     private ?Warehouse $warehouseTo = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $transferMode = null;
+    private ?string $transferMode = self::TRANSFER_MODE_MATERIAL;
 
     #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferMaterialDetail::class)]
     private Collection $stockTransferMaterialDetails;
@@ -60,10 +60,18 @@ class StockTransferHeader extends StockHeader
 
     public function getSyncTotalQuantity(): int
     {
+        $details = [];
+        if ($this->transferMode === self::TRANSFER_MODE_MATERIAL) {
+            $details = $this->stockTransferMaterialDetails;
+        } else if ($this->transferMode === self::TRANSFER_MODE_PAPER) {
+            $details = $this->stockTransferPaperDetails;
+        } else if ($this->transferMode === self::TRANSFER_MODE_PRODUCT) {
+            $details = $this->stockTransferProductDetails;
+        }
         $totalQuantity = 0;
-        foreach ($this->stockTransferDetails as $stockTransferDetail) {
-            if (!$stockTransferDetail->isIsCanceled()) {
-                $totalQuantity += $stockTransferDetail->getQuantity();
+        foreach ($details as $detail) {
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantity();
             }
         }
         return $totalQuantity;
