@@ -17,7 +17,6 @@ class StockTransferProductDetailType extends AbstractType
             ->add('quantity')
             ->add('memo')
             ->add('isCanceled')
-            ->add('unit', null, ['choice_label' => 'name'])
             ->add('product', EntityHiddenType::class, ['class' => Product::class])
         ;
     }

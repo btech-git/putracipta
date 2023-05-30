@@ -20,9 +20,9 @@ class StockTransferHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('transferMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
-                'Material' => StockTransferHeader::MODE_MATERIAL,
-                'Kertas' => StockTransferHeader::MODE_PAPER,
-                'Finished Goods' => StockTransferHeader::MODE_PRODUCT,
+                'Material' => StockTransferHeader::TRANSFER_MODE_MATERIAL,
+                'Kertas' => StockTransferHeader::TRANSFER_MODE_PAPER,
+                'Finished Goods' => StockTransferHeader::TRANSFER_MODE_PRODUCT,
             ]])
             ->add('warehouseFrom', null, ['choice_label' => 'name'])
             ->add('warehouseTo', null, ['choice_label' => 'name'])

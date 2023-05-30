@@ -17,7 +17,6 @@ class StockTransferMaterialDetailType extends AbstractType
             ->add('quantity')
             ->add('memo')
             ->add('isCanceled')
-            ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
         ;
     }

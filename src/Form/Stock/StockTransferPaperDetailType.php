@@ -17,7 +17,6 @@ class StockTransferPaperDetailType extends AbstractType
             ->add('quantity')
             ->add('memo')
             ->add('isCanceled')
-            ->add('unit', null, ['choice_label' => 'name'])
             ->add('paper', EntityHiddenType::class, ['class' => Paper::class])
         ;
     }
