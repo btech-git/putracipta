@@ -136,10 +136,11 @@ class SaleOrderHeaderController extends AbstractController
         $saleOrderHeaderFormService->initialize($saleOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
         $form->handleRequest($request);
-        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
+        $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $saleOrderHeaderFormService->save($saleOrderHeader);
+            $saleOrderHeaderFormService->uploadFile($saleOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
 
             return $this->redirectToRoute('app_transaction_sale_order_header_show', ['id' => $saleOrderHeader->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -147,6 +148,7 @@ class SaleOrderHeaderController extends AbstractController
         return $this->renderForm("transaction/sale_order_header/new_repeat.{$_format}.twig", [
             'saleOrderHeader' => $saleOrderHeader,
             'form' => $form,
+            'transactionFileExists' => false,
         ]);
     }
 
