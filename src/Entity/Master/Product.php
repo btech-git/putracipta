@@ -36,16 +36,16 @@ class Product extends Master
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
-    private ?string $note = null;
+    private ?string $note = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $length = null;
+    private ?string $length = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $width = null;
+    private ?string $width = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $height = null;
+    private ?string $height = '0.00';
 
     public function getId(): ?int
     {

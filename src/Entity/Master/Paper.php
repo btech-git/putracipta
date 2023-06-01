@@ -47,14 +47,14 @@ class Paper extends Master
     private ?Unit $unit = null;
 
     #[ORM\Column(length: 60)]
-    private ?string $pricingMode = null;
+    private ?string $pricingMode = '';
 
     #[ORM\Column(length: 60)]
-    private ?string $type = null;
+    private ?string $type = '';
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
-    private ?string $note = null;
+    private ?string $note = '';
 
     public function getPaperNameSizeCombination() {
         return $this->name . ' ' . $this->weight . ' x ' . $this->length . ' x ' . $this->width;
