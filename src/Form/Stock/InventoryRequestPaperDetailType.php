@@ -4,7 +4,6 @@ namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Paper;
-use App\Entity\Master\Unit;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
