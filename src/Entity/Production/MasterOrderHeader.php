@@ -3,42 +3,37 @@
 namespace App\Entity\Production;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
-use App\Entity\Transaction\SaleOrderDetail;
-use App\Repository\Production\MasterOrderRepository;
+use App\Repository\Production\MasterOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MasterOrderRepository::class)]
-#[ORM\Table(name: 'production_master_order')]
-class MasterOrder extends ProductionHeader
+#[ORM\Entity(repositoryClass: MasterOrderHeaderRepository::class)]
+#[ORM\Table(name: 'production_master_order_header')]
+class MasterOrderHeader extends ProductionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'PMO';
-    public const WORK_ORDER_DISTRIBUTION_DESIGN = 'design';
-    public const WORK_ORDER_DISTRIBUTION_MOUNTAGE = 'mountage';
-    public const WORK_ORDER_DISTRIBUTION_CUTTING_MACHINE = 'cutting_machine';
+    public const WORK_ORDER_DISTRIBUTION_PREPRESS = 'prepress';
+    public const WORK_ORDER_DISTRIBUTION_COLOUR_MIXING = 'colour_mixing';
+    public const WORK_ORDER_DISTRIBUTION_CUTTING_MATERIAL = 'cutting_material';
     public const WORK_ORDER_DISTRIBUTION_PRINTING = 'printing';
-    public const WORK_ORDER_DISTRIBUTION_PON = 'pon';
+    public const WORK_ORDER_DISTRIBUTION_DIECUT = 'diecut';
     public const WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING = 'cutting_finishing';
     public const WORK_ORDER_DISTRIBUTION_VARNISH = 'varnish';
-    public const WORK_ORDER_DISTRIBUTION_GLUEING = 'glueing';
+    public const WORK_ORDER_DISTRIBUTION_SCREEN_PRINTING = 'screen_printing';
+    public const WORK_ORDER_DISTRIBUTION_FOLDER_GLUEING = 'folder_glueing';
+    public const WORK_ORDER_DISTRIBUTION_HOT_STAMP = 'hot_stamp';
     public const WORK_ORDER_DISTRIBUTION_STITCHING = 'stitching';
+    public const WORK_ORDER_DISTRIBUTION_FOLDING = 'folding';
     public const WORK_ORDER_DISTRIBUTION_FINISHING = 'finishing';
     public const WORK_ORDER_DISTRIBUTION_PACKING = 'packing';
-    public const WORK_ORDER_DISTRIBUTION_QC_PRINTING = 'qc_printing';
-    public const WORK_ORDER_DISTRIBUTION_QC_FINISHING = 'qc_finishing';
-    public const WORK_ORDER_DISTRIBUTION_QC_SORTING = 'qc_sorting';
-    public const WORK_ORDER_DISTRIBUTION_QC_OUTGOING = 'qc_outgoing';
-    public const WORK_ORDER_DISTRIBUTION_PRINTING_CHECKLIST = 'printing_checklist';
-    public const WORK_ORDER_DISTRIBUTION_MOUNTAGE_CHECKLIST = 'mountage_checklist';
-    public const WORK_ORDER_DISTRIBUTION_POND_CHECKLIST = 'pond_checklist';
-    public const WORK_ORDER_DISTRIBUTION_REWORK = 'rework';
-    public const WORK_ORDER_DISTRIBUTION_DEMOLITION = 'demolition';
+    public const WORK_ORDER_DISTRIBUTION_SORTING = 'sorting';
     public const PRINTING_STATUS_PROOF_PRINT = 'proof_print';
     public const PRINTING_STATUS_NEW_ORDER = 'new_order';
     public const PRINTING_STATUS_REPEAT_ORDER = 'repeat_order';
@@ -46,26 +41,22 @@ class MasterOrder extends ProductionHeader
     public const DIECUT_BLADE_NEW = 'new';
     public const DIECUT_BLADE_OLD = 'old';
     public const DIECUT_BLADE_REVISION = 'revision';
+    public const ORDER_TYPE_REGULAR = 'regular';
+    public const ORDER_TYPE_PRINTING_SHORTAGE = 'printing_shortage';
+    public const ORDER_TYPE_RETURN_SHORTAGE = 'return_shortage';
+    public const ORDER_TYPE_EXTENSION = 'extension';
+    public const CHECK_SHEET_PRINTING_INSPECTION = 'printing_inspection';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $printingMachine = '';
-
     #[ORM\ManyToOne]
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 60)]
     private ?string $designCode = '';
-
-    #[ORM\Column]
-    private ?int $quantityOrder = 0;
-
-    #[ORM\Column]
-    private ?int $quantityStock = 0;
 
     #[ORM\Column(length: 60)]
     private ?string $color = '';
@@ -93,9 +84,6 @@ class MasterOrder extends ProductionHeader
 
     #[ORM\Column(length: 20)]
     private ?string $layoutModelFileExtension = '';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $insitPercentage = '0.00';
 
     #[ORM\Column]
     private ?int $quantityPaper = 0;
@@ -125,13 +113,7 @@ class MasterOrder extends ProductionHeader
     private ?string $paperRequirement = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $printingInsit = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $paperTotal = '0.00';
-
-    #[ORM\ManyToOne(inversedBy: 'masterOrders')]
-    private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $inkCyanPercentage = '0.00';
@@ -262,14 +244,8 @@ class MasterOrder extends ProductionHeader
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(inversedBy: 'masterOrders')]
-    private ?SaleOrderDetail $saleOrderDetail = null;
-
     #[ORM\Column(type: Types::ARRAY)]
     private array $processList = [];
-
-    #[ORM\Column]
-    private ?int $quantityProduction = 0;
 
     #[ORM\Column(length: 60)]
     private ?string $pantone = '';
@@ -292,26 +268,86 @@ class MasterOrder extends ProductionHeader
     #[ORM\Column(length: 60)]
     private ?string $inkK4Color = '';
 
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderColorMixing::class)]
-    private Collection $workOrderColorMixings;
-
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderCuttingHeader::class)]
-    private Collection $workOrderCuttingHeaders;
-
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderOffsetPrintingHeader::class)]
-    private Collection $workOrderOffsetPrintingHeaders;
-
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderPrepress::class)]
-    private Collection $workOrderPrepresses;
-
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderVarnishHeader::class)]
-    private Collection $workOrderVarnishHeaders;
-
-    #[ORM\OneToMany(mappedBy: 'masterOrder', targetEntity: WorkOrderVarnishSpotHeader::class)]
-    private Collection $workOrderVarnishSpotHeaders;
-
     #[ORM\Column(type: Types::ARRAY)]
     private array $printingStatus = [];
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
+    private ?string $insitSortingPercentage = '0.000';
+
+    #[ORM\Column]
+    private ?int $insitSortingQuantity = 0;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
+    private ?string $insitPrintingPercentage = '0.000';
+
+    #[ORM\Column]
+    private ?int $insitPrintingQuantity = 0;
+
+    #[ORM\ManyToOne]
+    private ?MachinePrinting $machinePrinting = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $orderType = null;
+
+    #[ORM\Column]
+    private ?int $totalQuantityOrder = 0;
+
+    #[ORM\Column]
+    private ?int $totalQuantityStock = 0;
+
+    #[ORM\Column]
+    private ?int $totalQuantityShortage = 0;
+
+    #[ORM\Column(length: 60)]
+    private ?string $hotStamping = '';
+
+    #[ORM\Column]
+    private ?int $glossiness = 0;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $weightPerPiece = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkHotStampingSize = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkHotStampingQuantity = '0.00';
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $checkSheet = [];
+
+    #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
+    private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: WorkOrderColorMixing::class)]
+    private Collection $workOrderColorMixings;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: WorkOrderCuttingHeader::class)]
+    private Collection $workOrderCuttingHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: WorkOrderOffsetPrintingHeader::class)]
+    private Collection $workOrderOffsetPrintingHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: WorkOrderPrepress::class)]
+    private Collection $workOrderPrepresses;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: WorkOrderVarnishHeader::class)]
+    private Collection $workOrderVarnishHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: WorkOrderVarnishSpotHeader::class)]
+    private Collection $workOrderVarnishSpotHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderDistributionDetail::class)]
+    private Collection $masterOrderDistributionDetails;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProductDetail::class)]
+    private Collection $masterOrderProductDetails;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProcessDetail::class)]
+    private Collection $masterOrderProcessDetails;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderCheckSheetDetail::class)]
+    private Collection $masterOrderCheckSheetDetails;
 
     public function __construct()
     {
@@ -321,28 +357,249 @@ class MasterOrder extends ProductionHeader
         $this->workOrderPrepresses = new ArrayCollection();
         $this->workOrderVarnishHeaders = new ArrayCollection();
         $this->workOrderVarnishSpotHeaders = new ArrayCollection();
+        $this->masterOrderDistributionDetails = new ArrayCollection();
+        $this->masterOrderProductDetails = new ArrayCollection();
+        $this->masterOrderProcessDetails = new ArrayCollection();
+        $this->masterOrderCheckSheetDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
     }
+    
+    public function getQuantityPrintingAverage() 
+    {
+        $quantityPrinting = empty($this->quantityPrinting) ? 1 : $this->quantityPrinting;
+        
+        return $this->quantityPrinting2 > 0 ? ($quantityPrinting + $this->quantityPrinting2) / 2 : $quantityPrinting;
+        
+    }
+    
+    public function getSyncTotalQuantityOrder() 
+    {
+        $totalQuantity = 0;
+        
+        foreach ($this->masterOrderProductDetails as $detail) {
+            $totalQuantity += $detail->getQuantityOrder();
+        }
+        return $totalQuantity;
+    }
+    
+    public function getSyncTotalQuantityStock() 
+    {
+        $totalQuantity = 0;
+        
+        foreach ($this->masterOrderProductDetails as $detail) {
+            $totalQuantity += $detail->getQuantityStock();
+        }
+        return $totalQuantity;
+    }
+    
+    public function getSyncTotalQuantityShortage() 
+    {
+        $totalQuantity = 0;
+        
+        foreach ($this->masterOrderProductDetails as $detail) {
+            $totalQuantity += $detail->getQuantityShortage();
+        }
+        return $totalQuantity;
+    }
+    
+    public function getSyncQuantityPaper() 
+    {
+        $totalQuantityShortage = empty($this->totalQuantityShortage) ? 1 : $this->totalQuantityShortage;
+        $paperMountage = empty($this->paperMountage) ? 1 : $this->paperMountage;
+        $quantity = (1 + ($this->insitPrintingPercentage/100) + ($this->insitSortingPercentage/100)) * ($totalQuantityShortage / $this->getQuantityPrintingAverage()) / $paperMountage / 500;
+        
+        return $quantity;
+    }
+    
+    public function getSyncPaperTotal() 
+    {
+        $paperMountage = empty($this->paperMountage) ? 1 : $this->paperMountage;
+        
+        return $this->quantityPaper * $paperMountage * 500;
+    }
+    
+    public function getSyncInsitPrintingQuantity() 
+    {
+        return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $this->getQuantityPrintingAverage();
+    }
+    
+    public function getSyncInsitSortingQuantity() 
+    {
+        return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $this->getQuantityPrintingAverage();
+    }
+    
+    public function getSyncPaperRequirement() 
+    {
+        return $this->paperTotal - $this->insitPrintingQuantity;
+    }
+    
+    public function getSyncInkCyanWeight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkCyanPercentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkCyanPercentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkMagentaWeight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkMagentaPercentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkMagentaPercentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkYellowWeight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkYellowPercentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkYellowPercentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkBlackWeight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkBlackPercentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkBlackPercentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkOpvWeight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkOpvPercentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkOpvPercentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkK1Weight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkK1Percentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkK1Percentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkK2Weight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkK2Percentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkK2Percentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkK3Weight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkK3Percentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkK3Percentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+
+    public function getSyncInkK4Weight() 
+    {
+        $weight = 0.00;
+        
+        if ($this->cuttingLengthSize2 == 0 && $this->cuttingWidthSize2 == 0) {
+            $weight = ($this->inkK4Percentage/100) * $this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 5100000;
+        } else {
+            $weight = ($this->inkK4Percentage/100) * (($this->cuttingLengthSize1 * $this->cuttingWidthSize1 * $this->paperTotal / 2) + ($this->cuttingLengthSize2 * $this->cuttingWidthSize2 * $this->paperTotal / 2)) / 5100000;
+        }
+        
+        return $weight;
+    }
+    
+    public function getSyncInkLaminatingQuantity() 
+    {
+        return $this->inkLaminatingSize / 1000 * $this->paperRequirement / 300;
+    }
+    
+    public function getSyncPackagingGlueWeight() 
+    {
+        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityShortage / 1000;
+    }
+    
+    public function getSyncPackagingRubberWeight() 
+    {
+        return $this->packagingRubberQuantity == 0 ? 0 : $this->totalQuantityShortage / $this->packagingRubberQuantity;
+    }
+    
+    public function getSyncPackagingPaperWeight()
+    {
+        return $this->packagingPaperQuantity == 0 ? 0 : $this->totalQuantityShortage / $this->packagingPaperQuantity;
+    }
+    
+    public function getSyncPackagingBoxWeight() 
+    {
+        return $this->packagingBoxQuantity == 0 ? 0 : $this->totalQuantityShortage / $this->packagingBoxQuantity;
+    }
+    
+    public function getSyncPackagingTapeLargeSize() 
+    {
+        return $this->packagingTapeLargeQuantity * ($this->packagingPaperWeight + $this->packagingBoxWeight) / 10000;
+    }
+
+    public function getSyncPackagingTapeSmallSize() 
+    {
+        return $this->packagingTapeSmallQuantity * ($this->packagingPaperQuantity + $this->packagingBoxQuantity) / 10000;
+    }
+    
+    public function getSyncPackagingPlasticSize() 
+    {
+        $packagingPaperQuantity = $this->packagingPaperQuantity == 0 ? 1 : $this->packagingPaperQuantity;
+        $packagingBoxQuantity = $this->packagingBoxQuantity == 0 ? 1 : $this->packagingBoxQuantity;
+        
+        return $this->packagingPlasticQuantity == 0 ? 0 : 1000 / $this->packagingPlasticQuantity * $this->totalQuantityShortage / ($packagingPaperQuantity + $packagingBoxQuantity);
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPrintingMachine(): ?string
-    {
-        return $this->printingMachine;
-    }
-
-    public function setPrintingMachine(string $printingMachine): self
-    {
-        $this->printingMachine = $printingMachine;
-
-        return $this;
     }
 
     public function getCustomer(): ?Customer
@@ -365,30 +622,6 @@ class MasterOrder extends ProductionHeader
     public function setDesignCode(string $designCode): self
     {
         $this->designCode = $designCode;
-
-        return $this;
-    }
-
-    public function getQuantityOrder(): ?int
-    {
-        return $this->quantityOrder;
-    }
-
-    public function setQuantityOrder(int $quantityOrder): self
-    {
-        $this->quantityOrder = $quantityOrder;
-
-        return $this;
-    }
-
-    public function getQuantityStock(): ?int
-    {
-        return $this->quantityStock;
-    }
-
-    public function setQuantityStock(int $quantityStock): self
-    {
-        $this->quantityStock = $quantityStock;
 
         return $this;
     }
@@ -501,18 +734,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    public function getInsitPercentage(): ?string
-    {
-        return $this->insitPercentage;
-    }
-
-    public function setInsitPercentage(string $insitPercentage): self
-    {
-        $this->insitPercentage = $insitPercentage;
-
-        return $this;
-    }
-
     public function getQuantityPaper(): ?int
     {
         return $this->quantityPaper;
@@ -621,18 +842,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    public function getPrintingInsit(): ?string
-    {
-        return $this->printingInsit;
-    }
-
-    public function setPrintingInsit(string $printingInsit): self
-    {
-        $this->printingInsit = $printingInsit;
-
-        return $this;
-    }
-
     public function getPaperTotal(): ?string
     {
         return $this->paperTotal;
@@ -641,18 +850,6 @@ class MasterOrder extends ProductionHeader
     public function setPaperTotal(string $paperTotal): self
     {
         $this->paperTotal = $paperTotal;
-
-        return $this;
-    }
-
-    public function getPurchaseOrderPaperHeader(): ?PurchaseOrderPaperHeader
-    {
-        return $this->purchaseOrderPaperHeader;
-    }
-
-    public function setPurchaseOrderPaperHeader(?PurchaseOrderPaperHeader $purchaseOrderPaperHeader): self
-    {
-        $this->purchaseOrderPaperHeader = $purchaseOrderPaperHeader;
 
         return $this;
     }
@@ -1173,18 +1370,6 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
-    public function getSaleOrderDetail(): ?SaleOrderDetail
-    {
-        return $this->saleOrderDetail;
-    }
-
-    public function setSaleOrderDetail(?SaleOrderDetail $saleOrderDetail): self
-    {
-        $this->saleOrderDetail = $saleOrderDetail;
-
-        return $this;
-    }
-
     public function getProcessList(): array
     {
         return $this->processList;
@@ -1193,18 +1378,6 @@ class MasterOrder extends ProductionHeader
     public function setProcessList(array $processList): self
     {
         $this->processList = $processList;
-
-        return $this;
-    }
-
-    public function getQuantityProduction(): ?int
-    {
-        return $this->quantityProduction;
-    }
-
-    public function setQuantityProduction(int $quantityProduction): self
-    {
-        $this->quantityProduction = $quantityProduction;
 
         return $this;
     }
@@ -1293,6 +1466,210 @@ class MasterOrder extends ProductionHeader
         return $this;
     }
 
+    public function getPrintingStatus(): array
+    {
+        return $this->printingStatus;
+    }
+
+    public function setPrintingStatus(array $printingStatus): self
+    {
+        $this->printingStatus = $printingStatus;
+
+        return $this;
+    }
+
+    public function getInsitSortingPercentage(): ?string
+    {
+        return $this->insitSortingPercentage;
+    }
+
+    public function setInsitSortingPercentage(string $insitSortingPercentage): self
+    {
+        $this->insitSortingPercentage = $insitSortingPercentage;
+
+        return $this;
+    }
+
+    public function getInsitSortingQuantity(): ?int
+    {
+        return $this->insitSortingQuantity;
+    }
+
+    public function setInsitSortingQuantity(int $insitSortingQuantity): self
+    {
+        $this->insitSortingQuantity = $insitSortingQuantity;
+
+        return $this;
+    }
+
+    public function getInsitPrintingPercentage(): ?string
+    {
+        return $this->insitPrintingPercentage;
+    }
+
+    public function setInsitPrintingPercentage(string $insitPrintingPercentage): self
+    {
+        $this->insitPrintingPercentage = $insitPrintingPercentage;
+
+        return $this;
+    }
+
+    public function getInsitPrintingQuantity(): ?int
+    {
+        return $this->insitPrintingQuantity;
+    }
+
+    public function setInsitPrintingQuantity(int $insitPrintingQuantity): self
+    {
+        $this->insitPrintingQuantity = $insitPrintingQuantity;
+
+        return $this;
+    }
+
+    public function getMachinePrinting(): ?MachinePrinting
+    {
+        return $this->machinePrinting;
+    }
+
+    public function setMachinePrinting(?MachinePrinting $machinePrinting): self
+    {
+        $this->machinePrinting = $machinePrinting;
+
+        return $this;
+    }
+
+    public function getOrderType(): ?string
+    {
+        return $this->orderType;
+    }
+
+    public function setOrderType(string $orderType): self
+    {
+        $this->orderType = $orderType;
+
+        return $this;
+    }
+
+    public function getTotalQuantityOrder(): ?int
+    {
+        return $this->totalQuantityOrder;
+    }
+
+    public function setTotalQuantityOrder(int $totalQuantityOrder): self
+    {
+        $this->totalQuantityOrder = $totalQuantityOrder;
+
+        return $this;
+    }
+
+    public function getTotalQuantityStock(): ?int
+    {
+        return $this->totalQuantityStock;
+    }
+
+    public function setTotalQuantityStock(int $totalQuantityStock): self
+    {
+        $this->totalQuantityStock = $totalQuantityStock;
+
+        return $this;
+    }
+
+    public function getTotalQuantityShortage(): ?int
+    {
+        return $this->totalQuantityShortage;
+    }
+
+    public function setTotalQuantityShortage(int $totalQuantityShortage): self
+    {
+        $this->totalQuantityShortage = $totalQuantityShortage;
+
+        return $this;
+    }
+
+    public function getHotStamping(): ?string
+    {
+        return $this->hotStamping;
+    }
+
+    public function setHotStamping(string $hotStamping): self
+    {
+        $this->hotStamping = $hotStamping;
+
+        return $this;
+    }
+
+    public function getGlossiness(): ?int
+    {
+        return $this->glossiness;
+    }
+
+    public function setGlossiness(int $glossiness): self
+    {
+        $this->glossiness = $glossiness;
+
+        return $this;
+    }
+
+    public function getWeightPerPiece(): ?string
+    {
+        return $this->weightPerPiece;
+    }
+
+    public function setWeightPerPiece(string $weightPerPiece): self
+    {
+        $this->weightPerPiece = $weightPerPiece;
+
+        return $this;
+    }
+
+    public function getInkHotStampingSize(): ?string
+    {
+        return $this->inkHotStampingSize;
+    }
+
+    public function setInkHotStampingSize(string $inkHotStampingSize): self
+    {
+        $this->inkHotStampingSize = $inkHotStampingSize;
+
+        return $this;
+    }
+
+    public function getInkHotStampingQuantity(): ?string
+    {
+        return $this->inkHotStampingQuantity;
+    }
+
+    public function setInkHotStampingQuantity(string $inkHotStampingQuantity): self
+    {
+        $this->inkHotStampingQuantity = $inkHotStampingQuantity;
+
+        return $this;
+    }
+
+    public function getCheckSheet(): array
+    {
+        return $this->checkSheet;
+    }
+
+    public function setCheckSheet(array $checkSheet): self
+    {
+        $this->checkSheet = $checkSheet;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderPaperHeader(): ?PurchaseOrderPaperHeader
+    {
+        return $this->purchaseOrderPaperHeader;
+    }
+
+    public function setPurchaseOrderPaperHeader(?PurchaseOrderPaperHeader $purchaseOrderPaperHeader): self
+    {
+        $this->purchaseOrderPaperHeader = $purchaseOrderPaperHeader;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, WorkOrderColorMixing>
      */
@@ -1305,7 +1682,7 @@ class MasterOrder extends ProductionHeader
     {
         if (!$this->workOrderColorMixings->contains($workOrderColorMixing)) {
             $this->workOrderColorMixings->add($workOrderColorMixing);
-            $workOrderColorMixing->setMasterOrder($this);
+            $workOrderColorMixing->setMasterOrderHeader($this);
         }
 
         return $this;
@@ -1315,8 +1692,8 @@ class MasterOrder extends ProductionHeader
     {
         if ($this->workOrderColorMixings->removeElement($workOrderColorMixing)) {
             // set the owning side to null (unless already changed)
-            if ($workOrderColorMixing->getMasterOrder() === $this) {
-                $workOrderColorMixing->setMasterOrder(null);
+            if ($workOrderColorMixing->getMasterOrderHeader() === $this) {
+                $workOrderColorMixing->setMasterOrderHeader(null);
             }
         }
 
@@ -1335,7 +1712,7 @@ class MasterOrder extends ProductionHeader
     {
         if (!$this->workOrderCuttingHeaders->contains($workOrderCuttingHeader)) {
             $this->workOrderCuttingHeaders->add($workOrderCuttingHeader);
-            $workOrderCuttingHeader->setMasterOrder($this);
+            $workOrderCuttingHeader->setMasterOrderHeader($this);
         }
 
         return $this;
@@ -1345,8 +1722,8 @@ class MasterOrder extends ProductionHeader
     {
         if ($this->workOrderCuttingHeaders->removeElement($workOrderCuttingHeader)) {
             // set the owning side to null (unless already changed)
-            if ($workOrderCuttingHeader->getMasterOrder() === $this) {
-                $workOrderCuttingHeader->setMasterOrder(null);
+            if ($workOrderCuttingHeader->getMasterOrderHeader() === $this) {
+                $workOrderCuttingHeader->setMasterOrderHeader(null);
             }
         }
 
@@ -1365,7 +1742,7 @@ class MasterOrder extends ProductionHeader
     {
         if (!$this->workOrderOffsetPrintingHeaders->contains($workOrderOffsetPrintingHeader)) {
             $this->workOrderOffsetPrintingHeaders->add($workOrderOffsetPrintingHeader);
-            $workOrderOffsetPrintingHeader->setMasterOrder($this);
+            $workOrderOffsetPrintingHeader->setMasterOrderHeader($this);
         }
 
         return $this;
@@ -1375,8 +1752,8 @@ class MasterOrder extends ProductionHeader
     {
         if ($this->workOrderOffsetPrintingHeaders->removeElement($workOrderOffsetPrintingHeader)) {
             // set the owning side to null (unless already changed)
-            if ($workOrderOffsetPrintingHeader->getMasterOrder() === $this) {
-                $workOrderOffsetPrintingHeader->setMasterOrder(null);
+            if ($workOrderOffsetPrintingHeader->getMasterOrderHeader() === $this) {
+                $workOrderOffsetPrintingHeader->setMasterOrderHeader(null);
             }
         }
 
@@ -1395,7 +1772,7 @@ class MasterOrder extends ProductionHeader
     {
         if (!$this->workOrderPrepresses->contains($workOrderPrepress)) {
             $this->workOrderPrepresses->add($workOrderPrepress);
-            $workOrderPrepress->setMasterOrder($this);
+            $workOrderPrepress->setMasterOrderHeader($this);
         }
 
         return $this;
@@ -1405,8 +1782,8 @@ class MasterOrder extends ProductionHeader
     {
         if ($this->workOrderPrepresses->removeElement($workOrderPrepress)) {
             // set the owning side to null (unless already changed)
-            if ($workOrderPrepress->getMasterOrder() === $this) {
-                $workOrderPrepress->setMasterOrder(null);
+            if ($workOrderPrepress->getMasterOrderHeader() === $this) {
+                $workOrderPrepress->setMasterOrderHeader(null);
             }
         }
 
@@ -1425,7 +1802,7 @@ class MasterOrder extends ProductionHeader
     {
         if (!$this->workOrderVarnishHeaders->contains($workOrderVarnishHeader)) {
             $this->workOrderVarnishHeaders->add($workOrderVarnishHeader);
-            $workOrderVarnishHeader->setMasterOrder($this);
+            $workOrderVarnishHeader->setMasterOrderHeader($this);
         }
 
         return $this;
@@ -1435,8 +1812,8 @@ class MasterOrder extends ProductionHeader
     {
         if ($this->workOrderVarnishHeaders->removeElement($workOrderVarnishHeader)) {
             // set the owning side to null (unless already changed)
-            if ($workOrderVarnishHeader->getMasterOrder() === $this) {
-                $workOrderVarnishHeader->setMasterOrder(null);
+            if ($workOrderVarnishHeader->getMasterOrderHeader() === $this) {
+                $workOrderVarnishHeader->setMasterOrderHeader(null);
             }
         }
 
@@ -1455,7 +1832,7 @@ class MasterOrder extends ProductionHeader
     {
         if (!$this->workOrderVarnishSpotHeaders->contains($workOrderVarnishSpotHeader)) {
             $this->workOrderVarnishSpotHeaders->add($workOrderVarnishSpotHeader);
-            $workOrderVarnishSpotHeader->setMasterOrder($this);
+            $workOrderVarnishSpotHeader->setMasterOrderHeader($this);
         }
 
         return $this;
@@ -1465,22 +1842,130 @@ class MasterOrder extends ProductionHeader
     {
         if ($this->workOrderVarnishSpotHeaders->removeElement($workOrderVarnishSpotHeader)) {
             // set the owning side to null (unless already changed)
-            if ($workOrderVarnishSpotHeader->getMasterOrder() === $this) {
-                $workOrderVarnishSpotHeader->setMasterOrder(null);
+            if ($workOrderVarnishSpotHeader->getMasterOrderHeader() === $this) {
+                $workOrderVarnishSpotHeader->setMasterOrderHeader(null);
             }
         }
 
         return $this;
     }
 
-    public function getPrintingStatus(): array
+    /**
+     * @return Collection<int, MasterOrderDistributionDetail>
+     */
+    public function getMasterOrderDistributionDetails(): Collection
     {
-        return $this->printingStatus;
+        return $this->masterOrderDistributionDetails;
     }
 
-    public function setPrintingStatus(array $printingStatus): self
+    public function addMasterOrderDistributionDetail(MasterOrderDistributionDetail $masterOrderDistributionDetail): self
     {
-        $this->printingStatus = $printingStatus;
+        if (!$this->masterOrderDistributionDetails->contains($masterOrderDistributionDetail)) {
+            $this->masterOrderDistributionDetails->add($masterOrderDistributionDetail);
+            $masterOrderDistributionDetail->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderDistributionDetail(MasterOrderDistributionDetail $masterOrderDistributionDetail): self
+    {
+        if ($this->masterOrderDistributionDetails->removeElement($masterOrderDistributionDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderDistributionDetail->getMasterOrderHeader() === $this) {
+                $masterOrderDistributionDetail->setMasterOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderProductDetail>
+     */
+    public function getMasterOrderProductDetails(): Collection
+    {
+        return $this->masterOrderProductDetails;
+    }
+
+    public function addMasterOrderProductDetail(MasterOrderProductDetail $masterOrderProductDetail): self
+    {
+        if (!$this->masterOrderProductDetails->contains($masterOrderProductDetail)) {
+            $this->masterOrderProductDetails->add($masterOrderProductDetail);
+            $masterOrderProductDetail->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderProductDetail(MasterOrderProductDetail $masterOrderProductDetail): self
+    {
+        if ($this->masterOrderProductDetails->removeElement($masterOrderProductDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderProductDetail->getMasterOrderHeader() === $this) {
+                $masterOrderProductDetail->setMasterOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderProcessDetail>
+     */
+    public function getMasterOrderProcessDetails(): Collection
+    {
+        return $this->masterOrderProcessDetails;
+    }
+
+    public function addMasterOrderProcessDetail(MasterOrderProcessDetail $masterOrderProcessDetail): self
+    {
+        if (!$this->masterOrderProcessDetails->contains($masterOrderProcessDetail)) {
+            $this->masterOrderProcessDetails->add($masterOrderProcessDetail);
+            $masterOrderProcessDetail->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderProcessDetail(MasterOrderProcessDetail $masterOrderProcessDetail): self
+    {
+        if ($this->masterOrderProcessDetails->removeElement($masterOrderProcessDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderProcessDetail->getMasterOrderHeader() === $this) {
+                $masterOrderProcessDetail->setMasterOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderCheckSheetDetail>
+     */
+    public function getMasterOrderCheckSheetDetails(): Collection
+    {
+        return $this->masterOrderCheckSheetDetails;
+    }
+
+    public function addMasterOrderCheckSheetDetail(MasterOrderCheckSheetDetail $masterOrderCheckSheetDetail): self
+    {
+        if (!$this->masterOrderCheckSheetDetails->contains($masterOrderCheckSheetDetail)) {
+            $this->masterOrderCheckSheetDetails->add($masterOrderCheckSheetDetail);
+            $masterOrderCheckSheetDetail->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderCheckSheetDetail(MasterOrderCheckSheetDetail $masterOrderCheckSheetDetail): self
+    {
+        if ($this->masterOrderCheckSheetDetails->removeElement($masterOrderCheckSheetDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderCheckSheetDetail->getMasterOrderHeader() === $this) {
+                $masterOrderCheckSheetDetail->setMasterOrderHeader(null);
+            }
+        }
 
         return $this;
     }

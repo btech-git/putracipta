@@ -43,7 +43,7 @@ class WorkOrderVarnishHeader extends ProductionHeader
     private Collection $workOrderVarnishProductionDetails;
 
     #[ORM\ManyToOne(inversedBy: 'workOrderVarnishHeaders')]
-    private ?MasterOrder $masterOrder = null;
+    private ?MasterOrderHeader $masterOrderHeader = null;
 
     public function __construct()
     {
@@ -181,14 +181,14 @@ class WorkOrderVarnishHeader extends ProductionHeader
         return $this;
     }
 
-    public function getMasterOrder(): ?MasterOrder
+    public function getMasterOrderHeader(): ?MasterOrderHeader
     {
-        return $this->masterOrder;
+        return $this->masterOrderHeader;
     }
 
-    public function setMasterOrder(?MasterOrder $masterOrder): self
+    public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
-        $this->masterOrder = $masterOrder;
+        $this->masterOrderHeader = $masterOrderHeader;
 
         return $this;
     }

@@ -2,7 +2,6 @@
 
 namespace App\Entity\Production;
 
-use App\Entity\Master;
 use App\Entity\Master\Customer;
 use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
@@ -40,10 +39,10 @@ class ProductPrototype extends ProductionHeader
     public const PROCESS_LOCK_BOTTOM = 'lem_lock_bottom';
     public const PROCESS_STRAIGHT_JOINT = 'lem_straight_joint';
     public const PROCESS_JILID = 'jilid_buku';
-    public const DEVELOPMENT_TYPE_EP = 'engineering_piloting';
-    public const DEVELOPMENT_TYPE_FEP = 'final_engineering_piloting';
-    public const DEVELOPMENT_TYPE_PP = 'production_planning';
-    public const DEVELOPMENT_TYPE_PS = 'production_schedule';
+    public const DEVELOPMENT_TYPE_EP = 'ep';
+    public const DEVELOPMENT_TYPE_FEP = 'fep';
+    public const DEVELOPMENT_TYPE_PP = 'pp';
+    public const DEVELOPMENT_TYPE_PS = 'ps';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -102,6 +101,9 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $coatingList = [];
+
+    #[ORM\Column(length: 60)]
+    private ?string $designCode = '';
 
     public function getCodeNumberConstant(): string
     {
@@ -289,6 +291,18 @@ class ProductPrototype extends ProductionHeader
     public function setCoatingList(array $coatingList): self
     {
         $this->coatingList = $coatingList;
+
+        return $this;
+    }
+
+    public function getDesignCode(): ?string
+    {
+        return $this->designCode;
+    }
+
+    public function setDesignCode(string $designCode): self
+    {
+        $this->designCode = $designCode;
 
         return $this;
     }
