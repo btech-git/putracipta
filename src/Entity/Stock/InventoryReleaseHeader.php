@@ -58,9 +58,9 @@ class InventoryReleaseHeader extends StockHeader
     public function getSyncTotalQuantity(): int
     {
         $details = [];
-        if ($this->requestMode === self::RELEASE_MODE_MATERIAL) {
+        if ($this->releaseMode === self::RELEASE_MODE_MATERIAL) {
             $details = $this->inventoryReleaseMaterialDetails;
-        } else if ($this->requestMode === self::RELEASE_MODE_PAPER) {
+        } else if ($this->releaseMode === self::RELEASE_MODE_PAPER) {
             $details = $this->inventoryReleasePaperDetails;
         }
         $totalQuantity = 0;
