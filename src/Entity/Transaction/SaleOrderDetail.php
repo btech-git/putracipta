@@ -4,8 +4,7 @@ namespace App\Entity\Transaction;
 
 use App\Entity\Master\Product;
 use App\Entity\Master\Unit;
-use App\Entity\Production\MasterOrder;
-use App\Entity\Production\MasterOrderDetail;
+use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\SaleOrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -65,20 +64,16 @@ class SaleOrderDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?string $unitPriceBeforeTax = '0.00';
 
-    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrder::class)]
-    private Collection $masterOrders;
-
     #[ORM\Column]
     private ?bool $isTransactionClosed = false;
 
-    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrderDetail::class)]
-    private Collection $masterOrderDetails;
+    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrderProductDetail::class)]
+    private Collection $masterOrderProductDetails;
 
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
-        $this->masterOrders = new ArrayCollection();
-        $this->masterOrderDetails = new ArrayCollection();
+        $this->masterOrderProductDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -270,36 +265,6 @@ class SaleOrderDetail extends TransactionDetail
         return $this;
     }
 
-    /**
-     * @return Collection<int, MasterOrder>
-     */
-    public function getMasterOrders(): Collection
-    {
-        return $this->masterOrders;
-    }
-
-    public function addMasterOrder(MasterOrder $masterOrder): self
-    {
-        if (!$this->masterOrders->contains($masterOrder)) {
-            $this->masterOrders->add($masterOrder);
-            $masterOrder->setSaleOrderDetail($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMasterOrder(MasterOrder $masterOrder): self
-    {
-        if ($this->masterOrders->removeElement($masterOrder)) {
-            // set the owning side to null (unless already changed)
-            if ($masterOrder->getSaleOrderDetail() === $this) {
-                $masterOrder->setSaleOrderDetail(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function isIsTransactionClosed(): ?bool
     {
         return $this->isTransactionClosed;
@@ -313,29 +278,29 @@ class SaleOrderDetail extends TransactionDetail
     }
 
     /**
-     * @return Collection<int, MasterOrderDetail>
+     * @return Collection<int, MasterOrderProductDetail>
      */
-    public function getMasterOrderDetails(): Collection
+    public function getMasterOrderProductDetails(): Collection
     {
-        return $this->masterOrderDetails;
+        return $this->masterOrderProductDetails;
     }
 
-    public function addMasterOrderDetail(MasterOrderDetail $masterOrderDetail): self
+    public function addMasterOrderProductDetail(MasterOrderProductDetail $masterOrderProductDetail): self
     {
-        if (!$this->masterOrderDetails->contains($masterOrderDetail)) {
-            $this->masterOrderDetails->add($masterOrderDetail);
-            $masterOrderDetail->setSaleOrderDetail($this);
+        if (!$this->masterOrderProductDetails->contains($masterOrderProductDetail)) {
+            $this->masterOrderProductDetails->add($masterOrderProductDetail);
+            $masterOrderProductDetail->setSaleOrderDetail($this);
         }
 
         return $this;
     }
 
-    public function removeMasterOrderDetail(MasterOrderDetail $masterOrderDetail): self
+    public function removeMasterOrderProductDetail(MasterOrderProductDetail $masterOrderProductDetail): self
     {
-        if ($this->masterOrderDetails->removeElement($masterOrderDetail)) {
+        if ($this->masterOrderProductDetails->removeElement($masterOrderProductDetail)) {
             // set the owning side to null (unless already changed)
-            if ($masterOrderDetail->getSaleOrderDetail() === $this) {
-                $masterOrderDetail->setSaleOrderDetail(null);
+            if ($masterOrderProductDetail->getSaleOrderDetail() === $this) {
+                $masterOrderProductDetail->setSaleOrderDetail(null);
             }
         }
 

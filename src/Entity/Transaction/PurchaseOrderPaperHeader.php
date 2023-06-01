@@ -6,6 +6,7 @@ use App\Entity\Admin\User;
 use App\Entity\Master\Currency;
 use App\Entity\Master\Supplier;
 use App\Entity\Production\MasterOrder;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\TransactionHeader;
 use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -100,9 +101,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: ReceiveHeader::class)]
     private Collection $receiveHeaders;
 
-    #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: MasterOrder::class)]
-    private Collection $masterOrders;
-
     #[ORM\Column]
     #[Assert\NotNull]
     private ?bool $isOnHold = false;
@@ -110,11 +108,14 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     #[ORM\Column]
     private ?bool $hasReturnTransaction = false;
 
+    #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: MasterOrderHeader::class)]
+    private Collection $masterOrderHeaders;
+
     public function __construct()
     {
         $this->purchaseOrderPaperDetails = new ArrayCollection();
         $this->receiveHeaders = new ArrayCollection();
-        $this->masterOrders = new ArrayCollection();
+        $this->masterOrderHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -411,36 +412,6 @@ class PurchaseOrderPaperHeader extends TransactionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, MasterOrder>
-     */
-    public function getMasterOrders(): Collection
-    {
-        return $this->masterOrders;
-    }
-
-    public function addMasterOrder(MasterOrder $masterOrder): self
-    {
-        if (!$this->masterOrders->contains($masterOrder)) {
-            $this->masterOrders->add($masterOrder);
-            $masterOrder->setPurchaseOrderPaperHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMasterOrder(MasterOrder $masterOrder): self
-    {
-        if ($this->masterOrders->removeElement($masterOrder)) {
-            // set the owning side to null (unless already changed)
-            if ($masterOrder->getPurchaseOrderPaperHeader() === $this) {
-                $masterOrder->setPurchaseOrderPaperHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function isIsOnHold(): ?bool
     {
         return $this->isOnHold;
@@ -461,6 +432,36 @@ class PurchaseOrderPaperHeader extends TransactionHeader
     public function setHasReturnTransaction(bool $hasReturnTransaction): self
     {
         $this->hasReturnTransaction = $hasReturnTransaction;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderHeader>
+     */
+    public function getMasterOrderHeaders(): Collection
+    {
+        return $this->masterOrderHeaders;
+    }
+
+    public function addMasterOrderHeader(MasterOrderHeader $masterOrderHeader): self
+    {
+        if (!$this->masterOrderHeaders->contains($masterOrderHeader)) {
+            $this->masterOrderHeaders->add($masterOrderHeader);
+            $masterOrderHeader->setPurchaseOrderPaperHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderHeader(MasterOrderHeader $masterOrderHeader): self
+    {
+        if ($this->masterOrderHeaders->removeElement($masterOrderHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderHeader->getPurchaseOrderPaperHeader() === $this) {
+                $masterOrderHeader->setPurchaseOrderPaperHeader(null);
+            }
+        }
 
         return $this;
     }
