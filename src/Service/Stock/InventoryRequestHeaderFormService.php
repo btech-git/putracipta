@@ -55,6 +55,7 @@ class InventoryRequestHeaderFormService
         foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
             $inventoryRequestPaperDetail->setIsCanceled($inventoryRequestPaperDetail->getSyncIsCanceled());
         }
+        $inventoryRequestHeader->setTotalQuantity($inventoryRequestHeader->getSyncTotalQuantity());
     }
 
     public function save(InventoryRequestHeader $inventoryRequestHeader, array $options = []): void

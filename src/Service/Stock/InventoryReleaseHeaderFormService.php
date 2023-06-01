@@ -55,6 +55,7 @@ class InventoryReleaseHeaderFormService
         foreach ($inventoryReleaseHeader->getInventoryReleasePaperDetails() as $inventoryReleasePaperDetail) {
             $inventoryReleasePaperDetail->setIsCanceled($inventoryReleasePaperDetail->getSyncIsCanceled());
         }
+        $inventoryReleaseHeader->setTotalQuantity($inventoryReleaseHeader->getSyncTotalQuantity());
     }
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
