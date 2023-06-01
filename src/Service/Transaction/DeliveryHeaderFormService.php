@@ -6,8 +6,6 @@ use App\Entity\Transaction\SaleOrderDetail;
 use App\Entity\Transaction\SaleOrderHeader;
 use App\Entity\Transaction\DeliveryDetail;
 use App\Entity\Transaction\DeliveryHeader;
-use App\Repository\Transaction\SaleOrderDetailRepository;
-use App\Repository\Transaction\SaleOrderHeaderRepository;
 use App\Repository\Transaction\DeliveryDetailRepository;
 use App\Repository\Transaction\DeliveryHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,16 +15,12 @@ class DeliveryHeaderFormService
     private EntityManagerInterface $entityManager;
     private DeliveryHeaderRepository $deliveryHeaderRepository;
     private DeliveryDetailRepository $deliveryDetailRepository;
-    private SaleOrderHeaderRepository $saleOrderHeaderRepository;
-    private SaleOrderDetailRepository $saleOrderDetailRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->deliveryHeaderRepository = $entityManager->getRepository(DeliveryHeader::class);
         $this->deliveryDetailRepository = $entityManager->getRepository(DeliveryDetail::class);
-        $this->saleOrderHeaderRepository = $entityManager->getRepository(SaleOrderHeader::class);
-        $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
     }
 
     public function initialize(DeliveryHeader $deliveryHeader, array $options = []): void
