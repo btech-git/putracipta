@@ -4,37 +4,37 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
-use App\Grid\Production\MasterOrderGridType;
-use App\Repository\Production\MasterOrderRepository;
+use App\Grid\Production\MasterOrderHeaderGridType;
+use App\Repository\Production\MasterOrderHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/shared/master_order')]
-class MasterOrderController extends AbstractController
+#[Route('/shared/master_order_header')]
+class MasterOrderHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_master_order__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_master_order_header__list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function _list(Request $request, MasterOrderRepository $masterOrderRepository): Response
+    public function _list(Request $request, MasterOrderHeaderRepository $masterOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
             'productionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
-        $form = $this->createForm(MasterOrderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(MasterOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $masterOrders) = $masterOrderRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 
-        return $this->renderForm("shared/master_order/_list.html.twig", [
+        return $this->renderForm("shared/master_order_header/_list.html.twig", [
             'form' => $form,
             'count' => $count,
-            'masterOrders' => $masterOrders,
+            'masterOrderHeaders' => $masterOrderHeaders,
         ]);
     }
 }
