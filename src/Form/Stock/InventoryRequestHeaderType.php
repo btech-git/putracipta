@@ -24,8 +24,8 @@ class InventoryRequestHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('requestMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
-                'Material' => InventoryRequestHeader::MODE_MATERIAL,
-                'Kertas' => InventoryRequestHeader::MODE_PAPER,
+                'Material' => InventoryRequestHeader::REQUEST_MODE_MATERIAL,
+                'Kertas' => InventoryRequestHeader::REQUEST_MODE_PAPER,
             ]])
             ->add('inventoryRequestMaterialDetails', CollectionType::class, [
                 'entry_type' => InventoryRequestMaterialDetailType::class,

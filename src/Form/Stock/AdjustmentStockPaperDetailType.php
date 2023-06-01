@@ -14,9 +14,8 @@ class AdjustmentStockPaperDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantityCurrent')
             ->add('quantityAdjustment')
-            ->add('quantityDifference')
+            ->add('memo')
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('isCanceled')
         ;

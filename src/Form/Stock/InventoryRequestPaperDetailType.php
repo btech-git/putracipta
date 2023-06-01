@@ -19,7 +19,6 @@ class InventoryRequestPaperDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
-            ->add('unit', EntityHiddenType::class, array('class' => Unit::class))
         ;
     }
 

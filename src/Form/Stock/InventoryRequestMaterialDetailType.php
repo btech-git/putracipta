@@ -19,7 +19,6 @@ class InventoryRequestMaterialDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
-            ->add('unit', EntityHiddenType::class, array('class' => Unit::class))
         ;
     }
 

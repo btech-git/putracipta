@@ -25,8 +25,8 @@ class InventoryReleaseHeaderType extends AbstractType
             ->add('note')
             ->add('warehouse', null, ['choice_label' => 'name'])
             ->add('releaseMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
-                'Material' => InventoryReleaseHeader::MODE_MATERIAL,
-                'Kertas' => InventoryReleaseHeader::MODE_PAPER,
+                'Material' => InventoryReleaseHeader::RELEASE_MODE_MATERIAL,
+                'Kertas' => InventoryReleaseHeader::RELEASE_MODE_PAPER,
             ]])
             ->add('inventoryRequestHeader', EntityHiddenType::class, ['class' => InventoryRequestHeader::class])
             ->add('inventoryReleaseMaterialDetails', CollectionType::class, [

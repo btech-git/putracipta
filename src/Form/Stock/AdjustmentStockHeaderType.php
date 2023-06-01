@@ -20,9 +20,9 @@ class AdjustmentStockHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('adjustmentMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
-                'Material' => AdjustmentStockHeader::MODE_MATERIAL,
-                'Kertas' => AdjustmentStockHeader::MODE_PAPER,
-                'Finished Goods' => AdjustmentStockHeader::MODE_PRODUCT,
+                'Material' => AdjustmentStockHeader::ADJUSTMENT_MODE_MATERIAL,
+                'Kertas' => AdjustmentStockHeader::ADJUSTMENT_MODE_PAPER,
+                'Finished Goods' => AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT,
             ]])
             ->add('warehouse', null, ['choice_label' => 'name'])
             ->add('adjustmentStockMaterialDetails', CollectionType::class, [

@@ -3,8 +3,6 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Paper;
-use App\Entity\Master\Unit;
 use App\Entity\Stock\InventoryReleasePaperDetail;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use Symfony\Component\Form\AbstractType;
@@ -19,8 +17,6 @@ class InventoryReleasePaperDetailType extends AbstractType
             ->add('quantity')
             ->add('memo')
             ->add('isCanceled')
-            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
-            ->add('unit', EntityHiddenType::class, array('class' => Unit::class))
             ->add('inventoryRequestPaperDetail', EntityHiddenType::class, ['class' => InventoryRequestPaperDetail::class])
         ;
     }
