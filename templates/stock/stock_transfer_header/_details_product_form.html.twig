@@ -45,5 +45,12 @@
                 {{ _self.collection_item(detailForm, form) }}
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Total</td>
+                <td data-item-field-name="totalQuantity">{{ detailForm.vars.value.totalQuantity|default }}</td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
     </table>
 </div>

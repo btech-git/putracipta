@@ -27,25 +27,6 @@
                             ]|json_encode,
                         },
                     }) }}
-                    {#{% if stockTransferHeader.id is null %}
-                        <div class="mb-3">
-                            <label class="form-label">Transfer Type</label>
-                            <select id="purchase-order-header-mode" class="form-control"
-                                    data-controller="dom-element"
-                                    data-action="change->dom-element#bind"
-                                    data-dom-element-bind-specifications-param="{{ [
-                                        {'destinationsTarget': "\##{form.purchaseOrderHeader.vars.id}-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "paper"'},
-                                        {'destinationsTarget': "\##{form.purchaseOrderHeader.vars.id}-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "ordinary"'},
-                                        {'destinationsTarget': "\##{form.purchaseOrderPaperHeader.vars.id}-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "ordinary"'},
-                                        {'destinationsTarget': "\##{form.purchaseOrderPaperHeader.vars.id}-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "paper"'},
-                                    ]|json_encode }}">
-                                <option value="">-- Pilih --</option>
-                                <option value="ordinary" {% if form.purchaseOrderHeader.vars.value != '' and form.purchaseOrderPaperHeader.vars.value == ''  %}selected="selected"{% endif %}>Material</option>
-                                <option value="paper" {% if form.purchaseOrderPaperHeader.vars.value != '' and form.purchaseOrderHeader.vars.value == '' %}selected="selected"{% endif %}>Kertas</option>
-                                <option value="product" {% if form.purchaseOrderPaperHeader.vars.value != '' and form.purchaseOrderHeader.vars.value == '' %}selected="selected"{% endif %}>Product</option>
-                            </select>
-                        </div>
-                    {% endif %}#}
                 </div>
                 <div class="col">
                     {{ form_row(form.warehouseFrom, {'label': 'Gudang Asal #'}) }}
@@ -97,7 +78,7 @@
         </div>
     {{ dialog.end() }}
     
-    {{ dialog.start('paper-dialog', 'Paper List') }}
+    {{ dialog.start('paper-dialog', 'Kertas List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true"

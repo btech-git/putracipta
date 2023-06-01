@@ -20,10 +20,7 @@
                 <th style="min-width: 150px">
                     Gudang Tujuan
                 </th>
-                <th style="min-width: 150px">
-                    Note
-                </th>
-                <th></th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -57,9 +54,6 @@
                         {% endfor %}
                     </select>
                 </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -70,10 +64,9 @@
                     <td>{{ stockTransferHeader.transactionDate ? stockTransferHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ stockTransferHeader.warehouseFrom.name|default }}</td>
                     <td>{{ stockTransferHeader.warehouseTo.name|default }}</td>
-                    <td>{{ stockTransferHeader.note }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_stock_stock_transfer_header_show', {'id': stockTransferHeader.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_transfer_header_edit', {'id': stockTransferHeader.id}) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_stock_stock_transfer_header_show', {'id': stockTransferHeader.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_transfer_header_edit', {'id': stockTransferHeader.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
                 </tr>
             {% else %}
