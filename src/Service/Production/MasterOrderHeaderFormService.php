@@ -56,8 +56,10 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setTotalQuantityShortage($masterOrderHeader->getSyncTotalQuantityShortage());
         
         $paper = $masterOrderHeader->getPaper();
-        $masterOrderHeader->setPaperPlanoLength($paper->getLength());
-        $masterOrderHeader->setPaperPlanoWidth($paper->getWidth());
+        if (!empty($paper)) {
+            $masterOrderHeader->setPaperPlanoLength($paper->getLength());
+            $masterOrderHeader->setPaperPlanoWidth($paper->getWidth());
+        }
         $masterOrderHeader->setQuantityPaper($masterOrderHeader->getSyncQuantityPaper());
         $masterOrderHeader->setPaperTotal($masterOrderHeader->getSyncPaperTotal());
         $masterOrderHeader->setInsitPrintingQuantity($masterOrderHeader->getSyncInsitPrintingQuantity());
