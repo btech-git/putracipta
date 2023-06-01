@@ -3,7 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Production\MasterOrder;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\WorkOrderPrepress;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -67,7 +67,7 @@ class WorkOrderPrepressType extends AbstractType
             ->add('productionDate', null, ['widget' => 'single_text'])
             ->add('employeeIdPlateRelease', null, ['choice_label' => 'name'])
             ->add('employeeIdWorkOrderReturn', null, ['choice_label' => 'name'])
-            ->add('masterOrder', EntityHiddenType::class, ['class' => MasterOrder::class])
+            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
         ;
     }
 

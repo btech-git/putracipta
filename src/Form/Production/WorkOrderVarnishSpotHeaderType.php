@@ -3,7 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Production\MasterOrder;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\WorkOrderVarnishSpotHeader;
 use App\Entity\Production\WorkOrderVarnishSpotProductionDetail;
 use App\Entity\Production\WorkOrderVarnishSpotSettingDetail;
@@ -24,7 +24,7 @@ class WorkOrderVarnishSpotHeaderType extends AbstractType
             ->add('workOrderReturnDate', null, ['widget' => 'single_text'])
             ->add('productionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('masterOrder', EntityHiddenType::class, ['class' => MasterOrder::class])
+            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
             ->add('employeeIdWorkOrderReturn', null, ['choice_label' => 'name'])
             ->add('workOrderVarnishSpotSettingDetails', CollectionType::class, [
                 'entry_type' => WorkOrderVarnishSpotSettingDetailType::class,

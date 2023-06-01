@@ -22,6 +22,7 @@ class ProductPrototypeType extends AbstractType
             ->add('productCode')
             ->add('productName')
             ->add('measurement')
+            ->add('designCode')
             ->add('dataSource', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'Hard FA' => ProductPrototype::DATA_SOURCE_HARD_FA,
                 'Email' => ProductPrototype::DATA_SOURCE_EMAIL,
