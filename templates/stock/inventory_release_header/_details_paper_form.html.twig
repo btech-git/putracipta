@@ -6,6 +6,7 @@
        data-action="form-collection:collection-item-removed->json-loader#load:self">
         <thead class="table-secondary">
             <tr>
+                <th class="d-none">Request Id</th>
                 <th class="d-none">Paper Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Kertas</th>
@@ -18,6 +19,7 @@
         <tbody data-form-collection-target="items" data-action="paper-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                    <td class="d-none">{{ form_widget(detailForm.inventoryRequestPaperDetail , {'attr': {'data-item-field-name': 'inventoryRequestPaperDetailId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
