@@ -121,37 +121,82 @@
             </tr>
         </tfoot>
     </table>
-
-    <legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="bg-warning">
-                <th>Penerimaan #</th>
-                <th>Tanggal</th>
-                <th>SJ #</th>
-                <th>Material</th>
-                <th>Quantity</th>
-                <th>Satuan</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
-                {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
-                    <tr>
-                        <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
-                        <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                        <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
-                        <td>{{ receiveDetail.material.name|default }}</td>
-                        <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
-                        <td>{{ receiveDetail.unit.name|default }}</td>
-                        <td>{{ receiveDetail.isCanceled ? 'Canceled' : '' }}</td>
+    
+    <ul class="nav nav-tabs" id="receive-purchase-return-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="receive-header-tab" data-bs-toggle="tab" data-bs-target="#receive-header-tab-pane" type="button" role="tab" aria-controls="receive-header-tab-pane" aria-selected="true">Penerimaan</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="purchase-return-header-tab" data-bs-toggle="tab" data-bs-target="#purchase-return-header-tab-pane" type="button" role="tab" aria-controls="purchase-return-header-tab-pane" aria-selected="false">Retur</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="receive-purchase-return-tab-content">
+        <div class="tab-pane fade show active" id="receive-header-tab-pane" role="tabpanel" aria-labelledby="receive-header-tab" tabindex="0">
+            <legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="bg-warning">
+                        <th>Penerimaan #</th>
+                        <th>Tanggal</th>
+                        <th>SJ #</th>
+                        <th>Material</th>
+                        <th>Quantity</th>
+                        <th>Satuan</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>
-        
+                </thead>
+                <tbody>
+                    {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
+                        {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
+                            <tr>
+                                <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                                <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                                <td>{{ receiveDetail.material.name|default }}</td>
+                                <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
+                                <td>{{ receiveDetail.unit.name|default }}</td>
+                                <td>{{ receiveDetail.isCanceled ? 'Canceled' : '' }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="purchase-return-header-tab-pane" role="tabpanel" aria-labelledby="purchase-return-header-tab" tabindex="0">
+            <legend class="float-none w-auto text-dark px-1">Data Retur</legend>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="bg-primary">
+                        <th>Retur #</th>
+                        <th>Tanggal</th>
+                        <th>Gudang</th>
+                        <th>Material</th>
+                        <th>Quantity</th>
+                        <th>Satuan</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
+                        {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
+                            {% for purchaseReturnDetail in receiveDetail.purchaseReturnDetails %}
+                                <tr>
+                                    <td>{{ purchaseReturnDetail.purchaseReturnHeader.codeNumber|default }}</td>
+                                    <td>{{ purchaseReturnDetail.purchaseReturnHeader.transactionDate ? purchaseReturnDetail.purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
+                                    <td>{{ purchaseReturnDetail.purchaseReturnHeader.warehouse.name|default }}</td>
+                                    <td>{{ purchaseReturnDetail.material.name|default }}</td>
+                                    <td class="text-center">{{ purchaseReturnDetail.quantity|default|number_format(0) }}</td>
+                                    <td>{{ purchaseReturnDetail.unit.name|default }}</td>
+                                    <td>{{ purchaseReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+                
     {#<div class="d-inline-block">{{ include('transaction/purchase_order_header/_delete_form.html.twig') }}</div>#}
     {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderHeader) %}
         <div class="d-inline-block">{{ include('transaction/purchase_order_header/_reject_form.html.twig') }}</div>
