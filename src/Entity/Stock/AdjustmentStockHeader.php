@@ -14,9 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 class AdjustmentStockHeader extends StockHeader
 {
     public const CODE_NUMBER_CONSTANT = 'AJS';
-    public const MODE_MATERIAL = 'material';
-    public const MODE_PAPER = 'paper';
-    public const MODE_PRODUCT = 'product';
+    public const ADJUSTMENT_MODE_MATERIAL = 'material';
+    public const ADJUSTMENT_MODE_PAPER = 'paper';
+    public const ADJUSTMENT_MODE_PRODUCT = 'product';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,7 +28,7 @@ class AdjustmentStockHeader extends StockHeader
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $adjustmentMode = null;
+    private ?string $adjustmentMode = self::ADJUSTMENT_MODE_MATERIAL;
 
     #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockMaterialDetail::class)]
     private Collection $adjustmentStockMaterialDetails;

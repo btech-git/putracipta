@@ -14,8 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 class InventoryReleaseHeader extends StockHeader
 {
     public const CODE_NUMBER_CONSTANT = 'IRL';
-    public const MODE_MATERIAL = 'material';
-    public const MODE_PAPER = 'paper';
+    public const RELEASE_MODE_MATERIAL = 'material';
+    public const RELEASE_MODE_PAPER = 'paper';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,7 +44,7 @@ class InventoryReleaseHeader extends StockHeader
     private Collection $inventoryReleasePaperDetails;
 
     #[ORM\Column(length: 20)]
-    private ?string $releaseMode = '';
+    private ?string $releaseMode = self::RELEASE_MODE_MATERIAL;
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
@@ -57,10 +57,16 @@ class InventoryReleaseHeader extends StockHeader
 
     public function getSyncTotalQuantity(): int
     {
+        $details = [];
+        if ($this->requestMode === self::RELEASE_MODE_MATERIAL) {
+            $details = $this->inventoryReleaseMaterialDetails;
+        } else if ($this->requestMode === self::RELEASE_MODE_PAPER) {
+            $details = $this->inventoryReleasePaperDetails;
+        }
         $totalQuantity = 0;
-        foreach ($this->inventoryReleaseMaterialDetails as $inventoryReleaseMaterialDetail) {
-            if (!$inventoryReleaseMaterialDetail->isIsCanceled()) {
-                $totalQuantity += $inventoryReleaseMaterialDetail->getQuantity();
+        foreach ($details as $detail) {
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantity();
             }
         }
         return $totalQuantity;

@@ -31,6 +31,9 @@ class AdjustmentStockPaperDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'adjustmentStockPaperDetails')]
     private ?AdjustmentStockHeader $adjustmentStockHeader = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $memo = '';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->adjustmentStockHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -98,6 +101,18 @@ class AdjustmentStockPaperDetail extends StockDetail
     public function setAdjustmentStockHeader(?AdjustmentStockHeader $adjustmentStockHeader): self
     {
         $this->adjustmentStockHeader = $adjustmentStockHeader;
+
+        return $this;
+    }
+
+    public function getMemo(): ?string
+    {
+        return $this->memo;
+    }
+
+    public function setMemo(string $memo): self
+    {
+        $this->memo = $memo;
 
         return $this;
     }

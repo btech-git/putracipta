@@ -15,8 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 class InventoryRequestHeader extends StockHeader
 {
     public const CODE_NUMBER_CONSTANT = 'IRQ';
-    public const MODE_MATERIAL = 'material';
-    public const MODE_PAPER = 'paper';
+    public const REQUEST_MODE_MATERIAL = 'material';
+    public const REQUEST_MODE_PAPER = 'paper';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -48,7 +48,7 @@ class InventoryRequestHeader extends StockHeader
     private Collection $inventoryRequestMaterialDetails;
 
     #[ORM\Column(length: 20)]
-    private ?string $requestMode = null;
+    private ?string $requestMode = self::REQUEST_MODE_MATERIAL;
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
@@ -68,48 +68,38 @@ class InventoryRequestHeader extends StockHeader
         return self::CODE_NUMBER_CONSTANT;
     }
 
-    public function getSyncTotalQuantityMaterial(): int
+    public function getSyncTotalQuantity(): int
     {
+        $details = [];
+        if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
+            $details = $this->inventoryRequestMaterialDetails;
+        } else if ($this->requestMode === self::REQUEST_MODE_PAPER) {
+            $details = $this->inventoryRequestPaperDetails;
+        }
         $totalQuantity = 0;
-        foreach ($this->inventoryRequestMaterialDetails as $materialRequestMaterialDetail) {
-            if (!$materialRequestMaterialDetail->isIsCanceled()) {
-                $totalQuantity += $materialRequestMaterialDetail->getQuantity();
+        foreach ($details as $detail) {
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantity();
             }
         }
         return $totalQuantity;
     }
 
-    public function getSyncTotalQuantityRemainingMaterial(): int
+    public function getSyncTotalQuantityRemaining(): int
     {
-        $totalRemaining = 0;
-        foreach ($this->materialRequestMaterialDetails as $materialRequestMaterialDetail) {
-            if (!$materialRequestMaterialDetail->isIsCanceled()) {
-                $totalRemaining += $materialRequestMaterialDetail->getQuantityRemaining();
-            }
+        $details = [];
+        if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
+            $details = $this->materialRequestMaterialDetails;
+        } else if ($this->requestMode === self::REQUEST_MODE_PAPER) {
+            $details = $this->materialRequestPaperDetails;
         }
-        return $totalRemaining;
-    }
-
-    public function getSyncTotalQuantityPaper(): int
-    {
         $totalQuantity = 0;
-        foreach ($this->inventoryRequestPaperDetails as $materialRequestPaperDetail) {
-            if (!$materialRequestPaperDetail->isIsCanceled()) {
-                $totalQuantity += $materialRequestPaperDetail->getQuantity();
+        foreach ($details as $detail) {
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantityRemaining();
             }
         }
         return $totalQuantity;
-    }
-
-    public function getSyncTotalQuantityRemainingPaper(): int
-    {
-        $totalRemaining = 0;
-        foreach ($this->materialRequestPaperDetails as $materialRequestPaperDetail) {
-            if (!$materialRequestPaperDetail->isIsCanceled()) {
-                $totalRemaining += $materialRequestPaperDetail->getQuantityRemaining();
-            }
-        }
-        return $totalRemaining;
     }
 
     public function getId(): ?int
