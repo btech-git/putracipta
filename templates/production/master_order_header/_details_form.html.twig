@@ -1,0 +1,79 @@
+<div class="table-responsive">
+    <table class="table table-bordered"
+       data-controller="form-collection"
+       data-form-collection-start-index-value="{{ form.masterOrderProductDetails|length > 0 ? form.masterOrderProductDetails|last.vars.name + 1 : 0 }}"
+       data-form-collection-prototype-value="{{ _self.collection_item(form.masterOrderProductDetails.vars.prototype, form)|e('html_attr') }}"
+       data-action="form-collection:collection-item-removed->json-loader#load:self">
+        <thead class="table-secondary">
+            <tr>
+                <th class="d-none">Sale Order Detail Id</th>
+                <th style="min-width: 150px">PO#</th>
+                <th style="min-width: 200px">Kode</th>
+                <th style="min-width: 300px">Nama Produk</th>
+                <th style="min-width: 80px" class="text-center">P (mm)</th>
+                <th style="min-width: 80px" class="text-center">L (mm)</th>
+                <th style="min-width: 80px" class="text-center">T (mm)</th>
+                <th style="min-width: 100px">Qty Order</th>
+                <th style="min-width: 100px" class="text-center">Stock</th>
+                <th style="min-width: 100px" class="text-center">Kekurangan</th>
+                <th style="min-width: 0"></th>
+            </tr>
+        </thead>
+        <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems customer-table:data-table:select@document->json-loader#load">
+            {% macro collection_item(detailForm, form) %}
+                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                    <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
+                    <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
+                    <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
+                    <td class="text-center" data-item-field-name="productLength">{{ detailForm.vars.value.saleOrderDetail.product.length|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="productWidth">{{ detailForm.vars.value.saleOrderDetail.product.width|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="productHeight">{{ detailForm.vars.value.saleOrderDetail.product.height|default|number_format(0) }}</td>
+                    <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.quantityOrder|default|number_format(0) }}</td>
+                    <td class="text-center" data-json-loader-target="placeholder"
+                        data-property-path="masterOrderProductDetails.{{ detailForm.vars.name }}.quantityStock">{{ detailForm.vars.value.quantityStock|default|number_format(0) }}</td>
+                    <td class="text-center" data-json-loader-target="placeholder"
+                        data-property-path="masterOrderProductDetails.{{ detailForm.vars.name }}.quantityShortage">{{ detailForm.vars.value.quantityShortage|default|number_format(0) }}</td>
+                    <td>
+                        {% if (detailForm.vars.value.id == null) %}
+                            <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
+                        {% endif %}
+                        <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
+                            {{ form_row(detailForm.isCanceled, {
+                                'label': 'X',
+                                'attr': {
+                                    'data-controller': 'dom-element',
+                                    'data-action': 'dom-element#bind change->json-loader#load',
+                                    'data-dom-element-bind-specifications-param': [
+                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.saleOrderDetail.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
+                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.saleOrderDetail.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
+                                    ]|json_encode,
+                                },
+                            }) }}
+                        </div>
+                    </td>
+                </tr>
+            {% endmacro %}
+            {% for detailForm in form.masterOrderProductDetails %}
+                {{ _self.collection_item(detailForm, form) }}
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-end" colspan="6">Total Quantity</td>
+                <td class="text-center" data-json-loader-target="placeholder"
+                    data-property-path="totalQuantityOrder">
+                    {{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}
+                </td>
+                <td class="text-center" data-json-loader-target="placeholder"
+                    data-property-path="totalQuantityStock">
+                    {{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}
+                </td>
+                <td class="text-center" data-json-loader-target="placeholder"
+                    data-property-path="totalQuantityShortage">
+                    {{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

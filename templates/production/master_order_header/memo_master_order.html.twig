@@ -58,51 +58,39 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Mesin Cetak:</div>
-                            <div class="cell value">{{ masterOrder.printingMachine|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Nama Customer</div>
-                            <div class="cell value">{{ masterOrder.customer.company|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.customer.company|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Kode Design</div>
-                            <div class="cell value">{{ masterOrder.designCode|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Nama Produk</div>
-                            <div class="cell value">{{ masterOrder.product.name|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Kode Produk</div>
-                            <div class="cell value">{{ masterOrder.product.code|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Quantity Order</div>
-                            <div class="cell value">{{ masterOrder.quantityOrder|default }} pcs</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Stock/Kekurangan</div>
-                            <div class="cell value">{{ masterOrder.quantityStock }} / {{ masterOrder.quantityProduction }} pcs</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Ukuran Jadi</div>
-                            <div class="cell value">{{ masterOrder.dimensionLength }} x {{ masterOrder.dimensionWidth }} x {{ masterOrder.dimensionHeight }} mm</div>
+                            <div class="cell value">{{ masterOrderHeader.designCode|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Warna / Pantone</div>
-                            <div class="cell value">{{ masterOrder.color }} / {{ masterOrder.pantone }} + {{ masterOrder.colorPantoneAdditional }}</div>
+                            <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Finishing</div>
-                            <div class="cell value">{{ masterOrder.finishing|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.finishing|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Material Kertas</div>
-                            <div class="cell value">{{ masterOrder.paper.paperNameSizeCombination|default }} Gram</div>
+                            <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Jumlah Up Cetak</div>
-                            <div class="cell value">{{ masterOrder.quantityPrinting }} & {{ masterOrder.quantityPrinting2 }} Up/s</div>
+                            <div class="cell value">{{ masterOrderHeader.quantityPrinting }} & {{ masterOrderHeader.quantityPrinting2 }} Up/s</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Ukuran Mountage/Kris</div>
+                            <div class="cell value">{{ masterOrderHeader.mountageSizeLength }} x {{ masterOrderHeader.mountageSizeWidth }} cm</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Hot Stamping</div>
+                            <div class="cell value">{{ masterOrderHeader.hotStamping }}</div>
                         </div>
                     </div>
                 </div>
@@ -111,43 +99,43 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">No MO</div>
-                            <div class="cell value">{{ masterOrder.getCodeNumber|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">No PO</div>
-                            <div class="cell value">{{ masterOrder.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</div>
+                            <div class="cell label">Jenis</div>
+                            <div class="cell value">{{ masterOrderHeader.orderType|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal MO</div>
-                            <div class="cell value">{{ masterOrder.productionDate ? masterOrder.productionDate|date('d M Y') : '' }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Tanggal PO</div>
-                            <div class="cell value">{{ masterOrder.saleOrderDetail.saleOrderHeader.transactionDate|default ? masterOrder.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') }}</div>
+                            <div class="cell value">{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Kirim</div>
-                            <div class="cell value">{{ masterOrder.deliveryDate|default ? masterOrder.deliveryDate|date('d M Y') }}</div>
+                            <div class="cell value">{{ masterOrderHeader.deliveryDate|default ? masterOrderHeader.deliveryDate|date('d M Y') }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Berat per pcs</div>
+                            <div class="cell value">{{ masterOrderHeader.weightPerPiece|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Glossiness</div>
+                            <div class="cell value">{{ masterOrderHeader.glossiness|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Status Cetakan</div>
-                            <div class="cell value">{{ masterOrder.printingStatus ? masterOrder.printingStatus|join(', ') : '' }} : {{ masterOrder.printingStatusData }}</div>
+                            <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }} : {{ masterOrderHeader.printingStatusData }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Pisau Die Cut</div>
-                            <div class="cell value">{{ masterOrder.dieCutBlade }} : {{ masterOrder.dieCutBladeData }}</div>
+                            <div class="cell value">{{ masterOrderHeader.dieCutBlade }} : {{ masterOrderHeader.dieCutBladeData }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">No. Pisau Die Cut</div>
-                            <div class="cell value">{{ masterOrder.dieCutBladeNumber|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.dieCutBladeNumber|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">No. Film Dieline Die Cut</div>
-                            <div class="cell value">{{ masterOrder.dieLineFilmNumber|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Ukuran Mountage/Kris</div>
-                            <div class="cell value">{{ masterOrder.mountageSizeLength }} x {{ masterOrder.mountageSizeWidth }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.dieLineFilmNumber|default }}</div>
                         </div>
                     </div>
                 </div>
@@ -156,7 +144,50 @@
             <div class="table full">
                 <div class="row">
                     <div class="cell label">Model Layout : </div>
-                    <div><img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrder.id ~ '.' ~ masterOrder.layoutModelFileExtension) }}"></div>
+                    <div><img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}"></div>
+                </div>
+            </div>
+                     
+            <div class="table full">
+                <div class="row">
+                    <table  class="detail">
+                        <thead>
+                            <tr>
+                                <th>PO#</th>
+                                <th>Kode</th>
+                                <th>Nama Produk</th>
+                                <th>P (mm)</th>
+                                <th>L (mm)</th>
+                                <th>T (mm)</th>
+                                <th>Qty Order</th>
+                                <th>Stock</th>
+                                <th>Kekurangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                <tr>
+                                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                                    <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
+                                    <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
+                                    <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
+                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td style="text-align:right; font-weight: bold" colspan="6">TOTAL</td>
+                                <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
+                                <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
+                                <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
 
@@ -165,28 +196,32 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">% Insit</div>
-                            <div class="cell value">{{ masterOrder.insitPercentage|default }}%</div>
+                            <div class="cell label">% Insit Print</div>
+                            <div class="cell value">{{ masterOrderHeader.insitPrintingPercentage|default }}%</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">% Insit Sortir</div>
+                            <div class="cell value">{{ masterOrderHeader.insitSortingPercentage|default }}%</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Quantity Kertas</div>
-                            <div class="cell value">{{ masterOrder.quantityPaper|default }} Rim</div>
+                            <div class="cell value">{{ masterOrderHeader.quantityPaper|default }} Rim</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Mountage Kertas</div>
-                            <div class="cell value">{{ masterOrder.paperMountage|default }} Up</div>
+                            <div class="cell value">{{ masterOrderHeader.paperMountage|default }} Up</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Uk Plano Kertas</div>
-                            <div class="cell value">{{ masterOrder.paperPlanoLength }} x {{ masterOrder.paperPlanoWidth }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Uk Potong 1</div>
-                            <div class="cell value">{{ masterOrder.cuttingLengthSize1 }} x {{ masterOrder.cuttingWidthSize1 }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Uk Potong 2</div>
-                            <div class="cell value">{{ masterOrder.cuttingLengthSize2 }} x {{ masterOrder.cuttingWidthSize2 }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2 }} x {{ masterOrderHeader.cuttingWidthSize2 }} cm</div>
                         </div>
                     </div>
                 </div>
@@ -195,27 +230,27 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Kebutuhan</div>
-                            <div class="cell value">{{ masterOrder.paperRequirement|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Insit Cetak</div>
-                            <div class="cell value">{{ masterOrder.printingInsit|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.printingInsit|default }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Total Kertas</div>
-                            <div class="cell value">{{ masterOrder.paperTotal|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.paperTotal|default }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">PO Kertas #</div>
-                            <div class="cell value">{{ masterOrder.purchaseOrderPaperHeader.getCodeNumber|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.purchaseOrderPaperHeader.getCodeNumber|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal PO Kertas</div>
-                            <div class="cell value">{{ masterOrder.purchaseOrderPaperHeader.transactionDate ? masterOrder.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</div>
+                            <div class="cell value">{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Supplier</div>
-                            <div class="cell value">{{ masterOrder.purchaseOrderPaperHeader.supplier.company|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.purchaseOrderPaperHeader.supplier.company|default }}</div>
                         </div>
                     </div>
                 </div>
@@ -227,23 +262,27 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Cyan</div>
-                            <div class="cell value">{{ masterOrder.inkCyanPercentage }}% = {{ masterOrder.inkCyanWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkCyanPercentage }}% = {{ masterOrderHeader.inkCyanWeight }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Magenta</div>
-                            <div class="cell value">{{ masterOrder.inkMagentaPercentage }}% = {{ masterOrder.inkMagentaWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Yellow</div>
-                            <div class="cell value">{{ masterOrder.inkYellowPercentage }}% = {{ masterOrder.inkYellowWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Black</div>
-                            <div class="cell value">{{ masterOrder.inkBlackPercentage }}% = {{ masterOrder.inkBlackWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">OPV/WB/UV</div>
-                            <div class="cell value">{{ masterOrder.inkOpvPercentage }}% = {{ masterOrder.inkOpvWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight }} kg</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Hot Stamping</div>
+                            <div class="cell value">{{ masterOrderHeader.inkHotStampingSize }}% cm = {{ masterOrderHeader.inkHotStampingQuantity }} Roll</div>
                         </div>
                     </div>
                 </div>
@@ -251,24 +290,24 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">K-1</div>
-                            <div class="cell value">{{ masterOrder.inkK1Color }} : {{ masterOrder.inkK1Percentage }}% = {{ masterOrder.inkK1Weight }} kg</div>
+                            <div class="cell label">Khusus-1</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage }}% = {{ masterOrderHeader.inkK1Weight }} kg</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">K-2</div>
-                            <div class="cell value">{{ masterOrder.inkK2Color }} : {{ masterOrder.inkK2Percentage }}% = {{ masterOrder.inkK2Weight }} kg</div>
+                            <div class="cell label">Khusus-2</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight }} kg</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">K-3</div>
-                            <div class="cell value">{{ masterOrder.inkK3Color }} : {{ masterOrder.inkK3Percentage }}% = {{ masterOrder.inkK3Weight }} kg</div>
+                            <div class="cell label">Khusus-3</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight }} kg</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">K-4</div>
-                            <div class="cell value">{{ masterOrder.inkK4Color }} : {{ masterOrder.inkK4Percentage }}% = {{ masterOrder.inkK4Weight }} kg</div>
+                            <div class="cell label">Khusus-4</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Laminating</div>
-                            <div class="cell value">{{ masterOrder.inkLaminatingSize }} cm = {{ masterOrder.inkLaminatingQuantity }} roll</div>
+                            <div class="cell value">{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity }} roll</div>
                         </div>
                     </div>
                 </div>
@@ -280,19 +319,19 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Lem</div>
-                            <div class="cell value">{{ masterOrder.packagingGlueQuantity }} cm/pcs = {{ masterOrder.packagingGlueWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingGlueQuantity }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Karet</div>
-                            <div class="cell value">{{ masterOrder.packagingRubberQuantity }} pcs/ikat = {{ masterOrder.packagingRubberWeight }} pcs</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingRubberQuantity }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight }} pcs</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Kertas Packing</div>
-                            <div class="cell value">{{ masterOrder.packagingPaperQuantity }} pcs/pak = {{ masterOrder.packagingPaperWeight }} lbr</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingPaperQuantity }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight }} lbr</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Dus</div>
-                            <div class="cell value">{{ masterOrder.packagingBoxQuantity }} pcs/dus = {{ masterOrder.packagingBoxWeight }} pcs</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingBoxQuantity }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight }} pcs</div>
                         </div>
                     </div>
                 </div>
@@ -301,15 +340,15 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Lakban >besar</div>
-                            <div class="cell value">{{ masterOrder.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrder.packagingTapeLargeSize }} roll</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize }} roll</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Lakban >kecil</div>
-                            <div class="cell value">{{ masterOrder.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrder.packagingTapeSmallSize }} roll</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize }} roll</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Plastik</div>
-                            <div class="cell value">{{ masterOrder.packagingPlasticQuantity }} cm2/pack = {{ masterOrder.packagingPlasticSize }} m2</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingPlasticQuantity }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize }} m2</div>
                         </div>
                     </div>
                 </div>
@@ -330,7 +369,7 @@
                                             </tr>
                                         </thead>
                                         <tfoot>
-                                            {% for processItem in masterOrder.processList %}
+                                            {% for processItem in masterOrderHeader.processList %}
                                                 <tr>
                                                     <td style="text-align: center">{{ loop.index }}</td>
                                                     <td>{{ processItem }}</td>
@@ -353,64 +392,64 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <td>WO# Design</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_DESIGN', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Prepress</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PREPRESS', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# Mountage/Prepress</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_MOUNTAGE', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Colour Mixing</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_COLOUR_MIXING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# Mesin Potong</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_CUTTING_MACHINE', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Potong Bahan</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_CUTTING_MATERIAL', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# Cetak/Sablon</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PRINTING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Printing</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PRINTING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# PON/BOBST</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PON', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Diecut PON/BOBST</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_DIECUT', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>WO# Potong Jadi</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>WO# Varnish/Laminating</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_VARNISH', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_VARNISH', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# Mesin LEM</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_GLUEING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Screen Printing</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_SCREEN_PRINTING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# Mesin Stitching</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_STITCHING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Folder Glueing</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FOLDER_GLUEING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>WO# Hot Stamp</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_HOT_STAMP', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>WO# Mesin Jahit Kawat (Stitching)</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_STITCHING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>WO# Mesin Lipat</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FOLDING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>WO# Finishing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FINISHING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FINISHING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>WO# Packing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PACKING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PACKING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td>WO# QC</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_QC_PRINTING', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Printing Checklist</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PRINTING_CHECKLIST', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Mountage Checklist</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_MOUNTAGE_CHECKLIST', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Pond Checklist</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_POND_CHECKLIST', masterOrder) in masterOrder.workOrderDistribution ? 'V' : '' }}</td>
+                                                <td>WO# Sortir</td>
+                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_SORTING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -428,22 +467,7 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Catatan</div>
-                            <div class="cell value">{{ masterOrder.note|default }}</div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="cell col">
-                                <div>Item</div>
-                                <div>________________</div>
-                            </div>
-                            <div class="cell col">
-                                <div>Order</div>
-                                <div>________________</div>
-                            </div>
-                            <div class="cell col">
-                                <div>Stock</div>
-                                <div>________________</div>
-                            </div>
+                            <div class="cell value">{{ masterOrderHeader.note|default }}</div>
                         </div>
                     </div>
                 </div>

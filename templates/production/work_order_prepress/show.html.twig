@@ -20,65 +20,65 @@
             </tr>
             <tr>
                 <th>Tanggal Kirim</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.deliveryDate|default ? workOrderPrepress.workOrderHeader.masterOrder.deliveryDate|date('d M Y') : '' }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.deliveryDate|default ? workOrderPrepress.workOrderHeader.masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Master Order #</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.codeNumber|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Mesin</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.printingMachine|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.printingMachine|default }}</td>
             </tr>
             <tr>
                 <th>Customer</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.customer.company|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.customer.company|default }}</td>
             </tr>
             <tr>
                 <th>Kode Produk</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.product.code|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.product.code|default }}</td>
             </tr>
             <tr>
                 <th>Nama Produk</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.product.name|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.product.name|default }}</td>
             </tr>
             <tr>
                 <th>Kode Design</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.designCode|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.designCode|default }}</td>
             </tr>
             <tr>
                 <th>Status Cetakan</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.printingStatus|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.printingStatus|default }}</td>
             </tr>
             <tr>
                 <th>Quantity Order</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.quantityOrder|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.quantityOrder|default }}</td>
             </tr>
             <tr>
                 <th>Stock / Kekurangan</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.quantityStock|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.quantityStock|default }}</td>
             </tr>
             <tr>
                 <th>Warna / Pantone</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.color|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.color|default }}</td>
             </tr>
             <tr>
                 <th>Ukuran Jadi (mm)</th>
-                <td>{{ workOrderPrepress.workOrderHeader.masterOrder.dimensionLength|default }}</td>
-                <td>{{ workOrderPrepress.workOrderHeader.masterOrder.dimensionWidth|default }}</td>
-                <td>{{ workOrderPrepress.workOrderHeader.masterOrder.dimensionHeight|default }}</td>
+                <td>{{ workOrderPrepress.workOrderHeader.masterOrderHeader.dimensionLength|default }}</td>
+                <td>{{ workOrderPrepress.workOrderHeader.masterOrderHeader.dimensionWidth|default }}</td>
+                <td>{{ workOrderPrepress.workOrderHeader.masterOrderHeader.dimensionHeight|default }}</td>
             </tr>
             <tr>
                 <th>Ukuran Mountage</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.paperMountage|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.paperMountage|default }}</td>
             </tr>
             <tr>
                 <th>Jumlah Dreek</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.paperTotal|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.paperTotal|default }}</td>
             </tr>
             <tr>
                 <th>Finishing</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrder.finishing|default }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.masterOrderHeader.finishing|default }}</td>
             </tr>
             <tr>
                 <th>Up/s (Mata)</th>
