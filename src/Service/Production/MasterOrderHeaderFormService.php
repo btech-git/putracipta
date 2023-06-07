@@ -48,7 +48,7 @@ class MasterOrderHeaderFormService
             $saleOrderDetail = $masterOrderProductDetail->getSaleOrderDetail();
             $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
             $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
-            $masterOrderProductDetail->setQuantityStock(1000);
+//            $masterOrderProductDetail->setQuantityStock(1000);
             $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
         }
         $masterOrderHeader->setTotalQuantityOrder($masterOrderHeader->getSyncTotalQuantityOrder());
