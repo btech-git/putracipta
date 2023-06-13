@@ -13,35 +13,28 @@ use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MachinePrintingGridType extends AbstractType
+class DiecutKnifeGridType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['note', 'isInactive', 'name'],
+                'field_names' => ['code', 'name', 'note'],
                 'field_operators_list' => [
-                    'note' => [FilterContain::class, FilterNotContain::class],
-                    'isInactive' => [FilterEqual::class, FilterNotEqual::class],
+                    'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
-                ],
-                'field_value_type_list' => [
-                    'isInactive' => ChoiceType::class,
-                ],
-                'field_value_options_list' => [
-                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
+                    'note' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['note', 'isInactive', 'name'],
+                'field_names' => ['code', 'name', 'note'],
                 'field_operators_list' => [
-                    'note' => [SortAscending::class, SortDescending::class],
-                    'isInactive' => [SortAscending::class, SortDescending::class],
+                    'code' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
