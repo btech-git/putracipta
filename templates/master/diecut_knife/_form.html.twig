@@ -1,0 +1,48 @@
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+    
+        {{ form_start(form) }}
+            <div class="mb-3">
+                <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
+                {{ form_row(form.customer, {
+                    'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'customer-table:data-table:select@document->dom-element#bind',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerId'}},
+                        ]|json_encode,
+                    },
+                }) }}
+                <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control readonly-form-input {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ diecutKnife.customer.company|default }}" readonly="readonly"
+                       data-bs-toggle="modal" data-bs-target="#customer-dialog"
+                       data-controller="dom-element"
+                       data-action="customer-table:data-table:select@document->dom-element#bind"
+                       data-dom-element-bind-specifications-param="{{ [
+                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerCompany'}},
+                       ]|json_encode }}" />
+                {{ form_errors(form.customer) }}
+            </div>
+        {{ form_widget(form) }}
+        <div class="d-grid">
+            <button class="btn btn-secondary"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this item?">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+
+    {{ dialog.start('customer-dialog', 'Customer List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_customer__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+</div>

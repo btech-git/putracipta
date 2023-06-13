@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward click->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'click': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-method-value="POST"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
@@ -26,7 +26,31 @@
                    ]|json_encode }}" />
             {{ form_errors(form.customer) }}
         </div>
-        {{ form_rest(form) }}
+        {{ form_row(form.code) }}
+        {{ form_row(form.name) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.length) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.width) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.height) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.unit) }}
+            </div>
+        </div>
+        {{ form_row(form.note) }}
+        {{ form_row(form.isInactive) }}
+        
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Design Codes</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" id="new-detail-button">Add Design Codes</button>
+            {{ include('master/product/_design_codes_form.html.twig') }}
+        </fieldset>
+
         <div class="d-grid">
             <button class="btn btn-secondary"
                     data-controller="dom-element"

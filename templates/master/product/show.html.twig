@@ -11,6 +11,10 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
+                <th>Customer</th>
+                <td>{{ product.customer.name }}</td>
+            </tr>
+            <tr>
                 <th>Code</th>
                 <td>{{ product.code }}</td>
             </tr>
@@ -35,10 +39,6 @@
                 <td>{{ product.unit.name }}</td>
             </tr>
             <tr>
-                <th>Customer</th>
-                <td>{{ product.customer.name }}</td>
-            </tr>
-            <tr>
                 <th>Note</th>
                 <td>{{ product.note }}</td>
             </tr>
@@ -49,5 +49,25 @@
         </tbody>
     </table>
 
+    <legend class="float-none w-auto text-dark px-1">Data Design Code</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-warning">
+                <th>Design Code</th>
+                <th>Versi #</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for designCode in product.designCodes %}
+                <tr>
+                    <td>{{ designCode.name|default }}</td>
+                    <td>{{ designCode.version|default }}</td>
+                    <td>{{ designCode.note|default }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
     {#{{ include('master/product/_delete_form.html.twig') }}#}
 {% endblock %}

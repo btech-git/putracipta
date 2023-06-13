@@ -105,7 +105,8 @@
         </tbody>
     </table>
             
-            <hr />
+    <hr />
+    
     <legend class="float-none w-auto text-dark px-1">Product List</legend>
     <table class="table table-bordered table-striped">
         <thead>
@@ -119,6 +120,26 @@
                 <tr>
                     <td>{{ product.code }}</td>
                     <td>{{ product.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diecutKnife in customer.diecutKnives %}
+                <tr>
+                    <td>{{ diecutKnife.code }}</td>
+                    <td>{{ diecutKnife.name }}</td>
                 </tr>
             {% endfor %}
         </tbody>

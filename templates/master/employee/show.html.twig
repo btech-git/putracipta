@@ -19,7 +19,7 @@
                 <td>{{ employee.user.username|default }}</td>
             </tr>
             <tr>
-                <th>Start Date</th>
+                <th>Mulai Kerja</th>
                 <td>{{ employee.startDate ? employee.startDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
@@ -31,6 +31,22 @@
                 <td>{{ employee.address }}</td>
             </tr>
             <tr>
+                <th>Divisi</th>
+                <td>{{ employee.division }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Lahir</th>
+                <td>{{ employee.birthDate ? employee.birthDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Tempat Lahir</th>
+                <td>{{ employee.birthPlace }}</td>
+            </tr>
+            <tr>
+                <th>KTP #</th>
+                <td>{{ employee.identityNumber }}</td>
+            </tr>
+            <tr>
                 <th>Phone</th>
                 <td>{{ employee.phone }}</td>
             </tr>
@@ -38,24 +54,8 @@
                 <th>Note</th>
                 <td>{{ employee.note }}</td>
             </tr>
-            <tr>
-                <th>Division</th>
-                <td>{{ employee.division }}</td>
-            </tr>
-            <tr>
-                <th>Birth Date</th>
-                <td>{{ employee.birthDate ? employee.birthDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Birth Place</th>
-                <td>{{ employee.birthPlace }}</td>
-            </tr>
-            <tr>
-                <th>Identity Number</th>
-                <td>{{ employee.identityNumber }}</td>
-            </tr>
         </tbody>
     </table>
 
-    {{ include('master/employee/_delete_form.html.twig') }}
+    {#{{ include('master/employee/_delete_form.html.twig') }}#}
 {% endblock %}
