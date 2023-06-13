@@ -30,8 +30,8 @@
             <tr>
                 <th>Tanggal Kirim</th>
                 <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
-                <th>Kode Design</th>
-                <td>{{ masterOrderHeader.designCode }}</td>
+                <th>No. Pisau Die Cut</th>
+                <td>{{ masterOrderHeader.dieCutKnife.code|default }}</td>
             </tr>
             <tr>
                 <th>Mesin Cetak</th>
@@ -49,7 +49,7 @@
                 <th>Finishing</th>
                 <td>{{ masterOrderHeader.finishing }}</td>
                 <th>No. Pisau Die Cut</th>
-                <td>{{ masterOrderHeader.dieCutBladeNumber }}</td>
+                <td>{{ masterOrderHeader.dieCutKnife.name|default }}</td>
             </tr>
             <tr>
                 <th>Jumlah Up Cetak</th>
@@ -83,7 +83,8 @@
             </tr>
             <tr>
                 <th style="min-width: 150px">PO#</th>
-                <th style="min-width: 200px">Kode</th>
+                <th style="min-width: 200px">Kode Design</th>
+                <th style="min-width: 200px">Kode Produk</th>
                 <th style="min-width: 300px">Nama Produk</th>
                 <th style="min-width: 80px" class="text-center">P (mm)</th>
                 <th style="min-width: 80px" class="text-center">L (mm)</th>
@@ -97,6 +98,7 @@
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ masterOrderProductDetail.designCode.name|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
@@ -110,7 +112,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" class="text-end">Total</td>
+                <td colspan="7" class="text-end">Total</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
@@ -252,11 +254,9 @@
         <tbody>
             <tr>
                 <th>Distribusi WO</th>
-                <td>{{ masterOrderHeader.workOrderDistribution ? masterOrderHeader.workOrderDistribution|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Urutan Proses</th>
-                <td>{{ masterOrderHeader.processList ? masterOrderHeader.processList|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>

@@ -8,22 +8,26 @@
             <tr>
                 <th class="d-none">Sale Order Detail Id</th>
                 <th style="min-width: 150px">PO#</th>
-                <th style="min-width: 200px">Kode</th>
+                <th style="min-width: 200px">Kode Design</th>
+                <th style="min-width: 200px">Kode Produk</th>
                 <th style="min-width: 300px">Nama Produk</th>
-                <th style="min-width: 80px" class="text-center">P (mm)</th>
-                <th style="min-width: 80px" class="text-center">L (mm)</th>
-                <th style="min-width: 80px" class="text-center">T (mm)</th>
+                <th style="min-width: 80px">P (mm)</th>
+                <th style="min-width: 80px">L (mm)</th>
+                <th style="min-width: 80px">T (mm)</th>
                 <th style="min-width: 100px">Qty Order</th>
-                <th style="min-width: 70px" class="text-center">Stock</th>
-                <th style="min-width: 100px" class="text-center">Kekurangan</th>
+                <th style="min-width: 150px">Stock</th>
+                <th style="min-width: 100px">Kekurangan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems customer-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems sale-order-detail-table:data-table:select@document->json-loader#load customer-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
-                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <tr data-form-collection-target="item" data-item-identifier-name="saleOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.saleOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td data-item-field-name="designCode">
+                        {{ form_row(detailForm.designCode, {'label': false}) }}
+                    </td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
                     <td class="text-center" data-item-field-name="productLength">{{ detailForm.vars.value.saleOrderDetail.product.length|default|number_format(0) }}</td>
@@ -63,7 +67,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="6">Total Quantity</td>
+                <td class="text-end" colspan="7">Total Quantity</td>
                 <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantityOrder">
                     {{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}

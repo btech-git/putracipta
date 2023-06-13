@@ -34,8 +34,8 @@
                                     'data-controller': 'dom-element',
                                     'data-action': 'dom-element#bind change->json-loader#load',
                                     'data-dom-element-bind-specifications-param': [
-                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.purchaseOrderDetail.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.purchaseOrderDetail.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
+                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
+                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
                                     ]|json_encode,
                                 },
                             }) }}
