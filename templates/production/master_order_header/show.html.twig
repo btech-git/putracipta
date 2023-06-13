@@ -30,6 +30,8 @@
             <tr>
                 <th>Tanggal Kirim</th>
                 <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
+                <th>Hot Stamping</th>
+                <td>{{ masterOrderHeader.hotStamping }}</td>
             </tr>
             <tr>
                 <th>Mesin Cetak</th>
@@ -66,10 +68,6 @@
                 <td>{{ masterOrderHeader.glossiness }}</td>
                 <th>Berat per pcs</th>
                 <td>{{ masterOrderHeader.weightPerPiece }}</td>
-            </tr>
-            <tr>
-                <th>Hot Stamping</th>
-                <td>{{ masterOrderHeader.hotStamping }}</td>
             </tr>
         </tbody>
     </table>
