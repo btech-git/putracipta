@@ -20,15 +20,6 @@
                 <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'designCode') }}>
                     Design Code {{ grid.sort_char(form.sort.designCode.vars.value) }}
                 </th>
-                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'productCode') }}>
-                    Product Code {{ grid.sort_char(form.sort.productCode.vars.value) }}
-                </th>
-                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'quantityOrder') }}>
-                    Quantity Order {{ grid.sort_char(form.sort.quantityOrder.vars.value) }}
-                </th>
-                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'quantityPrinting') }}>
-                    Quantity Cetak {{ grid.sort_char(form.sort.quantityPrinting.vars.value) }}
-                </th>
                 <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
                     Tanggal Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
                 </th>
@@ -56,15 +47,6 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'designCode') }} value="{{ form.filter.designCode.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'productCode') }} value="{{ form.filter.productCode.1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantityOrder') }} value="{{ form.filter.quantityOrder.1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantityPrinting') }} value="{{ form.filter.quantityPrinting.1.vars.value }}" />
-                </th>
-                <th>
                     <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
                 </th>
             </tr>
@@ -76,12 +58,8 @@
                     'masterOrderHeaderCodeNumber': masterOrderHeader.codeNumber, 
                     'masterOrderHeaderDate': masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '', 
                     'masterOrderHeaderDeliveryDate': masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '', 
-                    'masterOrderHeaderPrintingMachine': masterOrderHeader.printingMachine, 
+                    'masterOrderHeaderPrintingMachine': masterOrderHeader.machinePrinting.name|default, 
                     'customerCompany': masterOrderHeader.customer.company,
-                    'saleOrderHeaderReferenceNumber': masterOrderHeader.saleOrderDetail.saleOrderHeader.referenceNumber,
-                    'saleOrderHeaderTransactionDate': masterOrderHeader.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderHeader.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '', 
-                    'productCode': masterOrderHeader.product.code,
-                    'productName': masterOrderHeader.product.name,
                     'masterOrderHeaderDesignCode': masterOrderHeader.designCode,
                     'masterOrderHeaderPaper': masterOrderHeader.paper.paperNameSizeCombination,
                     'masterOrderHeaderColor': masterOrderHeader.color,
@@ -91,8 +69,7 @@
                     'masterOrderHeaderDimensionLength': masterOrderHeader.dimensionLength,
                     'masterOrderHeaderDimensionWidth': masterOrderHeader.dimensionWidth,
                     'masterOrderHeaderDimensionHeight': masterOrderHeader.dimensionHeight,
-                    'masterOrderHeaderQuantityStock': masterOrderHeader.quantityStock,
-                    'masterOrderHeaderQuantityProduction': masterOrderHeader.quantityProduction,
+                    'masterOrderHeaderQuantityStock': masterOrderHeader.totalQuantityStock,
                     'masterOrderHeaderQuantityPrinting': masterOrderHeader.quantityPrinting,
                     'masterOrderHeaderQuantityPrinting2': masterOrderHeader.quantityPrinting2,
                     'masterOrderHeaderMountageSizeLength': masterOrderHeader.mountageSizeLength,
@@ -106,7 +83,6 @@
                     'masterOrderHeaderCuttingLengthSize2': masterOrderHeader.cuttingLengthSize2,
                     'masterOrderHeaderCuttingWidthSize2': masterOrderHeader.cuttingWidthSize2,
                     'masterOrderHeaderPaperRequeirement': masterOrderHeader.paperRequirement,
-                    'masterOrderHeaderPrintingInsit': masterOrderHeader.printingInsit,
                     'masterOrderHeaderPaperTotal': masterOrderHeader.paperTotal,
                     'masterOrderHeaderInkCyanPercentage': masterOrderHeader.inkCyanPercentage,
                     'masterOrderHeaderInkCyanWeight': masterOrderHeader.inkCyanWeight,
@@ -132,14 +108,11 @@
                     'masterOrderHeaderInkK4Weight': masterOrderHeader.inkK4Weight,
                     'masterOrderHeaderInkLaminatingSize': masterOrderHeader.inkLaminatingSize,
                     'masterOrderHeaderInkLaminatingQuantity': masterOrderHeader.inkLaminatingQuantity,
-                    'masterOrderHeaderQuantityOrder': masterOrderHeader.quantityOrder}|json_encode }}">
+                    'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder}|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber }}</td>
                     <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
-                    <td>{{ masterOrderHeader.printingMachine }}</td>
+                    <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
                     <td>{{ masterOrderHeader.designCode }}</td>
-                    <td>{{ masterOrderHeader.product.code }}</td>
-                    <td>{{ masterOrderHeader.quantityOrder }}</td>
-                    <td>{{ masterOrderHeader.quantityPrinting }}</td>
                     <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
                 </tr>
             {% else %}

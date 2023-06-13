@@ -59,11 +59,11 @@
                     'inventoryRequestHeaderDepartment': inventoryRequestHeader.department|default,
                     'inventoryRequestHeaderWorkOrderNumber': inventoryRequestHeader.workOrderNumber, 
                     'inventoryRequestHeaderPartNumber': inventoryRequestHeader.partNumber|default, 
+                    'inventoryRequestHeaderMode': inventoryRequestHeader.requestMode|default,
                     'materialId': inventoryRequestMaterialDetail.material.id,
                     'inventoryRequestMaterialDetailId': inventoryRequestMaterialDetail.id,
                     'paperId': inventoryRequestPaperDetail.paper.id,
-                    'inventoryRequestPaperDetailId': inventoryRequestPaperDetail.id,
-                    'inventoryRequestHeaderMode': inventoryRequestHeader.requestMode|default})|json_encode }}">
+                    'inventoryRequestPaperDetailId': inventoryRequestPaperDetail.id})|json_encode }}">
                     <td>{{ inventoryRequestHeader.departmentName }}</td>
                     <td>{{ inventoryRequestHeader.workOrderNumber }}</td>
                     <td>{{ inventoryRequestHeader.codeNumberOrdinal }}</td>
