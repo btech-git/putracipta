@@ -7,6 +7,9 @@ use App\Common\Data\Operator\SortDescending;
 use App\Entity\Production\MasterOrderHeader;
 use App\Form\Production\MasterOrderHeaderType;
 use App\Grid\Production\MasterOrderHeaderGridType;
+use App\Repository\Master\WorkOrderCheckSheetRepository;
+use App\Repository\Master\WorkOrderDistributionRepository;
+use App\Repository\Master\WorkOrderProcessRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use App\Service\Production\MasterOrderHeaderFormService;
 use App\Util\PdfGenerator;
@@ -49,7 +52,7 @@ class MasterOrderHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_production_master_order_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, MasterOrderHeaderFormService $masterOrderHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, MasterOrderHeaderFormService $masterOrderHeaderFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, $_format = 'html'): Response
     {
         $masterOrderHeader = new MasterOrderHeader();
         $masterOrderHeaderFormService->initialize($masterOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -68,6 +71,9 @@ class MasterOrderHeaderController extends AbstractController
             'masterOrderHeader' => $masterOrderHeader,
             'form' => $form,
             'transactionFileExists' => false,
+            'workOrderProcesses' => $workOrderProcessRepository->findAll(),
+            'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
+            'workOrderDistributions' => $workOrderDistributionRepository->findAll(),
         ]);
     }
 
@@ -82,7 +88,7 @@ class MasterOrderHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_production_master_order_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, MasterOrderHeader $masterOrderHeader, MasterOrderHeaderFormService $masterOrderHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, MasterOrderHeader $masterOrderHeader, MasterOrderHeaderFormService $masterOrderHeaderFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, $_format = 'html'): Response
     {
         $masterOrderHeaderFormService->initialize($masterOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(MasterOrderHeaderType::class, $masterOrderHeader);
@@ -100,6 +106,9 @@ class MasterOrderHeaderController extends AbstractController
             'masterOrderHeader' => $masterOrderHeader,
             'form' => $form,
             'transactionFileExists' => file_exists($this->getParameter('kernel.project_dir') . '/public/uploads/master-order/' . $masterOrderHeader->getId() . '.' . $masterOrderHeader->getLayoutModelFileExtension()),
+            'workOrderProcesses' => $workOrderProcessRepository->findAll(),
+            'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
+            'workOrderDistributions' => $workOrderDistributionRepository->findAll(),
         ]);
     }
 
