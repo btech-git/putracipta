@@ -96,9 +96,13 @@ class Customer extends Master
     #[ORM\Column(type: Types::TEXT)]
     private ?string $addressDelivery1 = '';
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: DiecutKnife::class)]
+    private Collection $diecutKnives;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->diecutKnives = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -384,6 +388,36 @@ class Customer extends Master
     public function setAddressDelivery1(string $addressDelivery1): self
     {
         $this->addressDelivery1 = $addressDelivery1;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiecutKnife>
+     */
+    public function getDiecutKnives(): Collection
+    {
+        return $this->diecutKnives;
+    }
+
+    public function addDiecutKnife(DiecutKnife $diecutKnife): self
+    {
+        if (!$this->diecutKnives->contains($diecutKnife)) {
+            $this->diecutKnives->add($diecutKnife);
+            $diecutKnife->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiecutKnife(DiecutKnife $diecutKnife): self
+    {
+        if ($this->diecutKnives->removeElement($diecutKnife)) {
+            // set the owning side to null (unless already changed)
+            if ($diecutKnife->getCustomer() === $this) {
+                $diecutKnife->setCustomer(null);
+            }
+        }
 
         return $this;
     }

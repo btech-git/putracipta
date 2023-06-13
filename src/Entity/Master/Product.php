@@ -4,6 +4,8 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -46,6 +48,17 @@ class Product extends Master
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $height = '0.00';
+
+    #[ORM\Column(length: 100)]
+    private ?string $variant = null;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DesignCode::class)]
+    private Collection $designCodes;
+
+    public function __construct()
+    {
+        $this->designCodes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -144,6 +157,48 @@ class Product extends Master
     public function setHeight(string $height): self
     {
         $this->height = $height;
+
+        return $this;
+    }
+
+    public function getVariant(): ?string
+    {
+        return $this->variant;
+    }
+
+    public function setVariant(string $variant): self
+    {
+        $this->variant = $variant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCode>
+     */
+    public function getDesignCodes(): Collection
+    {
+        return $this->designCodes;
+    }
+
+    public function addDesignCode(DesignCode $designCode): self
+    {
+        if (!$this->designCodes->contains($designCode)) {
+            $this->designCodes->add($designCode);
+            $designCode->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCode(DesignCode $designCode): self
+    {
+        if ($this->designCodes->removeElement($designCode)) {
+            // set the owning side to null (unless already changed)
+            if ($designCode->getProduct() === $this) {
+                $designCode->setProduct(null);
+            }
+        }
 
         return $this;
     }
