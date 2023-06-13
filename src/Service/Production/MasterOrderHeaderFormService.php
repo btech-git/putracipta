@@ -2,10 +2,16 @@
 
 namespace App\Service\Production;
 
-use App\Entity\Production\MasterOrderProductDetail;
+use App\Entity\Production\MasterOrderCheckSheetDetail;
+use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
-use App\Repository\Production\MasterOrderProductDetailRepository;
+use App\Entity\Production\MasterOrderProcessDetail;
+use App\Entity\Production\MasterOrderProductDetail;
+use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
+use App\Repository\Production\MasterOrderDistributionDetailRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
+use App\Repository\Production\MasterOrderProcessDetailRepository;
+use App\Repository\Production\MasterOrderProductDetailRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MasterOrderHeaderFormService
@@ -13,12 +19,18 @@ class MasterOrderHeaderFormService
     private EntityManagerInterface $entityManager;
     private MasterOrderHeaderRepository $masterOrderHeaderRepository;
     private MasterOrderProductDetailRepository $masterOrderProductDetailRepository;
+    private MasterOrderProcessDetailRepository $masterOrderProcessDetailRepository;
+    private MasterOrderDistributionDetailRepository $masterOrderDistributionDetailRepository;
+    private MasterOrderCheckSheetDetailRepository $masterOrderCheckSheetDetailRepository;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->masterOrderHeaderRepository = $entityManager->getRepository(MasterOrderHeader::class);
         $this->masterOrderProductDetailRepository = $entityManager->getRepository(MasterOrderProductDetail::class);
+        $this->masterOrderProcessDetailRepository = $entityManager->getRepository(MasterOrderProcessDetail::class);
+        $this->masterOrderDistributionDetailRepository = $entityManager->getRepository(MasterOrderDistributionDetail::class);
+        $this->masterOrderCheckSheetDetailRepository = $entityManager->getRepository(MasterOrderCheckSheetDetail::class);
     }
 
     public function initialize(MasterOrderHeader $masterOrderHeader, array $options = []): void
@@ -93,6 +105,15 @@ class MasterOrderHeaderFormService
         $this->masterOrderHeaderRepository->add($masterOrderHeader);
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             $this->masterOrderProductDetailRepository->add($masterOrderProductDetail);
+        }
+        foreach ($masterOrderHeader->getMasterOrderDistributionDetails() as $masterOrderDistributionDetail) {
+            $this->masterOrderDistributionDetailRepository->add($masterOrderDistributionDetail);
+        }
+        foreach ($masterOrderHeader->getMasterOrderProcessDetails() as $masterOrderProcessDetail) {
+            $this->masterOrderProcessDetailRepository->add($masterOrderProcessDetail);
+        }
+        foreach ($masterOrderHeader->getMasterOrderCheckSheetDetails() as $masterOrderCheckSheetDetail) {
+            $this->masterOrderCheckSheetDetailRepository->add($masterOrderCheckSheetDetail);
         }
         $this->entityManager->flush();
     }
