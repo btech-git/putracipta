@@ -23,7 +23,7 @@ class MasterOrderProcessDetail extends ProductionDetail
     private ?WorkOrderProcess $workOrderProcess = null;
 
     #[ORM\Column]
-    private ?bool $isSubcon = null;
+    private ?bool $isSubcon = false;
 
     public function getId(): ?int
     {

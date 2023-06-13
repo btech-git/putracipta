@@ -3,6 +3,7 @@
 namespace App\Entity\Production;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\DiecutKnife;
 use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
@@ -56,9 +57,6 @@ class MasterOrderHeader extends ProductionHeader
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 60)]
-    private ?string $designCode = '';
-
-    #[ORM\Column(length: 60)]
     private ?string $color = '';
 
     #[ORM\Column(length: 60)]
@@ -75,9 +73,6 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\Column(length: 60)]
     private ?string $dieCutBlade = '';
-
-    #[ORM\Column(length: 20)]
-    private ?string $dieCutBladeNumber = '';
 
     #[ORM\Column(length: 20)]
     private ?string $dieLineFilmNumber = '';
@@ -244,9 +239,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $processList = [];
-
     #[ORM\Column(length: 60)]
     private ?string $pantone = '';
 
@@ -348,6 +340,9 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderCheckSheetDetail::class)]
     private Collection $masterOrderCheckSheetDetails;
+
+    #[ORM\ManyToOne]
+    private ?DiecutKnife $diecutKnife = null;
 
     public function __construct()
     {
@@ -614,18 +609,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getDesignCode(): ?string
-    {
-        return $this->designCode;
-    }
-
-    public function setDesignCode(string $designCode): self
-    {
-        $this->designCode = $designCode;
-
-        return $this;
-    }
-
     public function getColor(): ?string
     {
         return $this->color;
@@ -694,18 +677,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setDieCutBlade(string $dieCutBlade): self
     {
         $this->dieCutBlade = $dieCutBlade;
-
-        return $this;
-    }
-
-    public function getDieCutBladeNumber(): ?string
-    {
-        return $this->dieCutBladeNumber;
-    }
-
-    public function setDieCutBladeNumber(string $dieCutBladeNumber): self
-    {
-        $this->dieCutBladeNumber = $dieCutBladeNumber;
 
         return $this;
     }
@@ -1370,18 +1341,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getProcessList(): array
-    {
-        return $this->processList;
-    }
-
-    public function setProcessList(array $processList): self
-    {
-        $this->processList = $processList;
-
-        return $this;
-    }
-
     public function getPantone(): ?string
     {
         return $this->pantone;
@@ -1966,6 +1925,18 @@ class MasterOrderHeader extends ProductionHeader
                 $masterOrderCheckSheetDetail->setMasterOrderHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDiecutKnife(): ?DiecutKnife
+    {
+        return $this->diecutKnife;
+    }
+
+    public function setDiecutKnife(?DiecutKnife $diecutKnife): self
+    {
+        $this->diecutKnife = $diecutKnife;
 
         return $this;
     }
