@@ -362,96 +362,85 @@
                         <div class="cell col">
                             <div class="table full">
                                 <div class="row">
-                                    <table class="detail">
+                                    <table  class="detail">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" colspan="2">URUTAN PROSES</th>
+                                                <th colspan="3">Urutan Proses</th>
+                                            </tr>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Proses</th>
+                                                <th>Subcon</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            {% for processItem in masterOrderHeader.processList %}
+                                        <tbody>
+                                            {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
                                                 <tr>
-                                                    <td style="text-align: center">{{ loop.index }}</td>
-                                                    <td>{{ processItem }}</td>
+                                                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                                                    <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
+                                                    <td style="text-align: center">{{ masterOrderProcessDetail.isSubcon ? 'Yes' : 'No' }}</td>
                                                 </tr>
                                             {% endfor %}
-                                        </tfoot>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+
+            <fieldset class="border border-secondary rounded mb-3 p-3">
+                <div class="note">
+                    <div class="table full">
                         <div class="cell col">
                             <div class="table full">
                                 <div class="row">
                                     <table class="detail">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" colspan="2">DISTRIBUSI WO</th>
+                                                <th colspan="2">Distribusi WO</th>
+                                            </tr>
+                                            <tr>
+                                                <th>WO</th>
+                                                <th>Subcon</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
+                                        <tbody>
+                                            {% for masterOrderDistributionDetail in masterOrderHeader.masterOrderDistributionDetails %}
+                                                <tr>
+                                                    <td>{{ masterOrderDistributionDetail.workOrderDistribution.name|default }}</td>
+                                                    <td style="text-align: center">{{ masterOrderDistributionDetail.isSubcon ? 'Yes' : 'No' }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                                        
+                        <div class="cell col">
+                            <div class="table full">
+                                <div class="row">
+                                    <table class="detail">
+                                        <thead>
                                             <tr>
-                                                <td>WO# Prepress</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PREPRESS', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
+                                                <th colspan="2">Check Sheet</th>
                                             </tr>
                                             <tr>
-                                                <td>WO# Colour Mixing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_COLOUR_MIXING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
+                                                <th>Check Sheet</th>
+                                                <th>Subcon</th>
                                             </tr>
-                                            <tr>
-                                                <td>WO# Potong Bahan</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_CUTTING_MATERIAL', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Printing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PRINTING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Diecut PON/BOBST</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_DIECUT', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Potong Jadi</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Varnish/Laminating</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_VARNISH', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Screen Printing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_SCREEN_PRINTING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Folder Glueing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FOLDER_GLUEING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Hot Stamp</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_HOT_STAMP', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Mesin Jahit Kawat (Stitching)</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_STITCHING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Mesin Lipat</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FOLDING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Finishing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_FINISHING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Packing</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_PACKING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>WO# Sortir</td>
-                                                <td style="text-align: center">{{ constant('WORK_ORDER_DISTRIBUTION_SORTING', masterOrderHeader) in masterOrderHeader.workOrderDistribution ? 'V' : '' }}</td>
-                                            </tr>
-                                        </tfoot>
+                                        </thead>
+                                        <tbody>
+                                            {% for masterOrderCheckSheetDetail in masterOrderHeader.masterOrderCheckSheetDetails %}
+                                                <tr>
+                                                    <td>{{ masterOrderCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
+                                                    <td style="text-align: center">{{ masterOrderCheckSheetDetail.isSubcon ? 'Yes' : 'No' }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

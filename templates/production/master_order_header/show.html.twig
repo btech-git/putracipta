@@ -131,13 +131,13 @@
                 <th>% Insit Cetak</th>
                 <td>{{ masterOrderHeader.insitPrintingPercentage }}</td>
                 <th>Insit Cetak (dreek)</th>
-                <td>{{ masterOrderHeader.insitPrintingPercentage }}</td>
+                <td>{{ masterOrderHeader.insitPrintingQuantity }}</td>
             </tr>
             <tr>
                 <th>% Insit Sortir</th>
                 <td>{{ masterOrderHeader.insitSortingPercentage }}</td>
                 <th>Insit Cetak (dreek)</th>
-                <td>{{ masterOrderHeader.insitSortingPercentage }}</td>
+                <td>{{ masterOrderHeader.insitSortingQuantity }}</td>
             </tr>
             <tr>
                 <th>Quantity Kertas (rim)</th>
@@ -251,21 +251,64 @@
     </table>
          
     <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="3" class="text-center">Urutan Proses</th>
+            </tr>
+            <tr>
+                <th>No</th>
+                <th>Proses</th>
+                <th>Subcon</th>
+            </tr>
+        </thead>
         <tbody>
+            {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
+                <tr>
+                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                    <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
+                    <td style="text-align: center">{{ masterOrderProcessDetail.isSubcon ? 'Yes' : 'No' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <th>Distribusi WO</th>
+                <th colspan="2" class="text-center">Distribusi WO</th>
             </tr>
             <tr>
-                <th>Urutan Proses</th>
+                <th>WO</th>
+                <th>Subcon</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderDistributionDetail in masterOrderHeader.masterOrderDistributionDetails %}
+                <tr>
+                    <td>{{ masterOrderDistributionDetail.workOrderDistribution.name|default }}</td>
+                    <td style="text-align: center">{{ masterOrderDistributionDetail.isSubcon ? 'Yes' : 'No' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="2" class="text-center">Check Sheet</th>
             </tr>
             <tr>
-                <th>Note</th>
-                <td>{{ masterOrderHeader.note }}</td>
+                <th>Check Sheet</th>
+                <th>Subcon</th>
             </tr>
-            <tr>
-                <th>Is Canceled</th>
-                <td>{{ masterOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderCheckSheetDetail in masterOrderHeader.masterOrderCheckSheetDetails %}
+                <tr>
+                    <td>{{ masterOrderCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
+                    <td style="text-align: center">{{ masterOrderCheckSheetDetail.isSubcon ? 'Yes' : 'No' }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
@@ -274,7 +317,7 @@
     <div class="d-inline-block">
         <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_memo_master_order', {'id': masterOrderHeader.id}) }}">Print Master Order</a>
         <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_memo_work_order', {'id': masterOrderHeader.id}) }}">Print SPK</a>
-        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_memo_work_order_color_mixing', {'id': masterOrderHeader.id}) }}">Print WO Color Mixing</a>
+        {#<a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_memo_work_order_color_mixing', {'id': masterOrderHeader.id}) }}">Print WO Color Mixing</a>#}
     </div>
     
     <div class="text-center">
