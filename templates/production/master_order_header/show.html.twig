@@ -30,8 +30,6 @@
             <tr>
                 <th>Tanggal Kirim</th>
                 <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
-                <th>No. Pisau Die Cut</th>
-                <td>{{ masterOrderHeader.dieCutKnife.code|default }}</td>
             </tr>
             <tr>
                 <th>Mesin Cetak</th>
@@ -49,7 +47,7 @@
                 <th>Finishing</th>
                 <td>{{ masterOrderHeader.finishing }}</td>
                 <th>No. Pisau Die Cut</th>
-                <td>{{ masterOrderHeader.dieCutKnife.name|default }}</td>
+                <td>{{ masterOrderHeader.dieCutKnife.name|default }} - {{ masterOrderHeader.dieCutKnife.code|default }}</td>
             </tr>
             <tr>
                 <th>Jumlah Up Cetak</th>

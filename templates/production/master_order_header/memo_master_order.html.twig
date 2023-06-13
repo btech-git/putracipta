@@ -57,16 +57,16 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
+                            <div class="cell label">No MO</div>
+                            <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        </div>
+                        <div class="row">
                             <div class="cell label">Mesin Cetak:</div>
                             <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Nama Customer</div>
                             <div class="cell value">{{ masterOrderHeader.customer.company|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Kode Design</div>
-                            <div class="cell value">{{ masterOrderHeader.designCode|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Warna / Pantone</div>
@@ -98,10 +98,6 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">No MO</div>
-                            <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
-                        </div>
-                        <div class="row">
                             <div class="cell label">Jenis</div>
                             <div class="cell value">{{ masterOrderHeader.orderType|default }}</div>
                         </div>
@@ -131,7 +127,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">No. Pisau Die Cut</div>
-                            <div class="cell value">{{ masterOrderHeader.dieCutBladeNumber|default }}</div>
+                            <div class="cell value">{{ masterOrderHeader.dieCutKnife.name|default }} - {{ masterOrderHeader.dieCutKnife.code|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">No. Film Dieline Die Cut</div>
