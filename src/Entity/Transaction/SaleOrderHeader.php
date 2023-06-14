@@ -2,6 +2,7 @@
 
 namespace App\Entity\Transaction;
 
+use App\Entity\Admin\User;
 use App\Entity\Master\Customer;
 use App\Entity\Master\Employee;
 use App\Entity\TransactionHeader;
@@ -28,6 +29,8 @@ class SaleOrderHeader extends TransactionHeader
     public const TRANSACTION_STATUS_DONE = 'done';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
+    public const TRANSACTION_STATUS_HOLD = 'hold';
+    public const TRANSACTION_STATUS_RELEASE = 'release';
     public const TRANSACTION_STATUS_PARTIAL_DELIVERY = 'partial_delivery';
     public const TRANSACTION_STATUS_FULL_DELIVERY = 'full_delivery';
 
@@ -111,6 +114,18 @@ class SaleOrderHeader extends TransactionHeader
 
     #[ORM\Column]
     private ?bool $hasReturnTransaction = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $approvedTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $rejectedTransactionDateTime = null;
+
+    #[ORM\ManyToOne]
+    private ?User $approvedTransactionUser = null;
+
+    #[ORM\ManyToOne]
+    private ?User $rejectedTransactionUser = null;
 
     public function __construct()
     {
@@ -436,6 +451,54 @@ class SaleOrderHeader extends TransactionHeader
     public function setHasReturnTransaction(bool $hasReturnTransaction): self
     {
         $this->hasReturnTransaction = $hasReturnTransaction;
+
+        return $this;
+    }
+
+    public function getApprovedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->approvedTransactionDateTime;
+    }
+
+    public function setApprovedTransactionDateTime(?\DateTimeInterface $approvedTransactionDateTime): self
+    {
+        $this->approvedTransactionDateTime = $approvedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getRejectedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->rejectedTransactionDateTime;
+    }
+
+    public function setRejectedTransactionDateTime(?\DateTimeInterface $rejectedTransactionDateTime): self
+    {
+        $this->rejectedTransactionDateTime = $rejectedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getApprovedTransactionUser(): ?User
+    {
+        return $this->approvedTransactionUser;
+    }
+
+    public function setApprovedTransactionUser(?User $approvedTransactionUser): self
+    {
+        $this->approvedTransactionUser = $approvedTransactionUser;
+
+        return $this;
+    }
+
+    public function getRejectedTransactionUser(): ?User
+    {
+        return $this->rejectedTransactionUser;
+    }
+
+    public function setRejectedTransactionUser(?User $rejectedTransactionUser): self
+    {
+        $this->rejectedTransactionUser = $rejectedTransactionUser;
 
         return $this;
     }

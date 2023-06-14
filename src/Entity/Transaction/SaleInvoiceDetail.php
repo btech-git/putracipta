@@ -35,12 +35,12 @@ class SaleInvoiceDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?SaleInvoiceHeader $saleInvoiceHeader = null;
 
-    #[ORM\OneToOne(inversedBy: 'saleInvoiceDetail', cascade: ['persist', 'remove'])]
-    private ?DeliveryDetail $deliveryDetail = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     private ?string $return_amount = '0.00';
+
+    #[ORM\ManyToOne(inversedBy: 'saleInvoiceDetails')]
+    private ?DeliveryDetail $deliveryDetail = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -118,18 +118,6 @@ class SaleInvoiceDetail extends TransactionDetail
         return $this;
     }
 
-    public function getDeliveryDetail(): ?DeliveryDetail
-    {
-        return $this->deliveryDetail;
-    }
-
-    public function setDeliveryDetail(?DeliveryDetail $deliveryDetail): self
-    {
-        $this->deliveryDetail = $deliveryDetail;
-
-        return $this;
-    }
-
     public function getReturnAmount(): ?string
     {
         return $this->return_amount;
@@ -138,6 +126,18 @@ class SaleInvoiceDetail extends TransactionDetail
     public function setReturnAmount(string $return_amount): self
     {
         $this->return_amount = $return_amount;
+
+        return $this;
+    }
+
+    public function getDeliveryDetail(): ?DeliveryDetail
+    {
+        return $this->deliveryDetail;
+    }
+
+    public function setDeliveryDetail(?DeliveryDetail $deliveryDetail): self
+    {
+        $this->deliveryDetail = $deliveryDetail;
 
         return $this;
     }
