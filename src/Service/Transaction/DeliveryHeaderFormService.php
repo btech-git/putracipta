@@ -51,10 +51,10 @@ class DeliveryHeaderFormService
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
             $deliveryDetail->setUnit($saleOrderDetail->getUnit());
-            if ($deliveryHeader->getId() === null) {
+//            if ($deliveryHeader->getId() === null) {
                 $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalDelivery());
                 $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingDelivery());
-            }
+//            }
             $deliveryHeader->setDeliveryAddressOrdinal($saleOrderDetail->getSaleOrderHeader()->getDeliveryAddressOrdinal());
         }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
