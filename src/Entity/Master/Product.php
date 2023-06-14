@@ -50,14 +50,27 @@ class Product extends Master
     private ?string $height = '0.00';
 
     #[ORM\Column(length: 100)]
-    private ?string $variant = null;
+    private ?string $variant = '';
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: DesignCode::class)]
     private Collection $designCodes;
 
+    #[ORM\Column(length: 20)]
+    private ?string $fileExtension = '';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $weight = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $glossiness = null;
+
     public function __construct()
     {
         $this->designCodes = new ArrayCollection();
+    }
+    
+    public function getProductLengthWidthHeightCombination() {
+        return $this->length . " x " . $this->width . " x " . $this->height;
     }
 
     public function getId(): ?int
@@ -199,6 +212,42 @@ class Product extends Master
                 $designCode->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFileExtension(): ?string
+    {
+        return $this->fileExtension;
+    }
+
+    public function setFileExtension(string $fileExtension): self
+    {
+        $this->fileExtension = $fileExtension;
+
+        return $this;
+    }
+
+    public function getWeight(): ?string
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(string $weight): self
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getGlossiness(): ?string
+    {
+        return $this->glossiness;
+    }
+
+    public function setGlossiness(string $glossiness): self
+    {
+        $this->glossiness = $glossiness;
 
         return $this;
     }
