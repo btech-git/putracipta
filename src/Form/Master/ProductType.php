@@ -8,8 +8,10 @@ use App\Entity\Master\DesignCode;
 use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProductType extends AbstractType
 {
@@ -24,6 +26,8 @@ class ProductType extends AbstractType
             ->add('height', null, ['label' => 'Tebal'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+            ->add('weight', null, ['label' => 'Berat'])
+            ->add('glossiness')
             ->add('note')
             ->add('isInactive')
             ->add('designCodes', CollectionType::class, [
