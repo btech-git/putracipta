@@ -63,6 +63,7 @@ class ProductController extends AbstractController
         return $this->renderForm('master/product/new.html.twig', [
             'product' => $product,
             'form' => $form,
+            'transactionFileExists' => false,
         ]);
     }
 
@@ -91,6 +92,7 @@ class ProductController extends AbstractController
         return $this->renderForm('master/product/edit.html.twig', [
             'product' => $product,
             'form' => $form,
+            'transactionFileExists' => file_exists($this->getParameter('kernel.project_dir') . '/public/uploads/product/' . $product->getId() . '.' . $product->getFileExtension()),
         ]);
     }
 
