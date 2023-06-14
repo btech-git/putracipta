@@ -60,22 +60,23 @@ class DeliveryDetail extends TransactionDetail
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleReturnDetail::class)]
     private Collection $saleReturnDetails;
 
-    #[ORM\OneToOne(mappedBy: 'deliveryDetail', cascade: ['persist', 'remove'])]
-    private ?SaleInvoiceDetail $saleInvoiceDetail = null;
-
     #[ORM\Column(length: 100)]
     #[Assert\NotNull]
     private ?string $linePO = '';
 
     #[ORM\Column]
-    private ?int $remainingQuantity = null;
+    private ?int $remainingQuantity = 0;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private ?int $quantity = 0;
+
+    #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]
+    private Collection $saleInvoiceDetails;
 
     public function __construct()
     {
         $this->saleReturnDetails = new ArrayCollection();
+        $this->saleInvoiceDetails = new ArrayCollection();
     }
 
     #[Assert\Callback]
@@ -94,9 +95,9 @@ class DeliveryDetail extends TransactionDetail
         return $isCanceled;
     }
 
-    public function getSyncTotalReturn(): int
+    public function getSyncTotalReturn(): string
     {
-        $total = 0;
+        $total = 0.00;
         foreach ($this->saleReturnDetails as $saleReturnDetail) {
             if (!$saleReturnDetail->isIsCanceled()) {
                 $total += $saleReturnDetail->getTotal();
@@ -236,28 +237,6 @@ class DeliveryDetail extends TransactionDetail
         return $this;
     }
 
-    public function getSaleInvoiceDetail(): ?SaleInvoiceDetail
-    {
-        return $this->saleInvoiceDetail;
-    }
-
-    public function setSaleInvoiceDetail(?SaleInvoiceDetail $saleInvoiceDetail): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($saleInvoiceDetail === null && $this->saleInvoiceDetail !== null) {
-            $this->saleInvoiceDetail->setDeliveryDetail(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($saleInvoiceDetail !== null && $saleInvoiceDetail->getDeliveryDetail() !== $this) {
-            $saleInvoiceDetail->setDeliveryDetail($this);
-        }
-
-        $this->saleInvoiceDetail = $saleInvoiceDetail;
-
-        return $this;
-    }
-
     public function getLinePO(): ?string
     {
         return $this->linePO;
@@ -290,6 +269,36 @@ class DeliveryDetail extends TransactionDetail
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaleInvoiceDetail>
+     */
+    public function getSaleInvoiceDetails(): Collection
+    {
+        return $this->saleInvoiceDetails;
+    }
+
+    public function addSaleInvoiceDetail(SaleInvoiceDetail $saleInvoiceDetail): self
+    {
+        if (!$this->saleInvoiceDetails->contains($saleInvoiceDetail)) {
+            $this->saleInvoiceDetails->add($saleInvoiceDetail);
+            $saleInvoiceDetail->setDeliveryDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleInvoiceDetail(SaleInvoiceDetail $saleInvoiceDetail): self
+    {
+        if ($this->saleInvoiceDetails->removeElement($saleInvoiceDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($saleInvoiceDetail->getDeliveryDetail() === $this) {
+                $saleInvoiceDetail->setDeliveryDetail(null);
+            }
+        }
 
         return $this;
     }
