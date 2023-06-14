@@ -53,7 +53,7 @@
                     'productName': deliveryDetail.product.name|default, 
                     'productCode': deliveryDetail.product.code|default, 
                     'saleOrderHeaderReferenceNumber': deliveryDetail.saleOrderDetail.SaleOrderHeader.referenceNumber|default, 
-                    'quantity': deliveryDetail.deliveredQuantity|default|number_format(0), 
+                    'quantity': deliveryDetail.quantity|default|number_format(0), 
                     'unitPrice': deliveryDetail.saleOrderDetail.unitPriceBeforeTax|default|number_format(2),
                     'total': deliveryDetail.total|default|number_format(2),
                     'unitName': deliveryDetail.unit.name}|json_encode }}">
