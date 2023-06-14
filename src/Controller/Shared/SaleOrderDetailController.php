@@ -59,6 +59,7 @@ class SaleOrderDetailController extends AbstractController
             }
             $qb->andWhere("{$alias}.remainingDelivery > 0");
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("s.transactionStatus = 'Approve'");
         });
 
         return $this->renderForm("shared/sale_order_detail/_list.html.twig", [

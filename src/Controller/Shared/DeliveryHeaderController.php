@@ -26,7 +26,7 @@ class DeliveryHeaderController extends AbstractController
         list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $sub = $new(SaleReturnHeader::class, 'p');
             $sub->andWhere("IDENTITY(p.deliveryHeader) = {$alias}.id");
-            $qb->leftJoin("{$alias}.saleReturnHeader", 'r');
+            $qb->leftJoin("{$alias}.saleReturnHeaders", 'r');
             $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
             
