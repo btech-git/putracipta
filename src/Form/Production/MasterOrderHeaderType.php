@@ -45,6 +45,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('quantityPrinting2')
             ->add('mountageSizeLength')
             ->add('mountageSizeWidth')
+            ->add('orderTypeMemo')
             ->add('orderType', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'MO Biasa' => MasterOrderHeader::ORDER_TYPE_REGULAR,
                 'MO Kekurangan Cetak' => MasterOrderHeader::ORDER_TYPE_PRINTING_SHORTAGE,
@@ -100,23 +101,6 @@ class MasterOrderHeaderType extends AbstractType
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
-//            ->add('workOrderDistribution', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
-//                'WO Prepress' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_PREPRESS,
-//                'WO Colour Mixing' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_COLOUR_MIXING,
-//                'WO Potong Bahan' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_CUTTING_MATERIAL,
-//                'WO Printing' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_PRINTING,
-//                'WO Diecut PON/BOBST' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_DIECUT,
-//                'WO Potong Jadi' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING,
-//                'WO Varnish/Laminating' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_VARNISH,
-//                'WO Screen Printing' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_SCREEN_PRINTING,
-//                'WO Folder Glueing' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_FOLDER_GLUEING,
-//                'WO Hot Stamp' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_HOT_STAMP,
-//                'WO Mesin Jahit Kawat (Stitching)' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_STITCHING,
-//                'WO Mesin Lipat' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_FOLDING,
-//                'WO Finishing' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_FINISHING,
-//                'WO Packing' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_PACKING,
-//                'WO Sortir' => MasterOrderHeader::WORK_ORDER_DISTRIBUTION_SORTING,
-//            ]])
             ->add('masterOrderProcessDetails', CollectionType::class, [
                 'entry_type' => MasterOrderProcessDetailType::class,
                 'allow_add' => true,
