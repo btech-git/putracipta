@@ -161,7 +161,7 @@ class SaleInvoiceHeader extends TransactionHeader
 
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal - $this->serviceTaxNominal - $this->totalReturn;
+        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal - $this->serviceTaxNominal;
         return $grandTotal;
     }
 
