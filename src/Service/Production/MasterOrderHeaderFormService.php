@@ -63,6 +63,7 @@ class MasterOrderHeaderFormService
 //            $masterOrderProductDetail->setQuantityStock(1000);
             $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
         }
+        $masterOrderHeader->setColorPantoneAdditional($masterOrderHeader->getSyncColorPantoneAdditional());
         $masterOrderHeader->setTotalQuantityOrder($masterOrderHeader->getSyncTotalQuantityOrder());
         $masterOrderHeader->setTotalQuantityStock($masterOrderHeader->getSyncTotalQuantityStock());
         $masterOrderHeader->setTotalQuantityShortage($masterOrderHeader->getSyncTotalQuantityShortage());
