@@ -111,9 +111,17 @@
                 </div>
                 
                 <div class="col">
-                    {{ form_row(form.orderType, {'label': 'Jenis MO'}) }}
-                    <label class="form-label">Status Cetakan</label>
                     <div class="row">
+                        <label class="form-label">Jenis MO</label>
+                        <div class="col">
+                            {{ form_row(form.orderType, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.orderTypeMemo, {'label': false}) }}   
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="form-label">Status Cetakan</label>
                         <div class="col">
                             {{ form_row(form.printingStatus, {'label': false}) }}
                         </div>
