@@ -28,18 +28,45 @@
         </div>
         {{ form_row(form.code) }}
         {{ form_row(form.name) }}
-        <div class="row">
-            <div class="col">
-                {{ form_row(form.length) }}
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.length) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.width) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.height) }}
+                    <div class="input-group">
+                        {{ form_widget(form.height) }}
+                        {{ form_errors(form.height) }}
+                        <span class="input-group-text">mm</span>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-                {{ form_row(form.width) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.height) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.unit) }}
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">Berat</label>
+                    <div class="input-group">
+                        {{ form_widget(form.weight) }}
+                        {{ form_errors(form.weight) }}
+                        <span class="input-group-text">gr</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="form-label">Glossiness</label>
+                    <div class="input-group">
+                        {{ form_widget(form.glossiness) }}
+                        {{ form_errors(form.glossiness) }}
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+                <div class="col">
+                    {{ form_row(form.unit) }}
+                </div>
             </div>
         </div>
         {{ form_row(form.note) }}
