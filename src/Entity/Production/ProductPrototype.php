@@ -3,8 +3,10 @@
 namespace App\Entity\Production;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\DesignCode;
 use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
+use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Repository\Production\ProductPrototypeRepository;
 use Doctrine\DBAL\Types\Types;
@@ -102,8 +104,11 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(type: Types::ARRAY)]
     private array $coatingList = [];
 
-    #[ORM\Column(length: 60)]
-    private ?string $designCode = '';
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
+
+    #[ORM\ManyToOne]
+    private ?DesignCode $designCode = null;
 
     public function getCodeNumberConstant(): string
     {
@@ -295,12 +300,24 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getDesignCode(): ?string
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getDesignCode(): ?DesignCode
     {
         return $this->designCode;
     }
 
-    public function setDesignCode(string $designCode): self
+    public function setDesignCode(?DesignCode $designCode): self
     {
         $this->designCode = $designCode;
 

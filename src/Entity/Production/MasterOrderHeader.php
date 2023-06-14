@@ -20,21 +20,6 @@ use Doctrine\ORM\Mapping as ORM;
 class MasterOrderHeader extends ProductionHeader
 {
     public const CODE_NUMBER_CONSTANT = 'PMO';
-    public const WORK_ORDER_DISTRIBUTION_PREPRESS = 'prepress';
-    public const WORK_ORDER_DISTRIBUTION_COLOUR_MIXING = 'colour_mixing';
-    public const WORK_ORDER_DISTRIBUTION_CUTTING_MATERIAL = 'cutting_material';
-    public const WORK_ORDER_DISTRIBUTION_PRINTING = 'printing';
-    public const WORK_ORDER_DISTRIBUTION_DIECUT = 'diecut';
-    public const WORK_ORDER_DISTRIBUTION_CUTTING_FINISHING = 'cutting_finishing';
-    public const WORK_ORDER_DISTRIBUTION_VARNISH = 'varnish';
-    public const WORK_ORDER_DISTRIBUTION_SCREEN_PRINTING = 'screen_printing';
-    public const WORK_ORDER_DISTRIBUTION_FOLDER_GLUEING = 'folder_glueing';
-    public const WORK_ORDER_DISTRIBUTION_HOT_STAMP = 'hot_stamp';
-    public const WORK_ORDER_DISTRIBUTION_STITCHING = 'stitching';
-    public const WORK_ORDER_DISTRIBUTION_FOLDING = 'folding';
-    public const WORK_ORDER_DISTRIBUTION_FINISHING = 'finishing';
-    public const WORK_ORDER_DISTRIBUTION_PACKING = 'packing';
-    public const WORK_ORDER_DISTRIBUTION_SORTING = 'sorting';
     public const PRINTING_STATUS_PROOF_PRINT = 'proof_print';
     public const PRINTING_STATUS_NEW_ORDER = 'new_order';
     public const PRINTING_STATUS_REPEAT_ORDER = 'repeat_order';
@@ -344,6 +329,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\ManyToOne]
     private ?DiecutKnife $diecutKnife = null;
 
+    #[ORM\Column(length: 200)]
+    private ?string $orderTypeMemo = '';
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -592,6 +580,10 @@ class MasterOrderHeader extends ProductionHeader
         return $this->packagingPlasticQuantity == 0 ? 0 : 1000 / $this->packagingPlasticQuantity * $this->totalQuantityShortage / ($packagingPaperQuantity + $packagingBoxQuantity);
     }
 
+    public function getSyncColorPantoneAdditional() {
+        return $this->inkK1Color . " " . $this->inkK2Color . " " . $this->inkK3Color . " " . $this->inkK4Color;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -1937,6 +1929,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setDiecutKnife(?DiecutKnife $diecutKnife): self
     {
         $this->diecutKnife = $diecutKnife;
+
+        return $this;
+    }
+
+    public function getOrderTypeMemo(): ?string
+    {
+        return $this->orderTypeMemo;
+    }
+
+    public function setOrderTypeMemo(string $orderTypeMemo): self
+    {
+        $this->orderTypeMemo = $orderTypeMemo;
 
         return $this;
     }
