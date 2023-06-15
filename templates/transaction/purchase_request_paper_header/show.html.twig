@@ -116,7 +116,7 @@
             </table>
         </div>
         <div class="tab-pane fade" id="receive-header-tab-pane" role="tabpanel" aria-labelledby="receive-header-tab" tabindex="0">
-            {% set showReceive = purchaseRequestPaperHeader.purchaseRequestPaperDetails|map(purchaseRequestPaperDetail => purchaseRequestPaperDetail.purchaseOrderPaperDetail is not null)|reduce((a, b) => a or b, false) %}
+            {% set showReceive = purchaseRequestPaperHeader.purchaseRequestPaperDetails|map(purchaseRequestPaperDetail => purchaseRequestPaperDetail.purchaseOrderPaperDetails is not null)|reduce((a, b) => a or b, false) %}
             {% if showReceive %}
                 <legend class="float-none w-auto text-dark px-1">Data Penerimaan</legend>
                 <table class="table table-bordered table-striped">
@@ -132,15 +132,17 @@
                     </thead>
                     <tbody>
                         {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
-                            {% for receiveDetail in purchaseRequestPaperDetail.purchaseOrderPaperDetail.receiveDetails %}
-                                <tr>
-                                    <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
-                                    <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                                    <td>{{ receiveDetail.material.name|default }}</td>
-                                    <td>{{ receiveDetail.quantity|default|number_format(0) }}</td>
-                                    <td>{{ receiveDetail.unit.name|default }}</td>
-                                    <td>{{ receiveDetail.isCanceled|default ? 'Canceled' : '' }}</td>
-                                </tr>
+                            {% for purchaseOrderPaperDetail in purchaseRequestPaperDetail.purchaseOrderPaperDetails %}
+                                {% for receiveDetail in purchaseOrderPaperDetail.receiveDetails %}
+                                    <tr>
+                                        <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                                        <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                                        <td>{{ receiveDetail.material.name|default }}</td>
+                                        <td>{{ receiveDetail.quantity|default|number_format(0) }}</td>
+                                        <td>{{ receiveDetail.unit.name|default }}</td>
+                                        <td>{{ receiveDetail.isCanceled|default ? 'Canceled' : '' }}</td>
+                                    </tr>
+                                {% endfor %}
                             {% endfor %}
                         {% endfor %}
                     </tbody>
