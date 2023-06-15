@@ -73,14 +73,13 @@ class SaleReturnHeaderFormService
 
                 $saleOrderDetail->setTotalReturn($totalReturn);
                 $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
-            } else {
-                if ($saleInvoiceDetails !== null) {
-                    foreach($saleInvoiceDetails as $saleInvoiceDetail) {
-                        $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
-                        $saleInvoiceHeader = $saleInvoiceDetail->getSaleInvoiceHeader();
-                        $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
-                        $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
-                    }
+            }
+            if ($saleInvoiceDetails !== null) {
+                foreach($saleInvoiceDetails as $saleInvoiceDetail) {
+                    $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
+                    $saleInvoiceHeader = $saleInvoiceDetail->getSaleInvoiceHeader();
+                    $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
+                    $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
                 }
             }
         }

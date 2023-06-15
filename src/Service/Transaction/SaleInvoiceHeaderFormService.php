@@ -53,7 +53,7 @@ class SaleInvoiceHeaderFormService
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleInvoiceDetail->setIsCanceled($saleInvoiceDetail->getSyncIsCanceled());
             $saleInvoiceDetail->setProduct($deliveryDetail->getProduct());
-            $saleInvoiceDetail->setQuantity($deliveryDetail->getDeliveredQuantity());
+            $saleInvoiceDetail->setQuantity($deliveryDetail->getQuantity());
             $saleInvoiceDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleInvoiceDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
             $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());

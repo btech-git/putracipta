@@ -106,10 +106,12 @@ class PurchaseReturnHeaderFormService
             $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
         }
         
-        $purchaseInvoiceHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseInvoiceHeader();
-        if ($purchaseInvoiceHeader !== null) {
-            $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
-            $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
+        $purchaseInvoiceHeaders = $receiveHeader === null ? null : $receiveHeader->getPurchaseInvoiceHeaders();
+        if ($purchaseInvoiceHeaders !== null) {
+            foreach ($purchaseInvoiceHeaders as $purchaseInvoiceHeader) {
+                $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+                $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
+            }
         }
     }
 

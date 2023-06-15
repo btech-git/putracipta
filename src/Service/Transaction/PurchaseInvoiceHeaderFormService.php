@@ -76,9 +76,11 @@ class PurchaseInvoiceHeaderFormService
         $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
         $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
         
-        $purchaseReturnHeader = $receiveHeader === null ? null : $receiveHeader->getPurchaseReturnHeader();
-        if ($purchaseReturnHeader !== null) {
-            $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+        $purchaseReturnHeaders = $receiveHeader === null ? null : $receiveHeader->getPurchaseReturnHeaders();
+        if ($purchaseReturnHeaders !== null) {
+            foreach ($purchaseReturnHeaders as $purchaseReturnHeader) {
+                $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+            }
         }
         
         $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
