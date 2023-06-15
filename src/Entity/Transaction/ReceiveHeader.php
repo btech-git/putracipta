@@ -49,12 +49,6 @@ class ReceiveHeader extends TransactionHeader
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
-    #[ORM\OneToOne(mappedBy: 'receiveHeader', cascade: ['persist', 'remove'])]
-    private ?PurchaseReturnHeader $purchaseReturnHeader = null;
-
-    #[ORM\OneToOne(mappedBy: 'receiveHeader', cascade: ['persist', 'remove'])]
-    private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
-
     #[ORM\Column]
     #[Assert\NotNull]
     private ?int $purchaseOrderCodeNumberOrdinal = 0;
@@ -70,9 +64,17 @@ class ReceiveHeader extends TransactionHeader
     #[ORM\Column]
     private ?bool $hasReturnTransaction = false;
 
+    #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseInvoiceHeader::class)]
+    private Collection $purchaseInvoiceHeaders;
+
+    #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
+    private Collection $purchaseReturnHeaders;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
+        $this->purchaseInvoiceHeaders = new ArrayCollection();
+        $this->purchaseReturnHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -198,50 +200,6 @@ class ReceiveHeader extends TransactionHeader
         return $this;
     }
 
-    public function getPurchaseReturnHeader(): ?PurchaseReturnHeader
-    {
-        return $this->purchaseReturnHeader;
-    }
-
-    public function setPurchaseReturnHeader(?PurchaseReturnHeader $purchaseReturnHeader): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($purchaseReturnHeader === null && $this->purchaseReturnHeader !== null) {
-            $this->purchaseReturnHeader->setReceiveHeader(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($purchaseReturnHeader !== null && $purchaseReturnHeader->getReceiveHeader() !== $this) {
-            $purchaseReturnHeader->setReceiveHeader($this);
-        }
-
-        $this->purchaseReturnHeader = $purchaseReturnHeader;
-
-        return $this;
-    }
-
-    public function getPurchaseInvoiceHeader(): ?PurchaseInvoiceHeader
-    {
-        return $this->purchaseInvoiceHeader;
-    }
-
-    public function setPurchaseInvoiceHeader(?PurchaseInvoiceHeader $purchaseInvoiceHeader): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($purchaseInvoiceHeader === null && $this->purchaseInvoiceHeader !== null) {
-            $this->purchaseInvoiceHeader->setReceiveHeader(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($purchaseInvoiceHeader !== null && $purchaseInvoiceHeader->getReceiveHeader() !== $this) {
-            $purchaseInvoiceHeader->setReceiveHeader($this);
-        }
-
-        $this->purchaseInvoiceHeader = $purchaseInvoiceHeader;
-
-        return $this;
-    }
-
     public function getPurchaseOrderCodeNumberOrdinal(): ?int
     {
         return $this->purchaseOrderCodeNumberOrdinal;
@@ -286,6 +244,66 @@ class ReceiveHeader extends TransactionHeader
     public function setHasReturnTransaction(bool $hasReturnTransaction): self
     {
         $this->hasReturnTransaction = $hasReturnTransaction;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseInvoiceHeader>
+     */
+    public function getPurchaseInvoiceHeaders(): Collection
+    {
+        return $this->purchaseInvoiceHeaders;
+    }
+
+    public function addPurchaseInvoiceHeader(PurchaseInvoiceHeader $purchaseInvoiceHeader): self
+    {
+        if (!$this->purchaseInvoiceHeaders->contains($purchaseInvoiceHeader)) {
+            $this->purchaseInvoiceHeaders->add($purchaseInvoiceHeader);
+            $purchaseInvoiceHeader->setReceiveHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseInvoiceHeader(PurchaseInvoiceHeader $purchaseInvoiceHeader): self
+    {
+        if ($this->purchaseInvoiceHeaders->removeElement($purchaseInvoiceHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseInvoiceHeader->getReceiveHeader() === $this) {
+                $purchaseInvoiceHeader->setReceiveHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseReturnHeader>
+     */
+    public function getPurchaseReturnHeaders(): Collection
+    {
+        return $this->purchaseReturnHeaders;
+    }
+
+    public function addPurchaseReturnHeader(PurchaseReturnHeader $purchaseReturnHeader): self
+    {
+        if (!$this->purchaseReturnHeaders->contains($purchaseReturnHeader)) {
+            $this->purchaseReturnHeaders->add($purchaseReturnHeader);
+            $purchaseReturnHeader->setReceiveHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseReturnHeader(PurchaseReturnHeader $purchaseReturnHeader): self
+    {
+        if ($this->purchaseReturnHeaders->removeElement($purchaseReturnHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseReturnHeader->getReceiveHeader() === $this) {
+                $purchaseReturnHeader->setReceiveHeader(null);
+            }
+        }
 
         return $this;
     }

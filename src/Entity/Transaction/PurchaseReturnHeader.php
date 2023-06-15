@@ -54,11 +54,11 @@ class PurchaseReturnHeader extends TransactionHeader
     #[Assert\Count(min: 1)]
     private Collection $purchaseReturnDetails;
 
-    #[ORM\OneToOne(inversedBy: 'purchaseReturnHeader', cascade: ['persist', 'remove'])]
-    private ?ReceiveHeader $receiveHeader = null;
-
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseReturnHeaders')]
+    private ?ReceiveHeader $receiveHeader = null;
 
     public function __construct()
     {
@@ -200,18 +200,6 @@ class PurchaseReturnHeader extends TransactionHeader
         return $this;
     }
 
-    public function getReceiveHeader(): ?ReceiveHeader
-    {
-        return $this->receiveHeader;
-    }
-
-    public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
-    {
-        $this->receiveHeader = $receiveHeader;
-
-        return $this;
-    }
-
     public function getWarehouse(): ?Warehouse
     {
         return $this->warehouse;
@@ -220,6 +208,18 @@ class PurchaseReturnHeader extends TransactionHeader
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
+
+        return $this;
+    }
+
+    public function getReceiveHeader(): ?ReceiveHeader
+    {
+        return $this->receiveHeader;
+    }
+
+    public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
+    {
+        $this->receiveHeader = $receiveHeader;
 
         return $this;
     }

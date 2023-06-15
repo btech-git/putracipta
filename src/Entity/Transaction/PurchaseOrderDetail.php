@@ -60,9 +60,6 @@ class PurchaseOrderDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?int $remainingReceive = 0;
 
-    #[ORM\OneToOne(inversedBy: 'purchaseOrderDetail', cascade: ['persist', 'remove'])]
-    private ?PurchaseRequestDetail $purchaseRequestDetail = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deliveryDate = null;
 
@@ -76,6 +73,9 @@ class PurchaseOrderDetail extends TransactionDetail
 
     #[ORM\Column]
     private ?bool $isTransactionClosed = false;
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
+    private ?PurchaseRequestDetail $purchaseRequestDetail = null;
 
     public function __construct()
     {
@@ -234,18 +234,6 @@ class PurchaseOrderDetail extends TransactionDetail
         return $this;
     }
 
-    public function getPurchaseRequestDetail(): ?PurchaseRequestDetail
-    {
-        return $this->purchaseRequestDetail;
-    }
-
-    public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
-    {
-        $this->purchaseRequestDetail = $purchaseRequestDetail;
-
-        return $this;
-    }
-
     public function getDeliveryDate(): ?\DateTimeInterface
     {
         return $this->deliveryDate;
@@ -290,6 +278,18 @@ class PurchaseOrderDetail extends TransactionDetail
     public function setIsTransactionClosed(bool $isTransactionClosed): self
     {
         $this->isTransactionClosed = $isTransactionClosed;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestDetail(): ?PurchaseRequestDetail
+    {
+        return $this->purchaseRequestDetail;
+    }
+
+    public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
+    {
+        $this->purchaseRequestDetail = $purchaseRequestDetail;
 
         return $this;
     }

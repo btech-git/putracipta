@@ -104,7 +104,7 @@ class PurchaseInvoiceHeader extends TransactionHeader
     #[Assert\NotNull]
     private ?\DateTimeInterface $invoiceReceivedDate = null;
 
-    #[ORM\OneToOne(inversedBy: 'purchaseInvoiceHeader', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceHeaders')]
     private ?ReceiveHeader $receiveHeader = null;
 
     public function __construct()
@@ -152,7 +152,7 @@ class PurchaseInvoiceHeader extends TransactionHeader
         return $dueDate;
     }
 
-    public function getSyncRemainingPayment(): int
+    public function getSyncRemainingPayment(): string
     {
         return $this->grandTotal - $this->totalPayment - $this->totalReturn;
     }

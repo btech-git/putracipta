@@ -54,9 +54,6 @@ class SaleReturnHeader extends TransactionHeader
     #[Assert\Count(min: 1)]
     private Collection $saleReturnDetails;
 
-    #[ORM\OneToOne(inversedBy: 'saleReturnHeader', cascade: ['persist', 'remove'])]
-    private ?DeliveryHeader $deliveryHeader = null;
-
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
 
@@ -66,6 +63,9 @@ class SaleReturnHeader extends TransactionHeader
 
     #[ORM\Column]
     private ?bool $isProductExchange = false;
+
+    #[ORM\ManyToOne(inversedBy: 'saleReturnHeaders')]
+    private ?DeliveryHeader $deliveryHeader = null;
 
     public function __construct()
     {
@@ -207,18 +207,6 @@ class SaleReturnHeader extends TransactionHeader
         return $this;
     }
 
-    public function getDeliveryHeader(): ?DeliveryHeader
-    {
-        return $this->deliveryHeader;
-    }
-
-    public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
-    {
-        $this->deliveryHeader = $deliveryHeader;
-
-        return $this;
-    }
-
     public function getWarehouse(): ?Warehouse
     {
         return $this->warehouse;
@@ -251,6 +239,18 @@ class SaleReturnHeader extends TransactionHeader
     public function setIsProductExchange(bool $isProductExchange): self
     {
         $this->isProductExchange = $isProductExchange;
+
+        return $this;
+    }
+
+    public function getDeliveryHeader(): ?DeliveryHeader
+    {
+        return $this->deliveryHeader;
+    }
+
+    public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
+    {
+        $this->deliveryHeader = $deliveryHeader;
 
         return $this;
     }

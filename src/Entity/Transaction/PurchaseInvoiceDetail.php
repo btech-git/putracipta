@@ -31,10 +31,6 @@ class PurchaseInvoiceDetail extends TransactionDetail
     #[ORM\ManyToOne]
     private ?Material $material = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Assert\NotNull]
-    private ?ReceiveDetail $receiveDetail = null;
-
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
     #[Assert\NotNull]
     private ?PurchaseInvoiceHeader $purchaseInvoiceHeader = null;
@@ -44,6 +40,9 @@ class PurchaseInvoiceDetail extends TransactionDetail
 
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
+    private ?ReceiveDetail $receiveDetail = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -97,18 +96,6 @@ class PurchaseInvoiceDetail extends TransactionDetail
         return $this;
     }
 
-    public function getReceiveDetail(): ?ReceiveDetail
-    {
-        return $this->receiveDetail;
-    }
-
-    public function setReceiveDetail(ReceiveDetail $receiveDetail): self
-    {
-        $this->receiveDetail = $receiveDetail;
-
-        return $this;
-    }
-
     public function getPurchaseInvoiceHeader(): ?PurchaseInvoiceHeader
     {
         return $this->purchaseInvoiceHeader;
@@ -141,6 +128,18 @@ class PurchaseInvoiceDetail extends TransactionDetail
     public function setPaper(?Paper $paper): self
     {
         $this->paper = $paper;
+
+        return $this;
+    }
+
+    public function getReceiveDetail(): ?ReceiveDetail
+    {
+        return $this->receiveDetail;
+    }
+
+    public function setReceiveDetail(?ReceiveDetail $receiveDetail): self
+    {
+        $this->receiveDetail = $receiveDetail;
 
         return $this;
     }

@@ -6,6 +6,8 @@ use App\Entity\Master\Material;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseRequestDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,11 +47,16 @@ class PurchaseRequestDetail extends TransactionDetail
     #[Assert\NotNull]
     private ?string $memo = '';
 
-    #[ORM\OneToOne(mappedBy: 'purchaseRequestDetail', cascade: ['persist', 'remove'])]
-    private ?PurchaseOrderDetail $purchaseOrderDetail = null;
-
     #[ORM\Column(length: 60)]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_OPEN;
+
+    #[ORM\OneToMany(mappedBy: 'purchaseRequestDetail', targetEntity: PurchaseOrderDetail::class)]
+    private Collection $purchaseOrderDetails;
+
+    public function __construct()
+    {
+        $this->purchaseOrderDetails = new ArrayCollection();
+    }
 
     public function getSyncIsCanceled(): bool
     {
@@ -134,28 +141,6 @@ class PurchaseRequestDetail extends TransactionDetail
         return $this;
     }
 
-    public function getPurchaseOrderDetail(): ?PurchaseOrderDetail
-    {
-        return $this->purchaseOrderDetail;
-    }
-
-    public function setPurchaseOrderDetail(?PurchaseOrderDetail $purchaseOrderDetail): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($purchaseOrderDetail === null && $this->purchaseOrderDetail !== null) {
-            $this->purchaseOrderDetail->setPurchaseRequestDetail(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($purchaseOrderDetail !== null && $purchaseOrderDetail->getPurchaseRequestDetail() !== $this) {
-            $purchaseOrderDetail->setPurchaseRequestDetail($this);
-        }
-
-        $this->purchaseOrderDetail = $purchaseOrderDetail;
-
-        return $this;
-    }
-
     public function getTransactionStatus(): ?string
     {
         return $this->transactionStatus;
@@ -164,6 +149,36 @@ class PurchaseRequestDetail extends TransactionDetail
     public function setTransactionStatus(string $transactionStatus): self
     {
         $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseOrderDetail>
+     */
+    public function getPurchaseOrderDetails(): Collection
+    {
+        return $this->purchaseOrderDetails;
+    }
+
+    public function addPurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
+    {
+        if (!$this->purchaseOrderDetails->contains($purchaseOrderDetail)) {
+            $this->purchaseOrderDetails->add($purchaseOrderDetail);
+            $purchaseOrderDetail->setPurchaseRequestDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseOrderDetail(PurchaseOrderDetail $purchaseOrderDetail): self
+    {
+        if ($this->purchaseOrderDetails->removeElement($purchaseOrderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseOrderDetail->getPurchaseRequestDetail() === $this) {
+                $purchaseOrderDetail->setPurchaseRequestDetail(null);
+            }
+        }
 
         return $this;
     }

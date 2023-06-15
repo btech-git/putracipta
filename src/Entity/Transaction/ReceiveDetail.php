@@ -55,9 +55,13 @@ class ReceiveDetail extends TransactionDetail
     #[ORM\Column]
     private ?int $remainingQuantity = null;
 
+    #[ORM\OneToMany(mappedBy: 'receiveDetail', targetEntity: PurchaseInvoiceDetail::class)]
+    private Collection $purchaseInvoiceDetails;
+
     public function __construct()
     {
         $this->purchaseReturnDetails = new ArrayCollection();
+        $this->purchaseInvoiceDetails = new ArrayCollection();
     }
 
     #[Assert\Callback]
@@ -223,6 +227,36 @@ class ReceiveDetail extends TransactionDetail
     public function setRemainingQuantity(int $remainingQuantity): self
     {
         $this->remainingQuantity = $remainingQuantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseInvoiceDetail>
+     */
+    public function getPurchaseInvoiceDetails(): Collection
+    {
+        return $this->purchaseInvoiceDetails;
+    }
+
+    public function addPurchaseInvoiceDetail(PurchaseInvoiceDetail $purchaseInvoiceDetail): self
+    {
+        if (!$this->purchaseInvoiceDetails->contains($purchaseInvoiceDetail)) {
+            $this->purchaseInvoiceDetails->add($purchaseInvoiceDetail);
+            $purchaseInvoiceDetail->setReceiveDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseInvoiceDetail(PurchaseInvoiceDetail $purchaseInvoiceDetail): self
+    {
+        if ($this->purchaseInvoiceDetails->removeElement($purchaseInvoiceDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseInvoiceDetail->getReceiveDetail() === $this) {
+                $purchaseInvoiceDetail->setReceiveDetail(null);
+            }
+        }
 
         return $this;
     }

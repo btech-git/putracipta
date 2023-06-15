@@ -84,9 +84,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
 
-    #[ORM\OneToOne(inversedBy: 'purchaseOrderPaperDetail', cascade: ['persist', 'remove'])]
-    private ?PurchaseRequestPaperDetail $purchaseRequestPaperDetail = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\NotNull]
     private ?\DateTimeInterface $deliveryDate = null;
@@ -101,6 +98,9 @@ class PurchaseOrderPaperDetail extends TransactionDetail
 
     #[ORM\Column]
     private ?bool $isTransactionClosed = false;
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
+    private ?PurchaseRequestPaperDetail $purchaseRequestPaperDetail = null;
 
     public function __construct()
     {
@@ -345,18 +345,6 @@ class PurchaseOrderPaperDetail extends TransactionDetail
         return $this;
     }
 
-    public function getPurchaseRequestPaperDetail(): ?PurchaseRequestPaperDetail
-    {
-        return $this->purchaseRequestPaperDetail;
-    }
-
-    public function setPurchaseRequestPaperDetail(?PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
-    {
-        $this->purchaseRequestPaperDetail = $purchaseRequestPaperDetail;
-
-        return $this;
-    }
-
     public function getDeliveryDate(): ?\DateTimeInterface
     {
         return $this->deliveryDate;
@@ -401,6 +389,18 @@ class PurchaseOrderPaperDetail extends TransactionDetail
     public function setIsTransactionClosed(bool $isTransactionClosed): self
     {
         $this->isTransactionClosed = $isTransactionClosed;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestPaperDetail(): ?PurchaseRequestPaperDetail
+    {
+        return $this->purchaseRequestPaperDetail;
+    }
+
+    public function setPurchaseRequestPaperDetail(?PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
+    {
+        $this->purchaseRequestPaperDetail = $purchaseRequestPaperDetail;
 
         return $this;
     }

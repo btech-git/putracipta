@@ -6,6 +6,8 @@ use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\TransactionDetail;
 use App\Repository\Transaction\PurchaseRequestPaperDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,11 +48,16 @@ class PurchaseRequestPaperDetail extends TransactionDetail
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestPaperDetails')]
     private ?PurchaseRequestPaperHeader $purchaseRequestPaperHeader = null;
 
-    #[ORM\OneToOne(mappedBy: 'purchaseRequestPaperDetail', cascade: ['persist', 'remove'])]
-    private ?PurchaseOrderPaperDetail $purchaseOrderPaperDetail = null;
-
     #[ORM\Column(length: 60)]
     private ?string $transactionStatus = self::TRANSACTION_STATUS_OPEN;
+
+    #[ORM\OneToMany(mappedBy: 'purchaseRequestPaperDetail', targetEntity: PurchaseOrderPaperDetail::class)]
+    private Collection $purchaseOrderPaperDetails;
+
+    public function __construct()
+    {
+        $this->purchaseOrderPaperDetails = new ArrayCollection();
+    }
 
     public function getSyncIsCanceled(): bool
     {
@@ -135,28 +142,6 @@ class PurchaseRequestPaperDetail extends TransactionDetail
         return $this;
     }
 
-    public function getPurchaseOrderPaperDetail(): ?PurchaseOrderPaperDetail
-    {
-        return $this->purchaseOrderPaperDetail;
-    }
-
-    public function setPurchaseOrderPaperDetail(?PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($purchaseOrderPaperDetail === null && $this->purchaseOrderPaperDetail !== null) {
-            $this->purchaseOrderPaperDetail->setPurchaseRequestPaperDetail(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($purchaseOrderPaperDetail !== null && $purchaseOrderPaperDetail->getPurchaseRequestPaperDetail() !== $this) {
-            $purchaseOrderPaperDetail->setPurchaseRequestPaperDetail($this);
-        }
-
-        $this->purchaseOrderPaperDetail = $purchaseOrderPaperDetail;
-
-        return $this;
-    }
-
     public function getTransactionStatus(): ?string
     {
         return $this->transactionStatus;
@@ -165,6 +150,36 @@ class PurchaseRequestPaperDetail extends TransactionDetail
     public function setTransactionStatus(string $transactionStatus): self
     {
         $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseOrderPaperDetail>
+     */
+    public function getPurchaseOrderPaperDetails(): Collection
+    {
+        return $this->purchaseOrderPaperDetails;
+    }
+
+    public function addPurchaseOrderPaperDetail(PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
+    {
+        if (!$this->purchaseOrderPaperDetails->contains($purchaseOrderPaperDetail)) {
+            $this->purchaseOrderPaperDetails->add($purchaseOrderPaperDetail);
+            $purchaseOrderPaperDetail->setPurchaseRequestPaperDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseOrderPaperDetail(PurchaseOrderPaperDetail $purchaseOrderPaperDetail): self
+    {
+        if ($this->purchaseOrderPaperDetails->removeElement($purchaseOrderPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseOrderPaperDetail->getPurchaseRequestPaperDetail() === $this) {
+                $purchaseOrderPaperDetail->setPurchaseRequestPaperDetail(null);
+            }
+        }
 
         return $this;
     }

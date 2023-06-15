@@ -41,9 +41,6 @@ class DeliveryHeader extends TransactionHeader
     #[Assert\Count(min: 1)]
     private Collection $deliveryDetails;
 
-    #[ORM\OneToOne(mappedBy: 'deliveryHeader', cascade: ['persist', 'remove'])]
-    private ?SaleReturnHeader $saleReturnHeader = null;
-
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Transportation $transportation = null;
@@ -66,9 +63,13 @@ class DeliveryHeader extends TransactionHeader
     #[ORM\Column(length: 100)]
     private ?string $customerName = '';
 
+    #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: SaleReturnHeader::class)]
+    private Collection $saleReturnHeaders;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
+        $this->saleReturnHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -158,28 +159,6 @@ class DeliveryHeader extends TransactionHeader
         return $this;
     }
 
-    public function getSaleReturnHeader(): ?SaleReturnHeader
-    {
-        return $this->saleReturnHeader;
-    }
-
-    public function setSaleReturnHeader(?SaleReturnHeader $saleReturnHeader): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($saleReturnHeader === null && $this->saleReturnHeader !== null) {
-            $this->saleReturnHeader->setDeliveryHeader(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($saleReturnHeader !== null && $saleReturnHeader->getDeliveryHeader() !== $this) {
-            $saleReturnHeader->setDeliveryHeader($this);
-        }
-
-        $this->saleReturnHeader = $saleReturnHeader;
-
-        return $this;
-    }
-
     public function getTransportation(): ?Transportation
     {
         return $this->transportation;
@@ -260,6 +239,36 @@ class DeliveryHeader extends TransactionHeader
     public function setCustomerName(string $customerName): self
     {
         $this->customerName = $customerName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaleReturnHeader>
+     */
+    public function getSaleReturnHeaders(): Collection
+    {
+        return $this->saleReturnHeaders;
+    }
+
+    public function addSaleReturnHeader(SaleReturnHeader $saleReturnHeader): self
+    {
+        if (!$this->saleReturnHeaders->contains($saleReturnHeader)) {
+            $this->saleReturnHeaders->add($saleReturnHeader);
+            $saleReturnHeader->setDeliveryHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleReturnHeader(SaleReturnHeader $saleReturnHeader): self
+    {
+        if ($this->saleReturnHeaders->removeElement($saleReturnHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($saleReturnHeader->getDeliveryHeader() === $this) {
+                $saleReturnHeader->setDeliveryHeader(null);
+            }
+        }
 
         return $this;
     }
