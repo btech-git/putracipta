@@ -25,6 +25,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         list($count, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->andWhere("{$alias}.totalRemainingReceive > 0");
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'Approve' OR {$alias}.transactionStatus = 'partial_receive'");
             
             if (isset($request->query->get('purchase_order_paper_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_paper_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');

@@ -26,10 +26,11 @@ class PurchaseRequestDetailController extends AbstractController
         list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $sub = $new(PurchaseOrderDetail::class, 'p');
             $sub->andWhere("IDENTITY(p.purchaseRequestDetail) = {$alias}.id");
-            $qb->leftJoin("{$alias}.purchaseOrderDetail", 'd');
+            $qb->leftJoin("{$alias}.purchaseOrderDetails", 'd');
+            $qb->join("{$alias}.purchaseRequestHeader", 'h');
             $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
+            $qb->andWhere("h.transactionStatus = 'Approve'");
             
             if (isset($request->query->get('purchase_request_detail_grid')['filter']['material:name']) && isset($request->query->get('purchase_request_detail_grid')['sort']['material:name'])) {
                 $qb->innerJoin("{$alias}.material", 'm');

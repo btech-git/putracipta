@@ -28,12 +28,12 @@ class ReceiveHeaderController extends AbstractController
             if ($request->query->has('purchase_return_header')) {
                 $sub = $new(PurchaseReturnHeader::class, 'p');
                 $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
-                $qb->leftJoin("{$alias}.purchaseReturnHeader", 'r');
+                $qb->leftJoin("{$alias}.purchaseReturnHeaders", 'r');
                 $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             } else if ($request->query->has('purchase_invoice_header')) {
                 $sub = $new(PurchaseInvoiceHeader::class, 'p');
                 $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
-                $qb->leftJoin("{$alias}.purchaseInvoiceHeader", 'i');
+                $qb->leftJoin("{$alias}.purchaseInvoiceHeaders", 'i');
                 $qb->andWhere($qb->expr()->orX('i.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             }
             

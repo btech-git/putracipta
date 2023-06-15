@@ -25,6 +25,7 @@ class PurchaseOrderHeaderController extends AbstractController
         list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->andWhere("{$alias}.totalRemainingReceive > 0");
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.transactionStatus = 'approve' OR {$alias}.transactionStatus = 'partial_receive'");
             
             if (isset($request->query->get('purchase_order_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
