@@ -17,9 +17,6 @@
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
-                </th>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -43,9 +40,6 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
-                </th>
-                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
             </tr>
@@ -67,12 +61,11 @@
                     <td>{{ purchaseOrderPaperHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
-                    <td class="text-end">{{ purchaseOrderPaperHeader.grandTotal|number_format(0) }}</td>
                     <td>{{ purchaseOrderPaperHeader.note }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No records found</td>
+                    <td colspan="4">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
