@@ -580,10 +580,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this->packagingPlasticQuantity == 0 ? 0 : 1000 / $this->packagingPlasticQuantity * $this->totalQuantityShortage / ($packagingPaperQuantity + $packagingBoxQuantity);
     }
 
-    public function getSyncColorPantoneAdditional() {
-        return $this->inkK1Color . " " . $this->inkK2Color . " " . $this->inkK3Color . " " . $this->inkK4Color;
-    }
-    
     public function getId(): ?int
     {
         return $this->id;
