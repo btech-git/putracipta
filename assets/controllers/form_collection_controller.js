@@ -17,26 +17,42 @@ export default class extends Controller {
     }
 
     addCollectionItem(event) {
-        this.addItem(event.detail);
+        if (event.params.addItemMatchingFieldPath === undefined ||
+            event.params.addItemMatchingFieldPathValue === undefined ||
+            getPropertyValue(event.detail, event.params.addItemMatchingFieldPath) === event.params.addItemMatchingFieldPathValue) {
+            this.addItem(event.detail);
+        }
     }
 
     addCollectionItems(event) {
-        for (const detailItem of event.detail) {
-            this.addItem(detailItem);
+        if (event.params.addItemsMatchingFieldPath === undefined ||
+            event.params.addItemsMatchingFieldPathValue === undefined ||
+            getPropertyValue(event.detail, event.params.addItemsMatchingFieldPath) === event.params.addItemsMatchingFieldPathValue) {
+            for (const detailItem of event.detail) {
+                this.addItem(detailItem);
+            }
         }
     }
 
     removeCollectionItem(event) {
-        this.itemTargets.forEach(element => {
-            if (element.contains(event.target)) {
-                element.remove();
-            }
-        });
-        this.dispatch('collection-item-removed');
+        if (event.params.removeItemMatchingFieldPath === undefined ||
+            event.params.removeItemMatchingFieldPathValue === undefined ||
+            getPropertyValue(event.detail, event.params.removeItemMatchingFieldPath) === event.params.removeItemMatchingFieldPathValue) {
+            this.itemTargets.forEach(element => {
+                if (element.contains(event.target)) {
+                    element.remove();
+                }
+            });
+            this.dispatch('collection-item-removed');
+        }
     }
 
     clearCollectionItems(event) {
-        this.itemsTarget.replaceChildren();
+        if (event.params.clearItemsMatchingFieldPath === undefined ||
+            event.params.clearItemsMatchingFieldPathValue === undefined ||
+            getPropertyValue(event.detail, event.params.clearItemsMatchingFieldPath) === event.params.clearItemsMatchingFieldPathValue) {
+            this.itemsTarget.replaceChildren();
+        }
     }
 
     addItem(data) {
