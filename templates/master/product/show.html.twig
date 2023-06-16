@@ -69,5 +69,14 @@
         </tbody>
     </table>
         
+    <div class="text-center">
+        <h4>Layout</h4>
+        {% if product.fileExtension == 'pdf' %}
+            <a target="_blank" href="{{ asset('uploads/product/' ~ product.id ~ '.' ~ product.fileExtension) }}">Layout PDF File</a>
+        {% elseif product.fileExtension == 'jpg' or product.fileExtension == 'jpeg' or product.fileExtension == 'png' %}
+            <img width="256px" src="{{ asset('uploads/product/' ~ product.id ~ '.' ~ product.fileExtension) }}" alt="Product Image" />
+        {% endif %}
+    </div>
+
     {#{{ include('master/product/_delete_form.html.twig') }}#}
 {% endblock %}

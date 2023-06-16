@@ -38,6 +38,21 @@ class ProductType extends AbstractType
                 'prototype_data' => new DesignCode(),
                 'label' => false,
             ])
+            ->add('transactionFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5120k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
+                    ])
+                ],
+            ])
         ;
     }
 

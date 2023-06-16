@@ -60,7 +60,17 @@
             </div>
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_MATERIAL', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-material-container">
+        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-material-container">
+            <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
+            {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-paper-container">
+            <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
+            {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
+        </fieldset>
+
+        {#<fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_MATERIAL', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-material-container">
             <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
             {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
         </fieldset>
@@ -68,7 +78,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_PAPER', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-paper-container">
             <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
             {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
-        </fieldset>
+        </fieldset>#}
 
         <div class="d-grid">
             <button class="btn btn-success"

@@ -7,6 +7,7 @@ use App\Entity\Master\Product;
 use App\Form\Master\ProductType;
 use App\Grid\Master\ProductGridType;
 use App\Repository\Master\ProductRepository;
+use App\Service\Master\ProductFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,14 +49,16 @@ class ProductController extends AbstractController
 
     #[Route('/new', name: 'app_master_product_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, ProductRepository $productRepository): Response
+    public function new(Request $request, ProductFormService $productFormService): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
+        $productFormService->finalize($product, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $productRepository->add($product, true);
+            $productFormService->save($product);
+            $productFormService->uploadFile($product, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product');
 
             return $this->redirectToRoute('app_master_product_show', ['id' => $product->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -78,13 +81,15 @@ class ProductController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_product_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function edit(Request $request, Product $product, ProductFormService $productFormService): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
+        $productFormService->finalize($product, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $productRepository->add($product, true);
+            $productFormService->save($product);
+            $productFormService->uploadFile($product, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product');
 
             return $this->redirectToRoute('app_master_product_show', ['id' => $product->getId()], Response::HTTP_SEE_OTHER);
         }
