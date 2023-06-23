@@ -22,9 +22,15 @@ export default class extends Controller {
     }
 
     loadContent(url, method, formTarget) {
-        const formElement = document.querySelector(formTarget);
-        if (formElement !== null) {
-            const formData = new FormData(formElement);
+        const formElements = document.querySelectorAll(formTarget);
+        if (formElements.length > 0) {
+            const formData = new FormData();
+            for (const formElement of formElements) {
+                const newFormData = new FormData(formElement);
+                for (const pair of newFormData.entries()) {
+                    formData.append(pair[0], pair[1]);
+                }
+            }
             if (method === 'GET' || method === 'get') {
                 this.fetchContent(url + '?' + new URLSearchParams(formData).toString(), {method});
             } else if (method === 'POST' || method === 'post') {
