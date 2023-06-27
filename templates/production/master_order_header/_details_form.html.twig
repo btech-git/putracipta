@@ -24,9 +24,18 @@
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" data-item-identifier-name="saleOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.saleOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
+                    <td class="d-none" data-item-field-name="productId">{{ detailForm.vars.value.saleOrderDetail.product.id|default }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td data-item-field-name="designCode">
-                        {{ form_row(detailForm.designCode, {'label': false}) }}
+                        {{ form_row(detailForm.designCode, {'label': false, 'attr': {
+                            'data-item-field-action': '
+                                const productId = $row.querySelector("[data-item-field-name=productId]").textContent;
+                                const choiceElements = $element.querySelectorAll("option[data-product]:not([data-product=\'" + productId + "\'])");
+                                for (const choiceElement of choiceElements) {
+                                    choiceElement.classList.add("d-none");
+                                }
+                            ',
+                        }}) }}
                     </td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>

@@ -16,7 +16,15 @@ class MasterOrderProductDetailType extends AbstractType
         $builder
             ->add('isCanceled')
             ->add('quantityStock')
-            ->add('designCode', null, ['choice_label' => 'name'])
+            ->add('designCode', null, [
+                'choice_label' => 'name',
+                'choice_attr' => function($choice) {
+                  return ['data-product' => $choice->getProduct()->getId()];
+                },
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')->andWhere("e.product IS NOT NULL");
+                },
+            ])
             ->add('saleOrderDetail', EntityHiddenType::class, ['class' => SaleOrderDetail::class])
         ;
     }

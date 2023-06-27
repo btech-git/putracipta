@@ -125,9 +125,9 @@
                         <div class="col">
                             {{ form_row(form.printingStatus, {'label': false}) }}
                         </div>
-                        <div class="col">
+                        {#<div class="col">
                             {{ form_row(form.printingStatusData, {'label': false}) }}   
-                        </div>
+                        </div>#}
                     </div>
                     {{ form_row(form.glossiness, {'label': 'Glossiness'}) }}
                     {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
@@ -138,9 +138,9 @@
                         <div class="col">
                             {{ form_row(form.dieCutBlade, {'label': false}) }}
                         </div>
-                        <div class="col">
+                        {#<div class="col">
                             {{ form_row(form.dieCutBladeData, {'label': false}) }}
-                        </div>
+                        </div>#}
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Pisau Diecut #</label>
@@ -155,22 +155,22 @@
                                         ]|json_encode,
                                     },
                                 }) }}
-                                <input type="text" id="{{ form.diecutKnife.vars.id }}-text" class="form-control readonly-form-input {% if not form.diecutKnife.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.diecutKnife.name|default }}" readonly="readonly"
+                                <input type="text" id="{{ form.diecutKnife.vars.id }}-text" class="form-control readonly-form-input {% if not form.diecutKnife.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.diecutKnife.code|default }}" readonly="readonly"
                                        data-bs-toggle="modal" data-bs-target="#diecut-knife-dialog"
-                                       data-controller="dom-element"
-                                       data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
-                                       data-dom-element-bind-specifications-param="{{ [
-                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeName'}},
-                                       ]|json_encode }}" />
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" value="{{ masterOrderHeader.diecutKnife.code|default }}" readonly="readonly"
                                        data-controller="dom-element"
                                        data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
                                        data-dom-element-bind-specifications-param="{{ [
                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCode'}},
                                        ]|json_encode }}" />
                             </div>
+                            {#<div class="col">
+                                <input type="text" class="form-control" value="{{ masterOrderHeader.diecutKnife.code|default }}" readonly="readonly"
+                                       data-controller="dom-element"
+                                       data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
+                                       data-dom-element-bind-specifications-param="{{ [
+                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCode'}},
+                                       ]|json_encode }}" />
+                            </div>#}
                         {{ form_errors(form.diecutKnife) }}
                         </div>
                     </div>
