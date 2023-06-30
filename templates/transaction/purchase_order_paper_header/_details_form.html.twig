@@ -57,19 +57,21 @@
                     </td>
                     <td>
                         {{ form_row(detailForm.apkiValue, {'label': false, 'attr': {
+                            'readonly': detailForm.vars.value.paper.pricingMode|default == 'weight' or detailForm.vars.value.paper.pricingMode|default == 'unit',
                             'data-action': 'change->json-loader#load',
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
-                                if (pricingMode === "weight") {
+                                if (pricingMode === "weight" || pricingMode === "unit") {
                                     $element.setAttribute("readonly", "readonly");
-                                } else if (pricingMode === "unit") {
-                                    $element.setAttribute("readonly", "readonly");
+                                } else {
+                                    $element.removeAttribute("readonly");
                                 }
                             ',
                         }}) }}
                     </td>
                     <td>
                         {{ form_row(detailForm.associationPrice, {'label': false, 'attr': {
+                            'readonly': detailForm.vars.value.paper.pricingMode|default == 'weight' or detailForm.vars.value.paper.pricingMode|default == 'unit',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
@@ -77,16 +79,17 @@
                             ]|json_encode,
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
-                                if (pricingMode === "weight") {
+                                if (pricingMode === "weight" || pricingMode === "unit") {
                                     $element.setAttribute("readonly", "readonly");
-                                } else if (pricingMode === "unit") {
-                                    $element.setAttribute("readonly", "readonly");
+                                } else {
+                                    $element.removeAttribute("readonly");
                                 }
                             ',
                         }}) }}
                     </td>
                     <td>
                         {{ form_row(detailForm.weightPrice, {'label': false, 'attr': {
+                            'readonly': detailForm.vars.value.paper.pricingMode|default == 'association' or detailForm.vars.value.paper.pricingMode|default == 'unit',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
@@ -96,10 +99,10 @@
                             'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.weightPrice",
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
-                                if (pricingMode === "association") {
+                                if (pricingMode === "association" || pricingMode === "unit") {
                                     $element.setAttribute("readonly", "readonly");
-                                } else if (pricingMode === "unit") {
-                                    $element.setAttribute("readonly", "readonly");
+                                } else {
+                                    $element.removeAttribute("readonly");
                                 }
                             ',
                         }}) }}
@@ -110,16 +113,17 @@
                     </td>
                     <td>
                         {{ form_row(detailForm.unitPrice, {'label': false, 'attr': {
+                            'readonly': detailForm.vars.value.paper.pricingMode|default == 'association' or detailForm.vars.value.paper.pricingMode|default == 'weight',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-json-loader-target': 'placeholder',
                             'data-property-path': "purchaseOrderPaperDetails.#{ detailForm.vars.name }.unitPrice",
                             'data-item-field-action': '
                                 const pricingMode = $row.querySelector("[data-item-field-name=pricingMode]").textContent;
-                                if (pricingMode === "association") {
+                                if (pricingMode === "association" || pricingMode === "weight") {
                                     $element.setAttribute("readonly", "readonly");
-                                } else if (pricingMode === "weight") {
-                                    $element.setAttribute("readonly", "readonly");
+                                } else {
+                                    $element.removeAttribute("readonly");
                                 }
                             ',
                         }}) }}

@@ -31,10 +31,13 @@
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
                     <td>
                         {{ form_row(detailForm.fscCode, {'label': false, 'attr': {
+                            'readonly': not detailForm.vars.value.saleOrderDetail.saleOrderHeader.isUsingFscPaper|default,
                             'data-item-field-action': '
                                 const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
                                 if (hasFscCode === "No") {
                                     $element.setAttribute("readonly", "readonly");
+                                } else {
+                                    $element.removeAttribute("readonly");
                                 }
                             ',
                         }}) }}
