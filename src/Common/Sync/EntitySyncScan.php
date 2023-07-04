@@ -33,16 +33,33 @@ trait EntitySyncScan
 
     public function update(EntityManagerInterface $entityManager): void
     {
-        foreach ($this->persistedEntities as $persistedEntity) {
-            $entityManager->persist($persistedEntity);
-        }
-        foreach ($this->managedEntities as $managedEntityItem) {
-            if ($managedEntityItem[1]) {
-                $entityManager->persist($managedEntityItem[0]);
-            } else {
-                $entityManager->remove($managedEntityItem[0]);
+        if ($this->oldEntitiesScanned && $this->newEntitiesScanned) {
+            foreach ($this->persistedEntities as $persistedEntity) {
+                $entityManager->persist($persistedEntity);
+            }
+            foreach ($this->managedEntities as $managedEntityItem) {
+                if ($managedEntityItem[1]) {
+                    $entityManager->persist($managedEntityItem[0]);
+                } else {
+                    $entityManager->remove($managedEntityItem[0]);
+                }
             }
         }
+    }
+
+    public function getView(): array
+    {
+        $countByRelation = [];
+        foreach (array_keys($this->managedEntities) as $key) {
+            list($relationName, ) = explode('|', $key);
+            if (!isset($countByRelation[$relationName])) {
+                $countByRelation[$relationName] = 0;
+            }
+            $countByRelation[$relationName]++;
+        }
+        return [
+            'countByRelation' => $countByRelation,
+        ];
     }
 
     private function setupRelations(array $relations): void
