@@ -2,9 +2,10 @@ import { Controller } from '@hotwired/stimulus';
 import { putValueContent, getPropertyValue } from '../helpers';
 
 export default class extends Controller {
-    static targets = ['items', 'item']
+    static targets = ['items', 'item', 'ordinal']
     static values = {
         startIndex: Number,
+        startOrdinal: Number,
         prototype: String,
         itemFieldNameAttributeName: {type: String, default: 'data-item-field-name'},
         itemFieldActionAttributeName: {type: String, default: 'data-item-field-action'},
@@ -14,6 +15,7 @@ export default class extends Controller {
 
     connect() {
         this.index = this.startIndexValue;
+        this.ordinal = this.startOrdinalValue;
     }
 
     addCollectionItem(event) {
@@ -41,8 +43,14 @@ export default class extends Controller {
             this.itemTargets.forEach(element => {
                 if (element.contains(event.target)) {
                     element.remove();
+                    this.ordinal--;
                 }
             });
+            let i = 0;
+            for (const ordinalItem of this.ordinalTargets) {
+                putValueContent(ordinalItem, i + 1);
+                i++;
+            }
             this.dispatch('collection-item-removed');
         }
     }
@@ -52,6 +60,7 @@ export default class extends Controller {
             event.params.clearItemsMatchingFieldPathValue === undefined ||
             getPropertyValue(event.detail, event.params.clearItemsMatchingFieldPath) === event.params.clearItemsMatchingFieldPathValue) {
             this.itemsTarget.replaceChildren();
+            this.ordinal = 0;
         }
     }
 
@@ -80,8 +89,13 @@ export default class extends Controller {
             const $element = element;
             eval(element.getAttribute(this.itemFieldActionAttributeNameValue));
         }
+        const ordinalItem = row.querySelector('[data-form-collection-target=ordinal]');
+        if (ordinalItem !== null) {
+            putValueContent(ordinalItem, this.ordinal + 1);
+        }
         this.itemsTarget.appendChild(row);
         this.index++;
+        this.ordinal++;
         this.dispatch('collection-item-added');
     }
 };
