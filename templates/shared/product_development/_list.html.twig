@@ -1,0 +1,57 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, productDevelopments) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="product-development-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 280px">
+                    Pengembangan #
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                </th>
+                <th>
+                    Development Type
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+                <th style="min-width: 90px"></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for productDevelopment in productDevelopments %}
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'productDevelopmentId': productDevelopment.id,
+                    'productDevelopmentCodeNumber': productDevelopment.codeNumber,
+                    'productDevelopmentTypeList': productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '',
+                    'productDevelopmentDate': productDevelopment.productionDate|default ? productDevelopment.productionDate|date('d M Y') : ''}|json_encode }}">
+                    <td>{{ productDevelopment.codeNumber }}</td>
+                    <td>{{ productDevelopment.productionDate ? productDevelopment.productionDate|date('d M Y') : '' }}</td>
+                    <td>{{ productDevelopment.developmentTypeList ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
+                    <td>{{ productDevelopment.note }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{{ grid.navigation(form, count, productDevelopments) }}

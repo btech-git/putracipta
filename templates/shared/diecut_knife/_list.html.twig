@@ -8,9 +8,6 @@
     <table class="table table-bordered table-striped" id="diecut-knife-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'code') }}>
-                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
@@ -19,9 +16,6 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
-                </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
@@ -34,10 +28,8 @@
             {% for diecutKnife in diecutKnives %}
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'diecutKnifeId': diecutKnife.id, 
-                    'diecutKnifeCode': diecutKnife.code, 
                     'diecutKnifeName': diecutKnife.name, 
                     'diecutKnifeNote': diecutKnife.note}|json_encode }}">
-                    <td>{{ diecutKnife.code }}</td>
                     <td>{{ diecutKnife.name }}</td>
                     <td>{{ diecutKnife.note }}</td>
                 </tr>
