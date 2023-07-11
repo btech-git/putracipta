@@ -38,9 +38,7 @@ trait EntitySyncScan
                 $entityManager->persist($persistedEntity);
             }
             foreach ($this->managedEntities as $managedEntityItem) {
-                if ($managedEntityItem[1]) {
-                    $entityManager->persist($managedEntityItem[0]);
-                } else {
+                if ($managedEntityItem[1] > $managedEntityItem[2]) {
                     $entityManager->remove($managedEntityItem[0]);
                 }
             }
@@ -93,7 +91,14 @@ trait EntitySyncScan
             }
         } else {
             $key = $relationName . '|' . $entityId;
-            $this->managedEntities[$key] = [$entity, isset($this->managedEntities[$key])];
+            if (!isset($this->managedEntities[$key])) {
+                $this->managedEntities[$key] = [$entity, 0, 0];
+            }
+            if ($isNew) {
+                $this->managedEntities[$key][2]++;
+            } else {
+                $this->managedEntities[$key][1]++;
+            }
         }
     }
 }
