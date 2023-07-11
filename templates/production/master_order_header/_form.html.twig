@@ -108,6 +108,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="{{ form.productDevelopment.vars.id }}-text" class="form-label">Pengembangan Produk Baru</label>
+                        {{ form_row(form.productDevelopment, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'product-development-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productDevelopmentId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.productDevelopment.vars.id }}-text" class="form-control readonly-form-input {% if not form.productDevelopment.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.productDevelopment.company|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#product-development-dialog"
+                               data-controller="dom-element"
+                               data-action="product-development-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productDevelopmentCodeNumber'}},
+                               ]|json_encode }}" />
+                        {{ form_errors(form.productDevelopment) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Development</label>
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.productDevelopment.productionDate|default ? masterOrderHeader.productDevelopment.productionDate|date('d M Y') : '' }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-development-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productDevelopmentDate'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Development</label>
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-development-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productDevelopmentTypeList'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
                 
                 <div class="col">
@@ -129,10 +167,10 @@
                             {{ form_row(form.printingStatusData, {'label': false}) }}   
                         </div>#}
                     </div>
-                    {{ form_row(form.glossiness, {'label': 'Glossiness'}) }}
                     {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
                     {{ form_row(form.hotStamping, {'label': 'Hot Stamping'}) }}
-                    {{ form_row(form.finishing, {'label': 'Finishing'}) }}
+                    {{ form_row(form.glossiness, {'label': 'Glossiness'}) }}
+                    {{ form_row(form.finishing, {'label': 'Coating'}) }}
                     <label class="form-label">Pisau Die Cut</label>
                     <div class="row">
                         <div class="col">
@@ -181,7 +219,7 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Products</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#sale-order-detail-dialog">Add Product</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#sale-order-detail-dialog">+ Order Customer</button>
             {{ include('production/master_order_header/_details_form.html.twig') }}
         </fieldset>
 
@@ -811,14 +849,6 @@
             </div>
         </fieldset>
 
-        {#<fieldset class="border border-secondary rounded mb-3 p-3">
-            <div class="row">
-                <div class="col">
-                    {{ form_row(form.workOrderDistribution, {'label': 'Distribusi WO'}) }}
-                </div>
-            </div>
-        </fieldset>#}
-
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
                 <div class="col">
@@ -835,32 +865,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        {#<div data-controller="form-collection" class="col border border-secondary rounded"
-                             data-form-collection-start-index-value="{{ form.masterOrderProcessDetails|length > 0 ? form.masterOrderProcessDetails|last.vars.name + 1 : 0 }}"
-                             data-form-collection-prototype-value="{{ _self.process_collection_item(form.masterOrderProcessDetails.vars.prototype)|e('html_attr') }}">
-                            <div data-form-collection-target="items" data-action="process-table:data-table:select@document->form-collection#addCollectionItem">
-                                {% macro process_collection_item(processForm) %}
-                                    <div data-form-collection-target="item" data-item-identifier-name="workOrderProcessName" data-item-identifier-value="{{ processForm.vars.value|default }}">
-                                        <div class="d-inline-block w-75">
-                                            {{ form_widget(processForm, {'attr': {'data-item-field-name': 'workOrderProcessName', 'readonly': true, 'class': 'form-control-sm'}}) }}
-                                        </div>
-                                        <div class="d-inline-block">
-                                            <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                                        </div>
-                                    </div>
-                                {% endmacro %}
-                                {% for processForm in form.masterOrderProcessDetails %}
-                                    {{ _self.process_collection_item(processForm) }}
-                                {% endfor %}
-                            </div>
-                        </div>#}
                         <div class="col border border-secondary rounded">
                             <table class="table table-bordered"
                                    data-controller="form-collection"
                                    data-form-collection-start-index-value="{{ form.masterOrderProcessDetails|length > 0 ? form.masterOrderProcessDetails|last.vars.name + 1 : 0 }}"
-                                   data-form-collection-prototype-value="{{ _self.process_collection_item(form.masterOrderProcessDetails.vars.prototype, form)|e('html_attr') }}">
+                                   data-form-collection-start-ordinal-value="{{ form.masterOrderProcessDetails|length }}"
+                                   data-form-collection-prototype-value="{{ _self.process_collection_item(0, form.masterOrderProcessDetails.vars.prototype, form)|e('html_attr') }}">
                                 <thead class="table-secondary">
                                     <tr>
+                                        <th>No.</th>
                                         <th class="d-none">Work Order Process Id</th>
                                         <th>Nama</th>
                                         <th style="max-width: 10px">Sub Con</th>
@@ -868,8 +881,9 @@
                                     </tr>
                                 </thead>
                                 <tbody data-form-collection-target="items" data-action="work-order-process-table:data-table:select@document->form-collection#addCollectionItem">
-                                    {% macro process_collection_item(detailForm) %}
+                                    {% macro process_collection_item(ordinal, detailForm) %}
                                         <tr data-form-collection-target="item" data-item-identifier-name="workOrderProcessId" data-item-identifier-value="{{ detailForm.vars.value.workOrderProcess.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                                            <td data-form-collection-target="ordinal">{{ ordinal + 1 }}</td>
                                             <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
                                             <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>
                                             <td>
@@ -896,7 +910,7 @@
                                         </tr>
                                     {% endmacro %}
                                     {% for detailForm in form.masterOrderProcessDetails %}
-                                        {{ _self.process_collection_item(detailForm) }}
+                                        {{ _self.process_collection_item(loop.index0, detailForm) }}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -1098,6 +1112,13 @@
              data-html-loader-url-value="{{ path('app_shared_diecut_knife__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="customer-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('product-development-dialog', 'Pengembangan Produk Baru List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_product_development__list') }}"
+             data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
 </div>

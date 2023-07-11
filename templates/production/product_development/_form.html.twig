@@ -1,0 +1,415 @@
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
+     data-json-loader-method-value="POST"
+     data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
+
+    {{ form_start(form) }}
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Header</legend>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.productionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.employeeDesigner, {'label': 'PIC Design'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Proses Development</label>
+                        <input type="text" class="form-control" value="{{ productDevelopment.productPrototype.developmentTypeList|default ? productDevelopment.productPrototype.developmentTypeList|join(', ') : '' }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeDevelopmentTypeList'}},
+                               ]|json_encode }}" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="{{ form.productPrototype.vars.id }}-text" class="form-label">Formulir Produk Baru</label>
+                        {{ form_row(form.productPrototype, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.productPrototype.vars.id }}-text" class="form-control readonly-form-input {% if not form.productPrototype.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#product-prototype-dialog"
+                               data-controller="dom-element"
+                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeCodeNumber'}},
+                               ]|json_encode }}" />
+                        {{ form_errors(form.productPrototype) }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nama Customer</label>
+                        <input type="text" class="form-control" value="{{ productDevelopment.customer.name|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerName'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nama Produk</label>
+                        <input type="text" class="form-control" value="{{ productDevelopment.productName|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeProductName'}},
+                               ]|json_encode }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {{ form_row(form.note, {'label': 'Keterangan'}) }}
+            </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <div class="row">
+                <table class="table table-sm table-bordered"
+                       data-controller="dom-element"
+                       data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                       data-dom-element-bind-specifications-param="{{ [
+                           {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '!$event.detail.productPrototypeDevelopmentTypeList.split(", ").includes("ep")'},
+                           {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail.productPrototypeDevelopmentTypeList.split(", ").includes("ep")'},
+                       ]|json_encode }}">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 5%">No.</th>
+                            <th colspan="2">Progress</th>
+                            <th style="min-width: 25%">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="9" class="text-center" style="font-weight: bold">I.</td>
+                            <td colspan="2" class="text-center" style="font-weight: bold">EP Development</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">1.</td>
+                            <td>Terima file artwork & sample</td>
+                            <td>{{ form_row(form.epArtworkFileDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">2.</td>
+                            <td>Konfirmasi hasil review file ke customer</td>
+                            <td>{{ form_row(form.epCustomerReviewDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">3.</td>
+                            <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                            <td>{{ form_row(form.epSubconDiecutDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">4.</td>
+                            <td>Pembuatan film dieline (kirim file)</td>
+                            <td>{{ form_row(form.epDielineDevelopmentDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">5.</td>
+                            <td>Penyerahan gambar / sample ke produksi</td>
+                            <td>{{ form_row(form.epImageDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">6.</td>
+                            <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                            <td>{{ form_row(form.epDiecutDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">7.</td>
+                            <td>Penyerahan gambar / film dieline ke produksi</td>
+                            <td>{{ form_row(form.epDielineDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                        
+                <table class="table table-sm table-bordered"
+                       data-controller="dom-element"
+                       data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                       data-dom-element-bind-specifications-param="{{ [
+                           {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '!$event.detail.productPrototypeDevelopmentTypeList.split(", ").includes("fep")'},
+                           {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail.productPrototypeDevelopmentTypeList.split(", ").includes("fep")'},
+                       ]|json_encode }}">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 5%">No.</th>
+                            <th colspan="2">Progress</th>
+                            <th style="min-width: 25%">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">II.</td>
+                            <td colspan="2" class="text-center" style="font-weight: bold">FEP Development</td>
+                            <td style="min-width: 25%"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">1.</td>
+                            <td>Terima file artwork & sample</td>
+                            <td>{{ form_row(form.fepArtworkFileDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">2.</td>
+                            <td>Konfirmasi hasil review file ke customer</td>
+                            <td>{{ form_row(form.fepCustomerReviewDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">3.</td>
+                            <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                            <td>{{ form_row(form.fepSubconDiecutDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">4.</td>
+                            <td>Pembuatan film dieline (kirim file)</td>
+                            <td>{{ form_row(form.fepDielineDevelopmentDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">5.</td>
+                            <td>Penyerahan gambar / sample ke produksi</td>
+                            <td>{{ form_row(form.fepImageDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">6.</td>
+                            <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                            <td>{{ form_row(form.fepDiecutDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">7.</td>
+                            <td>Penyerahan gambar / film dieline ke produksi</td>
+                            <td>{{ form_row(form.fepDielineDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                        
+                <table class="table table-sm table-bordered"
+                       data-controller="dom-element"
+                       data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                       data-dom-element-bind-specifications-param="{{ [
+                           {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '!($event.detail.productPrototypeDevelopmentTypeList.split(",").includes("pp") || $event.detail.productPrototypeDevelopmentTypeList.split(", ").includes("ps"))'},
+                           {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail.productPrototypeDevelopmentTypeList.split(",").includes("pp") || $event.detail.productPrototypeDevelopmentTypeList.split(", ").includes("ps")'},
+                       ]|json_encode }}">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 5%">No.</th>
+                            <th colspan="2">Progress</th>
+                            <th style="min-width: 25%">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">III.</td>
+                            <td colspan="2" class="text-center" style="font-weight: bold">PP / PS Development</td>
+                            <td style="min-width: 25%"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">1.</td>
+                            <td>Terima file artwork & sample</td>
+                            <td>{{ form_row(form.psArtworkFileDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">2.</td>
+                            <td>Konfirmasi hasil review file ke customer</td>
+                            <td>{{ form_row(form.psCustomerReviewDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">3.</td>
+                            <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                            <td>{{ form_row(form.psSubconDiecutDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">4.</td>
+                            <td>Pembuatan film dieline (kirim file)</td>
+                            <td>{{ form_row(form.psDielineDevelopmentDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">5.</td>
+                            <td>Penyerahan gambar / sample ke produksi</td>
+                            <td>{{ form_row(form.psImageDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">6.</td>
+                            <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                            <td>{{ form_row(form.psDiecutDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">7.</td>
+                            <td>Penyerahan gambar / film dieline ke produksi</td>
+                            <td>{{ form_row(form.psDielineDeliveryProductionDate, {'label': false, 'attr': {
+                                'class': 'readonly-form-input',
+                                'data-controller': 'flatpickr-element dom-element',
+                                'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode,
+                            }}) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+  
+        <div class="d-grid">
+            <button class="btn btn-success"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+    
+    {{ dialog.start('product-prototype-dialog', 'Form Produk Baru List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_product_prototype__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+</div>

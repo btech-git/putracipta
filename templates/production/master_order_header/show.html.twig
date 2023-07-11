@@ -157,7 +157,7 @@
                 <th>Uk Potong 1 (cm)</th>
                 <td>{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }}</td>
                 <th>Tanggal</th>
-                <td>{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                <td>{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate|default ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Uk Potong 2 (cm)</th>
