@@ -46,16 +46,23 @@ class InventoryRequestHeaderFormService
             $lastInventoryRequestHeader = $this->inventoryRequestHeaderRepository->findRecentBy($year, $month);
             $currentInventoryRequestHeader = ($lastInventoryRequestHeader === null) ? $inventoryRequestHeader : $lastInventoryRequestHeader;
             $inventoryRequestHeader->setCodeNumberToNext($currentInventoryRequestHeader->getCodeNumber(), $year, $month);
-
         }
         
         foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
+            $material = $inventoryRequestMaterialDetail->getMaterial();
             $inventoryRequestMaterialDetail->setIsCanceled($inventoryRequestMaterialDetail->getSyncIsCanceled());
+            $inventoryRequestMaterialDetail->setUnit($material->getUnit());
+            $inventoryRequestMaterialDetail->setQuantityRemaining($inventoryRequestMaterialDetail->getSyncQuantityRemaining());
         }
         foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
+            $paper = $inventoryRequestPaperDetail->getPaper();
             $inventoryRequestPaperDetail->setIsCanceled($inventoryRequestPaperDetail->getSyncIsCanceled());
+            $inventoryRequestPaperDetail->setUnit($paper->getUnit());
+            $inventoryRequestPaperDetail->setQuantityRemaining($inventoryRequestPaperDetail->getSyncQuantityRemaining());
         }
         $inventoryRequestHeader->setTotalQuantity($inventoryRequestHeader->getSyncTotalQuantity());
+        $inventoryRequestHeader->setTotalQuantityRelease($inventoryRequestHeader->getSyncTotalQuantityRelease());
+        $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
     }
 
     public function save(InventoryRequestHeader $inventoryRequestHeader, array $options = []): void

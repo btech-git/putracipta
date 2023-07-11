@@ -46,16 +46,44 @@ class InventoryReleaseHeaderFormService
             $lastInventoryReleaseHeader = $this->inventoryReleaseHeaderRepository->findRecentBy($year, $month);
             $currentInventoryReleaseHeader = ($lastInventoryReleaseHeader === null) ? $inventoryReleaseHeader : $lastInventoryReleaseHeader;
             $inventoryReleaseHeader->setCodeNumberToNext($currentInventoryReleaseHeader->getCodeNumber(), $year, $month);
-
+        }
+        
+        $inventoryRequestHeader = $inventoryReleaseHeader->getInventoryRequestHeader();
+        
+        if (!empty($inventoryRequestHeader)) {
+            $inventoryReleaseHeader->setReleaseMode($inventoryRequestHeader->getRequestMode());
+            $inventoryReleaseHeader->setWorkOrderNumber($inventoryRequestHeader->getWorkOrderNumber());
+            $inventoryReleaseHeader->setDepartmentName($inventoryRequestHeader->getDepartmentName());
+            $inventoryReleaseHeader->setPartNumber($inventoryRequestHeader->getPartNumber());
         }
         
         foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
+            $inventoryRequestMaterialDetail = $inventoryReleaseMaterialDetail->getInventoryRequestMaterialDetail();
             $inventoryReleaseMaterialDetail->setIsCanceled($inventoryReleaseMaterialDetail->getSyncIsCanceled());
+            $inventoryReleaseMaterialDetail->setUnit($inventoryRequestMaterialDetail->getUnit());
+            
+            $oldReleaseDetails = $this->inventoryReleaseMaterialDetailRepository->findByInventoryRequestMaterialDetail($inventoryRequestMaterialDetail);
+            $totalRelease = 0;
+            foreach ($oldReleaseDetails as $oldReleaseDetail) {
+                if ($oldReleaseDetail->getId() !== $inventoryReleaseMaterialDetail->getId() && $oldReleaseDetail->isIsCanceled() === false) {
+                    $totalRelease += $oldReleaseDetail->getQuantity();
+                }
+            }
+            if ($inventoryReleaseMaterialDetail->isIsCanceled() === false) {
+                $totalRelease += $inventoryReleaseMaterialDetail->getQuantity();
+            }
+            $inventoryRequestMaterialDetail->setQuantityRelease($totalRelease);
+            $inventoryRequestMaterialDetail->setQuantityRemaining($inventoryRequestMaterialDetail->getSyncRemainingDelivery());
+            
         }
         foreach ($inventoryReleaseHeader->getInventoryReleasePaperDetails() as $inventoryReleasePaperDetail) {
+            $inventoryRequestPaperDetail = $inventoryReleasePaperDetail->getInventoryRequestPaperDetail();
             $inventoryReleasePaperDetail->setIsCanceled($inventoryReleasePaperDetail->getSyncIsCanceled());
+            $inventoryReleasePaperDetail->setUnit($inventoryRequestPaperDetail->getUnit());
         }
         $inventoryReleaseHeader->setTotalQuantity($inventoryReleaseHeader->getSyncTotalQuantity());
+        $inventoryRequestHeader->setTotalQuantityRelease($inventoryRequestHeader->getSyncTotalQuantityRelease());
+        $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
     }
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
