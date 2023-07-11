@@ -40,6 +40,11 @@ class AdjustmentStockProductDetail extends StockDetail
         return $isCanceled;
     }
 
+    public function getSyncQuantityDifference(): int
+    {
+        return $this->quantityAdjustment - $this->quantityCurrent;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

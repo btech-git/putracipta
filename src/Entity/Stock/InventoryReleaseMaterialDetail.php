@@ -37,7 +37,7 @@ class InventoryReleaseMaterialDetail extends StockDetail
 
     public function getSyncIsCanceled(): bool
     {
-        $isCanceled = $this->materialReleaseHeader->isIsCanceled() ? true : $this->isCanceled;
+        $isCanceled = $this->inventoryReleaseHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
     }
 

@@ -56,6 +56,9 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\OneToMany(mappedBy: 'inventoryRequestHeader', targetEntity: InventoryReleaseHeader::class)]
     private Collection $inventoryReleaseHeaders;
 
+    #[ORM\Column]
+    private ?int $totalQuantityRelease = 0;
+
     public function __construct()
     {
         $this->inventoryRequestPaperDetails = new ArrayCollection();
@@ -85,13 +88,30 @@ class InventoryRequestHeader extends StockHeader
         return $totalQuantity;
     }
 
+    public function getSyncTotalQuantityRelease(): int
+    {
+        $details = [];
+        if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
+            $details = $this->inventoryRequestMaterialDetails;
+        } else if ($this->requestMode === self::REQUEST_MODE_PAPER) {
+            $details = $this->inventoryRequestPaperDetails;
+        }
+        $totalQuantity = 0;
+        foreach ($details as $detail) {
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantityRelease();
+            }
+        }
+        return $totalQuantity;
+    }
+
     public function getSyncTotalQuantityRemaining(): int
     {
         $details = [];
         if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
-            $details = $this->materialRequestMaterialDetails;
+            $details = $this->inventoryRequestMaterialDetails;
         } else if ($this->requestMode === self::REQUEST_MODE_PAPER) {
-            $details = $this->materialRequestPaperDetails;
+            $details = $this->inventoryRequestPaperDetails;
         }
         $totalQuantity = 0;
         foreach ($details as $detail) {
@@ -289,6 +309,18 @@ class InventoryRequestHeader extends StockHeader
                 $inventoryReleaseHeader->setInventoryRequestHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalQuantityRelease(): ?int
+    {
+        return $this->totalQuantityRelease;
+    }
+
+    public function setTotalQuantityRelease(int $totalQuantityRelease): self
+    {
+        $this->totalQuantityRelease = $totalQuantityRelease;
 
         return $this;
     }
