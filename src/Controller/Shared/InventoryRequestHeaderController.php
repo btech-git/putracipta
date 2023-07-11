@@ -24,6 +24,7 @@ class InventoryRequestHeaderController extends AbstractController
 
         list($count, $inventoryRequestHeaders) = $inventoryRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.totalQuantityRemaining > 0");
         });
 
         return $this->renderForm("shared/inventory_request_header/_list.html.twig", [
