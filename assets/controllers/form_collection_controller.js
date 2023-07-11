@@ -81,11 +81,7 @@ export default class extends Controller {
         }
         const items = row.querySelectorAll(`[${this.itemFieldNameAttributeNameValue}]`);
         for (const item of items) {
-            if (item.getAttribute(this.itemFieldNameAttributeNameValue) === '__index') {
-                putValueContent(item, this.index + 1);
-            } else {
-                putValueContent(item, getPropertyValue(data, item.getAttribute(this.itemFieldNameAttributeNameValue)));
-            }
+            putValueContent(item, getPropertyValue(data, item.getAttribute(this.itemFieldNameAttributeNameValue)));
         }
         const elements = row.querySelectorAll(`[${this.itemFieldActionAttributeNameValue}]`);
         const $row = row;
