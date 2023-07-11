@@ -11,6 +11,7 @@ use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\Production\MasterOrderProcessDetail;
+use App\Entity\Production\ProductDevelopment;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use App\Repository\Master\CustomerRepository;
 use Symfony\Component\Form\AbstractType;
@@ -58,13 +59,11 @@ class MasterOrderHeaderType extends AbstractType
                 'Repeat Order' => MasterOrderHeader::PRINTING_STATUS_REPEAT_ORDER,
                 'Revisi Design' => MasterOrderHeader::PRINTING_STATUS_REVISE_DESIGN,
             ]])
-            ->add('printingStatusData')
             ->add('dieCutBlade', ChoiceType::class, ['choices' => [
                 'Baru' => MasterOrderHeader::DIECUT_BLADE_NEW,
                 'Lama' => MasterOrderHeader::DIECUT_BLADE_OLD,
                 'Revisi' => MasterOrderHeader::DIECUT_BLADE_REVISION,
             ]])
-            ->add('dieCutBladeData')
             ->add('dieLineFilmNumber')
             ->add('insitPrintingPercentage')
             ->add('insitSortingPercentage')
@@ -98,6 +97,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('productDevelopment', EntityHiddenType::class, ['class' => ProductDevelopment::class])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))

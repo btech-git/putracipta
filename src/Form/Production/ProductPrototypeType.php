@@ -29,7 +29,7 @@ class ProductPrototypeType extends AbstractType
                 'CD' => ProductPrototype::DATA_SOURCE_CD,
                 'Sample Cetakan' => ProductPrototype::DATA_SOURCE_PRINT_SAMPLE,
             ]])
-            ->add('developmentType', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
+            ->add('developmentTypeList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'EP (Engineering Piloting)' => ProductPrototype::DEVELOPMENT_TYPE_EP,
                 'FEP (Final Engineering Piloting)' => ProductPrototype::DEVELOPMENT_TYPE_FEP,
                 'PP (Production Planning)' => ProductPrototype::DEVELOPMENT_TYPE_PP,
