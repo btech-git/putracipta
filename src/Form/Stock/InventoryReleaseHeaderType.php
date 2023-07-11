@@ -18,16 +18,9 @@ class InventoryReleaseHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('departmentName')
-            ->add('workOrderNumber')
-            ->add('partNumber')
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('warehouse', null, ['choice_label' => 'name'])
-            ->add('releaseMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
-                'Material' => InventoryReleaseHeader::RELEASE_MODE_MATERIAL,
-                'Kertas' => InventoryReleaseHeader::RELEASE_MODE_PAPER,
-            ]])
             ->add('inventoryRequestHeader', EntityHiddenType::class, ['class' => InventoryRequestHeader::class])
             ->add('inventoryReleaseMaterialDetails', CollectionType::class, [
                 'entry_type' => InventoryReleaseMaterialDetailType::class,
