@@ -118,29 +118,12 @@ class ProductPrototypeController extends AbstractController
         return $this->redirectToRoute('app_production_product_prototype_index', [], Response::HTTP_SEE_OTHER);
     }
     
-    #[Route('/{id}/memo_development', name: 'app_production_product_prototype_memo_development', methods: ['GET'])]
+    #[Route('/{id}/memo', name: 'app_production_product_prototype_memo', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function memoDevelopment(ProductPrototype $productPrototype): Response
-    {
-        $fileName = 'pengembangan_produk_baru.pdf';
-        $htmlView = $this->renderView('production/product_prototype/memo_development.html.twig', [
-            'productPrototype' => $productPrototype,
-        ]);
-
-        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
-        $pdfGenerator->generate($htmlView, $fileName, [
-            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/product-prototype/' . $productPrototype->getId() . '.' . $productPrototype->getProductionFileExtension() . '">', $html),
-        ]);
-    }
-    
-    #[Route('/{id}/memo_prototype', name: 'app_production_product_prototype_memo_prototype', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
-    public function memoPrototype(ProductPrototype $productPrototype): Response
+    public function memo(ProductPrototype $productPrototype): Response
     {
         $fileName = 'form_produk_baru.pdf';
-        $htmlView = $this->renderView('production/product_prototype/memo_prototype.html.twig', [
+        $htmlView = $this->renderView('production/product_prototype/memo.html.twig', [
             'productPrototype' => $productPrototype,
         ]);
 
