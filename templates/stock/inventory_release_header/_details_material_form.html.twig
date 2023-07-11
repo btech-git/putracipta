@@ -10,6 +10,7 @@
                 <th class="d-none">Material Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Barang</th>
+                <th style="min-width: 100px">Qty Request</th>
                 <th style="min-width: 100px">Qty</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 100px">Keterangan</th>
@@ -27,8 +28,9 @@
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
+                    <td data-item-field-name="inventoryRequestMaterialDetailQuantity">{{ detailForm.vars.value.inventoryRequestMaterialDetail.quantity|default }}</td>
                     <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
-                    <td data-item-field-name="unitName">{{ detailForm.vars.value.material.unit.name|default }}</td>
+                    <td data-item-field-name="materialUnitName">{{ detailForm.vars.value.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>
                         <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>

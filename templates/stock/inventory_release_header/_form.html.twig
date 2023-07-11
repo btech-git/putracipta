@@ -11,26 +11,18 @@
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal Release', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
-                    {{ form_row(form.releaseMode, {
-                        'label': 'Jenis',
-                        'attr': {
-                            'readonly': inventoryReleaseHeader.id is not null,
-                            'data-controller': 'dom-element',
-                            'data-action': 'change->dom-element#bind',
-                            'data-dom-element-bind-specifications-param': [
-                                {'destinationsTarget': "#detail-material-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value !== "material"'},
-                                {'destinationsTarget': "#detail-material-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "material"'},
-                                {'destinationsTarget': "#detail-paper-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value !== "paper"'},
-                                {'destinationsTarget': "#detail-paper-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "paper"'},
-                            ]|json_encode,
-                        },
-                    }) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
-                    {{ form_row(form.departmentName, {'label': 'Departemen'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Pengeluaran</label>
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.releaseMode|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderMode'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
                 <div class="col">
-                    {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
-                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
                     <div class="mb-3">
                         <label for="{{ form.inventoryRequestHeader.vars.id }}-text" class="form-label">Request #</label>
                         {{ form_row(form.inventoryRequestHeader, {
@@ -51,6 +43,33 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.inventoryRequestHeader) }}
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">WO #</label>
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.workOrderNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderWorkOrderNumber'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Departemen</label>
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.departmentName|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderDepartment'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Part #</label>
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.partNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderPartNumber'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -60,25 +79,27 @@
             </div>
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-material-container">
+        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-material-container"
+                  data-controller="dom-element"
+                  data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                  data-dom-element-bind-specifications-param="{{ [
+                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "material"'},
+                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "material"'},
+                  ]|json_encode }}">
             <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
             {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-paper-container">
+        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-paper-container"
+                  data-controller="dom-element"
+                  data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
+                  data-dom-element-bind-specifications-param="{{ [
+                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "paper"'},
+                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "paper"'},
+                  ]|json_encode }}">
             <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
             {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
         </fieldset>
-
-        {#<fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_MATERIAL', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-material-container">
-            <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
-            {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
-        </fieldset>
-
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_PAPER', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-paper-container">
-            <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
-            {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
-        </fieldset>#}
 
         <div class="d-grid">
             <button class="btn btn-success"

@@ -69,6 +69,70 @@
                 </tr>
             </tfoot>
         </table>
+    {% elseif stockTransferHeader.stockTransferPaperDetails is not empty %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-info">
+                    <th>Kode</th>
+                    <th>Nama Paper</th>
+                    <th>Quantity</th>
+                    <th>Satuan</th>
+                    <th>Keterangan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stockTransferPaperDetail in stockTransferHeader.stockTransferPaperDetails %}
+                    <tr>
+                        <td>{{ stockTransferPaperDetail.paper.code|default }}</td>
+                        <td>{{ stockTransferPaperDetail.paper.name|default }}</td>
+                        <td class="text-center">{{ stockTransferPaperDetail.quantity|default }}</td>
+                        <td>{{ stockTransferPaperDetail.paper.unit.name|default }}</td>
+                        <td>{{ stockTransferPaperDetail.memo|default }}</td>
+                        <td>{{ stockTransferPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-end"><strong>Total</strong></td>
+                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default }}</strong></td>
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
+    {% elseif stockTransferHeader.stockTransferProductDetails is not empty %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-info">
+                    <th>Kode</th>
+                    <th>Nama Product</th>
+                    <th>Quantity</th>
+                    <th>Satuan</th>
+                    <th>Keterangan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stockTransferProductDetail in stockTransferHeader.stockTransferProductDetails %}
+                    <tr>
+                        <td>{{ stockTransferProductDetail.product.code|default }}</td>
+                        <td>{{ stockTransferProductDetail.product.name|default }}</td>
+                        <td class="text-center">{{ stockTransferProductDetail.quantity|default }}</td>
+                        <td>{{ stockTransferProductDetail.product.unit.name|default }}</td>
+                        <td>{{ stockTransferProductDetail.memo|default }}</td>
+                        <td>{{ stockTransferProductDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-end"><strong>Total</strong></td>
+                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default }}</strong></td>
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
     {% endif %}
     
     {#{{ include('stock/stock_transfer_header/_delete_form.html.twig') }}#}

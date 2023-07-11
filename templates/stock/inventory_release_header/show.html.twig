@@ -11,55 +11,77 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Total Quantity</th>
-                <td>{{ inventoryReleaseHeader.totalQuantity }}</td>
+                <th>Code Number</th>
+                <td>{{ inventoryReleaseHeader.codeNumber }}</td>
             </tr>
             <tr>
-                <th>Department Name</th>
+                <th>Tanggal</th>
+                <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Department</th>
                 <td>{{ inventoryReleaseHeader.departmentName }}</td>
             </tr>
             <tr>
-                <th>Work Order Number</th>
+                <th>WO #</th>
                 <td>{{ inventoryReleaseHeader.workOrderNumber }}</td>
             </tr>
             <tr>
-                <th>Part Number</th>
+                <th>Part #</th>
                 <td>{{ inventoryReleaseHeader.partNumber }}</td>
-            </tr>
-            <tr>
-                <th>Is Canceled</th>
-                <td>{{ inventoryReleaseHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ inventoryReleaseHeader.codeNumberOrdinal }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Month</th>
-                <td>{{ inventoryReleaseHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ inventoryReleaseHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ inventoryReleaseHeader.createdTransactionDateTime ? inventoryReleaseHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ inventoryReleaseHeader.modifiedTransactionDateTime ? inventoryReleaseHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
-                <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ inventoryReleaseHeader.note }}</td>
             </tr>
+            <tr>
+                <th>Is Canceled</th>
+                <td>{{ inventoryReleaseHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
-    {{ include('stock/inventory_release_header/_delete_form.html.twig') }}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
+                    <th>Nama Kertas</th>
+                {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
+                    <th>Nama Material</th>
+                {% endif %} 
+                <th>Qty</th>
+                <th>Satuan</th>
+                <th>Keterangan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
+                {% for inventoryReleasePaperDetail in inventoryReleaseHeader.inventoryReleasePaperDetails %}
+                    <tr>
+                        <td>{{ inventoryReleasePaperDetail.paper.code|default }}</td>
+                        <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
+                        <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
+                        <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
+                        <td>{{ inventoryReleasePaperDetail.memo|default }}</td>
+                        <td>{{ inventoryReleasePaperDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
+                {% for inventoryReleaseMaterialDetail in inventoryReleaseHeader.inventoryReleaseMaterialDetails %}
+                    <tr>
+                        <td>{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
+                        <td>{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
+                        <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
+                        <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
+                        <td>{{ inventoryReleaseMaterialDetail.memo|default }}</td>
+                        <td>{{ inventoryReleaseMaterialDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %} 
+        </tbody>
+    </table>
+
+    {# {{ include('stock/inventory_release_header/_delete_form.html.twig') }} #}
 {% endblock %}

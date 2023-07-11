@@ -5,14 +5,27 @@
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_adjustment_stock_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_header_edit', {'id': adjustmentStockHeader.id}) }}">Edit</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_stock_adjustment_stock_header_new') }}">Add</a>
 {% endblock %}
 
 {% block content %}
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Transaction Date</th>
+                <th>Penyesuaian #</th>
+                <td>{{ adjustmentStockHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
                 <td>{{ adjustmentStockHeader.transactionDate ? adjustmentStockHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Gudang</th>
+                <td>{{ adjustmentStockHeader.warehouse.name }}</td>
+            </tr>
+            <tr>
+                <th>Jenis</th>
+                <td>{{ adjustmentStockHeader.adjustmentMode }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -21,5 +34,68 @@
         </tbody>
     </table>
 
-    {{ include('stock/adjustment_stock_header/_delete_form.html.twig') }}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>Kode</th>
+                {% if (adjustmentStockHeader.adjustmentMode == 'paper') %}
+                    <th>Nama Kertas</th>
+                {% elseif (adjustmentStockHeader.adjustmentMode == 'material') %} 
+                    <th>Nama Item</th>
+                {% elseif (adjustmentStockHeader.adjustmentMode == 'product') %} 
+                    <th>Nama Produk</th>
+                {% endif %} 
+                <th>Qty Stok</th>
+                <th>Qty Penyesuaian</th>
+                <th>Qty Selisih</th>
+                <th>Satuan</th>
+                <th>Keterangan</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if (adjustmentStockHeader.adjustmentMode == 'paper') %}
+                {% for adjustmentStockPaperDetail in adjustmentStockHeader.adjustmentStockPaperDetails %}
+                    <tr>
+                        <td>{{ adjustmentStockPaperDetail.paper.code|default }}</td>
+                        <td>{{ adjustmentStockPaperDetail.paper.name|default }}</td>
+                        <td>{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockPaperDetail.quantityAdjustment|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockPaperDetail.paper.unit.name|default }}</td>
+                        <td>{{ adjustmentStockPaperDetail.memo|default }}</td>
+                        <td>{{ adjustmentStockPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% elseif (adjustmentStockHeader.adjustmentMode == 'material') %} 
+                {% for adjustmentStockMaterialDetail in adjustmentStockHeader.adjustmentStockMaterialDetails %}
+                    <tr>
+                        <td>{{ adjustmentStockMaterialDetail.material.code|default }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.material.name|default }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.quantityAdjustment|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.material.unit.name|default }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.memo|default }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% elseif (adjustmentStockHeader.adjustmentMode == 'product') %} 
+                {% for adjustmentStockProductDetail in adjustmentStockHeader.adjustmentStockProductDetails %}
+                    <tr>
+                        <td>{{ adjustmentStockProductDetail.product.code|default }}</td>
+                        <td>{{ adjustmentStockProductDetail.product.name|default }}</td>
+                        <td>{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockProductDetail.quantityAdjustment|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockProductDetail.product.unit.name|default }}</td>
+                        <td>{{ adjustmentStockProductDetail.memo|default }}</td>
+                        <td>{{ adjustmentStockProductDetail.isCanceled ? 'Canceled' : '' }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %} 
+        </tbody>
+    </table>
+    
+    {# {{ include('stock/adjustment_stock_header/_delete_form.html.twig') }}#}
 {% endblock %}
