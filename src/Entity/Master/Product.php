@@ -64,9 +64,13 @@ class Product extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $glossiness = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DiecutKnife::class)]
+    private Collection $diecutKnives;
+
     public function __construct()
     {
         $this->designCodes = new ArrayCollection();
+        $this->diecutKnives = new ArrayCollection();
     }
     
     public function getProductLengthWidthHeightCombination() {
@@ -248,6 +252,36 @@ class Product extends Master
     public function setGlossiness(string $glossiness): self
     {
         $this->glossiness = $glossiness;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiecutKnife>
+     */
+    public function getDiecutKnives(): Collection
+    {
+        return $this->diecutKnives;
+    }
+
+    public function addDiecutKnife(DiecutKnife $diecutKnife): self
+    {
+        if (!$this->diecutKnives->contains($diecutKnife)) {
+            $this->diecutKnives->add($diecutKnife);
+            $diecutKnife->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiecutKnife(DiecutKnife $diecutKnife): self
+    {
+        if ($this->diecutKnives->removeElement($diecutKnife)) {
+            // set the owning side to null (unless already changed)
+            if ($diecutKnife->getProduct() === $this) {
+                $diecutKnife->setProduct(null);
+            }
+        }
 
         return $this;
     }

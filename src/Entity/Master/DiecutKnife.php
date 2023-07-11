@@ -16,9 +16,6 @@ class DiecutKnife extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $code = '';
-
     #[ORM\Column]
     private ?int $upPerSecondKnife = 0;
 
@@ -40,21 +37,20 @@ class DiecutKnife extends Master
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = '';
 
+    #[ORM\ManyToOne(inversedBy: 'diecutKnives')]
+    private ?Product $product = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $version = '';
+
+    public function getCodeNumber(): string
+    {
+        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . str_pad($this->product->getId(), 3, '0', STR_PAD_LEFT) . $this->version;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     public function getUpPerSecondKnife(): ?int
@@ -137,6 +133,30 @@ class DiecutKnife extends Master
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): self
+    {
+        $this->version = $version;
 
         return $this;
     }
