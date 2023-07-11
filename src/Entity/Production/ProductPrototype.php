@@ -9,6 +9,8 @@ use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Repository\Production\ProductPrototypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -96,7 +98,7 @@ class ProductPrototype extends ProductionHeader
     private array $processList = [];
 
     #[ORM\Column(type: Types::ARRAY)]
-    private array $developmentType = [];
+    private array $developmentTypeList = [];
 
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
@@ -109,6 +111,14 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\ManyToOne]
     private ?DesignCode $designCode = null;
+
+    #[ORM\OneToMany(mappedBy: 'productPrototype', targetEntity: ProductDevelopment::class)]
+    private Collection $productDevelopments;
+
+    public function __construct()
+    {
+        $this->productDevelopments = new ArrayCollection();
+    }
 
     public function getCodeNumberConstant(): string
     {
@@ -264,14 +274,14 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getDevelopmentType(): array
+    public function getDevelopmentTypeList(): array
     {
-        return $this->developmentType;
+        return $this->developmentTypeList;
     }
 
-    public function setDevelopmentType(array $developmentType): self
+    public function setDevelopmentTypeList(array $developmentTypeList): self
     {
-        $this->developmentType = $developmentType;
+        $this->developmentTypeList = $developmentTypeList;
 
         return $this;
     }
@@ -320,6 +330,36 @@ class ProductPrototype extends ProductionHeader
     public function setDesignCode(?DesignCode $designCode): self
     {
         $this->designCode = $designCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductDevelopment>
+     */
+    public function getProductDevelopments(): Collection
+    {
+        return $this->productDevelopments;
+    }
+
+    public function addProductDevelopment(ProductDevelopment $productDevelopment): self
+    {
+        if (!$this->productDevelopments->contains($productDevelopment)) {
+            $this->productDevelopments->add($productDevelopment);
+            $productDevelopment->setProductPrototype($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductDevelopment(ProductDevelopment $productDevelopment): self
+    {
+        if ($this->productDevelopments->removeElement($productDevelopment)) {
+            // set the owning side to null (unless already changed)
+            if ($productDevelopment->getProductPrototype() === $this) {
+                $productDevelopment->setProductPrototype(null);
+            }
+        }
 
         return $this;
     }

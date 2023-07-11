@@ -3,6 +3,7 @@
 namespace App\Entity\Production;
 
 use App\Entity\Master\Customer;
+use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
 use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
@@ -331,6 +332,12 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\Column(length: 200)]
     private ?string $orderTypeMemo = '';
+
+    #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
+    private ?ProductDevelopment $productDevelopment = null;
+
+    #[ORM\ManyToOne]
+    private ?DesignCode $designCode = null;
 
     public function __construct()
     {
@@ -1937,6 +1944,30 @@ class MasterOrderHeader extends ProductionHeader
     public function setOrderTypeMemo(string $orderTypeMemo): self
     {
         $this->orderTypeMemo = $orderTypeMemo;
+
+        return $this;
+    }
+
+    public function getProductDevelopment(): ?ProductDevelopment
+    {
+        return $this->productDevelopment;
+    }
+
+    public function setProductDevelopment(?ProductDevelopment $productDevelopment): self
+    {
+        $this->productDevelopment = $productDevelopment;
+
+        return $this;
+    }
+
+    public function getDesignCode(): ?DesignCode
+    {
+        return $this->designCode;
+    }
+
+    public function setDesignCode(?DesignCode $designCode): self
+    {
+        $this->designCode = $designCode;
 
         return $this;
     }
