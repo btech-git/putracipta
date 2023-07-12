@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
+use App\Entity\Master\DielineMillar;
 use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -45,6 +46,14 @@ class ProductType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => new DiecutKnife(),
+                'label' => false,
+            ])
+            ->add('dielineMillars', CollectionType::class, [
+                'entry_type' => DielineMillarType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new DielineMillar(),
                 'label' => false,
             ])
             ->add('transactionFile', FileType::class, [
