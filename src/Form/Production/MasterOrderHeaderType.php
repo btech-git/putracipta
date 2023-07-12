@@ -4,7 +4,9 @@ namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
+use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
+use App\Entity\Master\DielineMillar;
 use App\Entity\Master\Paper;
 use App\Entity\Production\MasterOrderCheckSheetDetail;
 use App\Entity\Production\MasterOrderDistributionDetail;
@@ -42,8 +44,8 @@ class MasterOrderHeaderType extends AbstractType
             ->add('color')
             ->add('pantone')
             ->add('finishing')
-            ->add('quantityPrinting')
-            ->add('quantityPrinting2')
+//            ->add('quantityPrinting')
+//            ->add('quantityPrinting2')
             ->add('mountageSizeLength')
             ->add('mountageSizeWidth')
             ->add('orderTypeMemo')
@@ -64,7 +66,7 @@ class MasterOrderHeaderType extends AbstractType
                 'Lama' => MasterOrderHeader::DIECUT_BLADE_OLD,
                 'Revisi' => MasterOrderHeader::DIECUT_BLADE_REVISION,
             ]])
-            ->add('dieLineFilmNumber')
+//            ->add('dieLineFilmNumber')
             ->add('insitPrintingPercentage')
             ->add('insitSortingPercentage')
             ->add('paperMountage')
@@ -100,6 +102,8 @@ class MasterOrderHeaderType extends AbstractType
             ->add('productDevelopment', EntityHiddenType::class, ['class' => ProductDevelopment::class])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])
+            ->add('designCode', EntityHiddenType::class, ['class' => DesignCode::class])
+            ->add('dielineMillar', EntityHiddenType::class, ['class' => DielineMillar::class])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('masterOrderProcessDetails', CollectionType::class, [
                 'entry_type' => MasterOrderProcessDetailType::class,
