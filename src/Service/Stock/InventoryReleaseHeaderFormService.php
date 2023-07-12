@@ -82,8 +82,8 @@ class InventoryReleaseHeaderFormService
             $inventoryReleasePaperDetail->setUnit($inventoryRequestPaperDetail->getUnit());
         }
         $inventoryReleaseHeader->setTotalQuantity($inventoryReleaseHeader->getSyncTotalQuantity());
-        $inventoryRequestHeader->setTotalQuantityRelease($inventoryRequestHeader->getSyncTotalQuantityRelease());
-        $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
+        $inventoryReleaseHeader->setTotalQuantityRelease($inventoryReleaseHeader->getSyncTotalQuantityRelease());
+        $inventoryReleaseHeader->setTotalQuantityRemaining($inventoryReleaseHeader->getSyncTotalQuantityRemaining());
     }
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
