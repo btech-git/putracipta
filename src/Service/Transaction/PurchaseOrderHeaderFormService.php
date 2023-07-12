@@ -7,16 +7,19 @@ use App\Entity\Transaction\PurchaseOrderHeader;
 use App\Entity\Transaction\PurchaseRequestDetail;
 use App\Repository\Transaction\PurchaseOrderDetailRepository;
 use App\Repository\Transaction\PurchaseOrderHeaderRepository;
+use App\Sync\Transaction\PurchaseOrderHeaderFormSync;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PurchaseOrderHeaderFormService
 {
+    private PurchaseOrderHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(PurchaseOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->entityManager = $entityManager;
         $this->purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
@@ -24,6 +27,7 @@ class PurchaseOrderHeaderFormService
 
     public function initialize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
+        $this->formSync->scanForOldEntities($purchaseOrderHeader);
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($purchaseOrderHeader->getId())) {
@@ -84,15 +88,22 @@ class PurchaseOrderHeaderFormService
         $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
         $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
         $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
+        $this->formSync->scanForNewEntities($purchaseOrderHeader);
     }
 
     public function save(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
-        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
-        }
+//        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
+//        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+//            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+//        }
+        $this->formSync->update($this->entityManager);
         $this->entityManager->flush();
+    }
+
+    public function createSyncView(): array
+    {
+        return $this->formSync->getView();
     }
 
     public function copyFrom(PurchaseOrderHeader $sourcePurchaseOrderHeader): PurchaseOrderHeader
