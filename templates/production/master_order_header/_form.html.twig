@@ -13,6 +13,34 @@
                     {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.machinePrinting, {'label': 'Mesin Cetak'}) }}
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <label class="form-label">Jenis MO</label>
+                        <div class="col">
+                            {{ form_row(form.orderType, {'label': false}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.orderTypeMemo, {'label': false}) }}   
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="form-label">Status Cetakan</label>
+                        <div class="col">
+                            {{ form_row(form.printingStatus, {'label': false}) }}
+                        </div>
+                        {#<div class="col">
+                            {{ form_row(form.printingStatusData, {'label': false}) }}   
+                        </div>#}
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+                    
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Data</legend>
+            <div class="row">
+                <div class="col">
                     <div class="mb-3">
                         <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
                         {{ form_row(form.customer, {
@@ -32,22 +60,6 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerCompany'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.customer) }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Warna / Pantone</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.color) }}
-                                    {{ form_errors(form.color) }}
-                                    <span class="input-group-text">/</span>
-                                    {{ form_widget(form.pantone) }}
-                                    {{ form_errors(form.pantone) }}
-                                    <span class="input-group-text">+</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.colorPantoneAdditional|default }}" readonly="readonly" />
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
@@ -78,7 +90,7 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWeight'}},
                                ]|json_encode }}" />
                     </div>
-                    <div class="mb-3">
+                    {#<div class="mb-3">
                         <label class="form-label">Jumlah Up Cetak</label>
                         <div class="row">
                             <div class="col">
@@ -92,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>#}
                     <div class="mb-3">
                         <label class="form-label">Ukuran Mountage / Kris</label>
                         <div class="row">
@@ -108,6 +120,7 @@
                             </div>
                         </div>
                     </div>
+                    {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
                     <div class="mb-3">
                         <label for="{{ form.productDevelopment.vars.id }}-text" class="form-label">Pengembangan Produk Baru</label>
                         {{ form_row(form.productDevelopment, {
@@ -119,7 +132,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.productDevelopment.vars.id }}-text" class="form-control readonly-form-input {% if not form.productDevelopment.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.productDevelopment.company|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.productDevelopment.vars.id }}-text" class="form-control readonly-form-input {% if not form.productDevelopment.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.productDevelopment.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#product-development-dialog"
                                data-controller="dom-element"
                                data-action="product-development-table:data-table:select@document->dom-element#bind"
@@ -139,7 +152,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Jenis Development</label>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.productDevelopment.developmentTypeList|default ? masterOrderHeader.productDevelopment.developmentTypeList|join(', ') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="product-development-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -149,28 +162,65 @@
                 </div>
                 
                 <div class="col">
-                    <div class="row">
-                        <label class="form-label">Jenis MO</label>
-                        <div class="col">
-                            {{ form_row(form.orderType, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.orderTypeMemo, {'label': false}) }}   
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="form-label">Status Cetakan</label>
-                        <div class="col">
-                            {{ form_row(form.printingStatus, {'label': false}) }}
-                        </div>
-                        {#<div class="col">
-                            {{ form_row(form.printingStatusData, {'label': false}) }}   
-                        </div>#}
-                    </div>
-                    {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
                     {{ form_row(form.hotStamping, {'label': 'Hot Stamping'}) }}
                     {{ form_row(form.glossiness, {'label': 'Glossiness'}) }}
                     {{ form_row(form.finishing, {'label': 'Coating'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">Design Code</label>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_row(form.designCode, {
+                                    'attr': {
+                                        'data-controller': 'dom-element',
+                                        'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                        'data-dom-element-bind-specifications-param': [
+                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeId'}},
+                                        ]|json_encode,
+                                    },
+                                }) }}
+                                <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.designCode.codeNumber|default }}" readonly="readonly"
+                                       data-bs-toggle="modal" data-bs-target="#design-code-dialog"
+                                       data-controller="dom-element"
+                                       data-action="design-code-table:data-table:select@document->dom-element#bind"
+                                       data-dom-element-bind-specifications-param="{{ [
+                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
+                                       ]|json_encode }}" />
+                            </div>
+                            {{ form_errors(form.designCode) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Warna / Pantone</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    {{ form_widget(form.color, {
+                                        'attr': {
+                                            'data-controller': 'dom-element',
+                                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                            'data-dom-element-bind-specifications-param': [
+                                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeColor'}},
+                                            ]|json_encode,
+                                        },
+                                    }) }}
+                                    {{ form_errors(form.color) }}
+                                    <span class="input-group-text">/</span>
+                                    {{ form_widget(form.pantone, {
+                                        'attr': {
+                                            'data-controller': 'dom-element',
+                                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                            'data-dom-element-bind-specifications-param': [
+                                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePantone'}},
+                                            ]|json_encode,
+                                        },
+                                    }) }}
+                                    {{ form_errors(form.pantone) }}
+                                    <span class="input-group-text">+</span>
+                                    <input type="text" class="form-control" value="{{ masterOrderHeader.colorPantoneAdditional|default }}" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <label class="form-label">Pisau Die Cut</label>
                     <div class="row">
                         <div class="col">
@@ -180,6 +230,7 @@
                             {{ form_row(form.dieCutBladeData, {'label': false}) }}
                         </div>#}
                     </div>
+                    
                     <div class="mb-3">
                         <label class="form-label">Pisau Diecut #</label>
                         <div class="row">
@@ -193,12 +244,12 @@
                                         ]|json_encode,
                                     },
                                 }) }}
-                                <input type="text" id="{{ form.diecutKnife.vars.id }}-text" class="form-control readonly-form-input {% if not form.diecutKnife.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.diecutKnife.code|default }}" readonly="readonly"
+                                <input type="text" id="{{ form.diecutKnife.vars.id }}-text" class="form-control readonly-form-input {% if not form.diecutKnife.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.diecutKnife.codeNumber|default }}" readonly="readonly"
                                        data-bs-toggle="modal" data-bs-target="#diecut-knife-dialog"
                                        data-controller="dom-element"
                                        data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
                                        data-dom-element-bind-specifications-param="{{ [
-                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCode'}},
+                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCodeNumber'}},
                                        ]|json_encode }}" />
                             </div>
                             {#<div class="col">
@@ -209,10 +260,33 @@
                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCode'}},
                                        ]|json_encode }}" />
                             </div>#}
-                        {{ form_errors(form.diecutKnife) }}
+                            {{ form_errors(form.diecutKnife) }}
                         </div>
                     </div>
-                    {{ form_row(form.dieLineFilmNumber, {'label': 'No. Film Dieline Diecut (Millar)'}) }}
+                    <div class="mb-3">
+                        <label class="form-label">No. Film Dieline Diecut (Millar)</label>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_row(form.dielineMillar, {
+                                    'attr': {
+                                        'data-controller': 'dom-element',
+                                        'data-action': 'dieline-millar-table:data-table:select@document->dom-element#bind',
+                                        'data-dom-element-bind-specifications-param': [
+                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.dielineMillarId'}},
+                                        ]|json_encode,
+                                    },
+                                }) }}
+                                <input type="text" id="{{ form.dielineMillar.vars.id }}-text" class="form-control readonly-form-input {% if not form.dielineMillar.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.dielineMillar.codeNumber|default }}" readonly="readonly"
+                                       data-bs-toggle="modal" data-bs-target="#dieline-millar-dialog"
+                                       data-controller="dom-element"
+                                       data-action="dieline-millar-table:data-table:select@document->dom-element#bind"
+                                       data-dom-element-bind-specifications-param="{{ [
+                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.dielineMillarCodeNumber'}},
+                                       ]|json_encode }}" />
+                            </div>
+                            {{ form_errors(form.diecutKnife) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -225,831 +299,27 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Kebutuhan Material Kertas</legend>
-            <div class="row">
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">% Insit Cetak</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.insitPrintingPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.insitPrintingPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">% Insit Sortir</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.insitSortingPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.insitSortingPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mountage Kertas</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.paperMountage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.paperMountage) }}
-                                    <span class="input-group-text">Up</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Quantity Kertas</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.quantityPaper|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="quantityPaper" />
-                                    <span class="input-group-text">Rim</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Uk Plano Kertas</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.paperPlanoLength|default }}" readonly="readonly"
-                                           data-controller="dom-element"
-                                           data-action="paper-table:data-table:select@document->dom-element#bind"
-                                           data-dom-element-bind-specifications-param="{{ [
-                                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperLength'}},
-                                           ]|json_encode }}" />
-                                    <span class="input-group-text">x</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.paperPlanoWidth|default }}" readonly="readonly"
-                                           data-controller="dom-element"
-                                           data-action="paper-table:data-table:select@document->dom-element#bind"
-                                           data-dom-element-bind-specifications-param="{{ [
-                                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWidth'}},
-                                           ]|json_encode }}" />
-                                    <span class="input-group-text">cm</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Uk Potong 1</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.cuttingLengthSize1) }}
-                                    {{ form_errors(form.cuttingLengthSize1) }}
-                                    <span class="input-group-text">x</span>
-                                    {{ form_widget(form.cuttingWidthSize1) }}
-                                    {{ form_errors(form.cuttingWidthSize1) }}
-                                    <span class="input-group-text">cm</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Uk Potong 2</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.cuttingLengthSize2) }}
-                                    {{ form_errors(form.cuttingLengthSize2) }}
-                                    <span class="input-group-text">x</span>
-                                    {{ form_widget(form.cuttingWidthSize2) }}
-                                    {{ form_errors(form.cuttingWidthSize2) }}
-                                    <span class="input-group-text">cm</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">Insit Cetak</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.insitPrintingQuantity|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="insitPrintingQuantity" />
-                                    <span class="input-group-text">dreek</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Insit sortir</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.insitSortingQuantity|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="insitSortingQuantity" />
-                                    <span class="input-group-text">dreek</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kebutuhan</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.paperRequirement|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="paperRequirement" />
-                                    <span class="input-group-text">dreek</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Total Kertas</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.paperTotal|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="paperTotal" />
-                                    <span class="input-group-text">dreek</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-label">PO Kertas #</label>
-                        {{ form_row(form.purchaseOrderPaperHeader, {
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'purchase-order-paper-header-table:data-table:select@document->dom-element#bind',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderId'}},
-                                ]|json_encode,
-                            },
-                        }) }}
-                        <input type="text" id="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.purchaseOrderPaperHeader.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.purchaseOrderPaperHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#purchase-order-paper-header-dialog"
-                               data-controller="dom-element"
-                               data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderCodeNumber'}},
-                               ]|json_encode }}" />
-                        {{ form_errors(form.purchaseOrderPaperHeader) }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Tanggal PO</label>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate|default ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderTransactionDate'}},
-                               ]|json_encode }}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Supplier</label>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.purchaseOrderPaperHeader.supplier.company|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].supplierCompany'}},
-                               ]|json_encode }}" />
-                    </div>
-                </div>
-            </div>
+            {{ include('production/master_order_header/_paper_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Estimasi Tinta / Chemical</legend>
-            <div class="row">
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">Cyan</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkCyanPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkCyanPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkCyanWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkCyanWeight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Magenta</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkMagentaPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkMagentaPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkMagentaWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkMagentaWeight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Yellow</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkYellowPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkYellowPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkYellowWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkYellowWeight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Black</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkBlackPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkBlackPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkBlackWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkBlackWeight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">OPV / WB / UV</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkOpvPercentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkOpvPercentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkOpvWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkOpvWeight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Hot Stamping</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkHotStampingSize, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkHotStampingSize) }}
-                                    <span class="input-group-text">cm</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkHotStampingQuantity|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkHotStampingQuantity" />
-                                    <span class="input-group-text">Roll</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                        
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">Khusus-1</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkK1Color) }}
-                                    {{ form_errors(form.inkK1Color) }}
-                                    <span class="input-group-text">:</span>
-                                    {{ form_widget(form.inkK1Percentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkK1Percentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkK1Weight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkK1Weight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Khusus-2</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkK2Color) }}
-                                    {{ form_errors(form.inkK2Color) }}
-                                    <span class="input-group-text">:</span>
-                                    {{ form_widget(form.inkK2Percentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkK2Percentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkK2Weight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkK2Weight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Khusus-3</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkK3Color) }}
-                                    {{ form_errors(form.inkK3Color) }}
-                                    <span class="input-group-text">:</span>
-                                    {{ form_widget(form.inkK3Percentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkK3Percentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkK3Weight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkK3Weight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Khusus-4</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkK4Color) }}
-                                    {{ form_errors(form.inkK4Color) }}
-                                    <span class="input-group-text">:</span>
-                                    {{ form_widget(form.inkK4Percentage, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkK4Percentage) }}
-                                    <span class="input-group-text">%</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkK4Weight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkK4Weight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Laminating</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.inkLaminatingSize, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.inkLaminatingSize) }}
-                                    <span class="input-group-text">cm</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.inkLaminatingQuantity|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="inkLaminatingQuantity" />
-                                    <span class="input-group-text">roll</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ include('production/master_order_header/_ink_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Estimasi Packaging</legend>
-            <div class="row">
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">Lem</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingGlueQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingGlueQuantity) }}
-                                    <span class="input-group-text">cm/pcs</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingGlueWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingGlueWeight" />
-                                    <span class="input-group-text">kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Karet</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingRubberQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingRubberQuantity) }}
-                                    <span class="input-group-text">pcs/ikat</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingRubberWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingRubberWeight" />
-                                    <span class="input-group-text">pcs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kertas Packing</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingPaperQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingPaperQuantity) }}
-                                    <span class="input-group-text">pcs/pack</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingPaperWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingPaperWeight" />
-                                    <span class="input-group-text">lbr</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Dus</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingBoxQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingBoxQuantity) }}
-                                    <span class="input-group-text">pcs/dus</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingBoxWeight|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingBoxWeight" />
-                                    <span class="input-group-text">pcs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                        
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">Lakban >besar</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingTapeLargeQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingTapeLargeQuantity) }}
-                                    <span class="input-group-text">cm/pack(dus)</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingTapeLargeSize|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingTapeLargeSize" />
-                                    <span class="input-group-text">roll</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Lakban >kecil</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingTapeSmallQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingTapeSmallQuantity) }}
-                                    <span class="input-group-text">cm/pack(dus)</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingTapeSmallSize|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingTapeSmallSize" />
-                                    <span class="input-group-text">roll</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Plastik</label>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    {{ form_widget(form.packagingPlasticQuantity, {
-                                        'attr': {
-                                            'data-action': 'change->json-loader#load',
-                                        },
-                                    }) }}
-                                    {{ form_errors(form.packagingPlasticQuantity) }}
-                                    <span class="input-group-text">cm2/pack</span>
-                                    <span class="input-group-text">=</span>
-                                    <input type="text" class="form-control" value="{{ masterOrderHeader.packagingPlasticSize|default }}" readonly="readonly"
-                                           data-json-loader-target="placeholder"
-                                           data-property-path="packagingPlasticSize" />
-                                    <span class="input-group-text">m2</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ include('production/master_order_header/_packaging_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <label class="form-label">Urutan Proses</label>
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-sm table-bordered table-striped" id="work-order-process-table" data-controller="data-table">
-                                <tbody>
-                                    {% for workOrderProcess in workOrderProcesses %}
-                                        <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderProcessId': workOrderProcess.id, 'workOrderProcessName': workOrderProcess.name}|json_encode }}">
-                                            <td>{{ workOrderProcess.name }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-bordered"
-                                   data-controller="form-collection"
-                                   data-form-collection-start-index-value="{{ form.masterOrderProcessDetails|length > 0 ? form.masterOrderProcessDetails|last.vars.name + 1 : 0 }}"
-                                   data-form-collection-start-ordinal-value="{{ form.masterOrderProcessDetails|length }}"
-                                   data-form-collection-prototype-value="{{ _self.process_collection_item(0, form.masterOrderProcessDetails.vars.prototype, form)|e('html_attr') }}">
-                                <thead class="table-secondary">
-                                    <tr>
-                                        <th>No.</th>
-                                        <th class="d-none">Work Order Process Id</th>
-                                        <th>Nama</th>
-                                        <th style="max-width: 10px">Sub Con</th>
-                                        <th style="max-width: 10px"></th>
-                                    </tr>
-                                </thead>
-                                <tbody data-form-collection-target="items" data-action="work-order-process-table:data-table:select@document->form-collection#addCollectionItem">
-                                    {% macro process_collection_item(ordinal, detailForm) %}
-                                        <tr data-form-collection-target="item" data-item-identifier-name="workOrderProcessId" data-item-identifier-value="{{ detailForm.vars.value.workOrderProcess.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
-                                            <td data-form-collection-target="ordinal">{{ ordinal + 1 }}</td>
-                                            <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
-                                            <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>
-                                            <td>
-                                                {{ form_row(detailForm.isSubcon, {'label': false}) }}
-                                            </td>
-                                            <td>
-                                                {% if (detailForm.vars.value.id == null) %}
-                                                    <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                                                {% endif %}
-                                                <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                                                    {{ form_row(detailForm.isCanceled, {
-                                                        'label': 'X',
-                                                        'attr': {
-                                                            'data-controller': 'dom-element',
-                                                            'data-action': 'dom-element#bind change->json-loader#load',
-                                                            'data-dom-element-bind-specifications-param': [
-                                                                {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderProcess.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                                                {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderProcess.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                                            ]|json_encode,
-                                                        },
-                                                    }) }}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endmacro %}
-                                    {% for detailForm in form.masterOrderProcessDetails %}
-                                        {{ _self.process_collection_item(loop.index0, detailForm) }}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <legend class="float-none w-auto text-dark px-1">Urutan Proses</legend>
+            {{ include('production/master_order_header/_processing_order_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <label class="form-label">Distribusi WO</label>
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-sm table-bordered table-striped" id="work-order-distribution-table" data-controller="data-table">
-                                <tbody>
-                                    {% for workOrderDistribution in workOrderDistributions %}
-                                        <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderDistributionId': workOrderDistribution.id, 'workOrderDistributionName': workOrderDistribution.name}|json_encode }}">
-                                            <td>{{ workOrderDistribution.name }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-bordered"
-                                   data-controller="form-collection"
-                                   data-form-collection-start-index-value="{{ form.masterOrderDistributionDetails|length > 0 ? form.masterOrderDistributionDetails|last.vars.name + 1 : 0 }}"
-                                   data-form-collection-prototype-value="{{ _self.distribution_collection_item(form.masterOrderDistributionDetails.vars.prototype, form)|e('html_attr') }}">
-                                <thead class="table-secondary">
-                                    <tr>
-                                        <th class="d-none">Work Order Distribution Id</th>
-                                        <th style="min-width: 250px">Nama</th>
-                                        <th style="min-width: 50px">Sub Con</th>
-                                        <th style="min-width: 0"></th>
-                                    </tr>
-                                </thead>
-                                <tbody data-form-collection-target="items" data-action="work-order-distribution-table:data-table:select@document->form-collection#addCollectionItem">
-                                    {% macro distribution_collection_item(detailForm) %}
-                                        <tr data-form-collection-target="item" data-item-identifier-name="workOrderDistributionId" data-item-identifier-value="{{ detailForm.vars.value.workOrderDistribution.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
-                                            <td class="d-none">{{ form_widget(detailForm.workOrderDistribution, {'attr': {'data-item-field-name': 'workOrderDistributionId'}}) }}</td>
-                                            <td data-item-field-name="workOrderDistributionName">{{ detailForm.vars.value.workOrderDistribution.name|default }}</td>
-                                            <td>
-                                                {{ form_row(detailForm.isSubcon, {'label': false}) }}
-                                            </td>
-                                            <td>
-                                                {% if (detailForm.vars.value.id == null) %}
-                                                    <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                                                {% endif %}
-                                                <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                                                    {{ form_row(detailForm.isCanceled, {
-                                                        'label': 'X',
-                                                        'attr': {
-                                                            'data-controller': 'dom-element',
-                                                            'data-action': 'dom-element#bind change->json-loader#load',
-                                                            'data-dom-element-bind-specifications-param': [
-                                                                {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderDistribution.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                                                {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderDistribution.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                                            ]|json_encode,
-                                                        },
-                                                    }) }}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endmacro %}
-                                    {% for detailForm in form.masterOrderDistributionDetails %}
-                                        {{ _self.distribution_collection_item(detailForm) }}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                                
-                <div class="col">
-                    <div class="row">
-                        <label class="form-label">Check Sheet</label>
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-sm table-bordered table-striped" id="work-order-check-sheet-table" data-controller="data-table">
-                                <tbody>
-                                    {% for workOrderCheckSheet in workOrderCheckSheets %}
-                                        <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderCheckSheetId': workOrderCheckSheet.id, 'workOrderCheckSheetName': workOrderCheckSheet.name}|json_encode }}">
-                                            <td>{{ workOrderCheckSheet.name }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col border border-secondary rounded">
-                            <table class="table table-bordered"
-                                   data-controller="form-collection"
-                                   data-form-collection-start-index-value="{{ form.masterOrderCheckSheetDetails|length > 0 ? form.masterOrderCheckSheetDetails|last.vars.name + 1 : 0 }}"
-                                   data-form-collection-prototype-value="{{ _self.check_sheet_collection_item(form.masterOrderCheckSheetDetails.vars.prototype, form)|e('html_attr') }}">
-                                <thead class="table-secondary">
-                                    <tr>
-                                        <th class="d-none">Work Order Check Sheet Id</th>
-                                        <th style="min-width: 250px">Nama</th>
-                                        <th style="min-width: 50px">Sub Con</th>
-                                        <th style="min-width: 0"></th>
-                                    </tr>
-                                </thead>
-                                <tbody data-form-collection-target="items" data-action="work-order-check-sheet-table:data-table:select@document->form-collection#addCollectionItem">
-                                    {% macro check_sheet_collection_item(detailForm) %}
-                                        <tr data-form-collection-target="item" data-item-identifier-name="workOrderCheckSheetId" data-item-identifier-value="{{ detailForm.vars.value.workOrderCheckSheet.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
-                                            <td class="d-none">{{ form_widget(detailForm.workOrderCheckSheet, {'attr': {'data-item-field-name': 'workOrderCheckSheetId'}}) }}</td>
-                                            <td data-item-field-name="workOrderCheckSheetName">{{ detailForm.vars.value.workOrderCheckSheet.name|default }}</td>
-                                            <td>
-                                                {{ form_row(detailForm.isSubcon, {'label': false}) }}
-                                            </td>
-                                            <td>
-                                                {% if (detailForm.vars.value.id == null) %}
-                                                    <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                                                {% endif %}
-                                                <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                                                    {{ form_row(detailForm.isCanceled, {
-                                                        'label': 'X',
-                                                        'attr': {
-                                                            'data-controller': 'dom-element',
-                                                            'data-action': 'dom-element#bind change->json-loader#load',
-                                                            'data-dom-element-bind-specifications-param': [
-                                                                {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderCheckSheet.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                                                {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderCheckSheet.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                                            ]|json_encode,
-                                                        },
-                                                    }) }}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endmacro %}
-                                    {% for detailForm in form.masterOrderCheckSheetDetails %}
-                                        {{ _self.check_sheet_collection_item(detailForm) }}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <legend class="float-none w-auto text-dark px-1">Distribusi WO & Check Sheet</legend>
+            {{ include('production/master_order_header/_checklist_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
@@ -1107,9 +377,25 @@
         </div>
     {{ dialog.end() }}
 
+    {{ dialog.start('design-code-dialog', 'Design Code List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="customer-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+
     {{ dialog.start('diecut-knife-dialog', 'Diecut Knife List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_diecut_knife__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="customer-table:data-table:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('dieline-millar-dialog', 'Millar List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_dieline_millar__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="customer-table:data-table:select@document->html-loader#load">
         </div>

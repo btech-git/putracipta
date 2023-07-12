@@ -18,56 +18,62 @@
             <tr>
                 <th>Master Order #</th>
                 <td>{{ masterOrderHeader.getCodeNumber }}</td>
-                <th>Status Cetakan</th>
-                <td>{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }} : {{ masterOrderHeader.printingStatusData }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal</th>
-                <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
                 <th>Customer</th>
                 <td>{{ masterOrderHeader.customer.company|default }}</td>
             </tr>
             <tr>
-                <th>Tanggal Kirim</th>
-                <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
-                <th>Hot Stamping</th>
-                <td>{{ masterOrderHeader.hotStamping }}</td>
-            </tr>
-            <tr>
-                <th>Mesin Cetak</th>
-                <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
+                <th>Tanggal</th>
+                <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
                 <th>Material Kertas</th>
                 <td>{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
             </tr>
             <tr>
-                <th>Warna/Pantone</th>
-                <td>{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</td>
-                <th>Pisau Die Cut</th>
-                <td>{{ masterOrderHeader.dieCutBlade }} : {{ masterOrderHeader.dieCutBladeData }}</td>
-            </tr>
-            <tr>
-                <th>Finishing</th>
+                <th>Tanggal Kirim</th>
+                <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
+                <th>Coating</th>
                 <td>{{ masterOrderHeader.finishing }}</td>
-                <th>No. Pisau Die Cut</th>
-                <td>{{ masterOrderHeader.dieCutKnife.name|default }} - {{ masterOrderHeader.dieCutKnife.code|default }}</td>
             </tr>
             <tr>
-                <th>Jumlah Up Cetak</th>
-                <td>{{ masterOrderHeader.quantityPrinting }} & {{ masterOrderHeader.quantityPrinting2 }}</td>
-                <th>No. Film Dieline</th>
-                <td>{{ masterOrderHeader.dieLineFilmNumber }}</td>
+                <th>Mesin Cetak</th>
+                <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
+                <th>Hot Stamping</th>
+                <td>{{ masterOrderHeader.hotStamping }}</td>
             </tr>
             <tr>
-                <th>Ukuran Mountage / Kris (cm)</th>
-                <td>{{ masterOrderHeader.mountageSizeLength }} x {{ masterOrderHeader.mountageSizeWidth }}</td>
                 <th>Jenis MO</th>
                 <td>{{ masterOrderHeader.orderType }}</td>
+                <th>Pisau Die Cut</th>
+                <td>{{ masterOrderHeader.dieCutBlade }}</td>
+            </tr>
+            <tr>
+                <th>Status Cetakan</th>
+                <td>{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</td>
+                <th>No. Pisau Die Cut</th>
+                <td>{{ masterOrderHeader.diecutKnife.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Pengembangan Produk Baru</th>
+                <td>{{ masterOrderHeader.productDevelopment.codeNumber|default }}</td>
+                <th>No. Film Dieline</th>
+                <td>{{ masterOrderHeader.dielineMillar.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Jenis Pengembangan</th>
+                <td>{{ masterOrderHeader.productDevelopment.developmentTypeList|default ? masterOrderHeader.productDevelopment.developmentTypeList|join(', ') : '' }}</td>
+                <th>Design Code</th>
+                <td>{{ masterOrderHeader.designCode.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Warna/Pantone</th>
+                <td>{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</td>
+                <th>Berat per pcs</th>
+                <td>{{ masterOrderHeader.weightPerPiece }}</td>
             </tr>
             <tr>
                 <th>Glossiness</th>
                 <td>{{ masterOrderHeader.glossiness }}</td>
-                <th>Berat per pcs</th>
-                <td>{{ masterOrderHeader.weightPerPiece }}</td>
+                <th>Ukuran Mountage / Kris (cm)</th>
+                <td>{{ masterOrderHeader.mountageSizeLength }} x {{ masterOrderHeader.mountageSizeWidth }}</td>
             </tr>
         </tbody>
     </table>
@@ -79,12 +85,12 @@
             </tr>
             <tr>
                 <th style="min-width: 150px">PO#</th>
-                <th style="min-width: 200px">Kode Design</th>
                 <th style="min-width: 200px">Kode Produk</th>
                 <th style="min-width: 300px">Nama Produk</th>
                 <th style="min-width: 80px" class="text-center">P (mm)</th>
                 <th style="min-width: 80px" class="text-center">L (mm)</th>
                 <th style="min-width: 80px" class="text-center">T (mm)</th>
+                <th style="min-width: 200px" colspan="2">Jumlah Up Cetak (Up/s)</th>
                 <th style="min-width: 100px" class="text-center">Qty Order</th>
                 <th style="min-width: 100px" class="text-center">Stock</th>
                 <th style="min-width: 100px" class="text-center">Kekurangan</th>
@@ -94,12 +100,13 @@
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ masterOrderProductDetail.designCode.name|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
+                    <td class="text-center">{{ masterOrderProductDetail.quantityUpPrinting1|default|number_format(0) }}</td>
+                    <td class="text-center">{{ masterOrderProductDetail.quantityUpPrinting2|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
@@ -108,7 +115,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="7" class="text-end">Total</td>
+                <td colspan="8" class="text-end">Total</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
