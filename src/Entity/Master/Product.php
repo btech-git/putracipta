@@ -67,10 +67,14 @@ class Product extends Master
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: DiecutKnife::class)]
     private Collection $diecutKnives;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DielineMillar::class)]
+    private Collection $dielineMillars;
+
     public function __construct()
     {
         $this->designCodes = new ArrayCollection();
         $this->diecutKnives = new ArrayCollection();
+        $this->dielineMillars = new ArrayCollection();
     }
     
     public function getProductLengthWidthHeightCombination() {
@@ -280,6 +284,36 @@ class Product extends Master
             // set the owning side to null (unless already changed)
             if ($diecutKnife->getProduct() === $this) {
                 $diecutKnife->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DielineMillar>
+     */
+    public function getDielineMillars(): Collection
+    {
+        return $this->dielineMillars;
+    }
+
+    public function addDielineMillar(DielineMillar $dielineMillar): self
+    {
+        if (!$this->dielineMillars->contains($dielineMillar)) {
+            $this->dielineMillars->add($dielineMillar);
+            $dielineMillar->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDielineMillar(DielineMillar $dielineMillar): self
+    {
+        if ($this->dielineMillars->removeElement($dielineMillar)) {
+            // set the owning side to null (unless already changed)
+            if ($dielineMillar->getProduct() === $this) {
+                $dielineMillar->setProduct(null);
             }
         }
 

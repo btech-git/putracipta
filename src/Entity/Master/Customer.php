@@ -102,11 +102,15 @@ class Customer extends Master
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: DesignCode::class)]
     private Collection $designCodes;
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: DielineMillar::class)]
+    private Collection $dielineMillars;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->diecutKnives = new ArrayCollection();
         $this->designCodes = new ArrayCollection();
+        $this->dielineMillars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -450,6 +454,36 @@ class Customer extends Master
             // set the owning side to null (unless already changed)
             if ($designCode->getCustomer() === $this) {
                 $designCode->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DielineMillar>
+     */
+    public function getDielineMillars(): Collection
+    {
+        return $this->dielineMillars;
+    }
+
+    public function addDielineMillar(DielineMillar $dielineMillar): self
+    {
+        if (!$this->dielineMillars->contains($dielineMillar)) {
+            $this->dielineMillars->add($dielineMillar);
+            $dielineMillar->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDielineMillar(DielineMillar $dielineMillar): self
+    {
+        if ($this->dielineMillars->removeElement($dielineMillar)) {
+            // set the owning side to null (unless already changed)
+            if ($dielineMillar->getCustomer() === $this) {
+                $dielineMillar->setCustomer(null);
             }
         }
 
