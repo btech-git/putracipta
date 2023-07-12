@@ -1,30 +1,30 @@
 <div class="table-responsive">
     <table class="table table-bordered"
        data-controller="form-collection"
-       data-form-collection-start-index-value="{{ form.designCodes|length > 0 ? form.designCodes|last.vars.name + 1 : 0 }}"
-       data-form-collection-prototype-value="{{ _self.collection_item(form.designCodes.vars.prototype)|e('html_attr') }}"
+       data-form-collection-start-index-value="{{ form.diecutKnives|length > 0 ? form.diecutKnives|last.vars.name + 1 : 0 }}"
+       data-form-collection-prototype-value="{{ _self.collection_item(form.diecutKnives.vars.prototype)|e('html_attr') }}"
        data-action="form-collection:collection-item-removed->json-loader#load:self">
         <thead class="table-secondary">
             <tr>
-                <th style="min-width: 100px">Varian</th>
                 <th style="min-width: 100px">Versi</th>
-                <th style="min-width: 100px">Warna</th>
-                <th style="min-width: 100px">Pantone</th>
-                <th style="min-width: 100px">Up Cetak 1</th>
-                <th style="min-width: 100px">Up Cetak 2</th>
+                <th style="min-width: 100px">Jumlah Up Cetak</th>
+                <th style="min-width: 100px">Jumlah Up Pisau</th>
+                <th style="min-width: 100px">Uk Kris Cetak</th>
+                <th style="min-width: 100px">BOBST</th>
+                <th style="min-width: 100px">PON</th>
                 <th style="min-width: 250px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="new-design-code-button:click@document->form-collection#addCollectionItem">
+        <tbody data-form-collection-target="items" data-action="new-diecut-knife-button:click@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if (detailForm.vars.value.isInactive) %}class="bg-secondary"{% endif %}>
-                    <td>{{ form_row(detailForm.variant, {'label': false}) }}</td>
                     <td>{{ form_row(detailForm.version, {'label': false}) }}</td>
-                    <td>{{ form_row(detailForm.color, {'label': false}) }}</td>
-                    <td>{{ form_row(detailForm.pantone, {'label': false}) }}</td>
-                    <td>{{ form_row(detailForm.quantityPrinting1, {'label': false}) }}</td>
-                    <td>{{ form_row(detailForm.quantityPrinting2, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.upPerSecondKnife, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.upPerSecondPrint, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.printingSize, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.isLocationBobst, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.isLocationPon, {'label': false}) }}</td>
                     <td>{{ form_row(detailForm.note, {'label': false}) }}</td>
                     <td>
                         <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
@@ -43,7 +43,7 @@
                     </td>
                 </tr>
             {% endmacro %}
-            {% for detailForm in form.designCodes %}
+            {% for detailForm in form.diecutKnives %}
                 {{ _self.collection_item(detailForm) }}
             {% endfor %}
         </tbody>

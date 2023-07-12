@@ -87,8 +87,20 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Design Codes</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" id="new-detail-button">Add Design Codes</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" id="new-design-code-button">+ Add</button>
             {{ include('master/product/_design_codes_form.html.twig') }}
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Pisau Diecut</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" id="new-diecut-knife-button">+ Add</button>
+            {{ include('master/product/_diecut_knives_form.html.twig') }}
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Millar</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" id="new-dieline-millar-button">+ Add</button>
+            {{ include('master/product/_dieline_millars_form.html.twig') }}
         </fieldset>
 
         <div class="d-grid">
