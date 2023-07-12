@@ -4,38 +4,29 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortAscending;
-use App\Grid\Shared\DesignCodeGridType;
-use App\Repository\Master\DesignCodeRepository;
+use App\Grid\Shared\DielineMillarGridType;
+use App\Repository\Master\DielineMillarRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/shared/design_code')]
-class DesignCodeController extends AbstractController
+#[Route('/shared/dieline_millar')]
+class DielineMillarController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_design_code__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_dieline_millar__list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
+    public function _list(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(DesignCodeGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DielineMillarGridType::class, $criteria, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        list($count, $designCodes) = $designCodeRepository->fetchData($criteria, function($qb, $alias) use ($request) {
-//            $productId = '';
-//            if (isset($request->query->get('product_prototype')['product'])) {
-//                $productId = $request->query->get('product_prototype')['product'];
-//            }
-//            if (!empty($productId)) {
-//                $qb->andWhere("IDENTITY({$alias}.product) = :productId");
-//                $qb->setParameter('productId', $productId);
-//            }
-            
+        list($count, $dielineMillars) = $dielineMillarRepository->fetchData($criteria, function($qb, $alias) use ($request) {
             $customerId = '';
             if (isset($request->query->get('master_order_header')['customer'])) {
                 $customerId = $request->query->get('master_order_header')['customer'];
@@ -48,10 +39,10 @@ class DesignCodeController extends AbstractController
             $qb->andWhere("{$alias}.isInactive = false");
         });
 
-        return $this->renderForm("shared/design_code/_list.html.twig", [
+        return $this->renderForm("shared/dieline_millar/_list.html.twig", [
             'form' => $form,
             'count' => $count,
-            'designCodes' => $designCodes,
+            'dielineMillars' => $dielineMillars,
         ]);
     }
 }
