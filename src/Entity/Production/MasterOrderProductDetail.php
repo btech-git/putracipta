@@ -2,7 +2,6 @@
 
 namespace App\Entity\Production;
 
-use App\Entity\Master\DesignCode;
 use App\Entity\Master\Product;
 use App\Entity\Transaction\SaleOrderDetail;
 use App\Entity\ProductionDetail;
@@ -36,8 +35,11 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\ManyToOne(inversedBy: 'masterOrderProductDetails')]
     private ?SaleOrderDetail $saleOrderDetail = null;
 
-    #[ORM\ManyToOne]
-    private ?DesignCode $designCode = null;
+    #[ORM\Column]
+    private ?int $quantityUpPrinting1 = 0;
+
+    #[ORM\Column]
+    private ?int $quantityUpPrinting2 = 0;
 
     public function getSyncIsCanceled(): bool
     {
@@ -127,14 +129,26 @@ class MasterOrderProductDetail extends ProductionDetail
         return $this;
     }
 
-    public function getDesignCode(): ?DesignCode
+    public function getQuantityUpPrinting1(): ?int
     {
-        return $this->designCode;
+        return $this->quantityUpPrinting1;
     }
 
-    public function setDesignCode(?DesignCode $designCode): self
+    public function setQuantityUpPrinting1(int $quantityUpPrinting1): self
     {
-        $this->designCode = $designCode;
+        $this->quantityUpPrinting1 = $quantityUpPrinting1;
+
+        return $this;
+    }
+
+    public function getQuantityUpPrinting2(): ?int
+    {
+        return $this->quantityUpPrinting2;
+    }
+
+    public function setQuantityUpPrinting2(int $quantityUpPrinting2): self
+    {
+        $this->quantityUpPrinting2 = $quantityUpPrinting2;
 
         return $this;
     }

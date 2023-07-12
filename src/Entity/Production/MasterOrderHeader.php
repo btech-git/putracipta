@@ -5,6 +5,7 @@ namespace App\Entity\Production;
 use App\Entity\Master\Customer;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
+use App\Entity\Master\DielineMillar;
 use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
@@ -338,6 +339,9 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\ManyToOne]
     private ?DesignCode $designCode = null;
+
+    #[ORM\ManyToOne]
+    private ?DielineMillar $dielineMillar = null;
 
     public function __construct()
     {
@@ -1968,6 +1972,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setDesignCode(?DesignCode $designCode): self
     {
         $this->designCode = $designCode;
+
+        return $this;
+    }
+
+    public function getDielineMillar(): ?DielineMillar
+    {
+        return $this->dielineMillar;
+    }
+
+    public function setDielineMillar(?DielineMillar $dielineMillar): self
+    {
+        $this->dielineMillar = $dielineMillar;
 
         return $this;
     }
