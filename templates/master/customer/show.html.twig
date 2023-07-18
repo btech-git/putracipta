@@ -127,19 +127,70 @@
 
     <hr />
     
-    <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
+    <legend class="float-none w-auto text-dark px-1">Design Code List</legend>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Code</th>
                 <th>Name</th>
+                <th>Warna</th>
+                <th>Pantone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for designCode in customer.designCodes %}
+                <tr>
+                    <td>{{ designCode.codeNumber }}</td>
+                    <td>{{ designCode.color }}</td>
+                    <td>{{ designCode.pantone }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Up/s Pisau</th>
+                <th>Up/s Cetak</th>
+                <th>Uk. Cetak</th>
             </tr>
         </thead>
         <tbody>
             {% for diecutKnife in customer.diecutKnives %}
                 <tr>
-                    <td>{{ diecutKnife.code }}</td>
-                    <td>{{ diecutKnife.name }}</td>
+                    <td>{{ diecutKnife.codeNumber }}</td>
+                    <td>{{ diecutKnife.upPerSecondKnife }}</td>
+                    <td>{{ diecutKnife.upPerSecondPrint }}</td>
+                    <td>{{ diecutKnife.printingSize }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Millar List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Jml</th>
+                <th>Jml Up Cetak</th>
+                <th>Layout Cetak</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dielineMillar in customer.dielineMillars %}
+                <tr>
+                    <td>{{ dielineMillar.codeNumber }}</td>
+                    <td>{{ dielineMillar.quantity }}</td>
+                    <td>{{ dielineMillar.quantityUpPrinting }}</td>
+                    <td>{{ dielineMillar.printingLayout }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,0 +1,73 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Dieline Millar' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_dieline_millar_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_dieline_millar_edit', {'id': dielineMillar.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Customer</th>
+                <td>{{ dielineMillar.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Kode</th>
+                <td>{{ dielineMillar.codeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ dielineMillar.date ? dielineMillar.date|date('d m Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Jml</th>
+                <td>{{ dielineMillar.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Jml Up Cetak</th>
+                <td>{{ dielineMillar.quantityUpPrinting }}</td>
+            </tr>
+            <tr>
+                <th>Layout Cetak</th>
+                <td>{{ dielineMillar.printingLayout }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ dielineMillar.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Inactive</th>
+                <td>{{ dielineMillar.isInactive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Product List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>MO #</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderHeader in dielineMillar.masterOrderHeaders %}
+                {% for masterOrderDetail in masterOrderHeader.masterOrderDetails %}
+                    <tr>
+                        <td>{{ masterOrderDetail.product.code|default }}</td>
+                        <td>{{ masterOrderDetail.product.name|default }}</td>
+                        <td>{{ masterOrderHeader.codeNumber|default }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {#{{ include('master/dieline_millar/_delete_form.html.twig') }}#}
+{% endblock %}

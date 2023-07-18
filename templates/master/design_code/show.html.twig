@@ -1,0 +1,81 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Design Code' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_design_code_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_design_code_edit', {'id': designCode.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Customer</th>
+                <td>{{ designCode.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Kode</th>
+                <td>{{ designCode.codeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Versi</th>
+                <td>{{ designCode.version }}</td>
+            </tr>
+            <tr>
+                <th>Varian</th>
+                <td>{{ designCode.variant }}</td>
+            </tr>
+            <tr>
+                <th>Warna</th>
+                <td>{{ designCode.color }}</td>
+            </tr>
+            <tr>
+                <th>Pantone</th>
+                <td>{{ designCode.pantone }}</td>
+            </tr>
+            <tr>
+                <th>Jml Up Cetak 1</th>
+                <td>{{ designCode.quantityPrinting1 }}</td>
+            </tr>
+            <tr>
+                <th>Jml Up Cetak 2</th>
+                <td>{{ designCode.quantityPrinting2 }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ designCode.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Inactive</th>
+                <td>{{ designCode.isInactive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Product List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>MO #</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderHeader in designCode.masterOrderHeaders %}
+                {% for masterOrderDetail in masterOrderHeader.masterOrderDetails %}
+                    <tr>
+                        <td>{{ masterOrderDetail.product.code|default }}</td>
+                        <td>{{ masterOrderDetail.product.name|default }}</td>
+                        <td>{{ masterOrderHeader.codeNumber|default }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {#{{ include('master/design_code/_delete_form.html.twig') }}#}
+{% endblock %}

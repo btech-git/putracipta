@@ -1,0 +1,83 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, diecutKnives) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Code {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'upPerSecondKnife') }}>
+                    Up/s Pisau {{ grid.sort_char(form.sort.upPerSecondKnife.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'upPerSecondPrint') }}>
+                    Up/s Cetak {{ grid.sort_char(form.sort.upPerSecondPrint.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'printingSize') }}>
+                    Uk. Cetak {{ grid.sort_char(form.sort.printingSize.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isLocationBobst') }}>
+                    Bobst {{ grid.sort_char(form.sort.isLocationBobst.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isLocationPon') }}>
+                    Pon {{ grid.sort_char(form.sort.isLocationPon.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                </th>
+                <th style="min-width: 90px"></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text"{{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'upPerSecondKnife') }} value="{{ form.filter.upPerSecondKnife.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'upPerSecondPrint') }} value="{{ form.filter.upPerSecondPrint.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'printingSize') }} value="{{ form.filter.printingSize.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'isLocationBobst') }} value="{{ form.filter.isLocationBobst.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'isLocationPon') }} value="{{ form.filter.isLocationPon.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diecutKnife in diecutKnives %}
+                <tr>
+                    <td>{{ diecutKnife.codeNumber }}</td>
+                    <td>{{ diecutKnife.upPerSecondKnife }}</td>
+                    <td>{{ diecutKnife.upPerSecondPrint }}</td>
+                    <td>{{ diecutKnife.printingSize }}</td>
+                    <td>{{ diecutKnife.isLocationBobst ? 'Yes' : 'No' }}</td>
+                    <td>{{ diecutKnife.isLocationPon ? 'Yes' : 'No' }}</td>
+                    <td>{{ diecutKnife.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_master_diecut_knife_show', {'id': diecutKnife.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_diecut_knife_edit', {'id': diecutKnife.id}) }}"><i class="bi-pencil"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, diecutKnives) }}

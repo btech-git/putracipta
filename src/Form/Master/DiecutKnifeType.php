@@ -12,12 +12,13 @@ class DiecutKnifeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('version')
-            ->add('upPerSecondKnife')
-            ->add('upPerSecondPrint')
-            ->add('printingSize')
-            ->add('isLocationBobst')
-            ->add('isLocationPon')
+            ->add('customer', null, ['choice_label' => 'name'])
+            ->add('name', null, ['label' => 'Kode'])
+            ->add('upPerSecondKnife', null, ['label' => 'Up/s Pisau'])
+            ->add('upPerSecondPrint', null, ['label' => 'Up/s Cetak'])
+            ->add('printingSize', null, ['label' => 'Uk. Kris Cetak'])
+            ->add('isLocationBobst', null, ['label' => 'Lokasi BOBST'])
+            ->add('isLocationPon', null, ['label' => 'Lokasi PON'])
             ->add('note')
             ->add('isInactive')
         ;

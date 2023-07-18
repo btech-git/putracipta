@@ -1,0 +1,69 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, dielineMillars) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Code {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
+                    Jml {{ grid.sort_char(form.sort.quantity.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'quantityUpPrinting') }}>
+                    Jml Up Cetak {{ grid.sort_char(form.sort.quantityUpPrinting.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'printingLayout') }}>
+                    Layout Cetak {{ grid.sort_char(form.sort.printingLayout.vars.value) }}
+                </th>
+                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                </th>
+                <th style="min-width: 90px"></th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'quantityUpPrinting') }} value="{{ form.filter.quantityUpPrinting.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'printingLayout') }} value="{{ form.filter.printingLayout.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dielineMillar in dielineMillars %}
+                <tr>
+                    <td>{{ dielineMillar.codeNumber }}</td>
+                    <td>{{ dielineMillar.quantity }}</td>
+                    <td>{{ dielineMillar.quantityUpPrinting }}</td>
+                    <td>{{ dielineMillar.printingLayout }}</td>
+                    <td>{{ dielineMillar.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_master_dieline_millar_show', {'id': dielineMillar.id}) }}"><i class="bi-search"></i></a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_dieline_millar_edit', {'id': dielineMillar.id}) }}"><i class="bi-pencil"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, dielineMillars) }}

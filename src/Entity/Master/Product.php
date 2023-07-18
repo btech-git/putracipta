@@ -52,9 +52,6 @@ class Product extends Master
     #[ORM\Column(length: 100)]
     private ?string $variant = '';
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DesignCode::class)]
-    private Collection $designCodes;
-
     #[ORM\Column(length: 20)]
     private ?string $fileExtension = '';
 
@@ -64,17 +61,8 @@ class Product extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $glossiness = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DiecutKnife::class)]
-    private Collection $diecutKnives;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DielineMillar::class)]
-    private Collection $dielineMillars;
-
     public function __construct()
     {
-        $this->designCodes = new ArrayCollection();
-        $this->diecutKnives = new ArrayCollection();
-        $this->dielineMillars = new ArrayCollection();
     }
     
     public function getProductLengthWidthHeightCombination() {
@@ -194,36 +182,6 @@ class Product extends Master
         return $this;
     }
 
-    /**
-     * @return Collection<int, DesignCode>
-     */
-    public function getDesignCodes(): Collection
-    {
-        return $this->designCodes;
-    }
-
-    public function addDesignCode(DesignCode $designCode): self
-    {
-        if (!$this->designCodes->contains($designCode)) {
-            $this->designCodes->add($designCode);
-            $designCode->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDesignCode(DesignCode $designCode): self
-    {
-        if ($this->designCodes->removeElement($designCode)) {
-            // set the owning side to null (unless already changed)
-            if ($designCode->getProduct() === $this) {
-                $designCode->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFileExtension(): ?string
     {
         return $this->fileExtension;
@@ -256,66 +214,6 @@ class Product extends Master
     public function setGlossiness(string $glossiness): self
     {
         $this->glossiness = $glossiness;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, DiecutKnife>
-     */
-    public function getDiecutKnives(): Collection
-    {
-        return $this->diecutKnives;
-    }
-
-    public function addDiecutKnife(DiecutKnife $diecutKnife): self
-    {
-        if (!$this->diecutKnives->contains($diecutKnife)) {
-            $this->diecutKnives->add($diecutKnife);
-            $diecutKnife->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDiecutKnife(DiecutKnife $diecutKnife): self
-    {
-        if ($this->diecutKnives->removeElement($diecutKnife)) {
-            // set the owning side to null (unless already changed)
-            if ($diecutKnife->getProduct() === $this) {
-                $diecutKnife->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, DielineMillar>
-     */
-    public function getDielineMillars(): Collection
-    {
-        return $this->dielineMillars;
-    }
-
-    public function addDielineMillar(DielineMillar $dielineMillar): self
-    {
-        if (!$this->dielineMillars->contains($dielineMillar)) {
-            $this->dielineMillars->add($dielineMillar);
-            $dielineMillar->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDielineMillar(DielineMillar $dielineMillar): self
-    {
-        if ($this->dielineMillars->removeElement($dielineMillar)) {
-            // set the owning side to null (unless already changed)
-            if ($dielineMillar->getProduct() === $this) {
-                $dielineMillar->setProduct(null);
-            }
-        }
 
         return $this;
     }

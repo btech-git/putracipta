@@ -3,7 +3,10 @@
 namespace App\Entity\Master;
 
 use App\Entity\Master;
+use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Master\DesignCodeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,9 +18,6 @@ class DesignCode extends Master
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'designCodes')]
-    private ?Product $product = null;
 
     #[ORM\Column(length: 20)]
     private ?string $version = '';
@@ -43,26 +43,22 @@ class DesignCode extends Master
     #[ORM\Column]
     private ?int $quantityPrinting2 = 0;
 
+    #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: MasterOrderHeader::class)]
+    private Collection $masterOrderHeaders;
+
+    public function __construct()
+    {
+        $this->masterOrderHeaders = new ArrayCollection();
+    }
+
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . str_pad($this->product->getId(), 3, '0', STR_PAD_LEFT) . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . $this->version;
+        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->name . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . $this->version;
     }
     
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
     }
 
     public function getVersion(): ?string
@@ -157,6 +153,36 @@ class DesignCode extends Master
     public function setQuantityPrinting2(int $quantityPrinting2): self
     {
         $this->quantityPrinting2 = $quantityPrinting2;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderHeader>
+     */
+    public function getMasterOrderHeaders(): Collection
+    {
+        return $this->masterOrderHeaders;
+    }
+
+    public function addMasterOrderHeader(MasterOrderHeader $masterOrderHeader): self
+    {
+        if (!$this->masterOrderHeaders->contains($masterOrderHeader)) {
+            $this->masterOrderHeaders->add($masterOrderHeader);
+            $masterOrderHeader->setDesignCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderHeader(MasterOrderHeader $masterOrderHeader): self
+    {
+        if ($this->masterOrderHeaders->removeElement($masterOrderHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderHeader->getDesignCode() === $this) {
+                $masterOrderHeader->setDesignCode(null);
+            }
+        }
 
         return $this;
     }

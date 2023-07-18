@@ -1,0 +1,77 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Diecut Knife' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_master_diecut_knife_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_master_diecut_knife_edit', {'id': diecutKnife.id}) }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Customer</th>
+                <td>{{ diecutKnife.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Kode</th>
+                <td>{{ diecutKnife.codeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Up/s Pisau</th>
+                <td>{{ diecutKnife.upPerSecondKnife }}</td>
+            </tr>
+            <tr>
+                <th>Up/s Cetak</th>
+                <td>{{ diecutKnife.upPerSecondPrint }}</td>
+            </tr>
+            <tr>
+                <th>Uk. Cetak</th>
+                <td>{{ diecutKnife.printingSize }}</td>
+            </tr>
+            <tr>
+                <th>Lokasi BOBST</th>
+                <td>{{ diecutKnife.isLocationBobst ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Lokasi PON</th>
+                <td>{{ diecutKnife.isLocationPon ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ diecutKnife.note }}</td>
+            </tr>
+            <tr>
+                <th>Is Inactive</th>
+                <td>{{ diecutKnife.isInactive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Product List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>MO #</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderHeader in diecutKnife.masterOrderHeaders %}
+                {% for masterOrderDetail in masterOrderHeader.masterOrderDetails %}
+                    <tr>
+                        <td>{{ masterOrderDetail.product.code|default }}</td>
+                        <td>{{ masterOrderDetail.product.name|default }}</td>
+                        <td>{{ masterOrderHeader.codeNumber|default }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {#{{ include('master/diecut_knife/_delete_form.html.twig') }}#}
+{% endblock %}

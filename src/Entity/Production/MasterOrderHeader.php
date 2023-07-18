@@ -328,19 +328,19 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderCheckSheetDetail::class)]
     private Collection $masterOrderCheckSheetDetails;
 
-    #[ORM\ManyToOne]
-    private ?DiecutKnife $diecutKnife = null;
-
     #[ORM\Column(length: 200)]
     private ?string $orderTypeMemo = '';
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
     private ?ProductDevelopment $productDevelopment = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
     private ?DesignCode $designCode = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
+    private ?DiecutKnife $diecutKnife = null;
+
+    #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
     private ?DielineMillar $dielineMillar = null;
 
     public function __construct()
@@ -1928,18 +1928,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getDiecutKnife(): ?DiecutKnife
-    {
-        return $this->diecutKnife;
-    }
-
-    public function setDiecutKnife(?DiecutKnife $diecutKnife): self
-    {
-        $this->diecutKnife = $diecutKnife;
-
-        return $this;
-    }
-
     public function getOrderTypeMemo(): ?string
     {
         return $this->orderTypeMemo;
@@ -1972,6 +1960,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setDesignCode(?DesignCode $designCode): self
     {
         $this->designCode = $designCode;
+
+        return $this;
+    }
+
+    public function getDiecutKnife(): ?DiecutKnife
+    {
+        return $this->diecutKnife;
+    }
+
+    public function setDiecutKnife(?DiecutKnife $diecutKnife): self
+    {
+        $this->diecutKnife = $diecutKnife;
 
         return $this;
     }

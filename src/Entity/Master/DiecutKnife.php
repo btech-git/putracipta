@@ -3,7 +3,10 @@
 namespace App\Entity\Master;
 
 use App\Entity\Master;
+use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Master\DiecutKnifeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,15 +40,20 @@ class DiecutKnife extends Master
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = '';
 
-    #[ORM\ManyToOne(inversedBy: 'diecutKnives')]
-    private ?Product $product = null;
-
     #[ORM\Column(length: 20)]
     private ?string $version = '';
 
+    #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: MasterOrderHeader::class)]
+    private Collection $masterOrderHeaders;
+
+    public function __construct()
+    {
+        $this->masterOrderHeaders = new ArrayCollection();
+    }
+
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . str_pad($this->product->getId(), 3, '0', STR_PAD_LEFT) . $this->version;
+        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->name;
     }
     
     public function getId(): ?int
@@ -137,18 +145,6 @@ class DiecutKnife extends Master
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getVersion(): ?string
     {
         return $this->version;
@@ -157,6 +153,36 @@ class DiecutKnife extends Master
     public function setVersion(string $version): self
     {
         $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderHeader>
+     */
+    public function getMasterOrderHeaders(): Collection
+    {
+        return $this->masterOrderHeaders;
+    }
+
+    public function addMasterOrderHeader(MasterOrderHeader $masterOrderHeader): self
+    {
+        if (!$this->masterOrderHeaders->contains($masterOrderHeader)) {
+            $this->masterOrderHeaders->add($masterOrderHeader);
+            $masterOrderHeader->setDiecutKnife($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderHeader(MasterOrderHeader $masterOrderHeader): self
+    {
+        if ($this->masterOrderHeaders->removeElement($masterOrderHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderHeader->getDiecutKnife() === $this) {
+                $masterOrderHeader->setDiecutKnife(null);
+            }
+        }
 
         return $this;
     }
