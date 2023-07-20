@@ -15,13 +15,13 @@ class AccountingLog
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $codeNumberOrdinal = null;
+    private ?int $codeNumberOrdinal = 0;
 
     #[ORM\Column]
-    private ?int $codeNumberMonth = null;
+    private ?int $codeNumberMonth = 0;
 
     #[ORM\Column]
-    private ?int $codeNumberYear = null;
+    private ?int $codeNumberYear = 0;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $transactionDate = null;
@@ -33,10 +33,10 @@ class AccountingLog
     private ?\DateTimeInterface $logTime = null;
 
     #[ORM\Column(length: 60)]
-    private ?string $entityName = null;
+    private ?string $entityName = '';
 
     #[ORM\Column]
-    private ?int $entityId = null;
+    private ?int $entityId = 0;
 
     #[ORM\Column(type: Types::OBJECT, nullable: true)]
     private ?object $oldData = null;
