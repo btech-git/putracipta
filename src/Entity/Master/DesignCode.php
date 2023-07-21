@@ -47,10 +47,10 @@ class DesignCode extends Master
     private Collection $masterOrderHeaders;
 
     #[ORM\Column]
-    private ?int $colorQuantity = null;
+    private ?int $colorQuantity = 0;
 
     #[ORM\Column(length: 20)]
-    private ?string $coating = null;
+    private ?string $coating = '';
 
     public function __construct()
     {
