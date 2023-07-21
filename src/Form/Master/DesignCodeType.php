@@ -16,7 +16,7 @@ class DesignCodeType extends AbstractType
             ->add('name', null, ['label' => 'Kode'])
             ->add('variant', null, ['label' => 'Varian'])
             ->add('version', null, ['label' => 'Versi'])
-//            ->add('colorQuantity', null, ['label' => 'Jml Warna'])
+            ->add('colorQuantity', null, ['label' => 'Jml Warna'])
             ->add('color', null, ['label' => 'Warna'])
             ->add('pantone')
             ->add('coating', null, ['label' => 'Coating'])
