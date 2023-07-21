@@ -46,6 +46,12 @@ class DesignCode extends Master
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
 
+    #[ORM\Column]
+    private ?int $colorQuantity = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $coating = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -183,6 +189,30 @@ class DesignCode extends Master
                 $masterOrderHeader->setDesignCode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColorQuantity(): ?int
+    {
+        return $this->colorQuantity;
+    }
+
+    public function setColorQuantity(int $colorQuantity): self
+    {
+        $this->colorQuantity = $colorQuantity;
+
+        return $this;
+    }
+
+    public function getCoating(): ?string
+    {
+        return $this->coating;
+    }
+
+    public function setCoating(string $coating): self
+    {
+        $this->coating = $coating;
 
         return $this;
     }
