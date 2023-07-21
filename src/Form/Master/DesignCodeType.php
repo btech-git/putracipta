@@ -12,12 +12,14 @@ class DesignCodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customer', null, ['choice_label' => 'name'])
+            ->add('customer', null, ['choice_label' => 'company'])
             ->add('name', null, ['label' => 'Kode'])
             ->add('variant', null, ['label' => 'Varian'])
             ->add('version', null, ['label' => 'Versi'])
+            ->add('colorQuantity', null, ['label' => 'Jml Warna'])
             ->add('color', null, ['label' => 'Warna'])
             ->add('pantone')
+            ->add('coating', null, ['label' => 'Coating'])
             ->add('quantityPrinting1', null, ['label' => 'Jml Up Cetak 1'])
             ->add('quantityPrinting2', null, ['label' => 'Jml Up Cetak 2'])
             ->add('note')

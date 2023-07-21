@@ -12,7 +12,7 @@ class DielineMillarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customer', null, ['choice_label' => 'name'])
+            ->add('customer', null, ['choice_label' => 'company'])
             ->add('name', null, ['label' => 'Kode'])
             ->add('quantity')
             ->add('quantityUpPrinting', null, ['label' => 'Jmlh up'])
