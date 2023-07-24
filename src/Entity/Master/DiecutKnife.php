@@ -46,6 +46,9 @@ class DiecutKnife extends Master
     #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
 
+    #[ORM\Column(length: 60)]
+    private ?string $code = '';
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -183,6 +186,18 @@ class DiecutKnife extends Master
                 $masterOrderHeader->setDiecutKnife(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

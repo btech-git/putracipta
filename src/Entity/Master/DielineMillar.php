@@ -43,6 +43,9 @@ class DielineMillar extends Master
     #[ORM\OneToMany(mappedBy: 'dielineMillar', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
 
+    #[ORM\Column(length: 60)]
+    private ?string $code = '';
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -168,6 +171,18 @@ class DielineMillar extends Master
                 $masterOrderHeader->setDielineMillar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

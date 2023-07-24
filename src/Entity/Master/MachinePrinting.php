@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'master_machine_printing')]
 class MachinePrinting extends Master
 {
+    public const TYPE_PRINTING = 'printing';
+    public const TYPE_DIECUT = 'diecut';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -18,6 +21,9 @@ class MachinePrinting extends Master
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $type = '';
 
     public function getId(): ?int
     {
@@ -32,6 +38,18 @@ class MachinePrinting extends Master
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

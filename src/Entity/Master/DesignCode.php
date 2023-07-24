@@ -52,6 +52,9 @@ class DesignCode extends Master
     #[ORM\Column(length: 20)]
     private ?string $coating = '';
 
+    #[ORM\Column(length: 60)]
+    private ?string $code = '';
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -213,6 +216,18 @@ class DesignCode extends Master
     public function setCoating(string $coating): self
     {
         $this->coating = $coating;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
