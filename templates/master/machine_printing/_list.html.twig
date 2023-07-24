@@ -11,6 +11,9 @@
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
+                <th role="button" {{ grid.sort_link_item(form, 'type') }}>
+                    Jenis {{ grid.sort_char(form.sort.type.vars.value) }}
+                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -22,6 +25,9 @@
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'type') }} value="{{ form.filter.type.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
@@ -41,6 +47,7 @@
             {% for machinePrinting in machinePrintings %}
                 <tr>
                     <td>{{ machinePrinting.name }}</td>
+                    <td>{{ machinePrinting.type }}</td>
                     <td>{{ machinePrinting.note }}</td>
                     <td>{{ machinePrinting.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
@@ -50,7 +57,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
