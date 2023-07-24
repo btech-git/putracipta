@@ -53,7 +53,7 @@ class DielineMillar extends Master
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->code;
+        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . str_pad($this->variant, 3, '0', STR_PAD_LEFT);
     }
     
     public function getId(): ?int
