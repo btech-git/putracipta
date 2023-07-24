@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'master_diecut_knife')]
 class DiecutKnife extends Master
 {
+    public const LOCATION_BOBST = 'bobst';
+    public const LOCATION_PON = 'pon';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,12 +30,6 @@ class DiecutKnife extends Master
 
     #[ORM\Column(length: 20)]
     private ?string $printingSize = '';
-
-    #[ORM\Column]
-    private ?bool $isLocationBobst = false;
-
-    #[ORM\Column]
-    private ?bool $isLocationPon = false;
 
     #[ORM\ManyToOne(inversedBy: 'diecutKnives')]
     private ?Customer $customer = null;
@@ -49,6 +46,9 @@ class DiecutKnife extends Master
     #[ORM\Column(length: 60)]
     private ?string $code = '';
 
+    #[ORM\Column(length: 60)]
+    private ?string $location = '';
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -56,7 +56,7 @@ class DiecutKnife extends Master
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->name;
+        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->code;
     }
     
     public function getId(): ?int
@@ -96,30 +96,6 @@ class DiecutKnife extends Master
     public function setPrintingSize(string $printingSize): self
     {
         $this->printingSize = $printingSize;
-
-        return $this;
-    }
-
-    public function isIsLocationBobst(): ?bool
-    {
-        return $this->isLocationBobst;
-    }
-
-    public function setIsLocationBobst(bool $isLocationBobst): self
-    {
-        $this->isLocationBobst = $isLocationBobst;
-
-        return $this;
-    }
-
-    public function isIsLocationPon(): ?bool
-    {
-        return $this->isLocationPon;
-    }
-
-    public function setIsLocationPon(bool $isLocationPon): self
-    {
-        $this->isLocationPon = $isLocationPon;
 
         return $this;
     }
@@ -198,6 +174,18 @@ class DiecutKnife extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(string $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }
