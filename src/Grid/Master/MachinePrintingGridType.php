@@ -23,11 +23,12 @@ class MachinePrintingGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['note', 'isInactive', 'name'],
+                'field_names' => ['note', 'isInactive', 'name', 'type'],
                 'field_operators_list' => [
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'type' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'isInactive' => ChoiceType::class,
@@ -37,11 +38,12 @@ class MachinePrintingGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['note', 'isInactive', 'name'],
+                'field_names' => ['note', 'isInactive', 'name', 'type'],
                 'field_operators_list' => [
                     'note' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'type' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
