@@ -62,7 +62,7 @@ class DesignCode extends Master
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->name . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . $this->version;
+        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . $this->code . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . $this->version;
     }
     
     public function getId(): ?int
