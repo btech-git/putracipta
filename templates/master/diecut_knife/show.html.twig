@@ -19,6 +19,10 @@
                 <td>{{ diecutKnife.codeNumber }}</td>
             </tr>
             <tr>
+                <th>Name</th>
+                <td>{{ diecutKnife.name }}</td>
+            </tr>
+            <tr>
                 <th>Up/s Pisau</th>
                 <td>{{ diecutKnife.upPerSecondKnife }}</td>
             </tr>
@@ -31,19 +35,15 @@
                 <td>{{ diecutKnife.printingSize }}</td>
             </tr>
             <tr>
-                <th>Lokasi BOBST</th>
-                <td>{{ diecutKnife.isLocationBobst ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Lokasi PON</th>
-                <td>{{ diecutKnife.isLocationPon ? 'Yes' : 'No' }}</td>
+                <th>Lokasi</th>
+                <td>{{ diecutKnife.location }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ diecutKnife.note }}</td>
             </tr>
             <tr>
-                <th>Is Inactive</th>
+                <th>Inactive ?</th>
                 <td>{{ diecutKnife.isInactive ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
