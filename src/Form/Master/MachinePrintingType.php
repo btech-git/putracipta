@@ -4,6 +4,7 @@ namespace App\Form\Master;
 
 use App\Entity\Master\MachinePrinting;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,6 +14,10 @@ class MachinePrintingType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('type', ChoiceType::class, ['label' => 'Jenis', 'choices' => [
+                'Cetak' => MachinePrinting::TYPE_PRINTING,
+                'Diecut' => MachinePrinting::TYPE_DIECUT,
+            ]])
             ->add('note')
             ->add('isInactive')
         ;
