@@ -13,7 +13,8 @@ class DielineMillarType extends AbstractType
     {
         $builder
             ->add('customer', null, ['choice_label' => 'company'])
-            ->add('name', null, ['label' => 'Kode'])
+            ->add('code', null, ['label' => 'Kode'])
+            ->add('name', null, ['label' => 'Nama'])
 //            ->add('quantity')
             ->add('quantityUpPrinting', null, ['label' => 'Jmlh Up Cetak'])
             ->add('printingLayout', null, ['label' => 'Kris Layout Cetak'])

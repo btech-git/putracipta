@@ -13,7 +13,8 @@ class DesignCodeType extends AbstractType
     {
         $builder
             ->add('customer', null, ['choice_label' => 'company'])
-            ->add('name', null, ['label' => 'Kode'])
+            ->add('code', null, ['label' => 'Kode'])
+            ->add('name', null, ['label' => 'Nama'])
             ->add('variant', null, ['label' => 'Varian'])
             ->add('version', null, ['label' => 'Versi'])
             ->add('colorQuantity', null, ['label' => 'Jml Warna'])

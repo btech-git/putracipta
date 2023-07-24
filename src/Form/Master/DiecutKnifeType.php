@@ -13,7 +13,8 @@ class DiecutKnifeType extends AbstractType
     {
         $builder
             ->add('customer', null, ['choice_label' => 'company'])
-            ->add('name', null, ['label' => 'Kode'])
+            ->add('code', null, ['label' => 'Kode'])
+            ->add('name', null, ['label' => 'Nama'])
             ->add('upPerSecondKnife', null, ['label' => 'Up/s Pisau'])
             ->add('upPerSecondPrint', null, ['label' => 'Up/s Cetak'])
             ->add('printingSize', null, ['label' => 'Uk. Kris Cetak'])
