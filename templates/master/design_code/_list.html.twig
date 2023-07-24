@@ -23,6 +23,9 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'pantone') }}>
                     Pantone {{ grid.sort_char(form.sort.pantone.vars.value) }}
                 </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
                 <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
@@ -41,6 +44,9 @@
                     <input type="text" {{ grid.filter_link_item(form, 'pantone') }} value="{{ form.filter.pantone.1.vars.value }}" />
                 </th>
                 <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th>
                     <input type="text"  size="4" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
                 </th>
                 <th></th>
@@ -54,6 +60,7 @@
                     <td>{{ designCode.name }}</td>
                     <td>{{ designCode.color }}</td>
                     <td>{{ designCode.pantone }}</td>
+                    <td>{{ designCode.note }}</td>
                     <td>{{ designCode.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_design_code_show', {'id': designCode.id}) }}"><i class="bi-search"></i></a>
@@ -62,7 +69,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No records found</td>
+                    <td colspan="7">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

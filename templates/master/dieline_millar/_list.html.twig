@@ -26,6 +26,9 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'printingLayout') }}>
                     Layout Cetak {{ grid.sort_char(form.sort.printingLayout.vars.value) }}
                 </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
                 <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
@@ -47,6 +50,9 @@
                     <input type="text" {{ grid.filter_link_item(form, 'printingLayout') }} value="{{ form.filter.printingLayout.1.vars.value }}" />
                 </th>
                 <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
+                <th>
                     <input type="text"  size="4" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
                 </th>
                 <th></th>
@@ -61,6 +67,7 @@
                     <td>{{ dielineMillar.quantity }}</td>
                     <td>{{ dielineMillar.quantityUpPrinting }}</td>
                     <td>{{ dielineMillar.printingLayout }}</td>
+                    <td>{{ designCode.note }}</td>
                     <td>{{ dielineMillar.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_dieline_millar_show', {'id': dielineMillar.id}) }}"><i class="bi-search"></i></a>
