@@ -22,7 +22,7 @@ class DesignCodeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting1', 'quantityPrinting2', 'isInactive', 'name'],
+                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting1', 'quantityPrinting2', 'isInactive', 'name', 'code'],
                 'field_operators_list' => [
                     'version' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
@@ -33,10 +33,12 @@ class DesignCodeGridType extends AbstractType
                     'quantityPrinting2' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'code' => [FilterContain::class, FilterNotContain::class],
+                    'location' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting1', 'quantityPrinting2', 'isInactive', 'name'],
+                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting1', 'quantityPrinting2', 'isInactive', 'name', 'code'],
                 'field_operators_list' => [
                     'version' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
@@ -47,6 +49,7 @@ class DesignCodeGridType extends AbstractType
                     'quantityPrinting2' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'code' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
