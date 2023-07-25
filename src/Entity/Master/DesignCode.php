@@ -38,10 +38,7 @@ class DesignCode extends Master
     private ?string $pantone = '';
 
     #[ORM\Column]
-    private ?int $quantityPrinting1 = 0;
-
-    #[ORM\Column]
-    private ?int $quantityPrinting2 = 0;
+    private ?int $quantityPrinting = 0;
 
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
@@ -142,26 +139,14 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getQuantityPrinting1(): ?int
+    public function getQuantityPrinting(): ?int
     {
-        return $this->quantityPrinting1;
+        return $this->quantityPrinting;
     }
 
-    public function setQuantityPrinting1(int $quantityPrinting1): self
+    public function setQuantityPrinting(int $quantityPrinting): self
     {
-        $this->quantityPrinting1 = $quantityPrinting1;
-
-        return $this;
-    }
-
-    public function getQuantityPrinting2(): ?int
-    {
-        return $this->quantityPrinting2;
-    }
-
-    public function setQuantityPrinting2(int $quantityPrinting2): self
-    {
-        $this->quantityPrinting2 = $quantityPrinting2;
+        $this->quantityPrinting = $quantityPrinting;
 
         return $this;
     }
