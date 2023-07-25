@@ -12,8 +12,15 @@ class DesignCodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customer', null, ['choice_label' => 'company'])
-            ->add('code', null, ['label' => 'Kode'])
+            ->add('customer', null, [
+                'choice_label' => 'company',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.company', 'ASC');
+                },
+            ])
+            ->add('code', null, ['label' => 'Kode Produk'])
             ->add('name', null, ['label' => 'Nama'])
             ->add('variant', null, ['label' => 'Varian'])
             ->add('version', null, ['label' => 'Versi'])
@@ -21,8 +28,7 @@ class DesignCodeType extends AbstractType
             ->add('color', null, ['label' => 'Warna'])
             ->add('pantone')
             ->add('coating', null, ['label' => 'Coating'])
-            ->add('quantityPrinting1', null, ['label' => 'Jml Up Cetak 1'])
-            ->add('quantityPrinting2', null, ['label' => 'Jml Up Cetak 2'])
+            ->add('quantityPrinting', null, ['label' => 'Jml Up Cetak'])
             ->add('note')
             ->add('isInactive')
         ;

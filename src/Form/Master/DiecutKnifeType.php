@@ -13,7 +13,14 @@ class DiecutKnifeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customer', null, ['choice_label' => 'company'])
+            ->add('customer', null, [
+                'choice_label' => 'company',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.company', 'ASC');
+                },
+            ])
             ->add('code', null, ['label' => 'Kode'])
             ->add('name', null, ['label' => 'Nama'])
             ->add('upPerSecondKnife', null, ['label' => 'Up/s Pisau'])
