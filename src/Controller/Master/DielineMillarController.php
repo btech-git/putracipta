@@ -57,6 +57,7 @@ class DielineMillarController extends AbstractController
         return $this->renderForm('master/dieline_millar/new.html.twig', [
             'dielineMillar' => $dielineMillar,
             'form' => $form,
+            'lastDielineMillars' => [],
         ]);
     }
 
@@ -85,6 +86,7 @@ class DielineMillarController extends AbstractController
         return $this->renderForm('master/dieline_millar/edit.html.twig', [
             'dielineMillar' => $dielineMillar,
             'form' => $form,
+            'lastDielineMillars' => $dielineMillarRepository->findBy(['customer' => $dielineMillar->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
     }
 

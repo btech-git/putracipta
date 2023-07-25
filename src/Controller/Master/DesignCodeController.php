@@ -57,6 +57,7 @@ class DesignCodeController extends AbstractController
         return $this->renderForm('master/design_code/new.html.twig', [
             'designCode' => $designCode,
             'form' => $form,
+            'lastDesignCodes' => [],
         ]);
     }
 
@@ -85,6 +86,7 @@ class DesignCodeController extends AbstractController
         return $this->renderForm('master/design_code/edit.html.twig', [
             'designCode' => $designCode,
             'form' => $form,
+            'lastDesignCodes' => $designCodeRepository->findBy(['customer' => $designCode->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
     }
 

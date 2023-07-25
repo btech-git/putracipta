@@ -57,6 +57,7 @@ class DiecutKnifeController extends AbstractController
         return $this->renderForm('master/diecut_knife/new.html.twig', [
             'diecutKnife' => $diecutKnife,
             'form' => $form,
+            'lastDiecutKnives' => [],
         ]);
     }
 
@@ -85,6 +86,7 @@ class DiecutKnifeController extends AbstractController
         return $this->renderForm('master/diecut_knife/edit.html.twig', [
             'diecutKnife' => $diecutKnife,
             'form' => $form,
+            'lastDiecutKnives' => $diecutKnifeRepository->findBy(['customer' => $diecutKnife->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
     }
 
