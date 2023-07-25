@@ -30,7 +30,13 @@ class CustomerType extends AbstractType
             ->add('taxNumber', null, ['label' => 'NPWP'])
             ->add('paymentTerm', null, ['label' => 'TOP (hari)'])
             ->add('isBondedZone', null, ['label' => 'Berikat 070?'])
-            ->add('account', null, ['choice_label' => 'name'])
+            ->add('account', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('note')
             ->add('isInactive')
         ;

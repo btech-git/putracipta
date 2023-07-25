@@ -12,7 +12,13 @@ class MaterialSubCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('materialCategory', null, ['choice_label' => 'name'])
+            ->add('materialCategory', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('name')
             ->add('isInactive')
         ;

@@ -15,7 +15,13 @@ class AccountType extends AbstractType
             ->add('code')
             ->add('isInactive')
             ->add('name')
-            ->add('accountCategory', null, ['choice_label' => 'name'])
+            ->add('accountCategory', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
         ;
     }
 

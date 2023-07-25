@@ -36,8 +36,20 @@ class SupplierType extends AbstractType
             ->add('email')
             ->add('taxNumber', null, ['label' => 'NPWP'])
             ->add('paymentTerm', null, ['label' => 'TOP (hari)'])
-            ->add('currency', null, ['choice_label' => 'name'])
-            ->add('account', null, ['choice_label' => 'name'])
+            ->add('currency', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
+            ->add('account', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('categoryList', ChoiceType::class, [
                 'multiple' => true,
                 'expanded' => true,
