@@ -1,5 +1,37 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.customer, {'attr': {'readonly': diecutKnife.id is not null}}) }}
+    
+    {% if (diecutKnife.id is not null) %}
+        <hr />
+
+        <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Up/s Pisau</th>
+                    <th>Up/s Cetak</th>
+                    <th>Uk. Cetak</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lastDiecutKnife in lastDiecutKnives %}
+                    <tr>
+                        <td>{{ lastDiecutKnife.codeNumber }}</td>
+                        <td>{{ lastDiecutKnife.name }}</td>
+                        <td>{{ lastDiecutKnife.upPerSecondKnife }}</td>
+                        <td>{{ lastDiecutKnife.upPerSecondPrint }}</td>
+                        <td>{{ lastDiecutKnife.printingSize }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr />
+    {% endif %}
+    
+    {{ form_rest(form) }}
     <div class="d-grid">
         <button class="btn btn-secondary"
                 data-controller="dom-element"

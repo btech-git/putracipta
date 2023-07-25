@@ -132,6 +132,7 @@
         <thead>
             <tr>
                 <th>Code</th>
+                <th>Name</th>
                 <th>Warna</th>
                 <th>Pantone</th>
             </tr>
@@ -140,6 +141,7 @@
             {% for designCode in customer.designCodes %}
                 <tr>
                     <td>{{ designCode.codeNumber }}</td>
+                    <td>{{ designCode.name }}</td>
                     <td>{{ designCode.color }}</td>
                     <td>{{ designCode.pantone }}</td>
                 </tr>
@@ -154,6 +156,7 @@
         <thead>
             <tr>
                 <th>Code</th>
+                <th>Name</th>
                 <th>Up/s Pisau</th>
                 <th>Up/s Cetak</th>
                 <th>Uk. Cetak</th>
@@ -163,6 +166,7 @@
             {% for diecutKnife in customer.diecutKnives %}
                 <tr>
                     <td>{{ diecutKnife.codeNumber }}</td>
+                    <td>{{ diecutKnife.name }}</td>
                     <td>{{ diecutKnife.upPerSecondKnife }}</td>
                     <td>{{ diecutKnife.upPerSecondPrint }}</td>
                     <td>{{ diecutKnife.printingSize }}</td>
@@ -178,6 +182,7 @@
         <thead>
             <tr>
                 <th>Code</th>
+                <th>Name</th>
                 <th>Jml</th>
                 <th>Jml Up Cetak</th>
                 <th>Layout Cetak</th>
@@ -187,6 +192,7 @@
             {% for dielineMillar in customer.dielineMillars %}
                 <tr>
                     <td>{{ dielineMillar.codeNumber }}</td>
+                    <td>{{ dielineMillar.name }}</td>
                     <td>{{ dielineMillar.quantity }}</td>
                     <td>{{ dielineMillar.quantityUpPrinting }}</td>
                     <td>{{ dielineMillar.printingLayout }}</td>

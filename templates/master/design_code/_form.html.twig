@@ -1,5 +1,35 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.customer, {'attr': {'readonly': designCode.id is not null}}) }}
+    
+    {% if (designCode.id is not null) %}
+        <hr />
+
+        <legend class="float-none w-auto text-dark px-1">Design Code List</legend>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Warna</th>
+                    <th>Pantone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lastDesignCode in lastDesignCodes %}
+                    <tr>
+                        <td>{{ lastDesignCode.codeNumber }}</td>
+                        <td>{{ lastDesignCode.name }}</td>
+                        <td>{{ lastDesignCode.color }}</td>
+                        <td>{{ lastDesignCode.pantone }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr />
+    {% endif %}
+    
+    {{ form_rest(form) }}
     <div class="d-grid">
         <button class="btn btn-secondary"
                 data-controller="dom-element"
