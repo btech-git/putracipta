@@ -22,15 +22,14 @@ class DesignCodeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting1', 'quantityPrinting2', 'isInactive', 'name', 'code'],
+                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting', 'isInactive', 'name', 'code'],
                 'field_operators_list' => [
                     'version' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'variant' => [FilterContain::class, FilterNotContain::class],
                     'color' => [FilterContain::class, FilterNotContain::class],
                     'pantone' => [FilterContain::class, FilterNotContain::class],
-                    'quantityPrinting1' => [FilterEqual::class, FilterNotEqual::class],
-                    'quantityPrinting2' => [FilterEqual::class, FilterNotEqual::class],
+                    'quantityPrinting' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
@@ -38,15 +37,14 @@ class DesignCodeGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting1', 'quantityPrinting2', 'isInactive', 'name', 'code'],
+                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting', 'isInactive', 'name', 'code'],
                 'field_operators_list' => [
                     'version' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'variant' => [SortAscending::class, SortDescending::class],
                     'color' => [SortAscending::class, SortDescending::class],
                     'pantone' => [SortAscending::class, SortDescending::class],
-                    'quantityPrinting1' => [SortAscending::class, SortDescending::class],
-                    'quantityPrinting2' => [SortAscending::class, SortDescending::class],
+                    'quantityPrinting' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
