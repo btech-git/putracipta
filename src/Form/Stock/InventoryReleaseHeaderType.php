@@ -20,7 +20,13 @@ class InventoryReleaseHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('warehouse', null, ['choice_label' => 'name'])
+            ->add('warehouse', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('inventoryRequestHeader', EntityHiddenType::class, ['class' => InventoryRequestHeader::class])
             ->add('inventoryReleaseMaterialDetails', CollectionType::class, [
                 'entry_type' => InventoryReleaseMaterialDetailType::class,

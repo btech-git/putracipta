@@ -22,19 +22,19 @@ class WorkOrderPrepressFormService
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderPrepress->getId())) {
-            $workOrderPrepress->setCreatedProductionDateTime($datetime);
-            $workOrderPrepress->setCreatedProductionUser($user);
+            $workOrderPrepress->setCreatedTransactionDateTime($datetime);
+            $workOrderPrepress->setCreatedTransactionUser($user);
         } else {
-            $workOrderPrepress->setModifiedProductionDateTime($datetime);
-            $workOrderPrepress->setModifiedProductionUser($user);
+            $workOrderPrepress->setModifiedTransactionDateTime($datetime);
+            $workOrderPrepress->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(WorkOrderPrepress $workOrderPrepress, array $options = []): void
     {
-        if ($workOrderPrepress->getProductionDate() !== null) {
-            $year = $workOrderPrepress->getProductionDate()->format('y');
-            $month = $workOrderPrepress->getProductionDate()->format('m');
+        if ($workOrderPrepress->getTransactionDate() !== null) {
+            $year = $workOrderPrepress->getTransactionDate()->format('y');
+            $month = $workOrderPrepress->getTransactionDate()->format('m');
             $lastWorkOrderPrepress = $this->workOrderPrepressRepository->findRecentBy($year, $month);
             $currentWorkOrderPrepress = ($lastWorkOrderPrepress === null) ? $workOrderPrepress : $lastWorkOrderPrepress;
             $workOrderPrepress->setCodeNumberToNext($currentWorkOrderPrepress->getCodeNumber(), $year, $month);

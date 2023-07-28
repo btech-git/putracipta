@@ -80,10 +80,6 @@ class ProductPrototype extends ProductionHeader
     #[Assert\NotNull]
     private ?int $quantityBlade = 0;
 
-    #[ORM\Column(length: 20)]
-    #[Assert\NotNull]
-    private ?string $productionFileExtension = '';
-
     #[ORM\Column]
     #[Assert\NotNull]
     private ?int $quantityProduction = 0;
@@ -210,18 +206,6 @@ class ProductPrototype extends ProductionHeader
     public function setQuantityBlade(int $quantityBlade): self
     {
         $this->quantityBlade = $quantityBlade;
-
-        return $this;
-    }
-
-    public function getProductionFileExtension(): ?string
-    {
-        return $this->productionFileExtension;
-    }
-
-    public function setProductionFileExtension(string $productionFileExtension): self
-    {
-        $this->productionFileExtension = $productionFileExtension;
 
         return $this;
     }

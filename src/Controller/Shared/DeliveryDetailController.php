@@ -3,9 +3,9 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Entity\Transaction\SaleInvoiceDetail;
+use App\Entity\Sale\SaleInvoiceDetail;
 use App\Grid\Shared\DeliveryDetailGridType;
-use App\Repository\Transaction\DeliveryDetailRepository;
+use App\Repository\Sale\DeliveryDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

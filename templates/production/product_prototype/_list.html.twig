@@ -11,8 +11,8 @@
                 <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
                     Produk Baru # {{ grid.sort_char(form.sort.id.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productCode') }}>
                     Kode {{ grid.sort_char(form.sort.productCode.vars.value) }}
@@ -42,7 +42,7 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'productCode') }} value="{{ form.filter.productCode.1.vars.value }}" />
@@ -63,7 +63,7 @@
             {% for productPrototype in productPrototypes %}
                 <tr>
                     <td>{{ productPrototype.codeNumber }}</td>
-                    <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
+                    <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productPrototype.productCode }}</td>
                     <td>{{ productPrototype.productName }}</td>
                     <td>{{ productPrototype.measurement }}</td>

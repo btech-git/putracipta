@@ -4,7 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Grid\Shared\SaleOrderDetailGridType;
-use App\Repository\Transaction\SaleOrderDetailRepository;
+use App\Repository\Sale\SaleOrderDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -46,9 +46,13 @@ class DielineMillar extends Master
     #[ORM\Column(length: 60)]
     private ?string $code = '';
 
+    #[ORM\OneToMany(mappedBy: 'dielineMillar', targetEntity: DesignCode::class)]
+    private Collection $designCodes;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
+        $this->designCodes = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
@@ -183,6 +187,36 @@ class DielineMillar extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCode>
+     */
+    public function getDesignCodes(): Collection
+    {
+        return $this->designCodes;
+    }
+
+    public function addDesignCode(DesignCode $designCode): self
+    {
+        if (!$this->designCodes->contains($designCode)) {
+            $this->designCodes->add($designCode);
+            $designCode->setDielineMillar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCode(DesignCode $designCode): self
+    {
+        if ($this->designCodes->removeElement($designCode)) {
+            // set the owning side to null (unless already changed)
+            if ($designCode->getDielineMillar() === $this) {
+                $designCode->setDielineMillar(null);
+            }
+        }
 
         return $this;
     }

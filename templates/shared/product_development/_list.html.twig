@@ -11,8 +11,8 @@
                 <th style="min-width: 280px">
                     Pengembangan #
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th>
                     Development Type
@@ -25,7 +25,7 @@
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
@@ -40,9 +40,9 @@
                     'productDevelopmentId': productDevelopment.id,
                     'productDevelopmentCodeNumber': productDevelopment.codeNumber,
                     'productDevelopmentTypeList': productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '',
-                    'productDevelopmentDate': productDevelopment.productionDate|default ? productDevelopment.productionDate|date('d M Y') : ''}|json_encode }}">
+                    'productDevelopmentDate': productDevelopment.transactionDate|default ? productDevelopment.transactionDate|date('d M Y') : ''}|json_encode }}">
                     <td>{{ productDevelopment.codeNumber }}</td>
-                    <td>{{ productDevelopment.productionDate ? productDevelopment.productionDate|date('d M Y') : '' }}</td>
+                    <td>{{ productDevelopment.transactionDate ? productDevelopment.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productDevelopment.developmentTypeList ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
                     <td>{{ productDevelopment.note }}</td>
                 </tr>

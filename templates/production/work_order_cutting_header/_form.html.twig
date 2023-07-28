@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.productionDate, {'label': 'Tanggal Produksi', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal Produksi', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     <div class="mb-3">
                         <label class="form-label">Mesin Cetak</label>
                         <input type="text" class="form-control" value="{{ workOrderCuttingHeader.masterOrderHeader.printingMachine|default }}" readonly="readonly"
@@ -183,7 +183,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tanggal MO</label>
-                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.masterOrderHeader.productionDate|default ? workOrderCuttingHeader.masterOrderHeader.productionDate|date('d M Y') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ workOrderCuttingHeader.masterOrderHeader.transactionDate|default ? workOrderCuttingHeader.masterOrderHeader.transactionDate|date('d M Y') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

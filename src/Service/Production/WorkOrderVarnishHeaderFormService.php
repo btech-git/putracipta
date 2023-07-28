@@ -22,19 +22,19 @@ class WorkOrderVarnishHeaderFormService
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderVarnishHeader->getId())) {
-            $workOrderVarnishHeader->setCreatedProductionDateTime($datetime);
-            $workOrderVarnishHeader->setCreatedProductionUser($user);
+            $workOrderVarnishHeader->setCreatedTransactionDateTime($datetime);
+            $workOrderVarnishHeader->setCreatedTransactionUser($user);
         } else {
-            $workOrderVarnishHeader->setModifiedProductionDateTime($datetime);
-            $workOrderVarnishHeader->setModifiedProductionUser($user);
+            $workOrderVarnishHeader->setModifiedTransactionDateTime($datetime);
+            $workOrderVarnishHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(WorkOrderVarnishHeader $workOrderVarnishHeader, array $options = []): void
     {
-        if ($workOrderVarnishHeader->getProductionDate() !== null) {
-            $year = $workOrderVarnishHeader->getProductionDate()->format('y');
-            $month = $workOrderVarnishHeader->getProductionDate()->format('m');
+        if ($workOrderVarnishHeader->getTransactionDate() !== null) {
+            $year = $workOrderVarnishHeader->getTransactionDate()->format('y');
+            $month = $workOrderVarnishHeader->getTransactionDate()->format('m');
             $lastWorkOrderVarnishHeader = $this->workOrderVarnishHeaderRepository->findRecentBy($year, $month);
             $currentWorkOrderVarnishHeader = ($lastWorkOrderVarnishHeader === null) ? $workOrderVarnishHeader : $lastWorkOrderVarnishHeader;
             $workOrderVarnishHeader->setCodeNumberToNext($currentWorkOrderVarnishHeader->getCodeNumber(), $year, $month);

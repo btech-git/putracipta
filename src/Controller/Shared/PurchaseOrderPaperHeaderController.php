@@ -4,7 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Grid\Shared\PurchaseOrderPaperHeaderGridType;
-use App\Repository\Transaction\PurchaseOrderPaperHeaderRepository;
+use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

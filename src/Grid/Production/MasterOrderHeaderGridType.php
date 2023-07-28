@@ -22,7 +22,7 @@ class MasterOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['color', 'isCanceled', 'isRead', 'deliveryDate', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate', 'note'],
+                'field_names' => ['color', 'isCanceled', 'isRead', 'deliveryDate', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
                 'field_operators_list' => [
                     'color' => [FilterContain::class, FilterNotContain::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
@@ -30,20 +30,20 @@ class MasterOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'productionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'deliveryDate' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['isCanceled', 'isRead', 'deliveryDate', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate', 'note'],
+                'field_names' => ['isCanceled', 'isRead', 'deliveryDate', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
                 'field_operators_list' => [
                     'isCanceled' => [SortAscending::class, SortDescending::class],
                     'isRead' => [SortAscending::class, SortDescending::class],
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
-                    'productionDate' => [SortAscending::class, SortDescending::class],
+                    'transactionDate' => [SortAscending::class, SortDescending::class],
                     'deliveryDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],

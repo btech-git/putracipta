@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Entity\Transaction\PurchaseOrderHeader;
-use App\Entity\Transaction\PurchaseOrderPaperHeader;
-use App\Entity\Transaction\PurchaseRequestHeader;
-use App\Entity\Transaction\PurchaseRequestPaperHeader;
-use App\Entity\Transaction\PurchaseInvoiceHeader;
-use App\Entity\Transaction\SaleOrderHeader;
-use App\Entity\Transaction\SaleInvoiceHeader;
+use App\Entity\Purchase\PurchaseOrderHeader;
+use App\Entity\Purchase\PurchaseOrderPaperHeader;
+use App\Entity\Purchase\PurchaseRequestHeader;
+use App\Entity\Purchase\PurchaseRequestPaperHeader;
+use App\Entity\Purchase\PurchaseInvoiceHeader;
+use App\Entity\Sale\SaleOrderHeader;
+use App\Entity\Sale\SaleInvoiceHeader;
 use App\Form\Admin\UserType;
 use App\Repository\Admin\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;

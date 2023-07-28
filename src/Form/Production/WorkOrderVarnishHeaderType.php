@@ -21,7 +21,7 @@ class WorkOrderVarnishHeaderType extends AbstractType
             ->add('alcoholQuantity')
             ->add('wbQuantity')
             ->add('workOrderReturnDate', null, ['widget' => 'single_text'])
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
             ->add('employeeIdWorkOrderReturn', null, ['choice_label' => 'name'])

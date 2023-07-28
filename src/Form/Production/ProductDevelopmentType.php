@@ -6,8 +6,10 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Production\ProductDevelopment;
 use App\Entity\Production\ProductPrototype;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProductDevelopmentType extends AbstractType
 {
@@ -35,10 +37,25 @@ class ProductDevelopmentType extends AbstractType
             ->add('psImageDeliveryProductionDate', null, ['widget' => 'single_text'])
             ->add('psDiecutDeliveryProductionDate', null, ['widget' => 'single_text'])
             ->add('psDielineDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('productPrototype', EntityHiddenType::class, ['class' => ProductPrototype::class])
             ->add('employeeDesigner', null, ['choice_label' => 'name'])
+            ->add('transactionFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5120k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
+                    ])
+                ],
+            ])
         ;
     }
 

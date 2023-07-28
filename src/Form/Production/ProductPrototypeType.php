@@ -11,10 +11,8 @@ use App\Entity\Master\Product;
 use App\Entity\Production\ProductPrototype;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 
 class ProductPrototypeType extends AbstractType
 {
@@ -63,22 +61,7 @@ class ProductPrototypeType extends AbstractType
                 'Lem Straight Joint' => ProductPrototype::PROCESS_STRAIGHT_JOINT,
                 'Jilid Buku' => ProductPrototype::PROCESS_JILID,
             ]])
-            ->add('transactionFile', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5120k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'application/pdf',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
-                    ])
-                ],
-            ])
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('employee', null, [
                 'choice_label' => 'name',

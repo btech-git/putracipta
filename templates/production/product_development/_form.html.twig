@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.productionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.employeeDesigner, {'label': 'PIC Design'}) }}
                     <div class="mb-3">
                         <label class="form-label">Proses Development</label>
@@ -63,8 +63,19 @@
                     </div>
                 </div>
             </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
-                {{ form_row(form.note, {'label': 'Keterangan'}) }}
+                <div class="col">
+                    {{ form_row(form.transactionFile, {
+                        'label': transactionFileExists ? 'A Layout File has been uploaded' : 'Upload Layout File', 
+                        'label_attr': {
+                            'class': transactionFileExists ? 'text-danger fw-bold' : ''
+                        }
+                    }) }}
+                    {{ form_row(form.note, {'label': 'Keterangan'}) }}
+                </div>
             </div>
         </fieldset>
 

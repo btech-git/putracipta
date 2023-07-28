@@ -25,18 +25,18 @@ class ProductDevelopmentGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'productionDate' => 'Tanggal',
+                    'transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'productionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'productCode' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
@@ -47,21 +47,21 @@ class ProductDevelopmentGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
-                    'productionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['productCode', 'productName', 'measurement', 'productionDate', 'note', 'id'],
+                'field_names' => ['productCode', 'productName', 'measurement', 'transactionDate', 'note', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'productionDate' => 'Tanggal',
+                    'transactionDate' => 'Tanggal',
                     'measurement' => 'Ukuran Jadi',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
-                    'productionDate' => [SortAscending::class, SortDescending::class],
+                    'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])

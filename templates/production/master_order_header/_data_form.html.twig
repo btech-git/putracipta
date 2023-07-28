@@ -50,21 +50,6 @@
                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWeight'}},
                    ]|json_encode }}" />
         </div>
-        {#<div class="mb-3">
-            <label class="form-label">Jumlah Up Cetak</label>
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        {{ form_widget(form.quantityPrinting) }}
-                        {{ form_errors(form.quantityPrinting) }}
-                        <span class="input-group-text">&</span>
-                        {{ form_widget(form.quantityPrinting2) }}
-                        {{ form_errors(form.quantityPrinting2) }}
-                        <span class="input-group-text">Up/s</span>
-                    </div>
-                </div>
-            </div>
-        </div>#}
         <div class="mb-3">
             <label class="form-label">Ukuran Mountage / Kris</label>
             <div class="row">
@@ -103,7 +88,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Tanggal Development</label>
-            <input type="text" class="form-control" value="{{ masterOrderHeader.productDevelopment.productionDate|default ? masterOrderHeader.productDevelopment.productionDate|date('d M Y') : '' }}" readonly="readonly"
+            <input type="text" class="form-control" value="{{ masterOrderHeader.productDevelopment.transactionDate|default ? masterOrderHeader.productDevelopment.transactionDate|date('d M Y') : '' }}" readonly="readonly"
                    data-controller="dom-element"
                    data-action="product-development-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
@@ -177,6 +162,21 @@
                         {{ form_errors(form.pantone) }}
                         <span class="input-group-text">+</span>
                         <input type="text" class="form-control" value="{{ masterOrderHeader.colorPantoneAdditional|default }}" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Jumlah Up Cetak</label>
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        {{ form_widget(form.quantityPrinting) }}
+                        {{ form_errors(form.quantityPrinting) }}
+                        <span class="input-group-text">&</span>
+                        {{ form_widget(form.quantityPrinting2) }}
+                        {{ form_errors(form.quantityPrinting2) }}
+                        <span class="input-group-text">Up/s</span>
                     </div>
                 </div>
             </div>

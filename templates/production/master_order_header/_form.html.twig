@@ -10,7 +10,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.productionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal MO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                 </div>
                 <div class="col">
@@ -18,9 +18,6 @@
                         <label class="form-label">Jenis MO</label>
                         <div class="col">
                             {{ form_row(form.orderType, {'label': false}) }}
-                        </div>
-                        <div class="col">
-                            {{ form_row(form.orderTypeMemo, {'label': false}) }}   
                         </div>
                     </div>
                     <div class="row">

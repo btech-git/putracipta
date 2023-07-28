@@ -19,7 +19,13 @@ class InventoryRequestHeaderType extends AbstractType
             ->add('departmentName')
             ->add('workOrderNumber')
             ->add('partNumber')
-            ->add('warehouse', null, ['choice_label' => 'name'])
+            ->add('warehouse', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('pickupDate', null, ['widget' => 'single_text'])
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')

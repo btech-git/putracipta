@@ -1,9 +1,0 @@
-<form method="post" action="{{ path('app_transaction_sale_order_header_delete', {'id': saleOrderHeader.id}) }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ saleOrderHeader.id) }}">
-    <button class="btn btn-danger btn-sm"
-            data-controller="dom-element"
-            data-action="dom-element#confirm"
-            data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
-        Cancel
-    </button>
-</form>

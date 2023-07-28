@@ -24,8 +24,20 @@ class StockTransferHeaderType extends AbstractType
                 'Kertas' => StockTransferHeader::TRANSFER_MODE_PAPER,
                 'Finished Goods' => StockTransferHeader::TRANSFER_MODE_PRODUCT,
             ]])
-            ->add('warehouseFrom', null, ['choice_label' => 'name'])
-            ->add('warehouseTo', null, ['choice_label' => 'name'])
+            ->add('warehouseFrom', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
+            ->add('warehouseTo', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('stockTransferMaterialDetails', CollectionType::class, [
                 'entry_type' => StockTransferMaterialDetailType::class,
                 'allow_add' => true,

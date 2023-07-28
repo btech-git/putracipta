@@ -22,19 +22,19 @@ class WorkOrderVarnishSpotHeaderFormService
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderVarnishSpotHeader->getId())) {
-            $workOrderVarnishSpotHeader->setCreatedProductionDateTime($datetime);
-            $workOrderVarnishSpotHeader->setCreatedProductionUser($user);
+            $workOrderVarnishSpotHeader->setCreatedTransactionDateTime($datetime);
+            $workOrderVarnishSpotHeader->setCreatedTransactionUser($user);
         } else {
-            $workOrderVarnishSpotHeader->setModifiedProductionDateTime($datetime);
-            $workOrderVarnishSpotHeader->setModifiedProductionUser($user);
+            $workOrderVarnishSpotHeader->setModifiedTransactionDateTime($datetime);
+            $workOrderVarnishSpotHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(WorkOrderVarnishSpotHeader $workOrderVarnishSpotHeader, array $options = []): void
     {
-        if ($workOrderVarnishSpotHeader->getProductionDate() !== null) {
-            $year = $workOrderVarnishSpotHeader->getProductionDate()->format('y');
-            $month = $workOrderVarnishSpotHeader->getProductionDate()->format('m');
+        if ($workOrderVarnishSpotHeader->getTransactionDate() !== null) {
+            $year = $workOrderVarnishSpotHeader->getTransactionDate()->format('y');
+            $month = $workOrderVarnishSpotHeader->getTransactionDate()->format('m');
             $lastWorkOrderVarnishSpotHeader = $this->workOrderVarnishSpotHeaderRepository->findRecentBy($year, $month);
             $currentWorkOrderVarnishSpotHeader = ($lastWorkOrderVarnishSpotHeader === null) ? $workOrderVarnishSpotHeader : $lastWorkOrderVarnishSpotHeader;
             $workOrderVarnishSpotHeader->setCodeNumberToNext($currentWorkOrderVarnishSpotHeader->getCodeNumber(), $year, $month);

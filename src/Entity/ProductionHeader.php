@@ -18,10 +18,6 @@ abstract class ProductionHeader
 
     #[ORM\Column]
     #[Assert\NotNull]
-    protected ?bool $isRead = false;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
     protected ?int $codeNumberOrdinal = 0;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -34,25 +30,28 @@ abstract class ProductionHeader
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\NotNull]
-    protected ?\DateTimeInterface $createdProductionDateTime = null;
+    protected ?\DateTimeInterface $createdTransactionDateTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $modifiedProductionDateTime = null;
+    protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
     #[Assert\NotNull]
-    protected ?User $createdProductionUser = null;
+    protected ?User $createdTransactionUser = null;
 
     #[ORM\ManyToOne]
-    protected ?User $modifiedProductionUser = null;
+    protected ?User $modifiedTransactionUser = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Assert\NotNull]
-    protected ?\DateTimeInterface $productionDate = null;
+    protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
     protected ?string $note = '';
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    protected ?int $codeNumberVersion = 0;
 
     public abstract function getCodeNumberConstant(): string;
 
@@ -106,18 +105,6 @@ abstract class ProductionHeader
         return $this;
     }
 
-    public function isIsRead(): ?bool
-    {
-        return $this->isRead;
-    }
-
-    public function setIsRead(bool $isRead): self
-    {
-        $this->isRead = $isRead;
-
-        return $this;
-    }
-
     public function getCodeNumberOrdinal(): ?int
     {
         return $this->codeNumberOrdinal;
@@ -154,62 +141,62 @@ abstract class ProductionHeader
         return $this;
     }
 
-    public function getCreatedProductionDateTime(): ?\DateTimeInterface
+    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
     {
-        return $this->createdProductionDateTime;
+        return $this->createdTransactionDateTime;
     }
 
-    public function setCreatedProductionDateTime(?\DateTimeInterface $createdProductionDateTime): self
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
     {
-        $this->createdProductionDateTime = $createdProductionDateTime;
+        $this->createdTransactionDateTime = $createdTransactionDateTime;
 
         return $this;
     }
 
-    public function getModifiedProductionDateTime(): ?\DateTimeInterface
+    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
     {
-        return $this->modifiedProductionDateTime;
+        return $this->modifiedTransactionDateTime;
     }
 
-    public function setModifiedProductionDateTime(?\DateTimeInterface $modifiedProductionDateTime): self
+    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
     {
-        $this->modifiedProductionDateTime = $modifiedProductionDateTime;
+        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
 
         return $this;
     }
 
-    public function getCreatedProductionUser(): ?User
+    public function getCreatedTransactionUser(): ?User
     {
-        return $this->createdProductionUser;
+        return $this->createdTransactionUser;
     }
 
-    public function setCreatedProductionUser(?User $createdProductionUser): self
+    public function setCreatedTransactionUser(?User $createdTransactionUser): self
     {
-        $this->createdProductionUser = $createdProductionUser;
+        $this->createdTransactionUser = $createdTransactionUser;
 
         return $this;
     }
 
-    public function getModifiedProductionUser(): ?User
+    public function getModifiedTransactionUser(): ?User
     {
-        return $this->modifiedProductionUser;
+        return $this->modifiedTransactionUser;
     }
 
-    public function setModifiedProductionUser(?User $modifiedProductionUser): self
+    public function setModifiedTransactionUser(?User $modifiedTransactionUser): self
     {
-        $this->modifiedProductionUser = $modifiedProductionUser;
+        $this->modifiedTransactionUser = $modifiedTransactionUser;
 
         return $this;
     }
 
-    public function getProductionDate(): ?\DateTimeInterface
+    public function getTransactionDate(): ?\DateTimeInterface
     {
-        return $this->productionDate;
+        return $this->transactionDate;
     }
 
-    public function setProductionDate(?\DateTimeInterface $productionDate): self
+    public function setTransactionDate(?\DateTimeInterface $transactionDate): self
     {
-        $this->productionDate = $productionDate;
+        $this->transactionDate = $transactionDate;
 
         return $this;
     }

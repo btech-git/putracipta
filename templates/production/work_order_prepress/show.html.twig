@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Tanggal WO</th>
-                <td colspan="3">{{ workOrderPrepress.workOrderHeader.productionDate|default ? workOrderPrepress.workOrderHeader.productionDate|date('d M Y') : '' }}</td>
+                <td colspan="3">{{ workOrderPrepress.workOrderHeader.transactionDate|default ? workOrderPrepress.workOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Tanggal Kirim</th>

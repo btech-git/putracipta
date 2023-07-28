@@ -25,12 +25,12 @@ class ProductPrototypeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate', 'productCode', 'productName', 'measurement', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'productCode', 'productName', 'measurement', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'productionDate' => 'Tanggal',
+                    'transactionDate' => 'Tanggal',
                     'productCode' => 'Kode Produk',
                     'productName' => 'Nama Produk',
                     'measurement' => 'Ukuran Jadi',
@@ -39,7 +39,7 @@ class ProductPrototypeGridType extends AbstractType
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'productionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'productCode' => [FilterContain::class, FilterNotContain::class],
                     'productName' => [FilterContain::class, FilterNotContain::class],
                     'measurement' => [FilterContain::class, FilterNotContain::class],
@@ -52,16 +52,16 @@ class ProductPrototypeGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
-                    'productionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['productCode', 'productName', 'measurement', 'productionDate', 'note', 'id'],
+                'field_names' => ['productCode', 'productName', 'measurement', 'transactionDate', 'note', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'productionDate' => 'Tanggal',
+                    'transactionDate' => 'Tanggal',
                     'productCode' => 'Kode Produk',
                     'productName' => 'Nama Produk',
                     'measurement' => 'Ukuran Jadi',
@@ -71,7 +71,7 @@ class ProductPrototypeGridType extends AbstractType
                     'productCode' => [SortAscending::class, SortDescending::class],
                     'productName' => [SortAscending::class, SortDescending::class],
                     'measurement' => [SortAscending::class, SortDescending::class],
-                    'productionDate' => [SortAscending::class, SortDescending::class],
+                    'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])

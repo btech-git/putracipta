@@ -62,10 +62,6 @@
                     <td class="text-end">{{ saleInvoiceHeader.totalPayment|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalReturn|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.remainingPayment|number_format(0) }}</td>
-                    {#<td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_transaction_sale_invoice_header_show', {'id': saleInvoiceHeader.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_transaction_sale_invoice_header_edit', {'id': saleInvoiceHeader.id}) }}">Edit</a>
-                    </td>#}
                 </tr>
             {% else %}
                 <tr>

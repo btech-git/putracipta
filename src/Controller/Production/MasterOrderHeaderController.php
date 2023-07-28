@@ -28,7 +28,7 @@ class MasterOrderHeaderController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'productionDate' => SortDescending::class,
+            'transactionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
         $form = $this->createForm(MasterOrderHeaderGridType::class, $criteria, ['method' => 'GET']);

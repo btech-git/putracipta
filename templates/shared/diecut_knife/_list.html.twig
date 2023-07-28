@@ -15,17 +15,13 @@
                     Uk. Cetak
                 </th>
                 <th>
-                    BOBST
-                </th>
-                <th>
-                    PON
+                    Lokasi
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Keterangan {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -42,13 +38,12 @@
                     'diecutKnifeNote': diecutKnife.note}|json_encode }}">
                     <td>{{ diecutKnife.codeNumber }}</td>
                     <td>{{ diecutKnife.printingSize }}</td>
-                    <td>{{ diecutKnife.isLocationBobst ? 'Yes' : 'No' }}</td>
-                    <td>{{ diecutKnife.isLocationPon ? 'Yes' : 'No' }}</td>
+                    <td>{{ diecutKnife.location }}</td>
                     <td>{{ diecutKnife.note }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No records found</td>
+                    <td colspan="4">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

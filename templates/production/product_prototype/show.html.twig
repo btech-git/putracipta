@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <th>Tanggal</th>
-                <td>{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</td>
+                <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                 <th>Nama Produk</th>
                 <td>{{ productPrototype.productName }}</td>
             </tr>
@@ -112,10 +112,12 @@
     
     <div class="text-center">
         <h4>Layout</h4>
-        {% if productPrototype.productionFileExtension == 'pdf' %}
-            <a target="_blank" href="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}">Layout PDF File</a>
-        {% elseif productPrototype.productionFileExtension == 'jpg' or productPrototype.productionFileExtension == 'jpeg' or productPrototype.productionFileExtension == 'png' %}
-            <img width="256px" src="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}" alt="Product Prototype Image" />
+        {% if layoutImage == true %}
+            {% if layoutImage.transactionFileExtension == 'pdf' %}
+                <a target="_blank" href="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}">Layout PDF File</a>
+            {% elseif layoutImage.transactionFileExtension == 'jpg' or layoutImage.transactionFileExtension == 'jpeg' or layoutImage.transactionFileExtension == 'png' %}
+                <img width="256px" src="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}" alt="Product Prototype Image" />
+            {% endif %}
         {% endif %}
     </div>
 

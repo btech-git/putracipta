@@ -36,7 +36,13 @@ class MasterOrderHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('machinePrinting', null, ['choice_label' => 'name'])
+            ->add('machinePrinting', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('hotStamping')
             ->add('glossiness')
             ->add('weightPerPiece')
@@ -44,11 +50,11 @@ class MasterOrderHeaderType extends AbstractType
             ->add('color')
             ->add('pantone')
             ->add('finishing')
-//            ->add('quantityPrinting')
-//            ->add('quantityPrinting2')
+            ->add('quantityPrinting')
+            ->add('quantityPrinting2')
             ->add('mountageSizeLength')
             ->add('mountageSizeWidth')
-            ->add('orderTypeMemo')
+//            ->add('orderTypeMemo')
             ->add('orderType', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'MO Biasa' => MasterOrderHeader::ORDER_TYPE_REGULAR,
                 'MO Kekurangan Cetak' => MasterOrderHeader::ORDER_TYPE_PRINTING_SHORTAGE,
@@ -98,7 +104,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('note')
             ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
             ->add('deliveryDate', null, ['widget' => 'single_text'])
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('productDevelopment', EntityHiddenType::class, ['class' => ProductDevelopment::class])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])

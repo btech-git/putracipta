@@ -38,19 +38,19 @@ class MasterOrderHeaderFormService
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($masterOrderHeader->getId())) {
-            $masterOrderHeader->setCreatedProductionDateTime($datetime);
-            $masterOrderHeader->setCreatedProductionUser($user);
+            $masterOrderHeader->setCreatedTransactionDateTime($datetime);
+            $masterOrderHeader->setCreatedTransactionUser($user);
         } else {
-            $masterOrderHeader->setModifiedProductionDateTime($datetime);
-            $masterOrderHeader->setModifiedProductionUser($user);
+            $masterOrderHeader->setModifiedTransactionDateTime($datetime);
+            $masterOrderHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(MasterOrderHeader $masterOrderHeader, array $options = []): void
     {
-        if ($masterOrderHeader->getProductionDate() !== null) {
-            $year = $masterOrderHeader->getProductionDate()->format('y');
-            $month = $masterOrderHeader->getProductionDate()->format('m');
+        if ($masterOrderHeader->getTransactionDate() !== null) {
+            $year = $masterOrderHeader->getTransactionDate()->format('y');
+            $month = $masterOrderHeader->getTransactionDate()->format('m');
             $lastMasterOrderHeader = $this->masterOrderHeaderRepository->findRecentBy($year, $month);
             $currentMasterOrderHeader = ($lastMasterOrderHeader === null) ? $masterOrderHeader : $lastMasterOrderHeader;
             $masterOrderHeader->setCodeNumberToNext($currentMasterOrderHeader->getCodeNumber(), $year, $month);
@@ -58,9 +58,11 @@ class MasterOrderHeaderFormService
         
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             $saleOrderDetail = $masterOrderProductDetail->getSaleOrderDetail();
-            $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
-            $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
-            $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
+            if (!empty($saleOrderDetail)) {
+                $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
+                $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
+                $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
+            }
         }
         $masterOrderReferenceNumberList = [$masterOrderHeader->getInkK1Color(), $masterOrderHeader->getInkK2Color(), $masterOrderHeader->getInkK3Color(), $masterOrderHeader->getInkK4Color()];
         $masterOrderHeader->setColorPantoneAdditional(implode(', ', $masterOrderReferenceNumberList));

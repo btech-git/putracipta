@@ -15,7 +15,7 @@
                 <td>{{ designCode.customer.name }}</td>
             </tr>
             <tr>
-                <th>Kode</th>
+                <th>Kode Produk</th>
                 <td>{{ designCode.codeNumber }}</td>
             </tr>
             <tr>
@@ -23,24 +23,68 @@
                 <td>{{ designCode.name }}</td>
             </tr>
             <tr>
-                <th>Versi</th>
-                <td>{{ designCode.version }}</td>
-            </tr>
-            <tr>
                 <th>Varian</th>
                 <td>{{ designCode.variant }}</td>
             </tr>
             <tr>
-                <th>Warna</th>
+                <th>Versi</th>
+                <td>{{ designCode.version }}</td>
+            </tr>
+            <tr>
+                <th>Jlh Warna</th>
                 <td>{{ designCode.color }}</td>
             </tr>
             <tr>
-                <th>Pantone</th>
+                <th>Separasi Warna</th>
                 <td>{{ designCode.pantone }}</td>
             </tr>
             <tr>
-                <th>Jml Up Cetak</th>
-                <td>{{ designCode.quantityPrinting }}</td>
+                <th>Warna Khusus 1</th>
+                <td>{{ designCode.colorSpecial1 }}</td>
+            </tr>
+            <tr>
+                <th>Warna Khusus 2</th>
+                <td>{{ designCode.colorSpecial2 }}</td>
+            </tr>
+            <tr>
+                <th>Warna Khusus 3</th>
+                <td>{{ designCode.colorSpecial3 }}</td>
+            </tr>
+            <tr>
+                <th>Warna Khusus 4</th>
+                <td>{{ designCode.colorSpecial4 }}</td>
+            </tr>
+            <tr>
+                <th>Coating</th>
+                <td>{{ designCode.coating }}</td>
+            </tr>
+            <tr>
+                <th>Jumlah Mata (Up/s)</th>
+                <td>{{ designCode.printingUpQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Uk. Kris Cetak (cm)</th>
+                <td>{{ designCode.printingKrisSize }}</td>
+            </tr>
+            <tr>
+                <th>Uk. Ptg Kertas (cm)</th>
+                <td>{{ designCode.paperCuttingSize }}</td>
+            </tr>
+            <tr>
+                <th>Mountage Kertas (lbr/plano)</th>
+                <td>{{ designCode.paperMountage }}</td>
+            </tr>
+            <tr>
+                <th>Pisau Diecut</th>
+                <td>{{ designCode.diecutKnife.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Millar</th>
+                <td>{{ designCode.dielineMillar.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ designCode.status }}</td>
             </tr>
             <tr>
                 <th>Note</th>

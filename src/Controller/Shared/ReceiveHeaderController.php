@@ -3,10 +3,10 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Entity\Transaction\PurchaseInvoiceHeader;
-use App\Entity\Transaction\PurchaseReturnHeader;
+use App\Entity\Purchase\PurchaseInvoiceHeader;
+use App\Entity\Purchase\PurchaseReturnHeader;
 use App\Grid\Shared\ReceiveHeaderGridType;
-use App\Repository\Transaction\ReceiveHeaderRepository;
+use App\Repository\Purchase\ReceiveHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

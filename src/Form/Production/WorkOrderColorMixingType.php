@@ -49,7 +49,7 @@ class WorkOrderColorMixingType extends AbstractType
             ->add('specialColorMixFourthFourName')
             ->add('specialColorMixFourthFourWeight')
             ->add('note')
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
         ;
     }

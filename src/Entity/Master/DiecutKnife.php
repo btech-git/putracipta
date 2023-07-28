@@ -49,9 +49,13 @@ class DiecutKnife extends Master
     #[ORM\Column(length: 60)]
     private ?string $location = '';
 
+    #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: DesignCode::class)]
+    private Collection $designCodes;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
+        $this->designCodes = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
@@ -186,6 +190,36 @@ class DiecutKnife extends Master
     public function setLocation(string $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCode>
+     */
+    public function getDesignCodes(): Collection
+    {
+        return $this->designCodes;
+    }
+
+    public function addDesignCode(DesignCode $designCode): self
+    {
+        if (!$this->designCodes->contains($designCode)) {
+            $this->designCodes->add($designCode);
+            $designCode->setDiecutKnife($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCode(DesignCode $designCode): self
+    {
+        if ($this->designCodes->removeElement($designCode)) {
+            // set the owning side to null (unless already changed)
+            if ($designCode->getDiecutKnife() === $this) {
+                $designCode->setDiecutKnife(null);
+            }
+        }
 
         return $this;
     }

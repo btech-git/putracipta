@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <th>Tanggal</th>
-                <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
+                <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                 <th>Material Kertas</th>
                 <td>{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
             </tr>

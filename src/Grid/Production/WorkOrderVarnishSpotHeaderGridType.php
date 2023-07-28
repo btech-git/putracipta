@@ -25,18 +25,18 @@ class WorkOrderVarnishSpotHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'productionDate'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'productionDate' => 'Tanggal',
+                    'transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'productionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -45,20 +45,20 @@ class WorkOrderVarnishSpotHeaderGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
-                    'productionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['productionDate', 'id'],
+                'field_names' => ['transactionDate', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'productionDate' => 'Tanggal',
+                    'transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
-                    'productionDate' => [SortAscending::class, SortDescending::class],
+                    'transactionDate' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

@@ -32,7 +32,7 @@ class WorkOrderOffsetPrintingHeaderType extends AbstractType
             ->add('blackPrintingQuantity')
             ->add('blackInkQuantity')
             ->add('blackPlateQuantity')
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
         ;

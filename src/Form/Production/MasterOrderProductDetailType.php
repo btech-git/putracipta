@@ -16,8 +16,8 @@ class MasterOrderProductDetailType extends AbstractType
         $builder
             ->add('isCanceled')
             ->add('quantityStock')
-            ->add('quantityUpPrinting1')
-            ->add('quantityUpPrinting2')
+//            ->add('quantityUpPrinting1')
+//            ->add('quantityUpPrinting2')
 //            ->add('designCode', null, [
 //                'choice_label' => 'name',
 //                'choice_attr' => function($choice) {

@@ -11,8 +11,8 @@
                 <th style="min-width: 280px" role="button">
                     Master Order #
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th>Mesin Cetak</th>
                 <th>Qty Order</th>
@@ -36,7 +36,7 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th></th>
@@ -52,13 +52,13 @@
                 <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'masterOrderHeaderId': masterOrderHeader.id, 
                     'masterOrderHeaderCodeNumber': masterOrderHeader.codeNumber, 
-                    'masterOrderHeaderDate': masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '', 
+                    'masterOrderHeaderDate': masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '', 
                     'masterOrderHeaderPrintingMachine': masterOrderHeader.machinePrinting.name|default, 
                     'customerCompany': masterOrderHeader.customer.company|default,
                     'saleOrderCodeNumber': masterOrderHeader.saleOrderDetail.saleOrderHeader.codeNumber|default,
                     'masterOrderHeaderQuantity': masterOrderHeader.totalQuantityOrder}|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber }}</td>
-                    <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
+                    <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
                     <td>{{ masterOrderHeader.totalQuantityOrder }}</td>
                     <td>{{ masterOrderHeader.quantityPrinting }}</td>

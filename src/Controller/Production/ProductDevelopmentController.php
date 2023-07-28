@@ -25,7 +25,7 @@ class ProductDevelopmentController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'productionDate' => SortDescending::class,
+            'transactionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
         $form = $this->createForm(ProductDevelopmentGridType::class, $criteria, ['method' => 'GET']);
@@ -55,10 +55,11 @@ class ProductDevelopmentController extends AbstractController
         $productDevelopmentFormService->initialize($productDevelopment, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductDevelopmentType::class, $productDevelopment);
         $form->handleRequest($request);
-        $productDevelopmentFormService->finalize($productDevelopment);
+        $productDevelopmentFormService->finalize($productDevelopment, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $productDevelopmentFormService->save($productDevelopment);
+            $productDevelopmentFormService->uploadFile($productDevelopment, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product-development');
 
             return $this->redirectToRoute('app_production_product_development_show', ['id' => $productDevelopment->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -66,6 +67,7 @@ class ProductDevelopmentController extends AbstractController
         return $this->renderForm("production/product_development/new.{$_format}.twig", [
             'productDevelopment' => $productDevelopment,
             'form' => $form,
+            'transactionFileExists' => false,
         ]);
     }
 
@@ -85,10 +87,11 @@ class ProductDevelopmentController extends AbstractController
         $productDevelopmentFormService->initialize($productDevelopment, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductDevelopmentType::class, $productDevelopment);
         $form->handleRequest($request);
-        $productDevelopmentFormService->finalize($productDevelopment);
+        $productDevelopmentFormService->finalize($productDevelopment, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
             $productDevelopmentFormService->save($productDevelopment);
+            $productDevelopmentFormService->uploadFile($productDevelopment, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product-development');
 
             return $this->redirectToRoute('app_production_product_development_show', ['id' => $productDevelopment->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -96,6 +99,7 @@ class ProductDevelopmentController extends AbstractController
         return $this->renderForm("production/product_development/edit.{$_format}.twig", [
             'productDevelopment' => $productDevelopment,
             'form' => $form,
+            'transactionFileExists' => file_exists($this->getParameter('kernel.project_dir') . '/public/uploads/product-development/' . $productDevelopment->getId() . '.' . $productDevelopment->getTransactionFileExtension()),
         ]);
     }
 

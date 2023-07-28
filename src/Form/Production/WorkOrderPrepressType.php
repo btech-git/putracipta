@@ -64,7 +64,7 @@ class WorkOrderPrepressType extends AbstractType
             ->add('subconBlackRevisionStartDate', null, ['widget' => 'single_text'])
             ->add('subconBlackRevisionEndDate', null, ['widget' => 'single_text'])
             ->add('workOrderReturnDate', null, ['widget' => 'single_text'])
-            ->add('productionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('employeeIdPlateRelease', null, ['choice_label' => 'name'])
             ->add('employeeIdWorkOrderReturn', null, ['choice_label' => 'name'])
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])

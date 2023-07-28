@@ -2,7 +2,6 @@
 
 namespace App\Entity\Production;
 
-use App\Entity\Admin\User;
 use App\Entity\Master\Employee;
 use App\Entity\ProductionHeader;
 use App\Repository\Production\ProductDevelopmentRepository;
@@ -159,6 +158,9 @@ class ProductDevelopment extends ProductionHeader
 
     #[ORM\OneToMany(mappedBy: 'productDevelopment', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
+
+    #[ORM\Column(length: 20)]
+    private ?string $transactionFileExtension = '';
 
     public function __construct()
     {
@@ -993,6 +995,18 @@ class ProductDevelopment extends ProductionHeader
                 $masterOrderHeader->setProductDevelopment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTransactionFileExtension(): ?string
+    {
+        return $this->transactionFileExtension;
+    }
+
+    public function setTransactionFileExtension(string $transactionFileExtension): self
+    {
+        $this->transactionFileExtension = $transactionFileExtension;
 
         return $this;
     }

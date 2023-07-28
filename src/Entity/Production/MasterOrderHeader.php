@@ -10,7 +10,7 @@ use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
-use App\Entity\Transaction\PurchaseOrderPaperHeader;
+use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

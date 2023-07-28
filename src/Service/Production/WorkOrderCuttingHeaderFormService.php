@@ -22,19 +22,19 @@ class WorkOrderCuttingHeaderFormService
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($workOrderCuttingHeader->getId())) {
-            $workOrderCuttingHeader->setCreatedProductionDateTime($datetime);
-            $workOrderCuttingHeader->setCreatedProductionUser($user);
+            $workOrderCuttingHeader->setCreatedTransactionDateTime($datetime);
+            $workOrderCuttingHeader->setCreatedTransactionUser($user);
         } else {
-            $workOrderCuttingHeader->setModifiedProductionDateTime($datetime);
-            $workOrderCuttingHeader->setModifiedProductionUser($user);
+            $workOrderCuttingHeader->setModifiedTransactionDateTime($datetime);
+            $workOrderCuttingHeader->setModifiedTransactionUser($user);
         }
     }
 
     public function finalize(WorkOrderCuttingHeader $workOrderCuttingHeader, array $options = []): void
     {
-        if ($workOrderCuttingHeader->getProductionDate() !== null) {
-            $year = $workOrderCuttingHeader->getProductionDate()->format('y');
-            $month = $workOrderCuttingHeader->getProductionDate()->format('m');
+        if ($workOrderCuttingHeader->getTransactionDate() !== null) {
+            $year = $workOrderCuttingHeader->getTransactionDate()->format('y');
+            $month = $workOrderCuttingHeader->getTransactionDate()->format('m');
             $lastWorkOrderCuttingHeader = $this->workOrderCuttingHeaderRepository->findRecentBy($year, $month);
             $currentWorkOrderCuttingHeader = ($lastWorkOrderCuttingHeader === null) ? $workOrderCuttingHeader : $lastWorkOrderCuttingHeader;
             $workOrderCuttingHeader->setCodeNumberToNext($currentWorkOrderCuttingHeader->getCodeNumber(), $year, $month);

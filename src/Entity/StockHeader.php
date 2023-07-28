@@ -41,6 +41,9 @@ abstract class StockHeader
     #[ORM\Column(type: Types::TEXT)]
     protected ?string $note = '';
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    protected ?int $codeNumberVersion = 0;
+
     public abstract function getCodeNumberConstant(): string;
 
     public function getCodeNumber(): string

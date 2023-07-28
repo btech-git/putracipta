@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'master_design_code')]
 class DesignCode extends Master
 {
+    public const STATUS_FA = 'fa';
+    public const STATUS_NA = 'na';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -37,20 +40,47 @@ class DesignCode extends Master
     #[ORM\Column(length: 60)]
     private ?string $pantone = '';
 
-    #[ORM\Column]
-    private ?int $quantityPrinting = 0;
-
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
-
-    #[ORM\Column]
-    private ?int $colorQuantity = 0;
 
     #[ORM\Column(length: 20)]
     private ?string $coating = '';
 
     #[ORM\Column(length: 60)]
     private ?string $code = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $colorSpecial1 = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $colorSpecial2 = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $colorSpecial3 = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $colorSpecial4 = '';
+
+    #[ORM\Column]
+    private ?int $printingUpQuantity = 0;
+
+    #[ORM\Column(length: 60)]
+    private ?string $printingKrisSize = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $paperCuttingSize = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $paperMountage = '';
+
+    #[ORM\ManyToOne(inversedBy: 'designCodes')]
+    private ?DiecutKnife $diecutKnife = null;
+
+    #[ORM\ManyToOne(inversedBy: 'designCodes')]
+    private ?DielineMillar $dielineMillar = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $status = '';
 
     public function __construct()
     {
@@ -139,18 +169,6 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getQuantityPrinting(): ?int
-    {
-        return $this->quantityPrinting;
-    }
-
-    public function setQuantityPrinting(int $quantityPrinting): self
-    {
-        $this->quantityPrinting = $quantityPrinting;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, MasterOrderHeader>
      */
@@ -181,18 +199,6 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getColorQuantity(): ?int
-    {
-        return $this->colorQuantity;
-    }
-
-    public function setColorQuantity(int $colorQuantity): self
-    {
-        $this->colorQuantity = $colorQuantity;
-
-        return $this;
-    }
-
     public function getCoating(): ?string
     {
         return $this->coating;
@@ -213,6 +219,138 @@ class DesignCode extends Master
     public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getColorSpecial1(): ?string
+    {
+        return $this->colorSpecial1;
+    }
+
+    public function setColorSpecial1(string $colorSpecial1): self
+    {
+        $this->colorSpecial1 = $colorSpecial1;
+
+        return $this;
+    }
+
+    public function getColorSpecial2(): ?string
+    {
+        return $this->colorSpecial2;
+    }
+
+    public function setColorSpecial2(string $colorSpecial2): self
+    {
+        $this->colorSpecial2 = $colorSpecial2;
+
+        return $this;
+    }
+
+    public function getColorSpecial3(): ?string
+    {
+        return $this->colorSpecial3;
+    }
+
+    public function setColorSpecial3(string $colorSpecial3): self
+    {
+        $this->colorSpecial3 = $colorSpecial3;
+
+        return $this;
+    }
+
+    public function getColorSpecial4(): ?string
+    {
+        return $this->colorSpecial4;
+    }
+
+    public function setColorSpecial4(string $colorSpecial4): self
+    {
+        $this->colorSpecial4 = $colorSpecial4;
+
+        return $this;
+    }
+
+    public function getPrintingUpQuantity(): ?int
+    {
+        return $this->printingUpQuantity;
+    }
+
+    public function setPrintingUpQuantity(int $printingUpQuantity): self
+    {
+        $this->printingUpQuantity = $printingUpQuantity;
+
+        return $this;
+    }
+
+    public function getPrintingKrisSize(): ?string
+    {
+        return $this->printingKrisSize;
+    }
+
+    public function setPrintingKrisSize(string $printingKrisSize): self
+    {
+        $this->printingKrisSize = $printingKrisSize;
+
+        return $this;
+    }
+
+    public function getPaperCuttingSize(): ?string
+    {
+        return $this->paperCuttingSize;
+    }
+
+    public function setPaperCuttingSize(string $paperCuttingSize): self
+    {
+        $this->paperCuttingSize = $paperCuttingSize;
+
+        return $this;
+    }
+
+    public function getPaperMountage(): ?string
+    {
+        return $this->paperMountage;
+    }
+
+    public function setPaperMountage(string $paperMountage): self
+    {
+        $this->paperMountage = $paperMountage;
+
+        return $this;
+    }
+
+    public function getDiecutKnife(): ?DiecutKnife
+    {
+        return $this->diecutKnife;
+    }
+
+    public function setDiecutKnife(?DiecutKnife $diecutKnife): self
+    {
+        $this->diecutKnife = $diecutKnife;
+
+        return $this;
+    }
+
+    public function getDielineMillar(): ?DielineMillar
+    {
+        return $this->dielineMillar;
+    }
+
+    public function setDielineMillar(?DielineMillar $dielineMillar): self
+    {
+        $this->dielineMillar = $dielineMillar;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -3,9 +3,9 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Entity\Transaction\SaleReturnHeader;
+use App\Entity\Sale\SaleReturnHeader;
 use App\Grid\Shared\DeliveryHeaderGridType;
-use App\Repository\Transaction\DeliveryHeaderRepository;
+use App\Repository\Sale\DeliveryHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -13,7 +13,7 @@ class WorkOrderOffsetPrintingDetailType extends AbstractType
     {
         $builder
             ->add('shiftNumber')
-            ->add('productionDate')
+            ->add('transactionDate')
             ->add('productionColor')
             ->add('productionStartTime')
             ->add('productionEndTime')

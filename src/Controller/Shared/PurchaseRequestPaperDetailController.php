@@ -3,9 +3,9 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Entity\Transaction\PurchaseOrderPaperDetail;
+use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Grid\Shared\PurchaseRequestPaperDetailGridType;
-use App\Repository\Transaction\PurchaseRequestPaperDetailRepository;
+use App\Repository\Purchase\PurchaseRequestPaperDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

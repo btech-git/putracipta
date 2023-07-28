@@ -16,7 +16,13 @@ class ExpenseHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('account', null, ['choice_label' => 'name'])
+            ->add('account', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('expenseDetails', CollectionType::class, [
                 'entry_type' => ExpenseDetailType::class,
                 'allow_add' => true,

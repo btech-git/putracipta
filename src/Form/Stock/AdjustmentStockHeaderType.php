@@ -24,7 +24,13 @@ class AdjustmentStockHeaderType extends AbstractType
                 'Kertas' => AdjustmentStockHeader::ADJUSTMENT_MODE_PAPER,
                 'Finished Goods' => AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT,
             ]])
-            ->add('warehouse', null, ['choice_label' => 'name'])
+            ->add('warehouse', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('adjustmentStockMaterialDetails', CollectionType::class, [
                 'entry_type' => AdjustmentStockMaterialDetailType::class,
                 'allow_add' => true,

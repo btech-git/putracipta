@@ -12,7 +12,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
-use App\Entity\TransactionHeader;
+use App\Entity\PurchaseHeader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\AbstractType;
@@ -50,7 +50,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => IntegerType::class,
                 ],
                 'field_value_options_list' => [
-                    'codeNumberMonth' => ['choices' => array_flip(TransactionHeader::MONTH_ROMAN_NUMERALS)],
+                    'codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                 ],
             ])
             ->add('sort', SortType::class, [
