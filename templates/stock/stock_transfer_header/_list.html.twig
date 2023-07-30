@@ -27,7 +27,7 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
                     <span><small>/{{ constant('App\\Entity\\Stock\\StockTransferHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
                     <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
-                        {% for value, label in constant('App\\Entity\\TransactionHeader::MONTH_ROMAN_NUMERALS') %}
+                        {% for value, label in constant('App\\Entity\\StockHeader::MONTH_ROMAN_NUMERALS') %}
                             {% set val = value == 0 ? '' : value %}
                             <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
                         {% endfor %}
