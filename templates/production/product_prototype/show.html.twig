@@ -12,35 +12,33 @@
         <tbody>
             <tr>
                 <th>Proses Development</th>
-                <td colspan="3">{{ productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '' }}</td>
-            </tr>
-            <tr>
+                <td>{{ productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '' }}</td>
                 <th>Sumber Data</th>
-                <td colspan="3">{{ productPrototype.dataSource ? productPrototype.dataSource|join(', ') : '' }}</td>
+                <td>{{ productPrototype.dataSource ? productPrototype.dataSource|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Produk Baru #</th>
                 <td>{{ productPrototype.getCodeNumber }}</td>
                 <th>Kode Produk</th>
-                <td>{{ productPrototype.productCode }}</td>
+                <td>{{ productPrototype.product.code|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
                 <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                 <th>Nama Produk</th>
-                <td>{{ productPrototype.productName }}</td>
+                <td>{{ productPrototype.product.name|default }}</td>
             </tr>
             <tr>
                 <th>Customer</th>
                 <td>{{ productPrototype.customer.name|default }}</td>
                 <th>Ukuran Jadi</th>
-                <td>{{ productPrototype.measurement }}</td>
+                <td>{{ productPrototype.product.productLengthWidthHeightCombination|default }}</td>
             </tr>
             <tr>
                 <th>Marketing</th>
                 <td>{{ productPrototype.employee.name|default }}</td>
                 <th>Kode Design</th>
-                <td>{{ productPrototype.designCode }}</td>
+                <td>{{ productPrototype.designCode.codeNumber|default }}</td>
             </tr>
         </tbody>
     </table>

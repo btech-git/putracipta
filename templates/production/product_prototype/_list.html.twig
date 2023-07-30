@@ -64,9 +64,9 @@
                 <tr>
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ productPrototype.productCode }}</td>
-                    <td>{{ productPrototype.productName }}</td>
-                    <td>{{ productPrototype.measurement }}</td>
+                    <td>{{ productPrototype.product.code|default }}</td>
+                    <td>{{ productPrototype.product.name|default }}</td>
+                    <td>{{ productPrototype.product.productLengthWidthHeightCombination|default }}</td>
                     <td>{{ productPrototype.note }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_production_product_prototype_show', {'id': productPrototype.id}) }}"><i class="bi-search"></i></a>

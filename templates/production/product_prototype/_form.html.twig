@@ -78,7 +78,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.product.vars.id }}-text" class="form-control readonly-form-input {% if not form.product.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.productCode|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.product.vars.id }}-text" class="form-control readonly-form-input {% if not form.product.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.product.code|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#product-dialog"
                                data-controller="dom-element"
                                data-action="product-table:data-table:select@document->dom-element#bind"
@@ -89,7 +89,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Produk</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.productName|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.product.name|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="product-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -98,7 +98,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ukuran Jadi</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.measurement|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productPrototype.product.productLengthWidthHeightCombination|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="product-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -116,12 +116,12 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.designCode|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.designCode.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#design-code-dialog"
                                data-controller="dom-element"
                                data-action="design-code-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.designCode) }}
                     </div>
@@ -145,7 +145,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paper.code|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#paper-ep-dialog"
+                               data-bs-toggle="modal" data-bs-target="#paper-dialog"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -169,6 +169,11 @@
                     {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
                     {{ form_row(form.quantityProduction, {'label': 'Quantity (pcs)'}) }}
                     {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata (up/sheet)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.note, {'label': 'Catatan'}) }}
                 </div>
             </div>
         </fieldset>
@@ -222,11 +227,10 @@
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('material-dialog', 'Material List') }}
+    {{ dialog.start('paper-dialog', 'Paper List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
-
 </div>
