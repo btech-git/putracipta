@@ -39,7 +39,11 @@
                     <div class="input-group">
                         {{ form_widget(form.paperMountage, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperMountage'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.paperMountage) }}
@@ -89,7 +93,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.cuttingLengthSize1) }}
+                        {{ form_widget(form.cuttingLengthSize1, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperCuttingSize'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.cuttingLengthSize1) }}
                         <span class="input-group-text">x</span>
                         {{ form_widget(form.cuttingWidthSize1) }}

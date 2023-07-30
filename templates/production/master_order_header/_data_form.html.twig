@@ -55,7 +55,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.mountageSizeLength) }}
+                        {{ form_widget(form.mountageSizeLength, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePrintingKrisSize'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.mountageSizeLength) }}
                         <span class="input-group-text">x</span>
                         {{ form_widget(form.mountageSizeWidth) }}
@@ -109,7 +117,21 @@
     <div class="col">
         {{ form_row(form.hotStamping, {'label': 'Hot Stamping'}) }}
         {{ form_row(form.glossiness, {'label': 'Glossiness'}) }}
-        {{ form_row(form.finishing, {'label': 'Coating'}) }}
+        <div class="mb-3">
+            <div class="row">
+                <label class="form-label">Coating</label>
+                {{ form_widget(form.finishing, {
+                    'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeCoating'}},
+                        ]|json_encode,
+                    },
+                }) }}
+                {{ form_errors(form.finishing) }}
+            </div>
+        </div>
         <div class="mb-3">
             <label class="form-label">Design Code</label>
             <div class="row">
@@ -171,7 +193,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.quantityPrinting) }}
+                        {{ form_widget(form.quantityPrinting, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePrintingUpQuantity'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.quantityPrinting) }}
                         <span class="input-group-text">&</span>
                         {{ form_widget(form.quantityPrinting2) }}

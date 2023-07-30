@@ -134,7 +134,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.inkK1Color) }}
+                        {{ form_widget(form.inkK1Color, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeColorSpecial1'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.inkK1Color) }}
                         <span class="input-group-text">:</span>
                         {{ form_widget(form.inkK1Percentage, {
@@ -158,7 +166,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.inkK2Color) }}
+                        {{ form_widget(form.inkK2Color, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeColorSpecial2'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.inkK2Color) }}
                         <span class="input-group-text">:</span>
                         {{ form_widget(form.inkK2Percentage, {
@@ -182,7 +198,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.inkK3Color) }}
+                        {{ form_widget(form.inkK3Color, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeColorSpecial3'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.inkK3Color) }}
                         <span class="input-group-text">:</span>
                         {{ form_widget(form.inkK3Percentage, {
@@ -206,7 +230,15 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group">
-                        {{ form_widget(form.inkK4Color) }}
+                        {{ form_widget(form.inkK4Color, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeColorSpecial4'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.inkK4Color) }}
                         <span class="input-group-text">:</span>
                         {{ form_widget(form.inkK4Percentage, {
