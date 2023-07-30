@@ -62,14 +62,14 @@
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'productPrototypeId': productPrototype.id, 
                     'productPrototypeCodeNumber': productPrototype.codeNumber,  
-                    'productPrototypeProductName': productPrototype.productName, 
+                    'productPrototypeProductName': productPrototype.product.name|default, 
                     'productPrototypeDevelopmentTypeList': productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '',
                     'customerName': productPrototype.customer.name}|json_encode }}">
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ productPrototype.productCode }}</td>
-                    <td>{{ productPrototype.productName }}</td>
-                    <td>{{ productPrototype.measurement }}</td>
+                    <td>{{ productPrototype.product.code|default }}</td>
+                    <td>{{ productPrototype.product.name|default }}</td>
+                    <td>{{ productPrototype.product.productLengthWidthHeightCombination|default }}</td>
                     <td>{{ productPrototype.note }}</td>
                 </tr>
             {% else %}
