@@ -62,18 +62,6 @@ class ProductPrototype extends ProductionHeader
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $productCode = '';
-
-    #[ORM\Column(length: 100)]
-    #[Assert\NotNull]
-    private ?string $productName = '';
-
-    #[ORM\Column(length: 20)]
-    #[Assert\NotNull]
-    private ?string $measurement = '';
-
-    #[ORM\Column(length: 60)]
     private ?string $color = '';
 
     #[ORM\Column]
@@ -146,42 +134,6 @@ class ProductPrototype extends ProductionHeader
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getProductCode(): ?string
-    {
-        return $this->productCode;
-    }
-
-    public function setProductCode(string $productCode): self
-    {
-        $this->productCode = $productCode;
-
-        return $this;
-    }
-
-    public function getProductName(): ?string
-    {
-        return $this->productName;
-    }
-
-    public function setProductName(string $productName): self
-    {
-        $this->productName = $productName;
-
-        return $this;
-    }
-
-    public function getMeasurement(): ?string
-    {
-        return $this->measurement;
-    }
-
-    public function setMeasurement(string $measurement): self
-    {
-        $this->measurement = $measurement;
 
         return $this;
     }
