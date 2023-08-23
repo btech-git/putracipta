@@ -20,6 +20,30 @@
                    ]|json_encode }}" />
             {{ form_errors(form.customer) }}
         </div>
+        <div class="mb-3">
+            <label class="form-label">Design Code</label>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.designCode, {
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeId'}},
+                            ]|json_encode,
+                        },
+                    }) }}
+                    <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.designCode.codeNumber|default }}" readonly="readonly"
+                           data-bs-toggle="modal" data-bs-target="#design-code-dialog"
+                           data-controller="dom-element"
+                           data-action="design-code-table:data-table:select@document->dom-element#bind"
+                           data-dom-element-bind-specifications-param="{{ [
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
+                           ]|json_encode }}" />
+                </div>
+                {{ form_errors(form.designCode) }}
+            </div>
+        </div>
         {{ form_row(form.machinePrinting, {'label': 'Mesin Cetak'}) }}
         <div class="mb-3">
             <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
@@ -65,15 +89,11 @@
                             },
                         }) }}
                         {{ form_errors(form.mountageSizeLength) }}
-                        <span class="input-group-text">x</span>
-                        {{ form_widget(form.mountageSizeWidth) }}
-                        {{ form_errors(form.mountageSizeWidth) }}
                         <span class="input-group-text">cm</span>
                     </div>
                 </div>
             </div>
         </div>
-        {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
         <div class="mb-3">
             <label for="{{ form.productDevelopment.vars.id }}-text" class="form-label">Pengembangan Produk Baru</label>
             {{ form_row(form.productDevelopment, {
@@ -133,30 +153,6 @@
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Design Code</label>
-            <div class="row">
-                <div class="col">
-                    {{ form_row(form.designCode, {
-                        'attr': {
-                            'data-controller': 'dom-element',
-                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
-                            'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeId'}},
-                            ]|json_encode,
-                        },
-                    }) }}
-                    <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.designCode.codeNumber|default }}" readonly="readonly"
-                           data-bs-toggle="modal" data-bs-target="#design-code-dialog"
-                           data-controller="dom-element"
-                           data-action="design-code-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
-                           ]|json_encode }}" />
-                </div>
-                {{ form_errors(form.designCode) }}
-            </div>
-        </div>
-        <div class="mb-3">
             <label class="form-label">Warna / Pantone</label>
             <div class="row">
                 <div class="col">
@@ -211,6 +207,7 @@
                 </div>
             </div>
         </div>
+        {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
         <label class="form-label">Pisau Die Cut</label>
         <div class="row">
             <div class="col">

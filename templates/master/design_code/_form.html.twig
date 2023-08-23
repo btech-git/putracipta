@@ -29,7 +29,113 @@
         <hr />
     {% endif %}
     
-    {{ form_rest(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.name) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Kode Produk</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <span class="input-group-text">P</span>
+                            {{ form_widget(form.code) }}
+                            {{ form_errors(form.code) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Varian</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <span class="input-group-text">V</span>
+                            {{ form_widget(form.variant) }}
+                            {{ form_errors(form.variant) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Versi</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <span class="input-group-text">R</span>
+                            {{ form_widget(form.version) }}
+                            {{ form_errors(form.version) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.color) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.pantone) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.colorSpecial1) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.colorSpecial2) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.colorSpecial3) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.colorSpecial4) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.coating) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingUpQuantity) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingKrisSize) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.paperCuttingSize) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.paperMountage) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.diecutKnife) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.dielineMillar) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.status) }}
+        </div>
+    </div>
+    <div class="row">
+            {{ form_row(form.note) }}
+            {{ form_row(form.isInactive) }}
+    </div>
+        
+        
     <div class="d-grid">
         <button class="btn btn-secondary"
                 data-controller="dom-element"

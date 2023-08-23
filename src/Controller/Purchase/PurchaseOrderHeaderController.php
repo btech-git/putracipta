@@ -114,7 +114,6 @@ class PurchaseOrderHeaderController extends AbstractController
         return $this->renderForm("purchase/purchase_order_header/new.{$_format}.twig", [
             'purchaseOrderHeader' => $purchaseOrderHeader,
             'form' => $form,
-            'sync' => $purchaseOrderHeaderFormService->createSyncView(),
         ]);
     }
 
@@ -168,7 +167,6 @@ class PurchaseOrderHeaderController extends AbstractController
         return $this->renderForm("purchase/purchase_order_header/edit.{$_format}.twig", [
             'purchaseOrderHeader' => $purchaseOrderHeader,
             'form' => $form,
-            'sync' => $purchaseOrderHeaderFormService->createSyncView(),
         ]);
     }
 

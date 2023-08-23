@@ -1,7 +1,7 @@
 <div class="table-responsive">
     <table class="table table-bordered"
        data-controller="form-collection"
-       data-form-collection-start-index-value="{{ max(sync.countByRelation.purchaseOrderDetails|default(0), form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0) }}"
+       data-form-collection-start-index-value="{{ form.purchaseOrderDetails|length > 0 ? form.purchaseOrderDetails|last.vars.name + 1 : 0 }}"
        data-form-collection-prototype-value="{{ _self.collection_item(form.purchaseOrderDetails.vars.prototype)|e('html_attr') }}"
        data-action="form-collection:collection-item-removed->json-loader#load:self">
         <thead class="table-secondary">
@@ -21,7 +21,7 @@
         </thead>
         <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem purchase-request-detail-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
-                <tr data-form-collection-target="item"{# {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}#}>
+                <tr data-form-collection-target="item">
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
@@ -68,22 +68,21 @@
                         </div>
                     </td>
                     <td>
-                        {#{% if (detailForm.vars.value.id == null) %}#}
+                        {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
-                        {#{% endif %}
-                        <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                            {{ form_row(detailForm.isCanceled, {
-                                'label': 'X',
-                                'attr': {
-                                    'data-controller': 'dom-element',
-                                    'data-action': 'dom-element#bind change->json-loader#load',
-                                    'data-dom-element-bind-specifications-param': [
-                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.material.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.material.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                    ]|json_encode,
-                                },
-                            }) }}
-                        </div>#}
+                        {% else %}
+                            <button type="button" class="btn btn-danger"
+                                    data-controller="dom-element"
+                                    data-action="dom-element#bind json-loader#load"
+                                    data-dom-element-bind-specifications-param="{{ [
+                                        {'destinationsTarget': '#' ~ detailForm.isCanceled.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'true'}},
+                                    ]|json_encode }}">
+                                <i class="bi-x-lg"></i>
+                            </button>
+                        {% endif %}
+                        <div class="d-none">
+                            {{ form_row(detailForm.isCanceled) }}
+                        </div>
                     </td>
                 </tr>
             {% endmacro %}

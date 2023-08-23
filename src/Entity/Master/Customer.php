@@ -113,6 +113,11 @@ class Customer extends Master
         $this->dielineMillars = new ArrayCollection();
     }
 
+    public function getIdNameLiteral() 
+    {
+        return str_pad($this->id, 3, '0', STR_PAD_LEFT) . ' - ' . $this->company;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

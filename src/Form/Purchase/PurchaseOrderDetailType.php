@@ -24,7 +24,7 @@ class PurchaseOrderDetailType extends AbstractType
             ->add('purchaseRequestDetail', EntityHiddenType::class, array('class' => PurchaseRequestDetail::class))
             ->add('unit', null, ['choice_label' => 'name'])
             ->add('isTransactionClosed')
-//            ->add('isCanceled')
+            ->add('isCanceled')
         ;
     }
 

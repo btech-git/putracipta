@@ -9,6 +9,7 @@
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_order_header_index') }}">Manage</a>
     <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
     <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_header_new') }}">Add</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_header_new') }}">Delete</a>
 {% endblock %}
 
 {% block content %}
@@ -195,7 +196,7 @@
         </div>
     </div>
                 
-    {#<div class="d-inline-block">{{ include('purchase/purchase_order_header/_delete_form.html.twig') }}</div>#}
+    <div class="d-inline-block">{{ include('purchase/purchase_order_header/_delete_form.html.twig') }}</div>
     {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderHeader) %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('purchase/purchase_order_header/_approve_form.html.twig') }}</div>

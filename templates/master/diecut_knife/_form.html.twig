@@ -31,7 +31,37 @@
         <hr />
     {% endif %}
     
-    {{ form_rest(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.code) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.location) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.upPerSecondKnife) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.upPerSecondPrint) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingSize) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.note) }}
+            {{ form_row(form.isInactive) }}
+        </div>
+    </div>
+        
     <div class="d-grid">
         <button class="btn btn-secondary"
                 data-controller="dom-element"

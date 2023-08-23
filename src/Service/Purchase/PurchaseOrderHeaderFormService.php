@@ -27,7 +27,6 @@ class PurchaseOrderHeaderFormService
 
     public function initialize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-        $this->formSync->scanForOldEntities($purchaseOrderHeader);
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (empty($purchaseOrderHeader->getId())) {
@@ -88,16 +87,14 @@ class PurchaseOrderHeaderFormService
         $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
         $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
         $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
-        $this->formSync->scanForNewEntities($purchaseOrderHeader);
     }
 
     public function save(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-//        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
-//        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-//            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
-//        }
-        $this->formSync->update($this->entityManager);
+        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
+        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+        }
         $this->entityManager->flush();
     }
 

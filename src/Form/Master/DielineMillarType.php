@@ -13,15 +13,15 @@ class DielineMillarType extends AbstractType
     {
         $builder
             ->add('customer', null, [
-                'choice_label' => 'company',
+                'choice_label' => 'idNameLiteral',
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
                             ->andWhere("e.isInactive = false")
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('code', null, ['label' => 'Kode'])
             ->add('name', null, ['label' => 'Nama'])
+            ->add('code', null, ['label' => 'Kode'])
 //            ->add('quantity')
             ->add('quantityUpPrinting', null, ['label' => 'Jmlh Up Cetak'])
             ->add('printingLayout', null, ['label' => 'Kris Layout Cetak'])
