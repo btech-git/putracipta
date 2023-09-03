@@ -16,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/design_code')]
 class DesignCodeController extends AbstractController
 {
+    #[Route('/_design_code_list', name: 'app_master_design_code__design_code_list', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _designCodeList(Request $request, DesignCodeRepository $designCodeRepository): Response
+    {
+        $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->query->get('design_code')['customer']], ['id' => 'DESC'], 5, 0);
+
+        return $this->render("master/design_code/_design_code_list.html.twig", [
+            'lastDesignCodes' => $lastDesignCodes,
+        ]);
+    }
+
     #[Route('/_list', name: 'app_master_design_code__list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response

@@ -208,12 +208,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $dimensionHeight = '0.00';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $mountageSizeLength = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $mountageSizeWidth = '0.00';
-
     #[ORM\Column(type: Types::ARRAY)]
     private array $workOrderDistribution = [];
 
@@ -342,6 +336,9 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
     private ?DielineMillar $dielineMillar = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $mountageSize = null;
 
     public function __construct()
     {
@@ -1268,30 +1265,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getMountageSizeLength(): ?string
-    {
-        return $this->mountageSizeLength;
-    }
-
-    public function setMountageSizeLength(string $mountageSizeLength): self
-    {
-        $this->mountageSizeLength = $mountageSizeLength;
-
-        return $this;
-    }
-
-    public function getMountageSizeWidth(): ?string
-    {
-        return $this->mountageSizeWidth;
-    }
-
-    public function setMountageSizeWidth(string $mountageSizeWidth): self
-    {
-        $this->mountageSizeWidth = $mountageSizeWidth;
-
-        return $this;
-    }
-
     public function getWorkOrderDistribution(): array
     {
         return $this->workOrderDistribution;
@@ -1984,6 +1957,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setDielineMillar(?DielineMillar $dielineMillar): self
     {
         $this->dielineMillar = $dielineMillar;
+
+        return $this;
+    }
+
+    public function getMountageSize(): ?string
+    {
+        return $this->mountageSize;
+    }
+
+    public function setMountageSize(string $mountageSize): self
+    {
+        $this->mountageSize = $mountageSize;
 
         return $this;
     }

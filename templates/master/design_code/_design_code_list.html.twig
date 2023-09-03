@@ -1,0 +1,20 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="bg-info">
+            <th>Code</th>
+            <th>Name</th>
+            <th>Warna</th>
+            <th>Pantone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lastDesignCode in lastDesignCodes %}
+            <tr>
+                <td>{{ lastDesignCode.codeNumber }}</td>
+                <td>{{ lastDesignCode.name }}</td>
+                <td>{{ lastDesignCode.color }}</td>
+                <td>{{ lastDesignCode.pantone }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

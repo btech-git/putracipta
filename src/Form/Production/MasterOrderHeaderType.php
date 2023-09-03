@@ -52,7 +52,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('finishing')
             ->add('quantityPrinting')
             ->add('quantityPrinting2')
-            ->add('mountageSizeLength')
+            ->add('mountageSize')
 //            ->add('mountageSizeWidth')
 //            ->add('orderTypeMemo')
             ->add('orderType', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [

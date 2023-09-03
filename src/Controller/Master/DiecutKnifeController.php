@@ -16,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/diecut_knife')]
 class DiecutKnifeController extends AbstractController
 {
+    #[Route('/_diecut_list', name: 'app_master_diecut_knife__diecut_list', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function _diecutList(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
+    {
+        $lastDiecutKnives = $diecutKnifeRepository->findBy(['customer' => $request->query->get('diecut_knife')['customer']], ['id' => 'DESC'], 5, 0);
+
+        return $this->render("master/diecut_knife/_diecut_list.html.twig", [
+            'lastDiecutKnives' => $lastDiecutKnives,
+        ]);
+    }
+
     #[Route('/_list', name: 'app_master_diecut_knife__list', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response

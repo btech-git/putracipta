@@ -1,33 +1,8 @@
-{{ form_start(form) }}
+<div data-controller="event-emitter"
+     data-action="change->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'change': 'id'}|json_encode }}">
+    {{ form_start(form) }}
     {{ form_row(form.customer, {'attr': {'readonly': designCode.id is not null}}) }}
-    
-    {% if (designCode.id is not null) %}
-        <hr />
-
-        <legend class="float-none w-auto text-dark px-1">Design Code List</legend>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Warna</th>
-                    <th>Pantone</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lastDesignCode in lastDesignCodes %}
-                    <tr>
-                        <td>{{ lastDesignCode.codeNumber }}</td>
-                        <td>{{ lastDesignCode.name }}</td>
-                        <td>{{ lastDesignCode.color }}</td>
-                        <td>{{ lastDesignCode.pantone }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <hr />
-    {% endif %}
     
     <div class="row">
         <div class="col">
@@ -108,6 +83,9 @@
         <div class="col">
             {{ form_row(form.printingUpQuantity) }}
         </div>
+    </div>
+        
+    <div class="row">
         <div class="col">
             {{ form_row(form.printingKrisSize) }}
         </div>
@@ -134,7 +112,17 @@
             {{ form_row(form.note) }}
             {{ form_row(form.isInactive) }}
     </div>
-        
+
+    <hr />
+
+    <legend class="float-none w-auto text-dark px-1">Design Code List</legend>
+    <div data-controller="html-loader"
+         data-html-loader-url-value="{{ path('app_master_design_code__design_code_list') }}"
+         data-html-loader-auto-load-value="true"
+         data-action="{{ form.customer.vars.id }}:change@document->html-loader#load">
+    </div>
+
+    <hr />
         
     <div class="d-grid">
         <button class="btn btn-secondary"
@@ -145,3 +133,4 @@
         </button>
     </div>
 {{ form_end(form) }}
+</div>

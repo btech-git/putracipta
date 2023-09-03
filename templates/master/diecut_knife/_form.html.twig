@@ -1,73 +1,60 @@
-{{ form_start(form) }}
-    {{ form_row(form.customer, {'attr': {'readonly': diecutKnife.id is not null}}) }}
-    
-    {% if (diecutKnife.id is not null) %}
+<div data-controller="event-emitter"
+     data-action="change->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'change': 'id'}|json_encode }}">
+
+    {{ form_start(form) }}
+        {{ form_row(form.customer, {'attr': {'readonly': diecutKnife.id is not null}}) }}
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.code) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.location) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.upPerSecondKnife) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.upPerSecondPrint) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.printingSize) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.note) }}
+                {{ form_row(form.isInactive) }}
+            </div>
+        </div>
+ 
         <hr />
 
         <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Up/s Pisau</th>
-                    <th>Up/s Cetak</th>
-                    <th>Uk. Cetak</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lastDiecutKnife in lastDiecutKnives %}
-                    <tr>
-                        <td>{{ lastDiecutKnife.codeNumber }}</td>
-                        <td>{{ lastDiecutKnife.name }}</td>
-                        <td>{{ lastDiecutKnife.upPerSecondKnife }}</td>
-                        <td>{{ lastDiecutKnife.upPerSecondPrint }}</td>
-                        <td>{{ lastDiecutKnife.printingSize }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_master_diecut_knife__diecut_list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="{{ form.customer.vars.id }}:change@document->html-loader#load">
+        </div>
 
         <hr />
-    {% endif %}
-    
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.code) }}
+
+        <div class="d-grid">
+            <button class="btn btn-secondary"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this item?">
+                Save
+            </button>
         </div>
-        <div class="col">
-            {{ form_row(form.name) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.location) }}
-        </div>
-    </div>
-        
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.upPerSecondKnife) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.upPerSecondPrint) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.printingSize) }}
-        </div>
-    </div>
-        
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.note) }}
-            {{ form_row(form.isInactive) }}
-        </div>
-    </div>
-        
-    <div class="d-grid">
-        <button class="btn btn-secondary"
-                data-controller="dom-element"
-                data-action="dom-element#confirm"
-                data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-            Save
-        </button>
-    </div>
-{{ form_end(form) }}
+           
+    {{ form_end(form) }}
+</div>

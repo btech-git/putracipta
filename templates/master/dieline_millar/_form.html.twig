@@ -1,43 +1,58 @@
-{{ form_start(form) }}
-    {{ form_row(form.customer, {'attr': {'readonly': dielineMillar.id is not null}}) }}
-    
-    {% if (dielineMillar.id is not null) %}
+<div data-controller="event-emitter"
+     data-action="change->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'change': 'id'}|json_encode }}">
+    {{ form_start(form) }}
+        {{ form_row(form.customer, {'attr': {'readonly': dielineMillar.id is not null}}) }}
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.code) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.name) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.quantityUpPrinting) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.printingLayout) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.date) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.note) }}
+            </div>
+        </div>
+
+        <div class="row">
+            {{ form_row(form.isInactive) }}
+        </div>
+        
         <hr />
 
         <legend class="float-none w-auto text-dark px-1">Millar List</legend>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Jml</th>
-                    <th>Jml Up Cetak</th>
-                    <th>Layout Cetak</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lastDielineMillar in lastDielineMillars %}
-                    <tr>
-                        <td>{{ lastDielineMillar.codeNumber }}</td>
-                        <td>{{ lastDielineMillar.name }}</td>
-                        <td>{{ lastDielineMillar.quantity }}</td>
-                        <td>{{ lastDielineMillar.quantityUpPrinting }}</td>
-                        <td>{{ lastDielineMillar.printingLayout }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_master_dieline_millar__dieline_list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="{{ form.customer.vars.id }}:change@document->html-loader#load">
+        </div>
 
         <hr />
-    {% endif %}
-    
-    {{ form_rest(form) }}
-    <div class="d-grid">
-        <button class="btn btn-secondary"
-                data-controller="dom-element"
-                data-action="dom-element#confirm"
-                data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-            Save
-        </button>
-    </div>
-{{ form_end(form) }}
+
+        <div class="d-grid">
+            <button class="btn btn-secondary"
+                    data-controller="dom-element"
+                    data-action="dom-element#confirm"
+                    data-dom-element-confirm-message-param="Are you sure you want to save this item?">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+</div>
