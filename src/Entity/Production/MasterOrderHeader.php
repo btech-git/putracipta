@@ -55,9 +55,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $quantityPrinting = 0;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deliveryDate = null;
-
     #[ORM\Column(length: 60)]
     private ?string $dieCutBlade = '';
 
@@ -222,9 +219,6 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\Column(length: 60)]
     private ?string $pantone = '';
-
-    #[ORM\Column(length: 60)]
-    private ?string $colorPantoneAdditional = '';
 
     #[ORM\Column]
     private ?int $quantityPrinting2 = 0;
@@ -588,6 +582,25 @@ class MasterOrderHeader extends ProductionHeader
         return $this->packagingPlasticQuantity == 0 ? 0 : 1000 / $this->packagingPlasticQuantity * $this->totalQuantityShortage / ($packagingPaperQuantity + $packagingBoxQuantity);
     }
 
+    public function getColorPantoneAdditional() 
+    {
+        $inkSpecialColorList = [];
+        if ($this->getInkK1Color() !== '') {
+            $inkSpecialColorList[] = $this->getInkK1Color();
+        }
+        if ($this->getInkK2Color() !== '') {
+            $inkSpecialColorList[] = $this->getInkK2Color();
+        }
+        if ($this->getInkK3Color() !== '') {
+            $inkSpecialColorList[] = $this->getInkK3Color();
+        }
+        if ($this->getInkK4Color() !== '') {
+            $inkSpecialColorList[] = $this->getInkK4Color();
+        }
+        
+        return implode(', ', $inkSpecialColorList);
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -649,18 +662,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setQuantityPrinting(int $quantityPrinting): self
     {
         $this->quantityPrinting = $quantityPrinting;
-
-        return $this;
-    }
-
-    public function getDeliveryDate(): ?\DateTimeInterface
-    {
-        return $this->deliveryDate;
-    }
-
-    public function setDeliveryDate(?\DateTimeInterface $deliveryDate): self
-    {
-        $this->deliveryDate = $deliveryDate;
 
         return $this;
     }
@@ -1321,18 +1322,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setPantone(string $pantone): self
     {
         $this->pantone = $pantone;
-
-        return $this;
-    }
-
-    public function getColorPantoneAdditional(): ?string
-    {
-        return $this->colorPantoneAdditional;
-    }
-
-    public function setColorPantoneAdditional(string $colorPantoneAdditional): self
-    {
-        $this->colorPantoneAdditional = $colorPantoneAdditional;
 
         return $this;
     }
