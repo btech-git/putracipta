@@ -64,8 +64,6 @@ class MasterOrderHeaderFormService
                 $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
             }
         }
-        $masterOrderReferenceNumberList = [$masterOrderHeader->getInkK1Color(), $masterOrderHeader->getInkK2Color(), $masterOrderHeader->getInkK3Color(), $masterOrderHeader->getInkK4Color()];
-        $masterOrderHeader->setColorPantoneAdditional(implode(', ', $masterOrderReferenceNumberList));
         $masterOrderHeader->setTotalQuantityOrder($masterOrderHeader->getSyncTotalQuantityOrder());
         $masterOrderHeader->setTotalQuantityStock($masterOrderHeader->getSyncTotalQuantityStock());
         $masterOrderHeader->setTotalQuantityShortage($masterOrderHeader->getSyncTotalQuantityShortage());
