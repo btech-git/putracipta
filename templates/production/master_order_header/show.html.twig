@@ -28,12 +28,6 @@
                 <td>{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
             </tr>
             <tr>
-                <th>Tanggal Kirim</th>
-                <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
-                <th>Coating</th>
-                <td>{{ masterOrderHeader.finishing }}</td>
-            </tr>
-            <tr>
                 <th>Mesin Cetak</th>
                 <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
                 <th>Hot Stamping</th>
@@ -73,7 +67,7 @@
                 <th>Glossiness</th>
                 <td>{{ masterOrderHeader.glossiness }}</td>
                 <th>Ukuran Mountage / Kris (cm)</th>
-                <td>{{ masterOrderHeader.mountageSizeLength }} x {{ masterOrderHeader.mountageSizeWidth }}</td>
+                <td>{{ masterOrderHeader.mountageSize }}</td>
             </tr>
         </tbody>
     </table>
@@ -90,7 +84,7 @@
                 <th style="min-width: 80px" class="text-center">P (mm)</th>
                 <th style="min-width: 80px" class="text-center">L (mm)</th>
                 <th style="min-width: 80px" class="text-center">T (mm)</th>
-                <th style="min-width: 200px" colspan="2">Jumlah Up Cetak (Up/s)</th>
+                <th style="min-width: 80px" class="text-center">Tanggal Kirim</th>
                 <th style="min-width: 100px" class="text-center">Qty Order</th>
                 <th style="min-width: 100px" class="text-center">Stock</th>
                 <th style="min-width: 100px" class="text-center">Kekurangan</th>
@@ -105,8 +99,7 @@
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
-                    <td class="text-center">{{ masterOrderProductDetail.quantityUpPrinting1|default|number_format(0) }}</td>
-                    <td class="text-center">{{ masterOrderProductDetail.quantityUpPrinting2|default|number_format(0) }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
@@ -115,7 +108,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8" class="text-end">Total</td>
+                <td colspan="7" class="text-end">Total</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                 <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>

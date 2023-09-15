@@ -1,49 +1,5 @@
 <div class="row">
     <div class="col">
-        <div class="mb-3">
-            <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
-            {{ form_row(form.customer, {
-                'attr': {
-                    'data-controller': 'dom-element',
-                    'data-action': 'customer-table:data-table:select@document->dom-element#bind',
-                    'data-dom-element-bind-specifications-param': [
-                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerId'}},
-                    ]|json_encode,
-                },
-            }) }}
-            <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control readonly-form-input {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.customer.company|default }}" readonly="readonly"
-                   data-bs-toggle="modal" data-bs-target="#customer-dialog"
-                   data-controller="dom-element"
-                   data-action="customer-table:data-table:select@document->dom-element#bind"
-                   data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerCompany'}},
-                   ]|json_encode }}" />
-            {{ form_errors(form.customer) }}
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Design Code</label>
-            <div class="row">
-                <div class="col">
-                    {{ form_row(form.designCode, {
-                        'attr': {
-                            'data-controller': 'dom-element',
-                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
-                            'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeId'}},
-                            ]|json_encode,
-                        },
-                    }) }}
-                    <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.designCode.codeNumber|default }}" readonly="readonly"
-                           data-bs-toggle="modal" data-bs-target="#design-code-dialog"
-                           data-controller="dom-element"
-                           data-action="design-code-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
-                           ]|json_encode }}" />
-                </div>
-                {{ form_errors(form.designCode) }}
-            </div>
-        </div>
         {{ form_row(form.machinePrinting, {'label': 'Mesin Cetak'}) }}
         <div class="mb-3">
             <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
@@ -94,6 +50,7 @@
                 </div>
             </div>
         </div>
+        {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
         <div class="mb-3">
             <label for="{{ form.productDevelopment.vars.id }}-text" class="form-label">Pengembangan Produk Baru</label>
             {{ form_row(form.productDevelopment, {
@@ -179,7 +136,12 @@
                         }) }}
                         {{ form_errors(form.pantone) }}
                         <span class="input-group-text">+</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.colorPantoneAdditional|default }}" readonly="readonly" />
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.colorPantoneAdditional|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="design-code-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeColorPantoneAdditional'}},
+                               ]|json_encode }}" />
                     </div>
                 </div>
             </div>
@@ -207,15 +169,11 @@
                 </div>
             </div>
         </div>
-        {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
         <label class="form-label">Pisau Die Cut</label>
         <div class="row">
             <div class="col">
                 {{ form_row(form.dieCutBlade, {'label': false}) }}
             </div>
-            {#<div class="col">
-                {{ form_row(form.dieCutBladeData, {'label': false}) }}
-            </div>#}
         </div>
 
         <div class="mb-3">
@@ -225,29 +183,20 @@
                     {{ form_row(form.diecutKnife, {
                         'attr': {
                             'data-controller': 'dom-element',
-                            'data-action': 'diecut-knife-table:data-table:select@document->dom-element#bind',
+                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeId'}},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeDiecutKnifeId'}},
                             ]|json_encode,
                         },
                     }) }}
-                    <input type="text" id="{{ form.diecutKnife.vars.id }}-text" class="form-control readonly-form-input {% if not form.diecutKnife.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.diecutKnife.codeNumber|default }}" readonly="readonly"
-                           data-bs-toggle="modal" data-bs-target="#diecut-knife-dialog"
+                    <input type="text" class="form-control" value="{{ masterOrderHeader.diecutKnife.codeNumber|default }}" readonly="readonly"
                            data-controller="dom-element"
-                           data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
+                           data-action="design-code-table:data-table:select@document->dom-element#bind"
                            data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCodeNumber'}},
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeDiecutKnifeCodeNumber'}},
                            ]|json_encode }}" />
+                    {{ form_errors(form.diecutKnife) }}
                 </div>
-                {#<div class="col">
-                    <input type="text" class="form-control" value="{{ masterOrderHeader.diecutKnife.code|default }}" readonly="readonly"
-                           data-controller="dom-element"
-                           data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCode'}},
-                           ]|json_encode }}" />
-                </div>#}
-                {{ form_errors(form.diecutKnife) }}
             </div>
         </div>
         <div class="mb-3">
@@ -257,21 +206,20 @@
                     {{ form_row(form.dielineMillar, {
                         'attr': {
                             'data-controller': 'dom-element',
-                            'data-action': 'dieline-millar-table:data-table:select@document->dom-element#bind',
+                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.dielineMillarId'}},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeDielineMillarId'}},
                             ]|json_encode,
                         },
                     }) }}
-                    <input type="text" id="{{ form.dielineMillar.vars.id }}-text" class="form-control readonly-form-input {% if not form.dielineMillar.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.dielineMillar.codeNumber|default }}" readonly="readonly"
-                           data-bs-toggle="modal" data-bs-target="#dieline-millar-dialog"
+                    <input type="text" class="form-control" value="{{ masterOrderHeader.dielineMillar.codeNumber|default }}" readonly="readonly"
                            data-controller="dom-element"
-                           data-action="dieline-millar-table:data-table:select@document->dom-element#bind"
+                           data-action="design-code-table:data-table:select@document->dom-element#bind"
                            data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.dielineMillarCodeNumber'}},
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeDielineMillarCodeNumber'}},
                            ]|json_encode }}" />
+                    {{ form_errors(form.diecutKnife) }}
                 </div>
-                {{ form_errors(form.diecutKnife) }}
             </div>
         </div>
     </div>

@@ -7,7 +7,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingGlueQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingGlueQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingGlueQuantity) }}
@@ -28,7 +32,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingRubberQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingRubberQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingRubberQuantity) }}
@@ -49,7 +57,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingPaperQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingPaperQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingPaperQuantity) }}
@@ -70,7 +82,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingBoxQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingBoxQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingBoxQuantity) }}
@@ -94,7 +110,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingTapeLargeQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingTapeLargeQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingTapeLargeQuantity) }}
@@ -115,7 +135,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingTapeSmallQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingTapeSmallQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingTapeSmallQuantity) }}
@@ -136,7 +160,11 @@
                     <div class="input-group">
                         {{ form_widget(form.packagingPlasticQuantity, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePackagingPlasticQuantity'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.packagingPlasticQuantity) }}

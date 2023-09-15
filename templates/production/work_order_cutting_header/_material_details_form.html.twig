@@ -16,7 +16,7 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="new-detail-button:click@document->form-collection#addCollectionItem">
+        <tbody data-form-collection-target="items" data-action="new-work-order-cutting-detail-button:new-record-button:click@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td>{{ form_row(detailForm.shiftNumber, {'label': false}) }}</td>

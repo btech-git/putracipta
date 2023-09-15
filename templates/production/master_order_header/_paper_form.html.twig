@@ -7,7 +7,11 @@
                     <div class="input-group">
                         {{ form_widget(form.insitPrintingPercentage, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeInsitPrintingPercentage'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.insitPrintingPercentage) }}
@@ -23,7 +27,11 @@
                     <div class="input-group">
                         {{ form_widget(form.insitSortingPercentage, {
                             'attr': {
-                                'data-action': 'change->json-loader#load',
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeInsitSortingPercentage'}},
+                                ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.insitSortingPercentage) }}
@@ -98,13 +106,21 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperCuttingSize'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperCuttingLength'}},
                                 ]|json_encode,
                             },
                         }) }}
                         {{ form_errors(form.cuttingLengthSize1) }}
                         <span class="input-group-text">x</span>
-                        {{ form_widget(form.cuttingWidthSize1) }}
+                        {{ form_widget(form.cuttingWidthSize1, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperCuttingWidth'}},
+                                ]|json_encode,
+                            },
+                        }) }}
                         {{ form_errors(form.cuttingWidthSize1) }}
                         <span class="input-group-text">cm</span>
                     </div>

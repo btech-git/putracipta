@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward click->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'click': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward new-record-button:click->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'new-record-button:click': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-method-value="POST"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
@@ -289,7 +289,13 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Details</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" id="new-detail-button">Add Details</button>
+            <button type="button" class="btn btn-sm btn-outline-dark"
+                    id="new-work-order-cutting-detail-button"
+                    data-forwarding-group="new-record-button"
+                    data-action="event-emitter#forward"
+                    data-event-emitter-attributes-list-param="{{ {'click': 'data-forwarding-group'}|json_encode }}">
+                Add Details
+            </button>
             {{ include('production/work_order_cutting_header/_material_details_form.html.twig') }}
         </fieldset>
 
