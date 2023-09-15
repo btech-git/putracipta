@@ -4,7 +4,7 @@ namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Production\MasterOrderProductDetail;
-use App\Entity\Transaction\SaleOrderDetail;
+use App\Entity\Sale\SaleOrderDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

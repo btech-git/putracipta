@@ -43,6 +43,14 @@ class MasterOrderHeaderType extends AbstractType
                             ->andWhere("e.isInactive = false");
                 },
             ])
+            ->add('customer', null, [
+                'choice_label' => 'company',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.company', 'ASC');
+                },
+            ])
             ->add('hotStamping')
             ->add('glossiness')
             ->add('weightPerPiece')
@@ -103,10 +111,10 @@ class MasterOrderHeaderType extends AbstractType
             ->add('packagingPlasticQuantity')
             ->add('note')
             ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
-            ->add('deliveryDate', null, ['widget' => 'single_text'])
+//            ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('productDevelopment', EntityHiddenType::class, ['class' => ProductDevelopment::class])
-            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+//            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])
             ->add('designCode', EntityHiddenType::class, ['class' => DesignCode::class])
             ->add('dielineMillar', EntityHiddenType::class, ['class' => DielineMillar::class])
