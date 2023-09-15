@@ -55,6 +55,7 @@
                     'customerCompany': saleOrderDetail.saleOrderHeader.customer.company|default,
                     'saleOrderHeaderIsUsingFscPaper': saleOrderDetail.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No',
                     'saleOrderHeaderDate': saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '',
+                    'saleOrderDetailDeliveryDate': saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '',
                     'saleOrderDetailId': saleOrderDetail.id,
                     'productName': saleOrderDetail.product.name|default,
                     'productId': saleOrderDetail.product.id|default,
