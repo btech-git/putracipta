@@ -68,9 +68,6 @@ class DesignCode extends Master
     private ?string $printingKrisSize = '';
 
     #[ORM\Column(length: 60)]
-    private ?string $paperCuttingSize = '';
-
-    #[ORM\Column(length: 60)]
     private ?string $paperMountage = '';
 
     #[ORM\ManyToOne(inversedBy: 'designCodes')]
@@ -82,6 +79,66 @@ class DesignCode extends Master
     #[ORM\Column(length: 60)]
     private ?string $status = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $paperCuttingLength = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $paperCuttingWidth = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkCyanPercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkMagentaPercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkYellowPercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkBlackPercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkOpvPercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkK1Percentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkK2Percentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkK3Percentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $inkK4Percentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingGlueQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingRubberQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingPaperQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingBoxQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingTapeLargeQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingTapeSmallQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $packagingPlasticQuantity = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
+    private ?string $insitPrintingPercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
+    private ?string $insitSortingPercentage = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -90,6 +147,25 @@ class DesignCode extends Master
     public function getCodeNumber(): string
     {
         return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . '-P' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-V' . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . '-R' . $this->version;
+    }
+    
+    public function getColorPantoneAdditional() 
+    {
+        $colorSpecialList = [];
+        if ($this->getColorSpecial1() !== '') {
+            $colorSpecialList[] = $this->getColorSpecial1();
+        }
+        if ($this->getColorSpecial2() !== '') {
+            $colorSpecialList[] = $this->getColorSpecial2();
+        }
+        if ($this->getColorSpecial3() !== '') {
+            $colorSpecialList[] = $this->getColorSpecial3();
+        }
+        if ($this->getColorSpecial4() !== '') {
+            $colorSpecialList[] = $this->getColorSpecial4();
+        }
+        
+        return implode(', ', $colorSpecialList);
     }
     
     public function getId(): ?int
@@ -295,18 +371,6 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getPaperCuttingSize(): ?string
-    {
-        return $this->paperCuttingSize;
-    }
-
-    public function setPaperCuttingSize(string $paperCuttingSize): self
-    {
-        $this->paperCuttingSize = $paperCuttingSize;
-
-        return $this;
-    }
-
     public function getPaperMountage(): ?string
     {
         return $this->paperMountage;
@@ -351,6 +415,246 @@ class DesignCode extends Master
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPaperCuttingLength(): ?string
+    {
+        return $this->paperCuttingLength;
+    }
+
+    public function setPaperCuttingLength(string $paperCuttingLength): self
+    {
+        $this->paperCuttingLength = $paperCuttingLength;
+
+        return $this;
+    }
+
+    public function getPaperCuttingWidth(): ?string
+    {
+        return $this->paperCuttingWidth;
+    }
+
+    public function setPaperCuttingWidth(string $paperCuttingWidth): self
+    {
+        $this->paperCuttingWidth = $paperCuttingWidth;
+
+        return $this;
+    }
+
+    public function getInkCyanPercentage(): ?string
+    {
+        return $this->inkCyanPercentage;
+    }
+
+    public function setInkCyanPercentage(string $inkCyanPercentage): self
+    {
+        $this->inkCyanPercentage = $inkCyanPercentage;
+
+        return $this;
+    }
+
+    public function getInkMagentaPercentage(): ?string
+    {
+        return $this->inkMagentaPercentage;
+    }
+
+    public function setInkMagentaPercentage(string $inkMagentaPercentage): self
+    {
+        $this->inkMagentaPercentage = $inkMagentaPercentage;
+
+        return $this;
+    }
+
+    public function getInkYellowPercentage(): ?string
+    {
+        return $this->inkYellowPercentage;
+    }
+
+    public function setInkYellowPercentage(string $inkYellowPercentage): self
+    {
+        $this->inkYellowPercentage = $inkYellowPercentage;
+
+        return $this;
+    }
+
+    public function getInkBlackPercentage(): ?string
+    {
+        return $this->inkBlackPercentage;
+    }
+
+    public function setInkBlackPercentage(string $inkBlackPercentage): self
+    {
+        $this->inkBlackPercentage = $inkBlackPercentage;
+
+        return $this;
+    }
+
+    public function getInkOpvPercentage(): ?string
+    {
+        return $this->inkOpvPercentage;
+    }
+
+    public function setInkOpvPercentage(string $inkOpvPercentage): self
+    {
+        $this->inkOpvPercentage = $inkOpvPercentage;
+
+        return $this;
+    }
+
+    public function getInkK1Percentage(): ?string
+    {
+        return $this->inkK1Percentage;
+    }
+
+    public function setInkK1Percentage(string $inkK1Percentage): self
+    {
+        $this->inkK1Percentage = $inkK1Percentage;
+
+        return $this;
+    }
+
+    public function getInkK2Percentage(): ?string
+    {
+        return $this->inkK2Percentage;
+    }
+
+    public function setInkK2Percentage(string $inkK2Percentage): self
+    {
+        $this->inkK2Percentage = $inkK2Percentage;
+
+        return $this;
+    }
+
+    public function getInkK3Percentage(): ?string
+    {
+        return $this->inkK3Percentage;
+    }
+
+    public function setInkK3Percentage(string $inkK3Percentage): self
+    {
+        $this->inkK3Percentage = $inkK3Percentage;
+
+        return $this;
+    }
+
+    public function getInkK4Percentage(): ?string
+    {
+        return $this->inkK4Percentage;
+    }
+
+    public function setInkK4Percentage(string $inkK4Percentage): self
+    {
+        $this->inkK4Percentage = $inkK4Percentage;
+
+        return $this;
+    }
+
+    public function getPackagingGlueQuantity(): ?string
+    {
+        return $this->packagingGlueQuantity;
+    }
+
+    public function setPackagingGlueQuantity(string $packagingGlueQuantity): self
+    {
+        $this->packagingGlueQuantity = $packagingGlueQuantity;
+
+        return $this;
+    }
+
+    public function getPackagingRubberQuantity(): ?string
+    {
+        return $this->packagingRubberQuantity;
+    }
+
+    public function setPackagingRubberQuantity(string $packagingRubberQuantity): self
+    {
+        $this->packagingRubberQuantity = $packagingRubberQuantity;
+
+        return $this;
+    }
+
+    public function getPackagingPaperQuantity(): ?string
+    {
+        return $this->packagingPaperQuantity;
+    }
+
+    public function setPackagingPaperQuantity(string $packagingPaperQuantity): self
+    {
+        $this->packagingPaperQuantity = $packagingPaperQuantity;
+
+        return $this;
+    }
+
+    public function getPackagingBoxQuantity(): ?string
+    {
+        return $this->packagingBoxQuantity;
+    }
+
+    public function setPackagingBoxQuantity(string $packagingBoxQuantity): self
+    {
+        $this->packagingBoxQuantity = $packagingBoxQuantity;
+
+        return $this;
+    }
+
+    public function getPackagingTapeLargeQuantity(): ?string
+    {
+        return $this->packagingTapeLargeQuantity;
+    }
+
+    public function setPackagingTapeLargeQuantity(string $packagingTapeLargeQuantity): self
+    {
+        $this->packagingTapeLargeQuantity = $packagingTapeLargeQuantity;
+
+        return $this;
+    }
+
+    public function getPackagingTapeSmallQuantity(): ?string
+    {
+        return $this->packagingTapeSmallQuantity;
+    }
+
+    public function setPackagingTapeSmallQuantity(string $packagingTapeSmallQuantity): self
+    {
+        $this->packagingTapeSmallQuantity = $packagingTapeSmallQuantity;
+
+        return $this;
+    }
+
+    public function getPackagingPlasticQuantity(): ?string
+    {
+        return $this->packagingPlasticQuantity;
+    }
+
+    public function setPackagingPlasticQuantity(string $packagingPlasticQuantity): self
+    {
+        $this->packagingPlasticQuantity = $packagingPlasticQuantity;
+
+        return $this;
+    }
+
+    public function getInsitPrintingPercentage(): ?string
+    {
+        return $this->insitPrintingPercentage;
+    }
+
+    public function setInsitPrintingPercentage(string $insitPrintingPercentage): self
+    {
+        $this->insitPrintingPercentage = $insitPrintingPercentage;
+
+        return $this;
+    }
+
+    public function getInsitSortingPercentage(): ?string
+    {
+        return $this->insitSortingPercentage;
+    }
+
+    public function setInsitSortingPercentage(string $insitSortingPercentage): self
+    {
+        $this->insitSortingPercentage = $insitSortingPercentage;
 
         return $this;
     }

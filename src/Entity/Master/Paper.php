@@ -4,6 +4,8 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\PaperRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -55,6 +57,14 @@ class Paper extends Master
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
     private ?string $note = '';
+
+    #[ORM\OneToMany(mappedBy: 'paper', targetEntity: Product::class)]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getPaperNameSizeCombination() {
         return $this->name . ' ' . $this->weight . ' x ' . $this->length . ' x ' . $this->width;
@@ -157,6 +167,36 @@ class Paper extends Master
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setPaper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getPaper() === $this) {
+                $product->setPaper(null);
+            }
+        }
 
         return $this;
     }

@@ -61,6 +61,9 @@ class Product extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $glossiness = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Paper $paper = null;
+
     public function __construct()
     {
     }
@@ -214,6 +217,18 @@ class Product extends Master
     public function setGlossiness(string $glossiness): self
     {
         $this->glossiness = $glossiness;
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
 
         return $this;
     }
