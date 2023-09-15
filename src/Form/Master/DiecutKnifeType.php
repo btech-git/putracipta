@@ -21,7 +21,8 @@ class DiecutKnifeType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('name', null, ['label' => 'Nama'])
+            ->add('name', null, ['label' => 'Nama Produk'])
+            ->add('version', null, ['label' => 'Revisi'])
             ->add('code', null, ['label' => 'Kode'])
             ->add('upPerSecondKnife', null, ['label' => 'Up/s Pisau'])
             ->add('upPerSecondPrint', null, ['label' => 'Up/s Cetak'])

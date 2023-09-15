@@ -20,8 +20,9 @@ class DielineMillarType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('name', null, ['label' => 'Nama'])
+            ->add('name', null, ['label' => 'Nama Produk'])
             ->add('code', null, ['label' => 'Kode'])
+            ->add('version', null, ['label' => 'Revisi'])
 //            ->add('quantity')
             ->add('quantityUpPrinting', null, ['label' => 'Jmlh Up Cetak'])
             ->add('printingLayout', null, ['label' => 'Kris Layout Cetak'])

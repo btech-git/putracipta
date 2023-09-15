@@ -3,13 +3,9 @@
 namespace App\Form\Master;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Customer;
-use App\Entity\Master\DesignCode;
-use App\Entity\Master\DiecutKnife;
-use App\Entity\Master\DielineMillar;
+use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,10 +21,18 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('length', null, ['label' => 'Panjang'])
             ->add('width', null, ['label' => 'Lebar'])
-            ->add('height', null, ['label' => 'Tebal'])
+            ->add('height', null, ['label' => 'Tinggi'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
-            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+            ->add('customer', null, [
+                'choice_label' => 'idNameLiteral',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.company', 'ASC');
+                },
+            ])
             ->add('weight', null, ['label' => 'Berat'])
+            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('glossiness')
             ->add('note')
             ->add('isInactive')
