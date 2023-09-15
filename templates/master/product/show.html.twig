@@ -12,7 +12,7 @@
         <tbody>
             <tr>
                 <th>Customer</th>
-                <td>{{ product.customer.name }}</td>
+                <td>{{ product.customer.name|default }}</td>
             </tr>
             <tr>
                 <th>Code</th>
@@ -35,8 +35,24 @@
                 <td>{{ product.height }}</td>
             </tr>
             <tr>
+                <th>Berat (gr)</th>
+                <td>{{ product.weight }}</td>
+            </tr>
+            <tr>
+                <th>Glossiness</th>
+                <td>{{ product.glossiness }}</td>
+            </tr>
+            <tr>
                 <th>Satuan</th>
-                <td>{{ product.unit.name }}</td>
+                <td>{{ product.unit.name|default }}</td>
+            </tr>
+            <tr>
+                <th>Material Kertas</th>
+                <td>{{ product.paper.paperNameSizeCombination|default }}</td>
+            </tr>
+            <tr>
+                <th>Gramatur Kertas</th>
+                <td>{{ product.paper.weight|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>

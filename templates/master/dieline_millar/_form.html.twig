@@ -9,6 +9,9 @@
                 {{ form_row(form.code) }}
             </div>
             <div class="col">
+                {{ form_row(form.version) }}
+            </div>
+            <div class="col">
                 {{ form_row(form.name) }}
             </div>
         </div>
@@ -20,21 +23,18 @@
             <div class="col">
                 {{ form_row(form.printingLayout) }}
             </div>
-        </div>
-
-        <div class="row">
             <div class="col">
                 {{ form_row(form.date) }}
             </div>
-            <div class="col">
-                {{ form_row(form.note) }}
-            </div>
         </div>
 
         <div class="row">
-            {{ form_row(form.isInactive) }}
+            <div class="col">
+                {{ form_row(form.note) }}
+                {{ form_row(form.isInactive) }}
+            </div>
         </div>
-        
+
         <hr />
 
         <legend class="float-none w-auto text-dark px-1">Millar List</legend>

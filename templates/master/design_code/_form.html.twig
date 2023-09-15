@@ -83,20 +83,11 @@
         <div class="col">
             {{ form_row(form.printingUpQuantity) }}
         </div>
-    </div>
-        
-    <div class="row">
         <div class="col">
             {{ form_row(form.printingKrisSize) }}
         </div>
-        <div class="col">
-            {{ form_row(form.paperCuttingSize) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.paperMountage) }}
-        </div>
     </div>
-        
+         
     <div class="row">
         <div class="col">
             {{ form_row(form.diecutKnife) }}
@@ -108,6 +99,114 @@
             {{ form_row(form.status) }}
         </div>
     </div>
+         
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Kebutuhan Material Kertas</legend>
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.insitPrintingPercentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.insitSortingPercentage) }}
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.paperMountage) }}
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">Uk Potong Kertas</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                {{ form_widget(form.paperCuttingLength) }}
+                                {{ form_errors(form.paperCuttingLength) }}
+                                <span class="input-group-text">x</span>
+                                {{ form_widget(form.paperCuttingWidth) }}
+                                {{ form_errors(form.paperCuttingWidth) }}
+                                <span class="input-group-text">cm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+            
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Estimasi Tinta / Chemical</legend>
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.inkCyanPercentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.inkMagentaPercentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.inkYellowPercentage) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.inkBlackPercentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.inkK1Percentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.inkK2Percentage) }}
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.inkK3Percentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.inkK4Percentage) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.inkOpvPercentage) }}
+            </div>
+        </div>
+    </fieldset>
+        
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Estimasi Packaging</legend>
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.packagingGlueQuantity) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.packagingRubberQuantity) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.packagingPaperQuantity) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.packagingBoxQuantity) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.packagingTapeLargeQuantity) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.packagingTapeSmallQuantity) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.packagingPlasticQuantity) }}
+            </div>
+        </div>
+    </fieldset>
+        
     <div class="row">
             {{ form_row(form.note) }}
             {{ form_row(form.isInactive) }}

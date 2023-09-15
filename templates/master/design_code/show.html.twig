@@ -9,18 +9,19 @@
 
 {% block content %}
     <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>HEADER</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
-                <th>Customer</th>
-                <td>{{ designCode.customer.name }}</td>
-            </tr>
-            <tr>
-                <th>Kode Produk</th>
+                <th>Kode Design</th>
                 <td>{{ designCode.codeNumber }}</td>
             </tr>
             <tr>
-                <th>Nama</th>
-                <td>{{ designCode.name }}</td>
+                <th>Customer</th>
+                <td>{{ designCode.customer.name|default }}</td>
             </tr>
             <tr>
                 <th>Jlh Warna</th>
@@ -59,14 +60,6 @@
                 <td>{{ designCode.printingKrisSize }}</td>
             </tr>
             <tr>
-                <th>Uk. Ptg Kertas (cm)</th>
-                <td>{{ designCode.paperCuttingSize }}</td>
-            </tr>
-            <tr>
-                <th>Mountage Kertas (lbr/plano)</th>
-                <td>{{ designCode.paperMountage }}</td>
-            </tr>
-            <tr>
                 <th>Pisau Diecut</th>
                 <td>{{ designCode.diecutKnife.codeNumber|default }}</td>
             </tr>
@@ -89,6 +82,116 @@
         </tbody>
     </table>
 
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>Kebutuhan Material Kertas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>% Insit Cetak</th>
+                <td>{{ designCode.insitPrintingPercentage }}</td>
+            </tr>
+            <tr>
+                <th>% Insit Sortir</th>
+                <td>{{ designCode.insitSortingPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Uk. Ptg Kertas (cm)</th>
+                <td>{{ designCode.paperCuttingLength }} x {{ designCode.paperCuttingWidth }}</td>
+            </tr>
+            <tr>
+                <th>Mountage Kertas (lbr/plano)</th>
+                <td>{{ designCode.paperMountage }}</td>
+            </tr>
+        </tbody>
+    </table>
+          
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>Estimasi Tinta / Chemical</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Cyan (%)</th>
+                <td>{{ designCode.inkCyanPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Magenta (%)</th>
+                <td>{{ designCode.inkMagentaPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Yellow (%)</th>
+                <td>{{ designCode.inkYellowPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Black (%)</th>
+                <td>{{ designCode.inkBlackPercentage }}</td>
+            </tr>
+            <tr>
+                <th>Khusus 1 (%)</th>
+                <td>{{ designCode.inkK1Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Khusus 2 (%)</th>
+                <td>{{ designCode.inkK2Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Khusus 3 (%)</th>
+                <td>{{ designCode.inkK3Percentage }}</td>
+            </tr>
+            <tr>
+                <th>Khusus 4 (%)</th>
+                <td>{{ designCode.inkK4Percentage }}</td>
+            </tr>
+            <tr>
+                <th>OPV / WB / UV (%)</th>
+                <td>{{ designCode.inkOpvPercentage }}</td>
+            </tr>
+        </tbody>
+    </table>
+          
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='4' class='text-center'>Estimasi Packaging</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Lem (cm/pcs)</th>
+                <td>{{ designCode.packagingGlueQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Karet (pcs/ikat)</th>
+                <td>{{ designCode.packagingRubberQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Kertas Packing (pcs/pack)</th>
+                <td>{{ designCode.packagingPaperQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Dus (pcs/dus)</th>
+                <td>{{ designCode.packagingBoxQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Lakban Besar (cm/pack)</th>
+                <td>{{ designCode.packagingTapeLargeQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Lakban Kecil (cm/pack)</th>
+                <td>{{ designCode.packagingTapeSmallQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Plastik (cm2/pack)</th>
+                <td>{{ designCode.packagingPlasticQuantity }}</td>
+            </tr>
+        </tbody>
+    </table>
+            
     <hr />
     
     <legend class="float-none w-auto text-dark px-1">Product List</legend>
@@ -102,10 +205,10 @@
         </thead>
         <tbody>
             {% for masterOrderHeader in designCode.masterOrderHeaders %}
-                {% for masterOrderDetail in masterOrderHeader.masterOrderDetails %}
+                {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                     <tr>
-                        <td>{{ masterOrderDetail.product.code|default }}</td>
-                        <td>{{ masterOrderDetail.product.name|default }}</td>
+                        <td>{{ masterOrderProductDetail.product.code|default }}</td>
+                        <td>{{ masterOrderProductDetail.product.name|default }}</td>
                         <td>{{ masterOrderHeader.codeNumber|default }}</td>
                     </tr>
                 {% endfor %}
