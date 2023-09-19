@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Master\WorkOrderProcess;
 use App\Entity\Production\MasterOrderProcessDetail;
 use Symfony\Component\Form\AbstractType;
@@ -17,6 +18,7 @@ class MasterOrderProcessDetailType extends AbstractType
             ->add('isSubcon')
             ->add('isCanceled')
             ->add('workOrderProcess', EntityHiddenType::class, ['class' => WorkOrderProcess::class])
+            ->add('designCodeProcessDetail', EntityHiddenType::class, ['class' => DesignCodeProcessDetail::class])
         ;
     }
 
