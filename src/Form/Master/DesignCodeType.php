@@ -3,8 +3,10 @@
 namespace App\Form\Master;
 
 use App\Entity\Master\DesignCode;
+use App\Entity\Master\DesignCodeProcessDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -58,6 +60,9 @@ class DesignCodeType extends AbstractType
             ->add('diecutKnife', null, [
                 'choice_label' => 'codeNumber',
                 'label' => 'Pisau Diecut',
+                'choice_attr' => function($choice) {
+                    return ['data-customer' => $choice->getCustomer()->getId()];
+                },
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
                             ->andWhere("e.isInactive = false");
@@ -66,6 +71,9 @@ class DesignCodeType extends AbstractType
             ->add('dielineMillar', null, [
                 'choice_label' => 'codeNumber',
                 'label' => 'Millar',
+                'choice_attr' => function($choice) {
+                    return ['data-customer' => $choice->getCustomer()->getId()];
+                },
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
                             ->andWhere("e.isInactive = false");
@@ -77,6 +85,14 @@ class DesignCodeType extends AbstractType
             ]])
             ->add('note')
             ->add('isInactive')
+            ->add('designCodeProcessDetails', CollectionType::class, [
+                'entry_type' => DesignCodeProcessDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new DesignCodeProcessDetail(),
+                'label' => false,
+            ])
         ;
     }
 
