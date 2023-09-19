@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             {% for designCode in designCodes %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ designCode.designCodeProcessDetails|filter(designCodeProcessDetail => not designCodeProcessDetail.isInactive)|slice(0)|map(designCodeProcessDetail => {
                     'designCodeId': designCode.id, 
                     'designCodeNumber': designCode.codeNumber, 
                     'designCodeColor': designCode.color, 
@@ -70,7 +70,10 @@
                     'designCodeInsitPrintingPercentage': designCode.insitPrintingPercentage, 
                     'designCodeInsitSortingPercentage': designCode.insitSortingPercentage, 
                     'designCodeColorPantoneAdditional': designCode.colorPantoneAdditional,
-                    'designCodeNote': designCode.note}|json_encode }}">
+                    'designCodeProcessDetailId': designCodeProcessDetail.id, 
+                    'workOrderProcessId': designCodeProcessDetail.workOrderProcess.id, 
+                    'workOrderProcessName': designCodeProcessDetail.workOrderProcess.name, 
+                    'designCodeNote': designCode.note})|json_encode }}">
                     <td>{{ designCode.codeNumber }}</td>
                     <td>{{ designCode.color }}</td>
                     <td>{{ designCode.pantone }}</td>
