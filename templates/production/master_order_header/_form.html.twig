@@ -48,7 +48,7 @@
                                         'data-controller': 'dom-element',
                                         'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                         'data-dom-element-bind-specifications-param': [
-                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeId'}},
+                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeId'}},
                                         ]|json_encode,
                                     },
                                 }) }}
@@ -57,7 +57,7 @@
                                        data-controller="dom-element"
                                        data-action="design-code-table:data-table:select@document->dom-element#bind"
                                        data-dom-element-bind-specifications-param="{{ [
-                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
+                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeNumber'}},
                                        ]|json_encode }}" />
                             </div>
                             {{ form_errors(form.designCode) }}
