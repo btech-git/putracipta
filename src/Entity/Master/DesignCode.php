@@ -139,9 +139,13 @@ class DesignCode extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
     private ?string $insitSortingPercentage = null;
 
+    #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProcessDetail::class)]
+    private Collection $designCodeProcessDetails;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
+        $this->designCodeProcessDetails = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
@@ -655,6 +659,36 @@ class DesignCode extends Master
     public function setInsitSortingPercentage(string $insitSortingPercentage): self
     {
         $this->insitSortingPercentage = $insitSortingPercentage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCodeProcessDetail>
+     */
+    public function getDesignCodeProcessDetails(): Collection
+    {
+        return $this->designCodeProcessDetails;
+    }
+
+    public function addDesignCodeProcessDetail(DesignCodeProcessDetail $designCodeProcessDetail): self
+    {
+        if (!$this->designCodeProcessDetails->contains($designCodeProcessDetail)) {
+            $this->designCodeProcessDetails->add($designCodeProcessDetail);
+            $designCodeProcessDetail->setDesignCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCodeProcessDetail(DesignCodeProcessDetail $designCodeProcessDetail): self
+    {
+        if ($this->designCodeProcessDetails->removeElement($designCodeProcessDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($designCodeProcessDetail->getDesignCode() === $this) {
+                $designCodeProcessDetail->setDesignCode(null);
+            }
+        }
 
         return $this;
     }
