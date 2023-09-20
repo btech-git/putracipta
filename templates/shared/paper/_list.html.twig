@@ -1,4 +1,4 @@
-{% if app.request.query.has('master_order_header') %}
+{% if app.request.query.has('master_order_header') or app.request.query.has('product_prototype') %}
     {{ include('shared/paper/_list_without_check.html.twig') }}
 {% else %}
     {{ include('shared/paper/_list_with_check.html.twig') }}
