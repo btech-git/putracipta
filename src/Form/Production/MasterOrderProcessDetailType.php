@@ -16,7 +16,7 @@ class MasterOrderProcessDetailType extends AbstractType
     {
         $builder
             ->add('isSubcon')
-            ->add('isCanceled')
+//            ->add('isCanceled')
             ->add('workOrderProcess', EntityHiddenType::class, ['class' => WorkOrderProcess::class])
             ->add('designCodeProcessDetail', EntityHiddenType::class, ['class' => DesignCodeProcessDetail::class])
         ;
