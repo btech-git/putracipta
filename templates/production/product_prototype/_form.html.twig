@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward data-choice-select:change->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice-select:change': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-method-value="POST"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
-                    <div class="mb-3">
+                    {#<div class="mb-3">
                         <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
                         {{ form_row(form.customer, {
                             'attr': {
@@ -38,31 +38,15 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerCompany'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.customer) }}
-                    </div>
-                    <input type="hidden" id="{{ form.customer.vars.id }}-has-fsc-code"
-                           data-controller="dom-element"
-                           data-action="customer-table:data-table:select@document->dom-element#bind"
-                           data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.hasFscCode'}},
-                           ]|json_encode }}" />
-                    <div class="mb-3">
-                        <label class="form-label">Phone</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.customer.phone|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="customer-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.phone'}},
-                               ]|json_encode }}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="text" class="form-control" value="{{ productPrototype.customer.email|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="customer-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.email'}},
-                               ]|json_encode }}" />
-                    </div>
+                    </div>#}
+                    {{ form_row(form.customer, {
+                        'label': 'Customer',
+                        'attr': {
+                            'data-forwarding-group': 'data-choice-select',
+                            'data-action': 'event-emitter#forward',
+                            'data-event-emitter-attributes-list-param': {'change': 'data-forwarding-group'}|json_encode,
+                        },
+                    }) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
                 </div>
                     
@@ -112,7 +96,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeId'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeId'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -121,7 +105,7 @@
                                data-controller="dom-element"
                                data-action="design-code-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.designCode) }}
                     </div>
@@ -166,9 +150,27 @@
                 </div>
                     
                 <div class="col">
-                    {{ form_row(form.color, {'label': 'Warna (TC/Pantone)'}) }}
+                    {{ form_row(form.color, {
+                        'label': 'Warna (TC/Pantone)',
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeColor'}},
+                            ]|json_encode,
+                        },
+                    }) }}
                     {{ form_row(form.quantityProduction, {'label': 'Quantity (pcs)'}) }}
-                    {{ form_row(form.quantityBlade, {'label': 'Jumlah Mata (up/sheet)'}) }}
+                    {{ form_row(form.quantityBlade, {
+                        'label': 'Jumlah Mata (up/sheet)',
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePrintingUpQuantity'}},
+                            ]|json_encode,
+                        },
+                    }) }}
                 </div>
             </div>
             <div class="row">
@@ -205,13 +207,6 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('customer-dialog', 'Customer List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_customer__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
-    {{ dialog.end() }}
-
     {{ dialog.start('product-dialog', 'Product List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
@@ -222,8 +217,7 @@
     {{ dialog.start('design-code-dialog', 'Design Code List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
-             data-html-loader-auto-load-value="true"
-             data-action="product-table:data-table:select@document->html-loader#load">
+             data-action="{{ form.customer.vars.id }}:data-choice-select:change@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 

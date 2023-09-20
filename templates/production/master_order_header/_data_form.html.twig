@@ -8,7 +8,7 @@
                     'data-controller': 'dom-element',
                     'data-action': 'paper-table:data-table:select@document->dom-element#bind',
                     'data-dom-element-bind-specifications-param': [
-                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperId'}},
+                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperId'}},
                     ]|json_encode,
                 },
             }) }}
@@ -17,7 +17,7 @@
                    data-controller="dom-element"
                    data-action="paper-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperName'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
                    ]|json_encode }}" />
             {{ form_errors(form.paper) }}
         </div>
@@ -27,7 +27,7 @@
                    data-controller="dom-element"
                    data-action="paper-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperWeight'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWeight'}},
                    ]|json_encode }}" />
         </div>
         <div class="mb-3">
