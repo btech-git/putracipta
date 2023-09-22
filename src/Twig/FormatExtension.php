@@ -8,19 +8,19 @@ use Twig\TwigFilter;
 
 class FormatExtension extends AbstractExtension
 {
-    public function getName()
+    public function getName(): string
     {
         return 'format_extension';
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('say', [$this, 'filterSay']),
         ];
     }
 
-    public function filterSay($number)
+    public function filterSay(string $number): string
     {
         return NumberWord::name($number);
     }
