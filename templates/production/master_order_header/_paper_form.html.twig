@@ -10,7 +10,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeInsitPrintingPercentage'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeInsitPrintingPercentage'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -30,7 +30,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeInsitSortingPercentage'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeInsitSortingPercentage'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -50,7 +50,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperMountage'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePaperMountage'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -82,14 +82,14 @@
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperLength'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperLength'}},
                                ]|json_encode }}" />
                         <span class="input-group-text">x</span>
                         <input type="text" class="form-control" value="{{ masterOrderHeader.paperPlanoWidth|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWidth'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperWidth'}},
                                ]|json_encode }}" />
                         <span class="input-group-text">cm</span>
                     </div>
@@ -106,7 +106,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperCuttingLength'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePaperCuttingLength'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -117,7 +117,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodePaperCuttingWidth'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePaperCuttingWidth'}},
                                 ]|json_encode,
                             },
                         }) }}

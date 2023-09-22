@@ -1,0 +1,79 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, papers) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="paper-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
+                    GSM {{ grid.sort_char(form.sort.weight.vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'length') }}>
+                    Panjang {{ grid.sort_char(form.sort.length.vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'width') }}>
+                    Lebar {{ grid.sort_char(form.sort.width.vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
+                    Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'width') }} value="{{ form.filter.width.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paper in papers %}
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'paperId': paper.id, 
+                    'paperCode': paper.code, 
+                    'paperName': paper.paperNameSizeCombination, 
+                    'unitId': paper.unit.id, 
+                    'unitName': paper.unit.name,
+                    'pricingMode': paper.pricingMode,
+                    'paperLength': paper.length, 
+                    'paperWidth': paper.width, 
+                    'paperWeight': paper.weight}|json_encode }}">
+                    <td>{{ paper.code }}</td>
+                    <td>{{ paper.name }}</td>
+                    <td>{{ paper.weight }}</td>
+                    <td>{{ paper.length }}</td>
+                    <td>{{ paper.width }}</td>
+                    <td>{{ paper.unit.name|default }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, papers) }}

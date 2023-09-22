@@ -54,7 +54,7 @@
     <legend class="float-none w-auto text-dark px-1">Product List</legend>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr>
+            <tr class=" bg-info">
                 <th>Code</th>
                 <th>Name</th>
                 <th>MO #</th>
@@ -62,11 +62,11 @@
         </thead>
         <tbody>
             {% for masterOrderHeader in dielineMillar.masterOrderHeaders %}
-                {% for masterOrderDetail in masterOrderHeader.masterOrderDetails %}
+                {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                     <tr>
-                        <td>{{ masterOrderDetail.product.code|default }}</td>
-                        <td>{{ masterOrderDetail.product.name|default }}</td>
-                        <td>{{ masterOrderHeader.codeNumber|default }}</td>
+                        <td>{{ masterOrderProductDetail.product.code|default }}</td>
+                        <td>{{ masterOrderProductDetail.product.name|default }}</td>
+                        <td>{{ masterOrderProductDetail.codeNumber|default }}</td>
                     </tr>
                 {% endfor %}
             {% endfor %}

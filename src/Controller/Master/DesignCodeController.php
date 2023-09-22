@@ -6,7 +6,9 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Entity\Master\DesignCode;
 use App\Form\Master\DesignCodeType;
 use App\Grid\Master\DesignCodeGridType;
+use App\Service\Master\DesignCodeFormService;
 use App\Repository\Master\DesignCodeRepository;
+use App\Repository\Master\WorkOrderProcessRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,21 +55,22 @@ class DesignCodeController extends AbstractController
 
     #[Route('/new', name: 'app_master_design_code_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, DesignCodeRepository $designCodeRepository): Response
+    public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository): Response
     {
         $designCode = new DesignCode();
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $designCodeRepository->add($designCode, true);
+            $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('master/design_code/new.html.twig', [
+        return $this->renderForm("master/design_code/new.html.twig", [
             'designCode' => $designCode,
             'form' => $form,
+            'workOrderProcesses' => $workOrderProcessRepository->findAll(),
             'lastDesignCodes' => [],
         ]);
     }
@@ -83,13 +86,13 @@ class DesignCodeController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_design_code_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository): Response
+    public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository): Response
     {
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $designCodeRepository->add($designCode, true);
+            $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -97,6 +100,7 @@ class DesignCodeController extends AbstractController
         return $this->renderForm('master/design_code/edit.html.twig', [
             'designCode' => $designCode,
             'form' => $form,
+            'workOrderProcesses' => $workOrderProcessRepository->findAll(),
             'lastDesignCodes' => $designCodeRepository->findBy(['customer' => $designCode->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
     }

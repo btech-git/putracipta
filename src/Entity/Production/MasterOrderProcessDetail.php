@@ -2,6 +2,7 @@
 
 namespace App\Entity\Production;
 
+use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Master\WorkOrderProcess;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\MasterOrderProcessDetailRepository;
@@ -24,6 +25,9 @@ class MasterOrderProcessDetail extends ProductionDetail
 
     #[ORM\Column]
     private ?bool $isSubcon = false;
+
+    #[ORM\ManyToOne]
+    private ?DesignCodeProcessDetail $designCodeProcessDetail = null;
 
     public function getId(): ?int
     {
@@ -62,6 +66,18 @@ class MasterOrderProcessDetail extends ProductionDetail
     public function setIsSubcon(bool $isSubcon): self
     {
         $this->isSubcon = $isSubcon;
+
+        return $this;
+    }
+
+    public function getDesignCodeProcessDetail(): ?DesignCodeProcessDetail
+    {
+        return $this->designCodeProcessDetail;
+    }
+
+    public function setDesignCodeProcessDetail(?DesignCodeProcessDetail $designCodeProcessDetail): self
+    {
+        $this->designCodeProcessDetail = $designCodeProcessDetail;
 
         return $this;
     }

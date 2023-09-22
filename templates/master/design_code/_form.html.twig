@@ -1,10 +1,12 @@
-<div data-controller="event-emitter"
-     data-action="change->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'change': 'id'}|json_encode }}">
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward data-choice-select:change->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice-select:change': 'id'}|json_encode }}">
     {{ form_start(form) }}
-    {{ form_row(form.customer, {'attr': {'readonly': designCode.id is not null}}) }}
     
     <div class="row">
+        <div class="col">
+            {{ form_row(form.customer, {'attr': {'readonly': designCode.id is not null}}) }}
+        </div>
         <div class="col">
             {{ form_row(form.name) }}
         </div>
@@ -206,7 +208,12 @@
             </div>
         </div>
     </fieldset>
-        
+
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Urutan Proses</legend>
+        {{ include('master/design_code/_processing_order_form.html.twig') }}
+    </fieldset>
+
     <div class="row">
             {{ form_row(form.note) }}
             {{ form_row(form.isInactive) }}

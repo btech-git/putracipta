@@ -3,7 +3,6 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Customer;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
 use App\Entity\Master\DielineMillar;

@@ -2,13 +2,7 @@
 
 namespace App\Service\Master;
 
-use App\Entity\Master\DesignCode;
-use App\Entity\Master\DiecutKnife;
-use App\Entity\Master\DielineMillar;
 use App\Entity\Master\Product;
-use App\Repository\Master\DesignCodeRepository;
-use App\Repository\Master\DiecutKnifeRepository;
-use App\Repository\Master\DielineMillarRepository;
 use App\Repository\Master\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
