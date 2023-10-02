@@ -2,6 +2,8 @@
 
 namespace App\Entity\Stock;
 
+use App\Entity\Master\Material;
+use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use App\Repository\Stock\InventoryRepository;
 use Doctrine\DBAL\Types\Types;
@@ -38,8 +40,31 @@ class Inventory
     private ?string $purchasePrice = '0.00';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
+
+    #[ORM\ManyToOne]
+    private ?Material $material = null;
+
+    #[ORM\ManyToOne]
+    private ?Paper $paper = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $inventoryMode = '';
+
+    #[ORM\Column]
+    private ?int $transactionCodeNumberOrdinal = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $transactionCodeNumberMonth = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $transactionCodeNumberYear = 0;
+
+    #[ORM\Column]
+    private ?bool $isReversed = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $createdInventoryDateTime = null;
 
     public function getId(): ?int
     {
@@ -138,6 +163,102 @@ class Inventory
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getMaterial(): ?Material
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?Material $material): self
+    {
+        $this->material = $material;
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
+
+        return $this;
+    }
+
+    public function getInventoryMode(): ?string
+    {
+        return $this->inventoryMode;
+    }
+
+    public function setInventoryMode(string $inventoryMode): self
+    {
+        $this->inventoryMode = $inventoryMode;
+
+        return $this;
+    }
+
+    public function getTransactionCodeNumberOrdinal(): ?int
+    {
+        return $this->transactionCodeNumberOrdinal;
+    }
+
+    public function setTransactionCodeNumberOrdinal(int $transactionCodeNumberOrdinal): self
+    {
+        $this->transactionCodeNumberOrdinal = $transactionCodeNumberOrdinal;
+
+        return $this;
+    }
+
+    public function getTransactionCodeNumberMonth(): ?int
+    {
+        return $this->transactionCodeNumberMonth;
+    }
+
+    public function setTransactionCodeNumberMonth(int $transactionCodeNumberMonth): self
+    {
+        $this->transactionCodeNumberMonth = $transactionCodeNumberMonth;
+
+        return $this;
+    }
+
+    public function getTransactionCodeNumberYear(): ?int
+    {
+        return $this->transactionCodeNumberYear;
+    }
+
+    public function setTransactionCodeNumberYear(int $transactionCodeNumberYear): self
+    {
+        $this->transactionCodeNumberYear = $transactionCodeNumberYear;
+
+        return $this;
+    }
+
+    public function isIsReversed(): ?bool
+    {
+        return $this->isReversed;
+    }
+
+    public function setIsReversed(bool $isReversed): self
+    {
+        $this->isReversed = $isReversed;
+
+        return $this;
+    }
+
+    public function getCreatedInventoryDateTime(): ?\DateTimeInterface
+    {
+        return $this->createdInventoryDateTime;
+    }
+
+    public function setCreatedInventoryDateTime(?\DateTimeInterface $createdInventoryDateTime): self
+    {
+        $this->createdInventoryDateTime = $createdInventoryDateTime;
 
         return $this;
     }
