@@ -17,20 +17,40 @@ class AccountingLedger
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $transactionType = null;
+    private ?string $transactionType = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $transactionSubject = null;
+    private ?string $transactionSubject = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $debitAmount = null;
+    private ?string $debitAmount = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
-    private ?string $creditAmount = null;
+    private ?string $creditAmount = '0.00';
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Account $account = null;
+
+    #[ORM\Column]
+    private ?int $transactionCodeNumberOrdinal = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $transactionCodeNumberMonth = 0;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $transactionCodeNumberYear = 0;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $transactionDate = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $note = '';
+
+    #[ORM\Column]
+    private ?bool $isReversed = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $createdAccountingLedgerDateTime = null;
 
     public function getId(): ?int
     {
@@ -93,6 +113,90 @@ class AccountingLedger
     public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    public function getTransactionCodeNumberOrdinal(): ?int
+    {
+        return $this->transactionCodeNumberOrdinal;
+    }
+
+    public function setTransactionCodeNumberOrdinal(int $transactionCodeNumberOrdinal): self
+    {
+        $this->transactionCodeNumberOrdinal = $transactionCodeNumberOrdinal;
+
+        return $this;
+    }
+
+    public function getTransactionCodeNumberMonth(): ?int
+    {
+        return $this->transactionCodeNumberMonth;
+    }
+
+    public function setTransactionCodeNumberMonth(int $transactionCodeNumberMonth): self
+    {
+        $this->transactionCodeNumberMonth = $transactionCodeNumberMonth;
+
+        return $this;
+    }
+
+    public function getTransactionCodeNumberYear(): ?int
+    {
+        return $this->transactionCodeNumberYear;
+    }
+
+    public function setTransactionCodeNumberYear(int $transactionCodeNumberYear): self
+    {
+        $this->transactionCodeNumberYear = $transactionCodeNumberYear;
+
+        return $this;
+    }
+
+    public function getTransactionDate(): ?\DateTimeInterface
+    {
+        return $this->transactionDate;
+    }
+
+    public function setTransactionDate(\DateTimeInterface $transactionDate): self
+    {
+        $this->transactionDate = $transactionDate;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(string $note): self
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    public function isIsReversed(): ?bool
+    {
+        return $this->isReversed;
+    }
+
+    public function setIsReversed(bool $isReversed): self
+    {
+        $this->isReversed = $isReversed;
+
+        return $this;
+    }
+
+    public function getCreatedAccountingLedgerDateTime(): ?\DateTimeInterface
+    {
+        return $this->createdAccountingLedgerDateTime;
+    }
+
+    public function setCreatedAccountingLedgerDateTime(?\DateTimeInterface $createdAccountingLedgerDateTime): self
+    {
+        $this->createdAccountingLedgerDateTime = $createdAccountingLedgerDateTime;
 
         return $this;
     }
