@@ -2,11 +2,14 @@
 
 namespace App\Service\Sale;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\SaleOrderHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleOrderHeaderFormService
 {
@@ -14,9 +17,11 @@ class SaleOrderHeaderFormService
     private SaleOrderHeaderRepository $saleOrderHeaderRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleOrderHeaderRepository = $entityManager->getRepository(SaleOrderHeader::class);
         $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
     }
@@ -80,6 +85,8 @@ class SaleOrderHeaderFormService
 
     public function save(SaleOrderHeader $saleOrderHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->saleOrderHeaderRepository->add($saleOrderHeader);
         foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
             $this->saleOrderDetailRepository->add($saleOrderDetail);

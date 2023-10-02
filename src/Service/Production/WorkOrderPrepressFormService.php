@@ -2,18 +2,23 @@
 
 namespace App\Service\Production;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderPrepress;
+use App\Entity\Support\Idempotent;
 use App\Repository\Production\WorkOrderPrepressRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class WorkOrderPrepressFormService
 {
     private EntityManagerInterface $entityManager;
     private WorkOrderPrepressRepository $workOrderPrepressRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->workOrderPrepressRepository = $entityManager->getRepository(WorkOrderPrepress::class);
     }
 
@@ -45,6 +50,8 @@ class WorkOrderPrepressFormService
 
     public function save(WorkOrderPrepress $workOrderPrepress, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->workOrderPrepressRepository->add($workOrderPrepress);
         $this->entityManager->flush();
     }

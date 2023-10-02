@@ -2,13 +2,16 @@
 
 namespace App\Service\Purchase;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderDetail;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseRequestDetail;
+use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Sync\Purchase\PurchaseOrderHeaderFormSync;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseOrderHeaderFormService
 {
@@ -17,10 +20,12 @@ class PurchaseOrderHeaderFormService
     private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
 
-    public function __construct(PurchaseOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, PurchaseOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
         $this->formSync = $formSync;
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
     }
@@ -91,6 +96,8 @@ class PurchaseOrderHeaderFormService
 
     public function save(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);

@@ -2,11 +2,14 @@
 
 namespace App\Service\Accounting;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Accounting\JournalVoucherDetail;
 use App\Entity\Accounting\JournalVoucherHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Accounting\JournalVoucherDetailRepository;
 use App\Repository\Accounting\JournalVoucherHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class JournalVoucherHeaderFormService
 {
@@ -14,9 +17,11 @@ class JournalVoucherHeaderFormService
     private JournalVoucherHeaderRepository $journalVoucherHeaderRepository;
     private JournalVoucherDetailRepository $journalVoucherDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->journalVoucherHeaderRepository = $entityManager->getRepository(JournalVoucherHeader::class);
         $this->journalVoucherDetailRepository = $entityManager->getRepository(JournalVoucherDetail::class);
     }
@@ -49,6 +54,8 @@ class JournalVoucherHeaderFormService
 
     public function save(JournalVoucherHeader $journalVoucherHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->journalVoucherHeaderRepository->add($journalVoucherHeader);
         foreach ($journalVoucherHeader->getJournalVoucherDetails() as $journalVoucherDetail) {
             $this->journalVoucherDetailRepository->add($journalVoucherDetail);

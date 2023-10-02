@@ -2,13 +2,16 @@
 
 namespace App\Service\Stock;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryRequestMaterialDetail;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Entity\Stock\InventoryRequestHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Stock\InventoryRequestMaterialDetailRepository;
 use App\Repository\Stock\InventoryRequestPaperDetailRepository;
 use App\Repository\Stock\InventoryRequestHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class InventoryRequestHeaderFormService
 {
@@ -17,9 +20,11 @@ class InventoryRequestHeaderFormService
     private InventoryRequestMaterialDetailRepository $inventoryRequestMaterialDetailRepository;
     private InventoryRequestPaperDetailRepository $inventoryRequestPaperDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->inventoryRequestHeaderRepository = $entityManager->getRepository(InventoryRequestHeader::class);
         $this->inventoryRequestMaterialDetailRepository = $entityManager->getRepository(InventoryRequestMaterialDetail::class);
         $this->inventoryRequestPaperDetailRepository = $entityManager->getRepository(InventoryRequestPaperDetail::class);
@@ -67,6 +72,8 @@ class InventoryRequestHeaderFormService
 
     public function save(InventoryRequestHeader $inventoryRequestHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->inventoryRequestHeaderRepository->add($inventoryRequestHeader);
         foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
             $this->inventoryRequestMaterialDetailRepository->add($inventoryRequestMaterialDetail);

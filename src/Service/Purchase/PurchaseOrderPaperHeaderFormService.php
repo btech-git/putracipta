@@ -2,12 +2,15 @@
 
 namespace App\Service\Purchase;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestPaperDetail;
+use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseOrderPaperHeaderFormService
 {
@@ -15,9 +18,11 @@ class PurchaseOrderPaperHeaderFormService
     private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseOrderPaperHeaderRepository = $entityManager->getRepository(PurchaseOrderPaperHeader::class);
         $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
     }
@@ -92,6 +97,8 @@ class PurchaseOrderPaperHeaderFormService
 
     public function save(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
         foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
             $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);

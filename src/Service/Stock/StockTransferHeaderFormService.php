@@ -2,15 +2,18 @@
 
 namespace App\Service\Stock;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\StockTransferMaterialDetail;
 use App\Entity\Stock\StockTransferPaperDetail;
 use App\Entity\Stock\StockTransferProductDetail;
 use App\Entity\Stock\StockTransferHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Stock\StockTransferMaterialDetailRepository;
 use App\Repository\Stock\StockTransferPaperDetailRepository;
 use App\Repository\Stock\StockTransferProductDetailRepository;
 use App\Repository\Stock\StockTransferHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class StockTransferHeaderFormService
 {
@@ -20,9 +23,11 @@ class StockTransferHeaderFormService
     private StockTransferPaperDetailRepository $stockTransferPaperDetailRepository;
     private StockTransferProductDetailRepository $stockTransferProductDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->stockTransferHeaderRepository = $entityManager->getRepository(StockTransferHeader::class);
         $this->stockTransferMaterialDetailRepository = $entityManager->getRepository(StockTransferMaterialDetail::class);
         $this->stockTransferPaperDetailRepository = $entityManager->getRepository(StockTransferPaperDetail::class);
@@ -66,6 +71,8 @@ class StockTransferHeaderFormService
 
     public function save(StockTransferHeader $stockTransferHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->stockTransferHeaderRepository->add($stockTransferHeader);
         foreach ($stockTransferHeader->getStockTransferMaterialDetails() as $stockTransferMaterialDetail) {
             $this->stockTransferMaterialDetailRepository->add($stockTransferMaterialDetail);

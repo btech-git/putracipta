@@ -2,18 +2,24 @@
 
 namespace App\Service\Master;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Product;
+use App\Entity\Support\Idempotent;
 use App\Repository\Master\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductFormService
 {
+    private RequestStack $requestStack;
     private EntityManagerInterface $entityManager;
     private ProductRepository $productRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->productRepository = $entityManager->getRepository(Product::class);
     }
 
@@ -26,6 +32,8 @@ class ProductFormService
 
     public function save(Product $product, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->productRepository->add($product);
         $this->entityManager->flush();
     }

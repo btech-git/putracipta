@@ -2,11 +2,14 @@
 
 namespace App\Service\Sale;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleInvoiceDetail;
 use App\Entity\Sale\SaleInvoiceHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Sale\SaleInvoiceDetailRepository;
 use App\Repository\Sale\SaleInvoiceHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleInvoiceHeaderFormService
 {
@@ -14,9 +17,11 @@ class SaleInvoiceHeaderFormService
     private SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository;
     private SaleInvoiceDetailRepository $saleInvoiceDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleInvoiceHeaderRepository = $entityManager->getRepository(SaleInvoiceHeader::class);
         $this->saleInvoiceDetailRepository = $entityManager->getRepository(SaleInvoiceDetail::class);
     }
@@ -87,6 +92,8 @@ class SaleInvoiceHeaderFormService
 
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->saleInvoiceHeaderRepository->add($saleInvoiceHeader);
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $this->saleInvoiceDetailRepository->add($saleInvoiceDetail);

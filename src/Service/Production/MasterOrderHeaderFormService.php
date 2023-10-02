@@ -2,17 +2,20 @@
 
 namespace App\Service\Production;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\MasterOrderCheckSheetDetail;
 use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\MasterOrderProcessDetail;
 use App\Entity\Production\MasterOrderProductDetail;
+use App\Entity\Support\Idempotent;
 use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
 use App\Repository\Production\MasterOrderDistributionDetailRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use App\Repository\Production\MasterOrderProcessDetailRepository;
 use App\Repository\Production\MasterOrderProductDetailRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MasterOrderHeaderFormService
 {
@@ -23,9 +26,11 @@ class MasterOrderHeaderFormService
     private MasterOrderDistributionDetailRepository $masterOrderDistributionDetailRepository;
     private MasterOrderCheckSheetDetailRepository $masterOrderCheckSheetDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->masterOrderHeaderRepository = $entityManager->getRepository(MasterOrderHeader::class);
         $this->masterOrderProductDetailRepository = $entityManager->getRepository(MasterOrderProductDetail::class);
         $this->masterOrderProcessDetailRepository = $entityManager->getRepository(MasterOrderProcessDetail::class);
@@ -103,6 +108,8 @@ class MasterOrderHeaderFormService
 
     public function save(MasterOrderHeader $masterOrderHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->masterOrderHeaderRepository->add($masterOrderHeader);
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             $this->masterOrderProductDetailRepository->add($masterOrderProductDetail);

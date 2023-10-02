@@ -2,13 +2,16 @@
 
 namespace App\Service\Stock;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryReleaseMaterialDetail;
 use App\Entity\Stock\InventoryReleasePaperDetail;
 use App\Entity\Stock\InventoryReleaseHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Stock\InventoryReleaseMaterialDetailRepository;
 use App\Repository\Stock\InventoryReleasePaperDetailRepository;
 use App\Repository\Stock\InventoryReleaseHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class InventoryReleaseHeaderFormService
 {
@@ -17,9 +20,11 @@ class InventoryReleaseHeaderFormService
     private InventoryReleaseMaterialDetailRepository $inventoryReleaseMaterialDetailRepository;
     private InventoryReleasePaperDetailRepository $inventoryReleasePaperDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->inventoryReleaseHeaderRepository = $entityManager->getRepository(InventoryReleaseHeader::class);
         $this->inventoryReleaseMaterialDetailRepository = $entityManager->getRepository(InventoryReleaseMaterialDetail::class);
         $this->inventoryReleasePaperDetailRepository = $entityManager->getRepository(InventoryReleasePaperDetail::class);
@@ -91,6 +96,8 @@ class InventoryReleaseHeaderFormService
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->inventoryReleaseHeaderRepository->add($inventoryReleaseHeader);
         foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
             $this->inventoryReleaseMaterialDetailRepository->add($inventoryReleaseMaterialDetail);

@@ -2,14 +2,17 @@
 
 namespace App\Service\Sale;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Admin\LiteralConfig;
 use App\Entity\Sale\SaleInvoiceHeader;
 use App\Entity\Sale\SalePaymentDetail;
 use App\Entity\Sale\SalePaymentHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\SalePaymentDetailRepository;
 use App\Repository\Sale\SalePaymentHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SalePaymentHeaderFormService
 {
@@ -18,9 +21,11 @@ class SalePaymentHeaderFormService
     private SalePaymentDetailRepository $salePaymentDetailRepository;
     private LiteralConfigRepository $literalConfigRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->salePaymentHeaderRepository = $entityManager->getRepository(SalePaymentHeader::class);
         $this->salePaymentDetailRepository = $entityManager->getRepository(SalePaymentDetail::class);
         $this->literalConfigRepository = $entityManager->getRepository(LiteralConfig::class);
@@ -84,6 +89,8 @@ class SalePaymentHeaderFormService
 
     public function save(SalePaymentHeader $salePaymentHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->salePaymentHeaderRepository->add($salePaymentHeader);
         foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
             $this->salePaymentDetailRepository->add($salePaymentDetail);

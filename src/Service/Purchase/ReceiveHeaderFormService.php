@@ -2,6 +2,7 @@
 
 namespace App\Service\Purchase;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderDetail;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
@@ -9,6 +10,7 @@ use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
@@ -16,6 +18,7 @@ use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Repository\Purchase\ReceiveHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ReceiveHeaderFormService
 {
@@ -27,9 +30,11 @@ class ReceiveHeaderFormService
     private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->receiveHeaderRepository = $entityManager->getRepository(ReceiveHeader::class);
         $this->receiveDetailRepository = $entityManager->getRepository(ReceiveDetail::class);
         $this->purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
@@ -121,6 +126,8 @@ class ReceiveHeaderFormService
 
     public function save(ReceiveHeader $receiveHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
         $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
         $this->receiveHeaderRepository->add($receiveHeader);

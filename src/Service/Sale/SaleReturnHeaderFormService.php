@@ -2,11 +2,14 @@
 
 namespace App\Service\Sale;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleReturnDetail;
 use App\Entity\Sale\SaleReturnHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Sale\SaleReturnDetailRepository;
 use App\Repository\Sale\SaleReturnHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleReturnHeaderFormService
 {
@@ -14,9 +17,11 @@ class SaleReturnHeaderFormService
     private SaleReturnHeaderRepository $saleReturnHeaderRepository;
     private SaleReturnDetailRepository $saleReturnDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleReturnHeaderRepository = $entityManager->getRepository(SaleReturnHeader::class);
         $this->saleReturnDetailRepository = $entityManager->getRepository(SaleReturnDetail::class);
     }
@@ -99,6 +104,8 @@ class SaleReturnHeaderFormService
 
     public function save(SaleReturnHeader $saleReturnHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->saleReturnHeaderRepository->add($saleReturnHeader);
         foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
             $this->saleReturnDetailRepository->add($saleReturnDetail);

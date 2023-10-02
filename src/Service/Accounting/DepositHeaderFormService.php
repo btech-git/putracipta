@@ -2,11 +2,14 @@
 
 namespace App\Service\Accounting;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Accounting\DepositDetail;
 use App\Entity\Accounting\DepositHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Accounting\DepositDetailRepository;
 use App\Repository\Accounting\DepositHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class DepositHeaderFormService
 {
@@ -14,9 +17,11 @@ class DepositHeaderFormService
     private DepositHeaderRepository $depositHeaderRepository;
     private DepositDetailRepository $depositDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->depositHeaderRepository = $entityManager->getRepository(DepositHeader::class);
         $this->depositDetailRepository = $entityManager->getRepository(DepositDetail::class);
     }
@@ -49,6 +54,8 @@ class DepositHeaderFormService
 
     public function save(DepositHeader $depositHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->depositHeaderRepository->add($depositHeader);
         foreach ($depositHeader->getDepositDetails() as $depositDetail) {
             $this->depositDetailRepository->add($depositDetail);

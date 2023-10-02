@@ -2,11 +2,14 @@
 
 namespace App\Service\Purchase;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Purchase\PurchaseRequestHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseRequestDetailRepository;
 use App\Repository\Purchase\PurchaseRequestHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseRequestHeaderFormService
 {
@@ -14,9 +17,11 @@ class PurchaseRequestHeaderFormService
     private PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository;
     private PurchaseRequestDetailRepository $purchaseRequestDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseRequestHeaderRepository = $entityManager->getRepository(PurchaseRequestHeader::class);
         $this->purchaseRequestDetailRepository = $entityManager->getRepository(PurchaseRequestDetail::class);
     }
@@ -55,6 +60,8 @@ class PurchaseRequestHeaderFormService
 
     public function save(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->purchaseRequestHeaderRepository->add($purchaseRequestHeader);
         foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
             $this->purchaseRequestDetailRepository->add($purchaseRequestDetail);

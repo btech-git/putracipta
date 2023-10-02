@@ -2,16 +2,19 @@
 
 namespace App\Service\Purchase;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderDetail;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\PurchaseReturnDetail;
 use App\Entity\Purchase\PurchaseReturnHeader;
 use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseReturnDetailRepository;
 use App\Repository\Purchase\PurchaseReturnHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseReturnHeaderFormService
 {
@@ -20,9 +23,11 @@ class PurchaseReturnHeaderFormService
     private PurchaseReturnDetailRepository $purchaseReturnDetailRepository;
     private ReceiveDetailRepository $receiveDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseReturnHeaderRepository = $entityManager->getRepository(PurchaseReturnHeader::class);
         $this->purchaseReturnDetailRepository = $entityManager->getRepository(PurchaseReturnDetail::class);
         $this->receiveDetailRepository = $entityManager->getRepository(ReceiveDetail::class);
@@ -130,6 +135,8 @@ class PurchaseReturnHeaderFormService
 
     public function save(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->purchaseReturnHeaderRepository->add($purchaseReturnHeader);
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
             $this->purchaseReturnDetailRepository->add($purchaseReturnDetail);

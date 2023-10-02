@@ -2,11 +2,14 @@
 
 namespace App\Service\Accounting;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Accounting\ExpenseDetail;
 use App\Entity\Accounting\ExpenseHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Accounting\ExpenseDetailRepository;
 use App\Repository\Accounting\ExpenseHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ExpenseHeaderFormService
 {
@@ -14,9 +17,11 @@ class ExpenseHeaderFormService
     private ExpenseHeaderRepository $expenseHeaderRepository;
     private ExpenseDetailRepository $expenseDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->expenseHeaderRepository = $entityManager->getRepository(ExpenseHeader::class);
         $this->expenseDetailRepository = $entityManager->getRepository(ExpenseDetail::class);
     }
@@ -49,6 +54,8 @@ class ExpenseHeaderFormService
 
     public function save(ExpenseHeader $expenseHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->expenseHeaderRepository->add($expenseHeader);
         foreach ($expenseHeader->getExpenseDetails() as $expenseDetail) {
             $this->expenseDetailRepository->add($expenseDetail);

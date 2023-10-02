@@ -2,18 +2,23 @@
 
 namespace App\Service\Production;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderColorMixing;
+use App\Entity\Support\Idempotent;
 use App\Repository\Production\WorkOrderColorMixingRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class WorkOrderColorMixingFormService
 {
     private EntityManagerInterface $entityManager;
     private WorkOrderColorMixingRepository $workOrderColorMixingRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->workOrderColorMixingRepository = $entityManager->getRepository(WorkOrderColorMixing::class);
     }
 
@@ -45,6 +50,8 @@ class WorkOrderColorMixingFormService
 
     public function save(WorkOrderColorMixing $workOrderColorMixing, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->workOrderColorMixingRepository->add($workOrderColorMixing);
         $this->entityManager->flush();
     }

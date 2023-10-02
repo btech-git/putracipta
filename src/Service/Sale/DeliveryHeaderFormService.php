@@ -2,12 +2,15 @@
 
 namespace App\Service\Sale;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\DeliveryHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Sale\DeliveryDetailRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class DeliveryHeaderFormService
 {
@@ -15,9 +18,11 @@ class DeliveryHeaderFormService
     private DeliveryHeaderRepository $deliveryHeaderRepository;
     private DeliveryDetailRepository $deliveryDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->deliveryHeaderRepository = $entityManager->getRepository(DeliveryHeader::class);
         $this->deliveryDetailRepository = $entityManager->getRepository(DeliveryDetail::class);
     }
@@ -105,6 +110,8 @@ class DeliveryHeaderFormService
 
     public function save(DeliveryHeader $deliveryHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->deliveryHeaderRepository->add($deliveryHeader);
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $this->deliveryDetailRepository->add($deliveryDetail);

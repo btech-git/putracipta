@@ -2,18 +2,23 @@
 
 namespace App\Service\Production;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderVarnishSpotHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Production\WorkOrderVarnishSpotHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class WorkOrderVarnishSpotHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private WorkOrderVarnishSpotHeaderRepository $workOrderVarnishSpotHeaderRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->workOrderVarnishSpotHeaderRepository = $entityManager->getRepository(WorkOrderVarnishSpotHeader::class);
     }
 
@@ -45,6 +50,8 @@ class WorkOrderVarnishSpotHeaderFormService
 
     public function save(WorkOrderVarnishSpotHeader $workOrderVarnishSpotHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->workOrderVarnishSpotHeaderRepository->add($workOrderVarnishSpotHeader);
         $this->entityManager->flush();
     }

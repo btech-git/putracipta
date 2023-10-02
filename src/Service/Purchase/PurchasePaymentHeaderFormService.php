@@ -2,12 +2,15 @@
 
 namespace App\Service\Purchase;
 
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Entity\Purchase\PurchasePaymentDetail;
 use App\Entity\Purchase\PurchasePaymentHeader;
+use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchasePaymentDetailRepository;
 use App\Repository\Purchase\PurchasePaymentHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchasePaymentHeaderFormService
 {
@@ -15,9 +18,11 @@ class PurchasePaymentHeaderFormService
     private PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository;
     private PurchasePaymentDetailRepository $purchasePaymentDetailRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
+        $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchasePaymentHeaderRepository = $entityManager->getRepository(PurchasePaymentHeader::class);
         $this->purchasePaymentDetailRepository = $entityManager->getRepository(PurchasePaymentDetail::class);
         $this->purchaseInvoiceHeaderRepository = $entityManager->getRepository(PurchaseInvoiceHeader::class);
@@ -80,6 +85,8 @@ class PurchasePaymentHeaderFormService
 
     public function save(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->purchasePaymentHeaderRepository->add($purchasePaymentHeader);
         foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
             $purchaseInvoiceHeader = $purchasePaymentDetail->getPurchaseInvoiceHeader();
