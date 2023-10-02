@@ -5,7 +5,32 @@
     
     <div class="row">
         <div class="col">
-            {{ form_row(form.customer, {'attr': {'readonly': designCode.id is not null}}) }}
+            {{ form_row(form.customer, {
+                'attr': {
+                    'readonly': designCode.id is not null,
+                    'data-controller': 'dom-element',
+                    'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind',
+                    'data-dom-element-bind-action-param': '
+                        const customerId = $element.value;
+                        const diecutKnifeChoiceElements = document.querySelectorAll("select#' ~ form.diecutKnife.vars.id ~ ' > option[data-customer]");
+                        for (const diecutKnifeChoiceElement of diecutKnifeChoiceElements) {
+                            if (customerId === diecutKnifeChoiceElement.getAttribute("data-customer")) {
+                                diecutKnifeChoiceElement.classList.remove("d-none");
+                            } else {
+                                diecutKnifeChoiceElement.classList.add("d-none");
+                            }
+                        }
+                        const dielineMillarChoiceElements = document.querySelectorAll("select#' ~ form.dielineMillar.vars.id ~ ' > option[data-customer]");
+                        for (const dielineMillarChoiceElement of dielineMillarChoiceElements) {
+                            if (customerId === dielineMillarChoiceElement.getAttribute("data-customer")) {
+                                dielineMillarChoiceElement.classList.remove("d-none");
+                            } else {
+                                dielineMillarChoiceElement.classList.add("d-none");
+                            }
+                        }
+                    ',
+                },
+            }) }}
         </div>
         <div class="col">
             {{ form_row(form.name) }}
@@ -237,6 +262,7 @@
                 data-dom-element-confirm-message-param="Are you sure you want to save this item?">
             Save
         </button>
+        <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
     </div>
 {{ form_end(form) }}
 </div>

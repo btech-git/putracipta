@@ -67,6 +67,7 @@
                     data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
                 Save
             </button>
+            <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
         </div>
     {{ form_end(form) }}
 
@@ -82,7 +83,6 @@
     {{ dialog.start('sale-invoice-header-dialog', 'Sales Invoice List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_sale_invoice_header__list') }}"
-             data-html-loader-auto-load-value="true"
              data-action="customer-table:data-table:select@document->html-loader#load">>
         </div>
     {{ dialog.end() }}
