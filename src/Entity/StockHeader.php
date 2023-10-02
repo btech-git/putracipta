@@ -53,6 +53,11 @@ abstract class StockHeader
         return sprintf('%04d/%s/%s/%02d', intval($this->codeNumberOrdinal), $this->getCodeNumberConstant(), $numerals[intval($this->codeNumberMonth)], intval($this->codeNumberYear));
     }
 
+    public function getCodeNumberWithVersion(): string
+    {
+        return $this->getCodeNumber() . '-' . $this->codeNumberVersion;
+    }
+
     public function setCodeNumber($codeNumber): self
     {
         $nums = array_flip(self::MONTH_ROMAN_NUMERALS);
