@@ -2,7 +2,7 @@
 
 namespace App\Twig;
 
-use App\Common\Idempotent\IdempotentManager;
+use App\Common\Idempotent\IdempotentUtility;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -23,11 +23,11 @@ class IdempotentExtension extends AbstractExtension
 
     public function functionIdempotentTokenValue(): int
     {
-        return random_int(IdempotentManager::MIN_TOKEN_VALUE, IdempotentManager::MAX_TOKEN_VALUE);
+        return IdempotentUtility::generateTokenValue();
     }
 
     public function functionIdempotentTokenName(): string
     {
-        return IdempotentManager::TOKEN_NAME;
+        return IdempotentUtility::generateTokenName();
     }
 }
