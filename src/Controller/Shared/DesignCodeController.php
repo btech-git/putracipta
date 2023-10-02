@@ -4,6 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortAscending;
+use App\Entity\Master\DesignCodeProcessDetail;
 use App\Grid\Shared\DesignCodeGridType;
 use App\Repository\Master\DesignCodeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -39,6 +40,8 @@ class DesignCodeController extends AbstractController
                 $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
                 $qb->setParameter('customerId', $customerId);
             }
+            
+            $qb->andWhere("EXISTS(SELECT d FROM "  . DesignCodeProcessDetail::class . " d WHERE IDENTITY(d.designCode) = {$alias}.id)");
             
             $qb->andWhere("{$alias}.isInactive = false");
         });

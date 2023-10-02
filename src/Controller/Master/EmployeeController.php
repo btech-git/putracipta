@@ -3,11 +3,13 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Employee;
 use App\Form\Master\EmployeeType;
 use App\Grid\Master\EmployeeGridType;
 use App\Repository\Admin\UserRepository;
 use App\Repository\Master\EmployeeRepository;
+use App\Service\Master\EmployeeFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,43 +45,19 @@ class EmployeeController extends AbstractController
 
     #[Route('/new', name: 'app_master_employee_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EmployeeRepository $employeeRepository): Response
+    public function new(Request $request, EmployeeFormService $employeeFormService): Response
     {
         $employee = new Employee();
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $employeeRepository->add($employee, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $employeeFormService->save($employee);
 
             return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('master/employee/new.html.twig', [
-            'employee' => $employee,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/add', name: 'app_master_employee_add', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
-    public function add(Request $request, EmployeeRepository $employeeRepository, UserRepository $userRepository): Response
-    {
-        $employee = new Employee();
-        if ($request->query->has('user_id')) {
-            $user = $userRepository->find($request->query->get('user_id'));
-            $employee->setUser($user);
-        }
-        $form = $this->createForm(EmployeeType::class, $employee);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $employeeRepository->add($employee, true);
-
-            return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('master/employee/add.html.twig', [
             'employee' => $employee,
             'form' => $form,
         ]);
@@ -96,13 +74,13 @@ class EmployeeController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_employee_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Employee $employee, EmployeeRepository $employeeRepository): Response
+    public function edit(Request $request, Employee $employee, EmployeeFormService $employeeFormService): Response
     {
         $form = $this->createForm(EmployeeType::class, $employee);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $employeeRepository->add($employee, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $employeeFormService->save($employee);
 
             return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
         }

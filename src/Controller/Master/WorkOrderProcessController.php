@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\WorkOrderProcess;
 use App\Form\Master\WorkOrderProcessType;
 use App\Grid\Master\WorkOrderProcessGridType;
 use App\Repository\Master\WorkOrderProcessRepository;
+use App\Service\Master\WorkOrderProcessFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class WorkOrderProcessController extends AbstractController
 
     #[Route('/new', name: 'app_master_work_order_process_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, WorkOrderProcessRepository $workOrderProcessRepository): Response
+    public function new(Request $request, WorkOrderProcessFormService $workOrderProcessFormService): Response
     {
         $workOrderProcess = new WorkOrderProcess();
         $form = $this->createForm(WorkOrderProcessType::class, $workOrderProcess);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $workOrderProcessRepository->add($workOrderProcess, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $workOrderProcessFormService->save($workOrderProcess);
 
             return $this->redirectToRoute('app_master_work_order_process_show', ['id' => $workOrderProcess->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class WorkOrderProcessController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_work_order_process_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, WorkOrderProcess $workOrderProcess, WorkOrderProcessRepository $workOrderProcessRepository): Response
+    public function edit(Request $request, WorkOrderProcess $workOrderProcess, WorkOrderProcessFormService $workOrderProcessFormService): Response
     {
         $form = $this->createForm(WorkOrderProcessType::class, $workOrderProcess);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $workOrderProcessRepository->add($workOrderProcess, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $workOrderProcessFormService->save($workOrderProcess);
 
             return $this->redirectToRoute('app_master_work_order_process_show', ['id' => $workOrderProcess->getId()], Response::HTTP_SEE_OTHER);
         }

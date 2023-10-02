@@ -4,6 +4,7 @@ namespace App\Controller\Accounting;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Accounting\DepositHeader;
 use App\Form\Accounting\DepositHeaderType;
 use App\Grid\Accounting\DepositHeaderGridType;
@@ -56,7 +57,7 @@ class DepositHeaderController extends AbstractController
         $form->handleRequest($request);
         $depositHeaderFormService->finalize($depositHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $depositHeaderFormService->save($depositHeader);
 
             return $this->redirectToRoute('app_accounting_deposit_header_show', ['id' => $depositHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -86,7 +87,7 @@ class DepositHeaderController extends AbstractController
         $form->handleRequest($request);
         $depositHeaderFormService->finalize($depositHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $depositHeaderFormService->save($depositHeader);
 
             return $this->redirectToRoute('app_accounting_deposit_header_show', ['id' => $depositHeader->getId()], Response::HTTP_SEE_OTHER);

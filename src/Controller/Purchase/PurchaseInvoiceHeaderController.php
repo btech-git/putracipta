@@ -5,6 +5,7 @@ namespace App\Controller\Purchase;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Form\Purchase\PurchaseInvoiceHeaderType;
 use App\Grid\Purchase\PurchaseInvoiceHeaderGridType;
@@ -104,7 +105,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_invoice_header_show', ['id' => $purchaseInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -134,7 +135,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_invoice_header_show', ['id' => $purchaseInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);

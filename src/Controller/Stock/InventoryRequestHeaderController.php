@@ -4,6 +4,7 @@ namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryRequestHeader;
 use App\Form\Stock\InventoryRequestHeaderType;
 use App\Grid\Stock\InventoryRequestHeaderGridType;
@@ -56,7 +57,7 @@ class InventoryRequestHeaderController extends AbstractController
         $form->handleRequest($request);
         $inventoryRequestHeaderFormService->finalize($inventoryRequestHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $inventoryRequestHeaderFormService->save($inventoryRequestHeader);
 
             return $this->redirectToRoute('app_stock_inventory_request_header_show', ['id' => $inventoryRequestHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -86,7 +87,7 @@ class InventoryRequestHeaderController extends AbstractController
         $form->handleRequest($request);
         $inventoryRequestHeaderFormService->finalize($inventoryRequestHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $inventoryRequestHeaderFormService->save($inventoryRequestHeader);
 
             return $this->redirectToRoute('app_stock_inventory_request_header_show', ['id' => $inventoryRequestHeader->getId()], Response::HTTP_SEE_OTHER);

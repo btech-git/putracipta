@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Transportation;
 use App\Form\Master\TransportationType;
 use App\Grid\Master\TransportationGridType;
 use App\Repository\Master\TransportationRepository;
+use App\Service\Master\TransportationFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class TransportationController extends AbstractController
 
     #[Route('/new', name: 'app_master_transportation_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, TransportationRepository $transportationRepository): Response
+    public function new(Request $request, TransportationFormService $transportationFormService): Response
     {
         $transportation = new Transportation();
         $form = $this->createForm(TransportationType::class, $transportation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $transportationRepository->add($transportation, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $transportationFormService->save($transportation);
 
             return $this->redirectToRoute('app_master_transportation_show', ['id' => $transportation->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class TransportationController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_transportation_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Transportation $transportation, TransportationRepository $transportationRepository): Response
+    public function edit(Request $request, Transportation $transportation, TransportationFormService $transportationFormService): Response
     {
         $form = $this->createForm(TransportationType::class, $transportation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $transportationRepository->add($transportation, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $transportationFormService->save($transportation);
 
             return $this->redirectToRoute('app_master_transportation_show', ['id' => $transportation->getId()], Response::HTTP_SEE_OTHER);
         }

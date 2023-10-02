@@ -4,6 +4,7 @@ namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryReleaseHeader;
 use App\Form\Stock\InventoryReleaseHeaderType;
 use App\Grid\Stock\InventoryReleaseHeaderGridType;
@@ -56,7 +57,7 @@ class InventoryReleaseHeaderController extends AbstractController
         $form->handleRequest($request);
         $inventoryReleaseHeaderFormService->finalize($inventoryReleaseHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $inventoryReleaseHeaderFormService->save($inventoryReleaseHeader);
 
             return $this->redirectToRoute('app_stock_inventory_release_header_show', ['id' => $inventoryReleaseHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -86,7 +87,7 @@ class InventoryReleaseHeaderController extends AbstractController
         $form->handleRequest($request);
         $inventoryReleaseHeaderFormService->finalize($inventoryReleaseHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $inventoryReleaseHeaderFormService->save($inventoryReleaseHeader);
 
             return $this->redirectToRoute('app_stock_inventory_release_header_show', ['id' => $inventoryReleaseHeader->getId()], Response::HTTP_SEE_OTHER);

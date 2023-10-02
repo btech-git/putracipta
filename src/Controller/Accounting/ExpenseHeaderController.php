@@ -4,6 +4,7 @@ namespace App\Controller\Accounting;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Accounting\ExpenseHeader;
 use App\Form\Accounting\ExpenseHeaderType;
 use App\Grid\Accounting\ExpenseHeaderGridType;
@@ -56,7 +57,7 @@ class ExpenseHeaderController extends AbstractController
         $form->handleRequest($request);
         $expenseHeaderFormService->finalize($expenseHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $expenseHeaderFormService->save($expenseHeader);
 
             return $this->redirectToRoute('app_accounting_expense_header_show', ['id' => $expenseHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -86,7 +87,7 @@ class ExpenseHeaderController extends AbstractController
         $form->handleRequest($request);
         $expenseHeaderFormService->finalize($expenseHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $expenseHeaderFormService->save($expenseHeader);
 
             return $this->redirectToRoute('app_accounting_expense_header_show', ['id' => $expenseHeader->getId()], Response::HTTP_SEE_OTHER);

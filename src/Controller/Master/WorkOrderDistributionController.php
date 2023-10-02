@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\WorkOrderDistribution;
 use App\Form\Master\WorkOrderDistributionType;
 use App\Grid\Master\WorkOrderDistributionGridType;
 use App\Repository\Master\WorkOrderDistributionRepository;
+use App\Service\Master\WorkOrderDistributionFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class WorkOrderDistributionController extends AbstractController
 
     #[Route('/new', name: 'app_master_work_order_distribution_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, WorkOrderDistributionRepository $workOrderDistributionRepository): Response
+    public function new(Request $request, WorkOrderDistributionFormService $workOrderDistributionFormService): Response
     {
         $workOrderDistribution = new WorkOrderDistribution();
         $form = $this->createForm(WorkOrderDistributionType::class, $workOrderDistribution);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $workOrderDistributionRepository->add($workOrderDistribution, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $workOrderDistributionFormService->save($workOrderDistribution);
 
             return $this->redirectToRoute('app_master_work_order_distribution_show', ['id' => $workOrderDistribution->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class WorkOrderDistributionController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_work_order_distribution_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, WorkOrderDistribution $workOrderDistribution, WorkOrderDistributionRepository $workOrderDistributionRepository): Response
+    public function edit(Request $request, WorkOrderDistribution $workOrderDistribution, WorkOrderDistributionFormService $workOrderDistributionFormService): Response
     {
         $form = $this->createForm(WorkOrderDistributionType::class, $workOrderDistribution);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $workOrderDistributionRepository->add($workOrderDistribution, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $workOrderDistributionFormService->save($workOrderDistribution);
 
             return $this->redirectToRoute('app_master_work_order_distribution_show', ['id' => $workOrderDistribution->getId()], Response::HTTP_SEE_OTHER);
         }

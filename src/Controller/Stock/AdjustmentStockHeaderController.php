@@ -4,6 +4,7 @@ namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\AdjustmentStockHeader;
 use App\Form\Stock\AdjustmentStockHeaderType;
 use App\Grid\Stock\AdjustmentStockHeaderGridType;
@@ -62,7 +63,7 @@ class AdjustmentStockHeaderController extends AbstractController
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
 
             return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -92,7 +93,7 @@ class AdjustmentStockHeaderController extends AbstractController
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
 
             return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);

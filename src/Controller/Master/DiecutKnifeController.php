@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DiecutKnife;
 use App\Form\Master\DiecutKnifeType;
 use App\Grid\Master\DiecutKnifeGridType;
 use App\Repository\Master\DiecutKnifeRepository;
+use App\Service\Master\DiecutKnifeFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,14 +55,14 @@ class DiecutKnifeController extends AbstractController
 
     #[Route('/new', name: 'app_master_diecut_knife_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
+    public function new(Request $request, DiecutKnifeFormService $diecutKnifeFormService): Response
     {
         $diecutKnife = new DiecutKnife();
         $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $diecutKnifeRepository->add($diecutKnife, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $diecutKnifeFormService->save($diecutKnife);
 
             return $this->redirectToRoute('app_master_diecut_knife_show', ['id' => $diecutKnife->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -83,13 +85,13 @@ class DiecutKnifeController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_diecut_knife_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, DiecutKnife $diecutKnife, DiecutKnifeRepository $diecutKnifeRepository): Response
+    public function edit(Request $request, DiecutKnife $diecutKnife, DiecutKnifeRepository $diecutKnifeRepository, DiecutKnifeFormService $diecutKnifeFormService): Response
     {
         $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $diecutKnifeRepository->add($diecutKnife, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $diecutKnifeFormService->save($diecutKnife);
 
             return $this->redirectToRoute('app_master_diecut_knife_show', ['id' => $diecutKnife->getId()], Response::HTTP_SEE_OTHER);
         }

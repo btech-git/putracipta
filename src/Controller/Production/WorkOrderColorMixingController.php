@@ -3,6 +3,7 @@
 namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderColorMixing;
 use App\Form\Production\WorkOrderColorMixingType;
 use App\Grid\Production\WorkOrderColorMixingGridType;
@@ -51,7 +52,7 @@ class WorkOrderColorMixingController extends AbstractController
         $form->handleRequest($request);
         $workOrderColorMixingFormService->finalize($workOrderColorMixing);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderColorMixingFormService->save($workOrderColorMixing);
 
             return $this->redirectToRoute('app_production_work_order_color_mixing_show', ['id' => $workOrderColorMixing->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class WorkOrderColorMixingController extends AbstractController
         $form->handleRequest($request);
         $workOrderColorMixingFormService->finalize($workOrderColorMixing);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderColorMixingFormService->save($workOrderColorMixing);
 
             return $this->redirectToRoute('app_production_work_order_color_mixing_show', ['id' => $workOrderColorMixing->getId()], Response::HTTP_SEE_OTHER);

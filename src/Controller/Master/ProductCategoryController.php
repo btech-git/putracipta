@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\ProductCategory;
 use App\Form\Master\ProductCategoryType;
 use App\Grid\Master\ProductCategoryGridType;
 use App\Repository\Master\ProductCategoryRepository;
+use App\Service\Master\ProductCategoryFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class ProductCategoryController extends AbstractController
 
     #[Route('/new', name: 'app_master_product_category_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, ProductCategoryRepository $productCategoryRepository): Response
+    public function new(Request $request, ProductCategoryFormService $productCategoryFormService): Response
     {
         $productCategory = new ProductCategory();
         $form = $this->createForm(ProductCategoryType::class, $productCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $productCategoryRepository->add($productCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $productCategoryFormService->save($productCategory);
 
             return $this->redirectToRoute('app_master_product_category_show', ['id' => $productCategory->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class ProductCategoryController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_product_category_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, ProductCategory $productCategory, ProductCategoryRepository $productCategoryRepository): Response
+    public function edit(Request $request, ProductCategory $productCategory, ProductCategoryFormService $productCategoryFormService): Response
     {
         $form = $this->createForm(ProductCategoryType::class, $productCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $productCategoryRepository->add($productCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $productCategoryFormService->save($productCategory);
 
             return $this->redirectToRoute('app_master_product_category_show', ['id' => $productCategory->getId()], Response::HTTP_SEE_OTHER);
         }

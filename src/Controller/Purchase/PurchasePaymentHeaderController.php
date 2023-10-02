@@ -4,6 +4,7 @@ namespace App\Controller\Purchase;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchasePaymentHeader;
 use App\Form\Purchase\PurchasePaymentHeaderType;
 use App\Grid\Purchase\PurchasePaymentHeaderGridType;
@@ -61,7 +62,7 @@ class PurchasePaymentHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchasePaymentHeaderFormService->finalize($purchasePaymentHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchasePaymentHeaderFormService->save($purchasePaymentHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_payment_header_show', ['id' => $purchasePaymentHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -91,7 +92,7 @@ class PurchasePaymentHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchasePaymentHeaderFormService->finalize($purchasePaymentHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchasePaymentHeaderFormService->save($purchasePaymentHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_payment_header_show', ['id' => $purchasePaymentHeader->getId()], Response::HTTP_SEE_OTHER);

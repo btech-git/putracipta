@@ -4,6 +4,7 @@ namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\MasterOrderHeader;
 use App\Form\Production\MasterOrderHeaderType;
 use App\Grid\Production\MasterOrderHeaderGridType;
@@ -60,7 +61,7 @@ class MasterOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $masterOrderHeaderFormService->finalize($masterOrderHeader, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $masterOrderHeaderFormService->save($masterOrderHeader);
             $masterOrderHeaderFormService->uploadFile($masterOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/master-order');
 
@@ -95,7 +96,7 @@ class MasterOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $masterOrderHeaderFormService->finalize($masterOrderHeader, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $masterOrderHeaderFormService->save($masterOrderHeader);
             $masterOrderHeaderFormService->uploadFile($masterOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/master-order');
 

@@ -4,6 +4,7 @@ namespace App\Controller\Purchase;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseReturnHeader;
 use App\Form\Purchase\PurchaseReturnHeaderType;
 use App\Grid\Purchase\PurchaseReturnHeaderGridType;
@@ -62,7 +63,7 @@ class PurchaseReturnHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseReturnHeaderFormService->save($purchaseReturnHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_return_header_show', ['id' => $purchaseReturnHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -92,7 +93,7 @@ class PurchaseReturnHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseReturnHeaderFormService->finalize($purchaseReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseReturnHeaderFormService->save($purchaseReturnHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_return_header_show', ['id' => $purchaseReturnHeader->getId()], Response::HTTP_SEE_OTHER);

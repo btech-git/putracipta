@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Product;
 use App\Form\Master\ProductType;
 use App\Grid\Master\ProductGridType;
@@ -56,7 +57,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
         $productFormService->finalize($product, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productFormService->save($product);
             $productFormService->uploadFile($product, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product');
 
@@ -87,7 +88,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
         $productFormService->finalize($product, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productFormService->save($product);
             $productFormService->uploadFile($product, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product');
 

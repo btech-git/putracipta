@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Unit;
 use App\Form\Master\UnitType;
 use App\Grid\Master\UnitGridType;
 use App\Repository\Master\UnitRepository;
+use App\Service\Master\UnitFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class UnitController extends AbstractController
 
     #[Route('/new', name: 'app_master_unit_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, UnitRepository $unitRepository): Response
+    public function new(Request $request, UnitFormService $unitFormService): Response
     {
         $unit = new Unit();
         $form = $this->createForm(UnitType::class, $unit);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $unitRepository->add($unit, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $unitFormService->save($unit);
 
             return $this->redirectToRoute('app_master_unit_show', ['id' => $unit->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class UnitController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_unit_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Unit $unit, UnitRepository $unitRepository): Response
+    public function edit(Request $request, Unit $unit, UnitFormService $unitFormService): Response
     {
         $form = $this->createForm(UnitType::class, $unit);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $unitRepository->add($unit, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $unitFormService->save($unit);
 
             return $this->redirectToRoute('app_master_unit_show', ['id' => $unit->getId()], Response::HTTP_SEE_OTHER);
         }

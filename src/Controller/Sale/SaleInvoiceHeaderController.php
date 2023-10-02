@@ -5,6 +5,7 @@ namespace App\Controller\Sale;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleInvoiceHeader;
 use App\Form\Sale\SaleInvoiceHeaderType;
 use App\Grid\Sale\SaleInvoiceHeaderGridType;
@@ -105,7 +106,7 @@ class SaleInvoiceHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleInvoiceHeaderFormService->save($saleInvoiceHeader);
 
             return $this->redirectToRoute('app_sale_sale_invoice_header_show', ['id' => $saleInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -135,7 +136,7 @@ class SaleInvoiceHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleInvoiceHeaderFormService->save($saleInvoiceHeader);
 
             return $this->redirectToRoute('app_sale_sale_invoice_header_show', ['id' => $saleInvoiceHeader->getId()], Response::HTTP_SEE_OTHER);

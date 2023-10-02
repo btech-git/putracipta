@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DielineMillar;
 use App\Form\Master\DielineMillarType;
 use App\Grid\Master\DielineMillarGridType;
 use App\Repository\Master\DielineMillarRepository;
+use App\Service\Master\DielineMillarFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,14 +55,14 @@ class DielineMillarController extends AbstractController
 
     #[Route('/new', name: 'app_master_dieline_millar_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, DielineMillarRepository $dielineMillarRepository): Response
+    public function new(Request $request, DielineMillarFormService $dielineMillarFormService): Response
     {
         $dielineMillar = new DielineMillar();
         $form = $this->createForm(DielineMillarType::class, $dielineMillar);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $dielineMillarRepository->add($dielineMillar, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $dielineMillarFormService->save($dielineMillar);
 
             return $this->redirectToRoute('app_master_dieline_millar_show', ['id' => $dielineMillar->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -83,13 +85,13 @@ class DielineMillarController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_dieline_millar_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, DielineMillar $dielineMillar, DielineMillarRepository $dielineMillarRepository): Response
+    public function edit(Request $request, DielineMillar $dielineMillar, DielineMillarRepository $dielineMillarRepository, DielineMillarFormService $dielineMillarFormService): Response
     {
         $form = $this->createForm(DielineMillarType::class, $dielineMillar);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $dielineMillarRepository->add($dielineMillar, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $dielineMillarFormService->save($dielineMillar);
 
             return $this->redirectToRoute('app_master_dieline_millar_show', ['id' => $dielineMillar->getId()], Response::HTTP_SEE_OTHER);
         }

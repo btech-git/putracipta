@@ -5,6 +5,7 @@ namespace App\Controller\Sale;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Form\Sale\SaleOrderHeaderType;
 use App\Grid\Sale\SaleOrderHeaderGridType;
@@ -104,7 +105,7 @@ class SaleOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleOrderHeaderFormService->save($saleOrderHeader);
             $saleOrderHeaderFormService->uploadFile($saleOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
 
@@ -138,7 +139,7 @@ class SaleOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleOrderHeaderFormService->save($saleOrderHeader);
             $saleOrderHeaderFormService->uploadFile($saleOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
 
@@ -161,7 +162,7 @@ class SaleOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleOrderHeaderFormService->finalize($saleOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleOrderHeaderFormService->save($saleOrderHeader);
             $saleOrderHeaderFormService->uploadFile($saleOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
 

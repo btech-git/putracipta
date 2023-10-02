@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\AccountCategory;
 use App\Form\Master\AccountCategoryType;
 use App\Grid\Master\AccountCategoryGridType;
 use App\Repository\Master\AccountCategoryRepository;
+use App\Service\Master\AccountCategoryFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class AccountCategoryController extends AbstractController
 
     #[Route('/new', name: 'app_master_account_category_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, AccountCategoryRepository $accountCategoryRepository): Response
+    public function new(Request $request, AccountCategoryFormService $ccountCategoryFormService): Response
     {
         $accountCategory = new AccountCategory();
         $form = $this->createForm(AccountCategoryType::class, $accountCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $accountCategoryRepository->add($accountCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $ccountCategoryFormService->save($accountCategory);
 
             return $this->redirectToRoute('app_master_account_category_show', ['id' => $accountCategory->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class AccountCategoryController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_account_category_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, AccountCategory $accountCategory, AccountCategoryRepository $accountCategoryRepository): Response
+    public function edit(Request $request, AccountCategory $accountCategory, AccountCategoryFormService $ccountCategoryFormService): Response
     {
         $form = $this->createForm(AccountCategoryType::class, $accountCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $accountCategoryRepository->add($accountCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $ccountCategoryFormService->save($accountCategory);
 
             return $this->redirectToRoute('app_master_account_category_show', ['id' => $accountCategory->getId()], Response::HTTP_SEE_OTHER);
         }

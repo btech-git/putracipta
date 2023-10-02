@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Supplier;
 use App\Form\Master\SupplierType;
 use App\Grid\Master\SupplierGridType;
 use App\Repository\Master\SupplierRepository;
+use App\Service\Master\SupplierFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class SupplierController extends AbstractController
 
     #[Route('/new', name: 'app_master_supplier_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, SupplierRepository $supplierRepository): Response
+    public function new(Request $request, SupplierFormService $supplierFormService): Response
     {
         $supplier = new Supplier();
         $form = $this->createForm(SupplierType::class, $supplier);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $supplierRepository->add($supplier, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $supplierFormService->save($supplier);
 
             return $this->redirectToRoute('app_master_supplier_show', ['id' => $supplier->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class SupplierController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_supplier_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Supplier $supplier, SupplierRepository $supplierRepository): Response
+    public function edit(Request $request, Supplier $supplier, SupplierFormService $supplierFormService): Response
     {
         $form = $this->createForm(SupplierType::class, $supplier);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $supplierRepository->add($supplier, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $supplierFormService->save($supplier);
 
             return $this->redirectToRoute('app_master_supplier_show', ['id' => $supplier->getId()], Response::HTTP_SEE_OTHER);
         }

@@ -4,6 +4,7 @@ namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductPrototype;
 use App\Form\Production\ProductPrototypeType;
 use App\Grid\Production\ProductPrototypeGridType;
@@ -58,7 +59,7 @@ class ProductPrototypeController extends AbstractController
         $form->handleRequest($request);
         $productPrototypeFormService->finalize($productPrototype);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productPrototypeFormService->save($productPrototype);
 
             return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);
@@ -91,7 +92,7 @@ class ProductPrototypeController extends AbstractController
         $form->handleRequest($request);
         $productPrototypeFormService->finalize($productPrototype);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productPrototypeFormService->save($productPrototype);
 
             return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);

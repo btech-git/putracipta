@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DesignCode;
 use App\Form\Master\DesignCodeType;
 use App\Grid\Master\DesignCodeGridType;
@@ -61,7 +62,7 @@ class DesignCodeController extends AbstractController
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
@@ -91,7 +92,7 @@ class DesignCodeController extends AbstractController
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);

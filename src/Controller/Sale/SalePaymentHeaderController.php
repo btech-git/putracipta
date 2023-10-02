@@ -4,6 +4,7 @@ namespace App\Controller\Sale;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SalePaymentHeader;
 use App\Form\Sale\SalePaymentHeaderType;
 use App\Grid\Sale\SalePaymentHeaderGridType;
@@ -61,7 +62,7 @@ class SalePaymentHeaderController extends AbstractController
         $form->handleRequest($request);
         $salePaymentHeaderFormService->finalize($salePaymentHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $salePaymentHeaderFormService->save($salePaymentHeader);
 
             return $this->redirectToRoute('app_sale_sale_payment_header_show', ['id' => $salePaymentHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -91,7 +92,7 @@ class SalePaymentHeaderController extends AbstractController
         $form->handleRequest($request);
         $salePaymentHeaderFormService->finalize($salePaymentHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $salePaymentHeaderFormService->save($salePaymentHeader);
 
             return $this->redirectToRoute('app_sale_sale_payment_header_show', ['id' => $salePaymentHeader->getId()], Response::HTTP_SEE_OTHER);

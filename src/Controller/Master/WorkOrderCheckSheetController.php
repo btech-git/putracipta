@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\WorkOrderCheckSheet;
 use App\Form\Master\WorkOrderCheckSheetType;
 use App\Grid\Master\WorkOrderCheckSheetGridType;
 use App\Repository\Master\WorkOrderCheckSheetRepository;
+use App\Service\Master\WorkOrderCheckSheetFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class WorkOrderCheckSheetController extends AbstractController
 
     #[Route('/new', name: 'app_master_work_order_check_sheet_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
+    public function new(Request $request, WorkOrderCheckSheetFormService $workOrderCheckSheetFormService): Response
     {
         $workOrderCheckSheet = new WorkOrderCheckSheet();
         $form = $this->createForm(WorkOrderCheckSheetType::class, $workOrderCheckSheet);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $workOrderCheckSheetRepository->add($workOrderCheckSheet, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $workOrderCheckSheetFormService->save($workOrderCheckSheet);
 
             return $this->redirectToRoute('app_master_work_order_check_sheet_show', ['id' => $workOrderCheckSheet->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class WorkOrderCheckSheetController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_work_order_check_sheet_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, WorkOrderCheckSheet $workOrderCheckSheet, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
+    public function edit(Request $request, WorkOrderCheckSheet $workOrderCheckSheet, WorkOrderCheckSheetFormService $workOrderCheckSheetFormService): Response
     {
         $form = $this->createForm(WorkOrderCheckSheetType::class, $workOrderCheckSheet);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $workOrderCheckSheetRepository->add($workOrderCheckSheet, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $workOrderCheckSheetFormService->save($workOrderCheckSheet);
 
             return $this->redirectToRoute('app_master_work_order_check_sheet_show', ['id' => $workOrderCheckSheet->getId()], Response::HTTP_SEE_OTHER);
         }

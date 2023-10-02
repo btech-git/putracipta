@@ -3,6 +3,7 @@
 namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderPrepress;
 use App\Form\Production\WorkOrderPrepressType;
 use App\Grid\Production\WorkOrderPrepressGridType;
@@ -51,7 +52,7 @@ class WorkOrderPrepressController extends AbstractController
         $form->handleRequest($request);
         $workOrderPrepressFormService->finalize($workOrderPrepress);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderPrepressFormService->save($workOrderPrepress);
 
             return $this->redirectToRoute('app_production_work_order_prepress_show', ['id' => $workOrderPrepress->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class WorkOrderPrepressController extends AbstractController
         $form->handleRequest($request);
         $workOrderPrepressFormService->finalize($workOrderPrepress);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderPrepressFormService->save($workOrderPrepress);
 
             return $this->redirectToRoute('app_production_work_order_prepress_show', ['id' => $workOrderPrepress->getId()], Response::HTTP_SEE_OTHER);

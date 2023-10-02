@@ -3,6 +3,7 @@
 namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderOffsetPrintingHeader;
 use App\Form\Production\WorkOrderOffsetPrintingHeaderType;
 use App\Grid\Production\WorkOrderOffsetPrintingHeaderGridType;
@@ -51,7 +52,7 @@ class WorkOrderOffsetPrintingHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderOffsetPrintingHeaderFormService->finalize($workOrderOffsetPrintingHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderOffsetPrintingHeaderFormService->save($workOrderOffsetPrintingHeader);
 
             return $this->redirectToRoute('app_production_work_order_offset_printing_header_show', ['id' => $workOrderOffsetPrintingHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class WorkOrderOffsetPrintingHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderOffsetPrintingHeaderFormService->finalize($workOrderOffsetPrintingHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderOffsetPrintingHeaderFormService->save($workOrderOffsetPrintingHeader);
 
             return $this->redirectToRoute('app_production_work_order_offset_printing_header_show', ['id' => $workOrderOffsetPrintingHeader->getId()], Response::HTTP_SEE_OTHER);

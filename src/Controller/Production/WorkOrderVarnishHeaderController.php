@@ -3,6 +3,7 @@
 namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderVarnishHeader;
 use App\Form\Production\WorkOrderVarnishHeaderType;
 use App\Grid\Production\WorkOrderVarnishHeaderGridType;
@@ -51,7 +52,7 @@ class WorkOrderVarnishHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderVarnishHeaderFormService->finalize($workOrderVarnishHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderVarnishHeaderFormService->save($workOrderVarnishHeader);
 
             return $this->redirectToRoute('app_production_work_order_varnish_header_show', ['id' => $workOrderVarnishHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class WorkOrderVarnishHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderVarnishHeaderFormService->finalize($workOrderVarnishHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderVarnishHeaderFormService->save($workOrderVarnishHeader);
 
             return $this->redirectToRoute('app_production_work_order_varnish_header_show', ['id' => $workOrderVarnishHeader->getId()], Response::HTTP_SEE_OTHER);

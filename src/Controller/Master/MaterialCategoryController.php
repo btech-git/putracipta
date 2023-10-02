@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\MaterialCategory;
 use App\Form\Master\MaterialCategoryType;
 use App\Grid\Master\MaterialCategoryGridType;
 use App\Repository\Master\MaterialCategoryRepository;
+use App\Service\Master\MaterialCategoryFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class MaterialCategoryController extends AbstractController
 
     #[Route('/new', name: 'app_master_material_category_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, MaterialCategoryRepository $materialCategoryRepository): Response
+    public function new(Request $request, MaterialCategoryFormService $materialCategoryFormService): Response
     {
         $materialCategory = new MaterialCategory();
         $form = $this->createForm(MaterialCategoryType::class, $materialCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialCategoryRepository->add($materialCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $materialCategoryFormService->save($materialCategory);
 
             return $this->redirectToRoute('app_master_material_category_show', ['id' => $materialCategory->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class MaterialCategoryController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_material_category_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, MaterialCategory $materialCategory, MaterialCategoryRepository $materialCategoryRepository): Response
+    public function edit(Request $request, MaterialCategory $materialCategory, MaterialCategoryFormService $materialCategoryFormService): Response
     {
         $form = $this->createForm(MaterialCategoryType::class, $materialCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialCategoryRepository->add($materialCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $materialCategoryFormService->save($materialCategory);
 
             return $this->redirectToRoute('app_master_material_category_show', ['id' => $materialCategory->getId()], Response::HTTP_SEE_OTHER);
         }

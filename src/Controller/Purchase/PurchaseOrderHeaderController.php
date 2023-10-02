@@ -5,6 +5,7 @@ namespace App\Controller\Purchase;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Form\Purchase\PurchaseOrderHeaderType;
 use App\Grid\Purchase\PurchaseOrderHeaderGridType;
@@ -105,7 +106,7 @@ class PurchaseOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -137,7 +138,7 @@ class PurchaseOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -158,7 +159,7 @@ class PurchaseOrderHeaderController extends AbstractController
         $form->handleRequest($request);
         $purchaseOrderHeaderFormService->finalize($purchaseOrderHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $purchaseOrderHeaderFormService->save($purchaseOrderHeader);
 
             return $this->redirectToRoute('app_purchase_purchase_order_header_show', ['id' => $purchaseOrderHeader->getId()], Response::HTTP_SEE_OTHER);

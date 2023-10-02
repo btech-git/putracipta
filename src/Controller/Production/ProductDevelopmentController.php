@@ -4,6 +4,7 @@ namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductDevelopment;
 use App\Form\Production\ProductDevelopmentType;
 use App\Grid\Production\ProductDevelopmentGridType;
@@ -57,7 +58,7 @@ class ProductDevelopmentController extends AbstractController
         $form->handleRequest($request);
         $productDevelopmentFormService->finalize($productDevelopment, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productDevelopmentFormService->save($productDevelopment);
             $productDevelopmentFormService->uploadFile($productDevelopment, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product-development');
 
@@ -89,7 +90,7 @@ class ProductDevelopmentController extends AbstractController
         $form->handleRequest($request);
         $productDevelopmentFormService->finalize($productDevelopment, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productDevelopmentFormService->save($productDevelopment);
             $productDevelopmentFormService->uploadFile($productDevelopment, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product-development');
 

@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Customer;
 use App\Form\Master\CustomerType;
 use App\Grid\Master\CustomerGridType;
 use App\Repository\Master\CustomerRepository;
+use App\Service\Master\CustomerFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class CustomerController extends AbstractController
 
     #[Route('/new', name: 'app_master_customer_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, CustomerRepository $customerRepository): Response
+    public function new(Request $request, CustomerFormService $customerFormService): Response
     {
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $customerRepository->add($customer, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $customerFormService->save($customer);
 
             return $this->redirectToRoute('app_master_customer_show', ['id' => $customer->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class CustomerController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_customer_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
+    public function edit(Request $request, Customer $customer, CustomerFormService $customerFormService): Response
     {
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $customerRepository->add($customer, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $customerFormService->save($customer);
 
             return $this->redirectToRoute('app_master_customer_show', ['id' => $customer->getId()], Response::HTTP_SEE_OTHER);
         }

@@ -3,6 +3,7 @@
 namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderVarnishSpotHeader;
 use App\Form\Production\WorkOrderVarnishSpotHeaderType;
 use App\Grid\Production\WorkOrderVarnishSpotHeaderGridType;
@@ -51,7 +52,7 @@ class WorkOrderVarnishSpotHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderVarnishSpotHeaderFormService->finalize($workOrderVarnishSpotHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderVarnishSpotHeaderFormService->save($workOrderVarnishSpotHeader);
 
             return $this->redirectToRoute('app_production_work_order_varnish_spot_header_show', ['id' => $workOrderVarnishSpotHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class WorkOrderVarnishSpotHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderVarnishSpotHeaderFormService->finalize($workOrderVarnishSpotHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderVarnishSpotHeaderFormService->save($workOrderVarnishSpotHeader);
 
             return $this->redirectToRoute('app_production_work_order_varnish_spot_header_show', ['id' => $workOrderVarnishSpotHeader->getId()], Response::HTTP_SEE_OTHER);

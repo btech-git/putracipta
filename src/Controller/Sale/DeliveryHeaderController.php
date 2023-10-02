@@ -4,6 +4,7 @@ namespace App\Controller\Sale;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\DeliveryHeader;
 use App\Form\Sale\DeliveryHeaderType;
 use App\Grid\Sale\DeliveryHeaderGridType;
@@ -68,7 +69,7 @@ class DeliveryHeaderController extends AbstractController
         $form->handleRequest($request);
         $deliveryHeaderFormService->finalize($deliveryHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $deliveryHeaderFormService->save($deliveryHeader);
 
             return $this->redirectToRoute('app_sale_delivery_header_show', ['id' => $deliveryHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -98,7 +99,7 @@ class DeliveryHeaderController extends AbstractController
         $form->handleRequest($request);
         $deliveryHeaderFormService->finalize($deliveryHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $deliveryHeaderFormService->save($deliveryHeader);
 
             return $this->redirectToRoute('app_sale_delivery_header_show', ['id' => $deliveryHeader->getId()], Response::HTTP_SEE_OTHER);

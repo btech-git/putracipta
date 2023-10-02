@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\PaymentType;
 use App\Form\Master\PaymentTypeType;
 use App\Grid\Master\PaymentTypeGridType;
 use App\Repository\Master\PaymentTypeRepository;
+use App\Service\Master\PaymentTypeFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class PaymentTypeController extends AbstractController
 
     #[Route('/new', name: 'app_master_payment_type_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PaymentTypeRepository $paymentTypeRepository): Response
+    public function new(Request $request, PaymentTypeFormService $paymentTypeFormService): Response
     {
         $paymentType = new PaymentType();
         $form = $this->createForm(PaymentTypeType::class, $paymentType);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $paymentTypeRepository->add($paymentType, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $paymentTypeFormService->save($paymentType);
 
             return $this->redirectToRoute('app_master_payment_type_show', ['id' => $paymentType->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class PaymentTypeController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_payment_type_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, PaymentType $paymentType, PaymentTypeRepository $paymentTypeRepository): Response
+    public function edit(Request $request, PaymentType $paymentType, PaymentTypeFormService $paymentTypeFormService): Response
     {
         $form = $this->createForm(PaymentTypeType::class, $paymentType);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $paymentTypeRepository->add($paymentType, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $paymentTypeFormService->save($paymentType);
 
             return $this->redirectToRoute('app_master_payment_type_show', ['id' => $paymentType->getId()], Response::HTTP_SEE_OTHER);
         }

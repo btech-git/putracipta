@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Currency;
 use App\Form\Master\CurrencyType;
 use App\Grid\Master\CurrencyGridType;
 use App\Repository\Master\CurrencyRepository;
+use App\Service\Master\CurrencyFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class CurrencyController extends AbstractController
 
     #[Route('/new', name: 'app_master_currency_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, CurrencyRepository $currencyRepository): Response
+    public function new(Request $request, CurrencyFormService $currencyFormService): Response
     {
         $currency = new Currency();
         $form = $this->createForm(CurrencyType::class, $currency);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $currencyRepository->add($currency, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $currencyFormService->save($currency);
 
             return $this->redirectToRoute('app_master_currency_show', ['id' => $currency->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class CurrencyController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_currency_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Currency $currency, CurrencyRepository $currencyRepository): Response
+    public function edit(Request $request, Currency $currency, CurrencyFormService $currencyFormService): Response
     {
         $form = $this->createForm(CurrencyType::class, $currency);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $currencyRepository->add($currency, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $currencyFormService->save($currency);
 
             return $this->redirectToRoute('app_master_currency_show', ['id' => $currency->getId()], Response::HTTP_SEE_OTHER);
         }

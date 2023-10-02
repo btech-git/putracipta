@@ -3,6 +3,7 @@
 namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\WorkOrderCuttingHeader;
 use App\Form\Production\WorkOrderCuttingHeaderType;
 use App\Grid\Production\WorkOrderCuttingHeaderGridType;
@@ -51,7 +52,7 @@ class WorkOrderCuttingHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderCuttingHeaderFormService->finalize($workOrderCuttingHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderCuttingHeaderFormService->save($workOrderCuttingHeader);
 
             return $this->redirectToRoute('app_production_work_order_cutting_header_show', ['id' => $workOrderCuttingHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -81,7 +82,7 @@ class WorkOrderCuttingHeaderController extends AbstractController
         $form->handleRequest($request);
         $workOrderCuttingHeaderFormService->finalize($workOrderCuttingHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $workOrderCuttingHeaderFormService->save($workOrderCuttingHeader);
 
             return $this->redirectToRoute('app_production_work_order_cutting_header_show', ['id' => $workOrderCuttingHeader->getId()], Response::HTTP_SEE_OTHER);

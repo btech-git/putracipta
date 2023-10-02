@@ -4,6 +4,7 @@ namespace App\Controller\Sale;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleReturnHeader;
 use App\Form\Sale\SaleReturnHeaderType;
 use App\Grid\Sale\SaleReturnHeaderGridType;
@@ -62,7 +63,7 @@ class SaleReturnHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleReturnHeaderFormService->finalize($saleReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleReturnHeaderFormService->save($saleReturnHeader);
 
             return $this->redirectToRoute('app_sale_sale_return_header_show', ['id' => $saleReturnHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -92,7 +93,7 @@ class SaleReturnHeaderController extends AbstractController
         $form->handleRequest($request);
         $saleReturnHeaderFormService->finalize($saleReturnHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleReturnHeaderFormService->save($saleReturnHeader);
 
             return $this->redirectToRoute('app_sale_sale_return_header_show', ['id' => $saleReturnHeader->getId()], Response::HTTP_SEE_OTHER);

@@ -4,6 +4,7 @@ namespace App\Controller\Purchase;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\ReceiveHeader;
 use App\Form\Purchase\ReceiveHeaderType;
 use App\Grid\Purchase\ReceiveHeaderGridType;
@@ -66,7 +67,7 @@ class ReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
         $receiveHeaderFormService->finalize($receiveHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $receiveHeaderFormService->save($receiveHeader);
 
             return $this->redirectToRoute('app_purchase_receive_header_show', ['id' => $receiveHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -96,7 +97,7 @@ class ReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
         $receiveHeaderFormService->finalize($receiveHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $receiveHeaderFormService->save($receiveHeader);
 
             return $this->redirectToRoute('app_purchase_receive_header_show', ['id' => $receiveHeader->getId()], Response::HTTP_SEE_OTHER);

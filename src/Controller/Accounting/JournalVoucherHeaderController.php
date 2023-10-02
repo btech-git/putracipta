@@ -3,10 +3,12 @@
 namespace App\Controller\Accounting;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Accounting\JournalVoucherHeader;
 use App\Form\Accounting\JournalVoucherHeaderType;
 use App\Grid\Accounting\JournalVoucherHeaderGridType;
 use App\Repository\Accounting\JournalVoucherHeaderRepository;
+use App\Service\Accounting\JournalVoucherHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,21 +42,23 @@ class JournalVoucherHeaderController extends AbstractController
         return $this->render("accounting/journal_voucher_header/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_accounting_journal_voucher_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_accounting_journal_voucher_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, JournalVoucherHeaderRepository $journalVoucherHeaderRepository): Response
+    public function new(Request $request, JournalVoucherHeaderFormService $journalVoucherHeaderFormService, $_format = 'html'): Response
     {
         $journalVoucherHeader = new JournalVoucherHeader();
+        $journalVoucherHeaderFormService->initialize($journalVoucherHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(JournalVoucherHeaderType::class, $journalVoucherHeader);
         $form->handleRequest($request);
+        $journalVoucherHeaderFormService->finalize($journalVoucherHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $journalVoucherHeaderRepository->add($journalVoucherHeader, true);
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $journalVoucherHeaderFormService->save($journalVoucherHeader);
 
             return $this->redirectToRoute('app_accounting_journal_voucher_header_show', ['id' => $journalVoucherHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('accounting/journal_voucher_header/new.html.twig', [
+        return $this->renderForm("accounting/journal_voucher_header/new.{$_format}.twig", [
             'journalVoucherHeader' => $journalVoucherHeader,
             'form' => $form,
         ]);
@@ -69,15 +73,16 @@ class JournalVoucherHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_accounting_journal_voucher_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_accounting_journal_voucher_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, JournalVoucherHeader $journalVoucherHeader, JournalVoucherHeaderRepository $journalVoucherHeaderRepository): Response
+    public function edit(Request $request, JournalVoucherHeader $journalVoucherHeader, JournalVoucherHeaderFormService $journalVoucherHeaderFormService, $_format = 'html'): Response
     {
         $form = $this->createForm(JournalVoucherHeaderType::class, $journalVoucherHeader);
         $form->handleRequest($request);
+        $journalVoucherHeaderFormService->finalize($journalVoucherHeader);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $journalVoucherHeaderRepository->add($journalVoucherHeader, true);
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $journalVoucherHeaderFormService->save($journalVoucherHeader);
 
             return $this->redirectToRoute('app_accounting_journal_voucher_header_show', ['id' => $journalVoucherHeader->getId()], Response::HTTP_SEE_OTHER);
         }

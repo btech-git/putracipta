@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Warehouse;
 use App\Form\Master\WarehouseType;
 use App\Grid\Master\WarehouseGridType;
 use App\Repository\Master\WarehouseRepository;
+use App\Service\Master\WarehouseFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,14 +44,14 @@ class WarehouseController extends AbstractController
 
     #[Route('/new', name: 'app_master_warehouse_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, WarehouseRepository $warehouseRepository): Response
+    public function new(Request $request, WarehouseFormService $warehouseFormService): Response
     {
         $warehouse = new Warehouse();
         $form = $this->createForm(WarehouseType::class, $warehouse);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $warehouseRepository->add($warehouse, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $warehouseFormService->save($warehouse);
 
             return $this->redirectToRoute('app_master_warehouse_show', ['id' => $warehouse->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -71,13 +73,13 @@ class WarehouseController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_warehouse_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Warehouse $warehouse, WarehouseRepository $warehouseRepository): Response
+    public function edit(Request $request, Warehouse $warehouse, WarehouseFormService $warehouseFormService): Response
     {
         $form = $this->createForm(WarehouseType::class, $warehouse);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $warehouseRepository->add($warehouse, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $warehouseFormService->save($warehouse);
 
             return $this->redirectToRoute('app_master_warehouse_show', ['id' => $warehouse->getId()], Response::HTTP_SEE_OTHER);
         }

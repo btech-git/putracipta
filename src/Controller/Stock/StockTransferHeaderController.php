@@ -4,6 +4,7 @@ namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\StockTransferHeader;
 use App\Form\Stock\StockTransferHeaderType;
 use App\Grid\Stock\StockTransferHeaderGridType;
@@ -56,7 +57,7 @@ class StockTransferHeaderController extends AbstractController
         $form->handleRequest($request);
         $stockTransferHeaderFormService->finalize($stockTransferHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $stockTransferHeaderFormService->save($stockTransferHeader);
 
             return $this->redirectToRoute('app_stock_stock_transfer_header_show', ['id' => $stockTransferHeader->getId()], Response::HTTP_SEE_OTHER);
@@ -86,7 +87,7 @@ class StockTransferHeaderController extends AbstractController
         $form->handleRequest($request);
         $stockTransferHeaderFormService->finalize($stockTransferHeader);
 
-        if ($_format === 'html' && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $stockTransferHeaderFormService->save($stockTransferHeader);
 
             return $this->redirectToRoute('app_stock_stock_transfer_header_show', ['id' => $stockTransferHeader->getId()], Response::HTTP_SEE_OTHER);

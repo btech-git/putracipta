@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\MaterialSubCategory;
 use App\Form\Master\MaterialSubCategoryType;
 use App\Grid\Master\MaterialSubCategoryGridType;
 use App\Repository\Master\MaterialSubCategoryRepository;
+use App\Service\Master\MaterialSubCategoryFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,14 +50,14 @@ class MaterialSubCategoryController extends AbstractController
 
     #[Route('/new', name: 'app_master_material_sub_category_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
+    public function new(Request $request, MaterialSubCategoryFormService $materialSubCategoryFormService): Response
     {
         $materialSubCategory = new MaterialSubCategory();
         $form = $this->createForm(MaterialSubCategoryType::class, $materialSubCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialSubCategoryRepository->add($materialSubCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $materialSubCategoryFormService->save($materialSubCategory);
 
             return $this->redirectToRoute('app_master_material_sub_category_show', ['id' => $materialSubCategory->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -77,13 +79,13 @@ class MaterialSubCategoryController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_material_sub_category_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, MaterialSubCategory $materialSubCategory, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
+    public function edit(Request $request, MaterialSubCategory $materialSubCategory, MaterialSubCategoryFormService $materialSubCategoryFormService): Response
     {
         $form = $this->createForm(MaterialSubCategoryType::class, $materialSubCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialSubCategoryRepository->add($materialSubCategory, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $materialSubCategoryFormService->save($materialSubCategory);
 
             return $this->redirectToRoute('app_master_material_sub_category_show', ['id' => $materialSubCategory->getId()], Response::HTTP_SEE_OTHER);
         }

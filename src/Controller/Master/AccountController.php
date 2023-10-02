@@ -4,10 +4,12 @@ namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortAscending;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Account;
 use App\Form\Master\AccountType;
 use App\Grid\Master\AccountGridType;
 use App\Repository\Master\AccountRepository;
+use App\Service\Master\AccountFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,14 +53,14 @@ class AccountController extends AbstractController
 
     #[Route('/new', name: 'app_master_account_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, AccountRepository $accountRepository): Response
+    public function new(Request $request, AccountFormService $accountFormService): Response
     {
         $account = new Account();
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $accountRepository->add($account, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $accountFormService->save($account);
 
             return $this->redirectToRoute('app_master_account_show', ['id' => $account->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -80,13 +82,13 @@ class AccountController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_account_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Account $account, AccountRepository $accountRepository): Response
+    public function edit(Request $request, Account $account, AccountFormService $accountFormService): Response
     {
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $accountRepository->add($account, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $accountFormService->save($account);
 
             return $this->redirectToRoute('app_master_account_show', ['id' => $account->getId()], Response::HTTP_SEE_OTHER);
         }

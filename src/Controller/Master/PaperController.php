@@ -3,10 +3,12 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Paper;
 use App\Form\Master\PaperType;
 use App\Grid\Master\PaperGridType;
 use App\Repository\Master\PaperRepository;
+use App\Service\Master\PaperFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,14 +50,14 @@ class PaperController extends AbstractController
 
     #[Route('/new', name: 'app_master_paper_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, PaperRepository $paperRepository): Response
+    public function new(Request $request, PaperFormService $paperFormService): Response
     {
         $paper = new Paper();
         $form = $this->createForm(PaperType::class, $paper);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $paperRepository->add($paper, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $paperFormService->save($paper);
 
             return $this->redirectToRoute('app_master_paper_show', ['id' => $paper->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -77,13 +79,13 @@ class PaperController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_paper_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Paper $paper, PaperRepository $paperRepository): Response
+    public function edit(Request $request, Paper $paper, PaperFormService $paperFormService): Response
     {
         $form = $this->createForm(PaperType::class, $paper);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $paperRepository->add($paper, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $paperFormService->save($paper);
 
             return $this->redirectToRoute('app_master_paper_show', ['id' => $paper->getId()], Response::HTTP_SEE_OTHER);
         }

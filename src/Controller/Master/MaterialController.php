@@ -3,11 +3,13 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Idempotent\IdempotentUtility;
 use App\Common\Data\Operator\SortAscending;
 use App\Entity\Master\Material;
 use App\Form\Master\MaterialType;
 use App\Grid\Master\MaterialGridType;
 use App\Repository\Master\MaterialRepository;
+use App\Service\Master\MaterialFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,14 +60,14 @@ class MaterialController extends AbstractController
 
     #[Route('/new', name: 'app_master_material_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, MaterialRepository $materialRepository): Response
+    public function new(Request $request, MaterialFormService $materialFormService): Response
     {
         $material = new Material();
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialRepository->add($material, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $materialFormService->save($material);
 
             return $this->redirectToRoute('app_master_material_show', ['id' => $material->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -87,13 +89,13 @@ class MaterialController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_material_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, Material $material, MaterialRepository $materialRepository): Response
+    public function edit(Request $request, Material $material, MaterialFormService $materialFormService): Response
     {
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $materialRepository->add($material, true);
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $materialFormService->save($material);
 
             return $this->redirectToRoute('app_master_material_show', ['id' => $material->getId()], Response::HTTP_SEE_OTHER);
         }
