@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MasterOrderHeaderRepository::class)]
 #[ORM\Table(name: 'production_master_order_header')]
@@ -305,15 +306,23 @@ class MasterOrderHeader extends ProductionHeader
     private Collection $workOrderVarnishSpotHeaders;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderDistributionDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $masterOrderDistributionDetails;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProductDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $masterOrderProductDetails;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProcessDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $masterOrderProcessDetails;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderCheckSheetDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $masterOrderCheckSheetDetails;
 
     #[ORM\Column(length: 200)]
