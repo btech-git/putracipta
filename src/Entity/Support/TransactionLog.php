@@ -2,12 +2,13 @@
 
 namespace App\Entity\Support;
 
-use App\Repository\Support\AccountingLogRepository;
+use App\Repository\Support\TransactionLogRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AccountingLogRepository::class)]
-class AccountingLog
+#[ORM\Entity(repositoryClass: TransactionLogRepository::class)]
+#[ORM\Table(name: 'support_transaction_log')]
+class TransactionLog
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
