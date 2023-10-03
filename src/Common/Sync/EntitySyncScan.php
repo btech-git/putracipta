@@ -45,6 +45,12 @@ trait EntitySyncScan
         }
     }
 
+    public function doWhileScanning($rootEntity, callable $action): void
+    {
+        $action($rootEntity);
+        $this->doWhileScanningFor($rootEntity, $this->relations, $action);
+    }
+
     public function getView(): array
     {
         $countByRelation = [];
@@ -63,6 +69,23 @@ trait EntitySyncScan
     private function setupRelations(array $relations): void
     {
         $this->relations = $relations;
+    }
+
+    private function doWhileScanningFor($parentEntity, array|null $relations, callable $action): void
+    {
+        if ($relations !== null) {
+            foreach ($relations as $relationName => $subRelations) {
+                $getterName = 'get' . ucfirst($relationName);
+                $objectOrCollection = $parentEntity->$getterName();
+                $entities = $objectOrCollection instanceof Collection ? $objectOrCollection->getValues() : [$objectOrCollection];
+                foreach ($entities as $entity) {
+                    $action($entity);
+                    if (is_array($subRelations)) {
+                        $this->doWhileScanningFor($entity, $subRelations, $action);
+                    }
+                }
+            }
+        }
     }
 
     private function scanForEntities($parentEntity, array|null $relations, bool $isNew): void
