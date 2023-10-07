@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Purchase\PurchaseOrderDetail;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\ReceiveDetail;
@@ -15,7 +16,7 @@ class ReceiveDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('receivedQuantity')
+            ->add('receivedQuantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('isCanceled')
             ->add('memo')
             ->add('purchaseOrderDetail', EntityHiddenType::class, ['class' => PurchaseOrderDetail::class])

@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Material;
 use App\Entity\Purchase\PurchaseRequestDetail;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class PurchaseRequestDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
             ->add('usageDate', null, ['widget' => 'single_text'])

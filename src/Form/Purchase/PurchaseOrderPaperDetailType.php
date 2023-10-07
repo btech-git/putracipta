@@ -16,7 +16,7 @@ class PurchaseOrderPaperDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('apkiValue')
             ->add('associationPrice', FormattedNumberType::class, ['decimals' => 2])
             ->add('weightPrice', FormattedNumberType::class, ['decimals' => 2])

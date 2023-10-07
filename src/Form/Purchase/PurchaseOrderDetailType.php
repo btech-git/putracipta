@@ -16,7 +16,7 @@ class PurchaseOrderDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('unitPrice', FormattedNumberType::class, ['decimals' => 2])
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
