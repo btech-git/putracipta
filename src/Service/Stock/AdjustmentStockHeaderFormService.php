@@ -4,6 +4,8 @@ namespace App\Service\Stock;
 
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderDetail;
+use App\Entity\Purchase\PurchaseOrderPaperDetail;
+use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Stock\AdjustmentStockMaterialDetail;
 use App\Entity\Stock\AdjustmentStockPaperDetail;
 use App\Entity\Stock\AdjustmentStockProductDetail;
@@ -11,11 +13,14 @@ use App\Entity\Stock\AdjustmentStockHeader;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
+use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
+use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\AdjustmentStockMaterialDetailRepository;
 use App\Repository\Stock\AdjustmentStockPaperDetailRepository;
 use App\Repository\Stock\AdjustmentStockProductDetailRepository;
 use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -27,6 +32,8 @@ class AdjustmentStockHeaderFormService
     private AdjustmentStockPaperDetailRepository $adjustmentStockPaperDetailRepository;
     private AdjustmentStockProductDetailRepository $adjustmentStockProductDetailRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
+    private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
+    private SaleOrderDetailRepository $saleOrderDetailRepository;
     private InventoryRepository $inventoryRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
@@ -39,6 +46,8 @@ class AdjustmentStockHeaderFormService
         $this->adjustmentStockPaperDetailRepository = $entityManager->getRepository(AdjustmentStockPaperDetail::class);
         $this->adjustmentStockProductDetailRepository = $entityManager->getRepository(AdjustmentStockProductDetail::class);
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
+        $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
+        $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
         $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
     }
 
@@ -57,13 +66,12 @@ class AdjustmentStockHeaderFormService
 
     public function finalize(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void
     {
-        if ($adjustmentStockHeader->getTransactionDate() !== null) {
+        if ($adjustmentStockHeader->getTransactionDate() !== null && $adjustmentStockHeader->getId() === null) {
             $year = $adjustmentStockHeader->getTransactionDate()->format('y');
             $month = $adjustmentStockHeader->getTransactionDate()->format('m');
             $lastAdjustmentStockHeader = $this->adjustmentStockHeaderRepository->findRecentBy($year, $month);
             $currentAdjustmentStockHeader = ($lastAdjustmentStockHeader === null) ? $adjustmentStockHeader : $lastAdjustmentStockHeader;
             $adjustmentStockHeader->setCodeNumberToNext($currentAdjustmentStockHeader->getCodeNumber(), $year, $month);
-
         }
         
         foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
@@ -94,64 +102,49 @@ class AdjustmentStockHeaderFormService
         foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
             $this->adjustmentStockProductDetailRepository->add($adjustmentStockProductDetail);
         }
+        $this->addInventories($adjustmentStockHeader);
         $this->entityManager->flush();
     }
 
-    public function addInventories(AdjustmentStockHeader $adjustmentStockHeader): void
+    private function addInventories(AdjustmentStockHeader $adjustmentStockHeader): void
     {
-        $lastInventoryItems = $this->inventoryRepository->findBy([
-            'transactionCodeNumberOrdinal' => $adjustmentStockHeader->getCodeNumberOrdinal(),
-            'transactionCodeNumberMonth' => $adjustmentStockHeader->getCodeNumberMonth(),
-            'transactionCodeNumberYear' => $adjustmentStockHeader->getCodeNumberYear(),
-            'transactionType' => $adjustmentStockHeader->getCodeNumberConstant(),
-            'isReversed' => false,
-        ]);
-        
-        foreach ($lastInventoryItems as $lastInventoryItem) {
-            $lastInventoryItem->setIsReversed(true);
-            $this->inventoryRepository->add($lastInventoryItem);
-            $reversedInventory = new Inventory();
-            $reversedInventory->setTransactionCodeNumberOrdinal($lastInventoryItem->getTransactionCodeNumberOrdinal());
-            $reversedInventory->setTransactionCodeNumberMonth($lastInventoryItem->getTransactionCodeNumberMonth());
-            $reversedInventory->setTransactionCodeNumberYear($lastInventoryItem->getTransactionCodeNumberYear());
-            $reversedInventory->setTransactionDate($lastInventoryItem->getTransactionDate());
-            $reversedInventory->setTransactionType($lastInventoryItem->getTransactionType());
-            $reversedInventory->setTransactionSubject($lastInventoryItem->getTransactionSubject());
-            $reversedInventory->setMaterial($lastInventoryItem->getMaterial());
-            $reversedInventory->setPaper($lastInventoryItem->getPaper());
-            $reversedInventory->setProduct($lastInventoryItem->getProduct());
-            $reversedInventory->setInventoryMode($lastInventoryItem->getInventoryMode());
-            $reversedInventory->setCreatedInventoryDateTime($lastInventoryItem->getCreatedInventoryDateTime());
-            $reversedInventory->setNote($lastInventoryItem->getNote());
-            $reversedInventory->setPurchasePrice(-($lastInventoryItem->getPurchasePrice()));
-            $reversedInventory->setQuantityIn(-($lastInventoryItem->getQuantityIn()));
-            $reversedInventory->setQuantityOut(-($lastInventoryItem->getQuantityOut()));
-            $reversedInventory->setIsReversed(true);
-            $this->inventoryRepository->add($reversedInventory);
-        }
+        InventoryUtil::reverseOldData($this->inventoryRepository, $adjustmentStockHeader);
         if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_MATERIAL) {
-            foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
-                if (!$adjustmentStockMaterialDetail->isCanceled()) {
-                    $newInventory = new Inventory();
-                    $newInventory->setTransactionCodeNumberOrdinal($adjustmentStockHeader->getCodeNumberOrdinal());
-                    $newInventory->setTransactionCodeNumberMonth($adjustmentStockHeader->getCodeNumberMonth());
-                    $newInventory->setTransactionCodeNumberYear($adjustmentStockHeader->getCodeNumberYear());
-                    $newInventory->setTransactionDate($adjustmentStockHeader->getTransactionDate());
-                    $newInventory->setTransactionType($adjustmentStockHeader->getCodeNumberConstant());
-                    $newInventory->setTransactionSubject($adjustmentStockMaterialDetail->getMemo());
-                    $newInventory->setNote($adjustmentStockHeader->getNote());
-//                    $newInventory->setPurchasePrice($adjustmentStockMaterialDetail->getMaterial());
-                    $newInventory->setMaterial($adjustmentStockMaterialDetail->getMaterial());
-                    $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
-                    $newInventory->setCreatedInventoryDateTime(new \DateTime());
-                    $newInventory->setQuantityIn($adjustmentStockMaterialDetail->getQuantityAdjustment());
-                    $this->inventoryRepository->add($newInventory);
-                }
-            }
+            $adjustmentStockMaterialDetails = $adjustmentStockHeader->getAdjustmentStockMaterialDetails()->toArray();
+            $averagePriceList = InventoryUtil::getAveragePriceList('material', $this->purchaseOrderDetailRepository, $adjustmentStockMaterialDetails);
+            InventoryUtil::addNewData($this->inventoryRepository, $adjustmentStockHeader, $adjustmentStockMaterialDetails, function($newInventory, $adjustmentStockMaterialDetail) use ($averagePriceList, $adjustmentStockHeader) {
+                $material = $adjustmentStockMaterialDetail->getMaterial();
+                $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : '0.00';
+                $newInventory->setTransactionSubject($adjustmentStockMaterialDetail->getMemo());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setMaterial($material);
+                $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
+                $newInventory->setQuantityIn($adjustmentStockMaterialDetail->getQuantityAdjustment());
+            });
         } else if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_PAPER) {
-            
+            $adjustmentStockPaperDetails = $adjustmentStockHeader->getAdjustmentStockPaperDetails()->toArray();
+            $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderPaperDetailRepository, $adjustmentStockPaperDetails);
+            InventoryUtil::addNewData($this->inventoryRepository, $adjustmentStockHeader, $adjustmentStockPaperDetails, function($newInventory, $adjustmentStockPaperDetail) use ($averagePriceList, $adjustmentStockHeader) {
+                $paper = $adjustmentStockPaperDetail->getPaper();
+                $purchasePrice = isset($averagePriceList[$paper->getId()]) ? $averagePriceList[$paper->getId()] : '0.00';
+                $newInventory->setTransactionSubject($adjustmentStockPaperDetail->getMemo());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setPaper($paper);
+                $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
+                $newInventory->setQuantityIn($adjustmentStockPaperDetail->getQuantityAdjustment());
+            });
         } else if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT) {
-            
+            $adjustmentStockProductDetails = $adjustmentStockHeader->getAdjustmentStockProductDetails()->toArray();
+            $averagePriceList = InventoryUtil::getAveragePriceList('product', $this->saleOrderDetailRepository, $adjustmentStockProductDetails);
+            InventoryUtil::addNewData($this->inventoryRepository, $adjustmentStockHeader, $adjustmentStockProductDetails, function($newInventory, $adjustmentStockProductDetail) use ($averagePriceList, $adjustmentStockHeader) {
+                $product = $adjustmentStockProductDetail->getProduct();
+                $purchasePrice = isset($averagePriceList[$product->getId()]) ? $averagePriceList[$product->getId()] : '0.00';
+                $newInventory->setTransactionSubject($adjustmentStockProductDetail->getMemo());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setProduct($product);
+                $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
+                $newInventory->setQuantityIn($adjustmentStockProductDetail->getQuantityAdjustment());
+            });
         }
     }
 }
