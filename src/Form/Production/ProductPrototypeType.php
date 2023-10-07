@@ -3,7 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Customer;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Designcode;
 use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
@@ -33,9 +33,9 @@ class ProductPrototypeType extends AbstractType
                 'PP (Production Planning)' => ProductPrototype::DEVELOPMENT_TYPE_PP,
                 'PS (Production Schedule)' => ProductPrototype::DEVELOPMENT_TYPE_PS,
             ]])
-            ->add('quantityProduction')
+            ->add('quantityProduction', FormattedNumberType::class, ['decimals' => 0])
             ->add('color')
-            ->add('quantityBlade')
+            ->add('quantityBlade', FormattedNumberType::class, ['decimals' => 0])
             ->add('coatingList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'OPV Matt' => ProductPrototype::COATING_OPV_MATT,
                 'OPV Glossy' => ProductPrototype::COATING_OPV_GLOSSY,

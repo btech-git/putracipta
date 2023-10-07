@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
 use App\Entity\Master\DielineMillar;
@@ -57,8 +58,8 @@ class MasterOrderHeaderType extends AbstractType
             ->add('color')
             ->add('pantone')
             ->add('finishing')
-            ->add('quantityPrinting')
-            ->add('quantityPrinting2')
+            ->add('quantityPrinting', FormattedNumberType::class, ['decimals' => 0])
+            ->add('quantityPrinting2', FormattedNumberType::class, ['decimals' => 0])
             ->add('mountageSize')
 //            ->add('mountageSizeWidth')
 //            ->add('orderTypeMemo')
@@ -101,13 +102,13 @@ class MasterOrderHeaderType extends AbstractType
             ->add('inkK4Percentage')
             ->add('inkOpvPercentage')
             ->add('inkLaminatingSize')
-            ->add('packagingGlueQuantity')
-            ->add('packagingRubberQuantity')
-            ->add('packagingPaperQuantity')
-            ->add('packagingBoxQuantity')
-            ->add('packagingTapeLargeQuantity')
-            ->add('packagingTapeSmallQuantity')
-            ->add('packagingPlasticQuantity')
+            ->add('packagingGlueQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('packagingRubberQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('packagingPaperQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('packagingBoxQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('packagingTapeLargeQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('packagingTapeSmallQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('packagingPlasticQuantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('note')
             ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
 //            ->add('deliveryDate', null, ['widget' => 'single_text'])

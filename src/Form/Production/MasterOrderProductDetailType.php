@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\Sale\SaleOrderDetail;
 use Symfony\Component\Form\AbstractType;
@@ -15,18 +16,7 @@ class MasterOrderProductDetailType extends AbstractType
     {
         $builder
             ->add('isCanceled')
-            ->add('quantityStock')
-//            ->add('quantityUpPrinting1')
-//            ->add('quantityUpPrinting2')
-//            ->add('designCode', null, [
-//                'choice_label' => 'name',
-//                'choice_attr' => function($choice) {
-//                  return ['data-product' => $choice->getProduct()->getId()];
-//                },
-//                'query_builder' => function($repository) {
-//                    return $repository->createQueryBuilder('e')->andWhere("e.product IS NOT NULL");
-//                },
-//            ])
+            ->add('quantityStock', FormattedNumberType::class, ['decimals' => 0])
             ->add('saleOrderDetail', EntityHiddenType::class, ['class' => SaleOrderDetail::class])
         ;
     }
