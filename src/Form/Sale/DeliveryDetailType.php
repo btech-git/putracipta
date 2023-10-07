@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\DeliveryDetail;
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +16,7 @@ class DeliveryDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('isCanceled')
             ->add('lotNumber')
             ->add('linePo')

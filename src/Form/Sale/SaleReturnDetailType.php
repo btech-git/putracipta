@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\SaleReturnDetail;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class SaleReturnDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('deliveryDetail', EntityHiddenType::class, ['class' => DeliveryDetail::class])
             ->add('isCanceled')
         ;
