@@ -26,7 +26,16 @@
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
                     <td>{{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'size': 3}}) }}</td>
-                    <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.unit, {'label': false, 'attr': {
                             'data-item-field-name': 'unitId',
