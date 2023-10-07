@@ -17,4 +17,18 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, SaleOrderDetail::class);
     }
+
+    public function getAveragePriceList(array $products): array
+    {
+        $dql = 'SELECT IDENTITY(e.product) AS productId, SUM(e.quantity * e.unitPrice) / SUM(e.quantity) AS averagePrice
+                FROM ' . SaleOrderDetail::class . ' e
+                WHERE e.product IN (:products) AND e.isCanceled = false
+                GROUP BY e.product';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('products', $products);
+        $averagePriceList = $query->getScalarResult();
+
+        return $averagePriceList;
+    }
 }
