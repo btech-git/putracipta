@@ -65,13 +65,13 @@
                     'materialCode': inventoryRequestHeader.requestMode == 'material' ? detail.material.code|default : '',
                     'materialName': inventoryRequestHeader.requestMode == 'material' ? detail.material.name|default : '',
                     'materialUnitName': inventoryRequestHeader.requestMode == 'material' ? detail.unit.name|default : '',
-                    'inventoryRequestMaterialDetailQuantity': inventoryRequestHeader.requestMode == 'material' ? detail.quantity : '',
+                    'inventoryRequestMaterialDetailQuantity': inventoryRequestHeader.requestMode == 'material' ? detail.quantity|number_format(0) : '',
                     'inventoryRequestMaterialDetailId': inventoryRequestHeader.requestMode == 'material' ? detail.id : '',
                     'paperId': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.id|default : '',
                     'paperCode': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.code|default : '',
                     'paperName': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.paperNameSizeCombination|default : '',
                     'paperUnitName': inventoryRequestHeader.requestMode == 'paper' ? detail.unit.name|default : '',
-                    'inventoryRequestPaperDetailQuantity': inventoryRequestHeader.requestMode == 'paper' ? detail.quantity : '',
+                    'inventoryRequestPaperDetailQuantity': inventoryRequestHeader.requestMode == 'paper' ? detail.quantity|number_format(0) : '',
                     'inventoryRequestPaperDetailId': inventoryRequestHeader.requestMode == 'paper' ? detail.id : ''})|json_encode }}">
                     <td>{{ inventoryRequestHeader.departmentName }}</td>
                     <td>{{ inventoryRequestHeader.workOrderNumber }}</td>

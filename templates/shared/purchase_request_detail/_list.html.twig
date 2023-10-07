@@ -68,7 +68,7 @@
                     'purchaseRequestDetailUsageDate': purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('Y-m-d') : '',
                     'purchaseRequestDetailMemo': purchaseRequestDetail.memo,
                     'unitId': purchaseRequestDetail.unit.id,
-                    'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity}|json_encode }}">
+                    'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseRequestDetail.material.name|default }}</td>
                     <td class="text-center">{{ purchaseRequestDetail.quantity|number_format(0) }}</td>

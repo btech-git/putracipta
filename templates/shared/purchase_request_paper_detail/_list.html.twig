@@ -90,7 +90,7 @@
                     'usageDate': purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('Y-m-d') : '',
                     'memo': purchaseRequestPaperDetail.memo,
                     'unitId': purchaseRequestPaperDetail.unit.id,
-                    'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity}|json_encode }}">
+                    'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseRequestPaperDetail.paper.name|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.paper.length|default }}</td>

@@ -69,9 +69,9 @@
                     'masterOrderHeaderDimensionLength': masterOrderHeader.dimensionLength,
                     'masterOrderHeaderDimensionWidth': masterOrderHeader.dimensionWidth,
                     'masterOrderHeaderDimensionHeight': masterOrderHeader.dimensionHeight,
-                    'masterOrderHeaderQuantityStock': masterOrderHeader.totalQuantityStock,
-                    'masterOrderHeaderQuantityPrinting': masterOrderHeader.quantityPrinting,
-                    'masterOrderHeaderQuantityPrinting2': masterOrderHeader.quantityPrinting2,
+                    'masterOrderHeaderQuantityStock': masterOrderHeader.totalQuantityStock|number_format(0),
+                    'masterOrderHeaderQuantityPrinting': masterOrderHeader.quantityPrinting|number_format(0),
+                    'masterOrderHeaderQuantityPrinting2': masterOrderHeader.quantityPrinting2|number_format(0),
                     'masterOrderHeaderMountageSizeLength': masterOrderHeader.mountageSizeLength,
                     'masterOrderHeaderMountageSizeWidth': masterOrderHeader.mountageSizeWidth,
                     'masterOrderHeaderPrintingStatus': masterOrderHeader.printingStatus,
@@ -107,8 +107,8 @@
                     'masterOrderHeaderInkK4Percentage': masterOrderHeader.inkK4Percentage,
                     'masterOrderHeaderInkK4Weight': masterOrderHeader.inkK4Weight,
                     'masterOrderHeaderInkLaminatingSize': masterOrderHeader.inkLaminatingSize,
-                    'masterOrderHeaderInkLaminatingQuantity': masterOrderHeader.inkLaminatingQuantity,
-                    'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder}|json_encode }}">
+                    'masterOrderHeaderInkLaminatingQuantity': masterOrderHeader.inkLaminatingQuantity|number_format(0),
+                    'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder|number_format(0)}|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber }}</td>
                     <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
