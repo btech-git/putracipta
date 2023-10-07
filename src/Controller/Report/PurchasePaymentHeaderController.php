@@ -4,7 +4,7 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Grid\Report\PurchasePaymentHeaderGridType;
-use App\Repository\Transaction\PurchasePaymentHeaderRepository;
+use App\Repository\Purchase\PurchasePaymentHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
