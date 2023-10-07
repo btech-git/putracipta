@@ -14,14 +14,14 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
+                    GSM {{ grid.sort_char(form.sort.weight.vars.value) }}
+                </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'length') }}>
                     Panjang {{ grid.sort_char(form.sort.length.vars.value) }}
                 </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'width') }}>
                     Lebar {{ grid.sort_char(form.sort.width.vars.value) }}
-                </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
-                    GSM {{ grid.sort_char(form.sort.weight.vars.value) }}
                 </th>
                 <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
@@ -36,13 +36,13 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'width') }} value="{{ form.filter.width.1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
                 </th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
@@ -60,9 +60,9 @@
                 <tr>
                     <td>{{ paper.code }}</td>
                     <td>{{ paper.name }}</td>
+                    <td>{{ paper.weight }}</td>
                     <td>{{ paper.length }}</td>
                     <td>{{ paper.width }}</td>
-                    <td>{{ paper.weight }}</td>
                     <td>{{ paper.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_paper_show', {'id': paper.id}) }}"><i class="bi-search"></i></a>
