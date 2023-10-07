@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/purchase/purchase_order_header')]
 class PurchaseOrderHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_purchase_purchase_order_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_purchase_purchase_order_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
@@ -30,7 +30,7 @@ class PurchaseOrderHeaderController extends AbstractController
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
         ]);
-        $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(PurchaseOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

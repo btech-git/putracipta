@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/account')]
 class AccountController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_account__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_account__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, AccountRepository $accountRepository): Response
     {
@@ -27,7 +27,7 @@ class AccountController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(AccountGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(AccountGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $accounts) = $accountRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/literal_config')]
 class LiteralConfigController extends AbstractController
 {
-    #[Route('/_list', name: 'app_admin_literal_config__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_admin_literal_config__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, LiteralConfigRepository $literalConfigRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(LiteralConfigGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(LiteralConfigGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $literalConfigs) = $literalConfigRepository->fetchData($criteria);

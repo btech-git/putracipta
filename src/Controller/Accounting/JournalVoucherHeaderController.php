@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/accounting/journal_voucher_header')]
 class JournalVoucherHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_accounting_journal_voucher_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_accounting_journal_voucher_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, JournalVoucherHeaderRepository $journalVoucherHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(JournalVoucherHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(JournalVoucherHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $journalVoucherHeaders) = $journalVoucherHeaderRepository->fetchData($criteria);

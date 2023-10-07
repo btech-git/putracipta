@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/payment_type')]
 class PaymentTypeController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_payment_type__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_payment_type__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, PaymentTypeRepository $paymentTypeRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(PaymentTypeGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(PaymentTypeGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $paymentTypes) = $paymentTypeRepository->fetchData($criteria);

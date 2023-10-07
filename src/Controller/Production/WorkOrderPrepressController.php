@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/production/work_order_prepress')]
 class WorkOrderPrepressController extends AbstractController
 {
-    #[Route('/_list', name: 'app_production_work_order_prepress__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_production_work_order_prepress__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, WorkOrderPrepressRepository $workOrderPrepressRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(WorkOrderPrepressGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(WorkOrderPrepressGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $workOrderPrepresses) = $workOrderPrepressRepository->fetchData($criteria);

@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/transportation')]
 class TransportationController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_transportation__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_transportation__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, TransportationRepository $transportationRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(TransportationGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(TransportationGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $transportations) = $transportationRepository->fetchData($criteria);

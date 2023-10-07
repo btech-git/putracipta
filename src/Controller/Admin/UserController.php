@@ -17,12 +17,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 #[Route('/admin/user')]
 class UserController extends AbstractController
 {
-    #[Route('/_list', name: 'app_admin_user__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_admin_user__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, UserRepository $userRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(UserGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(UserGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $users) = $userRepository->fetchData($criteria);

@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/accounting/accounting_ledger')]
 class AccountingLedgerController extends AbstractController
 {
-    #[Route('/_list', name: 'app_accounting_accounting_ledger__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_accounting_accounting_ledger__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, AccountingLedgerRepository $accountingLedgerRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(AccountingLedgerGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(AccountingLedgerGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $accountingLedgers) = $accountingLedgerRepository->fetchData($criteria);

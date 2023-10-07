@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/currency')]
 class CurrencyController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_currency__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_currency__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, CurrencyRepository $currencyRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(CurrencyGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(CurrencyGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $currencies) = $currencyRepository->fetchData($criteria);

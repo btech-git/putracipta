@@ -26,7 +26,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/_dashboard', name: 'app__dashboard', methods: ['GET'])]
+    #[Route('/_dashboard', name: 'app__dashboard', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function _dashboard(EntityManagerInterface $entityManager): Response
     {

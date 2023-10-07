@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/work_order_check_sheet')]
 class WorkOrderCheckSheetController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_work_order_check_sheet__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_work_order_check_sheet__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(WorkOrderCheckSheetGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(WorkOrderCheckSheetGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $workOrderCheckSheets) = $workOrderCheckSheetRepository->fetchData($criteria);

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/design_code')]
 class DesignCodeController extends AbstractController
 {
-    #[Route('/_design_code_list', name: 'app_master_design_code__design_code_list', methods: ['GET'])]
+    #[Route('/_design_code_list', name: 'app_master_design_code__design_code_list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _designCodeList(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
@@ -30,12 +30,12 @@ class DesignCodeController extends AbstractController
         ]);
     }
 
-    #[Route('/_list', name: 'app_master_design_code__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_design_code__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(DesignCodeGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $designCodes) = $designCodeRepository->fetchData($criteria);

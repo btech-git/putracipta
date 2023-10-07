@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sale/delivery_header')]
 class DeliveryHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_sale_delivery_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_sale_delivery_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
@@ -29,7 +29,7 @@ class DeliveryHeaderController extends AbstractController
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
         ]);
-        $form = $this->createForm(DeliveryHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DeliveryHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

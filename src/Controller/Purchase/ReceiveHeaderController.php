@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/purchase/receive_header')]
 class ReceiveHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_purchase_receive_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_purchase_receive_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
     {
@@ -27,7 +27,7 @@ class ReceiveHeaderController extends AbstractController
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
         ]);
-        $form = $this->createForm(ReceiveHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(ReceiveHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

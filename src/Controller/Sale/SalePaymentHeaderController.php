@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sale/sale_payment_header')]
 class SalePaymentHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_sale_sale_payment_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_sale_sale_payment_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, SalePaymentHeaderRepository $salePaymentHeaderRepository): Response
     {
@@ -27,7 +27,7 @@ class SalePaymentHeaderController extends AbstractController
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
         ]);
-        $form = $this->createForm(SalePaymentHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(SalePaymentHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $salePaymentHeaders) = $salePaymentHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/material')]
 class MaterialController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_material__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_material__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, MaterialRepository $materialRepository): Response
     {
@@ -27,7 +27,7 @@ class MaterialController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(MaterialGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(MaterialGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $materials) = $materialRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

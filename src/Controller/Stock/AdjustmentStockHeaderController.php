@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/stock/adjustment_stock_header')]
 class AdjustmentStockHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_stock_adjustment_stock_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_stock_adjustment_stock_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
@@ -28,7 +28,7 @@ class AdjustmentStockHeaderController extends AbstractController
             'transactionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
-        $form = $this->createForm(AdjustmentStockHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(AdjustmentStockHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

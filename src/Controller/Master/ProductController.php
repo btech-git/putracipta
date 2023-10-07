@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/product')]
 class ProductController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_product__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_product__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, ProductRepository $productRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(ProductGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(ProductGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

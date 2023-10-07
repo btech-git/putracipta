@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/account_category')]
 class AccountCategoryController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_account_category__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_account_category__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, AccountCategoryRepository $accountCategoryRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(AccountCategoryGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(AccountCategoryGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $accountCategories) = $accountCategoryRepository->fetchData($criteria);

@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/machine_printing')]
 class MachinePrintingController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_machine_printing__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_machine_printing__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, MachinePrintingRepository $machinePrintingRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(MachinePrintingGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(MachinePrintingGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $machinePrintings) = $machinePrintingRepository->fetchData($criteria);

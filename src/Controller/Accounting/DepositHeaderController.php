@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/accounting/deposit_header')]
 class DepositHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_accounting_deposit_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_accounting_deposit_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DepositHeaderRepository $depositHeaderRepository): Response
     {
@@ -28,7 +28,7 @@ class DepositHeaderController extends AbstractController
             'transactionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
-        $form = $this->createForm(DepositHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DepositHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $depositHeaders) = $depositHeaderRepository->fetchData($criteria);

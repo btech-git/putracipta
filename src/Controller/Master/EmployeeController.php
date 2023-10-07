@@ -19,12 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/employee')]
 class EmployeeController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_employee__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_employee__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, EmployeeRepository $employeeRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(EmployeeGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(EmployeeGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $employees) = $employeeRepository->fetchData($criteria);

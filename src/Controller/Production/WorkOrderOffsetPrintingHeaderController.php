@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/production/work_order_offset_printing_header')]
 class WorkOrderOffsetPrintingHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_production_work_order_offset_printing_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_production_work_order_offset_printing_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, WorkOrderOffsetPrintingHeaderRepository $workOrderOffsetPrintingHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(WorkOrderOffsetPrintingHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(WorkOrderOffsetPrintingHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $workOrderOffsetPrintingHeaders) = $workOrderOffsetPrintingHeaderRepository->fetchData($criteria);

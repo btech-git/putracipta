@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/stock/inventory_release_header')]
 class InventoryReleaseHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_stock_inventory_release_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_stock_inventory_release_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, InventoryReleaseHeaderRepository $inventoryReleaseHeaderRepository): Response
     {
@@ -28,7 +28,7 @@ class InventoryReleaseHeaderController extends AbstractController
             'transactionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
-        $form = $this->createForm(InventoryReleaseHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(InventoryReleaseHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $inventoryReleaseHeaders) = $inventoryReleaseHeaderRepository->fetchData($criteria);

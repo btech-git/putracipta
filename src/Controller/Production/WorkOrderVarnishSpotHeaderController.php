@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/production/work_order_varnish_spot_header')]
 class WorkOrderVarnishSpotHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_production_work_order_varnish_spot_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_production_work_order_varnish_spot_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, WorkOrderVarnishSpotHeaderRepository $workOrderVarnishSpotHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(WorkOrderVarnishSpotHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(WorkOrderVarnishSpotHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $workOrderVarnishSpotHeaders) = $workOrderVarnishSpotHeaderRepository->fetchData($criteria);

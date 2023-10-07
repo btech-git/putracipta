@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sale/sale_invoice_header')]
 class SaleInvoiceHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_sale_sale_invoice_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_sale_sale_invoice_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
@@ -30,7 +30,7 @@ class SaleInvoiceHeaderController extends AbstractController
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
         ]);
-        $form = $this->createForm(SaleInvoiceHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(SaleInvoiceHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

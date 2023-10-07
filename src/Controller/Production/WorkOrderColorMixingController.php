@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/production/work_order_color_mixing')]
 class WorkOrderColorMixingController extends AbstractController
 {
-    #[Route('/_list', name: 'app_production_work_order_color_mixing__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_production_work_order_color_mixing__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, WorkOrderColorMixingRepository $workOrderColorMixingRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(WorkOrderColorMixingGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(WorkOrderColorMixingGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $workOrderColorMixings) = $workOrderColorMixingRepository->fetchData($criteria);

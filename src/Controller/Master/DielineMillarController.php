@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/dieline_millar')]
 class DielineMillarController extends AbstractController
 {
-    #[Route('/_dieline_list', name: 'app_master_dieline_millar__dieline_list', methods: ['GET'])]
+    #[Route('/_dieline_list', name: 'app_master_dieline_millar__dieline_list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _dielineList(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
@@ -29,12 +29,12 @@ class DielineMillarController extends AbstractController
         ]);
     }
 
-    #[Route('/_list', name: 'app_master_dieline_millar__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_dieline_millar__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(DielineMillarGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DielineMillarGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $dielineMillars) = $dielineMillarRepository->fetchData($criteria);

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sale/sale_return_header')]
 class SaleReturnHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_sale_sale_return_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_sale_sale_return_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, SaleReturnHeaderRepository $saleReturnHeaderRepository): Response
     {
@@ -28,7 +28,7 @@ class SaleReturnHeaderController extends AbstractController
         $criteria->setSort([
             'transactionDate' => SortDescending::class,
         ]);
-        $form = $this->createForm(SaleReturnHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(SaleReturnHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $saleReturnHeaders) = $saleReturnHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {

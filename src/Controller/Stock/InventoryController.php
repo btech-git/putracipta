@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/stock/inventory')]
 class InventoryController extends AbstractController
 {
-    #[Route('/_list', name: 'app_stock_inventory__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_stock_inventory__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, InventoryRepository $inventoryRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(InventoryGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(InventoryGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $inventories) = $inventoryRepository->fetchData($criteria);

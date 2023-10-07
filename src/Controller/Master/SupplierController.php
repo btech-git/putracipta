@@ -18,12 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/master/supplier')]
 class SupplierController extends AbstractController
 {
-    #[Route('/_list', name: 'app_master_supplier__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_master_supplier__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, SupplierRepository $supplierRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(SupplierGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(SupplierGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $suppliers) = $supplierRepository->fetchData($criteria);
