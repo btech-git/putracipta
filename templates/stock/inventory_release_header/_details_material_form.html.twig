@@ -28,8 +28,17 @@
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                    <td data-item-field-name="inventoryRequestMaterialDetailQuantity">{{ detailForm.vars.value.inventoryRequestMaterialDetail.quantity|default }}</td>
-                    <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td data-item-field-name="inventoryRequestMaterialDetailQuantity">{{ detailForm.vars.value.inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                    <td>
+                        {{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}
+                    </td>
                     <td data-item-field-name="materialUnitName">{{ detailForm.vars.value.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>

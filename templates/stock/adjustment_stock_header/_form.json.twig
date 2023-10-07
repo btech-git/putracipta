@@ -1,10 +1,9 @@
 {
-    "totalQuantity": "{{ deliveryHeader.totalQuantity|default|number_format(0) }}"
     "adjustmentStockMaterialDetails": {
         {%- for adjustmentStockMaterialDetailForm in form.adjustmentStockMaterialDetails -%}
             {%- set adjustmentStockMaterialDetail = adjustmentStockMaterialDetailForm.vars.data -%}
             "{{ adjustmentStockMaterialDetailForm.vars.name }}": {
-                "quantityDifference": "{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}",
+                "quantityDifference": "{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
         {%- endfor -%}

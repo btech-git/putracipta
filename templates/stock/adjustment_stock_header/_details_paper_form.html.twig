@@ -17,14 +17,23 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="{{ form.adjustmentMode.vars.id }}:change@document->form-collection#clearCollectionItems paper-table:data-table:select@document->form-collection#addCollectionItem">
+        <tbody data-form-collection-target="items" data-action="{{ form.adjustmentMode.vars.id }}:data-choice-select:change@document->form-collection#clearCollectionItems paper-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
                     <td class="text-center" data-item-field-name="adjustmentStockPaperDetailQuantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
-                    <td>{{ form_row(detailForm.quantityAdjustment, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.quantityAdjustment, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}
+                    </td>
                     <td class="text-center" data-item-field-name="adjustmentStockPaperDetailQuantityDifference">{{ detailForm.vars.value.quantityDifference|default }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.paper.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>

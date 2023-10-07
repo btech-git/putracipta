@@ -57,7 +57,6 @@
                 <th>Qty</th>
                 <th>Satuan</th>
                 <th>Keterangan</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -69,7 +68,6 @@
                         <td>{{ inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryRequestPaperDetail.unit.name|default }}</td>
                         <td>{{ inventoryRequestPaperDetail.memo|default }}</td>
-                        <td>{{ inventoryRequestPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% elseif (inventoryRequestHeader.requestMode == 'material') %} 
@@ -80,7 +78,6 @@
                         <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
                         <td>{{ inventoryRequestMaterialDetail.memo|default }}</td>
-                        <td>{{ inventoryRequestMaterialDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% endif %} 

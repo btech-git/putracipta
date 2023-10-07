@@ -46,7 +46,6 @@
                     <th>Quantity</th>
                     <th>Satuan</th>
                     <th>Keterangan</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -54,18 +53,17 @@
                     <tr>
                         <td>{{ stockTransferMaterialDetail.material.code|default }}</td>
                         <td>{{ stockTransferMaterialDetail.material.name|default }}</td>
-                        <td class="text-center">{{ stockTransferMaterialDetail.quantity|default }}</td>
+                        <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ stockTransferMaterialDetail.material.unit.name|default }}</td>
                         <td>{{ stockTransferMaterialDetail.memo|default }}</td>
-                        <td>{{ stockTransferMaterialDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2" class="text-end"><strong>Total</strong></td>
-                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default }}</strong></td>
-                    <td colspan="3"></td>
+                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default|number_format(0) }}</strong></td>
+                    <td colspan="2"></td>
                 </tr>
             </tfoot>
         </table>
@@ -78,7 +76,6 @@
                     <th>Quantity</th>
                     <th>Satuan</th>
                     <th>Keterangan</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -86,18 +83,17 @@
                     <tr>
                         <td>{{ stockTransferPaperDetail.paper.code|default }}</td>
                         <td>{{ stockTransferPaperDetail.paper.name|default }}</td>
-                        <td class="text-center">{{ stockTransferPaperDetail.quantity|default }}</td>
+                        <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ stockTransferPaperDetail.paper.unit.name|default }}</td>
                         <td>{{ stockTransferPaperDetail.memo|default }}</td>
-                        <td>{{ stockTransferPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2" class="text-end"><strong>Total</strong></td>
-                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default }}</strong></td>
-                    <td colspan="3"></td>
+                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default|number_format(0) }}</strong></td>
+                    <td colspan="2"></td>
                 </tr>
             </tfoot>
         </table>
@@ -110,7 +106,6 @@
                     <th>Quantity</th>
                     <th>Satuan</th>
                     <th>Keterangan</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -118,18 +113,17 @@
                     <tr>
                         <td>{{ stockTransferProductDetail.product.code|default }}</td>
                         <td>{{ stockTransferProductDetail.product.name|default }}</td>
-                        <td class="text-center">{{ stockTransferProductDetail.quantity|default }}</td>
+                        <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ stockTransferProductDetail.product.unit.name|default }}</td>
                         <td>{{ stockTransferProductDetail.memo|default }}</td>
-                        <td>{{ stockTransferProductDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2" class="text-end"><strong>Total</strong></td>
-                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default }}</strong></td>
-                    <td colspan="3"></td>
+                    <td class="text-center"><strong>{{ stockTransferHeader.totalQuantity|default|number_format(0) }}</strong></td>
+                    <td colspan="2"></td>
                 </tr>
             </tfoot>
         </table>

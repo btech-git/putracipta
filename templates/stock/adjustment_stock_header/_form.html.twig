@@ -1,8 +1,7 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward change->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'change': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward data-choice-select:change->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice-select:change': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
-     data-json-loader-method-value="POST"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
 
     {{ form_start(form) }}
@@ -16,7 +15,9 @@
                         'attr': {
                             'readonly': adjustmentStockHeader.id is not null,
                             'data-controller': 'dom-element',
-                            'data-action': 'change->dom-element#bind',
+                            'data-action': 'change->dom-element#bind change->event-emitter#forward',
+                            'data-forwarding-group': 'data-choice-select',
+                            'data-event-emitter-attributes-list-param': {'change': 'data-forwarding-group'}|json_encode,
                             'data-dom-element-bind-specifications-param': [
                                 {'destinationsTarget': "#detail-material-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value !== "material"'},
                                 {'destinationsTarget': "#detail-material-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "material"'},
@@ -73,24 +74,21 @@
     {{ dialog.start('material-dialog', 'Material List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_material__list') }}"
-             data-html-loader-auto-load-value="true"
-             data-action="material-table:data-table:select@document->html-loader#load">
+             data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
     
     {{ dialog.start('paper-dialog', 'Kertas List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
-             data-html-loader-auto-load-value="true"
-             data-action="paper-table:data-table:select@document->html-loader#load">
+             data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
     
     {{ dialog.start('product-dialog', 'Product List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
-             data-html-loader-auto-load-value="true"
-             data-action="product-table:data-table:select@document->html-loader#load">
+             data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
 </div>
