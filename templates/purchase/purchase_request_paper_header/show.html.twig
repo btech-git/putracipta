@@ -72,7 +72,7 @@
         <tfoot>
             <tr>
                 <td colspan="2" style="text-align: right"><strong>Total</strong></td>
-                <td style="text-align: center"><strong>{{ purchaseRequestPaperHeader.totalQuantity|default }}</strong></td>
+                <td style="text-align: center"><strong>{{ purchaseRequestPaperHeader.totalQuantity|default|number_format(0) }}</strong></td>
                 <td colspan="5"></td>
             </tr>
         </tfoot>
@@ -103,14 +103,16 @@
                 </thead>
                 <tbody>
                     {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
+                        {% for purchaseOrderPaperDetail in purchaseRequestPaperDetail.purchaseOrderPaperDetails %}
                             <tr>
-                                <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
-                                <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
-                                <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                                <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.quantity|default }}</td>
-                                <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.unit.name|default }}</td>
-                                <td>{{ purchaseRequestPaperDetail.purchaseOrderPaperDetail.isCanceled|default ? 'Canceled' : '' }}</td>
+                                <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
+                                <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
+                                <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                                <td>{{ purchaseOrderPaperDetail.isCanceled|default ? 'Canceled' : '' }}</td>
                             </tr>
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>

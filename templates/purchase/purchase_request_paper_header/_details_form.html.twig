@@ -28,7 +28,16 @@
                     <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
                     <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
                     <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
-                    <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.unit, {'label': false, 'attr': {
                             'data-item-field-name': 'unitId',

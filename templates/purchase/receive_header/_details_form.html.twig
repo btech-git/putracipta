@@ -27,7 +27,16 @@
                     <td data-item-field-name="materialOrPaperName">{{ detailForm.vars.value.material ? detailForm.vars.value.material.name|default : detailForm.vars.value.paper.paperNameSizeCombination|default }}</td>
                     <td class="text-center" data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                     <td class="text-center" data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(0) }}</td>
-                    <td>{{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}
+                    </td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
