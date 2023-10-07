@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/design_code')]
 class DesignCodeController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_design_code__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_design_code__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
@@ -24,7 +24,7 @@ class DesignCodeController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(DesignCodeGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $designCodes) = $designCodeRepository->fetchData($criteria, function($qb, $alias) use ($request) {

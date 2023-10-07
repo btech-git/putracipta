@@ -15,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/purchase_request_paper_detail')]
 class PurchaseRequestPaperDetailController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_purchase_request_paper_detail__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_purchase_request_paper_detail__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(PurchaseRequestPaperDetailGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(PurchaseRequestPaperDetailGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $purchaseRequestPaperDetails) = $purchaseRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {

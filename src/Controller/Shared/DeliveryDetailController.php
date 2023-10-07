@@ -15,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/delivery_detail')]
 class DeliveryDetailController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_delivery_detail__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_delivery_detail__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DeliveryDetailRepository $deliveryDetailRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(DeliveryDetailGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DeliveryDetailGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $deliveryDetails) = $deliveryDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {

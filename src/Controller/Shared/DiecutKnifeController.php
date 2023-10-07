@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/diecut_knife')]
 class DiecutKnifeController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_diecut_knife__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_diecut_knife__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
@@ -23,7 +23,7 @@ class DiecutKnifeController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(DiecutKnifeGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DiecutKnifeGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $diecutKnives) = $diecutKnifeRepository->fetchData($criteria, function($qb, $alias) use ($request) {

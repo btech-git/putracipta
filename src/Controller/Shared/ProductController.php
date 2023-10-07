@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/product')]
 class ProductController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_product__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_product__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, ProductRepository $productRepository): Response
     {
@@ -23,13 +23,16 @@ class ProductController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(ProductGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(ProductGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $customerId = '';
             if (isset($request->query->get('sale_order_header')['customer'])) {
                 $customerId = $request->query->get('sale_order_header')['customer'];
+            }
+            if (isset($request->query->get('product_prototype')['customer'])) {
+                $customerId = $request->query->get('product_prototype')['customer'];
             }
             if (!empty($customerId)) {
                 $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");

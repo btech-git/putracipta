@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/inventory_request_header')]
 class InventoryRequestHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_inventory_request_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_inventory_request_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(InventoryRequestHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(InventoryRequestHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $inventoryRequestHeaders) = $inventoryRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {

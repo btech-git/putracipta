@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/customer')]
 class CustomerController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_customer__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_customer__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, CustomerRepository $customerRepository): Response
     {
@@ -23,7 +23,7 @@ class CustomerController extends AbstractController
         $criteria->setSort([
             'company' => SortAscending::class,
         ]);
-        $form = $this->createForm(CustomerGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(CustomerGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $customers) = $customerRepository->fetchData($criteria, function($qb, $alias) {

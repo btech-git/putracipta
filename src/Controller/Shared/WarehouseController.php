@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/warehouse')]
 class WarehouseController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_warehouse__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_warehouse__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(WarehouseGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(WarehouseGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $warehouses) = $warehouseRepository->fetchData($criteria, function($qb, $alias) {

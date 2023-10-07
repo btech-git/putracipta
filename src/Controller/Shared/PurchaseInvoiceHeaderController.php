@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/purchase_invoice_header')]
 class PurchaseInvoiceHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_purchase_invoice_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_purchase_invoice_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(PurchaseInvoiceHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(PurchaseInvoiceHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $purchaseInvoiceHeaders) = $purchaseInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) use ($request) {

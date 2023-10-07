@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/shared/dieline_millar')]
 class DielineMillarController extends AbstractController
 {
-    #[Route('/_list', name: 'app_shared_dieline_millar__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_shared_dieline_millar__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
@@ -23,7 +23,7 @@ class DielineMillarController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
-        $form = $this->createForm(DielineMillarGridType::class, $criteria, ['method' => 'GET']);
+        $form = $this->createForm(DielineMillarGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $dielineMillars) = $dielineMillarRepository->fetchData($criteria, function($qb, $alias) use ($request) {
