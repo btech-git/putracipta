@@ -2,7 +2,6 @@
      data-action="data-table:select->event-emitter#forward data-choice-select:change->event-emitter#forward"
      data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice-select:change': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
-     data-json-loader-method-value="POST"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
 
     {{ form_start(form) }}
@@ -211,7 +210,7 @@
     {{ dialog.start('product-dialog', 'Product List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
-             data-html-loader-auto-load-value="true">
+             data-action="{{ form.customer.vars.id }}:data-choice-select:change@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 

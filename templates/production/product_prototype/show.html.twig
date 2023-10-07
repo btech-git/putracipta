@@ -63,11 +63,11 @@
                 <td>{{ productPrototype.color }}</td>
             <tr>
                 <th>Quantity (pcs)</th>
-                <td>{{ productPrototype.quantityProduction }}</td>
+                <td>{{ productPrototype.quantityProduction|number_format(0) }}</td>
             </tr>
             <tr>
                 <th>Jumlah Mata (up/sheet)</th>
-                <td>{{ productPrototype.quantityBlade }}</td>
+                <td>{{ productPrototype.quantityBlade|number_format(0) }}</td>
             </tr>
         </tbody>
     </table>
