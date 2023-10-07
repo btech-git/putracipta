@@ -3,7 +3,7 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
     static values = {
         url: String,
-        method: {type: String, default: 'GET'},
+        method: {type: String, default: 'POST'},
         formTarget: {type: String, default: 'form'},
         autoLoad: Boolean
     }
