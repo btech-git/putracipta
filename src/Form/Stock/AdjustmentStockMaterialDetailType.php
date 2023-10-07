@@ -3,6 +3,7 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Material;
 use App\Entity\Stock\AdjustmentStockMaterialDetail;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class AdjustmentStockMaterialDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantityAdjustment')
+            ->add('quantityAdjustment', FormattedNumberType::class, ['decimals' => 0])
             ->add('memo')
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
             ->add('isCanceled')

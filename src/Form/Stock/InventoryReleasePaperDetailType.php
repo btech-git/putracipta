@@ -3,6 +3,7 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Paper;
 use App\Entity\Stock\InventoryReleasePaperDetail;
 use App\Entity\Stock\InventoryRequestPaperDetail;
@@ -15,7 +16,7 @@ class InventoryReleasePaperDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('memo')
             ->add('isCanceled')
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
