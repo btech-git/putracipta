@@ -45,7 +45,7 @@
             {% for expenseHeader in expenseHeaders %}
                 <tr>
                     <td>{{ expenseHeader.codeNumber }}</td>
-                    <td>{{ expenseHeader.transactionDate ? depositHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ expenseHeader.transactionDate ? expenseHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ expenseHeader.note }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_accounting_expense_header_show', {'id': expenseHeader.id}) }}"><i class="bi-search"></i></a>
