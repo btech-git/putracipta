@@ -20,8 +20,22 @@ export default class extends Controller {
         } else {
             for (const spec of event.params.bindSpecifications) {
                 if (spec.eventTypes === undefined || spec.eventTypes.includes(event.type)) {
-                    const $sources = spec.sourcesTarget === undefined ? [$element] : [...document.querySelectorAll(spec.sourcesTarget)];
-                    const $destinations = spec.destinationsTarget === undefined ? [$element] : [...document.querySelectorAll(spec.destinationsTarget)];
+                    let $sources = null;
+                    let $destinations = null;
+                    if (spec.sources !== undefined) {
+                        $sources = eval(spec.sources);
+                    } else if (spec.sourcesTarget !== undefined) {
+                        $sources = [...document.querySelectorAll(spec.sourcesTarget)];
+                    } else {
+                        $sources = [$element];
+                    }
+                    if (spec.destinations !== undefined) {
+                        $destinations = eval(spec.destinations);
+                    } else if (spec.destinationsTarget !== undefined) {
+                        $destinations = [...document.querySelectorAll(spec.destinationsTarget)];
+                    } else {
+                        $destinations = [$element];
+                    }
                     switch (spec.action) {
                         case 'putHtmlContent':
                             const $content = eval(spec.descriptor.content);
