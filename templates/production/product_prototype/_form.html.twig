@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward data-choice-select:change->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice-select:change': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward data-choice:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
 
@@ -41,9 +41,8 @@
                     {{ form_row(form.customer, {
                         'label': 'Customer',
                         'attr': {
-                            'data-forwarding-group': 'data-choice-select',
-                            'data-action': 'event-emitter#forward',
-                            'data-event-emitter-attributes-list-param': {'change': 'data-forwarding-group'}|json_encode,
+                            'data-controller': 'data-choice',
+                            'data-action': 'data-choice#select',
                         },
                     }) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
@@ -195,12 +194,22 @@
         </fieldset>
 
         <div class="d-grid">
-            <button class="btn btn-success"
-                    data-controller="dom-element"
-                    data-action="dom-element#confirm"
-                    data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
-                Save
-            </button>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="btn btn-danger"
+                            data-controller="dom-element"
+                            data-action="dom-element#confirm"
+                            data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
+                        Cancel
+                    </button>
+                    <button class="btn btn-success"
+                            data-controller="dom-element"
+                            data-action="dom-element#confirm"
+                            data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                        Save
+                    </button>
+                </div>
+            </div>
             <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
         </div>
     {{ form_end(form) }}
@@ -210,14 +219,14 @@
     {{ dialog.start('product-dialog', 'Product List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
-             data-action="{{ form.customer.vars.id }}:data-choice-select:change@document->html-loader#load">
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 
     {{ dialog.start('design-code-dialog', 'Design Code List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
-             data-action="{{ form.customer.vars.id }}:data-choice-select:change@document->html-loader#load">
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 

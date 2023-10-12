@@ -22,12 +22,12 @@
             {{ form_errors(form.paper) }}
         </div>
         <div class="mb-3">
-            <label class="form-label">Gram</label>
-            <input type="text" class="form-control" value="{{ masterOrderHeader.paper.weight|default }}" readonly="readonly"
+            <label class="form-label">Kode Kertas</label>
+            <input type="text" class="form-control" value="{{ masterOrderHeader.paper.codeNumber|default }}" readonly="readonly"
                    data-controller="dom-element"
                    data-action="paper-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWeight'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                    ]|json_encode }}" />
         </div>
         <div class="mb-3">

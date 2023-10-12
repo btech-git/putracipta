@@ -8,16 +8,21 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px" role="button">
-                    Master Order #
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Master Order # {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th>Mesin Cetak</th>
-                <th>Qty Order</th>
-                <th>Qty Cetak</th>
-                <th style="min-width: 90px" ></th>
+                <th style="min-width: 150px">Customer</th>
+                <th style="min-width: 150px">Design Code</th>
+                <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'orderType') }}>
+                    Jenis {{ grid.sort_char(form.sort.orderType.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
+                    Catatan {{ grid.sort_char(form.sort.note.vars.value) }}
+                </th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -37,7 +42,12 @@
                 </th>
                 <th></th>
                 <th></th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'orderType') }} value="{{ form.filter.orderType.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -53,9 +63,10 @@
                     'masterOrderHeaderQuantity': masterOrderHeader.totalQuantityOrder}|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber }}</td>
                     <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
-                    <td>{{ masterOrderHeader.totalQuantityOrder }}</td>
-                    <td>{{ masterOrderHeader.quantityPrinting }}</td>
+                    <td>{{ masterOrderHeader.customer.company|default }}</td>
+                    <td>{{ masterOrderHeader.designCode.codeNumber }}</td>
+                    <td>{{ masterOrderHeader.orderType }}</td>
+                    <td>{{ masterOrderHeader.note }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_header_edit', {'id': masterOrderHeader.id}) }}"><i class="bi-pencil"></i></a>

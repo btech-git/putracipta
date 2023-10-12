@@ -23,7 +23,7 @@
         </thead>
         <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems sale-order-detail-table:data-table:select@document->json-loader#load customer-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
-                <tr data-form-collection-target="item" data-item-identifier-name="saleOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.saleOrderDetail.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <tr data-form-collection-target="item" data-item-identifier-name="saleOrderDetailId" data-item-identifier-value="{{ detailForm.vars.value.saleOrderDetail.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
                     <td class="d-none" data-item-field-name="productId">{{ detailForm.vars.value.saleOrderDetail.product.id|default }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
