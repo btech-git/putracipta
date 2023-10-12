@@ -22,25 +22,30 @@ class DiecutKnifeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['upPerSecondKnife', 'upPerSecondPrint', 'printingSize', 'note', 'version', 'isInactive', 'name', 'code', 'location'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'location', 'customer:company'],
+                'field_label_list' => [
+                    'code' => 'Code',
+                    'version' => '',
+                    'customer:company' => 'Customer',
+                ],
                 'field_operators_list' => [
-                    'upPerSecondKnife' => [FilterEqual::class, FilterNotEqual::class],
-                    'upPerSecondPrint' => [FilterEqual::class, FilterNotEqual::class],
-                    'printingSize' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'version' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'location' => [FilterContain::class, FilterNotContain::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['upPerSecondKnife', 'upPerSecondPrint', 'printingSize', 'note', 'version', 'isInactive', 'name', 'code', 'location'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'location', 'customer:company'],
+                'field_label_list' => [
+                    'code' => '',
+                    'version' => 'Code',
+                    'customer:company' => 'Customer',
+                ],
                 'field_operators_list' => [
-                    'upPerSecondKnife' => [SortAscending::class, SortDescending::class],
-                    'upPerSecondPrint' => [SortAscending::class, SortDescending::class],
-                    'printingSize' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
                     'location' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
@@ -48,6 +53,7 @@ class DiecutKnifeGridType extends AbstractType
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

@@ -22,32 +22,39 @@ class DesignCodeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting', 'isInactive', 'name', 'code'],
+                'field_names' => [ 'code', 'variant', 'version', 'name', 'customer:company', 'note', 'isInactive'],
+                'field_label_list' => [
+                    'code' => 'Code',
+                    'variant' => '',
+                    'version' => '',
+                    'customer:company' => 'Customer',
+                ],
                 'field_operators_list' => [
-                    'version' => [FilterContain::class, FilterNotContain::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
-                    'variant' => [FilterContain::class, FilterNotContain::class],
-                    'color' => [FilterContain::class, FilterNotContain::class],
-                    'pantone' => [FilterContain::class, FilterNotContain::class],
-                    'quantityPrinting' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
-                    'location' => [FilterContain::class, FilterNotContain::class],
+                    'variant' => [FilterContain::class, FilterNotContain::class],
+                    'version' => [FilterContain::class, FilterNotContain::class],
+                    'note' => [FilterContain::class, FilterNotContain::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['version', 'note', 'variant', 'color', 'pantone', 'quantityPrinting', 'isInactive', 'name', 'code'],
+                'field_names' => ['name', 'code', 'variant', 'version', 'customer:company', 'note', 'isInactive'],
+                'field_label_list' => [
+                    'code' => '',
+                    'variant' => '',
+                    'version' => 'Code',
+                    'customer:company' => 'Customer',
+                ],
                 'field_operators_list' => [
-                    'version' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
-                    'variant' => [SortAscending::class, SortDescending::class],
-                    'color' => [SortAscending::class, SortDescending::class],
-                    'pantone' => [SortAscending::class, SortDescending::class],
-                    'quantityPrinting' => [SortAscending::class, SortDescending::class],
-                    'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
+                    'variant' => [SortAscending::class, SortDescending::class],
+                    'version' => [SortAscending::class, SortDescending::class],
+                    'isInactive' => [SortAscending::class, SortDescending::class],
+                    'note' => [SortAscending::class, SortDescending::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

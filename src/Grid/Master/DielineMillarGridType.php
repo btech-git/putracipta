@@ -22,31 +22,35 @@ class DielineMillarGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['quantity', 'quantityUpPrinting', 'printingLayout', 'note', 'date', 'version', 'isInactive', 'name', 'code'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'customer:company'],
+                'field_label_list' => [
+                    'code' => 'Code',
+                    'version' => '',
+                    'customer:company' => 'Customer',
+                ],
                 'field_operators_list' => [
-                    'quantity' => [FilterEqual::class, FilterNotEqual::class],
-                    'quantityUpPrinting' => [FilterEqual::class, FilterNotEqual::class],
-                    'printingLayout' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
-                    'date' => [FilterEqual::class, FilterNotEqual::class],
                     'version' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['quantity', 'quantityUpPrinting', 'printingLayout', 'note', 'date', 'version', 'isInactive', 'name', 'code'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'customer:company'],
+                'field_label_list' => [
+                    'code' => '',
+                    'version' => 'Code',
+                    'customer:company' => 'Customer',
+                ],
                 'field_operators_list' => [
-                    'quantity' => [SortAscending::class, SortDescending::class],
-                    'quantityUpPrinting' => [SortAscending::class, SortDescending::class],
-                    'printingLayout' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
-                    'date' => [SortAscending::class, SortDescending::class],
                     'version' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
