@@ -13,13 +13,11 @@ class PaperType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('code')
             ->add('name')
             ->add('type', null, ['label' => 'Jenis'])
             ->add('length', null, ['label' => 'Panjang'])
             ->add('width', null, ['label' => 'Lebar'])
             ->add('weight', null, ['label' => 'Berat (GSM)'])
-            ->add('pricingMode', null, ['label' => 'Pricing Mode'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('note')
             ->add('isInactive')
@@ -27,6 +25,10 @@ class PaperType extends AbstractType
                 'Asosiasi' => Paper::PRICING_MODE_ASSOCIATION,
                 'KG' => Paper::PRICING_MODE_WEIGHT,
                 'Satuan' => Paper::PRICING_MODE_UNIT,
+            ]])
+            ->add('type', ChoiceType::class, ['label' => 'Metode Input Harga', 'choices' => [
+                '000' => Paper::PRICING_MODE_WEIGHT,
+                'FSC' => Paper::PRICING_MODE_ASSOCIATION,
             ]])
         ;
     }

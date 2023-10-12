@@ -85,6 +85,10 @@ class DesignCodeType extends AbstractType
             ]])
             ->add('note')
             ->add('isInactive')
+            ->add('hotStamping', ChoiceType::class, ['label' => 'Hot Stamping', 'choices' => [
+                'GOLD' => DesignCode::HOT_STAMPING_GOLD,
+                'SILVER' => DesignCode::HOT_STAMPING_SILVER,
+            ]])
             ->add('designCodeProcessDetails', CollectionType::class, [
                 'entry_type' => DesignCodeProcessDetailType::class,
                 'allow_add' => true,

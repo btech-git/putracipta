@@ -30,7 +30,7 @@ class ProductType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('weight', null, ['label' => 'Berat'])
+            ->add('weight', null, ['label' => 'Berat/piece'])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('glossiness')
             ->add('note')
