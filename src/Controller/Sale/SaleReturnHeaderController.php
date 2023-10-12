@@ -32,10 +32,10 @@ class SaleReturnHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $saleReturnHeaders) = $saleReturnHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('sale_return_header_grid')['filter']['customer:company']) && isset($request->query->get('sale_return_header_grid')['sort']['customer:company'])) {
+            if (isset($request->request->get('sale_return_header_grid')['filter']['customer:company']) && isset($request->request->get('sale_return_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
-                $add['filter']($qb, 's', 'company', $request->query->get('sale_return_header_grid')['filter']['customer:company']);
-                $add['sort']($qb, 's', 'company', $request->query->get('sale_return_header_grid')['sort']['customer:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('sale_return_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('sale_return_header_grid')['sort']['customer:company']);
             }
         });
 

@@ -33,15 +33,15 @@ class DeliveryHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('delivery_header_grid')['filter']['customer:company']) && isset($request->query->get('delivery_header_grid')['sort']['customer:company'])) {
+            if (isset($request->request->get('delivery_header_grid')['filter']['customer:company']) && isset($request->request->get('delivery_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
-                $add['filter']($qb, 's', 'company', $request->query->get('delivery_header_grid')['filter']['customer:company']);
-                $add['sort']($qb, 's', 'company', $request->query->get('delivery_header_grid')['sort']['customer:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('delivery_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('delivery_header_grid')['sort']['customer:company']);
             }
-            if (isset($request->query->get('delivery_header_grid')['filter']['warehouse:name']) && isset($request->query->get('delivery_header_grid')['sort']['warehouse:name'])) {
+            if (isset($request->request->get('delivery_header_grid')['filter']['warehouse:name']) && isset($request->request->get('delivery_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
-                $add['filter']($qb, 'w', 'name', $request->query->get('delivery_header_grid')['filter']['warehouse:name']);
-                $add['sort']($qb, 'w', 'name', $request->query->get('delivery_header_grid')['sort']['warehouse:name']);
+                $add['filter']($qb, 'w', 'name', $request->request->get('delivery_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->request->get('delivery_header_grid')['sort']['warehouse:name']);
             }
         });
 
