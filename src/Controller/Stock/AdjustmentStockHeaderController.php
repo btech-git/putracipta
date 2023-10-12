@@ -32,10 +32,10 @@ class AdjustmentStockHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('adjustment_stock_header_grid')['filter']['warehouse:name']) && isset($request->query->get('adjustment_stock_header_grid')['sort']['warehouse:name'])) {
+            if (isset($request->request->get('adjustment_stock_header_grid')['filter']['warehouse:name']) && isset($request->request->get('adjustment_stock_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
-                $add['filter']($qb, 'w', 'name', $request->query->get('adjustment_stock_header_grid')['filter']['warehouse:name']);
-                $add['sort']($qb, 'w', 'name', $request->query->get('adjustment_stock_header_grid')['sort']['warehouse:name']);
+                $add['filter']($qb, 'w', 'name', $request->request->get('adjustment_stock_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->request->get('adjustment_stock_header_grid')['sort']['warehouse:name']);
             }
         });
 
