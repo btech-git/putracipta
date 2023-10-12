@@ -21,7 +21,7 @@
         </thead>
         <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem purchase-request-detail-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
-                <tr data-form-collection-target="item">
+                <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
@@ -80,6 +80,7 @@
                                     data-action="dom-element#bind json-loader#load"
                                     data-dom-element-bind-specifications-param="{{ [
                                         {'destinationsTarget': '#' ~ detailForm.isCanceled.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'true'}},
+                                        {'destinations': '[$element.closest("tr")]', 'action': 'addClass', 'descriptor': {'name': 'd-none'}},
                                     ]|json_encode }}">
                                 <i class="bi-x-lg"></i>
                             </button>

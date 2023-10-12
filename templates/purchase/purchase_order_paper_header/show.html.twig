@@ -65,7 +65,6 @@
                 <th>Tanggal Kirim</th>
                 <th>P</th>
                 <th>L</th>
-                <th>GR</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
                 <th>APKI</th>
@@ -81,12 +80,11 @@
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
                 <tr>
-                    <td>{{ purchaseOrderPaperDetail.paper.code|default }}</td>
-                    <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperDetail.length|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.width|default }}</td>
-                    <td>{{ purchaseOrderPaperDetail.weight|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
