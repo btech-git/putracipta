@@ -255,7 +255,7 @@ class MasterOrderHeader extends ProductionHeader
     private ?MachinePrinting $machinePrinting = null;
 
     #[ORM\Column(length: 60)]
-    private ?string $orderType = null;
+    private ?string $orderType = '';
 
     #[ORM\Column]
     private ?int $totalQuantityOrder = 0;
@@ -268,9 +268,6 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\Column(length: 60)]
     private ?string $hotStamping = '';
-
-    #[ORM\Column]
-    private ?int $glossiness = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $weightPerPiece = '0.00';
@@ -341,7 +338,10 @@ class MasterOrderHeader extends ProductionHeader
     private ?DielineMillar $dielineMillar = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $mountageSize = null;
+    private ?string $mountageSize = '';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $glossiness = '0.00';
 
     public function __construct()
     {
@@ -1527,18 +1527,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getGlossiness(): ?int
-    {
-        return $this->glossiness;
-    }
-
-    public function setGlossiness(int $glossiness): self
-    {
-        $this->glossiness = $glossiness;
-
-        return $this;
-    }
-
     public function getWeightPerPiece(): ?string
     {
         return $this->weightPerPiece;
@@ -1967,6 +1955,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setMountageSize(string $mountageSize): self
     {
         $this->mountageSize = $mountageSize;
+
+        return $this;
+    }
+
+    public function getGlossiness(): ?string
+    {
+        return $this->glossiness;
+    }
+
+    public function setGlossiness(string $glossiness): self
+    {
+        $this->glossiness = $glossiness;
 
         return $this;
     }
