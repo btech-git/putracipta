@@ -1,12 +1,134 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Name Kertas</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.name) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">GSM</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.weight) }}
+                            {{ form_errors(form.weight) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">FSC/Non</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.type) }}
+                            {{ form_errors(form.type) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Panjang</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.length) }}
+                            {{ form_errors(form.length) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Lebar</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.width) }}
+                            {{ form_errors(form.width) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Satuan</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.unit) }}
+                            {{ form_errors(form.unit) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Metode Input Harga</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.pricingMode) }}
+                            {{ form_errors(form.pricingMode) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label">Note</label>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            {{ form_widget(form.note) }}
+                            {{ form_errors(form.note) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
     <div class="d-grid">
-        <button class="btn btn-secondary"
-                data-controller="dom-element"
-                data-action="dom-element#confirm"
-                data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-            Save
-        </button>
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-danger"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
+                    Cancel
+                </button>
+                <button class="btn btn-success"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                    Save
+                </button>
+            </div>
+        </div>
         <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
     </div>
 {{ form_end(form) }}

@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward data-choice-select:change->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice-select:change': 'id'}|json_encode }}">
+     data-action="data-table:select->event-emitter#forward data-choice:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id'}|json_encode }}">
     {{ form_start(form) }}
     
     <div class="row">
@@ -8,10 +8,8 @@
             {{ form_row(form.customer, {
                 'attr': {
                     'readonly': designCode.id is not null,
-                    'data-controller': 'dom-element',
-                    'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind change->event-emitter#forward',
-                    'data-forwarding-group': 'data-choice-select',
-                    'data-event-emitter-attributes-list-param': {'change': 'data-forwarding-group'}|json_encode,
+                    'data-controller': 'dom-element data-choice',
+                    'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind change->data-choice#select',
                     'data-dom-element-bind-action-param': '
                         const customerId = $element.value;
                         const diecutKnifeChoiceElements = document.querySelectorAll("select#' ~ form.diecutKnife.vars.id ~ ' > option[data-customer]");
@@ -36,6 +34,9 @@
         </div>
         <div class="col">
             {{ form_row(form.name) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.status) }}
         </div>
     </div>
         
@@ -110,7 +111,7 @@
             {{ form_row(form.coating) }}
         </div>
         <div class="col">
-            {{ form_row(form.printingUpQuantity) }}
+            {{ form_row(form.hotStamping) }}
         </div>
         <div class="col">
             {{ form_row(form.printingKrisSize) }}
@@ -125,7 +126,7 @@
             {{ form_row(form.dielineMillar) }}
         </div>
         <div class="col">
-            {{ form_row(form.status) }}
+            {{ form_row(form.printingUpQuantity) }}
         </div>
     </div>
          
@@ -252,18 +253,28 @@
     <div data-controller="html-loader"
          data-html-loader-url-value="{{ path('app_master_design_code__design_code_list') }}"
          data-html-loader-auto-load-value="true"
-         data-action="{{ form.customer.vars.id }}:data-choice-select:change@document->html-loader#load">
+         data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
     </div>
 
     <hr />
         
     <div class="d-grid">
-        <button class="btn btn-secondary"
-                data-controller="dom-element"
-                data-action="dom-element#confirm"
-                data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-            Save
-        </button>
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-danger"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
+                    Cancel
+                </button>
+                <button class="btn btn-success"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                    Save
+                </button>
+            </div>
+        </div>
         <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
     </div>
 {{ form_end(form) }}

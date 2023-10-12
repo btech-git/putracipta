@@ -71,7 +71,7 @@
     <div class="mb-3">
         <div class="row">
             <div class="col">
-                <label class="form-label">Berat</label>
+                <label class="form-label">Berat/pcs</label>
                 <div class="input-group">
                     {{ form_widget(form.weight) }}
                     {{ form_errors(form.weight) }}
@@ -108,12 +108,22 @@
     </fieldset>
 
     <div class="d-grid">
-        <button class="btn btn-secondary"
-                data-controller="dom-element"
-                data-action="dom-element#confirm"
-                data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-            Save
-        </button>
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-danger"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
+                    Cancel
+                </button>
+                <button class="btn btn-success"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                    Save
+                </button>
+            </div>
+        </div>
         <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
     </div>
 {{ form_end(form) }}

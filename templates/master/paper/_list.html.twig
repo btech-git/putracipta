@@ -11,12 +11,6 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
-                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
-                </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
-                    GSM {{ grid.sort_char(form.sort.weight.vars.value) }}
-                </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'length') }}>
                     Panjang {{ grid.sort_char(form.sort.length.vars.value) }}
                 </th>
@@ -30,13 +24,15 @@
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />-
+                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />-
+                    <select {{ grid.filter_link_item(form, 'type') }}>
+                        <option value="" {% if form.filter.type.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.type.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.type.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>-
+                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
@@ -58,9 +54,7 @@
         <tbody>
             {% for paper in papers %}
                 <tr>
-                    <td>{{ paper.code }}</td>
-                    <td>{{ paper.name }}</td>
-                    <td>{{ paper.weight }}</td>
+                    <td>{{ paper.codeNumber }}</td>
                     <td>{{ paper.length }}</td>
                     <td>{{ paper.width }}</td>
                     <td>{{ paper.isInactive ? 'Yes' : 'No' }}</td>
@@ -71,7 +65,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

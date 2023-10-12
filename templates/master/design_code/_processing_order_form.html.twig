@@ -28,7 +28,7 @@
                     </thead>
                     <tbody data-form-collection-target="items" data-action="work-order-process-table:data-table:select@document->form-collection#addCollectionItem">
                         {% macro process_collection_item(ordinal, detailForm) %}
-                            <tr data-form-collection-target="item" data-item-identifier-name="workOrderProcessId" data-item-identifier-value="{{ detailForm.vars.value.workOrderProcess.id|default }}" {% if (detailForm.vars.value.isInactive) %}class="bg-secondary"{% endif %}>
+                            <tr data-form-collection-target="item" data-item-identifier-name="workOrderProcessId" data-item-identifier-value="{{ detailForm.vars.value.workOrderProcess.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                                 <td data-form-collection-target="ordinal">{{ ordinal + 1 }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
                                 <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>

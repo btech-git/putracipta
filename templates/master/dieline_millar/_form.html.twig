@@ -1,8 +1,15 @@
 <div data-controller="event-emitter"
-     data-action="change->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'change': 'id'}|json_encode }}">
+     data-action="data-choice:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-choice:select': 'id'}|json_encode }}">
+    
     {{ form_start(form) }}
-        {{ form_row(form.customer, {'attr': {'readonly': dielineMillar.id is not null}}) }}
+        {{ form_row(form.customer, {
+            'attr': {
+                'readonly': dielineMillar.id is not null,
+                'data-controller': 'data-choice',
+                'data-action': 'data-choice#select',
+            }
+        }) }}
 
         <div class="row">
             <div class="col">
@@ -41,18 +48,28 @@
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_master_dieline_millar__dieline_list') }}"
              data-html-loader-auto-load-value="true"
-             data-action="{{ form.customer.vars.id }}:change@document->html-loader#load">
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
 
         <hr />
 
         <div class="d-grid">
-            <button class="btn btn-secondary"
-                    data-controller="dom-element"
-                    data-action="dom-element#confirm"
-                    data-dom-element-confirm-message-param="Are you sure you want to save this item?">
-                Save
-            </button>
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-danger"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
+                    Cancel
+                </button>
+                <button class="btn btn-success"
+                        data-controller="dom-element"
+                        data-action="dom-element#confirm"
+                        data-dom-element-confirm-message-param="Are you sure you want to save this transaction?">
+                    Save
+                </button>
+            </div>
+        </div>
             <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
         </div>
     {{ form_end(form) }}
