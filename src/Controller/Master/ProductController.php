@@ -27,10 +27,10 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('product_grid')['filter']['customer:company']) && isset($request->query->get('product_grid')['sort']['customer:company'])) {
+            if (isset($request->request->get('product_grid')['filter']['customer:company']) && isset($request->request->get('product_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 'c');
-                $add['filter']($qb, 'c', 'company', $request->query->get('product_grid')['filter']['customer:company']);
-                $add['sort']($qb, 'c', 'company', $request->query->get('product_grid')['sort']['customer:company']);
+                $add['filter']($qb, 'c', 'company', $request->request->get('product_grid')['filter']['customer:company']);
+                $add['sort']($qb, 'c', 'company', $request->request->get('product_grid')['sort']['customer:company']);
             }
         });
 

@@ -23,7 +23,7 @@ class DesignCodeController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function _designCodeList(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
-        $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->query->get('design_code')['customer']], ['id' => 'DESC'], 5, 0);
+        $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->request->get('design_code')['customer']], ['id' => 'DESC'], 5, 0);
 
         return $this->render("master/design_code/_design_code_list.html.twig", [
             'lastDesignCodes' => $lastDesignCodes,
@@ -38,7 +38,13 @@ class DesignCodeController extends AbstractController
         $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $designCodes) = $designCodeRepository->fetchData($criteria);
+        list($count, $designCodes) = $designCodeRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('design_code_grid')['filter']['customer:company']) && isset($request->request->get('design_code_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->request->get('design_code_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('design_code_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("master/design_code/_list.html.twig", [
             'form' => $form,
@@ -82,6 +88,29 @@ class DesignCodeController extends AbstractController
     {
         return $this->render('master/design_code/show.html.twig', [
             'designCode' => $designCode,
+        ]);
+    }
+
+    #[Route('/{source_id}/new_repeat', name: 'app_master_design_code_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function newRepeat(Request $request, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository): Response
+    {
+        $sourceDesignCode = $designCodeRepository->find($request->attributes->getInt('source_id'));
+        $designCode = $designCodeFormService->copyFrom($sourceDesignCode);
+        $form = $this->createForm(DesignCodeType::class, $designCode);
+        $form->handleRequest($request);
+
+        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $designCodeFormService->save($designCode);
+
+            return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("master/design_code/new_repeat.html.twig", [
+            'designCode' => $designCode,
+            'form' => $form,
+            'workOrderProcesses' => $workOrderProcessRepository->findAll(),
+            'lastDesignCodes' => $designCodeRepository->findBy(['customer' => $designCode->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
     }
 

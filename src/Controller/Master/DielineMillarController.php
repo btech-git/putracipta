@@ -22,7 +22,7 @@ class DielineMillarController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function _dielineList(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
-        $lastDielineMillars = $dielineMillarRepository->findBy(['customer' => $request->query->get('dieline_millar')['customer']], ['id' => 'DESC'], 5, 0);
+        $lastDielineMillars = $dielineMillarRepository->findBy(['customer' => $request->request->get('dieline_millar')['customer']], ['id' => 'DESC'], 5, 0);
 
         return $this->render("master/dieline_millar/_dieline_list.html.twig", [
             'lastDielineMillars' => $lastDielineMillars,
@@ -37,7 +37,13 @@ class DielineMillarController extends AbstractController
         $form = $this->createForm(DielineMillarGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $dielineMillars) = $dielineMillarRepository->fetchData($criteria);
+        list($count, $dielineMillars) = $dielineMillarRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('dieline_millar_grid')['filter']['customer:company']) && isset($request->request->get('dieline_millar_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->request->get('dieline_millar_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('dieline_millar_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("master/dieline_millar/_list.html.twig", [
             'form' => $form,

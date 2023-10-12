@@ -22,7 +22,7 @@ class DiecutKnifeController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function _diecutList(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
-        $lastDiecutKnives = $diecutKnifeRepository->findBy(['customer' => $request->query->get('diecut_knife')['customer']], ['id' => 'DESC'], 5, 0);
+        $lastDiecutKnives = $diecutKnifeRepository->findBy(['customer' => $request->request->get('diecut_knife')['customer']], ['id' => 'DESC'], 5, 0);
 
         return $this->render("master/diecut_knife/_diecut_list.html.twig", [
             'lastDiecutKnives' => $lastDiecutKnives,
@@ -37,7 +37,13 @@ class DiecutKnifeController extends AbstractController
         $form = $this->createForm(DiecutKnifeGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $diecutKnives) = $diecutKnifeRepository->fetchData($criteria);
+        list($count, $diecutKnives) = $diecutKnifeRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('diecut_knife_grid')['filter']['customer:company']) && isset($request->request->get('diecut_knife_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->request->get('diecut_knife_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('diecut_knife_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("master/diecut_knife/_list.html.twig", [
             'form' => $form,

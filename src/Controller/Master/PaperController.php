@@ -27,10 +27,10 @@ class PaperController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $papers) = $paperRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('paper_grid')['filter']['unit:name']) && isset($request->query->get('paper_grid')['sort']['unit:name'])) {
+            if (isset($request->request->get('paper_grid')['filter']['unit:name']) && isset($request->request->get('paper_grid')['sort']['unit:name'])) {
                 $qb->innerJoin("{$alias}.unit", 'u');
-                $add['filter']($qb, 'u', 'name', $request->query->get('paper_grid')['filter']['unit:name']);
-                $add['sort']($qb, 'u', 'name', $request->query->get('paper_grid')['sort']['unit:name']);
+                $add['filter']($qb, 'u', 'name', $request->request->get('paper_grid')['filter']['unit:name']);
+                $add['sort']($qb, 'u', 'name', $request->request->get('paper_grid')['sort']['unit:name']);
             }
         });
 

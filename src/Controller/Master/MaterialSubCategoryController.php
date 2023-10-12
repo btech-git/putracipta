@@ -27,10 +27,10 @@ class MaterialSubCategoryController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $materialSubCategories) = $materialSubCategoryRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('material_sub_category_grid')['filter']['materialCategory:name']) && isset($request->query->get('material_sub_category_grid')['sort']['materialCategory:name'])) {
+            if (isset($request->request->get('material_sub_category_grid')['filter']['materialCategory:name']) && isset($request->request->get('material_sub_category_grid')['sort']['materialCategory:name'])) {
                 $qb->innerJoin("{$alias}.materialCategory", 'c');
-                $add['filter']($qb, 'c', 'name', $request->query->get('material_sub_category_grid')['filter']['materialCategory:name']);
-                $add['sort']($qb, 'c', 'name', $request->query->get('material_sub_category_grid')['sort']['materialCategory:name']);
+                $add['filter']($qb, 'c', 'name', $request->request->get('material_sub_category_grid')['filter']['materialCategory:name']);
+                $add['sort']($qb, 'c', 'name', $request->request->get('material_sub_category_grid')['sort']['materialCategory:name']);
             }
         });
 
