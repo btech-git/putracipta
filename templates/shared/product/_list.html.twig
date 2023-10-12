@@ -1,4 +1,4 @@
-{% if app.request.query.has('product_prototype') %}
+{% if app.request.request.has('product_prototype') %}
     {{ include('shared/product/_list_without_check.html.twig') }}
 {% else %}
     {{ include('shared/product/_list_with_check.html.twig') }}
