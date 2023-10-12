@@ -23,7 +23,7 @@
                data-form-collection-clear-items-matching-field-path-param="0.inventoryRequestHeaderMode"
                data-form-collection-clear-items-matching-field-path-value-param="material">
             {% macro collection_item(detailForm, form) %}
-                <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.inventoryRequestPaperDetail , {'attr': {'data-item-field-name': 'inventoryRequestPaperDetailId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
@@ -42,18 +42,21 @@
                     <td data-item-field-name="paperUnitName">{{ detailForm.vars.value.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>
-                        <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                            {{ form_row(detailForm.isCanceled, {
-                                'label': 'X',
-                                'attr': {
-                                    'data-controller': 'dom-element',
-                                    'data-action': 'dom-element#bind change->json-loader#load',
-                                    'data-dom-element-bind-specifications-param': [
-                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.paper.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                        {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.paper.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                    ]|json_encode,
-                                },
-                            }) }}
+                        {% if (detailForm.vars.value.id == null) %}
+                            <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
+                        {% else %}
+                            <button type="button" class="btn btn-danger"
+                                    data-controller="dom-element"
+                                    data-action="dom-element#bind json-loader#load"
+                                    data-dom-element-bind-specifications-param="{{ [
+                                        {'destinationsTarget': '#' ~ detailForm.isCanceled.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'true'}},
+                                        {'destinations': '[$element.closest("tr")]', 'action': 'addClass', 'descriptor': {'name': 'd-none'}},
+                                    ]|json_encode }}">
+                                <i class="bi-x-lg"></i>
+                            </button>
+                        {% endif %}
+                        <div class="d-none">
+                            {{ form_row(detailForm.isCanceled) }}
                         </div>
                     </td>
                 </tr>
