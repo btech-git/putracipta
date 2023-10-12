@@ -22,27 +22,26 @@ class MasterOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['color', 'isCanceled', 'isRead', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
+                'field_names' => ['isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'orderType'],
                 'field_operators_list' => [
-                    'color' => [FilterContain::class, FilterNotContain::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
-                    'isRead' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'orderType' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['isCanceled', 'isRead', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
+                'field_names' => ['isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'orderType'],
                 'field_operators_list' => [
                     'isCanceled' => [SortAscending::class, SortDescending::class],
-                    'isRead' => [SortAscending::class, SortDescending::class],
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
+                    'orderType' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
