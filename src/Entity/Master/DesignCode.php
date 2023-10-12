@@ -16,6 +16,8 @@ class DesignCode extends Master
 {
     public const STATUS_FA = 'fa';
     public const STATUS_NA = 'na';
+    public const HOT_STAMPING_GOLD = 'gold';
+    public const HOT_STAMPING_SILVER = 'silver';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -141,6 +143,9 @@ class DesignCode extends Master
 
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProcessDetail::class)]
     private Collection $designCodeProcessDetails;
+
+    #[ORM\Column(length: 60)]
+    private ?string $hotStamping = '';
 
     public function __construct()
     {
@@ -689,6 +694,18 @@ class DesignCode extends Master
                 $designCodeProcessDetail->setDesignCode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHotStamping(): ?string
+    {
+        return $this->hotStamping;
+    }
+
+    public function setHotStamping(string $hotStamping): self
+    {
+        $this->hotStamping = $hotStamping;
 
         return $this;
     }

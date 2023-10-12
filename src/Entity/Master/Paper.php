@@ -19,15 +19,13 @@ class Paper extends Master
     public const PRICING_MODE_ASSOCIATION = 'association';
     public const PRICING_MODE_WEIGHT = 'weight';
     public const PRICING_MODE_UNIT = 'unit';
+    public const TYPE_FSC = 'fsc';
+    public const TYPE_NON_FSC = 'non';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 60)]
-    #[Assert\NotBlank]
-    private ?string $code = '';
 
     #[ORM\Column]
     #[Assert\NotNull]
@@ -61,30 +59,29 @@ class Paper extends Master
     #[ORM\OneToMany(mappedBy: 'paper', targetEntity: Product::class)]
     private Collection $products;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $code = 0;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
 
-    public function getPaperNameSizeCombination() {
-        return $this->name . ' ' . $this->weight . ' x ' . $this->length . ' x ' . $this->width;
+    public function getPaperNameSizeCombination() 
+    {
+        return $this->name . ' ' . number_format($this->weight, 0) . ' x ' . $this->length . ' x ' . $this->width;
+    }
+    
+    public function getCodeNumber() 
+    {
+        $type = ($this->type === self::TYPE_FSC) ? 'FSC' : '000';
+        
+        return $this->name . '-' . number_format($this->weight, 0) . '-' . $type . '-' . $this->code;
     }
     
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     public function getLength(): ?int
@@ -197,6 +194,18 @@ class Paper extends Master
                 $product->setPaper(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?int
+    {
+        return $this->code;
+    }
+
+    public function setCode(int $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

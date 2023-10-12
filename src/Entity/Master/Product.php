@@ -4,8 +4,6 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -56,10 +54,10 @@ class Product extends Master
     private ?string $fileExtension = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $weight = null;
+    private ?string $weight = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $glossiness = null;
+    private ?string $glossiness = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Paper $paper = null;
