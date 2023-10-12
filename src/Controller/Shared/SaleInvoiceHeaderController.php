@@ -24,8 +24,8 @@ class SaleInvoiceHeaderController extends AbstractController
 
         list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) use ($request) {
             $customerId = '';
-            if (isset($request->query->get('sale_payment_header')['customer'])) {
-                $customerId = $request->query->get('sale_payment_header')['customer'];
+            if (isset($request->request->get('sale_payment_header')['customer'])) {
+                $customerId = $request->request->get('sale_payment_header')['customer'];
             }
             if (!empty($customerId)) {
                 $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");

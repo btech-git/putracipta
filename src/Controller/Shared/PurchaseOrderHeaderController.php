@@ -27,10 +27,10 @@ class PurchaseOrderHeaderController extends AbstractController
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.transactionStatus = 'approve' OR {$alias}.transactionStatus = 'partial_receive'");
             
-            if (isset($request->query->get('purchase_order_header_grid')['filter']['supplier:company']) && isset($request->query->get('purchase_order_header_grid')['sort']['supplier:company'])) {
+            if (isset($request->request->get('purchase_order_header_grid')['filter']['supplier:company']) && isset($request->request->get('purchase_order_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
-                $add['filter']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['filter']['supplier:company']);
-                $add['sort']($qb, 's', 'company', $request->query->get('purchase_order_header_grid')['sort']['supplier:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('purchase_order_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('purchase_order_header_grid')['sort']['supplier:company']);
             }
         });
 

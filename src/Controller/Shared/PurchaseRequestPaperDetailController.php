@@ -33,30 +33,30 @@ class PurchaseRequestPaperDetailController extends AbstractController
             $qb->andWhere("r.transactionStatus = 'Approve'");
             $qb->innerJoin("{$alias}.paper", 'p');
             
-            if (isset($request->query->get('purchase_request_paper_detail_grid')['filter']['paper:name']) && isset($request->query->get('purchase_request_paper_detail_grid')['sort']['paper:name'])) {
-                $add['filter']($qb, 'p', 'name', $request->query->get('purchase_request_paper_detail_grid')['filter']['paper:name']);
-                $add['sort']($qb, 'p', 'name', $request->query->get('purchase_request_paper_detail_grid')['sort']['paper:name']);
+            if (isset($request->request->get('purchase_request_paper_detail_grid')['filter']['paper:name']) && isset($request->request->get('purchase_request_paper_detail_grid')['sort']['paper:name'])) {
+                $add['filter']($qb, 'p', 'name', $request->request->get('purchase_request_paper_detail_grid')['filter']['paper:name']);
+                $add['sort']($qb, 'p', 'name', $request->request->get('purchase_request_paper_detail_grid')['sort']['paper:name']);
             }
             
-            if (isset($request->query->get('purchase_request_paper_detail_grid')['filter']['paper:length']) && isset($request->query->get('purchase_request_paper_detail_grid')['sort']['paper:length'])) {
-                $add['filter']($qb, 'p', 'length', $request->query->get('purchase_request_paper_detail_grid')['filter']['paper:length']);
-                $add['sort']($qb, 'p', 'length', $request->query->get('purchase_request_paper_detail_grid')['sort']['paper:length']);
+            if (isset($request->request->get('purchase_request_paper_detail_grid')['filter']['paper:length']) && isset($request->request->get('purchase_request_paper_detail_grid')['sort']['paper:length'])) {
+                $add['filter']($qb, 'p', 'length', $request->request->get('purchase_request_paper_detail_grid')['filter']['paper:length']);
+                $add['sort']($qb, 'p', 'length', $request->request->get('purchase_request_paper_detail_grid')['sort']['paper:length']);
             }
             
-            if (isset($request->query->get('purchase_request_paper_detail_grid')['filter']['paper:width']) && isset($request->query->get('purchase_request_paper_detail_grid')['sort']['paper:width'])) {
-                $add['filter']($qb, 'p', 'width', $request->query->get('purchase_request_paper_detail_grid')['filter']['paper:width']);
-                $add['sort']($qb, 'p', 'width', $request->query->get('purchase_request_paper_detail_grid')['sort']['paper:width']);
+            if (isset($request->request->get('purchase_request_paper_detail_grid')['filter']['paper:width']) && isset($request->request->get('purchase_request_paper_detail_grid')['sort']['paper:width'])) {
+                $add['filter']($qb, 'p', 'width', $request->request->get('purchase_request_paper_detail_grid')['filter']['paper:width']);
+                $add['sort']($qb, 'p', 'width', $request->request->get('purchase_request_paper_detail_grid')['sort']['paper:width']);
             }
             
-            if (isset($request->query->get('purchase_request_paper_detail_grid')['filter']['paper:weight']) && isset($request->query->get('purchase_request_paper_detail_grid')['sort']['paper:weight'])) {
-                $add['filter']($qb, 'p', 'weight', $request->query->get('purchase_request_paper_detail_grid')['filter']['paper:weight']);
-                $add['sort']($qb, 'p', 'weight', $request->query->get('purchase_request_paper_detail_grid')['sort']['paper:weight']);
+            if (isset($request->request->get('purchase_request_paper_detail_grid')['filter']['paper:weight']) && isset($request->request->get('purchase_request_paper_detail_grid')['sort']['paper:weight'])) {
+                $add['filter']($qb, 'p', 'weight', $request->request->get('purchase_request_paper_detail_grid')['filter']['paper:weight']);
+                $add['sort']($qb, 'p', 'weight', $request->request->get('purchase_request_paper_detail_grid')['sort']['paper:weight']);
             }
             
-            if (isset($request->query->get('purchase_request_paper_detail_grid')['filter']['unit:name']) && isset($request->query->get('purchase_request_paper_detail_grid')['sort']['unit:name'])) {
+            if (isset($request->request->get('purchase_request_paper_detail_grid')['filter']['unit:name']) && isset($request->request->get('purchase_request_paper_detail_grid')['sort']['unit:name'])) {
                 $qb->innerJoin("{$alias}.unit", 'u');
-                $add['filter']($qb, 'u', 'name', $request->query->get('purchase_request_paper_detail_grid')['filter']['unit:name']);
-                $add['sort']($qb, 'u', 'name', $request->query->get('purchase_request_paper_detail_grid')['sort']['unit:name']);
+                $add['filter']($qb, 'u', 'name', $request->request->get('purchase_request_paper_detail_grid')['filter']['unit:name']);
+                $add['sort']($qb, 'u', 'name', $request->request->get('purchase_request_paper_detail_grid')['sort']['unit:name']);
             }
         });
 

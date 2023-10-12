@@ -28,6 +28,7 @@ class ProductDevelopmentController extends AbstractController
             $sub = $new(MasterOrderHeader::class, 'm');
             $sub->andWhere("IDENTITY(m.productDevelopment) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/product_development/_list.html.twig", [

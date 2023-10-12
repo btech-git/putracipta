@@ -28,8 +28,8 @@ class AccountController extends AbstractController
 
         list($count, $accounts) = $accountRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->innerJoin("{$alias}.accountCategory", 's');
-            if (isset($request->query->get('account_grid')['sort']['accountCategory:name'])) {
-                $add['sort']($qb, 's', 'name', $request->query->get('account_grid')['sort']['accountCategory:name']);
+            if (isset($request->request->get('account_grid')['sort']['accountCategory:name'])) {
+                $add['sort']($qb, 's', 'name', $request->request->get('account_grid')['sort']['accountCategory:name']);
             }
             $qb->andWhere("{$alias}.isInactive = false");
         });

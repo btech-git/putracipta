@@ -30,10 +30,10 @@ class DeliveryHeaderController extends AbstractController
             $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
             
-            if (isset($request->query->get('delivery_header_grid')['filter']['customer:company']) && isset($request->query->get('delivery_header_grid')['sort']['customer:company'])) {
+            if (isset($request->request->get('delivery_header_grid')['filter']['customer:company']) && isset($request->request->get('delivery_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
-                $add['filter']($qb, 's', 'company', $request->query->get('delivery_header_grid')['filter']['customer:company']);
-                $add['sort']($qb, 's', 'company', $request->query->get('delivery_header_grid')['sort']['customer:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('delivery_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('delivery_header_grid')['sort']['customer:company']);
             }
         });
 

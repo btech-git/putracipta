@@ -28,6 +28,7 @@ class ProductPrototypeController extends AbstractController
             $sub = $new(ProductDevelopment::class, 'p');
             $sub->andWhere("IDENTITY(p.productPrototype) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         return $this->renderForm("shared/product_prototype/_list.html.twig", [

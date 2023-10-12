@@ -24,8 +24,8 @@ class PurchaseInvoiceHeaderController extends AbstractController
 
         list($count, $purchaseInvoiceHeaders) = $purchaseInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) use ($request) {
             $supplierId = '';
-            if (isset($request->query->get('purchase_payment_header')['supplier'])) {
-                $supplierId = $request->query->get('purchase_payment_header')['supplier'];
+            if (isset($request->request->get('purchase_payment_header')['supplier'])) {
+                $supplierId = $request->request->get('purchase_payment_header')['supplier'];
             }
             if (!empty($supplierId)) {
                 $qb->andWhere("IDENTITY({$alias}.supplier) = :supplierId");

@@ -32,16 +32,16 @@ class PurchaseRequestDetailController extends AbstractController
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("h.transactionStatus = 'Approve'");
             
-            if (isset($request->query->get('purchase_request_detail_grid')['filter']['material:name']) && isset($request->query->get('purchase_request_detail_grid')['sort']['material:name'])) {
+            if (isset($request->request->get('purchase_request_detail_grid')['filter']['material:name']) && isset($request->request->get('purchase_request_detail_grid')['sort']['material:name'])) {
                 $qb->innerJoin("{$alias}.material", 'm');
-                $add['filter']($qb, 'm', 'name', $request->query->get('purchase_request_detail_grid')['filter']['material:name']);
-                $add['sort']($qb, 'm', 'name', $request->query->get('purchase_request_detail_grid')['sort']['material:name']);
+                $add['filter']($qb, 'm', 'name', $request->request->get('purchase_request_detail_grid')['filter']['material:name']);
+                $add['sort']($qb, 'm', 'name', $request->request->get('purchase_request_detail_grid')['sort']['material:name']);
             }
             
-            if (isset($request->query->get('purchase_request_detail_grid')['filter']['unit:name']) && isset($request->query->get('purchase_request_detail_grid')['sort']['unit:name'])) {
+            if (isset($request->request->get('purchase_request_detail_grid')['filter']['unit:name']) && isset($request->request->get('purchase_request_detail_grid')['sort']['unit:name'])) {
                 $qb->innerJoin("{$alias}.unit", 'u');
-                $add['filter']($qb, 'u', 'name', $request->query->get('purchase_request_detail_grid')['filter']['unit:name']);
-                $add['sort']($qb, 'u', 'name', $request->query->get('purchase_request_detail_grid')['sort']['unit:name']);
+                $add['filter']($qb, 'u', 'name', $request->request->get('purchase_request_detail_grid')['filter']['unit:name']);
+                $add['sort']($qb, 'u', 'name', $request->request->get('purchase_request_detail_grid')['sort']['unit:name']);
             }
         });
 

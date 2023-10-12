@@ -31,32 +31,32 @@ class DeliveryDetailController extends AbstractController
             $qb->innerJoin("{$alias}.saleOrderDetail", 'sd');
             $qb->innerJoin("sd.saleOrderHeader", 'sh');
             
-            if (isset($request->query->get('sale_invoice_header')['customer'])) {
-                $customerId = $request->query->get('sale_invoice_header')['customer'];
+            if (isset($request->request->get('sale_invoice_header')['customer'])) {
+                $customerId = $request->request->get('sale_invoice_header')['customer'];
             }
             if (!empty($customerId)) {
                 $qb->andWhere("IDENTITY(d.customer) = :customerId");
                 $qb->setParameter('customerId', $customerId);
             }
             
-            if (isset($request->query->get('delivery_detail_grid')['filter']['product:code']) && isset($request->query->get('delivery_detail_grid')['sort']['product:code'])) {
-                $add['filter']($qb, 'p', 'code', $request->query->get('delivery_detail_grid')['filter']['product:code']);
-                $add['sort']($qb, 'p', 'code', $request->query->get('delivery_detail_grid')['sort']['product:code']);
+            if (isset($request->request->get('delivery_detail_grid')['filter']['product:code']) && isset($request->request->get('delivery_detail_grid')['sort']['product:code'])) {
+                $add['filter']($qb, 'p', 'code', $request->request->get('delivery_detail_grid')['filter']['product:code']);
+                $add['sort']($qb, 'p', 'code', $request->request->get('delivery_detail_grid')['sort']['product:code']);
             }
             
-            if (isset($request->query->get('delivery_detail_grid')['filter']['product:name']) && isset($request->query->get('delivery_detail_grid')['sort']['product:name'])) {
-                $add['filter']($qb, 'p', 'name', $request->query->get('delivery_detail_grid')['filter']['product:name']);
-                $add['sort']($qb, 'p', 'name', $request->query->get('delivery_detail_grid')['sort']['product:name']);
+            if (isset($request->request->get('delivery_detail_grid')['filter']['product:name']) && isset($request->request->get('delivery_detail_grid')['sort']['product:name'])) {
+                $add['filter']($qb, 'p', 'name', $request->request->get('delivery_detail_grid')['filter']['product:name']);
+                $add['sort']($qb, 'p', 'name', $request->request->get('delivery_detail_grid')['sort']['product:name']);
             }
             
-            if (isset($request->query->get('delivery_detail_grid')['filter']['unit:name']) && isset($request->query->get('delivery_detail_grid')['sort']['unit:name'])) {
-                $add['filter']($qb, 'u', 'name', $request->query->get('delivery_detail_grid')['filter']['unit:name']);
-                $add['sort']($qb, 'u', 'name', $request->query->get('delivery_detail_grid')['sort']['unit:name']);
+            if (isset($request->request->get('delivery_detail_grid')['filter']['unit:name']) && isset($request->request->get('delivery_detail_grid')['sort']['unit:name'])) {
+                $add['filter']($qb, 'u', 'name', $request->request->get('delivery_detail_grid')['filter']['unit:name']);
+                $add['sort']($qb, 'u', 'name', $request->request->get('delivery_detail_grid')['sort']['unit:name']);
             }
             
-            if (isset($request->query->get('delivery_detail_grid')['filter']['saleOrderHeader:referenceNumber']) && isset($request->query->get('delivery_detail_grid')['sort']['saleOrderHeader:referenceNumber'])) {
-                $add['filter']($qb, 'sh', 'referenceNumber', $request->query->get('delivery_detail_grid')['filter']['saleOrderHeader:referenceNumber']);
-                $add['sort']($qb, 'sh', 'referenceNumber', $request->query->get('delivery_detail_grid')['sort']['saleOrderHeader:referenceNumber']);
+            if (isset($request->request->get('delivery_detail_grid')['filter']['saleOrderHeader:referenceNumber']) && isset($request->request->get('delivery_detail_grid')['sort']['saleOrderHeader:referenceNumber'])) {
+                $add['filter']($qb, 'sh', 'referenceNumber', $request->request->get('delivery_detail_grid')['filter']['saleOrderHeader:referenceNumber']);
+                $add['sort']($qb, 'sh', 'referenceNumber', $request->request->get('delivery_detail_grid')['sort']['saleOrderHeader:referenceNumber']);
             }
             
             $sub = $new(SaleInvoiceDetail::class, 's');

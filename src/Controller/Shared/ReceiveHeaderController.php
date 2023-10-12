@@ -25,22 +25,22 @@ class ReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
-            if ($request->query->has('purchase_return_header')) {
+            if ($request->request->has('purchase_return_header')) {
                 $sub = $new(PurchaseReturnHeader::class, 'p');
                 $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
                 $qb->leftJoin("{$alias}.purchaseReturnHeaders", 'r');
                 $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
-            } else if ($request->query->has('purchase_invoice_header')) {
+            } else if ($request->request->has('purchase_invoice_header')) {
                 $sub = $new(PurchaseInvoiceHeader::class, 'p');
                 $sub->andWhere("IDENTITY(p.receiveHeader) = {$alias}.id");
                 $qb->leftJoin("{$alias}.purchaseInvoiceHeaders", 'i');
                 $qb->andWhere($qb->expr()->orX('i.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             }
             
-            if (isset($request->query->get('receive_header_grid')['filter']['supplier:company']) && isset($request->query->get('receive_header_grid')['sort']['supplier:company'])) {
+            if (isset($request->request->get('receive_header_grid')['filter']['supplier:company']) && isset($request->request->get('receive_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
-                $add['filter']($qb, 's', 'company', $request->query->get('receive_header_grid')['filter']['supplier:company']);
-                $add['sort']($qb, 's', 'company', $request->query->get('receive_header_grid')['sort']['supplier:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('receive_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('receive_header_grid')['sort']['supplier:company']);
             }
             $qb->andWhere("{$alias}.isCanceled = false");
         });

@@ -30,10 +30,10 @@ class DesignCodeController extends AbstractController
         list($count, $designCodes) = $designCodeRepository->fetchData($criteria, function($qb, $alias) use ($request) {
             
             $customerId = '';
-            if (isset($request->query->get('master_order_header')['customer'])) {
-                $customerId = $request->query->get('master_order_header')['customer'];
-            } elseif (isset($request->query->get('product_prototype')['customer'])) {
-                $customerId = $request->query->get('product_prototype')['customer'];
+            if (isset($request->request->get('master_order_header')['customer'])) {
+                $customerId = $request->request->get('master_order_header')['customer'];
+            } elseif (isset($request->request->get('product_prototype')['customer'])) {
+                $customerId = $request->request->get('product_prototype')['customer'];
             }
             
             if (!empty($customerId)) {

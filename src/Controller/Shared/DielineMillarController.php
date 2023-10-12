@@ -28,8 +28,8 @@ class DielineMillarController extends AbstractController
 
         list($count, $dielineMillars) = $dielineMillarRepository->fetchData($criteria, function($qb, $alias) use ($request) {
             $customerId = '';
-            if (isset($request->query->get('master_order_header')['customer'])) {
-                $customerId = $request->query->get('master_order_header')['customer'];
+            if (isset($request->request->get('master_order_header')['customer'])) {
+                $customerId = $request->request->get('master_order_header')['customer'];
             }
             if (!empty($customerId)) {
                 $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");

@@ -28,20 +28,20 @@ class ProductController extends AbstractController
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $customerId = '';
-            if (isset($request->query->get('sale_order_header')['customer'])) {
-                $customerId = $request->query->get('sale_order_header')['customer'];
+            if (isset($request->request->get('sale_order_header')['customer'])) {
+                $customerId = $request->request->get('sale_order_header')['customer'];
             }
-            if (isset($request->query->get('product_prototype')['customer'])) {
-                $customerId = $request->query->get('product_prototype')['customer'];
+            if (isset($request->request->get('product_prototype')['customer'])) {
+                $customerId = $request->request->get('product_prototype')['customer'];
             }
             if (!empty($customerId)) {
                 $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
                 $qb->setParameter('customerId', $customerId);
             }
-            if (isset($request->query->get('product_grid')['filter']['unit:name']) && isset($request->query->get('product_grid')['sort']['unit:name'])) {
+            if (isset($request->request->get('product_grid')['filter']['unit:name']) && isset($request->request->get('product_grid')['sort']['unit:name'])) {
                 $qb->innerJoin("{$alias}.unit", 'u');
-                $add['filter']($qb, 'u', 'name', $request->query->get('product_grid')['filter']['unit:name']);
-                $add['sort']($qb, 'u', 'name', $request->query->get('product_grid')['sort']['unit:name']);
+                $add['filter']($qb, 'u', 'name', $request->request->get('product_grid')['filter']['unit:name']);
+                $add['sort']($qb, 'u', 'name', $request->request->get('product_grid')['sort']['unit:name']);
             }
             $qb->andWhere("{$alias}.isInactive = false");
         });
