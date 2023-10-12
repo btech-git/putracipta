@@ -31,15 +31,15 @@ class ReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('receive_header_grid')['filter']['supplier:company']) && isset($request->query->get('receive_header_grid')['sort']['supplier:company'])) {
+            if (isset($request->request->get('receive_header_grid')['filter']['supplier:company']) && isset($request->request->get('receive_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
-                $add['filter']($qb, 's', 'company', $request->query->get('receive_header_grid')['filter']['supplier:company']);
-                $add['sort']($qb, 's', 'company', $request->query->get('receive_header_grid')['sort']['supplier:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('receive_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('receive_header_grid')['sort']['supplier:company']);
             }
-            if (isset($request->query->get('receive_header_grid')['filter']['warehouse:name']) && isset($request->query->get('receive_header_grid')['sort']['warehouse:name'])) {
+            if (isset($request->request->get('receive_header_grid')['filter']['warehouse:name']) && isset($request->request->get('receive_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
-                $add['filter']($qb, 'w', 'name', $request->query->get('receive_header_grid')['filter']['warehouse:name']);
-                $add['sort']($qb, 'w', 'name', $request->query->get('receive_header_grid')['sort']['warehouse:name']);
+                $add['filter']($qb, 'w', 'name', $request->request->get('receive_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->request->get('receive_header_grid')['sort']['warehouse:name']);
             }
         });
 

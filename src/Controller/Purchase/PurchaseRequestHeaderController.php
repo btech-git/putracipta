@@ -33,9 +33,9 @@ class PurchaseRequestHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->query->get('purchase_request_header_grid')['sort']['warehouse:name'])) {
+            if (isset($request->request->get('purchase_request_header_grid')['sort']['warehouse:name'])) {
                 $qb->innerJoin("{$alias}.warehouse", 'w');
-                $add['sort']($qb, 'w', 'name', $request->query->get('purchase_request_header_grid')['sort']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->request->get('purchase_request_header_grid')['sort']['warehouse:name']);
             }
         });
 
