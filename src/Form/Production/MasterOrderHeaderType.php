@@ -61,8 +61,6 @@ class MasterOrderHeaderType extends AbstractType
             ->add('quantityPrinting', FormattedNumberType::class, ['decimals' => 0])
             ->add('quantityPrinting2', FormattedNumberType::class, ['decimals' => 0])
             ->add('mountageSize')
-//            ->add('mountageSizeWidth')
-//            ->add('orderTypeMemo')
             ->add('orderType', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'MO Biasa' => MasterOrderHeader::ORDER_TYPE_REGULAR,
                 'MO Kekurangan Cetak' => MasterOrderHeader::ORDER_TYPE_PRINTING_SHORTAGE,
@@ -80,7 +78,6 @@ class MasterOrderHeaderType extends AbstractType
                 'Lama' => MasterOrderHeader::DIECUT_BLADE_OLD,
                 'Revisi' => MasterOrderHeader::DIECUT_BLADE_REVISION,
             ]])
-//            ->add('dieLineFilmNumber')
             ->add('insitPrintingPercentage')
             ->add('insitSortingPercentage')
             ->add('paperMountage')
@@ -111,10 +108,8 @@ class MasterOrderHeaderType extends AbstractType
             ->add('packagingPlasticQuantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('note')
             ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
-//            ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('productDevelopment', EntityHiddenType::class, ['class' => ProductDevelopment::class])
-//            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])
             ->add('designCode', EntityHiddenType::class, ['class' => DesignCode::class])
             ->add('dielineMillar', EntityHiddenType::class, ['class' => DielineMillar::class])
