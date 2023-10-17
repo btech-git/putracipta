@@ -55,6 +55,7 @@ class PaperController extends AbstractController
         $paper = new Paper();
         $form = $this->createForm(PaperType::class, $paper);
         $form->handleRequest($request);
+        $paperFormService->finalize($paper);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $paperFormService->save($paper);

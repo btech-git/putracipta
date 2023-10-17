@@ -9,6 +9,8 @@ use App\Form\Master\DesignCodeType;
 use App\Grid\Master\DesignCodeGridType;
 use App\Service\Master\DesignCodeFormService;
 use App\Repository\Master\DesignCodeRepository;
+use App\Repository\Master\WorkOrderDistributionRepository;
+use App\Repository\Master\WorkOrderCheckSheetRepository;
 use App\Repository\Master\WorkOrderProcessRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,7 +64,7 @@ class DesignCodeController extends AbstractController
 
     #[Route('/new', name: 'app_master_design_code_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository): Response
+    public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         $designCode = new DesignCode();
         $form = $this->createForm(DesignCodeType::class, $designCode);
@@ -77,6 +79,8 @@ class DesignCodeController extends AbstractController
         return $this->renderForm("master/design_code/new.html.twig", [
             'designCode' => $designCode,
             'form' => $form,
+            'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
+            'workOrderDistributions' => $workOrderDistributionRepository->findAll(),
             'workOrderProcesses' => $workOrderProcessRepository->findAll(),
             'lastDesignCodes' => [],
         ]);
@@ -93,7 +97,7 @@ class DesignCodeController extends AbstractController
 
     #[Route('/{source_id}/new_repeat', name: 'app_master_design_code_new_repeat', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function newRepeat(Request $request, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository): Response
+    public function newRepeat(Request $request, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         $sourceDesignCode = $designCodeRepository->find($request->attributes->getInt('source_id'));
         $designCode = $designCodeFormService->copyFrom($sourceDesignCode);
@@ -109,6 +113,8 @@ class DesignCodeController extends AbstractController
         return $this->renderForm("master/design_code/new_repeat.html.twig", [
             'designCode' => $designCode,
             'form' => $form,
+            'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
+            'workOrderDistributions' => $workOrderDistributionRepository->findAll(),
             'workOrderProcesses' => $workOrderProcessRepository->findAll(),
             'lastDesignCodes' => $designCodeRepository->findBy(['customer' => $designCode->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
@@ -116,7 +122,7 @@ class DesignCodeController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_master_design_code_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository): Response
+    public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
@@ -130,6 +136,8 @@ class DesignCodeController extends AbstractController
         return $this->renderForm('master/design_code/edit.html.twig', [
             'designCode' => $designCode,
             'form' => $form,
+            'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
+            'workOrderDistributions' => $workOrderDistributionRepository->findAll(),
             'workOrderProcesses' => $workOrderProcessRepository->findAll(),
             'lastDesignCodes' => $designCodeRepository->findBy(['customer' => $designCode->getCustomer()], ['id' => 'DESC'], 5, 0),
         ]);
