@@ -213,6 +213,50 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    <hr />
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="3" class="text-center bg-info">Distribusi WO</th>
+            </tr>
+            <tr>
+                <th>No</th>
+                <th>Proses</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for designCodeDistributionDetail in designCode.designCodeDistributionDetails %}
+                <tr>
+                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                    <td>{{ designCodeDistributionDetail.workOrderDistribution.name|default }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <hr />
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="3" class="text-center bg-info">Check Sheet</th>
+            </tr>
+            <tr>
+                <th>No</th>
+                <th>Proses</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for designCodeCheckSheetDetail in designCode.designCodeCheckSheetDetails %}
+                <tr>
+                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                    <td>{{ designCodeCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
  
     <hr />
     
