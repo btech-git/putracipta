@@ -79,6 +79,15 @@ class Paper extends Master
         return $this->name . '-' . number_format($this->weight, 0) . '-' . $type . '-' . $this->code;
     }
     
+    public function setCodeNumberToNext($codeNumber): self
+    {
+        list($name, $weight, $type, $code) = explode('-', $codeNumber);
+
+        $this->code = $code + 1;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
