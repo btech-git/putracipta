@@ -10,6 +10,7 @@ use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
+use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
@@ -17,6 +18,8 @@ use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Repository\Purchase\ReceiveHeaderRepository;
+use App\Repository\Stock\InventoryRepository;
+use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -29,6 +32,7 @@ class ReceiveHeaderFormService
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
     private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
+    private InventoryRepository $inventoryRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -41,6 +45,7 @@ class ReceiveHeaderFormService
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
         $this->purchaseOrderPaperHeaderRepository = $entityManager->getRepository(PurchaseOrderPaperHeader::class);
         $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
+        $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
     }
 
     public function initialize(ReceiveHeader $receiveHeader, array $options = []): void
@@ -149,6 +154,7 @@ class ReceiveHeaderFormService
                 $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
             }
         }
+        $this->addInventories($receiveHeader);
         $this->entityManager->flush();
     }
 
@@ -205,5 +211,28 @@ class ReceiveHeaderFormService
             $receiveDetail->setMaterial(null);
             $receiveDetail->setPaper($purchaseOrderDetailForMaterialOrPaper->getPaper());
         }
+    }
+
+    private function addInventories(ReceiveHeader $receiveHeader): void
+    {
+        InventoryUtil::reverseOldData($this->inventoryRepository, $receiveHeader);
+        
+        $receiveDetails = $receiveHeader->getReceiveDetails()->toArray();
+        if (!empty($receiveDetails[0]->getMaterial())) {
+            $averagePriceList = InventoryUtil::getAveragePriceList('material', $this->purchaseOrderDetailRepository, $receiveDetails);
+        } else {
+            $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderDetailRepository, $receiveDetails);            
+        }
+        InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader) {
+            $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
+            $this->setMaterialOrPaper($receiveDetail, $purchaseOrderDetailForMaterialOrPaper);
+            $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : $averagePriceList[$paper->getId()];
+            $newInventory->setTransactionSubject($receiveDetail->getMemo());
+            $newInventory->setPurchasePrice($purchasePrice);
+            $newInventory->setMaterial($material);
+            $newInventory->setPaper($paper);
+            $newInventory->setInventoryMode(empty($paper) ? 'material' : 'paper');
+            $newInventory->setQuantityIn($receiveDetail->getReceivedQuantity());
+        });
     }
 }

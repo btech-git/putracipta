@@ -77,16 +77,13 @@ class PurchaseReturnHeaderFormService
             $purchaseReturnDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
             $purchaseReturnDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
             
-            if ($purchaseReturnHeader->isIsProductExchange()) {
-                $totalReturn = $purchaseOrderDetail->getTotalReturn();
-                if ($purchaseReturnDetail->isIsCanceled() === false) {
-                    $totalReturn += $purchaseReturnDetail->getQuantity();
-                }
-
-                $purchaseOrderDetail->setTotalReturn($totalReturn);
-                $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
-            }
-            
+//            if ($purchaseReturnHeader->isIsProductExchange() && $purchaseReturnDetail->isIsCanceled() === false) {
+//                $totalReturn = $purchaseOrderDetail->getTotalReturn();
+//                $totalReturn += $purchaseReturnDetail->getQuantity();
+//
+//                $purchaseOrderDetail->setTotalReturn($totalReturn);
+//                $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
+//            }
         }
         
         $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
@@ -95,12 +92,14 @@ class PurchaseReturnHeaderFormService
         } else {
             $purchaseReturnHeader->setTaxPercentage(0);
         }
-        
         $purchaseReturnHeader->setTaxNominal($purchaseReturnHeader->getSyncTaxNominal());
         $purchaseReturnHeader->setGrandTotal($purchaseReturnHeader->getSyncGrandTotal());
+        
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
             $receiveDetail = $purchaseReturnDetail->getReceiveDetail();
             $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
+            $purchaseInvoiceHeaders = $receiveHeader === null ? null : $receiveHeader->getPurchaseInvoiceHeaders();
+            
             $oldReceiveDetails = [];
             if ($purchaseOrderDetailForMaterialOrPaper instanceof PurchaseOrderDetail) {
                 $oldReceiveDetails = $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetailForMaterialOrPaper);
@@ -119,16 +118,33 @@ class PurchaseReturnHeaderFormService
                     }
                 }
             }
-            $totalReturn += $purchaseReturnDetail->getQuantity();
-            $purchaseOrderDetailForMaterialOrPaper->setTotalReturn($totalReturn);
-            $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
-        }
-        
-        $purchaseInvoiceHeaders = $receiveHeader === null ? null : $receiveHeader->getPurchaseInvoiceHeaders();
-        if ($purchaseInvoiceHeaders !== null) {
-            foreach ($purchaseInvoiceHeaders as $purchaseInvoiceHeader) {
-                $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
-                $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
+            
+            if ($purchaseReturnHeader->isIsProductExchange() === true) {
+                $totalReturn += $purchaseReturnDetail->getQuantity();
+                $purchaseOrderDetailForMaterialOrPaper->setTotalReturn($totalReturn);
+                $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
+                if ($purchaseOrderDetailForMaterialOrPaper->getRemainingReceive() > 0) {
+                    $purchaseOrderDetailForMaterialOrPaper->setIsTransactionClosed(false);
+                }
+                
+                if ($purchaseReturnHeader->getId() !== null && $purchaseInvoiceHeaders !== null) {
+                    foreach ($purchaseInvoiceHeaders as $purchaseInvoiceHeader) {
+                        $purchaseInvoiceHeader->setTotalReturn(0);
+                        $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
+                    }
+                }
+            } else {
+                if ($purchaseInvoiceHeaders !== null) {
+                    foreach ($purchaseInvoiceHeaders as $purchaseInvoiceHeader) {
+                        $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+                        $purchaseInvoiceHeader->setRemainingPayment($purchaseInvoiceHeader->getSyncRemainingPayment());
+                    }
+                }
+                
+                if ($purchaseReturnHeader->getId() !== null && $purchaseOrderDetailForMaterialOrPaper !== null) {
+                    $purchaseOrderDetailForMaterialOrPaper->setTotalReturn($totalReturn);
+                    $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
+                }
             }
         }
     }

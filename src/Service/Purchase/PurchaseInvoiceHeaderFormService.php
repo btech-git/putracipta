@@ -84,7 +84,9 @@ class PurchaseInvoiceHeaderFormService
         $purchaseReturnHeaders = $receiveHeader === null ? null : $receiveHeader->getPurchaseReturnHeaders();
         if ($purchaseReturnHeaders !== null) {
             foreach ($purchaseReturnHeaders as $purchaseReturnHeader) {
-                $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+                if ($purchaseReturnHeader->isIsProductExchange() === false) {
+                    $purchaseInvoiceHeader->setTotalReturn($purchaseReturnHeader->getGrandTotal());
+                }
             }
         }
         
