@@ -52,7 +52,6 @@
                 <th>Tanggal Pakai</th>
                 <th>Keterangan</th>
                 <th>Status</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -65,7 +64,6 @@
                     <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestPaperDetail.memo|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.transactionStatus|default }}</td>
-                    <td>{{ purchaseRequestPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -73,7 +71,7 @@
             <tr>
                 <td colspan="2" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ purchaseRequestPaperHeader.totalQuantity|default|number_format(0) }}</strong></td>
-                <td colspan="5"></td>
+                <td colspan="4"></td>
             </tr>
         </tfoot>
     </table>
@@ -98,7 +96,6 @@
                         <th>Kertas</th>
                         <th>Quantity</th>
                         <th>Satuan</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,11 +103,10 @@
                         {% for purchaseOrderPaperDetail in purchaseRequestPaperDetail.purchaseOrderPaperDetails %}
                             <tr>
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
-                                <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseRequestPaperDetail.purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                                 <td>{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
-                                <td>{{ purchaseOrderPaperDetail.isCanceled|default ? 'Canceled' : '' }}</td>
                             </tr>
                         {% endfor %}
                     {% endfor %}
@@ -129,7 +125,6 @@
                             <th>Material</th>
                             <th>Quantity</th>
                             <th>Satuan</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,7 +137,6 @@
                                         <td>{{ receiveDetail.material.name|default }}</td>
                                         <td>{{ receiveDetail.quantity|default|number_format(0) }}</td>
                                         <td>{{ receiveDetail.unit.name|default }}</td>
-                                        <td>{{ receiveDetail.isCanceled|default ? 'Canceled' : '' }}</td>
                                     </tr>
                                 {% endfor %}
                             {% endfor %}

@@ -61,6 +61,7 @@ class PurchaseOrderPaperHeaderFormService
         foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
             $paper = $purchaseOrderPaperDetail->getPaper();
             $purchaseOrderPaperDetail->setIsCanceled($purchaseOrderPaperDetail->getSyncIsCanceled());
+            $purchaseOrderPaperDetail->setIsTransactionClosed($purchaseOrderPaperDetail->getSyncIsTransactionClosed());
             $purchaseOrderPaperDetail->setLength($paper->getLength());
             $purchaseOrderPaperDetail->setWidth($paper->getWidth());
             $purchaseOrderPaperDetail->setWeight($paper->getWeight());

@@ -104,7 +104,7 @@ class SaleInvoiceHeaderController extends AbstractController
         $saleInvoiceHeaderFormService->initialize($saleInvoiceHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleInvoiceHeaderType::class, $saleInvoiceHeader);
         $form->handleRequest($request);
-        $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
+        $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleInvoiceHeaderFormService->save($saleInvoiceHeader);
@@ -134,7 +134,7 @@ class SaleInvoiceHeaderController extends AbstractController
         $saleInvoiceHeaderFormService->initialize($saleInvoiceHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SaleInvoiceHeaderType::class, $saleInvoiceHeader);
         $form->handleRequest($request);
-        $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
+        $saleInvoiceHeaderFormService->finalize($saleInvoiceHeader, ['vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage')]);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $saleInvoiceHeaderFormService->save($saleInvoiceHeader);

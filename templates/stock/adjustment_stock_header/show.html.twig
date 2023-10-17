@@ -50,7 +50,6 @@
                 <th>Qty Selisih</th>
                 <th>Satuan</th>
                 <th>Keterangan</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -64,7 +63,6 @@
                         <td>{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(0) }}</td>
                         <td>{{ adjustmentStockPaperDetail.paper.unit.name|default }}</td>
                         <td>{{ adjustmentStockPaperDetail.memo|default }}</td>
-                        <td>{{ adjustmentStockPaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% elseif (adjustmentStockHeader.adjustmentMode == 'material') %} 
@@ -77,7 +75,6 @@
                         <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}</td>
                         <td>{{ adjustmentStockMaterialDetail.material.unit.name|default }}</td>
                         <td>{{ adjustmentStockMaterialDetail.memo|default }}</td>
-                        <td>{{ adjustmentStockMaterialDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% elseif (adjustmentStockHeader.adjustmentMode == 'product') %} 
@@ -90,7 +87,6 @@
                         <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(0) }}</td>
                         <td>{{ adjustmentStockProductDetail.product.unit.name|default }}</td>
                         <td>{{ adjustmentStockProductDetail.memo|default }}</td>
-                        <td>{{ adjustmentStockProductDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% endif %} 

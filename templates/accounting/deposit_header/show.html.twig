@@ -42,7 +42,6 @@
                 <th>Deskripsi</th>
                 <th>Keterangan</th>
                 <th>Jumlah</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -54,7 +53,6 @@
                     <td>{{ depositDetail.description|default }}</td>
                     <td>{{ depositDetail.memo|default }}</td>
                     <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
-                    <td>{{ depositDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -62,7 +60,6 @@
             <tr>
                 <td colspan="5" class="text-end"><strong>Total</strong></td>
                 <td class="text-end"><strong>{{ depositHeader.totalAmount|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
         </tfoot>
     </table>

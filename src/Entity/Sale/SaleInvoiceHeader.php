@@ -120,6 +120,9 @@ class SaleInvoiceHeader extends SaleHeader
     #[Assert\NotNull]
     protected ?bool $isRead = false;
 
+    #[ORM\Column(length: 100)]
+    private ?string $deliveryReferenceNumbers = null;
+
     public function __construct()
     {
         $this->salePaymentDetails = new ArrayCollection();
@@ -136,10 +139,10 @@ class SaleInvoiceHeader extends SaleHeader
         return $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
     }
 
-    public function getSyncServiceTaxNominal(): string
-    {
-        return $this->getSubTotal() * $this->serviceTaxPercentage / 100;
-    }
+//    public function getSyncServiceTaxNominal(): string
+//    {
+//        return $this->getSubTotal() * $this->serviceTaxPercentage / 100;
+//    }
 
     public function getSyncTotalReturn(): string
     {
@@ -165,8 +168,7 @@ class SaleInvoiceHeader extends SaleHeader
 
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal - $this->serviceTaxNominal;
-        return $grandTotal;
+        return $this->getSubTotalAfterDiscount() + $this->taxNominal; // - $this->serviceTaxNominal;
     }
 
     public function getSyncDueDate(): ?\DateTimeInterface
@@ -496,6 +498,18 @@ class SaleInvoiceHeader extends SaleHeader
     public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
     {
         $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
+
+        return $this;
+    }
+
+    public function getDeliveryReferenceNumbers(): ?string
+    {
+        return $this->deliveryReferenceNumbers;
+    }
+
+    public function setDeliveryReferenceNumbers(string $deliveryReferenceNumbers): self
+    {
+        $this->deliveryReferenceNumbers = $deliveryReferenceNumbers;
 
         return $this;
     }

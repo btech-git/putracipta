@@ -64,6 +64,7 @@ class PurchaseOrderHeaderFormService
         
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
             $purchaseOrderDetail->setIsCanceled($purchaseOrderDetail->getSyncIsCanceled());
+            $purchaseOrderDetail->setIsTransactionClosed($purchaseOrderDetail->getSyncIsTransactionClosed());
             if ($purchaseOrderDetail->isIsCanceled()) {
                 $purchaseOrderDetail->setPurchaseRequestDetail(null);
             }

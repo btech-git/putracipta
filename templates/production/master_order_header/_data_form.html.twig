@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        {{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}
+        {#{{ form_row(form.weightPerPiece, {'label': 'Berat per pcs'}) }}#}
         <div class="mb-3">
             <label for="{{ form.productDevelopment.vars.id }}-text" class="form-label">Pengembangan Produk Baru</label>
             {{ form_row(form.productDevelopment, {
@@ -92,8 +92,22 @@
     </div>
 
     <div class="col">
-        {{ form_row(form.hotStamping, {'label': 'Hot Stamping'}) }}
-        {{ form_row(form.glossiness, {'label': 'Glossiness'}) }}
+        <div class="mb-3">
+            <div class="row">
+                <label class="form-label">Hot Stamping</label>
+                {{ form_widget(form.hotStamping, {
+                    'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeHotStamping'}},
+                        ]|json_encode,
+                    },
+                }) }}
+                {{ form_errors(form.hotStamping) }}
+            </div>
+        </div>
+        {#{{ form_row(form.glossiness, {'label': 'Glossiness'}) }}#}
         <div class="mb-3">
             <div class="row">
                 <label class="form-label">Coating</label>

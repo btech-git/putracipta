@@ -6,9 +6,14 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\DeliveryHeader;
+use App\Entity\Sale\SaleOrderDetail;
+use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Repository\Sale\DeliveryDetailRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
+use App\Repository\Sale\SaleOrderDetailRepository;
+use App\Repository\Stock\InventoryRepository;
+use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -17,6 +22,8 @@ class DeliveryHeaderFormService
     private EntityManagerInterface $entityManager;
     private DeliveryHeaderRepository $deliveryHeaderRepository;
     private DeliveryDetailRepository $deliveryDetailRepository;
+    private SaleOrderDetailRepository $saleOrderDetailRepository;
+    private InventoryRepository $inventoryRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -25,6 +32,8 @@ class DeliveryHeaderFormService
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->deliveryHeaderRepository = $entityManager->getRepository(DeliveryHeader::class);
         $this->deliveryDetailRepository = $entityManager->getRepository(DeliveryDetail::class);
+        $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
+        $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
     }
 
     public function initialize(DeliveryHeader $deliveryHeader, array $options = []): void
@@ -50,6 +59,12 @@ class DeliveryHeaderFormService
             $lastDeliveryHeader = $this->deliveryHeaderRepository->findRecentBy($year, $month);
             $currentDeliveryHeader = ($lastDeliveryHeader === null) ? $deliveryHeader : $lastDeliveryHeader;
             $deliveryHeader->setCodeNumberToNext($currentDeliveryHeader->getCodeNumber(), $year, $month);
+        }
+        $transportation = $deliveryHeader->getTransportation();
+        if ($deliveryHeader->isIsUsingOutsourceDelivery() === false && $transportation !== null) {
+            $deliveryHeader->setVehicleName($transportation->getName());
+            $deliveryHeader->setVehiclePlateNumber($transportation->getPlateNumber());
+            $deliveryHeader->setVehicleDriverName($deliveryHeader->getEmployee()->getName());
         }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
@@ -116,6 +131,24 @@ class DeliveryHeaderFormService
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $this->deliveryDetailRepository->add($deliveryDetail);
         }
+        $this->addInventories($deliveryHeader);
         $this->entityManager->flush();
+    }
+
+    private function addInventories(DeliveryHeader $deliveryHeader): void
+    {
+        InventoryUtil::reverseOldData($this->inventoryRepository, $deliveryHeader);
+        $deliveryDetails = $deliveryHeader->getDeliveryDetails()->toArray();
+        $averagePriceList = InventoryUtil::getAveragePriceList('product', $this->saleOrderDetailRepository, $deliveryDetails);
+        InventoryUtil::addNewData($this->inventoryRepository, $deliveryHeader, $deliveryDetails, function($newInventory, $deliveryDetail) use ($averagePriceList, $deliveryHeader) {
+            $product = $deliveryDetail->getProduct();
+            $purchasePrice = isset($averagePriceList[$product->getId()]) ? $averagePriceList[$product->getId()] : '0.00';
+            $newInventory->setTransactionSubject($deliveryHeader->getCustomer()->getCompany());
+            $newInventory->setPurchasePrice($purchasePrice);
+            $newInventory->setProduct($product);
+            $newInventory->setWarehouse($deliveryHeader->getWarehouse());
+            $newInventory->setInventoryMode('product');
+            $newInventory->setQuantityOut($deliveryDetail->getQuantity());
+        });
     }
 }

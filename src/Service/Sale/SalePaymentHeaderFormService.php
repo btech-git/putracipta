@@ -75,6 +75,13 @@ class SalePaymentHeaderFormService
             } else {
                 $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
             }
+            
+            if ($salePaymentDetail->getServiceTaxMode() !== $salePaymentDetail::SERVICE_TAX_MODE_NON_TAX) {
+                $salePaymentDetail->setServiceTaxPercentage($options['serviceTaxPercentage']);
+            } else {
+                $salePaymentDetail->setServiceTaxPercentage(0);
+            }
+            $salePaymentDetail->setServiceTaxNominal($salePaymentDetail->getSyncServiceTaxNominal());
         }
         $salePaymentHeader->setTotalAmount($salePaymentHeader->getSyncTotalAmount());
         $salePaymentHeader->setReceivedAmount($salePaymentHeader->getSyncReceivedAmount());

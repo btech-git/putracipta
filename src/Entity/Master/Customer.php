@@ -105,6 +105,9 @@ class Customer extends Master
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: DielineMillar::class)]
     private Collection $dielineMillars;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityTolerancePercentage = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -491,6 +494,18 @@ class Customer extends Master
                 $dielineMillar->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantityTolerancePercentage(): ?string
+    {
+        return $this->quantityTolerancePercentage;
+    }
+
+    public function setQuantityTolerancePercentage(string $quantityTolerancePercentage): self
+    {
+        $this->quantityTolerancePercentage = $quantityTolerancePercentage;
 
         return $this;
     }

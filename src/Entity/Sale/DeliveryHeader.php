@@ -66,6 +66,18 @@ class DeliveryHeader extends SaleHeader
     #[ORM\OneToMany(mappedBy: 'deliveryHeader', targetEntity: SaleReturnHeader::class)]
     private Collection $saleReturnHeaders;
 
+    #[ORM\Column(length: 100)]
+    private ?string $vehicleName = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $vehiclePlateNumber = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $vehicleDriverName = '';
+
+    #[ORM\Column]
+    private ?bool $isUsingOutsourceDelivery = false;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -269,6 +281,54 @@ class DeliveryHeader extends SaleHeader
                 $saleReturnHeader->setDeliveryHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVehicleName(): ?string
+    {
+        return $this->vehicleName;
+    }
+
+    public function setVehicleName(string $vehicleName): self
+    {
+        $this->vehicleName = $vehicleName;
+
+        return $this;
+    }
+
+    public function getVehiclePlateNumber(): ?string
+    {
+        return $this->vehiclePlateNumber;
+    }
+
+    public function setVehiclePlateNumber(string $vehiclePlateNumber): self
+    {
+        $this->vehiclePlateNumber = $vehiclePlateNumber;
+
+        return $this;
+    }
+
+    public function getVehicleDriverName(): ?string
+    {
+        return $this->vehicleDriverName;
+    }
+
+    public function setVehicleDriverName(string $vehicleDriverName): self
+    {
+        $this->vehicleDriverName = $vehicleDriverName;
+
+        return $this;
+    }
+
+    public function isIsUsingOutsourceDelivery(): ?bool
+    {
+        return $this->isUsingOutsourceDelivery;
+    }
+
+    public function setIsUsingOutsourceDelivery(bool $isUsingOutsourceDelivery): self
+    {
+        $this->isUsingOutsourceDelivery = $isUsingOutsourceDelivery;
 
         return $this;
     }

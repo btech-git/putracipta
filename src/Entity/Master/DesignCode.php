@@ -147,10 +147,18 @@ class DesignCode extends Master
     #[ORM\Column(length: 60)]
     private ?string $hotStamping = '';
 
+    #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeCheckSheetDetail::class)]
+    private Collection $designCodeCheckSheetDetails;
+
+    #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeDistributionDetail::class)]
+    private Collection $designCodeDistributionDetails;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
         $this->designCodeProcessDetails = new ArrayCollection();
+        $this->designCodeCheckSheetDetails = new ArrayCollection();
+        $this->designCodeDistributionDetails = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
@@ -706,6 +714,66 @@ class DesignCode extends Master
     public function setHotStamping(string $hotStamping): self
     {
         $this->hotStamping = $hotStamping;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCodeCheckSheetDetail>
+     */
+    public function getDesignCodeCheckSheetDetails(): Collection
+    {
+        return $this->designCodeCheckSheetDetails;
+    }
+
+    public function addDesignCodeCheckSheetDetail(DesignCodeCheckSheetDetail $designCodeCheckSheetDetail): self
+    {
+        if (!$this->designCodeCheckSheetDetails->contains($designCodeCheckSheetDetail)) {
+            $this->designCodeCheckSheetDetails->add($designCodeCheckSheetDetail);
+            $designCodeCheckSheetDetail->setDesignCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCodeCheckSheetDetail(DesignCodeCheckSheetDetail $designCodeCheckSheetDetail): self
+    {
+        if ($this->designCodeCheckSheetDetails->removeElement($designCodeCheckSheetDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($designCodeCheckSheetDetail->getDesignCode() === $this) {
+                $designCodeCheckSheetDetail->setDesignCode(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCodeDistributionDetail>
+     */
+    public function getDesignCodeDistributionDetails(): Collection
+    {
+        return $this->designCodeDistributionDetails;
+    }
+
+    public function addDesignCodeDistributionDetail(DesignCodeDistributionDetail $designCodeDistributionDetail): self
+    {
+        if (!$this->designCodeDistributionDetails->contains($designCodeDistributionDetail)) {
+            $this->designCodeDistributionDetails->add($designCodeDistributionDetail);
+            $designCodeDistributionDetail->setDesignCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCodeDistributionDetail(DesignCodeDistributionDetail $designCodeDistributionDetail): self
+    {
+        if ($this->designCodeDistributionDetails->removeElement($designCodeDistributionDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($designCodeDistributionDetail->getDesignCode() === $this) {
+                $designCodeDistributionDetail->setDesignCode(null);
+            }
+        }
 
         return $this;
     }

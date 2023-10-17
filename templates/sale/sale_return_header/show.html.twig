@@ -40,6 +40,10 @@
                 <td>{{ saleReturnHeader.note }}</td>
             </tr>
             <tr>
+                <th>Tukar Guling?</th>
+                <td>{{ saleReturnHeader.isIsProductExchange ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ saleReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
@@ -56,7 +60,6 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -69,7 +72,6 @@
                     <td>{{ saleReturnDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleReturnDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleReturnDetail.total|default|number_format(2) }}</td>
-                    <td>{{ saleReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -77,7 +79,6 @@
             <tr>
                 <td colspan="6" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleReturnHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="6" style="text-align: right">
@@ -92,12 +93,10 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ saleReturnHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="6" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleReturnHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
         </tfoot>
     </table>

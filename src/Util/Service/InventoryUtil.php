@@ -28,6 +28,7 @@ class InventoryUtil
             $reversedInventory->setMaterial($lastInventoryItem->getMaterial());
             $reversedInventory->setPaper($lastInventoryItem->getPaper());
             $reversedInventory->setProduct($lastInventoryItem->getProduct());
+            $reversedInventory->setWarehouse($lastInventoryItem->getWarehouse());
             $reversedInventory->setInventoryMode($lastInventoryItem->getInventoryMode());
             $reversedInventory->setCreatedInventoryDateTime($lastInventoryItem->getCreatedInventoryDateTime());
             $reversedInventory->setNote($lastInventoryItem->getNote());

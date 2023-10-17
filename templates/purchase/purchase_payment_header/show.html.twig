@@ -65,7 +65,6 @@
                 <th>Retur</th>
                 <th>Outstanding</th>
                 <th>Payment</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -79,7 +78,6 @@
                     <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
-                    <td>{{ purchasePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>

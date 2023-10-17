@@ -53,7 +53,6 @@
                 <th>Qty</th>
                 <th>Satuan</th>
                 <th>Keterangan</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -65,7 +64,6 @@
                         <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
                         <td>{{ inventoryReleasePaperDetail.memo|default }}</td>
-                        <td>{{ inventoryReleasePaperDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
@@ -76,7 +74,6 @@
                         <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
                         <td>{{ inventoryReleaseMaterialDetail.memo|default }}</td>
-                        <td>{{ inventoryReleaseMaterialDetail.isCanceled ? 'Canceled' : '' }}</td>
                     </tr>
                 {% endfor %}
             {% endif %} 

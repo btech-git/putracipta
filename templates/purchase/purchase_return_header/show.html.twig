@@ -59,7 +59,6 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -71,7 +70,6 @@
                     <td>{{ purchaseReturnDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseReturnDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseReturnDetail.total|default|number_format(2) }}</td>
-                    <td>{{ purchaseReturnDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -79,7 +77,6 @@
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseReturnHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right">
@@ -94,12 +91,10 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ purchaseReturnHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseReturnHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
         </tfoot>
     </table>

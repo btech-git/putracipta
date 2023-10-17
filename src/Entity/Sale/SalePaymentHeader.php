@@ -83,6 +83,17 @@ class SalePaymentHeader extends SaleHeader
         return $totalAmount;
     }
 
+    public function getTotalInvoice(): string
+    {
+        $totalAmount = '0.00';
+        foreach ($this->salePaymentDetails as $salePaymentDetail) {
+            if (!$salePaymentDetail->isIsCanceled()) {
+                $totalAmount += $salePaymentDetail->getInvoiceAmount();
+            }
+        }
+        return $totalAmount;
+    }
+    
     public function getSyncReceivedAmount(): string
     {
         return $this->totalAmount - $this->administrationFee - $this->returnAmount;

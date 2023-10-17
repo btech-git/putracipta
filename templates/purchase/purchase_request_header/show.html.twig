@@ -52,7 +52,6 @@
                 <th>Tanggal Pakai</th>
                 <th>Keterangan</th>
                 <th>Status</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -65,7 +64,6 @@
                     <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestDetail.memo|default }}</td>
                     <td>{{ purchaseRequestDetail.transactionStatus|default }}</td>
-                    <td>{{ purchaseRequestDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -73,7 +71,7 @@
             <tr>
                 <td colspan="2" class="text-end"><strong>Total</strong></td>
                 <td class="text-center"><strong>{{ purchaseRequestHeader.totalQuantity|default }}</strong></td>
-                <td colspan="5"></td>
+                <td colspan="4"></td>
             </tr>
         </tfoot>
     </table>
@@ -97,7 +95,6 @@
                         <th>Material</th>
                         <th>Quantity</th>
                         <th>Satuan</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,11 +102,10 @@
                         {% for purchaseOrderDetail in purchaseRequestDetail.purchaseOrderDetails %}
                             <tr>
                                 <td>{{ purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
-                                <td>{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseRequestDetail.purchaseOrderDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                                 <td>{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="text-center">{{ purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ purchaseOrderDetail.unit.name|default }}</td>
-                                <td>{{ purchaseOrderDetail.isCanceled|default ? 'Canceled' : '' }}</td>
                             </tr>
                         {% endfor %}
                     {% endfor %}
@@ -129,21 +125,19 @@
                             <th>Material</th>
                             <th>Quantity</th>
                             <th>Satuan</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
                             {% if purchaseRequestDetail.purchaseOrderDetails is not null %}
                                 {% for purchaseOrderDetail in purchaseRequestDetail.purchaseOrderDetails %}
-                                    {% for receiveDetail in purchaseRequestDetail.purchaseOrderDetail.receiveDetails %}
+                                    {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
                                         <tr>
                                             <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
                                             <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                                             <td>{{ receiveDetail.material.name|default }}</td>
                                             <td class="text-center">{{ receiveDetail.quantity|default|number_format(0) }}</td>
                                             <td>{{ receiveDetail.unit.name|default }}</td>
-                                            <td>{{ receiveDetail.isCanceled|default ? 'Canceled' : '' }}</td>
                                         </tr>
                                     {% endfor %}
                                 {% endfor %}

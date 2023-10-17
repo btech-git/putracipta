@@ -110,6 +110,15 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
                                ]|json_encode }}" />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Toleransi Quantity Kirim (%)</label>
+                        <input type="text" class="form-control" value="{{ saleOrderHeader.customer.quantityTolerancePercentage|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.quantityTolerancePercentage'}},
+                               ]|json_encode }}" />
+                    </div>
                 </div>
             </div>
             <div class="row">

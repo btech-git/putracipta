@@ -3,6 +3,8 @@
 namespace App\Form\Master;
 
 use App\Entity\Master\DesignCode;
+use App\Entity\Master\DesignCodeCheckSheetDetail;
+use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -95,6 +97,22 @@ class DesignCodeType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => new DesignCodeProcessDetail(),
+                'label' => false,
+            ])
+            ->add('designCodeDistributionDetails', CollectionType::class, [
+                'entry_type' => DesignCodeDistributionDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new DesignCodeDistributionDetail(),
+                'label' => false,
+            ])
+            ->add('designCodeCheckSheetDetails', CollectionType::class, [
+                'entry_type' => DesignCodeCheckSheetDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new DesignCodeCheckSheetDetail(),
                 'label' => false,
             ])
         ;

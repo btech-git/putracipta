@@ -4,6 +4,7 @@ namespace App\Entity\Sale;
 
 use App\Entity\Master\Product;
 use App\Entity\Master\Unit;
+use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\SaleDetail;
 use App\Repository\Sale\DeliveryDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -72,6 +73,9 @@ class DeliveryDetail extends SaleDetail
 
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]
     private Collection $saleInvoiceDetails;
+
+    #[ORM\ManyToOne]
+    private ?MasterOrderProductDetail $masterOrderProductDetail = null;
 
     public function __construct()
     {
@@ -299,6 +303,18 @@ class DeliveryDetail extends SaleDetail
                 $saleInvoiceDetail->setDeliveryDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMasterOrderProductDetail(): ?MasterOrderProductDetail
+    {
+        return $this->masterOrderProductDetail;
+    }
+
+    public function setMasterOrderProductDetail(?MasterOrderProductDetail $masterOrderProductDetail): self
+    {
+        $this->masterOrderProductDetail = $masterOrderProductDetail;
 
         return $this;
     }

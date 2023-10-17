@@ -5,6 +5,7 @@ namespace App\Entity\Stock;
 use App\Entity\Master\Material;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
+use App\Entity\Master\Warehouse;
 use App\Repository\Stock\InventoryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -65,6 +66,9 @@ class Inventory
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdInventoryDateTime = null;
+
+    #[ORM\ManyToOne]
+    private ?Warehouse $warehouse = null;
 
     public function getId(): ?int
     {
@@ -259,6 +263,18 @@ class Inventory
     public function setCreatedInventoryDateTime(?\DateTimeInterface $createdInventoryDateTime): self
     {
         $this->createdInventoryDateTime = $createdInventoryDateTime;
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }

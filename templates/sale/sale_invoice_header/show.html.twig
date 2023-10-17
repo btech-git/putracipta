@@ -69,7 +69,6 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -83,7 +82,6 @@
                     <td>{{ saleInvoiceDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
-                    <td>{{ saleInvoiceDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -91,12 +89,10 @@
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Disc {{ saleInvoiceHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right">
@@ -109,9 +105,8 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
-            <tr>
+            {#<tr>
                 <td colspan="7" style="text-align: right">
                     <strong>
                         {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', saleInvoiceHeader) %}
@@ -122,27 +117,22 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
+            </tr>#}
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Total Retur</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.totalReturn|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Total Payment</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.totalPayment|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Remaining Payment</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.remainingPayment|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
         </tfoot>
     </table>
@@ -157,7 +147,6 @@
                 <th>Tanggal Cek/Giro</th>
                 <th>Memo</th>
                 <th>Amount</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -169,7 +158,6 @@
                     <td>{{ salePaymentDetail.salePaymentHeader.referenceDate ? salePaymentDetail.salePaymentHeader.referenceDate|date('d M Y') : '' }}</td>
                     <td>{{ salePaymentDetail.memo|default }}</td>
                     <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
-                    <td>{{ salePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>

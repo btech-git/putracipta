@@ -4,9 +4,13 @@ namespace App\Service\Master;
 
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DesignCode;
+use App\Entity\Master\DesignCodeCheckSheetDetail;
+use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Support\Idempotent;
 use App\Repository\Master\DesignCodeRepository;
+use App\Repository\Master\DesignCodeCheckSheetDetailRepository;
+use App\Repository\Master\DesignCodeDistributionDetailRepository;
 use App\Repository\Master\DesignCodeProcessDetailRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -16,6 +20,8 @@ class DesignCodeFormService
     private RequestStack $requestStack;
     private EntityManagerInterface $entityManager;
     private DesignCodeRepository $designCodeRepository;
+    private DesignCodeCheckSheetDetailRepository $designCodeCheckSheetDetailRepository;
+    private DesignCodeDistributionDetailRepository $designCodeDistributionDetailRepository;
     private DesignCodeProcessDetailRepository $designCodeProcessDetailRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
@@ -24,6 +30,8 @@ class DesignCodeFormService
         $this->entityManager = $entityManager;
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->designCodeRepository = $entityManager->getRepository(DesignCode::class);
+        $this->designCodeCheckSheetDetailRepository = $entityManager->getRepository(DesignCodeCheckSheetDetail::class);
+        $this->designCodeDistributionDetailRepository = $entityManager->getRepository(DesignCodeDistributionDetail::class);
         $this->designCodeProcessDetailRepository = $entityManager->getRepository(DesignCodeProcessDetail::class);
     }
 
@@ -34,6 +42,12 @@ class DesignCodeFormService
         $this->designCodeRepository->add($designCode);
         foreach ($designCode->getDesignCodeProcessDetails() as $designCodeProcessDetail) {
             $this->designCodeProcessDetailRepository->add($designCodeProcessDetail);
+        }
+        foreach ($designCode->getDesignCodeDistributionDetails() as $designCodeDistributionDetail) {
+            $this->designCodeDistributionDetailRepository->add($designCodeDistributionDetail);
+        }
+        foreach ($designCode->getDesignCodeCheckSheetDetails() as $designCodeCheckSheetDetail) {
+            $this->designCodeCheckSheetDetailRepository->add($designCodeCheckSheetDetail);
         }
         $this->entityManager->flush();
     }
@@ -79,6 +93,18 @@ class DesignCodeFormService
         $designCode->setInsitPrintingPercentage($sourceDesignCode->getInsitPrintingPercentage());
         $designCode->setInsitSortingPercentage($sourceDesignCode->getInsitSortingPercentage());
         $designCode->setHotStamping($sourceDesignCode->getHotStamping());
+        foreach ($sourceDesignCode->getDesignCodeCheckSheetDetails() as $sourceDesignCodeCheckSheetDetail) {
+            $designCodeCheckSheetDetail = new DesignCodeProcessDetail();
+            $designCodeCheckSheetDetail->setDesignCode($sourceDesignCodeCheckSheetDetail->getDesignCode());
+            $designCodeCheckSheetDetail->setWorkOrderCheckSheet($sourceDesignCodeCheckSheetDetail->getWorkOrderCheckSheet());
+            $designCode->addDesignCodeCheckSheetDetail($designCodeCheckSheetDetail);
+        }
+        foreach ($sourceDesignCode->getDesignCodeDistributionDetails() as $sourceDesignCodeDistributionDetail) {
+            $designCodeDistributionDetail = new DesignCodeDistributionDetail();
+            $designCodeDistributionDetail->setDesignCode($sourceDesignCodeDistributionDetail->getDesignCode());
+            $designCodeDistributionDetail->setWorkOrderDistribution($sourceDesignCodeDistributionDetail->getWorkOrderDistribution());
+            $designCode->addDesignCodeDistributionDetail($sourceDesignCodeDistributionDetail);
+        }
         foreach ($sourceDesignCode->getDesignCodeProcessDetails() as $sourceDesignCodeProcessDetail) {
             $designCodeProcessDetail = new DesignCodeProcessDetail();
             $designCodeProcessDetail->setDesignCode($sourceDesignCodeProcessDetail->getDesignCode());

@@ -14,21 +14,20 @@ class PaperType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('type', null, ['label' => 'Jenis'])
             ->add('length', null, ['label' => 'Panjang'])
             ->add('width', null, ['label' => 'Lebar'])
             ->add('weight', null, ['label' => 'Berat (GSM)'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('note')
-            ->add('isInactive')
+            ->add('isInactive', null, ['label' => 'Inactive'])
             ->add('pricingMode', ChoiceType::class, ['label' => 'Metode Input Harga', 'choices' => [
                 'Asosiasi' => Paper::PRICING_MODE_ASSOCIATION,
                 'KG' => Paper::PRICING_MODE_WEIGHT,
                 'Satuan' => Paper::PRICING_MODE_UNIT,
             ]])
-            ->add('type', ChoiceType::class, ['label' => 'Metode Input Harga', 'choices' => [
-                '000' => Paper::PRICING_MODE_WEIGHT,
-                'FSC' => Paper::PRICING_MODE_ASSOCIATION,
+            ->add('type', ChoiceType::class, ['choices' => [
+                '000' => Paper::TYPE_NON_FSC,
+                'FSC' => Paper::TYPE_FSC,
             ]])
         ;
     }

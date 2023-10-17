@@ -7,25 +7,27 @@
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Sale Order Detail Id</th>
+                <th class="d-none">Master Order Product Detail Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Barang</th>
                 <th style="min-width: 150px">FSC Code</th>
-                <th style="min-width: 150px">WO #</th>
-                <th style="min-width: 150px">Lot #</th>
-                <th style="min-width: 150px">PO #</th>
-                <th style="min-width: 150px">Line PO</th>
+                <th style="min-width: 80px">WO #</th>
+                <th style="min-width: 80px">Lot #</th>
+                <th style="min-width: 100px">PO #</th>
+                <th style="min-width: 80px">Line PO</th>
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 100px">OS PO</th>
                 <th style="min-width: 100px">Qty Kirim</th>
                 <th style="min-width: 100px">Satuan</th>
-                <th style="min-width: 150px">Kemasan</th>
+                <th style="min-width: 250px">Kemasan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="sale-order-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems customer-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="master-order-product-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems master-order-product-detail-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
+                    <td class="d-none">{{ form_widget(detailForm.masterOrderProductDetail, {'attr': {'data-item-field-name': 'masterOrderProductDetailId'}}) }}</td>
                     <td class="d-none" data-item-field-name="saleOrderHeaderIsUsingFscPaper">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No' }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
@@ -42,14 +44,10 @@
                             ',
                         }}) }}
                     </td>
-                    <td></td>
-                    <td>
-                        {{ form_row(detailForm.lotNumber, {'label': false}) }}
-                    </td>
+                    <td data-item-field-name="masterOrderHeaderWorkOrderNumber">{{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }}</td>
+                    <td data-item-field-name="masterOrderHeaderLotNumber">{{ detailForm.vars.value.lotNumber|default }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>
-                        {{ form_row(detailForm.linePo, {'label': false}) }}
-                    </td>
+                    <td>{{ form_row(detailForm.linePo, {'label': false}) }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default }}</td>
                     <td>

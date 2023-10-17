@@ -610,6 +610,11 @@ class MasterOrderHeader extends ProductionHeader
         return implode(', ', $inkSpecialColorList);
     }
     
+    public function getLotNumber() 
+    {
+        return $this->codeNumberOrdinal . '.' . $this->codeNumberYear;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

@@ -242,6 +242,16 @@
         {{ include('master/design_code/_processing_order_form.html.twig') }}
     </fieldset>
 
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Distribusi WO</legend>
+        {{ include('master/design_code/_distribution_form.html.twig') }}
+    </fieldset>
+
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Check Sheet</legend>
+        {{ include('master/design_code/_check_sheet_form.html.twig') }}
+    </fieldset>
+
     <div class="row">
             {{ form_row(form.note) }}
             {{ form_row(form.isInactive) }}

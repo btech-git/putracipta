@@ -118,6 +118,7 @@ class AdjustmentStockHeaderFormService
                 $newInventory->setTransactionSubject($adjustmentStockMaterialDetail->getMemo());
                 $newInventory->setPurchasePrice($purchasePrice);
                 $newInventory->setMaterial($material);
+                $newInventory->setWarehouse($adjustmentStockHeader->getWarehouse());
                 $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
                 $newInventory->setQuantityIn($adjustmentStockMaterialDetail->getQuantityAdjustment());
             });
@@ -130,6 +131,7 @@ class AdjustmentStockHeaderFormService
                 $newInventory->setTransactionSubject($adjustmentStockPaperDetail->getMemo());
                 $newInventory->setPurchasePrice($purchasePrice);
                 $newInventory->setPaper($paper);
+                $newInventory->setWarehouse($adjustmentStockHeader->getWarehouse());
                 $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
                 $newInventory->setQuantityIn($adjustmentStockPaperDetail->getQuantityAdjustment());
             });
@@ -142,6 +144,7 @@ class AdjustmentStockHeaderFormService
                 $newInventory->setTransactionSubject($adjustmentStockProductDetail->getMemo());
                 $newInventory->setPurchasePrice($purchasePrice);
                 $newInventory->setProduct($product);
+                $newInventory->setWarehouse($adjustmentStockHeader->getWarehouse());
                 $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
                 $newInventory->setQuantityIn($adjustmentStockProductDetail->getQuantityAdjustment());
             });

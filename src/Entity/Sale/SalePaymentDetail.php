@@ -13,6 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'sale_sale_payment_detail')]
 class SalePaymentDetail extends SaleDetail
 {
+    public const SERVICE_TAX_MODE_NON_TAX = 'non_service_tax';
+    public const SERVICE_TAX_MODE_TAX = 'service_tax';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -36,10 +39,33 @@ class SalePaymentDetail extends SaleDetail
     #[ORM\ManyToOne(inversedBy: 'salePaymentDetails')]
     private ?SalePaymentHeader $salePaymentHeader = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $serviceTaxMode = self::SERVICE_TAX_MODE_NON_TAX;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $serviceTaxPercentage = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $serviceTaxNominal = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->salePaymentHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
+    }
+
+    public function getSyncServiceTaxNominal(): string
+    {
+        $saleInvoiceHeader = $this->getSaleInvoiceHeader();
+        
+        return ($saleInvoiceHeader->getGrandTotal() - $saleInvoiceHeader->getTotalReturn()) * $this->serviceTaxPercentage / 100;
+    }
+    
+    public function getInvoiceAmount(): string 
+    {
+        $saleInvoiceHeader = $this->getSaleInvoiceHeader();
+        
+        return $saleInvoiceHeader->getGrandTotal() - $saleInvoiceHeader->getTotalReturn() - $this->getServiceTaxNominal();
     }
 
     public function getId(): ?int
@@ -103,6 +129,42 @@ class SalePaymentDetail extends SaleDetail
     public function setSalePaymentHeader(?SalePaymentHeader $salePaymentHeader): self
     {
         $this->salePaymentHeader = $salePaymentHeader;
+
+        return $this;
+    }
+
+    public function getServiceTaxMode(): ?string
+    {
+        return $this->serviceTaxMode;
+    }
+
+    public function setServiceTaxMode(string $serviceTaxMode): self
+    {
+        $this->serviceTaxMode = $serviceTaxMode;
+
+        return $this;
+    }
+
+    public function getServiceTaxPercentage(): ?string
+    {
+        return $this->serviceTaxPercentage;
+    }
+
+    public function setServiceTaxPercentage(string $serviceTaxPercentage): self
+    {
+        $this->serviceTaxPercentage = $serviceTaxPercentage;
+
+        return $this;
+    }
+
+    public function getServiceTaxNominal(): ?string
+    {
+        return $this->serviceTaxNominal;
+    }
+
+    public function setServiceTaxNominal(string $serviceTaxNominal): self
+    {
+        $this->serviceTaxNominal = $serviceTaxNominal;
 
         return $this;
     }

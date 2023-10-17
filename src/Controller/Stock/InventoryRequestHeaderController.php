@@ -31,7 +31,13 @@ class InventoryRequestHeaderController extends AbstractController
         $form = $this->createForm(InventoryRequestHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $inventoryRequestHeaders) = $inventoryRequestHeaderRepository->fetchData($criteria);
+        list($count, $inventoryRequestHeaders) = $inventoryRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+//            if (isset($request->request->get('inventory_request_header_grid')['filter']['warehouse:name']) && isset($request->request->get('inventory_request_header_grid')['sort']['warehouse:name'])) {
+//                $qb->innerJoin("{$alias}.warehouse", 'w');
+//                $add['filter']($qb, 'w', 'name', $request->request->get('inventory_request_header_grid')['filter']['warehouse:name']);
+//                $add['sort']($qb, 'w', 'name', $request->request->get('inventory_request_header_grid')['sort']['warehouse:name']);
+//            }
+        });
 
         return $this->renderForm("stock/inventory_request_header/_list.html.twig", [
             'form' => $form,

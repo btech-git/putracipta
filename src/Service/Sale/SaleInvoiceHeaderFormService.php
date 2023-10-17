@@ -71,23 +71,27 @@ class SaleInvoiceHeaderFormService
             $saleInvoiceHeader->setTaxPercentage(0);
         }
         $saleInvoiceHeader->setTaxNominal($saleInvoiceHeader->getSyncTaxNominal());
-        if ($saleInvoiceHeader->getServiceTaxMode() !== $saleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX) {
-            $saleInvoiceHeader->setServiceTaxPercentage($options['serviceTaxPercentage']);
-        } else {
-            $saleInvoiceHeader->setServiceTaxPercentage(0);
-        }
-        $saleInvoiceHeader->setServiceTaxNominal($saleInvoiceHeader->getSyncServiceTaxNominal());
+//        if ($saleInvoiceHeader->getServiceTaxMode() !== $saleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX) {
+//            $saleInvoiceHeader->setServiceTaxPercentage($options['serviceTaxPercentage']);
+//        } else {
+//            $saleInvoiceHeader->setServiceTaxPercentage(0);
+//        }
+//        $saleInvoiceHeader->setServiceTaxNominal($saleInvoiceHeader->getSyncServiceTaxNominal());
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());
         $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
         
         $saleOrderReferenceNumberList = array();
+        $deliveryReferenceNumberList = array();
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
+            $deliveryHeader = $deliveryDetail->getDeliveryHeader();
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
+            $deliveryReferenceNumberList[] = $deliveryHeader->getCodeNumber();
         }
         $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
+        $saleInvoiceHeader->setDeliveryReferenceNumbers(implode(', ', $deliveryReferenceNumberList));
     }
 
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void

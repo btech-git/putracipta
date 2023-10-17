@@ -88,6 +88,12 @@ class PurchaseOrderDetail extends PurchaseDetail
         return $isCanceled;
     }
 
+    public function getSyncIsTransactionClosed(): bool
+    {
+        $isClosed = $this->purchaseOrderHeader->getTransactionStatus() === TRANSACTION_STATUS_FULL_RECEIVE ? true : $this->isTransactionClosed;
+        return $isClosed;
+    }
+
     public function getSyncRemainingReceive(): int
     {
         return $this->quantity - $this->totalReceive + $this->totalReturn;
