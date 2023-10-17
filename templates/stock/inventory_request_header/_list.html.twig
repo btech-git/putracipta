@@ -9,7 +9,7 @@
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 280px">
-                    Penyesuaian Stok #
+                    Request #
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
@@ -20,11 +20,11 @@
                 <th role="button" {{ grid.sort_link_item(form, 'workOrderNumber') }}>
                     WO # {{ grid.sort_char(form.sort.workOrderNumber.vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Jenis 
+                <th role="button" {{ grid.sort_link_item(form, 'requestMode') }}>
+                    Jenis {{ grid.sort_char(form.sort.requestMode.vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Gudang
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse') }}>
+                    Gudang {{ grid.sort_char(form.sort['warehouse'].vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -39,8 +39,17 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'workOrderNumber') }} value="{{ form.filter.workOrderNumber.1.vars.value }}" />
                 </th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'requestMode') }} value="{{ form.filter.requestMode.1.vars.value }}" />
+                </th>
+                <th>
+                    <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>
+                        <option value="" {% if form.filter.warehouse.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.warehouse.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.warehouse.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
                 <th></th>
             </tr>
         </thead>
