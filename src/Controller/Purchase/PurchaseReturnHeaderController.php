@@ -37,6 +37,11 @@ class PurchaseReturnHeaderController extends AbstractController
                 $add['filter']($qb, 's', 'company', $request->request->get('purchase_return_header_grid')['filter']['supplier:company']);
                 $add['sort']($qb, 's', 'company', $request->request->get('purchase_return_header_grid')['sort']['supplier:company']);
             }
+//            if (isset($request->request->get('purchase_return_header_grid')['filter']['warehouse:name']) && isset($request->request->get('purchase_return_header_grid')['sort']['warehouse:name'])) {
+//                $qb->innerJoin("{$alias}.warehouse", 'w');
+//                $add['filter']($qb, 'w', 'name', $request->request->get('purchase_return_header_grid')['filter']['warehouse:name']);
+//                $add['sort']($qb, 'w', 'name', $request->request->get('purchase_return_header_grid')['sort']['warehouse:name']);
+//            }
         });
 
         return $this->renderForm("purchase/purchase_return_header/_list.html.twig", [

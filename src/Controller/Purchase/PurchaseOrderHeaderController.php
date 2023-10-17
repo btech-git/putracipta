@@ -264,6 +264,11 @@ class PurchaseOrderHeaderController extends AbstractController
             $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
             $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
 
+        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+        }
+        
+            $purchaseOrderDetail->setIsTransactionClosed($purchaseOrderDetail->getSyncIsTransactionClosed());
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was completed successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to completed the purchase.'));
