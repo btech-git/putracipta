@@ -2,6 +2,7 @@
 
 namespace App\Entity\Production;
 
+use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\WorkOrderDistribution;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\MasterOrderDistributionDetailRepository;
@@ -23,7 +24,7 @@ class MasterOrderDistributionDetail extends ProductionDetail
     private ?bool $isSubcon = false;
 
     #[ORM\ManyToOne]
-    private ?WorkOrderDistribution $workOrderDistribution = null;
+    private ?DesignCodeDistributionDetail $designCodeDistributionDetail = null;
 
     public function getId(): ?int
     {
@@ -54,14 +55,14 @@ class MasterOrderDistributionDetail extends ProductionDetail
         return $this;
     }
 
-    public function getWorkOrderDistribution(): ?WorkOrderDistribution
+    public function getDesignCodeDistributionDetail(): ?DesignCodeDistributionDetail
     {
-        return $this->workOrderDistribution;
+        return $this->designCodeDistributionDetail;
     }
 
-    public function setWorkOrderDistribution(?WorkOrderDistribution $workOrderDistribution): self
+    public function setDesignCodeDistributionDetail(?DesignCodeDistributionDetail $designCodeDistributionDetail): self
     {
-        $this->workOrderDistribution = $workOrderDistribution;
+        $this->designCodeDistributionDetail = $designCodeDistributionDetail;
 
         return $this;
     }

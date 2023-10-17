@@ -2,6 +2,7 @@
 
 namespace App\Entity\Production;
 
+use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\WorkOrderCheckSheet;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
@@ -23,7 +24,7 @@ class MasterOrderCheckSheetDetail extends ProductionDetail
     private ?bool $isSubcon = false;
 
     #[ORM\ManyToOne]
-    private ?WorkOrderCheckSheet $workOrderCheckSheet = null;
+    private ?DesignCodeCheckSheetDetail $designCodeCheckSheetDetail = null;
 
     public function getId(): ?int
     {
@@ -54,14 +55,14 @@ class MasterOrderCheckSheetDetail extends ProductionDetail
         return $this;
     }
 
-    public function getWorkOrderCheckSheet(): ?WorkOrderCheckSheet
+    public function getDesignCodeCheckSheetDetail(): ?DesignCodeCheckSheetDetail
     {
-        return $this->workOrderCheckSheet;
+        return $this->designCodeCheckSheetDetail;
     }
 
-    public function setWorkOrderCheckSheet(?WorkOrderCheckSheet $workOrderCheckSheet): self
+    public function setDesignCodeCheckSheetDetail(?DesignCodeCheckSheetDetail $designCodeCheckSheetDetail): self
     {
-        $this->workOrderCheckSheet = $workOrderCheckSheet;
+        $this->designCodeCheckSheetDetail = $designCodeCheckSheetDetail;
 
         return $this;
     }
