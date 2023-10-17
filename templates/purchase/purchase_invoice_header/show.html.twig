@@ -87,7 +87,6 @@
                 <th>Satuan</th>
                 <th>Harga</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -99,7 +98,6 @@
                     <td>{{ purchaseInvoiceDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
-                    <td>{{ purchaseInvoiceDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -107,12 +105,10 @@
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseInvoiceHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right">
@@ -127,27 +123,22 @@
                     </strong>
                 </td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Total Payment</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.totalPayment|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Total Return</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right"><strong>Remaining Payment</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</strong></td>
-                <td></td>
             </tr>
         </tfoot>
     </table>
@@ -162,7 +153,6 @@
                 <th>Tanggal Cek/Giro</th>
                 <th>Memo</th>
                 <th>Amount</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -174,7 +164,6 @@
                     <td>{{ purchasePaymentDetail.purchasePaymentHeader.referenceDate ? purchasePaymentDetail.purchasePaymentHeader.referenceDate|date('d M Y') : '' }}</td>
                     <td>{{ purchasePaymentDetail.memo|default }}</td>
                     <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
-                    <td>{{ purchasePaymentDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
