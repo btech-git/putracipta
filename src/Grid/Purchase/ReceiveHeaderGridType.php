@@ -32,7 +32,7 @@ class ReceiveHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'purchaseOrderCodeNumberOrdinal' => 'PO Code Number',
+                    'purchaseOrderCodeNumberOrdinal' => 'PO Number',
                     'purchaseOrderCodeNumberMonth' => '',
                     'purchaseOrderCodeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
@@ -70,7 +70,7 @@ class ReceiveHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'purchaseOrderCodeNumberYear', 'purchaseOrderCodeNumberMonth', 'purchaseOrderCodeNumberOrdinal', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => ['transactionDate', 'warehouse', 'supplier:company', 'supplierDeliveryCodeNumber',  'note', 'purchaseOrderCodeNumberYear', 'purchaseOrderCodeNumberMonth', 'purchaseOrderCodeNumberOrdinal', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -81,7 +81,7 @@ class ReceiveHeaderGridType extends AbstractType
                     'transactionDate' => 'Tanggal',
                     'supplierDeliveryCodeNumber' => 'SJ Supplier #',
                     'supplier:company' => 'Supplier',
-                    'warehouse:name' => 'Gudang',
+                    'warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
                     'supplierDeliveryCodeNumber' => [SortAscending::class, SortDescending::class],
@@ -93,7 +93,7 @@ class ReceiveHeaderGridType extends AbstractType
                     'purchaseOrderCodeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
-                    'warehouse:name' => [SortAscending::class, SortDescending::class],
+                    'warehouse' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
