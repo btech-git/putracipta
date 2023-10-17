@@ -8,6 +8,7 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SalePaymentHeader;
 use App\Form\Sale\SalePaymentHeaderType;
 use App\Grid\Sale\SalePaymentHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\SalePaymentHeaderRepository;
 use App\Service\Sale\SalePaymentHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -54,13 +55,13 @@ class SalePaymentHeaderController extends AbstractController
 
     #[Route('/new.{_format}', name: 'app_sale_sale_payment_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, SalePaymentHeaderFormService $salePaymentHeaderFormService, $_format = 'html'): Response
+    public function new(Request $request, SalePaymentHeaderFormService $salePaymentHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $salePaymentHeader = new SalePaymentHeader();
         $salePaymentHeaderFormService->initialize($salePaymentHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SalePaymentHeaderType::class, $salePaymentHeader);
         $form->handleRequest($request);
-        $salePaymentHeaderFormService->finalize($salePaymentHeader);
+        $salePaymentHeaderFormService->finalize($salePaymentHeader, ['serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $salePaymentHeaderFormService->save($salePaymentHeader);
@@ -85,12 +86,12 @@ class SalePaymentHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_sale_sale_payment_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, SalePaymentHeader $salePaymentHeader, SalePaymentHeaderFormService $salePaymentHeaderFormService, $_format = 'html'): Response
+    public function edit(Request $request, SalePaymentHeader $salePaymentHeader, SalePaymentHeaderFormService $salePaymentHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $salePaymentHeaderFormService->initialize($salePaymentHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(SalePaymentHeaderType::class, $salePaymentHeader);
         $form->handleRequest($request);
-        $salePaymentHeaderFormService->finalize($salePaymentHeader);
+        $salePaymentHeaderFormService->finalize($salePaymentHeader, ['serviceTaxPercentage' => $literalConfigRepository->findLiteralValue('serviceTaxPercentage')]);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $salePaymentHeaderFormService->save($salePaymentHeader);
