@@ -4,6 +4,7 @@ namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedNumberType;
+use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\DeliveryDetail;
 use Symfony\Component\Form\AbstractType;
@@ -29,6 +30,7 @@ class DeliveryDetailType extends AbstractType
                 'D' => 'D',
             ]])
             ->add('saleOrderDetail', EntityHiddenType::class, ['class' => SaleOrderDetail::class])
+            ->add('masterOrderProductDetail', EntityHiddenType::class, ['class' => MasterOrderProductDetail::class])
         ;
     }
 

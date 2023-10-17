@@ -25,7 +25,7 @@ class SaleInvoiceHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $vatPercentage = $this->literalConfigRepository->findLiteralValue('vatPercentage');
-        $serviceTaxPercentage = $this->literalConfigRepository->findLiteralValue('serviceTaxPercentage');
+//        $serviceTaxPercentage = $this->literalConfigRepository->findLiteralValue('serviceTaxPercentage');
         $builder
             ->add('invoiceTaxCodeNumber')
             ->add('transactionDate', null, ['widget' => 'single_text'])
@@ -40,10 +40,10 @@ class SaleInvoiceHeaderType extends AbstractType
                 '0%' => SaleInvoiceHeader::TAX_MODE_NON_TAX,
                 "{$vatPercentage}%" => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
             ]])
-            ->add('serviceTaxMode', ChoiceType::class, ['choices' => [
-                '0.00%' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
-                "{$serviceTaxPercentage}%" => SaleInvoiceHeader::SERVICE_TAX_MODE_TAX,
-            ]])
+//            ->add('serviceTaxMode', ChoiceType::class, ['choices' => [
+//                '0.00%' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
+//                "{$serviceTaxPercentage}%" => SaleInvoiceHeader::SERVICE_TAX_MODE_TAX,
+//            ]])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('saleInvoiceDetails', CollectionType::class, [
                 'entry_type' => SaleInvoiceDetailType::class,

@@ -9,6 +9,7 @@ use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\DeliveryHeader;
 use App\Repository\Master\CustomerRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,8 +51,15 @@ class DeliveryHeaderType extends AbstractType
                 },
             ])
             ->add('note')
+            ->add('vehicleName')
+            ->add('vehiclePlateNumber')
+            ->add('vehicleDriverName')
             ->add('customerName', TextType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+            ->add('isUsingOutsourceDelivery', ChoiceType::class, ['choices' => [
+                'Internal' => false,
+                'Expedisi' => true,
+            ]])
             ->add('deliveryDetails', CollectionType::class, [
                 'entry_type' => DeliveryDetailType::class,
                 'allow_add' => true,

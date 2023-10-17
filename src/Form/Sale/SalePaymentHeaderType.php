@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Customer;
 use App\Entity\Sale\SalePaymentDetail;
 use App\Entity\Sale\SalePaymentHeader;
@@ -19,7 +20,7 @@ class SalePaymentHeaderType extends AbstractType
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
             ->add('referenceNumber')
-            ->add('administrationFee')
+            ->add('administrationFee', FormattedNumberType::class, ['decimals' => 2])
 //            ->add('returnAmount')
             ->add('referenceDate', null, ['widget' => 'single_text'])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
