@@ -17,7 +17,7 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="delivery-detail-table:data-table:select@document->form-collection#addCollectionItem delivery-detail-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="delivery-detail-table:data-table:select@document->form-collection#addCollectionItem customer-table:data-table:select@document->form-collection#clearCollectionItems delivery-detail-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" data-item-identifier-name="deliveryDetailId" data-item-identifier-value="{{ detailForm.vars.value.deliveryDetail.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.deliveryDetail, {'attr': {'data-item-field-name': 'deliveryDetailId'}}) }}</td>
@@ -87,7 +87,7 @@
                 </td>
                 <td></td>
             </tr>
-            <tr>
+            {#<tr>
                 <td class="text-end" colspan="6">
                     <span class="d-inline-block">PPh</span>
                     <span class="d-inline-block">{{ form_row(form.serviceTaxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
@@ -97,7 +97,7 @@
                     {{ saleInvoiceHeader.serviceTaxNominal|default|number_format(2) }}
                 </td>
                 <td></td>
-            </tr>
+            </tr>#}
             <tr>
                 <td class="text-end" colspan="6">Grand Total</td>
                 <td class="text-end" data-json-loader-target="placeholder"

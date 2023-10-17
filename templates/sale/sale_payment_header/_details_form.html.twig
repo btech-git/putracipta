@@ -11,6 +11,7 @@
                 <th style="min-width: 150px">Memo</th>
                 <th style="min-width: 150px">Account</th>
                 <th style="min-width: 150px">Total Invoice</th>
+                <th style="min-width: 90px">PPh</th>
                 <th style="min-width: 150px">Amount</th>
                 <th style="min-width: 0"></th>
             </tr>
@@ -22,7 +23,8 @@
                     <td data-item-field-name="saleInvoiceHeaderCodeNumber">{{ detailForm.vars.value.saleInvoiceHeader.codeNumber|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>{{ form_row(detailForm.account, {'label': false}) }}</td>
-                    <td class="text-end" data-item-field-name="saleInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.saleInvoiceHeader.remainingPayment|default|number_format(0) }}</td>
+                    <td class="text-end" data-item-field-name="saleInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
+                    <td>{{ form_row(detailForm.serviceTaxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
                     <td>
                         {{ form_row(detailForm.amount, {'label': false, 'attr': {
                             'data-controller': 'dom-element',
@@ -59,7 +61,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="4">Total Amount</td>
+                <td class="text-end" colspan="5">Total Amount</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="totalAmount">
                     {{ salePaymentHeader.totalAmount|default|number_format(2) }}
@@ -74,14 +76,14 @@
                 <td></td>
             </tr>#}
             <tr>
-                <td class="text-end" colspan="4">Admin Fee</td>
+                <td class="text-end" colspan="5">Admin Fee</td>
                 <td>
                     {{ form_row(form.administrationFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
                 </td>
                 <td></td>
             </tr>
             <tr>
-                <td class="text-end" colspan="4">Jumlah Diterima</td>
+                <td class="text-end" colspan="5">Jumlah Diterima</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="receivedAmount">
                     {{ salePaymentHeader.receivedAmount|default|number_format(2) }}

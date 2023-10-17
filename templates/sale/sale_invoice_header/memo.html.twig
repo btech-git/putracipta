@@ -92,6 +92,10 @@
                             <div class="cell label">Jatuh Tempo</div>
                             <div class="cell value">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('d M Y') }}</div>
                         </div>
+                        <div class="row">
+                            <div class="cell label">SJ #</div>
+                            <div class="cell value">{{ saleInvoiceHeader.deliveryReferenceNumbers|default }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -128,7 +132,7 @@
                                 {% endif %}
                                 <td class="left">{{ saleInvoiceDetail.product.code|default }}</td>
                                 <td class="left">{{ saleInvoiceDetail.product.name|default }}</td>
-                                <td class="center">{{ saleInvoiceDetail.quantity|default }}</td>
+                                <td class="center">{{ saleInvoiceDetail.quantity|default|number_format(0) }}</td>
                                 <td class="left">{{ saleInvoiceDetail.unit.name|default }}</td>
                                 <td class="right">{{ saleInvoiceDetail.unitPrice|default|number_format(0) }}</td>
                                 <td class="right">{{ saleInvoiceDetail.total|default|number_format(0) }}</td>
@@ -175,14 +179,14 @@
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
-                {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
+                {#{% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
                     <tr>
                         <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">
                             PPh 23 ({{ saleInvoiceHeader.serviceTaxPercentage }}%)
                         </td>
                         <td class="right">{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(0) }}</td>
                     </tr>
-                {% endif %}
+                {% endif %}#}
                 <tr>
                     <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">Grand Total</td>
                     <td class="right">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>

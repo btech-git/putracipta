@@ -84,7 +84,6 @@
                 <th>OS PO</th>
                 <th>Satuan</th>
                 <th>Kemasan</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -105,7 +104,6 @@
                     <td style="text-align: center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
                     <td>{{ deliveryDetail.unit.name|default }}</td>
                     <td>{{ deliveryDetail.packaging|default }}</td>
-                    <td>{{ deliveryDetail.isCanceled ? 'Canceled' : '' }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -113,7 +111,7 @@
             <tr>
                 <td colspan="9" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default|number_format(0) }}</strong></td>
-                <td colspan="6"></td>
+                <td colspan="5"></td>
             </tr>
         </tfoot>
     </table>
