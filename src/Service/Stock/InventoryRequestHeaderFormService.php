@@ -45,7 +45,7 @@ class InventoryRequestHeaderFormService
 
     public function finalize(InventoryRequestHeader $inventoryRequestHeader, array $options = []): void
     {
-        if ($inventoryRequestHeader->getTransactionDate() !== null) {
+        if ($inventoryRequestHeader->getTransactionDate() !== null && $inventoryRequestHeader->getId() === null) {
             $year = $inventoryRequestHeader->getTransactionDate()->format('y');
             $month = $inventoryRequestHeader->getTransactionDate()->format('m');
             $lastInventoryRequestHeader = $this->inventoryRequestHeaderRepository->findRecentBy($year, $month);

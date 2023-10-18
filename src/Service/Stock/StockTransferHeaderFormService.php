@@ -66,7 +66,7 @@ class StockTransferHeaderFormService
 
     public function finalize(StockTransferHeader $stockTransferHeader, array $options = []): void
     {
-        if ($stockTransferHeader->getTransactionDate() !== null) {
+        if ($stockTransferHeader->getTransactionDate() !== null && $stockTransferHeader->getId() === null) {
             $year = $stockTransferHeader->getTransactionDate()->format('y');
             $month = $stockTransferHeader->getTransactionDate()->format('m');
             $lastStockTransferHeader = $this->stockTransferHeaderRepository->findRecentBy($year, $month);

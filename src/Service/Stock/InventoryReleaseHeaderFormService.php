@@ -16,6 +16,7 @@ use App\Repository\Stock\InventoryReleaseMaterialDetailRepository;
 use App\Repository\Stock\InventoryReleasePaperDetailRepository;
 use App\Repository\Stock\InventoryReleaseHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\idempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,6 +24,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class InventoryReleaseHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private idempotentRepository $idempotentRepository;
     private InventoryReleaseHeaderRepository $inventoryReleaseHeaderRepository;
     private InventoryReleaseMaterialDetailRepository $inventoryReleaseMaterialDetailRepository;
     private InventoryReleasePaperDetailRepository $inventoryReleasePaperDetailRepository;
@@ -58,7 +60,7 @@ class InventoryReleaseHeaderFormService
 
     public function finalize(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
     {
-        if ($inventoryReleaseHeader->getTransactionDate() !== null) {
+        if ($inventoryReleaseHeader->getTransactionDate() !== null && $inventoryReleaseHeader->getId() === null) {
             $year = $inventoryReleaseHeader->getTransactionDate()->format('y');
             $month = $inventoryReleaseHeader->getTransactionDate()->format('m');
             $lastInventoryReleaseHeader = $this->inventoryReleaseHeaderRepository->findRecentBy($year, $month);
@@ -109,8 +111,8 @@ class InventoryReleaseHeaderFormService
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
+//        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+//        $this->idempotentRepository->add($idempotent);
         $this->inventoryReleaseHeaderRepository->add($inventoryReleaseHeader);
         foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
             $this->inventoryReleaseMaterialDetailRepository->add($inventoryReleaseMaterialDetail);
