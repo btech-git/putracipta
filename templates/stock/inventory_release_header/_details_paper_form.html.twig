@@ -31,7 +31,6 @@
                     <td data-item-field-name="inventoryRequestPaperDetailQuantity">{{ detailForm.vars.value.inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
-                            'size': 3,
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
