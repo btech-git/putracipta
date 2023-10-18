@@ -69,7 +69,7 @@
         <tbody>
             {% for receiveDetail in receiveHeader.receiveDetails %}
                 <tr>
-                    <td>{{ receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default }}</td>
+                    <td>{{ receiveDetail.material is null ? receiveDetail.paper.codeNumber|default : receiveDetail.material.code|default }}</td>
                     <td>{{ receiveDetail.material is null ? receiveDetail.paper.paperNameSizeCombination|default : receiveDetail.material.name|default }}</td>
                     <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity|default|number_format(0) : receiveDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ receiveDetail.remainingQuantity|default|number_format(0) }}</td>
