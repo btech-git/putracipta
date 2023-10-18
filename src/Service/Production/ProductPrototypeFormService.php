@@ -37,7 +37,7 @@ class ProductPrototypeFormService
 
     public function finalize(ProductPrototype $productPrototype, array $options = []): void
     {
-        if ($productPrototype->getTransactionDate() !== null) {
+        if ($productPrototype->getTransactionDate() !== null && $productPrototype->getId() === null) {
             $year = $productPrototype->getTransactionDate()->format('y');
             $month = $productPrototype->getTransactionDate()->format('m');
             $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year, $month);

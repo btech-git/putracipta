@@ -53,7 +53,7 @@ class MasterOrderHeaderFormService
 
     public function finalize(MasterOrderHeader $masterOrderHeader, array $options = []): void
     {
-        if ($masterOrderHeader->getTransactionDate() !== null) {
+        if ($masterOrderHeader->getTransactionDate() !== null && $masterOrderHeader->getId() === null) {
             $year = $masterOrderHeader->getTransactionDate()->format('y');
             $month = $masterOrderHeader->getTransactionDate()->format('m');
             $lastMasterOrderHeader = $this->masterOrderHeaderRepository->findRecentBy($year, $month);

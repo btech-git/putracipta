@@ -37,7 +37,7 @@ class ProductDevelopmentFormService
 
     public function finalize(ProductDevelopment $productDevelopment, array $options = []): void
     {
-        if ($productDevelopment->getTransactionDate() !== null) {
+        if ($productDevelopment->getTransactionDate() !== null && $productDevelopment->getId() === null) {
             $year = $productDevelopment->getTransactionDate()->format('y');
             $month = $productDevelopment->getTransactionDate()->format('m');
             $lastProductDevelopment = $this->productDevelopmentRepository->findRecentBy($year, $month);
