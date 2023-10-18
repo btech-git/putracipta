@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Form\Purchase\PurchaseOrderPaperHeaderType;
 use App\Grid\Purchase\PurchaseOrderPaperHeaderGridType;
@@ -13,6 +14,7 @@ use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use App\Service\Purchase\PurchaseOrderPaperHeaderFormService;
 use App\Util\PdfGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -258,12 +260,22 @@ class PurchaseOrderPaperHeaderController extends AbstractController
 
     #[Route('/{id}/complete', name: 'app_purchase_purchase_order_paper_header_complete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function complete(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
+    public function complete(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('complete' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderPaperHeaderRepository = $entityManager->getRepository(PurchaseOrderPaperHeader::class);
+            $purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
+            
             $purchaseOrderPaperHeader->setTransactionStatus(PurchaseOrderPaperHeader::TRANSACTION_STATUS_FULL_RECEIVE);
-            $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
+            $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
 
+            foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
+                $purchaseOrderPaperDetail->setIsTransactionClosed(true);
+                $purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
+            }
+            
+            $entityManager->flush();
+        
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was closed successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to closed the purchase.'));

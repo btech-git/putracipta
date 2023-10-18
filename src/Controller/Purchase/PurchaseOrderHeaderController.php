@@ -6,6 +6,7 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Purchase\PurchaseOrderDetail;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Form\Purchase\PurchaseOrderHeaderType;
 use App\Grid\Purchase\PurchaseOrderHeaderGridType;
@@ -13,6 +14,7 @@ use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Service\Purchase\PurchaseOrderHeaderFormService;
 use App\Util\PdfGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -258,17 +260,22 @@ class PurchaseOrderHeaderController extends AbstractController
 
     #[Route('/{id}/complete', name: 'app_purchase_purchase_order_header_complete', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function complete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
+    public function complete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('complete' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
+            $purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
+            $purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
+            
             $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
-            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
+            $purchaseOrderHeaderRepository->add($purchaseOrderHeader);
 
-        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $purchaseOrderHeaderRepository->add($purchaseOrderHeader, true);
-        }
+            foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+                $purchaseOrderDetail->setIsTransactionClosed(true);
+                $purchaseOrderDetailRepository->add($purchaseOrderDetail);
+            }
+            
+            $entityManager->flush();
         
-            $purchaseOrderDetail->setIsTransactionClosed($purchaseOrderDetail->getSyncIsTransactionClosed());
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was completed successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to completed the purchase.'));
