@@ -42,7 +42,6 @@ class DeliveryHeader extends SaleHeader
     private Collection $deliveryDetails;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Transportation $transportation = null;
 
     #[ORM\ManyToOne]

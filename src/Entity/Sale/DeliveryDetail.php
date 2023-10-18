@@ -77,6 +77,9 @@ class DeliveryDetail extends SaleDetail
     #[ORM\ManyToOne]
     private ?MasterOrderProductDetail $masterOrderProductDetail = null;
 
+    #[ORM\Column]
+    private ?int $quantityCurrent = null;
+
     public function __construct()
     {
         $this->saleReturnDetails = new ArrayCollection();
@@ -315,6 +318,18 @@ class DeliveryDetail extends SaleDetail
     public function setMasterOrderProductDetail(?MasterOrderProductDetail $masterOrderProductDetail): self
     {
         $this->masterOrderProductDetail = $masterOrderProductDetail;
+
+        return $this;
+    }
+
+    public function getQuantityCurrent(): ?int
+    {
+        return $this->quantityCurrent;
+    }
+
+    public function setQuantityCurrent(int $quantityCurrent): self
+    {
+        $this->quantityCurrent = $quantityCurrent;
 
         return $this;
     }
