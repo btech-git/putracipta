@@ -17,10 +17,10 @@
                             'data-controller': 'dom-element data-choice',
                             'data-action': 'change->dom-element#bind change->data-choice#select',
                             'data-dom-element-bind-specifications-param': [
-                                {'destinationsTarget': "#internal-delivery-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "true"'},
-                                {'destinationsTarget': "#internal-delivery-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "false"'},
-                                {'destinationsTarget': "#external-delivery-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "false"'},
-                                {'destinationsTarget': "#external-delivery-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "true"'},
+                                {'destinationsTarget': "#internal-delivery-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "1"'},
+                                {'destinationsTarget': "#internal-delivery-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "0"'},
+                                {'destinationsTarget': "#external-delivery-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "0"'},
+                                {'destinationsTarget': "#external-delivery-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "1"'},
                             ]|json_encode,
                         },
                     }) }}
@@ -131,12 +131,12 @@
         <div class="d-grid">
             <div class="row">
                 <div class="col text-center">
-                    <button class="btn btn-danger"
+                    <a class="btn btn-danger" href="{{ path('app_sale_delivery_header_index') }}"
                             data-controller="dom-element"
                             data-action="dom-element#confirm"
                             data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
                         Cancel
-                    </button>
+                    </a>
                     <button class="btn btn-success"
                             data-controller="dom-element"
                             data-action="dom-element#confirm"
