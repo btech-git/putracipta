@@ -90,7 +90,7 @@ class PurchaseOrderDetail extends PurchaseDetail
 
     public function getSyncIsTransactionClosed(): bool
     {
-        $isClosed = $this->purchaseOrderHeader->getTransactionStatus() === TRANSACTION_STATUS_FULL_RECEIVE ? true : $this->isTransactionClosed;
+        $isClosed = $this->purchaseOrderHeader->getTransactionStatus() === $this->purchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE ? true : $this->isTransactionClosed;
         return $isClosed;
     }
 
