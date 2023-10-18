@@ -41,7 +41,7 @@ class ExpenseHeaderFormService
 
     public function finalize(ExpenseHeader $expenseHeader, array $options = []): void
     {
-        if ($expenseHeader->getTransactionDate() !== null) {
+        if ($expenseHeader->getTransactionDate() !== null && $expenseHeader->getId() === null) {
             $year = $expenseHeader->getTransactionDate()->format('y');
             $month = $expenseHeader->getTransactionDate()->format('m');
             $lastExpenseHeader = $this->expenseHeaderRepository->findRecentBy($year, $month);

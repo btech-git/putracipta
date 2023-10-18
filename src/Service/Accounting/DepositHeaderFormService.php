@@ -41,7 +41,7 @@ class DepositHeaderFormService
 
     public function finalize(DepositHeader $depositHeader, array $options = []): void
     {
-        if ($depositHeader->getTransactionDate() !== null) {
+        if ($depositHeader->getTransactionDate() !== null && $depositHeader->getId() === null) {
             $year = $depositHeader->getTransactionDate()->format('y');
             $month = $depositHeader->getTransactionDate()->format('m');
             $lastDepositHeader = $this->depositHeaderRepository->findRecentBy($year, $month);

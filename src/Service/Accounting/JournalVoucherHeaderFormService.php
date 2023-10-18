@@ -41,7 +41,7 @@ class JournalVoucherHeaderFormService
 
     public function finalize(JournalVoucherHeader $journalVoucherHeader, array $options = []): void
     {
-        if ($journalVoucherHeader->getTransactionDate() !== null) {
+        if ($journalVoucherHeader->getTransactionDate() !== null && $journalVoucherHeader->getId() === null) {
             $year = $journalVoucherHeader->getTransactionDate()->format('y');
             $month = $journalVoucherHeader->getTransactionDate()->format('m');
             $lastJournalVoucherHeader = $this->journalVoucherHeaderRepository->findRecentBy($year, $month);
