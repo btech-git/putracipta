@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 trait EntitySyncScan
 {
+    private array $associations = [];
     private array $relations = [];
     private array $managedEntities = [];
     private array $persistedEntities = [];
@@ -45,10 +46,23 @@ trait EntitySyncScan
         }
     }
 
-    public function doWhileScanning($rootEntity, callable $action): void
+    public function doWhileScanning($rootEntity, callable $actionBefore, callable $actionAfter): void
+    {
+        $actionBefore($rootEntity);
+        $this->doWhileScanningFor($rootEntity, $this->associations[get_class($rootEntity)], $actionBefore, $actionAfter);
+        $actionAfter($rootEntity);
+    }
+
+    public function doBeforeWhileScanning($rootEntity, callable $action): void
     {
         $action($rootEntity);
-        $this->doWhileScanningFor($rootEntity, $this->relations, $action);
+        $this->doWhileScanningFor($rootEntity, $this->associations[get_class($rootEntity)], $action, null);
+    }
+
+    public function doAfterWhileScanning($rootEntity, callable $action): void
+    {
+        $this->doWhileScanningFor($rootEntity, $this->associations[get_class($rootEntity)], null, $action);
+        $action($rootEntity);
     }
 
     public function getView(): array
@@ -66,12 +80,17 @@ trait EntitySyncScan
         ];
     }
 
+    private function setupAssociations(string $entityClass, array $relations): void
+    {
+        $this->associations[$entityClass] = $relations;
+    }
+
     private function setupRelations(array $relations): void
     {
         $this->relations = $relations;
     }
 
-    private function doWhileScanningFor($parentEntity, array|null $relations, callable $action): void
+    private function doWhileScanningFor($parentEntity, array|null $relations, callable|null $actionBefore, callable|null $actionAfter): void
     {
         if ($relations !== null) {
             foreach ($relations as $relationName => $subRelations) {
@@ -79,9 +98,14 @@ trait EntitySyncScan
                 $objectOrCollection = $parentEntity->$getterName();
                 $entities = $objectOrCollection instanceof Collection ? $objectOrCollection->getValues() : [$objectOrCollection];
                 foreach ($entities as $entity) {
-                    $action($entity);
+                    if ($actionBefore !== null) {
+                        $actionBefore($entity);
+                    }
                     if (is_array($subRelations)) {
-                        $this->doWhileScanningFor($entity, $subRelations, $action);
+                        $this->doWhileScanningFor($entity, $subRelations, $actionBefore, $actionAfter);
+                    }
+                    if ($actionAfter !== null) {
+                        $actionAfter($entity);
                     }
                 }
             }
