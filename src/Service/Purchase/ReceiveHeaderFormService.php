@@ -218,21 +218,30 @@ class ReceiveHeaderFormService
         InventoryUtil::reverseOldData($this->inventoryRepository, $receiveHeader);
         
         $receiveDetails = $receiveHeader->getReceiveDetails()->toArray();
-        if (!empty($receiveDetails[0]->getMaterial())) {
+        $material = $receiveDetails[0]->getMaterial();
+        $paper = $receiveDetails[0]->getPaper();
+        if (!empty($material)) {
             $averagePriceList = InventoryUtil::getAveragePriceList('material', $this->purchaseOrderDetailRepository, $receiveDetails);
-        } else {
-            $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderDetailRepository, $receiveDetails);            
+            InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader, $material) {
+                $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : '0.00';
+                $newInventory->setTransactionSubject($receiveDetail->getMemo());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setMaterial($material);
+                $newInventory->setWarehouse($receiveHeader->getWarehouse());
+                $newInventory->setInventoryMode('material');
+                $newInventory->setQuantityIn($receiveDetail->getReceivedQuantity());
+            });
+        } else if (!empty($paper)) {
+            $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderPaperDetailRepository, $receiveDetails);
+            InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader, $paper) {
+                $purchasePrice = isset($averagePriceList[$paper->getId()]) ? $averagePriceList[$paper->getId()] : '0.00';
+                $newInventory->setTransactionSubject($receiveDetail->getMemo());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setPaper($paper);
+                $newInventory->setWarehouse($receiveHeader->getWarehouse());
+                $newInventory->setInventoryMode('paper');
+                $newInventory->setQuantityIn($receiveDetail->getReceivedQuantity());
+            });
         }
-        InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader) {
-            $purchaseOrderDetailForMaterialOrPaper = $this->getPurchaseOrderDetailForMaterialOrPaper($receiveDetail);
-            $this->setMaterialOrPaper($receiveDetail, $purchaseOrderDetailForMaterialOrPaper);
-            $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : $averagePriceList[$paper->getId()];
-            $newInventory->setTransactionSubject($receiveDetail->getMemo());
-            $newInventory->setPurchasePrice($purchasePrice);
-            $newInventory->setMaterial($material);
-            $newInventory->setPaper($paper);
-            $newInventory->setInventoryMode(empty($paper) ? 'material' : 'paper');
-            $newInventory->setQuantityIn($receiveDetail->getReceivedQuantity());
-        });
     }
 }

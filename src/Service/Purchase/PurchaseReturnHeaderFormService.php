@@ -9,28 +9,39 @@ use App\Entity\Purchase\PurchaseReturnDetail;
 use App\Entity\Purchase\PurchaseReturnHeader;
 use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
+use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Repository\Purchase\PurchaseOrderDetailRepository;
+use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\PurchaseReturnDetailRepository;
 use App\Repository\Purchase\PurchaseReturnHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
+use App\Repository\Stock\InventoryRepository;
+use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseReturnHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
+    private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
     private PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository;
     private PurchaseReturnDetailRepository $purchaseReturnDetailRepository;
     private ReceiveDetailRepository $receiveDetailRepository;
+    private InventoryRepository $inventoryRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
+        $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
+        $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
         $this->purchaseReturnHeaderRepository = $entityManager->getRepository(PurchaseReturnHeader::class);
         $this->purchaseReturnDetailRepository = $entityManager->getRepository(PurchaseReturnDetail::class);
         $this->receiveDetailRepository = $entityManager->getRepository(ReceiveDetail::class);
+        $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
     }
 
     public function initialize(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
@@ -77,13 +88,6 @@ class PurchaseReturnHeaderFormService
             $purchaseReturnDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
             $purchaseReturnDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
             
-//            if ($purchaseReturnHeader->isIsProductExchange() && $purchaseReturnDetail->isIsCanceled() === false) {
-//                $totalReturn = $purchaseOrderDetail->getTotalReturn();
-//                $totalReturn += $purchaseReturnDetail->getQuantity();
-//
-//                $purchaseOrderDetail->setTotalReturn($totalReturn);
-//                $purchaseOrderDetail->setRemainingReceive($purchaseOrderDetail->getSyncRemainingReceive());
-//            }
         }
         
         $purchaseReturnHeader->setSubTotal($purchaseReturnHeader->getSyncSubTotal());
@@ -157,6 +161,7 @@ class PurchaseReturnHeaderFormService
         foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
             $this->purchaseReturnDetailRepository->add($purchaseReturnDetail);
         }
+        $this->addInventories($purchaseReturnHeader);
         $this->entityManager->flush();
     }
 
@@ -183,6 +188,38 @@ class PurchaseReturnHeaderFormService
             return $purchaseOrderDetail;
         } else if ($purchaseOrderDetail === null && $purchaseOrderPaperDetail !== null) {
             return $purchaseOrderPaperDetail;
+        }
+    }
+
+    private function addInventories(PurchaseReturnHeader $purchaseReturnHeader): void
+    {
+        InventoryUtil::reverseOldData($this->inventoryRepository, $purchaseReturnHeader);
+        
+        $purchaseReturnDetails = $purchaseReturnHeader->getPurchaseReturnDetails()->toArray();
+        $material = $purchaseReturnDetails[0]->getMaterial();
+        $paper = $purchaseReturnDetails[0]->getPaper();
+        if (!empty($material)) {
+            $averagePriceList = InventoryUtil::getAveragePriceList('material', $this->purchaseOrderDetailRepository, $purchaseReturnDetails);
+            InventoryUtil::addNewData($this->inventoryRepository, $purchaseReturnHeader, $purchaseReturnDetails, function($newInventory, $purchaseReturnDetail) use ($averagePriceList, $purchaseReturnHeader, $material) {
+                $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : '0.00';
+                $newInventory->setTransactionSubject($purchaseReturnHeader->getSupplier()->getCompany());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setMaterial($material);
+                $newInventory->setWarehouse($purchaseReturnHeader->getWarehouse());
+                $newInventory->setInventoryMode('material');
+                $newInventory->setQuantityOut($purchaseReturnDetail->getQuantity());
+            });
+        } else if (!empty($paper)) {
+            $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderPaperDetailRepository, $purchaseReturnDetails);
+            InventoryUtil::addNewData($this->inventoryRepository, $purchaseReturnHeader, $purchaseReturnDetails, function($newInventory, $purchaseReturnDetail) use ($averagePriceList, $purchaseReturnHeader, $paper) {
+                $purchasePrice = isset($averagePriceList[$paper->getId()]) ? $averagePriceList[$paper->getId()] : '0.00';
+                $newInventory->setTransactionSubject($purchaseReturnHeader->getSupplier()->getCompany());
+                $newInventory->setPurchasePrice($purchasePrice);
+                $newInventory->setPaper($paper);
+                $newInventory->setWarehouse($purchaseReturnHeader->getWarehouse());
+                $newInventory->setInventoryMode('paper');
+                $newInventory->setQuantityOut($purchaseReturnDetail->getQuantity());
+            });
         }
     }
 }
