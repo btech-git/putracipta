@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             {% for designCode in designCodes %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ designCode.designCodeProcessDetails|filter(designCodeProcessDetail => not designCodeProcessDetail.isInactive)|slice(0)|map(designCodeProcessDetail => {
+                {% set designCodeData = {
                     'designCodeId': designCode.id, 
                     'designCodeNumber': designCode.codeNumber, 
                     'designCodeColor': designCode.color, 
@@ -70,11 +70,29 @@
                     'designCodeInsitPrintingPercentage': designCode.insitPrintingPercentage, 
                     'designCodeInsitSortingPercentage': designCode.insitSortingPercentage, 
                     'designCodeColorPantoneAdditional': designCode.colorPantoneAdditional,
-                    'designCodeHotStamping': designCode.hotStamping, 
+                    'designCodeHotStamping': designCode.hotStamping,
+                    'designCodeNote': designCode.note,
+                } %}
+                {% set designCodeProcessDetailsData = designCode.designCodeProcessDetails|filter(designCodeProcessDetail => not designCodeProcessDetail.isInactive)|slice(0)|map(designCodeProcessDetail => {
                     'designCodeProcessDetailId': designCodeProcessDetail.id, 
                     'workOrderProcessId': designCodeProcessDetail.workOrderProcess.id, 
-                    'workOrderProcessName': designCodeProcessDetail.workOrderProcess.name, 
-                    'designCodeNote': designCode.note})|json_encode }}">
+                    'workOrderProcessName': designCodeProcessDetail.workOrderProcess.name})
+                %}
+                {% set designCodeDistributionDetailsData = designCode.designCodeDistributionDetails|filter(designCodeDistributionDetail => not designCodeDistributionDetail.isInactive)|slice(0)|map(designCodeDistributionDetail => {
+                    'designCodeDistributionDetailId': designCodeDistributionDetail.id, 
+                    'workOrderDistributionId': designCodeDistributionDetail.workOrderDistribution.id, 
+                    'workOrderDistributionName': designCodeDistributionDetail.workOrderDistribution.name})
+                %}
+                {% set designCodeCheckSheetDetailsData = designCode.designCodeCheckSheetDetails|filter(designCodeCheckSheetDetail => not designCodeCheckSheetDetail.isInactive)|slice(0)|map(designCodeCheckSheetDetail => {
+                    'designCodeCheckSheetDetailId': designCodeCheckSheetDetail.id, 
+                    'workOrderCheckSheetId': designCodeCheckSheetDetail.workOrderCheckSheet.id, 
+                    'workOrderCheckSheetName': designCodeCheckSheetDetail.workOrderCheckSheet.name})
+                %}
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'designCodeData': designCodeData, 
+                    'designCodeProcessDetailsData': designCodeProcessDetailsData, 
+                    'designCodeDistributionDetailsData': designCodeDistributionDetailsData, 
+                    'designCodeCheckSheetDetailsData': designCodeCheckSheetDetailsData}|json_encode }}">
                     <td>{{ designCode.codeNumber }}</td>
                     <td>{{ designCode.color }}</td>
                     <td>{{ designCode.pantone }}</td>
