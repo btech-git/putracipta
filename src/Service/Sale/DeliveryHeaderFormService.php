@@ -71,6 +71,7 @@ class DeliveryHeaderFormService
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
             $deliveryDetail->setUnit($saleOrderDetail->getUnit());
             $deliveryHeader->setDeliveryAddressOrdinal($saleOrderDetail->getSaleOrderHeader()->getDeliveryAddressOrdinal());
+            $deliveryDetail->setQuantityCurrent(0);
         }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $deliveryDetail->setIsCanceled($deliveryDetail->getSyncIsCanceled());
