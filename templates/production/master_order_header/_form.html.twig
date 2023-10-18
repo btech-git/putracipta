@@ -46,7 +46,7 @@
                                         'data-controller': 'dom-element',
                                         'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                         'data-dom-element-bind-specifications-param': [
-                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeId'}},
+                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
                                         ]|json_encode,
                                     },
                                 }) }}
@@ -55,7 +55,7 @@
                                        data-controller="dom-element"
                                        data-action="design-code-table:data-table:select@document->dom-element#bind"
                                        data-dom-element-bind-specifications-param="{{ [
-                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeNumber'}},
+                                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeNumber'}},
                                        ]|json_encode }}" />
                             </div>
                             {{ form_errors(form.designCode) }}
@@ -111,10 +111,10 @@
             {{ include('production/master_order_header/_processing_order_form.html.twig') }}
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3">
+        {#<fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Distribusi WO & Check Sheet</legend>
             {{ include('production/master_order_header/_checklist_form.html.twig') }}
-        </fieldset>
+        </fieldset>#}
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
@@ -133,12 +133,12 @@
         <div class="d-grid">
             <div class="row">
                 <div class="col text-center">
-                    <button class="btn btn-danger"
+                    <a class="btn btn-danger" href="{{ path('app_production_master_order_header_index') }}"
                             data-controller="dom-element"
                             data-action="dom-element#confirm"
                             data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
                         Cancel
-                    </button>
+                    </a>
                     <button class="btn btn-success"
                             data-controller="dom-element"
                             data-action="dom-element#confirm"

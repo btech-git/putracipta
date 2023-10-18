@@ -3,17 +3,6 @@
         <div class="row">
             <label class="form-label">Distribusi WO</label>
             <div class="col border border-secondary rounded">
-                <table class="table table-sm table-bordered table-striped" id="work-order-distribution-table" data-controller="data-table">
-                    <tbody>
-                        {% for workOrderDistribution in workOrderDistributions %}
-                            <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderDistributionId': workOrderDistribution.id, 'workOrderDistributionName': workOrderDistribution.name}|json_encode }}">
-                                <td>{{ workOrderDistribution.name }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col border border-secondary rounded">
                 <table class="table table-bordered"
                        data-controller="form-collection"
                        data-form-collection-start-index-value="{{ form.masterOrderDistributionDetails|length > 0 ? form.masterOrderDistributionDetails|last.vars.name + 1 : 0 }}"
@@ -26,8 +15,8 @@
                             <th style="min-width: 0"></th>
                         </tr>
                     </thead>
-                    <tbody data-form-collection-target="items" data-action="work-order-distribution-table:data-table:select@document->form-collection#addCollectionItem">
-                        {% macro distribution_collection_item(detailForm) %}
+                    <tbody data-form-collection-target="items" data-action="design-code-table:data-table:select@document->form-collection#clearCollectionItems design-code-table:data-table:select@document->form-collection#addCollectionItems">
+                        {% macro collection_item(ordinal, detailForm) %}
                             <tr data-form-collection-target="item" data-item-identifier-name="workOrderDistributionId" data-item-identifier-value="{{ detailForm.vars.value.workOrderDistribution.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderDistribution, {'attr': {'data-item-field-name': 'workOrderDistributionId'}}) }}</td>
                                 <td data-item-field-name="workOrderDistributionName">{{ detailForm.vars.value.workOrderDistribution.name|default }}</td>
@@ -66,17 +55,6 @@
     <div class="col">
         <div class="row">
             <label class="form-label">Check Sheet</label>
-            <div class="col border border-secondary rounded">
-                <table class="table table-sm table-bordered table-striped" id="work-order-check-sheet-table" data-controller="data-table">
-                    <tbody>
-                        {% for workOrderCheckSheet in workOrderCheckSheets %}
-                            <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderCheckSheetId': workOrderCheckSheet.id, 'workOrderCheckSheetName': workOrderCheckSheet.name}|json_encode }}">
-                                <td>{{ workOrderCheckSheet.name }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
             <div class="col border border-secondary rounded">
                 <table class="table table-bordered"
                        data-controller="form-collection"

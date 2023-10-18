@@ -66,7 +66,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Produksi</div>
-                            <div class="cell value">{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</div>
+                            <div class="cell value"></div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Kirim</div>
@@ -160,7 +160,7 @@
                         <div class="table full">
                             <div class="row">
                                 <div class="cell label">Kris Cetak</div>
-                                <div class="cell value">{{ masterOrderHeader.mountageSizeLength }} x {{ masterOrderHeader.mountageSizeWidth }} cm</div>
+                                <div class="cell value">{{ masterOrderHeader.mountageSize }} cm</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Ukuran Plano </div>

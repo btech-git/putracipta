@@ -86,15 +86,11 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Ukuran Mountage/Kris</div>
-                            <div class="cell value">{{ masterOrderHeader.mountageSizeLength }} x {{ masterOrderHeader.mountageSizeWidth }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.mountageSize }} cm</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Hot Stamping</div>
                             <div class="cell value">{{ masterOrderHeader.hotStamping }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Pengembangan Produk Baru</div>
-                            <div class="cell value">{{ masterOrderHeader.productDevelopment.codeNumber|default }}</div>
                         </div>
                     </div>
                 </div>
@@ -108,10 +104,6 @@
                         <div class="row">
                             <div class="cell label">Tanggal MO</div>
                             <div class="cell value">{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Tanggal Kirim</div>
-                            <div class="cell value">{{ masterOrderHeader.deliveryDate|default ? masterOrderHeader.deliveryDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Berat per pcs</div>
@@ -159,11 +151,11 @@
                             <tr>
                                 <th>PO#</th>
                                 <th>Kode</th>
-                                <th>Nama Produk</th>
+                                <th>Nama</th>
                                 <th>P (mm)</th>
                                 <th>L (mm)</th>
                                 <th>T (mm)</th>
-                                <th>Jml Up Cetak</th>
+                                <th>Tgl Kirim</th>
                                 <th>Qty Order</th>
                                 <th>Stock</th>
                                 <th>Kekurangan</th>
@@ -178,10 +170,7 @@
                                     <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
-                                    <td>
-                                        {{ masterOrderProductDetail.quantityUpPrinting1|default }} &
-                                        {{ masterOrderProductDetail.quantityUpPrinting2|default }}
-                                    </td>
+                                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
@@ -221,7 +210,7 @@
                             <div class="cell value">{{ masterOrderHeader.paperMountage|default }} Up</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Uk Plano Kertas</div>
+                            <div class="cell label">Uk Kertas</div>
                             <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
                         </div>
                         <div class="row">
@@ -238,12 +227,16 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Kebutuhan</div>
-                            <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
+                            <div class="cell label">Insit Cetak</div>
+                            <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default }} dreek</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Insit Cetak</div>
-                            <div class="cell value">{{ masterOrderHeader.printingInsit|default }} dreek</div>
+                            <div class="cell label">Insit Sortir</div>
+                            <div class="cell value">{{ masterOrderHeader.insitSortingQuantity|default }} dreek</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Kebutuhan</div>
+                            <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Total Kertas</div>
