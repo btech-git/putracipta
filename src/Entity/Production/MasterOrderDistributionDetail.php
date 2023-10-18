@@ -26,6 +26,9 @@ class MasterOrderDistributionDetail extends ProductionDetail
     #[ORM\ManyToOne]
     private ?DesignCodeDistributionDetail $designCodeDistributionDetail = null;
 
+    #[ORM\ManyToOne]
+    private ?WorkOrderDistribution $workOrderDistribution = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +66,18 @@ class MasterOrderDistributionDetail extends ProductionDetail
     public function setDesignCodeDistributionDetail(?DesignCodeDistributionDetail $designCodeDistributionDetail): self
     {
         $this->designCodeDistributionDetail = $designCodeDistributionDetail;
+
+        return $this;
+    }
+
+    public function getWorkOrderDistribution(): ?WorkOrderDistribution
+    {
+        return $this->workOrderDistribution;
+    }
+
+    public function setWorkOrderDistribution(?WorkOrderDistribution $workOrderDistribution): self
+    {
+        $this->workOrderDistribution = $workOrderDistribution;
 
         return $this;
     }

@@ -26,6 +26,9 @@ class MasterOrderCheckSheetDetail extends ProductionDetail
     #[ORM\ManyToOne]
     private ?DesignCodeCheckSheetDetail $designCodeCheckSheetDetail = null;
 
+    #[ORM\ManyToOne]
+    private ?WorkOrderCheckSheet $workOrderCheckSheet = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +66,18 @@ class MasterOrderCheckSheetDetail extends ProductionDetail
     public function setDesignCodeCheckSheetDetail(?DesignCodeCheckSheetDetail $designCodeCheckSheetDetail): self
     {
         $this->designCodeCheckSheetDetail = $designCodeCheckSheetDetail;
+
+        return $this;
+    }
+
+    public function getWorkOrderCheckSheet(): ?WorkOrderCheckSheet
+    {
+        return $this->workOrderCheckSheet;
+    }
+
+    public function setWorkOrderCheckSheet(?WorkOrderCheckSheet $workOrderCheckSheet): self
+    {
+        $this->workOrderCheckSheet = $workOrderCheckSheet;
 
         return $this;
     }
