@@ -52,8 +52,8 @@ class MasterOrderHeaderType extends AbstractType
                 },
             ])
             ->add('hotStamping')
-            ->add('glossiness')
-            ->add('weightPerPiece')
+//            ->add('glossiness')
+//            ->add('weightPerPiece')
             ->add('inkHotStampingSize')
             ->add('color')
             ->add('pantone')

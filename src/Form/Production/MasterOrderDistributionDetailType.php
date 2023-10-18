@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\WorkOrderDistribution;
 use App\Entity\Production\MasterOrderDistributionDetail;
 use Symfony\Component\Form\AbstractType;
@@ -17,6 +18,7 @@ class MasterOrderDistributionDetailType extends AbstractType
             ->add('isSubcon')
             ->add('isCanceled')
             ->add('workOrderDistribution', EntityHiddenType::class, ['class' => WorkOrderDistribution::class])
+            ->add('designCodeDistributionDetail', EntityHiddenType::class, ['class' => DesignCodeDistributionDetail::class])
         ;
     }
 

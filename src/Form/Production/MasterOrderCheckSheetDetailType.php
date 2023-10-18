@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\WorkOrderCheckSheet;
 use App\Entity\Production\MasterOrderCheckSheetDetail;
 use Symfony\Component\Form\AbstractType;
@@ -17,6 +18,7 @@ class MasterOrderCheckSheetDetailType extends AbstractType
             ->add('isSubcon')
             ->add('isCanceled')
             ->add('workOrderCheckSheet', EntityHiddenType::class, ['class' => WorkOrderCheckSheet::class])
+            ->add('designCodeCheckSheetDetail', EntityHiddenType::class, ['class' => DesignCodeCheckSheetDetail::class])
         ;
     }
 
