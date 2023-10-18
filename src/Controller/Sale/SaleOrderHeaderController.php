@@ -6,12 +6,14 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Form\Sale\SaleOrderHeaderType;
 use App\Grid\Sale\SaleOrderHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use App\Service\Sale\SaleOrderHeaderFormService;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -263,12 +265,22 @@ class SaleOrderHeaderController extends AbstractController
 
     #[Route('/{id}/done', name: 'app_sale_sale_order_header_done', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function done(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    public function done(Request $request, SaleOrderHeader $saleOrderHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('done' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
-            $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_DONE);
-            $saleOrderHeaderRepository->add($saleOrderHeader, true);
+            $saleOrderHeaderRepository = $entityManager->getRepository(SaleOrderHeader::class);
+            $saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
+            
+            $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_FULL_DELIVERY);
+            $saleOrderHeaderRepository->add($saleOrderHeader);
 
+            foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+                $saleOrderDetail->setIsTransactionClosed(true);
+                $saleOrderDetailRepository->add($saleOrderDetail);
+            }
+            
+            $entityManager->flush();
+        
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The sale was done successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to complete the sale.'));
