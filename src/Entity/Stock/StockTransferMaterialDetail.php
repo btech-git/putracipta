@@ -32,6 +32,9 @@ class StockTransferMaterialDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'stockTransferMaterialDetails')]
     private ?StockTransferHeader $stockTransferHeader = null;
 
+    #[ORM\Column]
+    private ?int $quantityCurrent = null;
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->stockTransferHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -99,6 +102,18 @@ class StockTransferMaterialDetail extends StockDetail
     public function setStockTransferHeader(?StockTransferHeader $stockTransferHeader): self
     {
         $this->stockTransferHeader = $stockTransferHeader;
+
+        return $this;
+    }
+
+    public function getQuantityCurrent(): ?int
+    {
+        return $this->quantityCurrent;
+    }
+
+    public function setQuantityCurrent(int $quantityCurrent): self
+    {
+        $this->quantityCurrent = $quantityCurrent;
 
         return $this;
     }

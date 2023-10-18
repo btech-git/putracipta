@@ -35,6 +35,9 @@ class InventoryReleasePaperDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'inventoryReleasePaperDetails')]
     private ?InventoryRequestPaperDetail $inventoryRequestPaperDetail = null;
 
+    #[ORM\Column]
+    private ?int $quantityCurrent = null;
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->inventoryReleaseHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -114,6 +117,18 @@ class InventoryReleasePaperDetail extends StockDetail
     public function setInventoryRequestPaperDetail(?InventoryRequestPaperDetail $inventoryRequestPaperDetail): self
     {
         $this->inventoryRequestPaperDetail = $inventoryRequestPaperDetail;
+
+        return $this;
+    }
+
+    public function getQuantityCurrent(): ?int
+    {
+        return $this->quantityCurrent;
+    }
+
+    public function setQuantityCurrent(int $quantityCurrent): self
+    {
+        $this->quantityCurrent = $quantityCurrent;
 
         return $this;
     }
