@@ -4,6 +4,7 @@ namespace App\Common\Sync;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\OneToMany;
 
 trait EntitySyncScan
 {
@@ -13,6 +14,35 @@ trait EntitySyncScan
     private array $persistedEntities = [];
     private bool $oldEntitiesScanned = false;
     private bool $newEntitiesScanned = false;
+
+    private function getRelationsFrom(string $entityClass): ?array
+    {
+        $targetEntities = [];
+
+        $reflectionClass = new \ReflectionClass($entityClass);
+        $reflectionProperties = $reflectionClass->getProperties();
+        foreach ($reflectionProperties as $reflectionProperty) {
+            if ($reflectionProperty->getType()->getName() === Collection::class) {
+                $reflectionAttributes = $reflectionProperty->getAttributes();
+                foreach ($reflectionAttributes as $reflectionAttribute) {
+                    if ($reflectionAttribute->getName() === OneToMany::class) {
+                        $targetEntities[$reflectionProperty->getName()] = $reflectionAttribute->newInstance()->targetEntity;
+                    }
+                }
+            }
+        }
+
+        if (empty($targetEntities)) {
+            return null;
+        } else {
+            $relations = [];
+            foreach ($targetEntities as $propertyName => $targetEntity) {
+                $subRelations = $this->getRelationsFrom($targetEntity);
+                $relations[$propertyName] = $subRelations;
+            }
+            return $relations;
+        }
+    }
 
     public function scanForOldEntities($rootEntity): void
     {
@@ -80,9 +110,9 @@ trait EntitySyncScan
         ];
     }
 
-    private function setupAssociations(string $entityClass, array $relations): void
+    private function setupAssociations(string $entityClass): void
     {
-        $this->associations[$entityClass] = $relations;
+        $this->associations[$entityClass] = $this->getRelationsFrom($entityClass);
     }
 
     private function setupRelations(array $relations): void
@@ -90,7 +120,7 @@ trait EntitySyncScan
         $this->relations = $relations;
     }
 
-    private function doWhileScanningFor($parentEntity, array|null $relations, callable|null $actionBefore, callable|null $actionAfter): void
+    private function doWhileScanningFor($parentEntity, ?array $relations, ?callable $actionBefore, ?callable $actionAfter): void
     {
         if ($relations !== null) {
             foreach ($relations as $relationName => $subRelations) {
@@ -112,7 +142,7 @@ trait EntitySyncScan
         }
     }
 
-    private function scanForEntities($parentEntity, array|null $relations, bool $isNew): void
+    private function scanForEntities($parentEntity, ?array $relations, bool $isNew): void
     {
         if ($relations !== null) {
             foreach ($relations as $relationName => $subRelations) {
