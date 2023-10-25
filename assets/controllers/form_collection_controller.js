@@ -22,7 +22,8 @@ export default class extends Controller {
         if (event.params.addItemMatchingFieldPath === undefined ||
             event.params.addItemMatchingFieldPathValue === undefined ||
             getPropertyValue(event.detail, event.params.addItemMatchingFieldPath) === event.params.addItemMatchingFieldPathValue) {
-            this.addItem(event.detail);
+            const sourceData = event.params.addItemSourceFieldPath === undefined ? event.detail : getPropertyValue(event.detail, event.params.addItemSourceFieldPath);
+            this.addItem(sourceData);
         }
     }
 
@@ -30,7 +31,8 @@ export default class extends Controller {
         if (event.params.addItemsMatchingFieldPath === undefined ||
             event.params.addItemsMatchingFieldPathValue === undefined ||
             getPropertyValue(event.detail, event.params.addItemsMatchingFieldPath) === event.params.addItemsMatchingFieldPathValue) {
-            for (const detailItem of event.detail) {
+            const sourceData = event.params.addItemsSourceFieldPath === undefined ? event.detail : getPropertyValue(event.detail, event.params.addItemsSourceFieldPath);
+            for (const detailItem of sourceData) {
                 this.addItem(detailItem);
             }
         }
