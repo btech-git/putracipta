@@ -19,6 +19,7 @@ use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Repository\Purchase\ReceiveHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,6 +27,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ReceiveHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private ReceiveHeaderRepository $receiveHeaderRepository;
     private ReceiveDetailRepository $receiveDetailRepository;
     private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;

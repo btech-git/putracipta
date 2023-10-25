@@ -9,6 +9,7 @@ use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Sync\Purchase\PurchaseOrderHeaderFormSync;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,6 +18,7 @@ class PurchaseOrderHeaderFormService
 {
     private PurchaseOrderHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
 

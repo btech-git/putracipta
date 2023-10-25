@@ -14,12 +14,14 @@ use App\Repository\Production\MasterOrderDistributionDetailRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use App\Repository\Production\MasterOrderProcessDetailRepository;
 use App\Repository\Production\MasterOrderProductDetailRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class MasterOrderHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private MasterOrderHeaderRepository $masterOrderHeaderRepository;
     private MasterOrderProductDetailRepository $masterOrderProductDetailRepository;
     private MasterOrderProcessDetailRepository $masterOrderProcessDetailRepository;
@@ -114,11 +116,11 @@ class MasterOrderHeaderFormService
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             $this->masterOrderProductDetailRepository->add($masterOrderProductDetail);
         }
-        foreach ($masterOrderHeader->getMasterOrderDistributionDetails() as $masterOrderDistributionDetail) {
-            $this->masterOrderDistributionDetailRepository->add($masterOrderDistributionDetail);
-        }
         foreach ($masterOrderHeader->getMasterOrderProcessDetails() as $masterOrderProcessDetail) {
             $this->masterOrderProcessDetailRepository->add($masterOrderProcessDetail);
+        }
+        foreach ($masterOrderHeader->getMasterOrderDistributionDetails() as $masterOrderDistributionDetail) {
+            $this->masterOrderDistributionDetailRepository->add($masterOrderDistributionDetail);
         }
         foreach ($masterOrderHeader->getMasterOrderCheckSheetDetails() as $masterOrderCheckSheetDetail) {
             $this->masterOrderCheckSheetDetailRepository->add($masterOrderCheckSheetDetail);

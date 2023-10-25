@@ -8,12 +8,14 @@ use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleOrderHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private SaleOrderHeaderRepository $saleOrderHeaderRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
 
@@ -52,10 +54,11 @@ class SaleOrderHeaderFormService
 
         }
         
-        foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+        foreach ($saleOrderHeader->getSaleOrderDetails() as $i => $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
             $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
+            $saleOrderDetail->setLinePo($i + 1);
             
             if ($saleOrderDetail->getRemainingDelivery() <= 0) {
                 $saleOrderDetail->setIsTransactionClosed(true);

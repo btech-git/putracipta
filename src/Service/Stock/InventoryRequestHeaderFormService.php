@@ -10,12 +10,14 @@ use App\Entity\Support\Idempotent;
 use App\Repository\Stock\InventoryRequestMaterialDetailRepository;
 use App\Repository\Stock\InventoryRequestPaperDetailRepository;
 use App\Repository\Stock\InventoryRequestHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class InventoryRequestHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private InventoryRequestHeaderRepository $inventoryRequestHeaderRepository;
     private InventoryRequestMaterialDetailRepository $inventoryRequestMaterialDetailRepository;
     private InventoryRequestPaperDetailRepository $inventoryRequestPaperDetailRepository;

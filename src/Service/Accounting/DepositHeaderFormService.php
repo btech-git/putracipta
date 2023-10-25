@@ -8,12 +8,14 @@ use App\Entity\Accounting\DepositHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Accounting\DepositDetailRepository;
 use App\Repository\Accounting\DepositHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class DepositHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private DepositHeaderRepository $depositHeaderRepository;
     private DepositDetailRepository $depositDetailRepository;
 

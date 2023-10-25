@@ -8,12 +8,14 @@ use App\Entity\Sale\SaleInvoiceHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Sale\SaleInvoiceDetailRepository;
 use App\Repository\Sale\SaleInvoiceHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleInvoiceHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository;
     private SaleInvoiceDetailRepository $saleInvoiceDetailRepository;
 

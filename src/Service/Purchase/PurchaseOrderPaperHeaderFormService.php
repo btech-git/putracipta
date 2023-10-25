@@ -9,12 +9,14 @@ use App\Entity\Purchase\PurchaseRequestPaperDetail;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseOrderPaperHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
 

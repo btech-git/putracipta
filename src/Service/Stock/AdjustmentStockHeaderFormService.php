@@ -20,6 +20,7 @@ use App\Repository\Stock\AdjustmentStockPaperDetailRepository;
 use App\Repository\Stock\AdjustmentStockProductDetailRepository;
 use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,6 +28,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class AdjustmentStockHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository;
     private AdjustmentStockMaterialDetailRepository $adjustmentStockMaterialDetailRepository;
     private AdjustmentStockPaperDetailRepository $adjustmentStockPaperDetailRepository;
@@ -74,17 +76,41 @@ class AdjustmentStockHeaderFormService
             $adjustmentStockHeader->setCodeNumberToNext($currentAdjustmentStockHeader->getCodeNumber(), $year, $month);
         }
         
-        foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
-            $adjustmentStockMaterialDetail->setIsCanceled($adjustmentStockMaterialDetail->getSyncIsCanceled());
-            $adjustmentStockMaterialDetail->setQuantityDifference($adjustmentStockMaterialDetail->getSyncQuantityDifference());
-        }
-        foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
-            $adjustmentStockPaperDetail->setIsCanceled($adjustmentStockPaperDetail->getSyncIsCanceled());
-            $adjustmentStockPaperDetail->setQuantityDifference($adjustmentStockPaperDetail->getSyncQuantityDifference());
-        }
-        foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
-            $adjustmentStockProductDetail->setIsCanceled($adjustmentStockProductDetail->getSyncIsCanceled());
-            $adjustmentStockProductDetail->setQuantityDifference($adjustmentStockProductDetail->getSyncQuantityDifference());
+        if ($adjustmentStockHeader->getWarehouse() !== null) {
+            if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_MATERIAL) {
+                $materials = array_map(fn($adjustmentStockMaterialDetail) => $adjustmentStockMaterialDetail->getMaterial(), $adjustmentStockHeader->getAdjustmentStockMaterialDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getMaterialStockQuantityList($adjustmentStockHeader->getWarehouse(), $materials);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'materialId');
+                foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
+                    $adjustmentStockMaterialDetail->setIsCanceled($adjustmentStockMaterialDetail->getSyncIsCanceled());
+                    $material = $adjustmentStockMaterialDetail->getMaterial();
+                    $stockQuantity = isset($stockQuantityListIndexed[$material->getId()]) ? $stockQuantityListIndexed[$material->getId()] : 0;
+                    $adjustmentStockMaterialDetail->setQuantityCurrent($stockQuantity);
+                    $adjustmentStockMaterialDetail->setQuantityDifference($adjustmentStockMaterialDetail->getSyncQuantityDifference());
+                }
+            } else if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_PAPER) {
+                $papers = array_map(fn($adjustmentStockPaperDetail) => $adjustmentStockPaperDetail->getPaper(), $adjustmentStockHeader->getAdjustmentStockPaperDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getPaperStockQuantityList($adjustmentStockHeader->getWarehouse(), $papers);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'paperId');
+                foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
+                    $adjustmentStockPaperDetail->setIsCanceled($adjustmentStockPaperDetail->getSyncIsCanceled());
+                    $paper = $adjustmentStockPaperDetail->getPaper();
+                    $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
+                    $adjustmentStockPaperDetail->setQuantityCurrent($stockQuantity);
+                    $adjustmentStockPaperDetail->setQuantityDifference($adjustmentStockPaperDetail->getSyncQuantityDifference());
+                }
+            } else if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT) {
+                $products = array_map(fn($adjustmentStockProductDetail) => $adjustmentStockProductDetail->getProduct(), $adjustmentStockHeader->getAdjustmentStockProductDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($adjustmentStockHeader->getWarehouse(), $products);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+                foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
+                    $adjustmentStockProductDetail->setIsCanceled($adjustmentStockProductDetail->getSyncIsCanceled());
+                    $product = $adjustmentStockProductDetail->getProduct();
+                    $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
+                    $adjustmentStockProductDetail->setQuantityCurrent($stockQuantity);
+                    $adjustmentStockProductDetail->setQuantityDifference($adjustmentStockProductDetail->getSyncQuantityDifference());
+                }
+            }
         }
     }
 

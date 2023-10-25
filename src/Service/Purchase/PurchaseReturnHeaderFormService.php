@@ -17,6 +17,7 @@ use App\Repository\Purchase\PurchaseReturnDetailRepository;
 use App\Repository\Purchase\PurchaseReturnHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,6 +25,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class PurchaseReturnHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
     private PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository;

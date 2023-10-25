@@ -6,6 +6,7 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DiecutKnife;
 use App\Entity\Support\Idempotent;
 use App\Repository\Master\DiecutKnifeRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -13,6 +14,7 @@ class DiecutKnifeFormService
 {
     private RequestStack $requestStack;
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private DiecutKnifeRepository $diecutKnifeRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)

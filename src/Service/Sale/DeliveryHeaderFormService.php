@@ -13,6 +13,7 @@ use App\Repository\Sale\DeliveryDetailRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class DeliveryHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private DeliveryHeaderRepository $deliveryHeaderRepository;
     private DeliveryDetailRepository $deliveryDetailRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
@@ -70,6 +72,7 @@ class DeliveryHeaderFormService
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
             $deliveryDetail->setUnit($saleOrderDetail->getUnit());
+            $deliveryDetail->setLinePo($saleOrderDetail->getLinePo());
             $deliveryHeader->setDeliveryAddressOrdinal($saleOrderDetail->getSaleOrderHeader()->getDeliveryAddressOrdinal());
             $deliveryDetail->setQuantityCurrent(0);
         }

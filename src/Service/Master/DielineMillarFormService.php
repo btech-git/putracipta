@@ -6,6 +6,7 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DielineMillar;
 use App\Entity\Support\Idempotent;
 use App\Repository\Master\DielineMillarRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -13,6 +14,7 @@ class DielineMillarFormService
 {
     private RequestStack $requestStack;
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private DielineMillarRepository $dielineMillarRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)

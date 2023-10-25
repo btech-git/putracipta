@@ -8,12 +8,14 @@ use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseInvoiceDetailRepository;
 use App\Repository\Purchase\PurchaseInvoiceHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseInvoiceHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository;
     private PurchaseInvoiceDetailRepository $purchaseInvoiceDetailRepository;
 

@@ -8,12 +8,14 @@ use App\Entity\Accounting\ExpenseHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Accounting\ExpenseDetailRepository;
 use App\Repository\Accounting\ExpenseHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ExpenseHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private ExpenseHeaderRepository $expenseHeaderRepository;
     private ExpenseDetailRepository $expenseDetailRepository;
 

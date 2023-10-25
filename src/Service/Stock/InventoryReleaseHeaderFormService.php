@@ -16,7 +16,7 @@ use App\Repository\Stock\InventoryReleaseMaterialDetailRepository;
 use App\Repository\Stock\InventoryReleasePaperDetailRepository;
 use App\Repository\Stock\InventoryReleaseHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
-use App\Repository\Support\idempotentRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class InventoryReleaseHeaderFormService
 {
     private EntityManagerInterface $entityManager;
-    private idempotentRepository $idempotentRepository;
+    private IdempotentRepository $idempotentRepository;
     private InventoryReleaseHeaderRepository $inventoryReleaseHeaderRepository;
     private InventoryReleaseMaterialDetailRepository $inventoryReleaseMaterialDetailRepository;
     private InventoryReleasePaperDetailRepository $inventoryReleasePaperDetailRepository;

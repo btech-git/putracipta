@@ -6,6 +6,7 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\MachinePrinting;
 use App\Entity\Support\Idempotent;
 use App\Repository\Master\MachinePrintingRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -13,6 +14,7 @@ class MachinePrintingFormService
 {
     private RequestStack $requestStack;
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private MachinePrintingRepository $machinePrintingRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)

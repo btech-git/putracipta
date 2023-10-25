@@ -8,12 +8,14 @@ use App\Entity\Accounting\JournalVoucherHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Accounting\JournalVoucherDetailRepository;
 use App\Repository\Accounting\JournalVoucherHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class JournalVoucherHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private JournalVoucherHeaderRepository $journalVoucherHeaderRepository;
     private JournalVoucherDetailRepository $journalVoucherDetailRepository;
 

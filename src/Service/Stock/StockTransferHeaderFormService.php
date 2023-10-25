@@ -20,6 +20,7 @@ use App\Repository\Stock\StockTransferPaperDetailRepository;
 use App\Repository\Stock\StockTransferProductDetailRepository;
 use App\Repository\Stock\StockTransferHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,6 +28,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class StockTransferHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private StockTransferHeaderRepository $stockTransferHeaderRepository;
     private StockTransferMaterialDetailRepository $stockTransferMaterialDetailRepository;
     private StockTransferPaperDetailRepository $stockTransferPaperDetailRepository;

@@ -12,6 +12,7 @@ use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleReturnDetailRepository;
 use App\Repository\Sale\SaleReturnHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
+use App\Repository\Support\IdempotentRepository;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class SaleReturnHeaderFormService {
 
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private SaleReturnHeaderRepository $saleReturnHeaderRepository;
     private SaleReturnDetailRepository $saleReturnDetailRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
@@ -161,5 +163,4 @@ class SaleReturnHeaderFormService {
             $newInventory->setQuantityIn($saleReturnDetail->getQuantity());
         });
     }
-
 }

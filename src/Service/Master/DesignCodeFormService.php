@@ -12,6 +12,7 @@ use App\Repository\Master\DesignCodeRepository;
 use App\Repository\Master\DesignCodeCheckSheetDetailRepository;
 use App\Repository\Master\DesignCodeDistributionDetailRepository;
 use App\Repository\Master\DesignCodeProcessDetailRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,6 +20,7 @@ class DesignCodeFormService
 {
     private RequestStack $requestStack;
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private DesignCodeRepository $designCodeRepository;
     private DesignCodeCheckSheetDetailRepository $designCodeCheckSheetDetailRepository;
     private DesignCodeDistributionDetailRepository $designCodeDistributionDetailRepository;

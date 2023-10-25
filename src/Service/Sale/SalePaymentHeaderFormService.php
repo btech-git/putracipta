@@ -11,12 +11,14 @@ use App\Entity\Support\Idempotent;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\SalePaymentDetailRepository;
 use App\Repository\Sale\SalePaymentHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SalePaymentHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private SalePaymentHeaderRepository $salePaymentHeaderRepository;
     private SalePaymentDetailRepository $salePaymentDetailRepository;
     private LiteralConfigRepository $literalConfigRepository;

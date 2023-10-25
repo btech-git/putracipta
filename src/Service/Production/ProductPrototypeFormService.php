@@ -6,12 +6,14 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductPrototype;
 use App\Entity\Support\Idempotent;
 use App\Repository\Production\ProductPrototypeRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductPrototypeFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private ProductPrototypeRepository $productPrototypeRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)

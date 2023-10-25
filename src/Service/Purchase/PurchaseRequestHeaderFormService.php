@@ -8,12 +8,14 @@ use App\Entity\Purchase\PurchaseRequestHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseRequestDetailRepository;
 use App\Repository\Purchase\PurchaseRequestHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseRequestHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository;
     private PurchaseRequestDetailRepository $purchaseRequestDetailRepository;
 

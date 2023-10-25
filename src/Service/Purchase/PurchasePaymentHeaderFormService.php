@@ -9,12 +9,14 @@ use App\Entity\Purchase\PurchasePaymentHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchasePaymentDetailRepository;
 use App\Repository\Purchase\PurchasePaymentHeaderRepository;
+use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchasePaymentHeaderFormService
 {
     private EntityManagerInterface $entityManager;
+    private IdempotentRepository $idempotentRepository;
     private PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository;
     private PurchasePaymentDetailRepository $purchasePaymentDetailRepository;
 
