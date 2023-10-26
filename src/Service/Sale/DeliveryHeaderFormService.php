@@ -76,9 +76,6 @@ class DeliveryHeaderFormService
             $deliveryHeader->setDeliveryAddressOrdinal($saleOrderDetail->getSaleOrderHeader()->getDeliveryAddressOrdinal());
             $deliveryDetail->setQuantityCurrent(0);
         }
-        foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
-            $deliveryDetail->setIsCanceled($deliveryDetail->getSyncIsCanceled());
-        }
         $deliveryHeader->setTotalQuantity($deliveryHeader->getSyncTotalQuantity());
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
@@ -99,6 +96,18 @@ class DeliveryHeaderFormService
                 $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalDelivery());
                 $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingDelivery());
 //            }
+        }
+        
+        if ($deliveryHeader->getWarehouse() !== null) {
+            $products = array_map(fn($deliveryDetail) => $deliveryDetail->getProduct(), $deliveryHeader->getDeliveryDetails()->toArray());
+            $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($deliveryHeader->getWarehouse(), $products);
+            $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+            foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
+                $deliveryDetail->setIsCanceled($deliveryDetail->getSyncIsCanceled());
+                $product = $deliveryDetail->getProduct();
+                $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
+                $deliveryDetail->setQuantityCurrent($stockQuantity);
+            }
         }
         
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
