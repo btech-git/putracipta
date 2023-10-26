@@ -4,6 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Entity\Stock\InventoryProductReceiveHeader;
 use App\Grid\Production\MasterOrderHeaderGridType;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -21,13 +22,17 @@ class MasterOrderHeaderController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'productionDate' => SortDescending::class,
+            'transactionDate' => SortDescending::class,
             'id' => SortDescending::class,
         ]);
         $form = $this->createForm(MasterOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
+            $sub = $new(InventoryProductReceiveHeader::class, 'i');
+            $sub->andWhere("IDENTITY(i.masterOrderHeader) = {$alias}.id");
+            $qb->leftJoin("{$alias}.inventoryProductReceiveHeaders", 'r');
+            $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 

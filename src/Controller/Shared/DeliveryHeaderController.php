@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Sale\SaleReturnHeader;
 use App\Grid\Shared\DeliveryHeaderGridType;
 use App\Repository\Sale\DeliveryHeaderRepository;
@@ -20,6 +21,10 @@ class DeliveryHeaderController extends AbstractController
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(DeliveryHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
