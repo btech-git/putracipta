@@ -70,6 +70,9 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: MasterOrderProductDetail::class)]
     private Collection $masterOrderProductDetails;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $linePo = 0;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -303,6 +306,18 @@ class SaleOrderDetail extends SaleDetail
                 $masterOrderProductDetail->setSaleOrderDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLinePo(): ?int
+    {
+        return $this->linePo;
+    }
+
+    public function setLinePo(int $linePo): self
+    {
+        $this->linePo = $linePo;
 
         return $this;
     }
