@@ -1,33 +1,37 @@
 <div class="table-responsive">
     <table class="table table-bordered"
        data-controller="form-collection"
-       data-form-collection-start-index-value="{{ form.adjustmentStockProductDetails|length > 0 ? form.adjustmentStockProductDetails|last.vars.name + 1 : 0 }}"
-       data-form-collection-prototype-value="{{ _self.collection_item(form.adjustmentStockProductDetails.vars.prototype, form)|e('html_attr') }}"
+       data-form-collection-start-index-value="{{ form.inventoryProductReceiveDetails|length > 0 ? form.inventoryProductReceiveDetails|last.vars.name + 1 : 0 }}"
+       data-form-collection-prototype-value="{{ _self.collection_item(form.inventoryProductReceiveDetails.vars.prototype, form)|e('html_attr') }}"
        data-action="form-collection:collection-item-removed->json-loader#load:self">
         <thead class="table-secondary">
             <tr>
+                <th class="d-none">Master Order Product Detail Id</th>
                 <th class="d-none">Product Id</th>
-                <th style="min-width: 250px">Kode</th>
-                <th style="min-width: 250px">Nama Barang</th>
-                <th style="min-width: 50px">Qty Stok</th>
-                <th style="min-width: 50px">Qty Penyesuaian</th>
-                <th style="min-width: 50px">Qty Selisih</th>
-                <th style="min-width: 50px">Satuan</th>
-                <th style="min-width: 200px">Keterangan</th>
+                <th style="min-width: 100px">PO #</th>
+                <th style="min-width: 200px">Kode</th>
+                <th style="min-width: 200px">Nama Barang</th>
+                <th style="min-width: 100px">Tanggal Kirim</th>
+                <th style="min-width: 100px">Qty Order</th>
+                <th style="min-width: 100px">Qty Terima</th>
+                <th style="min-width: 100px">Satuan</th>
+                <th style="min-width: 150px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="{{ form.adjustmentMode.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems product-table:data-table:select@document->form-collection#addCollectionItem product-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="master-order-header-table:data-table:select@document->form-collection#clearCollectionItems master-order-header-table:data-table:select@document->form-collection#addCollectionItems master-order-header-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
-                <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
+                <tr data-form-collection-target="item" data-item-identifier-name="masterOrderProductDetailId" data-item-identifier-value="{{ detailForm.vars.value.masterOrderProductDetail.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
+                    <td class="d-none">{{ form_widget(detailForm.masterOrderProductDetail , {'attr': {'data-item-field-name': 'masterOrderProductDetailId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
+                    <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
-                    <td class="text-center" data-json-loader-target="placeholder"
-                        data-property-path="adjustmentStockProductDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
+                    <td data-item-field-name="saleOrderDetailDeliveryDate">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.quantity|default }}</td>
                     <td>
-                        {{ form_row(detailForm.quantityAdjustment, {'label': false, 'attr': {
-                            'size': 2,
+                        {{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                            'size': '5',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
@@ -35,9 +39,8 @@
                             ]|json_encode,
                         }}) }}
                     </td>
-                    <td class="text-center" data-item-field-name="adjustmentStockProductDetailQuantityDifference">{{ detailForm.vars.value.quantityDifference|default }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.product.unit.name|default }}</td>
-                    <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
@@ -58,18 +61,9 @@
                     </td>
                 </tr>
             {% endmacro %}
-            {% for detailForm in form.adjustmentStockProductDetails %}
+            {% for detailForm in form.inventoryProductReceiveDetails %}
                 {{ _self.collection_item(detailForm, form) }}
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td class="text-end" colspan="2">Total</td>
-                <td class="text-center" data-json-loader-target="placeholder"
-                    data-property-path="totalQuantity">
-                    {{ detailForm.vars.value.totalQuantity|default|number_format(0) }}
-                </td>
-            </tr>
-        </tfoot>
     </table>
 </div>

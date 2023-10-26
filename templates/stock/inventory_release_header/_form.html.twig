@@ -10,7 +10,12 @@
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal Release', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
-                    {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
+                    {{ form_row(form.warehouse, {
+                        'label': 'Gudang',
+                        'attr': {
+                            'data-action': 'json-loader#load',
+                        },
+                    }) }}
                     <div class="mb-3">
                         <label class="form-label">Jenis Pengeluaran</label>
                         <input type="text" class="form-control" value="{{ inventoryReleaseHeader.releaseMode|default }}" readonly="readonly"

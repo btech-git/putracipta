@@ -10,14 +10,15 @@
                 <th class="d-none">Material Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Barang</th>
-                <th style="min-width: 100px">Qty Request</th>
-                <th style="min-width: 100px">Qty</th>
-                <th style="min-width: 100px">Satuan</th>
-                <th style="min-width: 100px">Keterangan</th>
+                <th style="min-width: 50px">Qty Request</th>
+                <th style="min-width: 50px">Qty Stok</th>
+                <th style="min-width: 50px">Qty</th>
+                <th style="min-width: 50px">Satuan</th>
+                <th style="min-width: 150px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="inventory-request-header-table:data-table:select@document->form-collection#clearCollectionItems inventory-request-header-table:data-table:select@document->form-collection#addCollectionItems"
+        <tbody data-form-collection-target="items" data-action="inventory-request-header-table:data-table:select@document->form-collection#clearCollectionItems inventory-request-header-table:data-table:select@document->form-collection#addCollectionItems inventory-request-header-table:data-table:select@document->json-loader#load"
                data-form-collection-add-items-matching-field-path-param="0.inventoryRequestHeaderMode"
                data-form-collection-add-items-matching-field-path-value-param="material"
                data-form-collection-clear-items-matching-field-path-param="0.inventoryRequestHeaderMode"
@@ -28,9 +29,12 @@
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                    <td data-item-field-name="inventoryRequestMaterialDetailQuantity">{{ detailForm.vars.value.inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="inventoryRequestMaterialDetailQuantity">{{ detailForm.vars.value.inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center" data-json-loader-target="placeholder"
+                        data-property-path="inventoryReleaseMaterialDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                            'size': '1',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
@@ -64,5 +68,12 @@
                 {{ _self.collection_item(detailForm, form) }}
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Total</td>
+                <td data-item-field-name="totalQuantity">{{ detailForm.vars.value.totalQuantity|default }}</td>
+                <td colspan="3"></td>
+            </tr>
+        </tfoot>
     </table>
 </div>

@@ -3,7 +3,28 @@
         {%- for adjustmentStockMaterialDetailForm in form.adjustmentStockMaterialDetails -%}
             {%- set adjustmentStockMaterialDetail = adjustmentStockMaterialDetailForm.vars.data -%}
             "{{ adjustmentStockMaterialDetailForm.vars.name }}": {
+                "quantityCurrent": "{{ adjustmentStockMaterialDetail.quantityCurrent|default|number_format(0) }}",
                 "quantityDifference": "{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}"
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
+    },
+    "adjustmentStockPaperDetails": {
+        {%- for adjustmentStockPaperDetailForm in form.adjustmentStockPaperDetails -%}
+            {%- set adjustmentStockPaperDetail = adjustmentStockPaperDetailForm.vars.data -%}
+            "{{ adjustmentStockPaperDetailForm.vars.name }}": {
+                "quantityCurrent": "{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(0) }}",
+                "quantityDifference": "{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(0) }}"
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
+    },
+    "adjustmentStockProductDetails": {
+        {%- for adjustmentStockProductDetailForm in form.adjustmentStockProductDetails -%}
+            {%- set adjustmentStockProductDetail = adjustmentStockProductDetailForm.vars.data -%}
+            "{{ adjustmentStockProductDetailForm.vars.name }}": {
+                "quantityCurrent": "{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(0) }}",
+                "quantityDifference": "{{ adjustmentStockProductDetail.quantityDifference|default|number_format(0) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
         {%- endfor -%}

@@ -1,0 +1,77 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Show Penerimaan Barang Jadi' %}
+
+{% block toolbar %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_stock_inventory_product_receive_header_index') }}">Manage</a>
+    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_product_receive_header_edit', {'id': inventoryProductReceiveHeader.id}) }}">Edit</a>
+    <a class="btn btn-success btn-sm" href="{{ path('app_stock_inventory_product_receive_header_new') }}">Add</a>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Penerimaan #</th>
+                <td>{{ inventoryProductReceiveHeader.getCodeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ inventoryProductReceiveHeader.transactionDate ? inventoryProductReceiveHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>MO #</th>
+                <td>{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber }}</td>
+            </tr>
+            <tr>
+                <th>Customer</th>
+                <td>{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company }}</td>
+            </tr>
+            <tr>
+                <th>Gudang</th>
+                <td>{{ inventoryProductReceiveHeader.warehouse.name }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ inventoryProductReceiveHeader.note }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="bg-info">
+                <th>PO #</th>
+                <th>Kode</th>
+                <th>Nama Produk</th>
+                <th>Tanggal Kirim</th>
+                <th>Qty Order</th>
+                <th>Qty Terima</th>
+                <th>Satuan</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventoryProductReceiveDetail in inventoryProductReceiveHeader.inventoryProductReceiveDetails %}
+                <tr>
+                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ inventoryProductReceiveDetail.product.code|default }}</td>
+                    <td>{{ inventoryProductReceiveDetail.product.name|default }}</td>
+                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ inventoryProductReceiveDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
+                    <td>{{ inventoryProductReceiveDetail.memo|default }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+
+    <br />
+    
+    <div class="d-inline-block">
+        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_product_receive_header_memo', {'id': inventoryProductReceiveHeader.id}) }}">Print</a>
+    </div>
+
+    {# {{ include('stock/inventory_product_receive_header/_delete_form.html.twig') }} #}
+{% endblock %}

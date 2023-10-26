@@ -28,8 +28,13 @@
                     }) }}
                 </div>
                 <div class="col">
-                    {{ form_row(form.warehouseFrom, {'label': 'Gudang Asal #'}) }}
-                    {{ form_row(form.warehouseTo, {'label': 'Gudang Tujuan #'}) }}
+                    {{ form_row(form.warehouseFrom, {
+                        'label': 'Gudang Asal',
+                        'attr': {
+                            'data-action': 'json-loader#load',
+                        },
+                    }) }}
+                    {{ form_row(form.warehouseTo, {'label': 'Gudang Tujuan'}) }}
                 </div>
             </div>
             <div class="row">

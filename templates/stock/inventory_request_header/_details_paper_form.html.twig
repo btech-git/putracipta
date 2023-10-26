@@ -9,9 +9,9 @@
                 <th class="d-none">Paper Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Kertas</th>
-                <th style="min-width: 100px">Qty</th>
-                <th style="min-width: 100px">Satuan</th>
-                <th style="min-width: 100px">Keterangan</th>
+                <th style="min-width: 50px">Qty</th>
+                <th style="min-width: 50px">Satuan</th>
+                <th style="min-width: 150px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
@@ -19,11 +19,11 @@
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
-                    <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
-                    <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
+                    <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
+                    <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.paperNameSizeCombination|default }}</td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
-                            'size': 3,
+                            'size': '2',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [

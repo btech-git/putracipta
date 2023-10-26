@@ -9,24 +9,25 @@
                 <th class="d-none">Material Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Barang</th>
-                <th style="min-width: 100px">Qty Stok</th>
-                <th style="min-width: 100px">Qty Penyesuaian</th>
-                <th style="min-width: 100px">Qty Selisih</th>
-                <th style="min-width: 100px">Satuan</th>
-                <th style="min-width: 100px">Keterangan</th>
+                <th style="min-width: 50px">Qty Stok</th>
+                <th style="min-width: 20px">Qty Penyesuaian</th>
+                <th style="min-width: 50px">Qty Selisih</th>
+                <th style="min-width: 50px">Satuan</th>
+                <th style="min-width: 200px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="{{ form.adjustmentMode.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems material-table:data-table:select@document->form-collection#addCollectionItem">
+        <tbody data-form-collection-target="items" data-action="{{ form.adjustmentMode.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems material-table:data-table:select@document->form-collection#addCollectionItem material-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
-                    <td class="text-center" data-item-field-name="adjustmentStockMaterialDetailQuantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
+                    <td class="text-center" data-json-loader-target="placeholder"
+                        data-property-path="adjustmentStockMaterialDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
                     <td>
                         {{ form_row(detailForm.quantityAdjustment, {'label': false, 'attr': {
-                            'size': 3,
+                            'size': 2,
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
@@ -37,7 +38,7 @@
                     <td class="text-center" data-json-loader-target="placeholder"
                         data-property-path="adjustmentStockMaterialDetails.{{ detailForm.vars.name }}.quantityDifference">{{ detailForm.vars.value.quantityDifference|default }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.material.unit.name|default }}</td>
-                    <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
+                    <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
@@ -62,5 +63,11 @@
                 {{ _self.collection_item(detailForm, form) }}
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Total</td>
+                <td data-item-field-name="totalQuantity">{{ detailForm.vars.value.totalQuantity|default }}</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
