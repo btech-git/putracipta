@@ -77,29 +77,59 @@ class InventoryReleaseHeaderFormService
             $inventoryReleaseHeader->setPartNumber($inventoryRequestHeader->getPartNumber());
         }
         
-        foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
-            $inventoryRequestMaterialDetail = $inventoryReleaseMaterialDetail->getInventoryRequestMaterialDetail();
-            $inventoryReleaseMaterialDetail->setIsCanceled($inventoryReleaseMaterialDetail->getSyncIsCanceled());
-            $inventoryReleaseMaterialDetail->setUnit($inventoryRequestMaterialDetail->getUnit());
-            
-            $oldReleaseDetails = $this->inventoryReleaseMaterialDetailRepository->findByInventoryRequestMaterialDetail($inventoryRequestMaterialDetail);
-            $totalRelease = 0;
-            foreach ($oldReleaseDetails as $oldReleaseDetail) {
-                if ($oldReleaseDetail->getId() !== $inventoryReleaseMaterialDetail->getId() && $oldReleaseDetail->isIsCanceled() === false) {
-                    $totalRelease += $oldReleaseDetail->getQuantity();
+        if ($inventoryReleaseHeader->getWarehouse() !== null) {
+            if ($inventoryReleaseHeader->getReleaseMode() === InventoryReleaseHeader::RELEASE_MODE_MATERIAL) {
+                $materials = array_map(fn($inventoryReleaseMaterialDetail) => $inventoryReleaseMaterialDetail->getMaterial(), $inventoryReleaseHeader->getInventoryReleaseMaterialDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getMaterialStockQuantityList($inventoryReleaseHeader->getWarehouse(), $materials);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'materialId');
+                foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
+                    $inventoryRequestMaterialDetail = $inventoryReleaseMaterialDetail->getInventoryRequestMaterialDetail();
+                    $inventoryReleaseMaterialDetail->setIsCanceled($inventoryReleaseMaterialDetail->getSyncIsCanceled());
+                    $inventoryReleaseMaterialDetail->setUnit($inventoryRequestMaterialDetail->getUnit());
+                    $material = $inventoryReleaseMaterialDetail->getMaterial();
+                    $stockQuantity = isset($stockQuantityListIndexed[$material->getId()]) ? $stockQuantityListIndexed[$material->getId()] : 0;
+                    $inventoryReleaseMaterialDetail->setQuantityCurrent($stockQuantity);
+
+                    $oldReleaseDetails = $this->inventoryReleaseMaterialDetailRepository->findByInventoryRequestMaterialDetail($inventoryRequestMaterialDetail);
+                    $totalRelease = 0;
+                    foreach ($oldReleaseDetails as $oldReleaseDetail) {
+                        if ($oldReleaseDetail->getId() !== $inventoryReleaseMaterialDetail->getId() && $oldReleaseDetail->isIsCanceled() === false) {
+                            $totalRelease += $oldReleaseDetail->getQuantity();
+                        }
+                    }
+                    if ($inventoryReleaseMaterialDetail->isIsCanceled() === false) {
+                        $totalRelease += $inventoryReleaseMaterialDetail->getQuantity();
+                    }
+                    $inventoryRequestMaterialDetail->setQuantityRelease($totalRelease);
+                    $inventoryRequestMaterialDetail->setQuantityRemaining($inventoryRequestMaterialDetail->getSyncQuantityRemaining());
+
+                }
+            } elseif ($inventoryReleaseHeader->getReleaseMode() === InventoryReleaseHeader::RELEASE_MODE_PAPER) {
+                $papers = array_map(fn($inventoryReleasePaperDetail) => $inventoryReleasePaperDetail->getPaper(), $inventoryReleaseHeader->getInventoryReleasePaperDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getPaperStockQuantityList($inventoryReleaseHeader->getWarehouse(), $papers);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'paperId');
+                foreach ($inventoryReleaseHeader->getInventoryReleasePaperDetails() as $inventoryReleasePaperDetail) {
+                    $inventoryRequestPaperDetail = $inventoryReleasePaperDetail->getInventoryRequestPaperDetail();
+                    $inventoryReleasePaperDetail->setIsCanceled($inventoryReleasePaperDetail->getSyncIsCanceled());
+                    $inventoryReleasePaperDetail->setUnit($inventoryRequestPaperDetail->getUnit());
+                    $paper = $inventoryReleasePaperDetail->getPaper();
+                    $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
+                    $inventoryReleasePaperDetail->setQuantityCurrent($stockQuantity);
+
+                    $oldReleaseDetails = $this->inventoryReleasePaperDetailRepository->findByInventoryRequestPaperDetail($inventoryRequestPaperDetail);
+                    $totalRelease = 0;
+                    foreach ($oldReleaseDetails as $oldReleaseDetail) {
+                        if ($oldReleaseDetail->getId() !== $inventoryReleasePaperDetail->getId() && $oldReleaseDetail->isIsCanceled() === false) {
+                            $totalRelease += $oldReleaseDetail->getQuantity();
+                        }
+                    }
+                    if ($inventoryReleasePaperDetail->isIsCanceled() === false) {
+                        $totalRelease += $inventoryReleasePaperDetail->getQuantity();
+                    }
+                    $inventoryRequestPaperDetail->setQuantityRelease($totalRelease);
+                    $inventoryRequestPaperDetail->setQuantityRemaining($inventoryRequestPaperDetail->getSyncQuantityRemaining());
                 }
             }
-            if ($inventoryReleaseMaterialDetail->isIsCanceled() === false) {
-                $totalRelease += $inventoryReleaseMaterialDetail->getQuantity();
-            }
-            $inventoryRequestMaterialDetail->setQuantityRelease($totalRelease);
-            $inventoryRequestMaterialDetail->setQuantityRemaining($inventoryRequestMaterialDetail->getSyncQuantityRemaining());
-            
-        }
-        foreach ($inventoryReleaseHeader->getInventoryReleasePaperDetails() as $inventoryReleasePaperDetail) {
-            $inventoryRequestPaperDetail = $inventoryReleasePaperDetail->getInventoryRequestPaperDetail();
-            $inventoryReleasePaperDetail->setIsCanceled($inventoryReleasePaperDetail->getSyncIsCanceled());
-            $inventoryReleasePaperDetail->setUnit($inventoryRequestPaperDetail->getUnit());
         }
         $inventoryReleaseHeader->setTotalQuantity($inventoryReleaseHeader->getSyncTotalQuantity());
         

@@ -76,14 +76,38 @@ class StockTransferHeaderFormService
             $stockTransferHeader->setCodeNumberToNext($currentStockTransferHeader->getCodeNumber(), $year, $month);
 
         }
-        foreach ($stockTransferHeader->getStockTransferMaterialDetails() as $stockTransferMaterialDetail) {
-            $stockTransferMaterialDetail->setIsCanceled($stockTransferMaterialDetail->getSyncIsCanceled());
-        }
-        foreach ($stockTransferHeader->getStockTransferPaperDetails() as $stockTransferPaperDetail) {
-            $stockTransferPaperDetail->setIsCanceled($stockTransferPaperDetail->getSyncIsCanceled());
-        }
-        foreach ($stockTransferHeader->getStockTransferProductDetails() as $stockTransferProductDetail) {
-            $stockTransferProductDetail->setIsCanceled($stockTransferProductDetail->getSyncIsCanceled());
+        if ($stockTransferHeader->getWarehouseFrom() !== null) {
+            if ($stockTransferHeader->getTransferMode() === StockTransferHeader::TRANSFER_MODE_MATERIAL) {
+                $materials = array_map(fn($stockTransferMaterialDetail) => $stockTransferMaterialDetail->getMaterial(), $stockTransferHeader->getStockTransferMaterialDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getMaterialStockQuantityList($stockTransferHeader->getWarehouseFrom(), $materials);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'materialId');
+                foreach ($stockTransferHeader->getStockTransferMaterialDetails() as $stockTransferMaterialDetail) {
+                    $stockTransferMaterialDetail->setIsCanceled($stockTransferMaterialDetail->getSyncIsCanceled());
+                    $material = $stockTransferMaterialDetail->getMaterial();
+                    $stockQuantity = isset($stockQuantityListIndexed[$material->getId()]) ? $stockQuantityListIndexed[$material->getId()] : 0;
+                    $stockTransferMaterialDetail->setQuantityCurrent($stockQuantity);
+                }
+            } else if ($stockTransferHeader->getTransferMode() === StockTransferHeader::TRANSFER_MODE_PAPER) {
+                $papers = array_map(fn($stockTransferPaperDetail) => $stockTransferPaperDetail->getPaper(), $stockTransferHeader->getStockTransferPaperDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getPaperStockQuantityList($stockTransferHeader->getWarehouseFrom(), $papers);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'paperId');
+                foreach ($stockTransferHeader->getStockTransferPaperDetails() as $stockTransferPaperDetail) {
+                    $stockTransferPaperDetail->setIsCanceled($stockTransferPaperDetail->getSyncIsCanceled());
+                    $paper = $stockTransferPaperDetail->getPaper();
+                    $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
+                    $stockTransferPaperDetail->setQuantityCurrent($stockQuantity);
+                }
+            } else if ($stockTransferHeader->getTransferMode() === StockTransferHeader::TRANSFER_MODE_PRODUCT) {
+                $products = array_map(fn($stockTransferProductDetail) => $stockTransferProductDetail->getProduct(), $stockTransferHeader->getStockTransferProductDetails()->toArray());
+                $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($stockTransferHeader->getWarehouseFrom(), $products);
+                $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+                foreach ($stockTransferHeader->getStockTransferProductDetails() as $stockTransferProductDetail) {
+                    $stockTransferProductDetail->setIsCanceled($stockTransferProductDetail->getSyncIsCanceled());
+                    $product = $stockTransferProductDetail->getProduct();
+                    $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
+                    $stockTransferProductDetail->setQuantityCurrent($stockQuantity);
+                }
+            }
         }
         $stockTransferHeader->setTotalQuantity($stockTransferHeader->getSyncTotalQuantity());
     }
