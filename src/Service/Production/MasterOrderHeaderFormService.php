@@ -8,12 +8,14 @@ use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\MasterOrderProcessDetail;
 use App\Entity\Production\MasterOrderProductDetail;
+use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
 use App\Repository\Production\MasterOrderDistributionDetailRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use App\Repository\Production\MasterOrderProcessDetailRepository;
 use App\Repository\Production\MasterOrderProductDetailRepository;
+use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,6 +24,7 @@ class MasterOrderHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
+    private InventoryRepository $inventoryRepository;
     private MasterOrderHeaderRepository $masterOrderHeaderRepository;
     private MasterOrderProductDetailRepository $masterOrderProductDetailRepository;
     private MasterOrderProcessDetailRepository $masterOrderProcessDetailRepository;
@@ -33,6 +36,7 @@ class MasterOrderHeaderFormService
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
+        $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
         $this->masterOrderHeaderRepository = $entityManager->getRepository(MasterOrderHeader::class);
         $this->masterOrderProductDetailRepository = $entityManager->getRepository(MasterOrderProductDetail::class);
         $this->masterOrderProcessDetailRepository = $entityManager->getRepository(MasterOrderProcessDetail::class);
