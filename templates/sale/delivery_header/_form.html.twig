@@ -24,7 +24,12 @@
                             ]|json_encode,
                         },
                     }) }}
-                    {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
+                    {{ form_row(form.warehouse, {
+                        'label': 'Gudang',
+                        'attr': {
+                            'data-action': 'json-loader#load',
+                        },
+                    }) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">

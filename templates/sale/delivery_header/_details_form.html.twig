@@ -15,9 +15,10 @@
                 <th style="min-width: 80px">Lot #</th>
                 <th style="min-width: 100px">PO #</th>
                 <th style="min-width: 80px">Line PO</th>
-                <th style="min-width: 100px">Qty Order</th>
-                <th style="min-width: 100px">OS PO</th>
-                <th style="min-width: 100px">Qty Kirim</th>
+                <th style="min-width: 50px">Qty Order</th>
+                <th style="min-width: 50px">OS PO</th>
+                <th style="min-width: 50px">Qty Stok</th>
+                <th style="min-width: 80px">Qty Kirim</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 250px">Kemasan</th>
                 <th style="min-width: 0"></th>
@@ -47,9 +48,11 @@
                     <td data-item-field-name="masterOrderHeaderWorkOrderNumber">{{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }}</td>
                     <td data-item-field-name="masterOrderHeaderLotNumber">{{ detailForm.vars.value.lotNumber|default }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ form_row(detailForm.linePo, {'label': false}) }}</td>
-                    <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default }}</td>
-                    <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default }}</td>
+                    <td data-item-field-name="saleOrderDetailLinePo">{{ detailForm.vars.value.linePo|default }}</td>
+                    <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="saleOrderDetailQuantityRemaining">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default|number_format(0) }}</td>
+                    <td class="text-center" data-json-loader-target="placeholder"
+                        data-property-path="deliveryDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
                             'size': 3,
@@ -88,7 +91,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="9">Total Quantity</td>
+                <td class="text-end" colspan="10">Total Quantity</td>
                 <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantity">
                     {{ deliveryHeader.totalQuantity|default|number_format(0) }}

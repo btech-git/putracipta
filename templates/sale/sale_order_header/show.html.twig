@@ -80,6 +80,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="bg-info">
+                <th>No.</th>
                 <th>Item Code</th>
                 <th>Description</th>
                 <th>Tgl Kirim</th>
@@ -94,6 +95,7 @@
         <tbody>
             {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
                 <tr>
+                    <td>{{ saleOrderDetail.linePo|default }}</td>
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
@@ -108,17 +110,17 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.subTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="7" style="text-align: right">
+                <td colspan="8" style="text-align: right">
                     <strong>
                         {% if saleOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', saleOrderHeader) %}
                             Non Tax 0%
@@ -133,7 +135,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
