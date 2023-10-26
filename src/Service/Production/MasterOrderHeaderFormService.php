@@ -106,15 +106,18 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setPackagingTapeLargeSize($masterOrderHeader->getSyncPackagingTapeLargeSize());
         $masterOrderHeader->setPackagingTapeSmallSize($masterOrderHeader->getSyncPackagingTapeSmallSize());
         $masterOrderHeader->setPackagingPlasticSize($masterOrderHeader->getSyncPackagingPlasticSize());
+//        $masterOrderHeader->setWarehouse(2);
         
-        $products = array_map(fn($masterOrderProductDetail) => $masterOrderProductDetail->getProduct(), $masterOrderHeader->getMasterOrderProductDetails()->toArray());
-        $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList(2, $products);
-        $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
-        foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
-            $masterOrderProductDetail->setIsCanceled($masterOrderProductDetail->getSyncIsCanceled());
-            $product = $masterOrderProductDetail->getProduct();
-            $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
-            $masterOrderProductDetail->setQuantityStock($stockQuantity);
+        if ($masterOrderHeader->getWarehouse() !== null) {
+            $products = array_map(fn($masterOrderProductDetail) => $masterOrderProductDetail->getProduct(), $masterOrderHeader->getMasterOrderProductDetails()->toArray());
+            $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($masterOrderHeader->getWarehouse(), $products);
+            $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+            foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
+                $masterOrderProductDetail->setIsCanceled($masterOrderProductDetail->getSyncIsCanceled());
+                $product = $masterOrderProductDetail->getProduct();
+                $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
+                $masterOrderProductDetail->setQuantityStock($stockQuantity);
+            }
         }
         
         if ($options['transactionFile']) {
