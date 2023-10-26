@@ -16,7 +16,7 @@ class MasterOrderDistributionDetailType extends AbstractType
     {
         $builder
             ->add('isSubcon')
-            ->add('isCanceled')
+//            ->add('isCanceled')
             ->add('workOrderDistribution', EntityHiddenType::class, ['class' => WorkOrderDistribution::class])
             ->add('designCodeDistributionDetail', EntityHiddenType::class, ['class' => DesignCodeDistributionDetail::class])
         ;

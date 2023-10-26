@@ -16,7 +16,7 @@ class MasterOrderCheckSheetDetailType extends AbstractType
     {
         $builder
             ->add('isSubcon')
-            ->add('isCanceled')
+//            ->add('isCanceled')
             ->add('workOrderCheckSheet', EntityHiddenType::class, ['class' => WorkOrderCheckSheet::class])
             ->add('designCodeCheckSheetDetail', EntityHiddenType::class, ['class' => DesignCodeCheckSheetDetail::class])
         ;
