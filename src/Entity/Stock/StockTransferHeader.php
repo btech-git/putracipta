@@ -24,9 +24,6 @@ class StockTransferHeader extends StockHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalQuantity = '0.00';
-
     #[ORM\ManyToOne]
     private ?Warehouse $warehouseFrom = null;
 
@@ -45,9 +42,11 @@ class StockTransferHeader extends StockHeader
     #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferProductDetail::class)]
     private Collection $stockTransferProductDetails;
 
+    #[ORM\Column]
+    private ?int $totalQuantity = 0;
+
     public function __construct()
     {
-        $this->stockTransferDetails = new ArrayCollection();
         $this->stockTransferMaterialDetails = new ArrayCollection();
         $this->stockTransferPaperDetails = new ArrayCollection();
         $this->stockTransferProductDetails = new ArrayCollection();
@@ -80,18 +79,6 @@ class StockTransferHeader extends StockHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?string
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(string $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getWarehouseFrom(): ?Warehouse
@@ -216,6 +203,18 @@ class StockTransferHeader extends StockHeader
                 $stockTransferProductDetail->setStockTransferHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?int
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(int $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

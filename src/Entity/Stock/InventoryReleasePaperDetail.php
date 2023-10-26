@@ -36,7 +36,7 @@ class InventoryReleasePaperDetail extends StockDetail
     private ?InventoryRequestPaperDetail $inventoryRequestPaperDetail = null;
 
     #[ORM\Column]
-    private ?int $quantityCurrent = null;
+    private ?int $quantityCurrent = 0;
 
     public function getSyncIsCanceled(): bool
     {

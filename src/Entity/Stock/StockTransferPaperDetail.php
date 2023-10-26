@@ -33,7 +33,7 @@ class StockTransferPaperDetail extends StockDetail
     private ?StockTransferHeader $stockTransferHeader = null;
 
     #[ORM\Column]
-    private ?int $quantityCurrent = null;
+    private ?int $quantityCurrent = 0;
 
     public function getSyncIsCanceled(): bool
     {
