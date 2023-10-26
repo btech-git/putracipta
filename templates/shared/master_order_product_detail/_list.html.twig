@@ -50,18 +50,19 @@
         <tbody>
             {% for masterOrderProductDetail in masterOrderProductDetails %}
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
-                    'saleOrderHeaderReferenceNumber': masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default,
                     'customerCompany': masterOrderProductDetail.masterOrderHeader.customer.company|default,
-                    'saleOrderHeaderIsUsingFscPaper': masterOrderProductDetail.saleOrderDetail.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No',
                     'masterOrderHeaderDate': masterOrderProductDetail.masterOrderHeader.transactionDate|default ? masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '',
-                    'masterOrderProductDetailId': masterOrderProductDetail.id,
-                    'saleOrderDetailId': masterOrderProductDetail.saleOrderDetail.id|default,
-                    'productName': masterOrderProductDetail.product.name|default,
-                    'productId': masterOrderProductDetail.product.id|default,
-                    'productCode': masterOrderProductDetail.product.code|default,
                     'masterOrderHeaderWorkOrderNumber': masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default,
                     'masterOrderHeaderLotNumber': masterOrderProductDetail.masterOrderHeader.lotNumber|default,
+                    'masterOrderProductDetailId': masterOrderProductDetail.id,
+                    'saleOrderHeaderIsUsingFscPaper': masterOrderProductDetail.saleOrderDetail.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No',
+                    'saleOrderHeaderReferenceNumber': masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default,
+                    'productCode': masterOrderProductDetail.product.code|default,
+                    'productName': masterOrderProductDetail.product.name|default,
+                    'productId': masterOrderProductDetail.product.id|default,
                     'unitName': masterOrderProductDetail.saleOrderDetail.unit.name|default,
+                    'saleOrderDetailId': masterOrderProductDetail.saleOrderDetail.id|default,
+                    'saleOrderDetailLinePo': masterOrderProductDetail.saleOrderDetail.linePo|default,
                     'saleOrderDetailQuantityRemaining': masterOrderProductDetail.saleOrderDetail.remainingDelivery|default|number_format(0),
                     'saleOrderDetailQuantity': masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0)}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>

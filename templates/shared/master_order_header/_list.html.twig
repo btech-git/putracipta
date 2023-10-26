@@ -11,17 +11,17 @@
                 <th style="min-width: 280px" role="button">
                     Master Order #
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.productionDate.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'printingMachine') }}>
-                    Mesin {{ grid.sort_char(form.sort.printingMachine.vars.value) }}
+                <th style="min-width: 150px" role="button">
+                    Mesin
                 </th>
-                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'designCode') }}>
-                    Design Code {{ grid.sort_char(form.sort.designCode.vars.value) }}
+                <th style="min-width: 150px" role="button">
+                    Design Code
                 </th>
-                <th style="min-width: 150px"  role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
-                    Tanggal Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
+                <th style="min-width: 150px" role="button">
+                    Customer
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -38,82 +38,42 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'productionDate') }} value="{{ form.filter.productionDate.1.vars.value }}" />
+                    <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'printingMachine') }} value="{{ form.filter.printingMachine.1.vars.value }}" />
+                    <input class="form-control" type="text" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'designCode') }} value="{{ form.filter.designCode.1.vars.value }}" />
+                    <input class="form-control" type="text" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
+                    <input class="form-control" type="text" />
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for masterOrderHeader in masterOrderHeaders %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
-                    'masterOrderHeaderId': masterOrderHeader.id, 
-                    'masterOrderHeaderCodeNumber': masterOrderHeader.codeNumber, 
-                    'masterOrderHeaderDate': masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '', 
-                    'masterOrderHeaderDeliveryDate': masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '', 
-                    'masterOrderHeaderPrintingMachine': masterOrderHeader.machinePrinting.name|default, 
-                    'customerCompany': masterOrderHeader.customer.company,
-                    'masterOrderHeaderDesignCode': masterOrderHeader.designCode,
-                    'masterOrderHeaderPaper': masterOrderHeader.paper.paperNameSizeCombination,
-                    'masterOrderHeaderColor': masterOrderHeader.color,
-                    'masterOrderHeaderPantone': masterOrderHeader.pantone,
-                    'masterOrderHeaderColorPantoneAdditional': masterOrderHeader.colorPantoneAdditional,
-                    'masterOrderHeaderFinishing': masterOrderHeader.finishing,
-                    'masterOrderHeaderDimensionLength': masterOrderHeader.dimensionLength,
-                    'masterOrderHeaderDimensionWidth': masterOrderHeader.dimensionWidth,
-                    'masterOrderHeaderDimensionHeight': masterOrderHeader.dimensionHeight,
-                    'masterOrderHeaderQuantityStock': masterOrderHeader.totalQuantityStock|number_format(0),
-                    'masterOrderHeaderQuantityPrinting': masterOrderHeader.quantityPrinting|number_format(0),
-                    'masterOrderHeaderQuantityPrinting2': masterOrderHeader.quantityPrinting2|number_format(0),
-                    'masterOrderHeaderMountageSizeLength': masterOrderHeader.mountageSizeLength,
-                    'masterOrderHeaderMountageSizeWidth': masterOrderHeader.mountageSizeWidth,
-                    'masterOrderHeaderPrintingStatus': masterOrderHeader.printingStatus,
-                    'masterOrderHeaderPrintingStatusData': masterOrderHeader.printingStatusData,
-                    'masterOrderHeaderPaperPlanoLength': masterOrderHeader.paperPlanoLength,
-                    'masterOrderHeaderPaperPlanoWidth': masterOrderHeader.paperPlanoWidth,
-                    'masterOrderHeaderCuttingLengthSize1': masterOrderHeader.cuttingLengthSize1,
-                    'masterOrderHeaderCuttingWidthSize1': masterOrderHeader.cuttingWidthSize1,
-                    'masterOrderHeaderCuttingLengthSize2': masterOrderHeader.cuttingLengthSize2,
-                    'masterOrderHeaderCuttingWidthSize2': masterOrderHeader.cuttingWidthSize2,
-                    'masterOrderHeaderPaperRequeirement': masterOrderHeader.paperRequirement,
-                    'masterOrderHeaderPaperTotal': masterOrderHeader.paperTotal,
-                    'masterOrderHeaderInkCyanPercentage': masterOrderHeader.inkCyanPercentage,
-                    'masterOrderHeaderInkCyanWeight': masterOrderHeader.inkCyanWeight,
-                    'masterOrderHeaderInkMagentaPercentage': masterOrderHeader.inkMagentaPercentage,
-                    'masterOrderHeaderInkMagentaWeight': masterOrderHeader.inkMagentaWeight,
-                    'masterOrderHeaderInkYellowPercentage': masterOrderHeader.inkYellowPercentage,
-                    'masterOrderHeaderInkYellowWeight': masterOrderHeader.inkYellowWeight,
-                    'masterOrderHeaderInkBlackPercentage': masterOrderHeader.inkBlackPercentage,
-                    'masterOrderHeaderInkBlackWeight': masterOrderHeader.inkBlackWeight,
-                    'masterOrderHeaderInkOpvPercentage': masterOrderHeader.inkOpvPercentage,
-                    'masterOrderHeaderInkOpvWeight': masterOrderHeader.inkOpvWeight,
-                    'masterOrderHeaderinkK1Color': masterOrderHeader.inkK1Color,
-                    'masterOrderHeaderInkK1Percentage': masterOrderHeader.inkK1Percentage,
-                    'masterOrderHeaderInkK1Weight': masterOrderHeader.inkK1Weight,
-                    'masterOrderHeaderinkK2Color': masterOrderHeader.inkK2Color,
-                    'masterOrderHeaderInkK2Percentage': masterOrderHeader.inkK2Percentage,
-                    'masterOrderHeaderInkK2Weight': masterOrderHeader.inkK2Weight,
-                    'masterOrderHeaderinkK3Color': masterOrderHeader.inkK3Color,
-                    'masterOrderHeaderInkK3Percentage': masterOrderHeader.inkK3Percentage,
-                    'masterOrderHeaderInkK3Weight': masterOrderHeader.inkK3Weight,
-                    'masterOrderHeaderinkK4Color': masterOrderHeader.inkK4Color,
-                    'masterOrderHeaderInkK4Percentage': masterOrderHeader.inkK4Percentage,
-                    'masterOrderHeaderInkK4Weight': masterOrderHeader.inkK4Weight,
-                    'masterOrderHeaderInkLaminatingSize': masterOrderHeader.inkLaminatingSize,
-                    'masterOrderHeaderInkLaminatingQuantity': masterOrderHeader.inkLaminatingQuantity|number_format(0),
-                    'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder|number_format(0)}|json_encode }}">
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ masterOrderHeader.masterOrderProductDetails|filter(masterOrderProductDetail => not masterOrderProductDetail.isCanceled)|slice(0)|map(masterOrderProductDetail => {
+                    'masterOrderHeaderId': masterOrderHeader.id|default, 
+                    'masterOrderHeaderCodeNumber': masterOrderHeader.codeNumber|default, 
+                    'masterOrderHeaderDate': masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') : '', 
+                    'saleOrderDetailDeliveryDate': masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '', 
+                    'machinePrintingName': masterOrderProductDetail.masterOrderHeader.machinePrinting.name|default, 
+                    'customerCompany': masterOrderProductDetail.masterOrderHeader.customer.company|default,
+                    'masterOrderProductDetailId': masterOrderProductDetail.id|default,
+                    'saleOrderDetailQuantity': masterOrderProductDetail.saleOrderDetail.quantity|number_format(0)|default,
+                    'saleOrderHeaderReferenceNumber': masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default,
+                    'designCodeCodeNumber': masterOrderHeader.designCode.codeNumber|default,
+                    'productId': masterOrderProductDetail.product.id|default,
+                    'productCode': masterOrderProductDetail.product.code|default,
+                    'productName': masterOrderProductDetail.product.name|default,
+                    'unitName': masterOrderProductDetail.product.unit.name|default,
+                    'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder|number_format(0)})|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber }}</td>
-                    <td>{{ masterOrderHeader.productionDate ? masterOrderHeader.productionDate|date('d M Y') : '' }}</td>
+                    <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderHeader.machinePrinting.name|default }}</td>
-                    <td>{{ masterOrderHeader.designCode }}</td>
-                    <td>{{ masterOrderHeader.deliveryDate ? masterOrderHeader.deliveryDate|date('d M Y') : '' }}</td>
+                    <td>{{ masterOrderHeader.designCode.codeNumber|default }}</td>
+                    <td>{{ masterOrderHeader.customer.company|default }}</td>
                 </tr>
             {% else %}
                 <tr>
