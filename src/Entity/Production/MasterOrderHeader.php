@@ -9,6 +9,7 @@ use App\Entity\Master\DielineMillar;
 use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
+use App\Entity\Master\Warehouse;
 use App\Entity\ProductionHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Stock\InventoryProductReceiveHeader;
@@ -346,6 +347,9 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryProductReceiveHeader::class)]
     private Collection $inventoryProductReceiveHeaders;
+
+    #[ORM\ManyToOne]
+    private ?Warehouse $warehouse = null;
 
     public function __construct()
     {
@@ -2007,6 +2011,18 @@ class MasterOrderHeader extends ProductionHeader
                 $inventoryProductReceiveHeader->setMasterOrderHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }
