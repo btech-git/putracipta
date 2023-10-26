@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +33,10 @@ class ProductType extends AbstractType
             ])
             ->add('weight', null, ['label' => 'Berat/piece'])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
-            ->add('glossiness')
+            ->add('glossiness', ChoiceType::class, ['choices' => [
+                '70' => 70,
+                '80' => 80,
+            ]])
             ->add('note')
             ->add('isInactive')
             ->add('transactionFile', FileType::class, [
