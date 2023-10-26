@@ -20,6 +20,9 @@ class WorkOrderCheckSheet extends Master
     #[ORM\OneToMany(mappedBy: 'workOrderCheckSheet', targetEntity: DesignCodeCheckSheetDetail::class)]
     private Collection $designCodeCheckSheetDetails;
 
+    #[ORM\Column(length: 50)]
+    private ?string $memoConstantName = '';
+
     public function __construct()
     {
         $this->designCodeCheckSheetDetails = new ArrayCollection();
@@ -56,6 +59,18 @@ class WorkOrderCheckSheet extends Master
                 $designCodeCheckSheetDetail->setWorkOrderCheckSheet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMemoConstantName(): ?string
+    {
+        return $this->memoConstantName;
+    }
+
+    public function setMemoConstantName(string $memoConstantName): self
+    {
+        $this->memoConstantName = $memoConstantName;
 
         return $this;
     }

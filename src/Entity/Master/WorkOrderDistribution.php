@@ -20,6 +20,9 @@ class WorkOrderDistribution extends Master
     #[ORM\OneToMany(mappedBy: 'workOrderDistribution', targetEntity: DesignCodeDistributionDetail::class)]
     private Collection $designCodeDistributionDetails;
 
+    #[ORM\Column(length: 20)]
+    private ?string $memoConstantName = '';
+
     public function __construct()
     {
         $this->designCodeDistributionDetails = new ArrayCollection();
@@ -56,6 +59,18 @@ class WorkOrderDistribution extends Master
                 $designCodeDistributionDetail->setWorkOrderDistribution(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMemoConstantName(): ?string
+    {
+        return $this->memoConstantName;
+    }
+
+    public function setMemoConstantName(string $memoConstantName): self
+    {
+        $this->memoConstantName = $memoConstantName;
 
         return $this;
     }

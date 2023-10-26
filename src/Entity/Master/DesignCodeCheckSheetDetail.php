@@ -7,7 +7,7 @@ use App\Repository\Master\DesignCodeCheckSheetDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DesignCodeCheckSheetDetailRepository::class)]
-#[ORM\Table(name: 'master_design_check_sheet_detail')]
+#[ORM\Table(name: 'master_design_code_check_sheet_detail')]
 class DesignCodeCheckSheetDetail extends Master
 {
     #[ORM\Id]
