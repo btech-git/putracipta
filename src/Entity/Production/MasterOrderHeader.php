@@ -11,6 +11,7 @@ use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
+use App\Entity\Stock\InventoryProductReceiveHeader;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -343,6 +344,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $glossiness = '0.00';
 
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryProductReceiveHeader::class)]
+    private Collection $inventoryProductReceiveHeaders;
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -355,6 +359,7 @@ class MasterOrderHeader extends ProductionHeader
         $this->masterOrderProductDetails = new ArrayCollection();
         $this->masterOrderProcessDetails = new ArrayCollection();
         $this->masterOrderCheckSheetDetails = new ArrayCollection();
+        $this->inventoryProductReceiveHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -1972,6 +1977,36 @@ class MasterOrderHeader extends ProductionHeader
     public function setGlossiness(string $glossiness): self
     {
         $this->glossiness = $glossiness;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryProductReceiveHeader>
+     */
+    public function getInventoryProductReceiveHeaders(): Collection
+    {
+        return $this->inventoryProductReceiveHeaders;
+    }
+
+    public function addInventoryProductReceiveHeader(InventoryProductReceiveHeader $inventoryProductReceiveHeader): self
+    {
+        if (!$this->inventoryProductReceiveHeaders->contains($inventoryProductReceiveHeader)) {
+            $this->inventoryProductReceiveHeaders->add($inventoryProductReceiveHeader);
+            $inventoryProductReceiveHeader->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryProductReceiveHeader(InventoryProductReceiveHeader $inventoryProductReceiveHeader): self
+    {
+        if ($this->inventoryProductReceiveHeaders->removeElement($inventoryProductReceiveHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryProductReceiveHeader->getMasterOrderHeader() === $this) {
+                $inventoryProductReceiveHeader->setMasterOrderHeader(null);
+            }
+        }
 
         return $this;
     }

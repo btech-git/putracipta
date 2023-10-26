@@ -5,7 +5,10 @@ namespace App\Entity\Production;
 use App\Entity\Master\Product;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\ProductionDetail;
+use App\Entity\Stock\InventoryProductReceiveDetail;
 use App\Repository\Production\MasterOrderProductDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MasterOrderProductDetailRepository::class)]
@@ -34,6 +37,14 @@ class MasterOrderProductDetail extends ProductionDetail
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderProductDetails')]
     private ?SaleOrderDetail $saleOrderDetail = null;
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: InventoryProductReceiveDetail::class)]
+    private Collection $inventoryProductReceiveDetails;
+
+    public function __construct()
+    {
+        $this->inventoryProductReceiveDetails = new ArrayCollection();
+    }
 
     public function getSyncIsCanceled(): bool
     {
@@ -119,6 +130,36 @@ class MasterOrderProductDetail extends ProductionDetail
     public function setSaleOrderDetail(?SaleOrderDetail $saleOrderDetail): self
     {
         $this->saleOrderDetail = $saleOrderDetail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryProductReceiveDetail>
+     */
+    public function getInventoryProductReceiveDetails(): Collection
+    {
+        return $this->inventoryProductReceiveDetails;
+    }
+
+    public function addInventoryProductReceiveDetail(InventoryProductReceiveDetail $inventoryProductReceiveDetail): self
+    {
+        if (!$this->inventoryProductReceiveDetails->contains($inventoryProductReceiveDetail)) {
+            $this->inventoryProductReceiveDetails->add($inventoryProductReceiveDetail);
+            $inventoryProductReceiveDetail->setMasterOrderProductDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryProductReceiveDetail(InventoryProductReceiveDetail $inventoryProductReceiveDetail): self
+    {
+        if ($this->inventoryProductReceiveDetails->removeElement($inventoryProductReceiveDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryProductReceiveDetail->getMasterOrderProductDetail() === $this) {
+                $inventoryProductReceiveDetail->setMasterOrderProductDetail(null);
+            }
+        }
 
         return $this;
     }
