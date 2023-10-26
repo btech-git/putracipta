@@ -20,7 +20,7 @@
                     data-action="form-collection:collection-item-removed->json-loader#load:self">
                     <thead class="table-secondary">
                         <tr>
-                            <th>No.</th>
+                            <th style="max-width: 10px">No.</th>
                             <th class="d-none">Design Code Process Detail Id</th>
                             <th class="d-none">Work Order Process Id</th>
                             <th>Nama</th>
@@ -36,7 +36,7 @@
                                 <td class="d-none">{{ form_widget(detailForm.designCodeProcessDetail, {'attr': {'data-item-field-name': 'designCodeProcessDetailId'}}) }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
                                 <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>
-                                <td>
+                                <td class="text-center">
                                     {{ form_row(detailForm.isSubcon, {'label': false}) }}
                                 </td>
                                 {#<td>

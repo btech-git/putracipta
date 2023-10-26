@@ -6,24 +6,27 @@
                 <table class="table table-bordered"
                        data-controller="form-collection"
                        data-form-collection-start-index-value="{{ form.masterOrderDistributionDetails|length > 0 ? form.masterOrderDistributionDetails|last.vars.name + 1 : 0 }}"
-                       data-form-collection-prototype-value="{{ _self.distribution_collection_item(form.masterOrderDistributionDetails.vars.prototype, form)|e('html_attr') }}">
+                       data-form-collection-prototype-value="{{ _self.collection_item(form.masterOrderDistributionDetails.vars.prototype, form)|e('html_attr') }}"
+                       data-action="form-collection:collection-item-removed->json-loader#load:self">
                     <thead class="table-secondary">
                         <tr>
+                            <th class="d-none">Design Code Distribution Detail Id</th>
                             <th class="d-none">Work Order Distribution Id</th>
                             <th style="min-width: 250px">Nama</th>
                             <th style="min-width: 50px">Sub Con</th>
-                            <th style="min-width: 0"></th>
                         </tr>
                     </thead>
-                    <tbody data-form-collection-target="items" data-action="design-code-table:data-table:select@document->form-collection#clearCollectionItems design-code-table:data-table:select@document->form-collection#addCollectionItems">
+                    <tbody data-form-collection-target="items" data-action="design-code-table:data-table:select@document->form-collection#clearCollectionItems design-code-table:data-table:select@document->form-collection#addCollectionItems"
+                           data-form-collection-add-items-source-field-path-param="designCodeDistributionDetailsData">
                         {% macro collection_item(ordinal, detailForm) %}
                             <tr data-form-collection-target="item" data-item-identifier-name="workOrderDistributionId" data-item-identifier-value="{{ detailForm.vars.value.workOrderDistribution.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                                <td class="d-none">{{ form_widget(detailForm.designCodeDistributionDetail, {'attr': {'data-item-field-name': 'designCodeDistributionDetailId'}}) }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderDistribution, {'attr': {'data-item-field-name': 'workOrderDistributionId'}}) }}</td>
                                 <td data-item-field-name="workOrderDistributionName">{{ detailForm.vars.value.workOrderDistribution.name|default }}</td>
                                 <td>
                                     {{ form_row(detailForm.isSubcon, {'label': false}) }}
                                 </td>
-                                <td>
+                                {#<td>
                                     {% if (detailForm.vars.value.id == null) %}
                                         <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                                     {% endif %}
@@ -40,11 +43,11 @@
                                             },
                                         }) }}
                                     </div>
-                                </td>
+                                </td>#}
                             </tr>
                         {% endmacro %}
                         {% for detailForm in form.masterOrderDistributionDetails %}
-                            {{ _self.distribution_collection_item(detailForm) }}
+                            {{ _self.collection_item(loop.index0, detailForm) }}
                         {% endfor %}
                     </tbody>
                 </table>
@@ -59,24 +62,28 @@
                 <table class="table table-bordered"
                        data-controller="form-collection"
                        data-form-collection-start-index-value="{{ form.masterOrderCheckSheetDetails|length > 0 ? form.masterOrderCheckSheetDetails|last.vars.name + 1 : 0 }}"
-                       data-form-collection-prototype-value="{{ _self.check_sheet_collection_item(form.masterOrderCheckSheetDetails.vars.prototype, form)|e('html_attr') }}">
+                       data-form-collection-prototype-value="{{ _self.collection_item(form.masterOrderCheckSheetDetails.vars.prototype, form)|e('html_attr') }}"
+                    data-action="form-collection:collection-item-removed->json-loader#load:self">
                     <thead class="table-secondary">
                         <tr>
+                            <th class="d-none">Design Code Check Sheet Detail Id</th>
                             <th class="d-none">Work Order Check Sheet Id</th>
                             <th style="min-width: 250px">Nama</th>
                             <th style="min-width: 50px">Sub Con</th>
-                            <th style="min-width: 0"></th>
+                            {#<th style="min-width: 0"></th>#}
                         </tr>
                     </thead>
-                    <tbody data-form-collection-target="items" data-action="work-order-check-sheet-table:data-table:select@document->form-collection#addCollectionItem">
-                        {% macro check_sheet_collection_item(detailForm) %}
+                    <tbody data-form-collection-target="items" data-action="design-code-table:data-table:select@document->form-collection#clearCollectionItems design-code-table:data-table:select@document->form-collection#addCollectionItems"
+                           data-form-collection-add-items-source-field-path-param="designCodeCheckSheetDetailsData">
+                        {% macro collection_item(ordinal, detailForm) %}
                             <tr data-form-collection-target="item" data-item-identifier-name="workOrderCheckSheetId" data-item-identifier-value="{{ detailForm.vars.value.workOrderCheckSheet.id|default }}" {% if (detailForm.vars.value.isCanceled) %}class="bg-secondary"{% endif %}>
+                                <td class="d-none">{{ form_widget(detailForm.designCodeCheckSheetDetail, {'attr': {'data-item-field-name': 'designCodeCheckSheetDetailId'}}) }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderCheckSheet, {'attr': {'data-item-field-name': 'workOrderCheckSheetId'}}) }}</td>
                                 <td data-item-field-name="workOrderCheckSheetName">{{ detailForm.vars.value.workOrderCheckSheet.name|default }}</td>
                                 <td>
                                     {{ form_row(detailForm.isSubcon, {'label': false}) }}
                                 </td>
-                                <td>
+                                {#<td>
                                     {% if (detailForm.vars.value.id == null) %}
                                         <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                                     {% endif %}
@@ -92,12 +99,12 @@
                                                 ]|json_encode,
                                             },
                                         }) }}
-                                    </div>
+                                    </div>#}
                                 </td>
                             </tr>
                         {% endmacro %}
                         {% for detailForm in form.masterOrderCheckSheetDetails %}
-                            {{ _self.check_sheet_collection_item(detailForm) }}
+                            {{ _self.collection_item(loop.index0, detailForm) }}
                         {% endfor %}
                     </tbody>
                 </table>

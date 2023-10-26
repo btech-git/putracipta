@@ -66,11 +66,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Produksi</div>
-                            <div class="cell value"></div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Tanggal Kirim</div>
-                            <div class="cell value">{{ masterOrderHeader.deliveryDate|default ? masterOrderHeader.deliveryDate|date('d M Y') }}</div>
+                            <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                         </div>
                     </div>
                 </div>
