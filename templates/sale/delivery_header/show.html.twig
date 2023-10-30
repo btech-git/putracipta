@@ -93,11 +93,11 @@
                     <td>{{ deliveryDetail.product.code|default }}</td>
                     <td>{{ deliveryDetail.product.name|default }}</td>
                     <td>{{ deliveryDetail.fscCode|default }}</td>
-                    <td></td>
+                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }}</td>
                     <td>{{ deliveryDetail.lotNumber|default }}</td>
                     <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td></td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
+                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td style="text-align: center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>

@@ -120,7 +120,7 @@
                             {% if deliveryDetail and not deliveryDetail.isCanceled %}
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
-                                <td class="left"></td>
+                                <td class="left">{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }} / {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') }}</td>
                                 {% if deliveryHeader.isUsingFscPaper %}
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
                                     <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
@@ -129,7 +129,7 @@
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 <td class="center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
-                                <td class="center">{{ deliveryDetail.packaging|default }}</td>
+                                <td class="left">{{ deliveryDetail.packaging|default }}</td>
                             {% elseif not deliveryDetail %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

@@ -3,7 +3,7 @@
 {% block title 'Show Sales Order' %}
 
 {% block toolbar %}
-    {% if saleOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_DELIVERY', saleOrderHeader) %}
+    {% if saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_PARTIAL_DELIVERY', saleOrderHeader) or saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', saleOrderHeader) %}
         <div class="d-inline-block">{{ include('sale/sale_order_header/_done_form.html.twig') }}</div>
     {% endif %}
     
