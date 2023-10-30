@@ -3,14 +3,14 @@
 {% block title 'Show Purchase Order Kertas' %}
 
 {% block toolbar %}
-    {% if purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderPaperHeader) %}
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_PARTIAL_RECEIVE', purchaseOrderPaperHeader) or purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_complete_form.html.twig') }}</div>
     {% endif %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_index') }}">Manage</a>
     <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new') }}">Add</a>
     {% if purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_PARTIAL_RECEIVE', purchaseOrderPaperHeader) %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}">Edit</a>
-        <div class="d-inline-block">{{ include('purchase/purchase_order_header/_delete_form.html.twig') }}</div>
+        <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_delete_form.html.twig') }}</div>
     {% endif %}
 {% endblock %}
 

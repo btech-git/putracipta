@@ -3,7 +3,7 @@
 {% block title 'Show Purchase Order Material' %}
 
 {% block toolbar %}
-    {% if purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderHeader) %}
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_PARTIAL_RECEIVE', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseOrderHeader) %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_header/_complete_form.html.twig') }}</div>
     {% endif %}
     
@@ -150,7 +150,7 @@
                         {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
                             <tr>
                                 <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
-                                <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                                 <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
                                 <td>{{ receiveDetail.material.name|default }}</td>
                                 <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
@@ -179,7 +179,7 @@
                             {% for purchaseReturnDetail in receiveDetail.purchaseReturnDetails %}
                                 <tr>
                                     <td>{{ purchaseReturnDetail.purchaseReturnHeader.codeNumber|default }}</td>
-                                    <td>{{ purchaseReturnDetail.purchaseReturnHeader.transactionDate ? purchaseReturnDetail.purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
+                                    <td>{{ purchaseReturnDetail.purchaseReturnHeader.transactionDate|default ? purchaseReturnDetail.purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
                                     <td>{{ purchaseReturnDetail.purchaseReturnHeader.warehouse.name|default }}</td>
                                     <td>{{ purchaseReturnDetail.material.name|default }}</td>
                                     <td class="text-center">{{ purchaseReturnDetail.quantity|default|number_format(0) }}</td>

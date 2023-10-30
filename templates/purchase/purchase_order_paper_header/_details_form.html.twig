@@ -7,13 +7,11 @@
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Material Id</th>
-                <th style="min-width: 150px">Item Code</th>
-                <th style="min-width: 50px">Description</th>
-                <th style="min-width: 20px">P</th>
-                <th style="min-width: 20px">L</th>
+                <th style="min-width: 250px">Item Code</th>
+                <th style="min-width: 250px">Description</th>
                 <th style="min-width: 150px">Tgl Kirim</th>
-                <th style="min-width: 110px">Qty</th>
-                <th style="min-width: 110px">Unit</th>
+                <th style="min-width: 100px">Qty</th>
+                <th style="min-width: 100px">Unit</th>
                 <th style="min-width: 150px">APKI</th>
                 <th style="min-width: 150px">H. Asosiasi</th>
                 <th style="min-width: 150px">H. KG</th>
@@ -32,8 +30,6 @@
                     <td class="d-none" data-item-field-name="pricingMode">{{ detailForm.vars.value.paper.pricingMode|default }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.paperNameSizeCombination|default }}</td>
-                    <td data-item-field-name="paperLength">{{ detailForm.vars.value.paper.length|default }}</td>
-                    <td data-item-field-name="paperWidth">{{ detailForm.vars.value.paper.width|default }}</td>
                     <td>
                         {{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {
                             'data-controller': 'flatpickr-element', 
@@ -173,7 +169,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="13">Sub Total</td>
+                <td class="text-end" colspan="10">Sub Total</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="subTotal">
                     {{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}
@@ -182,7 +178,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td class="text-end" colspan="13">
+                <td class="text-end" colspan="10">
                     <span class="d-inline-block">Discount</span>
                     <span class="d-inline-block">{{ form_row(form.discountValueType, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
                     <span class="d-inline-block">{{ form_row(form.discountValue, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}</span>
@@ -195,7 +191,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td class="text-end" colspan="13">
+                <td class="text-end" colspan="10">
                     <span class="d-inline-block">PPn </span>
                     <span class="d-inline-block">{{ form_row(form.taxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</span>
                 </td>
@@ -207,7 +203,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td class="text-end" colspan="13">Grand Total</td>
+                <td class="text-end" colspan="10">Grand Total</td>
                 <td class="text-end" data-json-loader-target="placeholder"
                     data-property-path="grandTotal">
                     {{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}
