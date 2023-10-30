@@ -107,13 +107,20 @@
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Urutan Proses</legend>
-            {{ include('production/master_order_header/_processing_order_form.html.twig') }}
-        </fieldset>
-
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Distribusi WO & Check Sheet</legend>
-            {{ include('production/master_order_header/_checklist_form.html.twig') }}
+            <div class="row">
+                <div class="col">
+                    <legend class="float-none w-auto text-dark px-1">Urutan Proses</legend>
+                    {{ include('production/master_order_header/_processing_order_form.html.twig') }}
+                </div>
+                <div class="col">
+                    <legend class="float-none w-auto text-dark px-1">Distribusi WO</legend>
+                    {{ include('production/master_order_header/_distribution_form.html.twig') }}
+                </div>
+                <div class="col">
+                    <legend class="float-none w-auto text-dark px-1">Check Sheet</legend>
+                    {{ include('production/master_order_header/_check_sheet_form.html.twig') }}
+                </div>
+            </div>
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">

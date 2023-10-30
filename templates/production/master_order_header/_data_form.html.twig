@@ -58,7 +58,7 @@
                     'data-controller': 'dom-element',
                     'data-action': 'product-development-table:data-table:select@document->dom-element#bind',
                     'data-dom-element-bind-specifications-param': [
-                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productDevelopmentId'}},
+                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.productDevelopmentId'}},
                     ]|json_encode,
                 },
             }) }}
@@ -67,7 +67,7 @@
                    data-controller="dom-element"
                    data-action="product-development-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productDevelopmentCodeNumber'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.productDevelopmentCodeNumber'}},
                    ]|json_encode }}" />
             {{ form_errors(form.productDevelopment) }}
         </div>
@@ -77,7 +77,7 @@
                    data-controller="dom-element"
                    data-action="product-development-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productDevelopmentDate'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.productDevelopmentDate'}},
                    ]|json_encode }}" />
         </div>
         <div class="mb-3">
@@ -86,7 +86,7 @@
                    data-controller="dom-element"
                    data-action="product-development-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productDevelopmentTypeList'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.productDevelopmentTypeList'}},
                    ]|json_encode }}" />
         </div>
     </div>
@@ -100,7 +100,7 @@
                         'data-controller': 'dom-element',
                         'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                         'data-dom-element-bind-specifications-param': [
-                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeHotStamping'}},
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeHotStamping'}},
                         ]|json_encode,
                     },
                 }) }}
@@ -116,7 +116,7 @@
                         'data-controller': 'dom-element',
                         'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                         'data-dom-element-bind-specifications-param': [
-                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeCoating'}},
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeCoating'}},
                         ]|json_encode,
                     },
                 }) }}
@@ -133,7 +133,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeColor'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeColor'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -144,7 +144,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePantone'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePantone'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -154,7 +154,7 @@
                                data-controller="dom-element"
                                data-action="design-code-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeColorPantoneAdditional'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeColorPantoneAdditional'}},
                                ]|json_encode }}" />
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePrintingUpQuantity'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePrintingUpQuantity'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -199,7 +199,7 @@
                             'data-controller': 'dom-element',
                             'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeDiecutKnifeId'}},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeDiecutKnifeId'}},
                             ]|json_encode,
                         },
                     }) }}
@@ -207,7 +207,7 @@
                            data-controller="dom-element"
                            data-action="design-code-table:data-table:select@document->dom-element#bind"
                            data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeDiecutKnifeCodeNumber'}},
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeDiecutKnifeCodeNumber'}},
                            ]|json_encode }}" />
                     {{ form_errors(form.diecutKnife) }}
                 </div>
@@ -222,7 +222,7 @@
                             'data-controller': 'dom-element',
                             'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeDielineMillarId'}},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeDielineMillarId'}},
                             ]|json_encode,
                         },
                     }) }}
@@ -230,7 +230,7 @@
                            data-controller="dom-element"
                            data-action="design-code-table:data-table:select@document->dom-element#bind"
                            data-dom-element-bind-specifications-param="{{ [
-                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeDielineMillarCodeNumber'}},
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeDielineMillarCodeNumber'}},
                            ]|json_encode }}" />
                     {{ form_errors(form.diecutKnife) }}
                 </div>

@@ -47,12 +47,9 @@
                     <td class="text-center" data-item-field-name="productHeight">{{ detailForm.vars.value.saleOrderDetail.product.height|default|number_format(0) }}</td>
                     <td class="text-center" data-item-field-name="productWeight">{{ detailForm.vars.value.saleOrderDetail.product.weight|default|number_format(0) }}</td>
                     <td class="text-center" data-item-field-name="productGlossiness">{{ detailForm.vars.value.saleOrderDetail.product.glossiness|default|number_format(0) }}</td>
-                    {#<td>{{ form_row(detailForm.quantityUpPrinting1, {'label': false,}) }}</td>
-                    <td>{{ form_row(detailForm.quantityUpPrinting2, {'label': false}) }}</td>#}
                     <td data-item-field-name="saleOrderDetailDeliveryDate">{{ detailForm.vars.value.saleOrderDetail.deliveryDate|default ? detailForm.vars.value.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.quantityOrder|default|number_format(0) }}</td>
-                    <td class="text-center" data-json-loader-target="placeholder"
-                        data-property-path="masterOrderProductDetails.{{ detailForm.vars.name }}.quantityStock">
+                    <td class="text-center">
                         {{ form_row(detailForm.quantityStock, {'label': false, 'attr': {
                             'data-action': 'change->json-loader#load',
                         }}) }}

@@ -10,7 +10,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeInsitPrintingPercentage'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeInsitPrintingPercentage'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -30,7 +30,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeInsitSortingPercentage'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeInsitSortingPercentage'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -50,7 +50,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePaperMountage'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePaperMountage'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -106,7 +106,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePaperCuttingLength'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePaperCuttingLength'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -117,7 +117,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePaperCuttingWidth'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePaperCuttingWidth'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -203,7 +203,7 @@
                     'data-controller': 'dom-element',
                     'data-action': 'purchase-order-paper-header-table:data-table:select@document->dom-element#bind',
                     'data-dom-element-bind-specifications-param': [
-                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderId'}},
+                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.purchaseOrderPaperHeaderId'}},
                     ]|json_encode,
                 },
             }) }}
@@ -212,7 +212,7 @@
                    data-controller="dom-element"
                    data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderCodeNumber'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.purchaseOrderPaperHeaderCodeNumber'}},
                    ]|json_encode }}" />
             {{ form_errors(form.purchaseOrderPaperHeader) }}
         </div>
@@ -222,7 +222,7 @@
                    data-controller="dom-element"
                    data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].purchaseOrderPaperHeaderTransactionDate'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.purchaseOrderPaperHeaderTransactionDate'}},
                    ]|json_encode }}" />
         </div>
         <div class="mb-3">
@@ -231,7 +231,7 @@
                    data-controller="dom-element"
                    data-action="purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].supplierCompany'}},
+                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.supplierCompany'}},
                    ]|json_encode }}" />
         </div>
     </div>

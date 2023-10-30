@@ -78,7 +78,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Status</div>
-                            <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }} : {{ masterOrderHeader.printingStatusData }}</div>
+                            <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Warna</div>
@@ -108,7 +108,6 @@
                                     <th>P (mm)</th>
                                     <th>L (mm)</th>
                                     <th>T (mm)</th>
-                                    <th>Up/s</th>
                                     <th>Qty Order</th>
                                     <th>Stock</th>
                                     <th>Kekurangan</th>
@@ -123,10 +122,6 @@
                                         <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
-                                        <td>
-                                            {{ masterOrderProductDetail.quantityUpPrinting1|default }} &
-                                            {{ masterOrderProductDetail.quantityUpPrinting2|default }}
-                                        </td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
@@ -135,7 +130,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td style="text-align:right; font-weight: bold" colspan="7">TOTAL</td>
+                                    <td style="text-align:right; font-weight: bold" colspan="6">TOTAL</td>
                                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
