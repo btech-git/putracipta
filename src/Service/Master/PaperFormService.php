@@ -27,12 +27,14 @@ class PaperFormService
 
     public function finalize(Paper $paper, array $options = []): void
     {
-        $name = $paper->getName();
-        $weight = $paper->getWeight();
-        $type = $paper->getType();
-        $lastPaperCode = $this->paperRepository->findRecentBy($name, $weight, $type);
-        $currentPaperCode = ($lastPaperCode === null) ? $paper : $lastPaperCode;
-        $paper->setCodeNumberToNext($currentPaperCode->getCodeNumber());
+        if ($paper->getId() == null) {
+            $name = $paper->getName();
+            $weight = $paper->getWeight();
+            $type = $paper->getType();
+            $lastPaperCode = $this->paperRepository->findRecentBy($name, $weight, $type);
+            $currentPaperCode = ($lastPaperCode === null) ? $paper : $lastPaperCode;
+            $paper->setCodeNumberToNext($currentPaperCode->getCodeNumber());
+        }
     }
     
     public function save(Paper $paper, array $options = []): void
