@@ -3,6 +3,7 @@
 namespace App\Service\Production;
 
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Master\Warehouse;
 use App\Entity\Production\MasterOrderCheckSheetDetail;
 use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
@@ -10,6 +11,7 @@ use App\Entity\Production\MasterOrderProcessDetail;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Repository\Master\WarehouseRepository;
 use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
 use App\Repository\Production\MasterOrderDistributionDetailRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
@@ -25,6 +27,7 @@ class MasterOrderHeaderFormService
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
     private InventoryRepository $inventoryRepository;
+    private WarehouseRepository $warehouseRepository;
     private MasterOrderHeaderRepository $masterOrderHeaderRepository;
     private MasterOrderProductDetailRepository $masterOrderProductDetailRepository;
     private MasterOrderProcessDetailRepository $masterOrderProcessDetailRepository;
@@ -42,6 +45,7 @@ class MasterOrderHeaderFormService
         $this->masterOrderProcessDetailRepository = $entityManager->getRepository(MasterOrderProcessDetail::class);
         $this->masterOrderDistributionDetailRepository = $entityManager->getRepository(MasterOrderDistributionDetail::class);
         $this->masterOrderCheckSheetDetailRepository = $entityManager->getRepository(MasterOrderCheckSheetDetail::class);
+        $this->warehouseRepository = $entityManager->getRepository(Warehouse::class);
     }
 
     public function initialize(MasterOrderHeader $masterOrderHeader, array $options = []): void
@@ -106,8 +110,9 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setPackagingTapeLargeSize($masterOrderHeader->getSyncPackagingTapeLargeSize());
         $masterOrderHeader->setPackagingTapeSmallSize($masterOrderHeader->getSyncPackagingTapeSmallSize());
         $masterOrderHeader->setPackagingPlasticSize($masterOrderHeader->getSyncPackagingPlasticSize());
-//        $masterOrderHeader->setWarehouse(2);
         
+        $finishedGoodsWarehouse = $this->warehouseRepository->find(2);
+        $masterOrderHeader->setWarehouse($finishedGoodsWarehouse);
         if ($masterOrderHeader->getWarehouse() !== null) {
             $products = array_map(fn($masterOrderProductDetail) => $masterOrderProductDetail->getProduct(), $masterOrderHeader->getMasterOrderProductDetails()->toArray());
             $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($masterOrderHeader->getWarehouse(), $products);
