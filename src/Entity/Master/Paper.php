@@ -84,6 +84,9 @@ class Paper extends Master
         list($name, $weight, $type, $code) = explode('-', $codeNumber);
 
         $this->code = $code + 1;
+        $this->name = $name;
+        $this->weight = $weight;
+        $this->type = $type;
 
         return $this;
     }
