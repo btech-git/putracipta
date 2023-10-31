@@ -78,7 +78,7 @@ class InventoryReleaseHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_stock_inventory_release_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_stock_inventory_release_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, InventoryReleaseHeader $inventoryReleaseHeader, InventoryReleaseHeaderFormService $inventoryReleaseHeaderFormService, $_format = 'html'): Response
     {

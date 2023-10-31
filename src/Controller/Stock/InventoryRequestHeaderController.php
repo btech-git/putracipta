@@ -84,7 +84,7 @@ class InventoryRequestHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_stock_inventory_request_header_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_stock_inventory_request_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, InventoryRequestHeader $inventoryRequestHeader, InventoryRequestHeaderFormService $inventoryRequestHeaderFormService, $_format = 'html'): Response
     {
