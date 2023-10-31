@@ -111,20 +111,6 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setPackagingTapeSmallSize($masterOrderHeader->getSyncPackagingTapeSmallSize());
         $masterOrderHeader->setPackagingPlasticSize($masterOrderHeader->getSyncPackagingPlasticSize());
         
-        $finishedGoodsWarehouse = $this->warehouseRepository->find(2);
-        $masterOrderHeader->setWarehouse($finishedGoodsWarehouse);
-        if ($masterOrderHeader->getWarehouse() !== null) {
-            $products = array_map(fn($masterOrderProductDetail) => $masterOrderProductDetail->getProduct(), $masterOrderHeader->getMasterOrderProductDetails()->toArray());
-            $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($masterOrderHeader->getWarehouse(), $products);
-            $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
-            foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
-                $masterOrderProductDetail->setIsCanceled($masterOrderProductDetail->getSyncIsCanceled());
-                $product = $masterOrderProductDetail->getProduct();
-                $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
-                $masterOrderProductDetail->setQuantityStock($stockQuantity);
-            }
-        }
-        
         if ($options['transactionFile']) {
             $masterOrderHeader->setLayoutModelFileExtension($options['transactionFile']->guessExtension());
         }
