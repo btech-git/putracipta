@@ -3,12 +3,15 @@
 namespace App\Service\Accounting;
 
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Accounting\AccountingLedger;
 use App\Entity\Accounting\JournalVoucherDetail;
 use App\Entity\Accounting\JournalVoucherHeader;
 use App\Entity\Support\Idempotent;
+use App\Repository\Accounting\AccountingLedgerRepository;
 use App\Repository\Accounting\JournalVoucherDetailRepository;
 use App\Repository\Accounting\JournalVoucherHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Util\Service\AccountingLedgerUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,6 +19,7 @@ class JournalVoucherHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
+    private AccountingLedgerRepository $accountingLedgerRepository;
     private JournalVoucherHeaderRepository $journalVoucherHeaderRepository;
     private JournalVoucherDetailRepository $journalVoucherDetailRepository;
 
@@ -23,6 +27,7 @@ class JournalVoucherHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->accountingLedgerRepository = $entityManager->getRepository(AccountingLedger::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->journalVoucherHeaderRepository = $entityManager->getRepository(JournalVoucherHeader::class);
         $this->journalVoucherDetailRepository = $entityManager->getRepository(JournalVoucherDetail::class);
@@ -62,6 +67,20 @@ class JournalVoucherHeaderFormService
         foreach ($journalVoucherHeader->getJournalVoucherDetails() as $journalVoucherDetail) {
             $this->journalVoucherDetailRepository->add($journalVoucherDetail);
         }
+        $this->addAccountingLedgers($journalVoucherHeader);
         $this->entityManager->flush();
+    }
+    
+    private function addAccountingLedgers(JournalVoucherHeader $journalVoucherHeader): void
+    {
+        AccountingLedgerUtil::reverseOldData($this->accountingLedgerRepository, $journalVoucherHeader);
+        $journalVoucherDetails = $journalVoucherHeader->getJournalVoucherDetails()->toArray();
+        AccountingLedgerUtil::addNewData($this->accountingLedgerRepository, $journalVoucherHeader, $journalVoucherDetails, function($newInventory, $journalVoucherDetail) use ($journalVoucherHeader) {
+            $account = $journalVoucherDetail->getAccount();
+            $newInventory->setTransactionSubject($journalVoucherDetail->getMemo());
+            $newInventory->setAccount($account);
+            $newInventory->setDebitAmount($journalVoucherDetail->getDebitAmount());
+            $newInventory->setCreditAmount($journalVoucherDetail->getCreditAmount());
+        });
     }
 }
