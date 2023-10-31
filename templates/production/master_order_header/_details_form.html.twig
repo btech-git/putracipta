@@ -52,6 +52,7 @@
                     <td class="text-center">
                         {{ form_row(detailForm.quantityStock, {'label': false, 'attr': {
                             'data-action': 'change->json-loader#load',
+                            'data-item-field-name': 'inventoryStockQuantity',
                         }}) }}
                     </td>
                     <td class="text-center" data-json-loader-target="placeholder"
