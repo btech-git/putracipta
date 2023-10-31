@@ -40,9 +40,6 @@ class TransactionLog
     private ?int $entityId = 0;
 
     #[ORM\Column(type: Types::OBJECT, nullable: true)]
-    private ?object $oldData = null;
-
-    #[ORM\Column(type: Types::OBJECT, nullable: true)]
     private ?object $newData = null;
 
     public function getId(): ?int
@@ -142,18 +139,6 @@ class TransactionLog
     public function setEntityId(int $entityId): self
     {
         $this->entityId = $entityId;
-
-        return $this;
-    }
-
-    public function getOldData(): ?object
-    {
-        return $this->oldData;
-    }
-
-    public function setOldData(?object $oldData): self
-    {
-        $this->oldData = $oldData;
 
         return $this;
     }
