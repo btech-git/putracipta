@@ -29,9 +29,9 @@ class InventoryRepository extends ServiceEntityRepository
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('warehouse', $warehouse);
         $query->setParameter('materials', $materials);
-        $stockQuantity = $query->getScalarResult();
+        $stockQuantityList = $query->getScalarResult();
 
-        return $stockQuantity;
+        return $stockQuantityList;
     }
 
     public function getPaperStockQuantityList(Warehouse $warehouse, array $papers): array
@@ -44,9 +44,9 @@ class InventoryRepository extends ServiceEntityRepository
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('warehouse', $warehouse);
         $query->setParameter('papers', $papers);
-        $stockQuantity = $query->getScalarResult();
+        $stockQuantityList = $query->getScalarResult();
 
-        return $stockQuantity;
+        return $stockQuantityList;
     }
 
     public function getProductStockQuantityList(Warehouse $warehouse, array $products): array
@@ -59,8 +59,8 @@ class InventoryRepository extends ServiceEntityRepository
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('warehouse', $warehouse);
         $query->setParameter('products', $products);
-        $stockQuantity = $query->getScalarResult();
+        $stockQuantityList = $query->getScalarResult();
 
-        return $stockQuantity;
+        return $stockQuantityList;
     }
 }
