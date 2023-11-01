@@ -3,12 +3,15 @@
 namespace App\Service\Accounting;
 
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Accounting\AccountingLedger;
 use App\Entity\Accounting\DepositDetail;
 use App\Entity\Accounting\DepositHeader;
 use App\Entity\Support\Idempotent;
+use App\Repository\Accounting\AccountingLedgerRepository;
 use App\Repository\Accounting\DepositDetailRepository;
 use App\Repository\Accounting\DepositHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Util\Service\AccountingLedgerUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,6 +19,7 @@ class DepositHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
+    private AccountingLedgerRepository $accountingLedgerRepository;
     private DepositHeaderRepository $depositHeaderRepository;
     private DepositDetailRepository $depositDetailRepository;
 
@@ -23,6 +27,7 @@ class DepositHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->accountingLedgerRepository = $entityManager->getRepository(AccountingLedger::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->depositHeaderRepository = $entityManager->getRepository(DepositHeader::class);
         $this->depositDetailRepository = $entityManager->getRepository(DepositDetail::class);
@@ -62,6 +67,19 @@ class DepositHeaderFormService
         foreach ($depositHeader->getDepositDetails() as $depositDetail) {
             $this->depositDetailRepository->add($depositDetail);
         }
+        $this->addAccountingLedgers($depositHeader);
         $this->entityManager->flush();
+    }
+    
+    private function addAccountingLedgers(DepositHeader $depositHeader): void
+    {
+        AccountingLedgerUtil::reverseOldData($this->accountingLedgerRepository, $depositHeader);
+        $depositDetails = $depositHeader->getDepositDetails()->toArray();
+        AccountingLedgerUtil::addNewData($this->accountingLedgerRepository, $depositHeader, $depositDetails, function($newLedger, $depositDetail) use ($depositHeader) {
+            $account = $depositDetail->getAccount();
+            $newLedger->setTransactionSubject($depositDetail->getMemo());
+            $newLedger->setAccount($account);
+            $newLedger->setCreditAmount($depositDetail->getAmount());
+        });
     }
 }

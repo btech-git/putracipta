@@ -54,9 +54,7 @@ class JournalVoucherHeaderFormService
             $lastJournalVoucherHeader = $this->journalVoucherHeaderRepository->findRecentBy($year, $month);
             $currentJournalVoucherHeader = ($lastJournalVoucherHeader === null) ? $journalVoucherHeader : $lastJournalVoucherHeader;
             $journalVoucherHeader->setCodeNumberToNext($currentJournalVoucherHeader->getCodeNumber(), $year, $month);
-
         }
-        
     }
 
     public function save(JournalVoucherHeader $journalVoucherHeader, array $options = []): void
@@ -75,12 +73,12 @@ class JournalVoucherHeaderFormService
     {
         AccountingLedgerUtil::reverseOldData($this->accountingLedgerRepository, $journalVoucherHeader);
         $journalVoucherDetails = $journalVoucherHeader->getJournalVoucherDetails()->toArray();
-        AccountingLedgerUtil::addNewData($this->accountingLedgerRepository, $journalVoucherHeader, $journalVoucherDetails, function($newInventory, $journalVoucherDetail) use ($journalVoucherHeader) {
+        AccountingLedgerUtil::addNewData($this->accountingLedgerRepository, $journalVoucherHeader, $journalVoucherDetails, function($newLedger, $journalVoucherDetail) use ($journalVoucherHeader) {
             $account = $journalVoucherDetail->getAccount();
-            $newInventory->setTransactionSubject($journalVoucherDetail->getMemo());
-            $newInventory->setAccount($account);
-            $newInventory->setDebitAmount($journalVoucherDetail->getDebitAmount());
-            $newInventory->setCreditAmount($journalVoucherDetail->getCreditAmount());
+            $newLedger->setTransactionSubject($journalVoucherDetail->getMemo());
+            $newLedger->setAccount($account);
+            $newLedger->setDebitAmount($journalVoucherDetail->getDebitAmount());
+            $newLedger->setCreditAmount($journalVoucherDetail->getCreditAmount());
         });
     }
 }

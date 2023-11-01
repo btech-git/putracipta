@@ -3,12 +3,15 @@
 namespace App\Service\Accounting;
 
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Accounting\AccountingLedger;
 use App\Entity\Accounting\ExpenseDetail;
 use App\Entity\Accounting\ExpenseHeader;
 use App\Entity\Support\Idempotent;
+use App\Repository\Accounting\AccountingLedgerRepository;
 use App\Repository\Accounting\ExpenseDetailRepository;
 use App\Repository\Accounting\ExpenseHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Util\Service\AccountingLedgerUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -16,6 +19,7 @@ class ExpenseHeaderFormService
 {
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
+    private AccountingLedgerRepository $accountingLedgerRepository;
     private ExpenseHeaderRepository $expenseHeaderRepository;
     private ExpenseDetailRepository $expenseDetailRepository;
 
@@ -23,6 +27,7 @@ class ExpenseHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->accountingLedgerRepository = $entityManager->getRepository(AccountingLedger::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->expenseHeaderRepository = $entityManager->getRepository(ExpenseHeader::class);
         $this->expenseDetailRepository = $entityManager->getRepository(ExpenseDetail::class);
@@ -62,6 +67,19 @@ class ExpenseHeaderFormService
         foreach ($expenseHeader->getExpenseDetails() as $expenseDetail) {
             $this->expenseDetailRepository->add($expenseDetail);
         }
+        $this->addAccountingLedgers($expenseHeader);
         $this->entityManager->flush();
+    }
+    
+    private function addAccountingLedgers(ExpenseHeader $expenseHeader): void
+    {
+        AccountingLedgerUtil::reverseOldData($this->accountingLedgerRepository, $expenseHeader);
+        $expenseDetails = $expenseHeader->getExpenseDetails()->toArray();
+        AccountingLedgerUtil::addNewData($this->accountingLedgerRepository, $expenseHeader, $expenseDetails, function($newLedger, $expenseDetail) use ($expenseHeader) {
+            $account = $expenseDetail->getAccount();
+            $newLedger->setTransactionSubject($expenseDetail->getMemo());
+            $newLedger->setAccount($account);
+            $newLedger->setDebitAmount($expenseDetail->getAmount());
+        });
     }
 }
