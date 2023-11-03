@@ -35,7 +35,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Customer</label>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.customer.company|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="master-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
