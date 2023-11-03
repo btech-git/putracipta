@@ -168,7 +168,7 @@
                         {{ form_widget(form.quantityPrinting, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePrintingUpQuantity'}},
                                 ]|json_encode,
@@ -176,7 +176,12 @@
                         }) }}
                         {{ form_errors(form.quantityPrinting) }}
                         <span class="input-group-text">&</span>
-                        {{ form_widget(form.quantityPrinting2) }}
+                        {{ form_widget(form.quantityPrinting2, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'change->json-loader#load',
+                            },
+                        }) }}
                         {{ form_errors(form.quantityPrinting2) }}
                         <span class="input-group-text">Up/s</span>
                     </div>

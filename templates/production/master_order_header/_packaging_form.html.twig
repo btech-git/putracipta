@@ -8,7 +8,7 @@
                         {{ form_widget(form.packagingGlueQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingGlueQuantity'}},
                                 ]|json_encode,
@@ -17,7 +17,7 @@
                         {{ form_errors(form.packagingGlueQuantity) }}
                         <span class="input-group-text">cm/pcs</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingGlueWeight|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingGlueWeight|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingGlueWeight" />
                         <span class="input-group-text">kg</span>
@@ -33,7 +33,7 @@
                         {{ form_widget(form.packagingRubberQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingRubberQuantity'}},
                                 ]|json_encode,
@@ -42,7 +42,7 @@
                         {{ form_errors(form.packagingRubberQuantity) }}
                         <span class="input-group-text">pcs/ikat</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingRubberWeight|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingRubberWeight|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingRubberWeight" />
                         <span class="input-group-text">pcs</span>
@@ -58,7 +58,7 @@
                         {{ form_widget(form.packagingPaperQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingPaperQuantity'}},
                                 ]|json_encode,
@@ -67,7 +67,7 @@
                         {{ form_errors(form.packagingPaperQuantity) }}
                         <span class="input-group-text">pcs/pack</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingPaperWeight|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingPaperWeight|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingPaperWeight" />
                         <span class="input-group-text">lbr</span>
@@ -83,7 +83,7 @@
                         {{ form_widget(form.packagingBoxQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingBoxQuantity'}},
                                 ]|json_encode,
@@ -92,7 +92,7 @@
                         {{ form_errors(form.packagingBoxQuantity) }}
                         <span class="input-group-text">pcs/dus</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingBoxWeight|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingBoxWeight|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingBoxWeight" />
                         <span class="input-group-text">pcs</span>
@@ -111,7 +111,7 @@
                         {{ form_widget(form.packagingTapeLargeQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingTapeLargeQuantity'}},
                                 ]|json_encode,
@@ -120,7 +120,7 @@
                         {{ form_errors(form.packagingTapeLargeQuantity) }}
                         <span class="input-group-text">cm/pack(dus)</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingTapeLargeSize|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingTapeLargeSize|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingTapeLargeSize" />
                         <span class="input-group-text">roll</span>
@@ -136,7 +136,7 @@
                         {{ form_widget(form.packagingTapeSmallQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingTapeSmallQuantity'}},
                                 ]|json_encode,
@@ -145,7 +145,7 @@
                         {{ form_errors(form.packagingTapeSmallQuantity) }}
                         <span class="input-group-text">cm/pack(dus)</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingTapeSmallSize|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingTapeSmallSize|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingTapeSmallSize" />
                         <span class="input-group-text">roll</span>
@@ -161,7 +161,7 @@
                         {{ form_widget(form.packagingPlasticQuantity, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePackagingPlasticQuantity'}},
                                 ]|json_encode,
@@ -170,7 +170,7 @@
                         {{ form_errors(form.packagingPlasticQuantity) }}
                         <span class="input-group-text">cm2/pack</span>
                         <span class="input-group-text">=</span>
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingPlasticSize|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ masterOrderHeader.packagingPlasticSize|default|number_format(2) }}" readonly="readonly"
                                data-json-loader-target="placeholder"
                                data-property-path="packagingPlasticSize" />
                         <span class="input-group-text">m2</span>

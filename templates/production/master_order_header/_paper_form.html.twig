@@ -8,7 +8,7 @@
                         {{ form_widget(form.insitPrintingPercentage, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeInsitPrintingPercentage'}},
                                 ]|json_encode,
@@ -28,7 +28,7 @@
                         {{ form_widget(form.insitSortingPercentage, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind change->json-loader#load',
                                 'data-dom-element-bind-specifications-param': [
                                     {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeInsitSortingPercentage'}},
                                 ]|json_encode,
