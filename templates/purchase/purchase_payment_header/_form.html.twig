@@ -113,6 +113,7 @@
     {{ dialog.start('purchase-invoice-header-dialog', 'Purchase Invoice Header List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_invoice_header__list') }}"
+             data-html-loader-auto-load-value="true"
              data-action="supplier-table:data-table:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
