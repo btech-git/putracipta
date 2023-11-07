@@ -206,10 +206,12 @@
         </thead>
         <tbody>
             {% for designCodeProcessDetail in designCode.designCodeProcessDetails %}
-                <tr>
-                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
-                    <td>{{ designCodeProcessDetail.workOrderProcess.name|default }}</td>
-                </tr>
+                {% if not designCodeProcessDetail.isIsInactive %}
+                    <tr>
+                        <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                        <td>{{ designCodeProcessDetail.workOrderProcess.name|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
@@ -228,10 +230,12 @@
         </thead>
         <tbody>
             {% for designCodeDistributionDetail in designCode.designCodeDistributionDetails %}
-                <tr>
-                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
-                    <td>{{ designCodeDistributionDetail.workOrderDistribution.name|default }}</td>
-                </tr>
+                {% if not designCodeDistributionDetail.isIsInactive %}
+                    <tr>
+                        <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                        <td>{{ designCodeDistributionDetail.workOrderDistribution.name|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
@@ -250,10 +254,12 @@
         </thead>
         <tbody>
             {% for designCodeCheckSheetDetail in designCode.designCodeCheckSheetDetails %}
-                <tr>
-                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
-                    <td>{{ designCodeCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
-                </tr>
+                {% if not designCodeCheckSheetDetail.isIsInactive %}
+                    <tr>
+                        <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                        <td>{{ designCodeCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

@@ -35,19 +35,19 @@
                                 <td>
                                     {% if (detailForm.vars.value.id == null) %}
                                         <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
+                                    {% else %}
+                                        <button type="button" class="btn btn-danger"
+                                                data-controller="dom-element"
+                                                data-action="dom-element#bind"
+                                                data-dom-element-bind-specifications-param="{{ [
+                                                    {'destinationsTarget': '#' ~ detailForm.isInactive.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'true'}},
+                                                    {'destinations': '[$element.closest("tr")]', 'action': 'addClass', 'descriptor': {'name': 'd-none'}},
+                                                ]|json_encode }}">
+                                            <i class="bi-x-lg"></i>
+                                        </button>
                                     {% endif %}
-                                    <div {% if (detailForm.vars.value.id == null) %}class="d-none"{% endif %}>
-                                        {{ form_row(detailForm.isInactive, {
-                                            'label': 'X',
-                                            'attr': {
-                                                'data-controller': 'dom-element',
-                                                'data-action': 'dom-element#bind change->json-loader#load',
-                                                'data-dom-element-bind-specifications-param': [
-                                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderProcess.id|default}\"]", 'action': 'removeClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '!$element.checked'},
-                                                    {'destinationsTarget': "table tr[data-item-identifier-value=\"#{detailForm.vars.value.workOrderProcess.id|default}\"]", 'action': 'addClass', 'descriptor': {'name': 'bg-secondary'}, 'condition': '$element.checked'},
-                                                ]|json_encode,
-                                            },
-                                        }) }}
+                                    <div class="d-none">
+                                        {{ form_row(detailForm.isInactive) }}
                                     </div>
                                 </td>
                             </tr>
