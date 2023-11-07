@@ -27,10 +27,8 @@ class SaleInvoiceHeaderController extends AbstractController
             if (isset($request->request->get('sale_payment_header')['customer'])) {
                 $customerId = $request->request->get('sale_payment_header')['customer'];
             }
-            if (!empty($customerId)) {
-                $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
-                $qb->setParameter('customerId', $customerId);
-            }
+            $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             $qb->andWhere("{$alias}.remainingPayment > 0.00");
             $qb->andWhere("{$alias}.isCanceled = false");
         });

@@ -27,10 +27,8 @@ class PurchaseInvoiceHeaderController extends AbstractController
             if (isset($request->request->get('purchase_payment_header')['supplier'])) {
                 $supplierId = $request->request->get('purchase_payment_header')['supplier'];
             }
-            if (!empty($supplierId)) {
-                $qb->andWhere("IDENTITY({$alias}.supplier) = :supplierId");
-                $qb->setParameter('supplierId', $supplierId);
-            }
+            $qb->andWhere("IDENTITY({$alias}.supplier) = :supplierId");
+            $qb->setParameter('supplierId', $supplierId);
             $qb->andWhere("{$alias}.remainingPayment > 0.00");
             $qb->andWhere("{$alias}.isCanceled = false");
         });

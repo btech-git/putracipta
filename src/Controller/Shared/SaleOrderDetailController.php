@@ -35,10 +35,8 @@ class SaleOrderDetailController extends AbstractController
             } elseif (isset($request->request->get('master_order_header')['customer'])) {
                 $customerId = $request->request->get('master_order_header')['customer'];
             }
-            if (!empty($customerId)) {
-                $qb->andWhere("IDENTITY(s.customer) = :customerId");
-                $qb->setParameter('customerId', $customerId);
-            }
+            $qb->andWhere("IDENTITY(s.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             
             if (isset($request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:referenceNumber']) && isset($request->request->get('sale_order_detail_grid')['sort']['saleOrderHeader:referenceNumber'])) {
                 $add['filter']($qb, 's', 'referenceNumber', $request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:referenceNumber']);

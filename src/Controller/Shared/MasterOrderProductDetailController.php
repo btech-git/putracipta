@@ -33,10 +33,8 @@ class MasterOrderProductDetailController extends AbstractController
             if (isset($request->request->get('delivery_header')['customer'])) {
                 $customerId = $request->request->get('delivery_header')['customer'];
             }
-            if (!empty($customerId)) {
-                $qb->andWhere("IDENTITY(h.customer) = :customerId");
-                $qb->setParameter('customerId', $customerId);
-            }
+            $qb->andWhere("IDENTITY(h.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             
             if (isset($request->request->get('master_order_product_detail_grid')['filter']['saleOrderHeader:referenceNumber']) && isset($request->request->get('master_order_product_detail_grid')['sort']['saleOrderHeader:referenceNumber'])) {
                 $add['filter']($qb, 'sh', 'referenceNumber', $request->request->get('master_order_product_detail_grid')['filter']['saleOrderHeader:referenceNumber']);

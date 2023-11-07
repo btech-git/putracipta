@@ -34,10 +34,8 @@ class DeliveryDetailController extends AbstractController
             if (isset($request->request->get('sale_invoice_header')['customer'])) {
                 $customerId = $request->request->get('sale_invoice_header')['customer'];
             }
-            if (!empty($customerId)) {
-                $qb->andWhere("IDENTITY(d.customer) = :customerId");
-                $qb->setParameter('customerId', $customerId);
-            }
+            $qb->andWhere("IDENTITY(d.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             
             if (isset($request->request->get('delivery_detail_grid')['filter']['product:code']) && isset($request->request->get('delivery_detail_grid')['sort']['product:code'])) {
                 $add['filter']($qb, 'p', 'code', $request->request->get('delivery_detail_grid')['filter']['product:code']);

@@ -36,10 +36,8 @@ class DesignCodeController extends AbstractController
                 $customerId = $request->request->get('product_prototype')['customer'];
             }
             
-            if (!empty($customerId)) {
-                $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
-                $qb->setParameter('customerId', $customerId);
-            }
+            $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             
             $qb->andWhere("EXISTS(SELECT d FROM "  . DesignCodeProcessDetail::class . " d WHERE IDENTITY(d.designCode) = {$alias}.id)");
             

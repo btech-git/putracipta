@@ -34,15 +34,13 @@ class ProductController extends AbstractController
             if (isset($request->request->get('product_prototype')['customer'])) {
                 $customerId = $request->request->get('product_prototype')['customer'];
             }
-            if (!empty($customerId)) {
-                $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
-                $qb->setParameter('customerId', $customerId);
-            }
             if (isset($request->request->get('product_grid')['filter']['unit:name']) && isset($request->request->get('product_grid')['sort']['unit:name'])) {
                 $qb->innerJoin("{$alias}.unit", 'u');
                 $add['filter']($qb, 'u', 'name', $request->request->get('product_grid')['filter']['unit:name']);
                 $add['sort']($qb, 'u', 'name', $request->request->get('product_grid')['sort']['unit:name']);
             }
+            $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             $qb->andWhere("{$alias}.isInactive = false");
         });
 
