@@ -62,21 +62,21 @@ class DesignCodeController extends AbstractController
         return $this->render("master/design_code/index.html.twig");
     }
 
-    #[Route('/new', name: 'app_master_design_code_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_master_design_code_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
+    public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $designCode = new DesignCode();
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
-        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm("master/design_code/new.html.twig", [
+        return $this->renderForm("master/design_code/new.{$_format}.twig", [
             'designCode' => $designCode,
             'form' => $form,
             'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
@@ -95,22 +95,22 @@ class DesignCodeController extends AbstractController
         ]);
     }
 
-    #[Route('/{source_id}/new_repeat', name: 'app_master_design_code_new_repeat', methods: ['GET', 'POST'])]
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_master_design_code_new_repeat', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function newRepeat(Request $request, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
+    public function newRepeat(Request $request, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $sourceDesignCode = $designCodeRepository->find($request->attributes->getInt('source_id'));
         $designCode = $designCodeFormService->copyFrom($sourceDesignCode);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
-        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm("master/design_code/new_repeat.html.twig", [
+        return $this->renderForm("master/design_code/new_repeat.{$_format}.twig", [
             'designCode' => $designCode,
             'form' => $form,
             'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
@@ -120,20 +120,20 @@ class DesignCodeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_master_design_code_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit.{_format}', name: 'app_master_design_code_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
+    public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
 
-        if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('master/design_code/edit.html.twig', [
+        return $this->renderForm("master/design_code/edit.{$_format}.twig", [
             'designCode' => $designCode,
             'form' => $form,
             'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
