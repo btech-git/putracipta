@@ -13,6 +13,7 @@
                     {{ form_row(form.customer, {
                         'label': 'Customer',
                         'attr': {
+                            'readonly': masterOrderHeader.id is not null,
                             'data-controller': 'data-choice',
                             'data-action': 'data-choice#select',
                         },
@@ -170,6 +171,7 @@
     {{ dialog.start('sale-order-detail-dialog', 'Customer Order List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_sale_order_detail__list') }}"
+             data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
@@ -191,6 +193,7 @@
     {{ dialog.start('design-code-dialog', 'Design Code List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
+             data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}

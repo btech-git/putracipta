@@ -20,7 +20,7 @@
                         <td class="d-none">{{ form_widget(detailForm.designCodeDistributionDetail, {'attr': {'data-item-field-name': 'designCodeDistributionDetailId'}}) }}</td>
                         <td class="d-none">{{ form_widget(detailForm.workOrderDistribution, {'attr': {'data-item-field-name': 'workOrderDistributionId'}}) }}</td>
                         <td data-item-field-name="workOrderDistributionName">{{ detailForm.vars.value.workOrderDistribution.name|default }}</td>
-                        <td>
+                        <td class="d-flex justify-content-center">
                             {{ form_row(detailForm.isSubcon, {'label': false}) }}
                         </td>
                         {#<td>
