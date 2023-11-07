@@ -166,6 +166,7 @@
     {{ dialog.start('master-order-product-detail-dialog', 'Sales Order List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_master_order_product_detail__list') }}"
+             data-html-loader-auto-load-value="true"
              data-action="customer-table:data-table:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
