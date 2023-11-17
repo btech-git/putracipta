@@ -11,6 +11,7 @@ use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Sync\Purchase\PurchaseOrderHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -49,6 +50,14 @@ class PurchaseOrderHeaderFormService
 
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
+//        if ($options['cancelHeader']) {
+//            EntityResetUtil::reset($this->formSync, $purchaseOrderHeader);
+//        } else {
+//            foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+//                EntityResetUtil::reset($this->formSync, $purchaseOrderDetail);
+//            }
+//        }
+        
         if ($purchaseOrderHeader->getTransactionDate() !== null && $purchaseOrderHeader->getId() === null) {
             $year = $purchaseOrderHeader->getTransactionDate()->format('y');
             $month = $purchaseOrderHeader->getTransactionDate()->format('m');
