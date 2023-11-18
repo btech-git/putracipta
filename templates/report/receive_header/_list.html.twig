@@ -47,6 +47,7 @@
                                 <th class="text-start">Qty Order</th>
                                 <th class="text-start">Qty Terima</th>
                                 <th class="text-start">Satuan</th>
+                                <th class="text-start">Memo</th>
                             </tr>
                         </thead>
                     </table>
@@ -58,10 +59,10 @@
                 <tr>
                     <td class="text-start">{{ receiveHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ receiveHeader.transactionDate|default ? receiveHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader.supplier.company|default }}</td>
-                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader.supplierDeliveryCodeNumber|default }}</td>
-                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader.deliveryDate|default ? receiveHeader.purchaseOrderHeader.deliveryDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.getCodeNumber : receiveHeader.purchaseOrderHeader.getCodeNumber|default }}</td>
+                    <td class="text-start">{{ receiveHeader.supplier.company|default }}</td>
+                    <td class="text-start">{{ receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.transactionDate ? receiveHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' : receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-start">{{ receiveHeader.warehouse.name|default }}</td>
                     <td class="text-start">{{ receiveHeader.note|default }}</td>
                 </tr>
@@ -71,11 +72,12 @@
                             <tbody>
                                 {% for receiveDetail in receiveHeader.receiveDetails %}
                                     <tr>
-                                        <td class="text-start">{{ receiveDetail.purchaseOrderDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ receiveDetail.purchaseOrderDetail.material.name|default }}</td>
-                                        <td class="text-center">{{ receiveDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
+                                        <td class="text-start">{{ receiveDetail.material is null ? receiveDetail.paper.codeNumber|default : receiveDetail.material.code|default }}</td>
+                                        <td class="text-start">{{ receiveDetail.material is null ? receiveDetail.paper.paperNameSizeCombination|default : receiveDetail.material.name|default }}</td>
+                                        <td class="text-center">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity|default|number_format(0) : receiveDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                                         <td class="text-center">{{ receiveDetail.receivedQuantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ receiveDetail.purchaseOrderDetail.unit.name|default }}</td>
+                                        <td class="text-start">{{ receiveDetail.unit.name|default }}</td>
+                                        <td class="text-start">{{ receiveDetail.memo|default }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -83,7 +85,7 @@
                                 <tr>
                                     <td class="text-end" colspan="3"><strong>Total Quantity</strong></td>
                                     <td class="text-center"><strong>{{ receiveHeader.totalQuantity|default|number_format(0) }}</strong></td>
-                                    <td>&nbsp;</td>
+                                    <td colspan="2">&nbsp;</td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -45,10 +45,10 @@
                 <tr>
                     <td class="text-start">{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
                     <td class="text-start">{{ purchaseInvoiceHeader.transactionDate|default ? purchaseInvoiceHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.company|default }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.paymentTerm|default }}</td>
+                    <td class="text-start">{{ purchaseInvoiceHeader.supplier.company|default }}</td>
+                    <td class="text-start">{{ purchaseInvoiceHeader.supplier.paymentTerm|default }}</td>
                     <td class="text-start">{{ purchaseInvoiceHeader.dueDate|default ? purchaseInvoiceHeader.dueDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.supplier.currency.code|default }}</td>
+                    <td class="text-start">{{ purchaseInvoiceHeader.supplier.currency.code|default }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|default|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.totalPayment|default|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|default|number_format(0) }}</td>
