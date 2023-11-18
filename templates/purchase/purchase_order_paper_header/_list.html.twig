@@ -26,7 +26,7 @@
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
                     Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
                 </th>
-                <th style="min-width: 90px"></th>
+                <th style="min-width: 130px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -70,6 +70,7 @@
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_show', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new_repeat', {'source_id': purchaseOrderPaperHeader.id}) }}"><i class="bi-c-square"></i></a>
                     </td>
                 </tr>
             {% else %}
