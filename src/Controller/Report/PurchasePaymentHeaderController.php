@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/report/purchase_payment_header')]
 class PurchasePaymentHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_report_purchase_payment_header__list', methods: ['GET'])]
+    #[Route('/_list', name: 'app_report_purchase_payment_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository): Response
     {
@@ -31,7 +31,7 @@ class PurchasePaymentHeaderController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'app_report_purchase_payment_header_index', methods: ['GET'])]
+    #[Route('/', name: 'app_report_purchase_payment_header_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
