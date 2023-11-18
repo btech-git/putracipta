@@ -39,8 +39,8 @@ class TransactionLog
     #[ORM\Column]
     private ?int $entityId = 0;
 
-    #[ORM\Column(type: Types::OBJECT, nullable: true)]
-    private ?object $newData = null;
+    #[ORM\Column(nullable: true)]
+    private array $newData = [];
 
     public function getId(): ?int
     {
@@ -143,12 +143,12 @@ class TransactionLog
         return $this;
     }
 
-    public function getNewData(): ?object
+    public function getNewData(): array
     {
         return $this->newData;
     }
 
-    public function setNewData(?object $newData): self
+    public function setNewData(?array $newData): self
     {
         $this->newData = $newData;
 
