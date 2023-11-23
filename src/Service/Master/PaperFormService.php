@@ -27,7 +27,7 @@ class PaperFormService
 
     public function finalize(Paper $paper, array $options = []): void
     {
-        if ($paper->getId() == null) {
+        if ($paper->getId() === null) {
             $name = $paper->getName();
             $weight = $paper->getWeight();
             $type = $paper->getType();
