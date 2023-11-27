@@ -7,17 +7,23 @@ use App\Entity\Accounting\AccountingLedger;
 use App\Entity\Accounting\DepositDetail;
 use App\Entity\Accounting\DepositHeader;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Accounting\AccountingLedgerRepository;
 use App\Repository\Accounting\DepositDetailRepository;
 use App\Repository\Accounting\DepositHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Accounting\DepositHeaderFormSupport;
 use App\Util\Service\AccountingLedgerUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class DepositHeaderFormService
 {
+    use DepositHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private AccountingLedgerRepository $accountingLedgerRepository;
     private DepositHeaderRepository $depositHeaderRepository;
@@ -27,6 +33,7 @@ class DepositHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->accountingLedgerRepository = $entityManager->getRepository(AccountingLedger::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->depositHeaderRepository = $entityManager->getRepository(DepositHeader::class);
@@ -61,14 +68,19 @@ class DepositHeaderFormService
 
     public function save(DepositHeader $depositHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->depositHeaderRepository->add($depositHeader);
-        foreach ($depositHeader->getDepositDetails() as $depositDetail) {
-            $this->depositDetailRepository->add($depositDetail);
-        }
-        $this->addAccountingLedgers($depositHeader);
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($depositHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->depositHeaderRepository->add($depositHeader);
+            foreach ($depositHeader->getDepositDetails() as $depositDetail) {
+                $this->depositDetailRepository->add($depositDetail);
+            }
+            $this->addAccountingLedgers($depositHeader);
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($depositHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
     
     private function addAccountingLedgers(DepositHeader $depositHeader): void

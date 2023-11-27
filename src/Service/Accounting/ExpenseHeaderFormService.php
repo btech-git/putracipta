@@ -7,17 +7,23 @@ use App\Entity\Accounting\AccountingLedger;
 use App\Entity\Accounting\ExpenseDetail;
 use App\Entity\Accounting\ExpenseHeader;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Accounting\AccountingLedgerRepository;
 use App\Repository\Accounting\ExpenseDetailRepository;
 use App\Repository\Accounting\ExpenseHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Accounting\ExpenseHeaderFormSupport;
 use App\Util\Service\AccountingLedgerUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ExpenseHeaderFormService
 {
+    use ExpenseHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private AccountingLedgerRepository $accountingLedgerRepository;
     private ExpenseHeaderRepository $expenseHeaderRepository;
@@ -27,6 +33,7 @@ class ExpenseHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->accountingLedgerRepository = $entityManager->getRepository(AccountingLedger::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->expenseHeaderRepository = $entityManager->getRepository(ExpenseHeader::class);
@@ -61,14 +68,19 @@ class ExpenseHeaderFormService
 
     public function save(ExpenseHeader $expenseHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->expenseHeaderRepository->add($expenseHeader);
-        foreach ($expenseHeader->getExpenseDetails() as $expenseDetail) {
-            $this->expenseDetailRepository->add($expenseDetail);
-        }
-        $this->addAccountingLedgers($expenseHeader);
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($expenseHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->expenseHeaderRepository->add($expenseHeader);
+            foreach ($expenseHeader->getExpenseDetails() as $expenseDetail) {
+                $this->expenseDetailRepository->add($expenseDetail);
+            }
+            $this->addAccountingLedgers($expenseHeader);
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($expenseHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
     
     private function addAccountingLedgers(ExpenseHeader $expenseHeader): void
