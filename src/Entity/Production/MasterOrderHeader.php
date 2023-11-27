@@ -67,8 +67,8 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(length: 20)]
     private ?string $layoutModelFileExtension = '';
 
-    #[ORM\Column]
-    private ?int $quantityPaper = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityPaper = '0.00';
 
     #[ORM\Column]
     private ?int $paperMountage = 0;
