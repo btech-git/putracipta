@@ -21,7 +21,7 @@
                         <td class="d-none">{{ form_widget(detailForm.designCodeCheckSheetDetail, {'attr': {'data-item-field-name': 'designCodeCheckSheetDetailId'}}) }}</td>
                         <td class="d-none">{{ form_widget(detailForm.workOrderCheckSheet, {'attr': {'data-item-field-name': 'workOrderCheckSheetId'}}) }}</td>
                         <td data-item-field-name="workOrderCheckSheetName">{{ detailForm.vars.value.workOrderCheckSheet.name|default }}</td>
-                        <td class="checkbox">{{ form_row(detailForm.isSubcon, {'label': false}) }}</td>
+                        <td class="d-flex justify-content-center">{{ form_row(detailForm.isSubcon, {'label': false}) }}</td>
                         {#<td>
                             {% if (detailForm.vars.value.id == null) %}
                                 <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>

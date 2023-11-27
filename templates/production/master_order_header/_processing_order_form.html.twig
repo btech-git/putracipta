@@ -36,9 +36,7 @@
                                 <td class="d-none">{{ form_widget(detailForm.designCodeProcessDetail, {'attr': {'data-item-field-name': 'designCodeProcessDetailId'}}) }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
                                 <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>
-                                <td class="text-center">
-                                    {{ form_row(detailForm.isSubcon, {'label': false}) }}
-                                </td>
+                                <td class="d-flex justify-content-center">{{ form_row(detailForm.isSubcon, {'label': false}) }}</td>
                                 {#<td>
                                     {% if (detailForm.vars.value.id == null) %}
                                         <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
