@@ -52,7 +52,10 @@ class MasterOrderHeaderType extends AbstractType
                 },
             ])
             ->add('hotStamping')
-//            ->add('glossiness')
+            ->add('glossiness', ChoiceType::class, ['choices' => [
+                '70' => 70,
+                '80' => 80,
+            ]])
 //            ->add('weightPerPiece')
             ->add('inkHotStampingSize')
             ->add('color')
