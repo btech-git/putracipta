@@ -135,12 +135,6 @@ class DesignCode extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $packagingPlasticQuantity = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
-    private ?string $insitPrintingPercentage = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
-    private ?string $insitSortingPercentage = null;
-
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProcessDetail::class)]
     private Collection $designCodeProcessDetails;
 
@@ -152,6 +146,9 @@ class DesignCode extends Master
 
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeDistributionDetail::class)]
     private Collection $designCodeDistributionDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $paperPlanoSize = '0.00';
 
     public function __construct()
     {
@@ -652,30 +649,6 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getInsitPrintingPercentage(): ?string
-    {
-        return $this->insitPrintingPercentage;
-    }
-
-    public function setInsitPrintingPercentage(string $insitPrintingPercentage): self
-    {
-        $this->insitPrintingPercentage = $insitPrintingPercentage;
-
-        return $this;
-    }
-
-    public function getInsitSortingPercentage(): ?string
-    {
-        return $this->insitSortingPercentage;
-    }
-
-    public function setInsitSortingPercentage(string $insitSortingPercentage): self
-    {
-        $this->insitSortingPercentage = $insitSortingPercentage;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, DesignCodeProcessDetail>
      */
@@ -774,6 +747,18 @@ class DesignCode extends Master
                 $designCodeDistributionDetail->setDesignCode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaperPlanoSize(): ?string
+    {
+        return $this->paperPlanoSize;
+    }
+
+    public function setPaperPlanoSize(string $paperPlanoSize): self
+    {
+        $this->paperPlanoSize = $paperPlanoSize;
 
         return $this;
     }

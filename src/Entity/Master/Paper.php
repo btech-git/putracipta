@@ -27,15 +27,15 @@ class Paper extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
-    private ?int $length = 0;
+    private ?string $length = '0.00';
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
-    private ?int $width = 0;
+    private ?string $width = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
@@ -56,27 +56,23 @@ class Paper extends Master
     #[Assert\NotNull]
     private ?string $note = '';
 
-    #[ORM\OneToMany(mappedBy: 'paper', targetEntity: Product::class)]
-    private Collection $products;
-
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $code = 0;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
     }
 
-    public function getPaperNameSizeCombination() 
+    public function getPaperNameSizeCombination(): string
     {
-        return $this->name . ' ' . number_format($this->weight, 0) . ' x ' . $this->length . ' x ' . $this->width;
+        return $this->name . ' ' . number_format($this->weight, 2) . ' x ' . $this->length . ' x ' . $this->width;
     }
     
-    public function getCodeNumber() 
+    public function getCodeNumber(): string
     {
         $type = ($this->type === self::TYPE_FSC) ? 'FSC' : '000';
         
-        return $this->name . '-' . number_format($this->weight, 0) . '-' . $type . '-' . $this->code;
+        return $this->name . '-' . number_format($this->weight, 2) . '-' . $type . '-' . $this->code;
     }
     
     public function setCodeNumberToNext($codeNumber): self
@@ -96,24 +92,24 @@ class Paper extends Master
         return $this->id;
     }
 
-    public function getLength(): ?int
+    public function getLength(): ?string
     {
         return $this->length;
     }
 
-    public function setLength(int $length): self
+    public function setLength(string $length): self
     {
         $this->length = $length;
 
         return $this;
     }
 
-    public function getWidth(): ?int
+    public function getWidth(): ?string
     {
         return $this->width;
     }
 
-    public function setWidth(int $width): self
+    public function setWidth(string $width): self
     {
         $this->width = $width;
 
