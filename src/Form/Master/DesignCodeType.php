@@ -2,10 +2,12 @@
 
 namespace App\Form\Master;
 
+use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
+use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -25,9 +27,10 @@ class DesignCodeType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
+            ->add('product', EntityHiddenType::class, ['class' => Product::class])
             ->add('name', null, ['label' => 'Nama Produk'])
             ->add('code', null, ['label' => 'Kode Produk'])
-            ->add('variant', null, ['label' => 'Varian'])
+            ->add('variant', null, ['label' => false])
             ->add('version', null, ['label' => 'Revisi'])
             ->add('color', null, ['label' => 'Jlh Warna'])
             ->add('pantone', null, ['label' => 'Separasi Warna'])

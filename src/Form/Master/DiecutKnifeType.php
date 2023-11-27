@@ -2,7 +2,9 @@
 
 namespace App\Form\Master;
 
+use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\DiecutKnife;
+use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,6 +29,7 @@ class DiecutKnifeType extends AbstractType
             ->add('upPerSecondKnife', null, ['label' => 'Up/s Pisau'])
             ->add('upPerSecondPrint', null, ['label' => 'Up/s Cetak'])
             ->add('printingSize', null, ['label' => 'Uk. Kris Cetak'])
+            ->add('product', EntityHiddenType::class, ['class' => Product::class])
             ->add('location', ChoiceType::class, ['label' => 'Location', 'choices' => [
                 'BOBST' => DiecutKnife::LOCATION_BOBST,
                 'PON' => DiecutKnife::LOCATION_PON,
