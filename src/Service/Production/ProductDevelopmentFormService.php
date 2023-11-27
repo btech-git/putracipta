@@ -5,14 +5,20 @@ namespace App\Service\Production;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductDevelopment;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Production\ProductDevelopmentRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Production\ProductDevelopmentFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductDevelopmentFormService
 {
+    use ProductDevelopmentFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private ProductDevelopmentRepository $productDevelopmentRepository;
 
@@ -20,6 +26,7 @@ class ProductDevelopmentFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->productDevelopmentRepository = $entityManager->getRepository(ProductDevelopment::class);
     }
@@ -59,10 +66,16 @@ class ProductDevelopmentFormService
 
     public function save(ProductDevelopment $productDevelopment, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->productDevelopmentRepository->add($productDevelopment);
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($productDevelopment) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->productDevelopmentRepository->add($productDevelopment);
+            
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($productDevelopment);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     public function uploadFile(ProductDevelopment $productDevelopment, $transactionFile, $uploadDirectory): void

@@ -11,6 +11,7 @@ use App\Entity\Production\MasterOrderProcessDetail;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Master\WarehouseRepository;
 use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
 use App\Repository\Production\MasterOrderDistributionDetailRepository;
@@ -19,12 +20,17 @@ use App\Repository\Production\MasterOrderProcessDetailRepository;
 use App\Repository\Production\MasterOrderProductDetailRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Production\MasterOrderHeaderFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class MasterOrderHeaderFormService
 {
+    use MasterOrderHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private InventoryRepository $inventoryRepository;
     private WarehouseRepository $warehouseRepository;
@@ -38,6 +44,7 @@ class MasterOrderHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
         $this->masterOrderHeaderRepository = $entityManager->getRepository(MasterOrderHeader::class);
@@ -118,22 +125,27 @@ class MasterOrderHeaderFormService
 
     public function save(MasterOrderHeader $masterOrderHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->masterOrderHeaderRepository->add($masterOrderHeader);
-        foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
-            $this->masterOrderProductDetailRepository->add($masterOrderProductDetail);
-        }
-        foreach ($masterOrderHeader->getMasterOrderProcessDetails() as $masterOrderProcessDetail) {
-            $this->masterOrderProcessDetailRepository->add($masterOrderProcessDetail);
-        }
-        foreach ($masterOrderHeader->getMasterOrderDistributionDetails() as $masterOrderDistributionDetail) {
-            $this->masterOrderDistributionDetailRepository->add($masterOrderDistributionDetail);
-        }
-        foreach ($masterOrderHeader->getMasterOrderCheckSheetDetails() as $masterOrderCheckSheetDetail) {
-            $this->masterOrderCheckSheetDetailRepository->add($masterOrderCheckSheetDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($masterOrderHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->masterOrderHeaderRepository->add($masterOrderHeader);
+            foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
+                $this->masterOrderProductDetailRepository->add($masterOrderProductDetail);
+            }
+            foreach ($masterOrderHeader->getMasterOrderProcessDetails() as $masterOrderProcessDetail) {
+                $this->masterOrderProcessDetailRepository->add($masterOrderProcessDetail);
+            }
+            foreach ($masterOrderHeader->getMasterOrderDistributionDetails() as $masterOrderDistributionDetail) {
+                $this->masterOrderDistributionDetailRepository->add($masterOrderDistributionDetail);
+            }
+            foreach ($masterOrderHeader->getMasterOrderCheckSheetDetails() as $masterOrderCheckSheetDetail) {
+                $this->masterOrderCheckSheetDetailRepository->add($masterOrderCheckSheetDetail);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($masterOrderHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     public function uploadFile(MasterOrderHeader $masterOrderHeader, $transactionFile, $uploadDirectory): void
