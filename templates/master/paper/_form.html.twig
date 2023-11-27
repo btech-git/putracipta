@@ -13,43 +13,13 @@
         
     <div class="row">
         <div class="col">
-            <div class="mb-3">
-                <label class="form-label">Panjang</label>
-                <div class="row">
-                    <div class="col">
-                        <div class="input-group">
-                            {{ form_widget(form.length) }}
-                            {{ form_errors(form.length) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.length) }}
         </div>
         <div class="col">
-            <div class="mb-3">
-                <label class="form-label">Lebar</label>
-                <div class="row">
-                    <div class="col">
-                        <div class="input-group">
-                            {{ form_widget(form.width) }}
-                            {{ form_errors(form.width) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.width) }}
         </div>
         <div class="col">
-            <div class="mb-3">
-                <label class="form-label">Satuan</label>
-                <div class="row">
-                    <div class="col">
-                        <div class="input-group">
-                            {{ form_widget(form.unit) }}
-                            {{ form_errors(form.unit) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.unit) }}
         </div>
     </div>
         
@@ -98,12 +68,12 @@
     <div class="d-grid">
         <div class="row">
             <div class="col text-center">
-                <button class="btn btn-danger"
+                <a class="btn btn-danger" href="{{ path('app_master_paper_index') }}"
                         data-controller="dom-element"
                         data-action="dom-element#confirm"
                         data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
                     Cancel
-                </button>
+                </a>
                 <button class="btn btn-success"
                         data-controller="dom-element"
                         data-action="dom-element#confirm"

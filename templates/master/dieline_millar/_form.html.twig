@@ -1,6 +1,6 @@
-<div data-controller="event-emitter"
-     data-action="data-choice:select->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-choice:select': 'id'}|json_encode }}">
+<div data-controller="event-emitter json-loader"
+     data-action="data-table:select->event-emitter#forward data-choice:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id'}|json_encode }}">
     
     {{ form_start(form) }}
         {{ form_row(form.customer, {
@@ -19,7 +19,30 @@
                 {{ form_row(form.version) }}
             </div>
             <div class="col">
-                {{ form_row(form.name) }}
+                <div class="mb-3">
+                    <label for="{{ form.product.vars.id }}-text" class="form-label">Nama Produk</label>
+                    {{ form_row(form.product, {
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'product-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productId'}},
+                            ]|json_encode,
+                        },
+                    }) }}
+                    {{ form_widget(form.name, {
+                        'attr': {
+                            'data-bs-toggle': 'modal',
+                            'data-bs-target': '#product-dialog',
+                            'data-controller': 'dom-element',
+                            'data-action': 'product-table:data-table:select@document->dom-element#bind',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
+                            ]|json_encode,
+                        },
+                    }) }}
+                    {{ form_errors(form.product) }}
+                </div>
             </div>
         </div>
 
@@ -56,12 +79,12 @@
         <div class="d-grid">
         <div class="row">
             <div class="col text-center">
-                <button class="btn btn-danger"
+                <a class="btn btn-danger" href="{{ path('app_master_dieline_millar_index') }}"
                         data-controller="dom-element"
                         data-action="dom-element#confirm"
                         data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
                     Cancel
-                </button>
+                </a>
                 <button class="btn btn-success"
                         data-controller="dom-element"
                         data-action="dom-element#confirm"
@@ -70,7 +93,17 @@
                 </button>
             </div>
         </div>
-            <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
-        </div>
+        <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
+    </div>
     {{ form_end(form) }}
+    
+    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
+
+    {{ dialog.start('product-dialog', 'Product List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}
+
 </div>
