@@ -3,8 +3,10 @@
 namespace App\Grid\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Common\Data\Operator\FilterContain;
 use App\Common\Data\Operator\FilterEqual;
+use App\Common\Data\Operator\FilterNotBetween;
 use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\FilterNotEqual;
 use App\Common\Data\Operator\SortAscending;
@@ -24,9 +26,12 @@ class PurchaseOrderHeaderGridType extends AbstractType
             ->add('filter', FilterType::class, [
                 'field_names' => ['transactionDate', 'note', 'isCanceled'],
                 'field_operators_list' => [
-                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
+                ],
+                'field_value_options_list' => [
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
