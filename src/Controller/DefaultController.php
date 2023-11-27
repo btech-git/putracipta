@@ -109,6 +109,13 @@ class DefaultController extends AbstractController
         return $this->render('default/home_page.html.twig');
     }
 
+    #[Route('/report', name: 'app_report', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function report(): Response
+    {
+        return $this->render('default/report.html.twig');
+    }
+
     #[Route('/login_page', name: 'app_login_page', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED_ANONYMOUSLY')]
     public function loginPage(AuthenticationUtils $authenticationUtils): Response
