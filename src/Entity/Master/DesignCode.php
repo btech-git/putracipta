@@ -150,6 +150,9 @@ class DesignCode extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $paperPlanoSize = '0.00';
 
+    #[ORM\ManyToOne(inversedBy: 'designCodes')]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -759,6 +762,18 @@ class DesignCode extends Master
     public function setPaperPlanoSize(string $paperPlanoSize): self
     {
         $this->paperPlanoSize = $paperPlanoSize;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

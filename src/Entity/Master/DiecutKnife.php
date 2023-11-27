@@ -52,6 +52,9 @@ class DiecutKnife extends Master
     #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: DesignCode::class)]
     private Collection $designCodes;
 
+    #[ORM\ManyToOne(inversedBy: 'diecutKnives')]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -220,6 +223,18 @@ class DiecutKnife extends Master
                 $designCode->setDiecutKnife(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

@@ -4,6 +4,8 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -59,8 +61,20 @@ class Product extends Master
     #[ORM\Column(length: 100)]
     private ?string $material = '';
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DiecutKnife::class)]
+    private Collection $diecutKnives;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DielineMillar::class)]
+    private Collection $dielineMillars;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DesignCode::class)]
+    private Collection $designCodes;
+
     public function __construct()
     {
+        $this->diecutKnives = new ArrayCollection();
+        $this->dielineMillars = new ArrayCollection();
+        $this->designCodes = new ArrayCollection();
     }
     
     public function getProductLengthWidthHeightCombination() {
@@ -212,6 +226,96 @@ class Product extends Master
     public function setMaterial(string $material): self
     {
         $this->material = $material;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiecutKnife>
+     */
+    public function getDiecutKnives(): Collection
+    {
+        return $this->diecutKnives;
+    }
+
+    public function addDiecutKnife(DiecutKnife $diecutKnife): self
+    {
+        if (!$this->diecutKnives->contains($diecutKnife)) {
+            $this->diecutKnives->add($diecutKnife);
+            $diecutKnife->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiecutKnife(DiecutKnife $diecutKnife): self
+    {
+        if ($this->diecutKnives->removeElement($diecutKnife)) {
+            // set the owning side to null (unless already changed)
+            if ($diecutKnife->getProduct() === $this) {
+                $diecutKnife->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DielineMillar>
+     */
+    public function getDielineMillars(): Collection
+    {
+        return $this->dielineMillars;
+    }
+
+    public function addDielineMillar(DielineMillar $dielineMillar): self
+    {
+        if (!$this->dielineMillars->contains($dielineMillar)) {
+            $this->dielineMillars->add($dielineMillar);
+            $dielineMillar->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDielineMillar(DielineMillar $dielineMillar): self
+    {
+        if ($this->dielineMillars->removeElement($dielineMillar)) {
+            // set the owning side to null (unless already changed)
+            if ($dielineMillar->getProduct() === $this) {
+                $dielineMillar->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCode>
+     */
+    public function getDesignCodes(): Collection
+    {
+        return $this->designCodes;
+    }
+
+    public function addDesignCode(DesignCode $designCode): self
+    {
+        if (!$this->designCodes->contains($designCode)) {
+            $this->designCodes->add($designCode);
+            $designCode->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCode(DesignCode $designCode): self
+    {
+        if ($this->designCodes->removeElement($designCode)) {
+            // set the owning side to null (unless already changed)
+            if ($designCode->getProduct() === $this) {
+                $designCode->setProduct(null);
+            }
+        }
 
         return $this;
     }

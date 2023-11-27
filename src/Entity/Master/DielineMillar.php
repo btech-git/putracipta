@@ -49,6 +49,9 @@ class DielineMillar extends Master
     #[ORM\OneToMany(mappedBy: 'dielineMillar', targetEntity: DesignCode::class)]
     private Collection $designCodes;
 
+    #[ORM\ManyToOne(inversedBy: 'dielineMillars')]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -217,6 +220,18 @@ class DielineMillar extends Master
                 $designCode->setDielineMillar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
