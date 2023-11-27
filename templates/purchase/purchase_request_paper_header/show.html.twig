@@ -57,7 +57,7 @@
         <tbody>
             {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
                 <tr>
-                    <td>{{ purchaseRequestPaperDetail.paper.code|default }}</td>
+                    <td>{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
                     <td style="text-align: center">{{ purchaseRequestPaperDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ purchaseRequestPaperDetail.unit.name|default }}</td>
