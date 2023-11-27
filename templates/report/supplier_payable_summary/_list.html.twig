@@ -34,13 +34,17 @@
                 <th class="text-start">TOP (hari)</th>
                 <th class="text-start">Jatuh Tempo</th>
                 <th class="text-start">Currency</th>
-                <th class="text-start">Total</th>
+                <th class="text-start">Amount</th>
                 <th class="text-start">Payment</th>
                 <th class="text-start">Retur</th>
                 <th class="text-start">Remaining</th>
             </tr>
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
+            {% set totalAmount = 0 %}
+            {% set totalPayment = 0 %}
+            {% set totalReturn = 0 %}
+            {% set totalRemaining = 0 %}
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
                 <tr>
                     <td class="text-start">{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
@@ -54,8 +58,21 @@
                     <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|default|number_format(0) }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.remainingPayment|default|number_format(0) }}</td>
                 </tr>
+                {% set totalAmount = totalAmount + purchaseInvoiceHeader.grandTotal|default %}
+                {% set totalPayment = totalPayment + purchaseInvoiceHeader.totalPayment|default %}
+                {% set totalReturn = totalReturn + purchaseInvoiceHeader.totalReturn|default %}
+                {% set totalRemaining = totalRemaining + purchaseInvoiceHeader.remainingPayment|default %}
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-end" style="font-weight: bold" colspan="6">Total</td>
+                <td class="text-end" style="font-weight: bold">{{ totalAmount|default|number_format(0) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalPayment|default|number_format(0) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalReturn|default|number_format(0) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalRemaining|default|number_format(0) }}</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 

@@ -1,0 +1,109 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<div class="d-print-none">
+    {{ grid.form(form) }}
+
+    {{ grid.info(form, count, saleOrderHeaders) }}
+
+    {#<div class="text-center">
+        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
+    </div>#}
+
+    <hr />
+</div>
+
+<div class="report">
+    <div class="report-header">
+        <div class="report-title">PT. Putracipta Karindomas</div>
+        <div class="report-title">Laporan Sales Order</div>
+        {#<div>
+            {% set startDate = grid.searchVals['saleOrderHeader']['transactionDate'][1]|default %}
+            {% set endDate = grid.searchVals['saleOrderHeader']['transactionDate'][2]|default %}
+            {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+        </div>#}
+    </div>
+
+    <br />
+
+    <table class="report-data">
+        <thead class="border-top-solid-bold border-bottom-solid-bold">
+            <tr>
+                <th class="text-start">SO #</th>
+                <th class="text-start">Tanggal</th>
+                <th class="text-start">Customer</th>
+                <th class="text-start">PO #</th>
+                <th class="text-start">Status</th>
+                <th class="text-start">Note</th>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-start">Kode</th>
+                                <th class="text-start">Nama Produk</th>
+                                <th class="text-start">Qty</th>
+                                <th class="text-start">Satuan</th>
+                                <th class="text-start">Harga</th>
+                                <th class="text-start">Total</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="border-top-solid-bold border-bottom-solid-bold">
+            {% for saleOrderHeader in saleOrderHeaders %}
+                <tr>
+                    <td class="text-start">{{ saleOrderHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ saleOrderHeader.transactionDate|default ? saleOrderHeader.transactionDate|date('j F Y') }}</td>
+                    <td class="text-start">{{ saleOrderHeader.customer.company|default }}</td>
+                    <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
+                    <td class="text-start">{{ saleOrderHeader.transactionStatus|default }}</td>
+                    <td class="text-start">{{ saleOrderHeader.note|default }}</td>
+                </tr>
+                <tr class="border-bottom-dotted-bold">
+                    <td colspan="6">
+                        <table>
+                            <tbody>
+                                {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                                    <tr>
+                                        <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
+                                        <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.unit.name|default }}</td>
+                                        <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="border-top-solid-normal">
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>Sub Total</strong></td>
+                                    <td class="text-end"><strong>{{ saleOrderHeader.subTotal|default|number_format(2) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>Diskon {{ saleOrderHeader.discountValue|default|number_format(2) }}%</strong></td>
+                                    <td class="text-end"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>PPn {{ saleOrderHeader.taxPercentage|default }}%</strong></td>
+                                    <td class="text-end"><strong>{{ saleOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>Grand Total</strong></td>
+                                    <td class="text-end"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-print-none">
+    <br />
+    {{ grid.navigation(form, count, saleOrderHeaders) }}
+</div>

@@ -1,0 +1,107 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<div class="d-print-none">
+    {{ grid.form(form) }}
+
+    {{ grid.info(form, count, purchaseOrderPaperHeaders) }}
+
+    {#<div class="text-center">
+        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
+    </div>#}
+
+    <hr />
+</div>
+
+<div class="report">
+    <div class="report-header">
+        <div class="report-title">PT. Putracipta Karindomas</div>
+        <div class="report-title">Laporan Purchase Order Kertas</div>
+        {#<div>
+            {% set startDate = grid.searchVals['purchaseOrderPaperHeader']['transactionDate'][1]|default %}
+            {% set endDate = grid.searchVals['purchaseOrderPaperHeader']['transactionDate'][2]|default %}
+            {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+        </div>#}
+    </div>
+
+    <br />
+
+    <table class="report-data">
+        <thead class="border-top-solid-bold border-bottom-solid-bold">
+            <tr>
+                <th class="text-start">PO #</th>
+                <th class="text-start">Tanggal</th>
+                <th class="text-start">Supplier</th>
+                <th class="text-start">Tanggal Kirim</th>
+                <th class="text-start">Note</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-start">Kode</th>
+                                <th class="text-start">Nama Kertas</th>
+                                <th class="text-start">Qty</th>
+                                <th class="text-start">Satuan</th>
+                                <th class="text-start">Harga</th>
+                                <th class="text-start">Total</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="border-top-solid-bold border-bottom-solid-bold">
+            {% for purchaseOrderPaperHeader in purchaseOrderPaperHeaders %}
+                <tr>
+                    <td class="text-start">{{ purchaseOrderPaperHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperHeader.transactionDate|date('j F Y') }}</td>
+                    <td class="text-start">{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
+                    <td class="text-start">{{ purchaseOrderPaperHeader.deliveryDate|default ? purchaseOrderPaperHeader.deliveryDate|date('j F Y') }}</td>
+                    <td class="text-start">{{ purchaseOrderPaperHeader.note|default }}</td>
+                </tr>
+                <tr class="border-bottom-dotted-bold">
+                    <td colspan="5">
+                        <table>
+                            <tbody>
+                                {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
+                                    <tr>
+                                        <td class="text-start">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
+                                        <td class="text-start">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                                        <td class="text-start">{{ purchaseOrderPaperDetail.quantity|default }}</td>
+                                        <td class="text-start">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                                        <td class="text-end">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="border-top-solid-normal">
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>Sub Total</strong></td>
+                                    <td class="text-end"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>Diskon {{ purchaseOrderPaperHeader.discountValue|default|number_format(2) }}%</strong></td>
+                                    <td class="text-end"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>PPn {{ purchaseOrderPaperHeader.taxPercentage|default }}%</strong></td>
+                                    <td class="text-end"><strong>{{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="5"><strong>Grand Total</strong></td>
+                                    <td class="text-end"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-print-none">
+    <br />
+    {{ grid.navigation(form, count, purchaseOrderPaperHeaders) }}
+</div>
