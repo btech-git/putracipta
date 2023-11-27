@@ -41,6 +41,7 @@ class DesignCodeType extends AbstractType
             ->add('paperCuttingLength', null, ['label' => false])
             ->add('paperCuttingWidth', null, ['label' => false])
             ->add('paperMountage', null, ['label' => 'Mountage Kertas (lbr/plano)'])
+            ->add('paperPlanoSize', null, ['label' => 'Ukuran Plano Kertas)'])
             ->add('inkCyanPercentage', null, ['label' => 'Cyan (%)'])
             ->add('inkMagentaPercentage', null, ['label' => 'Magenta (%)'])
             ->add('inkYellowPercentage', null, ['label' => 'Yellow (%)'])
@@ -57,8 +58,6 @@ class DesignCodeType extends AbstractType
             ->add('packagingTapeLargeQuantity', null, ['label' => 'Lakban Besar (cm/pack)'])
             ->add('packagingTapeSmallQuantity', null, ['label' => 'Lakban Kecil (cm/pack)'])
             ->add('packagingPlasticQuantity', null, ['label' => 'Plastik (cm2/pack)'])
-            ->add('insitPrintingPercentage', null, ['label' => '% Insit Cetak'])
-            ->add('insitSortingPercentage', null, ['label' => '% Insit Sortir'])
             ->add('diecutKnife', null, [
                 'choice_label' => 'codeNumber',
                 'label' => 'Pisau Diecut',
@@ -88,6 +87,7 @@ class DesignCodeType extends AbstractType
             ->add('note')
             ->add('isInactive')
             ->add('hotStamping', ChoiceType::class, ['label' => 'Hot Stamping', 'choices' => [
+                '' => '',
                 'GOLD' => DesignCode::HOT_STAMPING_GOLD,
                 'SILVER' => DesignCode::HOT_STAMPING_SILVER,
             ]])

@@ -32,12 +32,13 @@ class ProductType extends AbstractType
                 },
             ])
             ->add('weight', null, ['label' => 'Berat/piece'])
-            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
-            ->add('glossiness', ChoiceType::class, ['choices' => [
-                '70' => 70,
-                '80' => 80,
-            ]])
+//            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
+//            ->add('glossiness', ChoiceType::class, ['choices' => [
+//                '70' => 70,
+//                '80' => 80,
+//            ]])
             ->add('note')
+            ->add('material')
             ->add('isInactive')
             ->add('transactionFile', FileType::class, [
                 'mapped' => false,
