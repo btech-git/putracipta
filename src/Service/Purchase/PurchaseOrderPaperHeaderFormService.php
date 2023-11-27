@@ -7,16 +7,22 @@ use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestPaperDetail;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Purchase\PurchaseOrderPaperHeaderFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseOrderPaperHeaderFormService
 {
+    use PurchaseOrderPaperHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
+    private TransactionLogRepository $transactionLogRepository;
     private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
 
@@ -24,6 +30,7 @@ class PurchaseOrderPaperHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseOrderPaperHeaderRepository = $entityManager->getRepository(PurchaseOrderPaperHeader::class);
         $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
@@ -100,13 +107,18 @@ class PurchaseOrderPaperHeaderFormService
 
     public function save(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
-        foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
-            $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($purchaseOrderPaperHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
+            foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
+                $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($purchaseOrderPaperHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     public function copyFrom(PurchaseOrderPaperHeader $sourcePurchaseOrderPaperHeader): PurchaseOrderPaperHeader

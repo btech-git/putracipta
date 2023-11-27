@@ -7,9 +7,12 @@ use App\Entity\Purchase\PurchaseOrderDetail;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Purchase\PurchaseOrderHeaderFormSupport;
 use App\Sync\Purchase\PurchaseOrderHeaderFormSync;
 use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,8 +20,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseOrderHeaderFormService
 {
+    use PurchaseOrderHeaderFormSupport;
+
     private PurchaseOrderHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
@@ -28,6 +34,7 @@ class PurchaseOrderHeaderFormService
         $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
@@ -108,13 +115,18 @@ class PurchaseOrderHeaderFormService
 
     public function save(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
-        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-            $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($purchaseOrderHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
+            foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+                $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+            }
+            $entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($purchaseOrderHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     public function createSyncView(): array

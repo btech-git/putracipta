@@ -12,6 +12,7 @@ use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
@@ -20,13 +21,18 @@ use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Repository\Purchase\ReceiveHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Purchase\ReceiveHeaderFormSupport;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ReceiveHeaderFormService
 {
+    use ReceiveHeaderFormSupport;
+    
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private ReceiveHeaderRepository $receiveHeaderRepository;
     private ReceiveDetailRepository $receiveDetailRepository;
@@ -40,6 +46,7 @@ class ReceiveHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->receiveHeaderRepository = $entityManager->getRepository(ReceiveHeader::class);
         $this->receiveDetailRepository = $entityManager->getRepository(ReceiveDetail::class);
@@ -133,31 +140,36 @@ class ReceiveHeaderFormService
 
     public function save(ReceiveHeader $receiveHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
-        $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
-        $this->receiveHeaderRepository->add($receiveHeader);
-        
-        if ($purchaseOrderHeader !== null) {
-            $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
-        } else {
-            $this->purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
-        }
-        
-        foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
-            $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
-            $purchaseOrderPaperDetail = $receiveDetail->getPurchaseOrderPaperDetail();
-            $this->receiveDetailRepository->add($receiveDetail);
-            
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($receiveHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $purchaseOrderHeader = $receiveHeader->getPurchaseOrderHeader();
+            $purchaseOrderPaperHeader = $receiveHeader->getPurchaseOrderPaperHeader();
+            $this->receiveHeaderRepository->add($receiveHeader);
+
             if ($purchaseOrderHeader !== null) {
-                $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+                $this->purchaseOrderHeaderRepository->add($purchaseOrderHeader);
             } else {
-                $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
+                $this->purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader);
             }
-        }
-        $this->addInventories($receiveHeader);
-        $this->entityManager->flush();
+
+            foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+                $purchaseOrderDetail = $receiveDetail->getPurchaseOrderDetail();
+                $purchaseOrderPaperDetail = $receiveDetail->getPurchaseOrderPaperDetail();
+                $this->receiveDetailRepository->add($receiveDetail);
+
+                if ($purchaseOrderHeader !== null) {
+                    $this->purchaseOrderDetailRepository->add($purchaseOrderDetail);
+                } else {
+                    $this->purchaseOrderPaperDetailRepository->add($purchaseOrderPaperDetail);
+                }
+            }
+            $this->addInventories($receiveHeader);
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($receiveHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     private function getPurchaseOrderHeaderForMaterialOrPaper(ReceiveHeader $receiveHeader)

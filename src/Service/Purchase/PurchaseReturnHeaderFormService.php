@@ -11,6 +11,7 @@ use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\PurchaseReturnDetailRepository;
@@ -18,13 +19,18 @@ use App\Repository\Purchase\PurchaseReturnHeaderRepository;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Purchase\PurchaseReturnHeaderFormSupport;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseReturnHeaderFormService
 {
+    use PurchaseReturnHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchaseOrderDetailRepository $purchaseOrderDetailRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
@@ -37,6 +43,7 @@ class PurchaseReturnHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseOrderDetailRepository = $entityManager->getRepository(PurchaseOrderDetail::class);
         $this->purchaseOrderPaperDetailRepository = $entityManager->getRepository(PurchaseOrderPaperDetail::class);
@@ -157,14 +164,19 @@ class PurchaseReturnHeaderFormService
 
     public function save(PurchaseReturnHeader $purchaseReturnHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->purchaseReturnHeaderRepository->add($purchaseReturnHeader);
-        foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
-            $this->purchaseReturnDetailRepository->add($purchaseReturnDetail);
-        }
-        $this->addInventories($purchaseReturnHeader);
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($purchaseReturnHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->purchaseReturnHeaderRepository->add($purchaseReturnHeader);
+            foreach ($purchaseReturnHeader->getPurchaseReturnDetails() as $purchaseReturnDetail) {
+                $this->purchaseReturnDetailRepository->add($purchaseReturnDetail);
+            }
+            $this->addInventories($purchaseReturnHeader);
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($purchaseReturnHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     private function getPurchaseOrderHeaderForMaterialOrPaper(ReceiveHeader $receiveHeader)

@@ -6,15 +6,21 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseInvoiceDetail;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Purchase\PurchaseInvoiceDetailRepository;
 use App\Repository\Purchase\PurchaseInvoiceHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Purchase\PurchaseInvoiceHeaderFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchaseInvoiceHeaderFormService
 {
+    use PurchaseInvoiceHeaderFormSupport;
+    
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository;
     private PurchaseInvoiceDetailRepository $purchaseInvoiceDetailRepository;
@@ -23,6 +29,7 @@ class PurchaseInvoiceHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchaseInvoiceHeaderRepository = $entityManager->getRepository(PurchaseInvoiceHeader::class);
         $this->purchaseInvoiceDetailRepository = $entityManager->getRepository(PurchaseInvoiceDetail::class);
@@ -97,12 +104,17 @@ class PurchaseInvoiceHeaderFormService
 
     public function save(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader);
-        foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
-            $this->purchaseInvoiceDetailRepository->add($purchaseInvoiceDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($purchaseInvoiceHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader);
+            foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
+                $this->purchaseInvoiceDetailRepository->add($purchaseInvoiceDetail);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($purchaseInvoiceHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 }

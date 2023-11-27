@@ -7,15 +7,21 @@ use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Entity\Purchase\PurchasePaymentDetail;
 use App\Entity\Purchase\PurchasePaymentHeader;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Purchase\PurchasePaymentDetailRepository;
 use App\Repository\Purchase\PurchasePaymentHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Purchase\PurchasePaymentHeaderFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PurchasePaymentHeaderFormService
 {
+    use PurchasePaymentHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository;
     private PurchasePaymentDetailRepository $purchasePaymentDetailRepository;
@@ -24,6 +30,7 @@ class PurchasePaymentHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->purchasePaymentHeaderRepository = $entityManager->getRepository(PurchasePaymentHeader::class);
         $this->purchasePaymentDetailRepository = $entityManager->getRepository(PurchasePaymentDetail::class);
@@ -87,14 +94,19 @@ class PurchasePaymentHeaderFormService
 
     public function save(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->purchasePaymentHeaderRepository->add($purchasePaymentHeader);
-        foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
-            $purchaseInvoiceHeader = $purchasePaymentDetail->getPurchaseInvoiceHeader();
-            $this->purchasePaymentDetailRepository->add($purchasePaymentDetail);
-            $this->purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($purchasePaymentHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->purchasePaymentHeaderRepository->add($purchasePaymentHeader);
+            foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
+                $purchaseInvoiceHeader = $purchasePaymentDetail->getPurchaseInvoiceHeader();
+                $this->purchasePaymentDetailRepository->add($purchasePaymentDetail);
+                $this->purchaseInvoiceHeaderRepository->add($purchaseInvoiceHeader);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($purchasePaymentHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 }
