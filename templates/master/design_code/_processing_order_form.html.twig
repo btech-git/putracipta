@@ -32,7 +32,7 @@
                                 <td data-form-collection-target="ordinal">{{ ordinal + 1 }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
                                 <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>
-                                <td>
+                                <td class="text-center">
                                     {% if (detailForm.vars.value.id == null) %}
                                         <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                                     {% else %}

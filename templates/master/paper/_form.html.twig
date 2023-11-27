@@ -1,43 +1,13 @@
 {{ form_start(form) }}
     <div class="row">
         <div class="col">
-            <div class="mb-3">
-                <label class="form-label">Name Kertas</label>
-                <div class="row">
-                    <div class="col">
-                        <div class="input-group">
-                            {{ form_widget(form.name) }}
-                            {{ form_errors(form.name) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.name, {'attr': {'readonly': paper.id is not null}}) }}
         </div>
         <div class="col">
-            <div class="mb-3">
-                <label class="form-label">GSM</label>
-                <div class="row">
-                    <div class="col">
-                        <div class="input-group">
-                            {{ form_widget(form.weight) }}
-                            {{ form_errors(form.weight) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.weight, {'attr': {'readonly': paper.id is not null}}) }}
         </div>
         <div class="col">
-            <div class="mb-3">
-                <label class="form-label">FSC/Non</label>
-                <div class="row">
-                    <div class="col">
-                        <div class="input-group">
-                            {{ form_widget(form.type) }}
-                            {{ form_errors(form.type) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.type, {'attr': {'readonly': paper.id is not null}}) }}
         </div>
     </div>
         

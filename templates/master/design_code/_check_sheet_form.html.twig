@@ -28,7 +28,7 @@
                     <tr data-form-collection-target="item" data-item-identifier-name="workOrderCheckSheetId" data-item-identifier-value="{{ detailForm.vars.value.workOrderCheckSheet.id|default }}" {% if detailForm.isInactive.vars.data %}class="d-none"{% endif %}>
                         <td class="d-none">{{ form_widget(detailForm.workOrderCheckSheet, {'attr': {'data-item-field-name': 'workOrderCheckSheetId'}}) }}</td>
                         <td data-item-field-name="workOrderCheckSheetName">{{ detailForm.vars.value.workOrderCheckSheet.name|default }}</td>
-                        <td>
+                        <td class="text-center">
                             {% if (detailForm.vars.value.id == null) %}
                                 <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                             {% else %}

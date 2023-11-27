@@ -11,7 +11,7 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
@@ -23,7 +23,7 @@
                 <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
-                <th style="min-width: 90px"></th>
+                <th style="min-width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>

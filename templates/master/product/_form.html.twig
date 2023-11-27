@@ -29,6 +29,9 @@
                 {{ form_row(form.name) }}
             </div>
             <div class="col">
+                {{ form_row(form.material) }}
+            </div>
+            {#<div class="col">
                 <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
                 {{ form_row(form.paper, {
                     'attr': {
@@ -47,7 +50,7 @@
                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
                        ]|json_encode }}" />
                 {{ form_errors(form.paper) }}
-            </div>
+            </div>#}
         </div>
     </div>
     <div class="mb-3">
@@ -78,14 +81,14 @@
                     <span class="input-group-text">gr</span>
                 </div>
             </div>
-            <div class="col">
+            {#<div class="col">
                 <label class="form-label">Glossiness</label>
                 <div class="input-group">
                     {{ form_widget(form.glossiness) }}
                     {{ form_errors(form.glossiness) }}
                     <span class="input-group-text">%</span>
                 </div>
-            </div>
+            </div>#}
             <div class="col">
                 {{ form_row(form.unit) }}
             </div>

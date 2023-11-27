@@ -24,6 +24,10 @@
                 <td>{{ designCode.customer.name|default }}</td>
             </tr>
             <tr>
+                <th>Nama Produk</th>
+                <td>{{ designCode.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Jlh Warna</th>
                 <td>{{ designCode.color }}</td>
             </tr>
@@ -50,6 +54,10 @@
             <tr>
                 <th>Coating</th>
                 <td>{{ designCode.coating }}</td>
+            </tr>
+            <tr>
+                <th>Hot Stamping</th>
+                <td>{{ designCode.hotstamping }}</td>
             </tr>
             <tr>
                 <th>Jumlah Mata (Up/s)</th>
@@ -90,12 +98,8 @@
         </thead>
         <tbody>
             <tr>
-                <th>% Insit Cetak</th>
-                <td>{{ designCode.insitPrintingPercentage }}</td>
-            </tr>
-            <tr>
-                <th>% Insit Sortir</th>
-                <td>{{ designCode.insitSortingPercentage }}</td>
+                <th>Uk. Plano Kertas</th>
+                <td>{{ designCode.paperPlanoSize }}</td>
             </tr>
             <tr>
                 <th>Uk. Ptg Kertas (cm)</th>
