@@ -8,18 +8,24 @@ use App\Entity\Sale\SaleReturnDetail;
 use App\Entity\Sale\SaleReturnHeader;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleReturnDetailRepository;
 use App\Repository\Sale\SaleReturnHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Sale\SaleReturnHeaderFormSupport;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleReturnHeaderFormService {
 
+    use SaleReturnHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private SaleReturnHeaderRepository $saleReturnHeaderRepository;
     private SaleReturnDetailRepository $saleReturnDetailRepository;
@@ -29,6 +35,7 @@ class SaleReturnHeaderFormService {
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager) {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleReturnHeaderRepository = $entityManager->getRepository(SaleReturnHeader::class);
         $this->saleReturnDetailRepository = $entityManager->getRepository(SaleReturnDetail::class);
@@ -136,16 +143,21 @@ class SaleReturnHeaderFormService {
     }
 
     public function save(SaleReturnHeader $saleReturnHeader, array $options = []): void {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->saleReturnHeaderRepository->add($saleReturnHeader);
-        foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
-            $this->saleReturnDetailRepository->add($saleReturnDetail);
-        }
-        if ($saleReturnHeader->isIsProductExchange()) {
-            $this->addInventories($saleReturnHeader);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($saleReturnHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->saleReturnHeaderRepository->add($saleReturnHeader);
+            foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
+                $this->saleReturnDetailRepository->add($saleReturnDetail);
+            }
+            if ($saleReturnHeader->isIsProductExchange()) {
+                $this->addInventories($saleReturnHeader);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($saleReturnHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     private function addInventories(SaleReturnHeader $saleReturnHeader): void {

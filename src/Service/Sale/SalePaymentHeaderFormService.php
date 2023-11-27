@@ -8,16 +8,22 @@ use App\Entity\Sale\SaleInvoiceHeader;
 use App\Entity\Sale\SalePaymentDetail;
 use App\Entity\Sale\SalePaymentHeader;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\SalePaymentDetailRepository;
 use App\Repository\Sale\SalePaymentHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Sale\SalePaymentHeaderFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SalePaymentHeaderFormService
 {
+    use SalePaymentHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private SalePaymentHeaderRepository $salePaymentHeaderRepository;
     private SalePaymentDetailRepository $salePaymentDetailRepository;
@@ -27,6 +33,7 @@ class SalePaymentHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->salePaymentHeaderRepository = $entityManager->getRepository(SalePaymentHeader::class);
         $this->salePaymentDetailRepository = $entityManager->getRepository(SalePaymentDetail::class);
@@ -98,12 +105,17 @@ class SalePaymentHeaderFormService
 
     public function save(SalePaymentHeader $salePaymentHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->salePaymentHeaderRepository->add($salePaymentHeader);
-        foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
-            $this->salePaymentDetailRepository->add($salePaymentDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($salePaymentHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->salePaymentHeaderRepository->add($salePaymentHeader);
+            foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
+                $this->salePaymentDetailRepository->add($salePaymentDetail);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($salePaymentHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 }

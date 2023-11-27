@@ -6,15 +6,21 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Sale\SaleOrderHeaderFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SaleOrderHeaderFormService
 {
+    use SaleOrderHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private SaleOrderHeaderRepository $saleOrderHeaderRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
@@ -23,6 +29,7 @@ class SaleOrderHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleOrderHeaderRepository = $entityManager->getRepository(SaleOrderHeader::class);
         $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
@@ -88,13 +95,18 @@ class SaleOrderHeaderFormService
 
     public function save(SaleOrderHeader $saleOrderHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->saleOrderHeaderRepository->add($saleOrderHeader);
-        foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
-            $this->saleOrderDetailRepository->add($saleOrderDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($saleOrderHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->saleOrderHeaderRepository->add($saleOrderHeader);
+            foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+                $this->saleOrderDetailRepository->add($saleOrderDetail);
+            }
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($saleOrderHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     public function uploadFile(SaleOrderHeader $saleOrderHeader, $transactionFile, $uploadDirectory): void

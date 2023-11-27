@@ -9,18 +9,24 @@ use App\Entity\Sale\DeliveryHeader;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Sale\DeliveryDetailRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
+use App\Support\Sale\DeliveryHeaderFormSupport;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class DeliveryHeaderFormService
 {
+    use DeliveryHeaderFormSupport;
+
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private DeliveryHeaderRepository $deliveryHeaderRepository;
     private DeliveryDetailRepository $deliveryDetailRepository;
@@ -31,6 +37,7 @@ class DeliveryHeaderFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->deliveryHeaderRepository = $entityManager->getRepository(DeliveryHeader::class);
         $this->deliveryDetailRepository = $entityManager->getRepository(DeliveryDetail::class);
@@ -139,14 +146,19 @@ class DeliveryHeaderFormService
 
     public function save(DeliveryHeader $deliveryHeader, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->deliveryHeaderRepository->add($deliveryHeader);
-        foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
-            $this->deliveryDetailRepository->add($deliveryDetail);
-        }
-        $this->addInventories($deliveryHeader);
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($deliveryHeader) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->deliveryHeaderRepository->add($deliveryHeader);
+            foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
+                $this->deliveryDetailRepository->add($deliveryDetail);
+            }
+            $this->addInventories($deliveryHeader);
+            $this->entityManager->flush();
+            $transactionLog = $this->buildTransactionLog($deliveryHeader);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 
     private function addInventories(DeliveryHeader $deliveryHeader): void
