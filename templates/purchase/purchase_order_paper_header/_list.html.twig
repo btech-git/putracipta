@@ -20,9 +20,6 @@
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'grandTotal') }}>
-                    Grand Total {{ grid.sort_char(form.sort.grandTotal.vars.value) }}
-                </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
                     Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
                 </th>
@@ -50,9 +47,6 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'grandTotal') }} value="{{ form.filter.grandTotal.1.vars.value }}" />
-                </th>
-                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
                 </th>
                 <th></th>
@@ -65,7 +59,6 @@
                     <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
                     <td>{{ purchaseOrderPaperHeader.note }}</td>
-                    <td class="text-end">{{ purchaseOrderPaperHeader.grandTotal|default|number_format(0) }}</td>
                     <td>{{ purchaseOrderPaperHeader.transactionStatus }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_show', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-search"></i></a>
@@ -75,7 +68,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
