@@ -92,11 +92,9 @@ class DesignCodeFormService
         $designCode->setPackagingTapeLargeQuantity($sourceDesignCode->getPackagingTapeLargeQuantity());
         $designCode->setPackagingTapeSmallQuantity($sourceDesignCode->getPackagingTapeSmallQuantity());
         $designCode->setPackagingPlasticQuantity($sourceDesignCode->getPackagingPlasticQuantity());
-        $designCode->setInsitPrintingPercentage($sourceDesignCode->getInsitPrintingPercentage());
-        $designCode->setInsitSortingPercentage($sourceDesignCode->getInsitSortingPercentage());
         $designCode->setHotStamping($sourceDesignCode->getHotStamping());
         foreach ($sourceDesignCode->getDesignCodeCheckSheetDetails() as $sourceDesignCodeCheckSheetDetail) {
-            $designCodeCheckSheetDetail = new DesignCodeProcessDetail();
+            $designCodeCheckSheetDetail = new DesignCodeCheckSheetDetail();
             $designCodeCheckSheetDetail->setDesignCode($sourceDesignCodeCheckSheetDetail->getDesignCode());
             $designCodeCheckSheetDetail->setWorkOrderCheckSheet($sourceDesignCodeCheckSheetDetail->getWorkOrderCheckSheet());
             $designCode->addDesignCodeCheckSheetDetail($designCodeCheckSheetDetail);
