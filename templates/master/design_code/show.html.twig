@@ -209,10 +209,12 @@
             </tr>
         </thead>
         <tbody>
+            {% set counter = 0 %}
             {% for designCodeProcessDetail in designCode.designCodeProcessDetails %}
                 {% if not designCodeProcessDetail.isIsInactive %}
+                    {% set counter = counter + 1 %}
                     <tr>
-                        <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                        <td style="text-align: center; width: 5%">{{ counter }}</td>
                         <td>{{ designCodeProcessDetail.workOrderProcess.name|default }}</td>
                     </tr>
                 {% endif %}
@@ -229,14 +231,16 @@
             </tr>
             <tr>
                 <th>No</th>
-                <th>Proses</th>
+                <th>Work Order</th>
             </tr>
         </thead>
         <tbody>
+            {% set counter = 0 %}
             {% for designCodeDistributionDetail in designCode.designCodeDistributionDetails %}
                 {% if not designCodeDistributionDetail.isIsInactive %}
+                    {% set counter = counter + 1 %}
                     <tr>
-                        <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                        <td style="text-align: center; width: 5%">{{ counter }}</td>
                         <td>{{ designCodeDistributionDetail.workOrderDistribution.name|default }}</td>
                     </tr>
                 {% endif %}
@@ -253,14 +257,16 @@
             </tr>
             <tr>
                 <th>No</th>
-                <th>Proses</th>
+                <th>Check Sheet</th>
             </tr>
         </thead>
         <tbody>
+            {% set counter = 0 %}
             {% for designCodeCheckSheetDetail in designCode.designCodeCheckSheetDetails %}
                 {% if not designCodeCheckSheetDetail.isIsInactive %}
+                    {% set counter = counter + 1 %}
                     <tr>
-                        <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                        <td style="text-align: center; width: 5%">{{ counter }}</td>
                         <td>{{ designCodeCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
                     </tr>
                 {% endif %}
