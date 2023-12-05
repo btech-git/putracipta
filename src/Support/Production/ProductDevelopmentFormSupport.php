@@ -15,7 +15,6 @@ trait ProductDevelopmentFormSupport
             'codeNumber' => $productDevelopment->getCodeNumber(),
             'transactionDate' => $productDevelopment->getTransactionDate(),
             'note' => $productDevelopment->getNote(),
-            'totalAmount' => $productDevelopment->getTotalAmount(),
         ];
     }
 }
