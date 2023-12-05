@@ -13,6 +13,8 @@ use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
 use App\Entity\AccountingHeader;
+use App\Entity\Master\Account;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -25,7 +27,7 @@ class ExpenseHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'account', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -33,30 +35,37 @@ class ExpenseHeaderGridType extends AbstractType
                     'transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'account' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'account' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(AccountingHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'account' => ['class' => Account::class, 'choice_label' => 'name'],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'note', 'id'],
+                'field_names' => ['transactionDate', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
+                    'codeNumberOrdinal' => '',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
-                    'id' => [SortAscending::class, SortDescending::class],
+                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
