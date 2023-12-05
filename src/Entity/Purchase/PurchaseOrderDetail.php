@@ -103,6 +103,12 @@ class PurchaseOrderDetail extends PurchaseDetail
         return $this->quantity * $this->getUnitPriceBeforeTax();
     }
 
+    public function getSyncIsTransactionClosed(): bool
+    {
+        $isClosed = $this->purchaseOrderHeader->getTransactionStatus() === $this->purchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE ? true : $this->isTransactionClosed;
+        return $isClosed;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
