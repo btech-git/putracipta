@@ -86,6 +86,7 @@ class StockTransferHeaderFormService
                     $material = $stockTransferMaterialDetail->getMaterial();
                     $stockQuantity = isset($stockQuantityListIndexed[$material->getId()]) ? $stockQuantityListIndexed[$material->getId()] : 0;
                     $stockTransferMaterialDetail->setQuantityCurrent($stockQuantity);
+                    $stockTransferMaterialDetail->setUnit($material->getUnit());
                 }
             } else if ($stockTransferHeader->getTransferMode() === StockTransferHeader::TRANSFER_MODE_PAPER) {
                 $papers = array_map(fn($stockTransferPaperDetail) => $stockTransferPaperDetail->getPaper(), $stockTransferHeader->getStockTransferPaperDetails()->toArray());
@@ -96,6 +97,7 @@ class StockTransferHeaderFormService
                     $paper = $stockTransferPaperDetail->getPaper();
                     $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
                     $stockTransferPaperDetail->setQuantityCurrent($stockQuantity);
+                    $stockTransferPaperDetail->setUnit($paper->getUnit());
                 }
             } else if ($stockTransferHeader->getTransferMode() === StockTransferHeader::TRANSFER_MODE_PRODUCT) {
                 $products = array_map(fn($stockTransferProductDetail) => $stockTransferProductDetail->getProduct(), $stockTransferHeader->getStockTransferProductDetails()->toArray());
@@ -106,6 +108,7 @@ class StockTransferHeaderFormService
                     $product = $stockTransferProductDetail->getProduct();
                     $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
                     $stockTransferProductDetail->setQuantityCurrent($stockQuantity);
+                    $stockTransferProductDetail->setUnit($product->getUnit());
                 }
             }
         }
