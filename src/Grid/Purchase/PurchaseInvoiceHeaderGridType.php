@@ -22,7 +22,7 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus', 'id'],
+                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'transactionStatus', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
@@ -32,10 +32,6 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                 'field_operators_list' => [
                     'supplierInvoiceCodeNumber' => [FilterContain::class, FilterNotContain::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
-                    'grandTotal' => [FilterEqual::class, FilterNotEqual::class],
-                    'totalPayment' => [FilterEqual::class, FilterNotEqual::class],
-                    'totalReturn' => [FilterEqual::class, FilterNotEqual::class],
-                    'remainingPayment' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionStatus' => [FilterContain::class, FilterNotContain::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
                 ],
@@ -44,7 +40,7 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'grandTotal', 'totalPayment', 'totalReturn', 'remainingPayment', 'transactionStatus'],
+                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier:company', 'grandTotal', 'transactionStatus'],
                 'field_label_list' => [
                     'transactionDate' => 'Tanggal',
                     'supplierInvoiceCodeNumber' => 'Supplier Invoice #',
@@ -53,10 +49,6 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                 'field_operators_list' => [
                     'supplierInvoiceCodeNumber' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'grandTotal' => [SortAscending::class, SortDescending::class],
-                    'totalPayment' => [SortAscending::class, SortDescending::class],
-                    'totalReturn' => [SortAscending::class, SortDescending::class],
-                    'remainingPayment' => [SortAscending::class, SortDescending::class],
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
                 ],
