@@ -21,10 +21,15 @@ trait PurchaseInvoiceHeaderFormSupport
             ],
             'purchaseInvoiceDetails' => array_map(function($purchaseInvoiceDetail) {
                 $material = $purchaseInvoiceDetail->getMaterial();
+                $paper = $purchaseInvoiceDetail->getPaper();
                 return [
                     'material' => [
-                        'code' => $material->getCode(),
-                        'name' => $material->getName(),
+                        'code' => $material === null ? '' : $material->getCode(),
+                        'name' => $material === null ? '' : $material->getName(),
+                    ],
+                    'paper' => [
+                        'code' => $paper === null ? '' : $paper->getCode(),
+                        'name' => $paper === null ? '' : $paper->getName(),
                     ],
                     'quantity' => $purchaseInvoiceDetail->getQuantity(),
                     'unitPrice' => $purchaseInvoiceDetail->getUnitPrice(),
