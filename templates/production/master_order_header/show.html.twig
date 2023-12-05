@@ -127,25 +127,25 @@
                 <th>% Insit Cetak</th>
                 <td>{{ masterOrderHeader.insitPrintingPercentage }}</td>
                 <th>Insit Cetak (dreek)</th>
-                <td>{{ masterOrderHeader.insitPrintingQuantity }}</td>
+                <td>{{ masterOrderHeader.insitPrintingQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>% Insit Sortir</th>
                 <td>{{ masterOrderHeader.insitSortingPercentage }}</td>
                 <th>Insit Cetak (dreek)</th>
-                <td>{{ masterOrderHeader.insitSortingQuantity }}</td>
+                <td>{{ masterOrderHeader.insitSortingQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Quantity Kertas (rim)</th>
-                <td>{{ masterOrderHeader.quantityPaper }}</td>
+                <td>{{ masterOrderHeader.quantityPaper|number_format(2) }}</td>
                 <th>Kebutuhan (dreek)</th>
-                <td>{{ masterOrderHeader.paperRequirement }}</td>
+                <td>{{ masterOrderHeader.paperRequirement|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Mountage Kertas (up)</th>
                 <td>{{ masterOrderHeader.paperMountage }}</td>
                 <th>Total Kertas (dreek)</th>
-                <td>{{ masterOrderHeader.paperTotal }}</td>
+                <td>{{ masterOrderHeader.paperTotal|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Uk Kertas (cm)</th>
@@ -221,25 +221,25 @@
         <tbody>
             <tr>
                 <th>Lem</th>
-                <td>{{ masterOrderHeader.packagingGlueQuantity }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight }} kg</td>
+                <td>{{ masterOrderHeader.packagingGlueQuantity|number_format(2) }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight|number_format(2) }} kg</td>
                 <th>Lakban >besar</th>
-                <td>{{ masterOrderHeader.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize }} roll</td>
+                <td>{{ masterOrderHeader.packagingTapeLargeQuantity|number_format(2) }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize|number_format(2) }} roll</td>
             </tr>
             <tr>
                 <th>Karet</th>
-                <td>{{ masterOrderHeader.packagingRubberQuantity }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight }} pcs</td>
+                <td>{{ masterOrderHeader.packagingRubberQuantity|number_format(2) }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight|number_format(2) }} pcs</td>
                 <th>Lakban >kecil</th>
-                <td>{{ masterOrderHeader.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize }} roll</td>
+                <td>{{ masterOrderHeader.packagingTapeSmallQuantity|number_format(2) }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize|number_format(2) }} roll</td>
             </tr>
             <tr>
                 <th>Kertas Packing</th>
-                <td>{{ masterOrderHeader.packagingPaperQuantity }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight }} lbr</td>
+                <td>{{ masterOrderHeader.packagingPaperQuantity|number_format(2) }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight|number_format(2) }} lbr</td>
                 <th>Plastik</th>
-                <td>{{ masterOrderHeader.packagingPlasticQuantity }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize }} m2</td>
+                <td>{{ masterOrderHeader.packagingPlasticQuantity|number_format(2) }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize|number_format(2) }} m2</td>
             </tr>
             <tr>
                 <th>Dus</th>
-                <td>{{ masterOrderHeader.packagingBoxQuantity }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight }} pcs</td>
+                <td>{{ masterOrderHeader.packagingBoxQuantity|number_format(2) }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight|number_format(2) }} pcs</td>
                 <td></td>
                 <td></td>
             </tr>
