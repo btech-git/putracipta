@@ -409,7 +409,7 @@ class MasterOrderHeader extends ProductionHeader
         return $totalQuantity;
     }
     
-    public function getSyncQuantityPaper() 
+    public function getSyncQuantityPaper(): string
     {
         $totalQuantityShortage = empty($this->totalQuantityShortage) ? 1 : $this->totalQuantityShortage;
         $paperMountage = empty($this->paperMountage) ? 1 : $this->paperMountage;
