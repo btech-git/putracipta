@@ -2,6 +2,27 @@
 
 <div class="d-print-none">
     {{ grid.form(form) }}
+    
+    <div class=" mt-3">
+        <div class="row" {{ grid.filter_link(form) }}>
+            <div class="col">
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label w-25">Code Number</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label w-25">Transaction Date</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{ grid.info(form, count, purchaseOrderHeaders) }}
 
@@ -16,11 +37,11 @@
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
         <div class="report-title">Laporan Purchase Order</div>
-        {#<div>
-            {% set startDate = grid.searchVals['purchaseOrderHeader']['transactionDate'][1]|default %}
-            {% set endDate = grid.searchVals['purchaseOrderHeader']['transactionDate'][2]|default %}
+        <div>
+            {% set startDate = form.vars.value.filter.transactionDate.1|default %}
+            {% set endDate = form.vars.value.filter.transactionDate.2|default %}
             {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
-        </div>#}
+        </div>
     </div>
 
     <br />
