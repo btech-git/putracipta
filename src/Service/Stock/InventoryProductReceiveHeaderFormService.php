@@ -62,8 +62,30 @@ class InventoryProductReceiveHeaderFormService
         
         foreach ($inventoryProductReceiveHeader->getInventoryProductReceiveDetails() as $inventoryProductReceiveDetail) {
             $inventoryProductReceiveDetail->setIsCanceled($inventoryProductReceiveDetail->getSyncIsCanceled());
+            
+            $masterOrderProductDetail = $inventoryProductReceiveDetail->getMasterOrderProductDetail();
+            $inventoryProductReceiveDetail->setSaleOrderDetail($masterOrderProductDetail->getSaleOrderDetail());
+            
+            $oldInventoryProductReceiveDetails = $this->inventoryProductReceiveDetailRepository->findByMasterOrderProductDetail($masterOrderProductDetail);
+            $totalProduction = 0;
+            foreach ($oldInventoryProductReceiveDetails as $oldInventoryProductReceiveDetail) {
+                if ($oldInventoryProductReceiveDetail->getId() !== $inventoryProductReceiveDetail->getId() && $oldInventoryProductReceiveDetail->isIsCanceled() === false) {
+                    $totalProduction += $oldInventoryProductReceiveDetail->getQuantity();
+                }
+            }
+            if ($inventoryProductReceiveDetail->isIsCanceled() === false) {
+                $totalProduction += $inventoryProductReceiveDetail->getQuantity();
+            }
+            $masterOrderProductDetail->setQuantityProduction($totalProduction);
+            $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
+            
         }
         $inventoryProductReceiveHeader->setTotalQuantity($inventoryProductReceiveHeader->getSyncTotalQuantity());
+        $masterOrderHeader = $inventoryProductReceiveHeader->getMasterOrderHeader();
+        if ($masterOrderHeader !== null) {
+            $masterOrderHeader->setTotalQuantityProduction($masterOrderHeader->getSyncTotalQuantityProduction());
+            $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
+        }
     }
 
     public function save(InventoryProductReceiveHeader $inventoryProductReceiveHeader, array $options = []): void
