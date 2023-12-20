@@ -29,11 +29,8 @@ class MasterOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
-            $sub = $new(InventoryProductReceiveHeader::class, 'i');
-            $sub->andWhere("IDENTITY(i.masterOrderHeader) = {$alias}.id");
-            $qb->leftJoin("{$alias}.inventoryProductReceiveHeaders", 'r');
-            $qb->andWhere($qb->expr()->orX('r.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.totalRemainingProduction > 0");
         });
 
         return $this->renderForm("shared/master_order_header/_list.html.twig", [

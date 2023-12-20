@@ -27,20 +27,15 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            $customerId = '';
             if (isset($request->request->get('sale_order_header')['customer'])) {
                 $customerId = $request->request->get('sale_order_header')['customer'];
-            }
-            if (isset($request->request->get('product_prototype')['customer'])) {
+            } else if (isset($request->request->get('product_prototype')['customer'])) {
                 $customerId = $request->request->get('product_prototype')['customer'];
-            }
-            if (isset($request->request->get('dieline_millar')['customer'])) {
+            } else if (isset($request->request->get('dieline_millar')['customer'])) {
                 $customerId = $request->request->get('dieline_millar')['customer'];
-            }
-            if (isset($request->request->get('diecut_knife')['customer'])) {
+            } else if (isset($request->request->get('diecut_knife')['customer'])) {
                 $customerId = $request->request->get('diecut_knife')['customer'];
-            }
-            if (isset($request->request->get('design_code')['customer'])) {
+            } else if (isset($request->request->get('design_code')['customer'])) {
                 $customerId = $request->request->get('design_code')['customer'];
             }
             if (isset($request->request->get('product_grid')['filter']['unit:name']) && isset($request->request->get('product_grid')['sort']['unit:name'])) {
@@ -48,8 +43,10 @@ class ProductController extends AbstractController
                 $add['filter']($qb, 'u', 'name', $request->request->get('product_grid')['filter']['unit:name']);
                 $add['sort']($qb, 'u', 'name', $request->request->get('product_grid')['sort']['unit:name']);
             }
-            $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
-            $qb->setParameter('customerId', $customerId);
+            if (isset($customerId)) {
+                $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
+                $qb->setParameter('customerId', $customerId);
+            }
             $qb->andWhere("{$alias}.isInactive = false");
         });
 

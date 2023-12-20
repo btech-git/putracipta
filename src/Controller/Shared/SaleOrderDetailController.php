@@ -57,9 +57,16 @@ class SaleOrderDetailController extends AbstractController
                 $add['filter']($qb, 'u', 'name', $request->request->get('sale_order_detail_grid')['filter']['unit:name']);
                 $add['sort']($qb, 'u', 'name', $request->request->get('sale_order_detail_grid')['sort']['unit:name']);
             }
-            $qb->andWhere("{$alias}.remainingDelivery > 0");
+            if ($request->request->has('delivery_header')) {
+                $qb->andWhere("{$alias}.remainingDelivery > 0");
+            } else if ($request->request->has('master_order_header')) {
+                $sub = $new(\App\Entity\Production\MasterOrderProductDetail::class, 'm');
+                $sub->andWhere("IDENTITY(m.saleOrderDetail) = {$alias}.id");
+                $qb->leftJoin("{$alias}.masterOrderProductDetails", 'd');
+                $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
+            }
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("s.transactionStatus = 'Approve' OR s.transactionStatus = 'partial_delivery'");
+            $qb->andWhere("s.transactionStatus IN ('Approve', 'partial_delivery')");
         });
 
         return $this->renderForm("shared/sale_order_detail/_list.html.twig", [
