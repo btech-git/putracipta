@@ -11,6 +11,7 @@
             "{{ saleOrderDetailForm.vars.name }}": {
                 "unitPriceBeforeTax": "{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}",
                 "total": "{{ saleOrderDetail.total|default|number_format(2) }}"
+                "quantityStock": "{{ saleOrderDetail.quantityStock|default|number_format(0) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
         {%- endfor -%}

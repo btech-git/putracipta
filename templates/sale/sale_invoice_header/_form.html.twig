@@ -21,6 +21,7 @@
                         data-property-path="dueDate" />
                     </div>
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
+                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -44,15 +45,23 @@
                         {{ form_errors(form.customer) }}
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Kawasan Berikat/Bebas</label>
+                        <input type="text" class="form-control" value="{{ saleInvoiceHeader.customer.bondedZoneLiteral|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="customer-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.bondedZoneLiteral'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">TOP (hari)</label>
-                        <input type="text" class="form-control" value="{{ deliveryHeader.customer.paymentTerm|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ saleInvoiceHeader.customer.paymentTerm|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paymentTerm'}},
                                ]|json_encode }}" />
                     </div>
-                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                 </div>
             </div>
             <div class="row">

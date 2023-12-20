@@ -75,7 +75,6 @@
                 <th>FSC Code</th>
                 <th>WO #</th>
                 <th>Lot #</th>
-                <th>PO #</th>
                 <th>Line PO</th>
                 <th>Tgl Produksi</th>
                 <th>Qty Kirim</th>
@@ -95,9 +94,8 @@
                     <td>{{ deliveryDetail.fscCode|default }}</td>
                     <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }}</td>
                     <td>{{ deliveryDetail.lotNumber|default }}</td>
-                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
-                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td style="text-align: center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
@@ -109,7 +107,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="9" style="text-align: right"><strong>Total</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Total</strong></td>
                 <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default|number_format(0) }}</strong></td>
                 <td colspan="5"></td>
             </tr>

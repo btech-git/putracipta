@@ -28,6 +28,10 @@
                 <td>{{ saleInvoiceHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
+                <th>Kawasan Berikat / Bebas</th>
+                <td>{{ saleInvoiceHeader.customer.bondedZoneLiteral }}</td>
+            </tr>
+            <tr>
                 <th>TOP (days)</th>
                 <td>{{ saleInvoiceHeader.customer.paymentTerm }}</td>
             </tr>

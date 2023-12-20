@@ -53,9 +53,9 @@
                 <th>Jatuh Tempo</th>
                 <th>Memo</th>
                 <th>Akun</th>
-                <th>Total</th>
-                <th>Retur</th>
-                <th>PPh (%)</th>
+                <th>Invoice</th>
+                <th colspan="2">PPh</th>
+                <th>Piutang</th>
                 <th>Payment</th>
             </tr>
         </thead>
@@ -66,38 +66,32 @@
                     <td>{{ salePaymentDetail.saleInvoiceHeader.dueDate ? salePaymentDetail.saleInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
                     <td>{{ salePaymentDetail.memo|default }}</td>
                     <td>{{ salePaymentDetail.account.name|default }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.saleInvoiceHeader.totalReturn|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.invoiceAmount|default|number_format(0) }}</td>
                     <td style="text-align: right">
                         {% if salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', salePaymentDetail) %}
-                            0.00
+                            0.00%
                         {% elseif salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', salePaymentDetail) %}
-                            {{ salePaymentDetail.serviceTaxPercentage }}
+                            {{ salePaymentDetail.serviceTaxPercentage }}%
                         {% endif %}
                     </td>
+                    <td style="text-align: right">{{ salePaymentDetail.serviceTaxNominal|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.receivableAmount|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(0) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Total Invoice</strong></td>
-                <td style="text-align: right"><strong>{{ salePaymentHeader.totalInvoice|default|number_format(0) }}</strong></td>
-            </tr>
-            <tr>
-                <td colspan="7" style="text-align: right"><strong>Total Payment</strong></td>
+                <td colspan="7" style="text-align: right"><strong>Total</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.totalReceivable|default|number_format(0) }}</strong></td>
                 <td style="text-align: right"><strong>{{ salePaymentHeader.totalAmount|default|number_format(0) }}</strong></td>
             </tr>
-            {#<tr>
-                <td colspan="6" style="text-align: right"><strong>Total Retur</strong></td>
-                <td style="text-align: right"><strong>{{ salePaymentHeader.returnAmount|default|number_format(0) }}</strong></td>
-            </tr>#}
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Admin Fee</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Admin Fee</strong></td>
                 <td style="text-align: right"><strong>{{ salePaymentHeader.administrationFee|default|number_format(0) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="7" style="text-align: right"><strong>Jumlah Terima</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Jumlah Terima</strong></td>
                 <td style="text-align: right"><strong>{{ salePaymentHeader.receivedAmount|default|number_format(0) }}</strong></td>
             </tr>
         </tfoot>
