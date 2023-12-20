@@ -90,9 +90,12 @@ class SalePaymentHeaderFormService
             } else {
                 $salePaymentDetail->setServiceTaxPercentage(0);
             }
+            $salePaymentDetail->setInvoiceAmount($salePaymentDetail->getSyncInvoiceAmount());
             $salePaymentDetail->setServiceTaxNominal($salePaymentDetail->getSyncServiceTaxNominal());
+            $salePaymentDetail->setReceivableAmount($salePaymentDetail->getSyncReceivableAmount());
         }
         $salePaymentHeader->setTotalAmount($salePaymentHeader->getSyncTotalAmount());
+        $salePaymentHeader->setTotalReceivable($salePaymentHeader->getSyncTotalReceivable());
         $salePaymentHeader->setReceivedAmount($salePaymentHeader->getSyncReceivedAmount());
         
         $saleOrderReferenceNumberList = array();

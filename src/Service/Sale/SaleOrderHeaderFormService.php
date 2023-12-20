@@ -5,10 +5,12 @@ namespace App\Service\Sale;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\SaleOrderHeader;
+use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Entity\Support\TransactionLog;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
+use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Sale\SaleOrderHeaderFormSupport;
@@ -24,6 +26,7 @@ class SaleOrderHeaderFormService
     private IdempotentRepository $idempotentRepository;
     private SaleOrderHeaderRepository $saleOrderHeaderRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
+    private InventoryRepository $inventoryRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -33,6 +36,7 @@ class SaleOrderHeaderFormService
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleOrderHeaderRepository = $entityManager->getRepository(SaleOrderHeader::class);
         $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
+        $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
     }
 
     public function initialize(SaleOrderHeader $saleOrderHeader, array $options = []): void
@@ -73,6 +77,16 @@ class SaleOrderHeaderFormService
             
             if ($saleOrderDetail->isIsTransactionClosed() === true or $saleOrderDetail->isIsCanceled() === true) {
                 $saleOrderDetail->setRemainingDelivery(0);
+            }
+            
+            $products = array_map(fn($saleOrderDetail) => $saleOrderDetail->getProduct(), $saleOrderHeader->getSaleOrderDetails()->toArray());
+            $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($saleOrderHeader->getWarehouse(), $products);
+            $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+            foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+                $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
+                $product = $saleOrderDetail->getProduct();
+                $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
+                $saleOrderDetail->setQuantityStock($stockQuantity);
             }
         }
         
