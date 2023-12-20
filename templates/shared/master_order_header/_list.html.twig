@@ -68,6 +68,7 @@
                     'productCode': masterOrderProductDetail.product.code|default,
                     'productName': masterOrderProductDetail.product.name|default,
                     'unitName': masterOrderProductDetail.product.unit.name|default,
+                    'masterOrderProductDetailRemainingProduction': masterOrderProductDetail.remainingProduction|number_format(0),
                     'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder|number_format(0)})|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber }}</td>
                     <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>

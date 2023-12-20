@@ -70,6 +70,7 @@
                     'designCodeColorPantoneAdditional': designCode.colorPantoneAdditional,
                     'designCodeHotStamping': designCode.hotStamping,
                     'designCodeNote': designCode.note,
+                    'designCodeGlossiness': designCode.glossiness,
                 } %}
                 {% set designCodeProcessDetailsData = designCode.designCodeProcessDetails|filter(designCodeProcessDetail => not designCodeProcessDetail.isInactive)|slice(0)|map(designCodeProcessDetail => {
                     'designCodeProcessDetailId': designCodeProcessDetail.id, 
