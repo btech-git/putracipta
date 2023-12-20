@@ -20,6 +20,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/stock/inventory_product_receive_header')]
 class InventoryProductReceiveHeaderController extends AbstractController
 {
+    #[Route('/_receive_list', name: 'app_stock_inventory_product_receive_header__receive_list', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function _receiveList(Request $request, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
+    {
+        $lastInventoryProductReceiveHeaders = $inventoryProductReceiveHeaderRepository->findBy(['masterOrderHeader' => $request->request->get('inventory_product_receive_header')['masterOrderHeader']], ['id' => 'DESC'], 5, 0);
+
+        return $this->render("stock/inventory_product_receive_header/_receive_list.html.twig", [
+            'lastInventoryProductReceiveHeaders' => $lastInventoryProductReceiveHeaders,
+        ]);
+    }
+
     #[Route('/_list', name: 'app_stock_inventory_product_receive_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _list(Request $request, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
