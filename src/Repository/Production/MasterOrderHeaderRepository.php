@@ -18,12 +18,11 @@ class MasterOrderHeaderRepository extends ServiceEntityRepository
         parent::__construct($registry, MasterOrderHeader::class);
     }
 
-    public function findRecentBy($year, $month)
+    public function findRecentBy($year)
     {
-        $dql = 'SELECT e FROM ' . MasterOrderHeader::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
+        $dql = 'SELECT e FROM ' . MasterOrderHeader::class . ' e WHERE e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
         $lastMasterOrder = $query->getOneOrNullResult();

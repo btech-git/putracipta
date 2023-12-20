@@ -20,10 +20,9 @@ class ProductPrototypeRepository extends ServiceEntityRepository
 
     public function findRecentBy($year, $month)
     {
-        $dql = 'SELECT e FROM ' . ProductPrototype::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
+        $dql = 'SELECT e FROM ' . ProductPrototype::class . ' e WHERE e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
         $lastProductPrototype = $query->getOneOrNullResult();
