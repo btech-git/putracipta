@@ -3,6 +3,7 @@
 namespace App\Entity\Stock;
 
 use App\Entity\Master\Product;
+use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\StockDetail;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Repository\Stock\InventoryProductReceiveDetailRepository;
@@ -31,6 +32,9 @@ class InventoryProductReceiveDetail extends StockDetail
 
     #[ORM\ManyToOne]
     private ?Product $product = null;
+
+    #[ORM\ManyToOne(inversedBy: 'inventoryProductReceiveDetails')]
+    private ?SaleOrderDetail $saleOrderDetail = null;
 
     public function getSyncIsCanceled(): bool
     {
@@ -99,6 +103,18 @@ class InventoryProductReceiveDetail extends StockDetail
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getSaleOrderDetail(): ?SaleOrderDetail
+    {
+        return $this->saleOrderDetail;
+    }
+
+    public function setSaleOrderDetail(?SaleOrderDetail $saleOrderDetail): self
+    {
+        $this->saleOrderDetail = $saleOrderDetail;
 
         return $this;
     }
