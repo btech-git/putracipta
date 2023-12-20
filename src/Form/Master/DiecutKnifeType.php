@@ -36,6 +36,7 @@ class DiecutKnifeType extends AbstractType
             ]])
             ->add('note')
             ->add('isInactive')
+            ->add('date', null, ['widget' => 'single_text', 'label' => 'Tanggal Pembuatan'])
         ;
     }
 

@@ -44,7 +44,8 @@ class DesignCodeType extends AbstractType
             ->add('paperCuttingLength', null, ['label' => false])
             ->add('paperCuttingWidth', null, ['label' => false])
             ->add('paperMountage', null, ['label' => 'Mountage Kertas (lbr/plano)'])
-            ->add('paperPlanoSize', null, ['label' => 'Ukuran Plano Kertas)'])
+            ->add('paperPlanoLength', null, ['label' => false])
+            ->add('paperPlanoWidth', null, ['label' => false])
             ->add('inkCyanPercentage', null, ['label' => 'Cyan (%)'])
             ->add('inkMagentaPercentage', null, ['label' => 'Magenta (%)'])
             ->add('inkYellowPercentage', null, ['label' => 'Yellow (%)'])
@@ -61,6 +62,10 @@ class DesignCodeType extends AbstractType
             ->add('packagingTapeLargeQuantity', null, ['label' => 'Lakban Besar (cm/pack)'])
             ->add('packagingTapeSmallQuantity', null, ['label' => 'Lakban Kecil (cm/pack)'])
             ->add('packagingPlasticQuantity', null, ['label' => 'Plastik (cm2/pack)'])
+            ->add('glossiness', ChoiceType::class, ['choices' => [
+                '70' => 70,
+                '80' => 80,
+            ]])
             ->add('diecutKnife', null, [
                 'choice_label' => 'codeNumber',
                 'label' => 'Pisau Diecut',
