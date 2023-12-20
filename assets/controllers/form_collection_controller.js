@@ -15,7 +15,13 @@ export default class extends Controller {
 
     connect() {
         this.index = this.startIndexValue;
-        this.ordinal = this.startOrdinalValue;
+        this.ordinal = 0;
+        for (const ordinalItem of this.ordinalTargets) {
+            const ordinalIgnore = ordinalItem.getAttribute('data-ordinal-ignore');
+            if (ordinalIgnore === null) {
+                this.ordinal++;
+            }
+        }
     }
 
     addCollectionItem(event) {
@@ -45,14 +51,17 @@ export default class extends Controller {
             this.itemTargets.forEach(element => {
                 if (element.contains(event.target)) {
                     element.remove();
-                    this.ordinal--;
                 }
             });
             let i = 0;
             for (const ordinalItem of this.ordinalTargets) {
-                putValueContent(ordinalItem, i + 1);
-                i++;
+                const ordinalIgnore = ordinalItem.getAttribute('data-ordinal-ignore');
+                if (ordinalIgnore === null) {
+                    putValueContent(ordinalItem, i + 1);
+                    i++;
+                }
             }
+            this.ordinal = i;
             this.dispatch('collection-item-removed');
         }
     }
