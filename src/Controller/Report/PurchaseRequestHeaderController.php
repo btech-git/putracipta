@@ -3,6 +3,7 @@
 namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Grid\Report\PurchaseRequestHeaderGridType;
 use App\Repository\Purchase\PurchaseRequestHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,10 +20,19 @@ class PurchaseRequestHeaderController extends AbstractController
     public function _list(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(PurchaseRequestHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $currentDate = date('Y-m-d');
+        $criteria->setFilter([
+            'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $form = $this->createForm(PurchaseRequestHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria);
+        list($count, $purchaseRequestHeaders) = $purchaseRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('purchase_request_header_grid')['sort']['warehouse:name'])) {
+                $qb->innerJoin("{$alias}.warehouse", 'w');
+                $add['sort']($qb, 'w', 'name', $request->request->get('purchase_request_header_grid')['sort']['warehouse:name']);
+            }
+        });
 
         return $this->renderForm("report/purchase_request_header/_list.html.twig", [
             'form' => $form,

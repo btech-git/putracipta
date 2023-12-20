@@ -3,6 +3,7 @@
 namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Grid\Report\PurchaseRequestPaperHeaderGridType;
 use App\Repository\Purchase\PurchaseRequestPaperHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,10 +20,20 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     public function _list(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(PurchaseRequestPaperHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $currentDate = date('Y-m-d');
+        $criteria->setFilter([
+            'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $form = $this->createForm(PurchaseRequestPaperHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria);
+        list($count, $purchaseRequestPaperHeaders) = $purchaseRequestPaperHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('purchase_request_paper_header_grid')['filter']['warehouse:name']) && isset($request->request->get('purchase_request_paper_header_grid')['sort']['warehouse:name'])) {
+                $qb->innerJoin("{$alias}.warehouse", 'w');
+                $add['filter']($qb, 'w', 'name', $request->request->get('purchase_request_paper_header_grid')['filter']['warehouse:name']);
+                $add['sort']($qb, 'w', 'name', $request->request->get('purchase_request_paper_header_grid')['sort']['warehouse:name']);
+            }
+        });
 
         return $this->renderForm("report/purchase_request_paper_header/_list.html.twig", [
             'form' => $form,

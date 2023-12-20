@@ -3,6 +3,7 @@
 namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Grid\Report\DeliveryHeaderGridType;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,10 +20,20 @@ class DeliveryHeaderController extends AbstractController
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(DeliveryHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $currentDate = date('Y-m-d');
+        $criteria->setFilter([
+            'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $form = $this->createForm(DeliveryHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria);
+        list($count, $deliveryHeaders) = $deliveryHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('delivery_header_grid')['filter']['customer:company']) && isset($request->request->get('delivery_header_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->request->get('delivery_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('delivery_header_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("report/delivery_header/_list.html.twig", [
             'form' => $form,

@@ -3,6 +3,7 @@
 namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Grid\Report\SaleOrderHeaderGridType;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,10 +20,20 @@ class SaleOrderHeaderController extends AbstractController
     public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $currentDate = date('Y-m-d');
+        $criteria->setFilter([
+            'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria);
+        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('sale_order_header_grid')['filter']['customer:company']) && isset($request->request->get('sale_order_header_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("report/sale_order_header/_list.html.twig", [
             'form' => $form,

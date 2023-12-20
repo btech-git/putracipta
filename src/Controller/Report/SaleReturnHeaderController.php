@@ -3,6 +3,7 @@
 namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Grid\Report\SaleReturnHeaderGridType;
 use App\Repository\Sale\SaleReturnHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,7 +20,11 @@ class SaleReturnHeaderController extends AbstractController
     public function _list(Request $request, SaleReturnHeaderRepository $saleReturnHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createForm(SaleReturnHeaderGridType::class, $criteria, ['method' => 'GET']);
+        $currentDate = date('Y-m-d');
+        $criteria->setFilter([
+            'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $form = $this->createForm(SaleReturnHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $saleReturnHeaders) = $saleReturnHeaderRepository->fetchData($criteria);

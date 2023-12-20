@@ -4,64 +4,64 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
-use App\Grid\Report\PurchasePaymentHeaderGridType;
-use App\Repository\Purchase\PurchasePaymentHeaderRepository;
+use App\Grid\Report\AdjustmentStockHeaderGridType;
+use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/report/purchase_payment_header')]
-class PurchasePaymentHeaderController extends AbstractController
+#[Route('/report/adjustment_stock_header')]
+class AdjustmentStockHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_report_purchase_payment_header__list', methods: ['GET', 'POST'])]
+    #[Route('/_list', name: 'app_report_adjustment_stock_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function _list(Request $request, PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository): Response
+    public function _list(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
             'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
         ]);
-        $form = $this->createForm(PurchasePaymentHeaderGridType::class, $criteria);
+        $form = $this->createForm(AdjustmentStockHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $purchasePaymentHeaders) = $purchasePaymentHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->request->get('purchase_payment_header_grid')['filter']['supplier:company']) && isset($request->request->get('purchase_payment_header_grid')['sort']['supplier:company'])) {
+        list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('adjustment_stock_header_grid')['filter']['supplier:company']) && isset($request->request->get('adjustment_stock_header_grid')['sort']['supplier:company'])) {
                 $qb->innerJoin("{$alias}.supplier", 's');
-                $add['filter']($qb, 's', 'company', $request->request->get('purchase_payment_header_grid')['filter']['supplier:company']);
-                $add['sort']($qb, 's', 'company', $request->request->get('purchase_payment_header_grid')['sort']['supplier:company']);
+                $add['filter']($qb, 's', 'company', $request->request->get('adjustment_stock_header_grid')['filter']['supplier:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('adjustment_stock_header_grid')['sort']['supplier:company']);
             }
         });
 
-        return $this->renderForm("report/purchase_payment_header/_list.html.twig", [
+        return $this->renderForm("report/adjustment_stock_header/_list.html.twig", [
             'form' => $form,
             'count' => $count,
-            'purchasePaymentHeaders' => $purchasePaymentHeaders,
+            'adjustmentStockHeaders' => $adjustmentStockHeaders,
         ]);
     }
 
-    #[Route('/', name: 'app_report_purchase_payment_header_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_report_adjustment_stock_header_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
-        return $this->render("report/purchase_payment_header/index.html.twig");
+        return $this->render("report/adjustment_stock_header/index.html.twig");
     }
 
-//    #[Route('/export', name: 'app_report_purchase_payment_header_export', methods: ['GET'])]
+//    #[Route('/export', name: 'app_report_adjustment_stock_header_export', methods: ['GET'])]
 //    #[IsGranted('ROLE_USER')]
 //    public function exportAction(Request $request)
 //    {
 //        $em = $this->getDoctrine()->getManager();
-//        $repository = $em->getRepository(PurchasePaymentHeader::class);
+//        $repository = $em->getRepository(AdjustmentStockHeader::class);
 //
 //        $grid = $this->get('lib.grid.datagrid');
-//        $grid->build(PurchasePaymentHeaderGridType::class, $repository, $request);
+//        $grid->build(AdjustmentStockHeaderGridType::class, $repository, $request);
 //
 //        $excel = $this->get('phpexcel');
 //        $excelXmlReader = $this->get('lib.excel.xml_reader');
-//        $xml = $this->renderView('report/purchase_payment_header/export.xml.twig', array(
+//        $xml = $this->renderView('report/adjustment_stock_header/export.xml.twig', array(
 //            'grid' => $grid->createView(),
 //        ));
 //        $excelObject = $excelXmlReader->load($xml);
