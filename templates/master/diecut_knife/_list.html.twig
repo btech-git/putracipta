@@ -11,14 +11,17 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Product Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 100px">
                     Location
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'printingSize') }}>
+                    Kris Cetak {{ grid.sort_char(form.sort.printingSize.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
@@ -43,6 +46,9 @@
                     <input type="text"  size="4" {{ grid.filter_link_item(form, 'location') }} value="{{ form.filter.location.1.vars.value }}" />
                 </th>
                 <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'printingSize') }} value="{{ form.filter.printingSize.1.vars.value }}" />
+                </th>
+                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th>
@@ -58,6 +64,7 @@
                     <td>{{ diecutKnife.codeNumber }}</td>
                     <td>{{ diecutKnife.name }}</td>
                     <td>{{ diecutKnife.location }}</td>
+                    <td>{{ diecutKnife.printingSize }}</td>
                     <td>{{ diecutKnife.note }}</td>
                     <td>{{ diecutKnife.isInactive ? 'Yes' : 'No' }}</td>
                     <td>

@@ -151,13 +151,19 @@
          
     <div class="row">
         <div class="col">
+            {{ form_row(form.glossiness) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingUpQuantity) }}
+        </div>
+    </div>
+         
+    <div class="row">
+        <div class="col">
             {{ form_row(form.diecutKnife) }}
         </div>
         <div class="col">
             {{ form_row(form.dielineMillar) }}
-        </div>
-        <div class="col">
-            {{ form_row(form.printingUpQuantity) }}
         </div>
     </div>
          
@@ -165,7 +171,21 @@
         <legend class="float-none w-auto text-dark px-1">Kebutuhan Material Kertas</legend>            
         <div class="row">
             <div class="col">
-                {{ form_row(form.paperPlanoSize) }}
+                <div class="mb-3">
+                    <label class="form-label">Uk Plano Kertas</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                {{ form_widget(form.paperPlanoLength) }}
+                                {{ form_errors(form.paperPlanoLength) }}
+                                <span class="input-group-text">x</span>
+                                {{ form_widget(form.paperPlanoWidth) }}
+                                {{ form_errors(form.paperPlanoWidth) }}
+                                <span class="input-group-text">cm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col">
                 {{ form_row(form.paperMountage) }}

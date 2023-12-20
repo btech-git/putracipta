@@ -11,11 +11,14 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Product Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'printingLayout') }}>
+                    Kris Cetak {{ grid.sort_char(form.sort.printingLayout.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
@@ -37,6 +40,9 @@
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'printingLayout') }} value="{{ form.filter.printingLayout.1.vars.value }}" />
+                </th>
+                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th>
@@ -51,6 +57,7 @@
                     <td>{{ dielineMillar.customer.company }}</td>
                     <td>{{ dielineMillar.codeNumber }}</td>
                     <td>{{ dielineMillar.name }}</td>
+                    <td>{{ dielineMillar.printingLayout }}</td>
                     <td>{{ dielineMillar.note }}</td>
                     <td>{{ dielineMillar.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
