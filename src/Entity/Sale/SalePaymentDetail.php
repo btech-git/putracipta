@@ -48,24 +48,35 @@ class SalePaymentDetail extends SaleDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $serviceTaxNominal = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $receivableAmount = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $invoiceAmount = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->salePaymentHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
     }
 
+    public function getSyncInvoiceAmount(): string 
+    {
+        $saleInvoiceHeader = $this->getSaleInvoiceHeader();
+        
+        return $saleInvoiceHeader->getGrandTotal() - $saleInvoiceHeader->getTotalReturn();
+    }
+
     public function getSyncServiceTaxNominal(): string
     {
         $saleInvoiceHeader = $this->getSaleInvoiceHeader();
         
-        return ($saleInvoiceHeader->getGrandTotal() - $saleInvoiceHeader->getTotalReturn()) * $this->serviceTaxPercentage / 100;
+        return $saleInvoiceHeader->getSubTotal() * $this->serviceTaxPercentage / 100;
     }
     
-    public function getInvoiceAmount(): string 
+    public function getSyncReceivableAmount(): string 
     {
-        $saleInvoiceHeader = $this->getSaleInvoiceHeader();
-        
-        return $saleInvoiceHeader->getGrandTotal() - $saleInvoiceHeader->getTotalReturn() - $this->getServiceTaxNominal();
+        return $this->invoiceAmount - $this->serviceTaxNominal;
     }
 
     public function getId(): ?int
@@ -165,6 +176,30 @@ class SalePaymentDetail extends SaleDetail
     public function setServiceTaxNominal(string $serviceTaxNominal): self
     {
         $this->serviceTaxNominal = $serviceTaxNominal;
+
+        return $this;
+    }
+
+    public function getReceivableAmount(): ?string
+    {
+        return $this->receivableAmount;
+    }
+
+    public function setReceivableAmount(string $receivableAmount): self
+    {
+        $this->receivableAmount = $receivableAmount;
+
+        return $this;
+    }
+
+    public function getInvoiceAmount(): ?string
+    {
+        return $this->invoiceAmount;
+    }
+
+    public function setInvoiceAmount(string $invoiceAmount): self
+    {
+        $this->invoiceAmount = $invoiceAmount;
 
         return $this;
     }

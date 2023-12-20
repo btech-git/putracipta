@@ -62,6 +62,9 @@ class SalePaymentHeader extends SaleHeader
     #[ORM\Column(length: 100)]
     private ?string $saleOrderReferenceNumbers = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $totalReceivable = '0.00';
+
     public function __construct()
     {
         $this->salePaymentDetails = new ArrayCollection();
@@ -78,6 +81,17 @@ class SalePaymentHeader extends SaleHeader
         foreach ($this->salePaymentDetails as $salePaymentDetail) {
             if (!$salePaymentDetail->isIsCanceled()) {
                 $totalAmount += $salePaymentDetail->getAmount();
+            }
+        }
+        return $totalAmount;
+    }
+
+    public function getSyncTotalReceivable(): string
+    {
+        $totalAmount = '0.00';
+        foreach ($this->salePaymentDetails as $salePaymentDetail) {
+            if (!$salePaymentDetail->isIsCanceled()) {
+                $totalAmount += $salePaymentDetail->getReceivableAmount();
             }
         }
         return $totalAmount;
@@ -238,6 +252,18 @@ class SalePaymentHeader extends SaleHeader
     public function setSaleOrderReferenceNumbers(string $saleOrderReferenceNumbers): self
     {
         $this->saleOrderReferenceNumbers = $saleOrderReferenceNumbers;
+
+        return $this;
+    }
+
+    public function getTotalReceivable(): ?string
+    {
+        return $this->totalReceivable;
+    }
+
+    public function setTotalReceivable(string $totalReceivable): self
+    {
+        $this->totalReceivable = $totalReceivable;
 
         return $this;
     }

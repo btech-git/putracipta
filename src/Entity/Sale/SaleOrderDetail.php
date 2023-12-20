@@ -6,6 +6,7 @@ use App\Entity\Master\Product;
 use App\Entity\Master\Unit;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\SaleDetail;
+use App\Entity\Stock\InventoryProductReceiveDetail;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -73,10 +74,17 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $linePo = 0;
 
+    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: InventoryProductReceiveDetail::class)]
+    private Collection $inventoryProductReceiveDetails;
+
+    #[ORM\Column]
+    private ?int $quantityStock = 0;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
         $this->masterOrderProductDetails = new ArrayCollection();
+        $this->inventoryProductReceiveDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -318,6 +326,48 @@ class SaleOrderDetail extends SaleDetail
     public function setLinePo(int $linePo): self
     {
         $this->linePo = $linePo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryProductReceiveDetail>
+     */
+    public function getInventoryProductReceiveDetails(): Collection
+    {
+        return $this->inventoryProductReceiveDetails;
+    }
+
+    public function addInventoryProductReceiveDetail(InventoryProductReceiveDetail $inventoryProductReceiveDetail): self
+    {
+        if (!$this->inventoryProductReceiveDetails->contains($inventoryProductReceiveDetail)) {
+            $this->inventoryProductReceiveDetails->add($inventoryProductReceiveDetail);
+            $inventoryProductReceiveDetail->setSaleDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryProductReceiveDetail(InventoryProductReceiveDetail $inventoryProductReceiveDetail): self
+    {
+        if ($this->inventoryProductReceiveDetails->removeElement($inventoryProductReceiveDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryProductReceiveDetail->getSaleDetail() === $this) {
+                $inventoryProductReceiveDetail->setSaleDetail(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getQuantityStock(): ?int
+    {
+        return $this->quantityStock;
+    }
+
+    public function setQuantityStock(int $quantityStock): self
+    {
+        $this->quantityStock = $quantityStock;
 
         return $this;
     }

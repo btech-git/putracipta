@@ -69,6 +69,8 @@ class DeliveryDetail extends SaleDetail
     private ?int $remainingQuantity = 0;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(0)]
+    #[Assert\Expression("this.getQuantityCurrent() >= value")]
     private ?int $quantity = 0;
 
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]
@@ -78,7 +80,7 @@ class DeliveryDetail extends SaleDetail
     private ?MasterOrderProductDetail $masterOrderProductDetail = null;
 
     #[ORM\Column]
-    private ?int $quantityCurrent = null;
+    private ?int $quantityCurrent = 0;
 
     public function __construct()
     {
