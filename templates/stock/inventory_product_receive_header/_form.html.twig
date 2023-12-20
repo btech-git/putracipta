@@ -56,6 +56,17 @@
             {{ include('stock/inventory_product_receive_header/_details_form.html.twig') }}
         </fieldset>
 
+        <hr />
+
+        <legend class="float-none w-auto text-dark px-1">Penerimaan Barang Jadi</legend>
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_stock_inventory_product_receive_header__receive_list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="master-order-header-table:data-table:select@document->html-loader#load">
+        </div>
+
+        <hr />
+
         <div class="d-grid">
             <div class="row">
                 <div class="col text-center">

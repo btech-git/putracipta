@@ -56,7 +56,7 @@
             {% for adjustmentStockHeader in adjustmentStockHeaders %}
                 <tr>
                     <td>{{ adjustmentStockHeader.codeNumber }}</td>
-                    <td>{{ adjustmentStockHeader.transactionDate ? adjustmentStockHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ adjustmentStockHeader.transactionDate ? adjustmentStockHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ adjustmentStockHeader.warehouse.name|default }}</td>
                     <td>{{ adjustmentStockHeader.note }}</td>
                     <td>

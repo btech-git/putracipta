@@ -36,7 +36,7 @@
             {% for inventoryReleaseHeader in inventoryReleaseHeaders %}
                 <tr>
                     <td>{{ inventoryReleaseHeader.codeNumber }}</td>
-                    <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryReleaseHeader.departmentName }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_release_header_show', {'id': inventoryReleaseHeader.id}) }}"><i class="bi-search"></i></a>

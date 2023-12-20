@@ -1,0 +1,28 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="bg-info">
+            <th>PO #</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>
+            <th>Tanggal Kirim</th>
+            <th>Qty Terima</th>
+            <th>Satuan</th>
+            <th>Keterangan</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lastInventoryProductReceiveHeader in lastInventoryProductReceiveHeaders %}
+            {% for lastInventoryProductReceiveDetail in lastInventoryProductReceiveHeader.inventoryProductReceiveDetails %}
+                <tr>
+                    <td>{{ lastInventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.product.code|default }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.product.name|default }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? lastInventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.product.unit.name|default }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.memo|default }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
