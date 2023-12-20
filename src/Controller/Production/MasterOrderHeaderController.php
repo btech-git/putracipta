@@ -151,17 +151,9 @@ class MasterOrderHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function memoDistribution(MasterOrderHeader $masterOrderHeader, string $constant): Response
     {
-        $fileName = "work_order_{$constant}.pdf";
-        $htmlView = $this->renderView('production/master_order_header/memo_distribution.html.twig', [
+        return $this->render('production/master_order_header/memo_distribution.html.twig', [
             'masterOrderHeader' => $masterOrderHeader,
             'constant' => $constant,
-        ]);
-
-        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
-        $pdfGenerator->generate($htmlView, $fileName, [
-            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrderHeader->getId() . '.' . $masterOrderHeader->getLayoutModelFileExtension() . '">', $html),
         ]);
     }
     
@@ -169,17 +161,9 @@ class MasterOrderHeaderController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function memoCheckSheet(MasterOrderHeader $masterOrderHeader, string $constant): Response
     {
-        $fileName = "check_sheet_{$constant}.pdf";
-        $htmlView = $this->renderView('production/master_order_header/memo_check_sheet.html.twig', [
+        return $this->render('production/master_order_header/memo_check_sheet.html.twig', [
             'masterOrderHeader' => $masterOrderHeader,
             'constant' => $constant,
-        ]);
-
-        $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
-        $pdfGenerator->generate($htmlView, $fileName, [
-            fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrderHeader->getId() . '.' . $masterOrderHeader->getLayoutModelFileExtension() . '">', $html),
         ]);
     }
     
