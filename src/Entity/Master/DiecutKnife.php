@@ -55,6 +55,9 @@ class DiecutKnife extends Master
     #[ORM\ManyToOne(inversedBy: 'diecutKnives')]
     private ?Product $product = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -235,6 +238,18 @@ class DiecutKnife extends Master
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

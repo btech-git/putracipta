@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'master_customer')]
 class Customer extends Master
 {
+    public const BONDED_ZONE_TRUE = 'berikat';
+    public const BONDED_ZONE_FALSE = 'bebas';
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -121,6 +124,11 @@ class Customer extends Master
         return str_pad($this->id, 3, '0', STR_PAD_LEFT) . ' - ' . $this->company;
     }
     
+    public function getBondedZoneLiteral()
+    {
+        return $this->isBondedZone ? self::BONDED_ZONE_TRUE : self::BONDED_ZONE_FALSE;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

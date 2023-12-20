@@ -82,58 +82,58 @@ class DesignCode extends Master
     private ?string $status = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $paperCuttingLength = null;
+    private ?string $paperCuttingLength = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $paperCuttingWidth = null;
+    private ?string $paperCuttingWidth = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkCyanPercentage = null;
+    private ?string $inkCyanPercentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkMagentaPercentage = null;
+    private ?string $inkMagentaPercentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkYellowPercentage = null;
+    private ?string $inkYellowPercentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkBlackPercentage = null;
+    private ?string $inkBlackPercentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkOpvPercentage = null;
+    private ?string $inkOpvPercentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkK1Percentage = null;
+    private ?string $inkK1Percentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkK2Percentage = null;
+    private ?string $inkK2Percentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkK3Percentage = null;
+    private ?string $inkK3Percentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $inkK4Percentage = null;
+    private ?string $inkK4Percentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingGlueQuantity = null;
+    private ?string $packagingGlueQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingRubberQuantity = null;
+    private ?string $packagingRubberQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingPaperQuantity = null;
+    private ?string $packagingPaperQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingBoxQuantity = null;
+    private ?string $packagingBoxQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingTapeLargeQuantity = null;
+    private ?string $packagingTapeLargeQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingTapeSmallQuantity = null;
+    private ?string $packagingTapeSmallQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $packagingPlasticQuantity = null;
+    private ?string $packagingPlasticQuantity = '0.00';
 
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProcessDetail::class)]
     private Collection $designCodeProcessDetails;
@@ -147,11 +147,17 @@ class DesignCode extends Master
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeDistributionDetail::class)]
     private Collection $designCodeDistributionDetails;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $paperPlanoSize = '0.00';
-
     #[ORM\ManyToOne(inversedBy: 'designCodes')]
     private ?Product $product = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $paperPlanoLength = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $paperPlanoWidth = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $glossiness = '0.00';
 
     public function __construct()
     {
@@ -754,18 +760,6 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getPaperPlanoSize(): ?string
-    {
-        return $this->paperPlanoSize;
-    }
-
-    public function setPaperPlanoSize(string $paperPlanoSize): self
-    {
-        $this->paperPlanoSize = $paperPlanoSize;
-
-        return $this;
-    }
-
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -774,6 +768,42 @@ class DesignCode extends Master
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getPaperPlanoLength(): ?string
+    {
+        return $this->paperPlanoLength;
+    }
+
+    public function setPaperPlanoLength(string $paperPlanoLength): self
+    {
+        $this->paperPlanoLength = $paperPlanoLength;
+
+        return $this;
+    }
+
+    public function getPaperPlanoWidth(): ?string
+    {
+        return $this->paperPlanoWidth;
+    }
+
+    public function setPaperPlanoWidth(string $paperPlanoWidth): self
+    {
+        $this->paperPlanoWidth = $paperPlanoWidth;
+
+        return $this;
+    }
+
+    public function getGlossiness(): ?string
+    {
+        return $this->glossiness;
+    }
+
+    public function setGlossiness(string $glossiness): self
+    {
+        $this->glossiness = $glossiness;
 
         return $this;
     }
