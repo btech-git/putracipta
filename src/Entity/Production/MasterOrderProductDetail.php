@@ -41,6 +41,18 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: InventoryProductReceiveDetail::class)]
     private Collection $inventoryProductReceiveDetails;
 
+    #[ORM\Column]
+    private ?int $quantityProduction = 0;
+
+    #[ORM\Column]
+    private ?int $remainingProduction = 0;
+
+    #[ORM\Column]
+    private ?int $quantityDelivery = 0;
+
+    #[ORM\Column]
+    private ?int $remainingDelivery = 0;
+
     public function __construct()
     {
         $this->inventoryProductReceiveDetails = new ArrayCollection();
@@ -55,6 +67,11 @@ class MasterOrderProductDetail extends ProductionDetail
     public function getSyncQuantityShortage() 
     {
         return $this->quantityOrder - $this->quantityStock;
+    }
+    
+    public function getSyncRemainingProduction() 
+    {
+        return $this->quantityShortage - $this->quantityProduction;
     }
     
     public function getId(): ?int
@@ -160,6 +177,54 @@ class MasterOrderProductDetail extends ProductionDetail
                 $inventoryProductReceiveDetail->setMasterOrderProductDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantityProduction(): ?int
+    {
+        return $this->quantityProduction;
+    }
+
+    public function setQuantityProduction(int $quantityProduction): self
+    {
+        $this->quantityProduction = $quantityProduction;
+
+        return $this;
+    }
+
+    public function getRemainingProduction(): ?int
+    {
+        return $this->remainingProduction;
+    }
+
+    public function setRemainingProduction(int $remainingProduction): self
+    {
+        $this->remainingProduction = $remainingProduction;
+
+        return $this;
+    }
+
+    public function getQuantityDelivery(): ?int
+    {
+        return $this->quantityDelivery;
+    }
+
+    public function setQuantityDelivery(int $quantityDelivery): self
+    {
+        $this->quantityDelivery = $quantityDelivery;
+
+        return $this;
+    }
+
+    public function getRemainingDelivery(): ?int
+    {
+        return $this->remainingDelivery;
+    }
+
+    public function setRemainingDelivery(int $remainingDelivery): self
+    {
+        $this->remainingDelivery = $remainingDelivery;
 
         return $this;
     }

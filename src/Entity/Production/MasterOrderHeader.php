@@ -351,6 +351,12 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
 
+    #[ORM\Column]
+    private ?int $totalQuantityProduction = 0;
+
+    #[ORM\Column]
+    private ?int $totalRemainingProduction = 0;
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -405,6 +411,26 @@ class MasterOrderHeader extends ProductionHeader
         
         foreach ($this->masterOrderProductDetails as $detail) {
             $totalQuantity += $detail->getQuantityShortage();
+        }
+        return $totalQuantity;
+    }
+    
+    public function getSyncTotalQuantityProduction() 
+    {
+        $totalQuantity = 0;
+        
+        foreach ($this->masterOrderProductDetails as $detail) {
+            $totalQuantity += $detail->getQuantityProduction();
+        }
+        return $totalQuantity;
+    }
+    
+    public function getSyncTotalRemainingProduction() 
+    {
+        $totalQuantity = 0;
+        
+        foreach ($this->masterOrderProductDetails as $detail) {
+            $totalQuantity += $detail->getRemainingProduction();
         }
         return $totalQuantity;
     }
@@ -564,7 +590,7 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncPackagingGlueWeight() 
     {
-        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityShortage / 1000;
+        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityShortage / 100000;
     }
     
     public function getSyncPackagingRubberWeight() 
@@ -597,7 +623,7 @@ class MasterOrderHeader extends ProductionHeader
         $packagingPaperQuantity = $this->packagingPaperQuantity == 0 ? 1 : $this->packagingPaperQuantity;
         $packagingBoxQuantity = $this->packagingBoxQuantity == 0 ? 1 : $this->packagingBoxQuantity;
         
-        return $this->packagingPlasticQuantity == 0 ? 0 : 1000 / $this->packagingPlasticQuantity * $this->totalQuantityShortage / ($packagingPaperQuantity + $packagingBoxQuantity);
+        return $this->packagingPlasticQuantity == 0 ? 0 : 1000 / $this->packagingPlasticQuantity * ($packagingPaperQuantity + $packagingBoxQuantity);
     }
 
     public function getColorPantoneAdditional() 
@@ -725,12 +751,12 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getQuantityPaper(): ?int
+    public function getQuantityPaper(): ?string
     {
         return $this->quantityPaper;
     }
 
-    public function setQuantityPaper(int $quantityPaper): self
+    public function setQuantityPaper(string $quantityPaper): self
     {
         $this->quantityPaper = $quantityPaper;
 
@@ -2023,6 +2049,30 @@ class MasterOrderHeader extends ProductionHeader
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
+
+        return $this;
+    }
+
+    public function getTotalQuantityProduction(): ?int
+    {
+        return $this->totalQuantityProduction;
+    }
+
+    public function setTotalQuantityProduction(int $totalQuantityProduction): self
+    {
+        $this->totalQuantityProduction = $totalQuantityProduction;
+
+        return $this;
+    }
+
+    public function getTotalRemainingProduction(): ?int
+    {
+        return $this->totalRemainingProduction;
+    }
+
+    public function setTotalRemainingProduction(int $totalRemainingProduction): self
+    {
+        $this->totalRemainingProduction = $totalRemainingProduction;
 
         return $this;
     }
