@@ -1,0 +1,108 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<div class="d-print-none">
+    {{ grid.form(form) }}
+
+    {{ grid.info(form, count, inventoryReleaseHeaders) }}
+
+    {#<div class="text-center">
+        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
+    </div>#}
+
+    <hr />
+</div>
+
+<div class="report">
+    <div class="report-header">
+        <div class="report-title">PT. Putracipta Karindomas</div>
+        <div class="report-title">Laporan Pengeluaran Material</div>
+        <div>
+            {% set startDate = form.vars.value.filter.transactionDate.1|default %}
+            {% set endDate = form.vars.value.filter.transactionDate.2|default %}
+            {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+        </div>
+    </div>
+
+    <br />
+
+    <table class="report-data">
+        <thead class="border-top-solid-bold border-bottom-solid-bold">
+            <tr>
+                <th class="text-start">Pengeluaran #</th>
+                <th class="text-start">Tanggal</th>
+                <th class="text-start">Request #</th>
+                <th class="text-start">Gudang</th>
+                <th class="text-start">Departemen</th>
+                <th class="text-start">Part #</th>
+                <th class="text-start">Jenis</th>
+                <th class="text-start">Note</th>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-start">Kode</th>
+                                <th class="text-start">Nama Item</th>
+                                <th class="text-start">Qty Stok</th>
+                                <th class="text-start">Qty Keluar</th>
+                                <th class="text-start">Satuan</th>
+                                <th class="text-start">Memo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="border-top-solid-bold border-bottom-solid-bold">
+            {% for inventoryReleaseHeader in inventoryReleaseHeaders %}
+                <tr>
+                    <td class="text-start">{{ inventoryReleaseHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.transactionDate|default ? inventoryReleaseHeader.transactionDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.warehouse.name|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.departmentName|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.partNumber|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.releaseMode|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.note|default }}</td>
+                </tr>
+                <tr class="border-bottom-dotted-bold">
+                    <td colspan="8">
+                        <table>
+                            <tbody>
+                                {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
+                                    {% for inventoryReleasePaperDetail in inventoryReleaseHeader.inventoryReleasePaperDetails %}
+                                        <tr>
+                                            <td class="text-start">{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
+                                            <td class="text-start">{{ inventoryReleasePaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                            <td class="text-center">{{ inventoryReleasePaperDetail.quantityCurrent|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ inventoryReleasePaperDetail.unit.name|default }}</td>
+                                            <td class="text-start">{{ inventoryReleasePaperDetail.memo|default }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
+                                    {% for inventoryReleaseMaterialDetail in inventoryReleaseHeader.inventoryReleaseMaterialDetails %}
+                                        <tr>
+                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
+                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
+                                            <td class="text-center">{{ inventoryReleaseMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
+                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.memo|default }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %} 
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-print-none">
+    <br />
+    {{ grid.navigation(form, count, inventoryReleaseHeaders) }}
+</div>

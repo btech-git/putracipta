@@ -1,0 +1,94 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<div class="d-print-none">
+    {{ grid.form(form) }}
+
+    {{ grid.info(form, count, depositHeaders) }}
+
+    {#<div class="text-center">
+        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
+    </div>#}
+
+    <hr />
+</div>
+
+<div class="report">
+    <div class="report-header">
+        <div class="report-title">PT. Putracipta Karindomas</div>
+        <div class="report-title">Laporan Penerimaan Kas/Bank</div>
+        <div>
+            {% set startDate = form.vars.value.filter.transactionDate.1|default %}
+            {% set endDate = form.vars.value.filter.transactionDate.2|default %}
+            {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+        </div>
+    </div>
+
+    <br />
+
+    <table class="report-data">
+        <thead class="border-top-solid-bold border-bottom-solid-bold">
+            <tr>
+                <th class="text-start">Penerimaan #</th>
+                <th class="text-start">Tanggal</th>
+                <th class="text-start">Kode Account</th>
+                <th class="text-start">Nama Account</th>
+                <th class="text-start">Note</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-start">Kode Account</th>
+                                <th class="text-start">Nama Account</th>
+                                <th class="text-start">Description</th>
+                                <th class="text-start">Amount</th>
+                                <th class="text-start">Memo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="border-top-solid-bold border-bottom-solid-bold">
+            {% for depositHeader in depositHeaders %}
+                <tr>
+                    <td class="text-start">{{ depositHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ depositHeader.transactionDate|default ? depositHeader.transactionDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ depositHeader.account.code|default }}</td>
+                    <td class="text-start">{{ depositHeader.account.name|default }}</td>
+                    <td class="text-start">{{ depositHeader.note|default }}</td>
+                </tr>
+                <tr class="border-bottom-dotted-bold">
+                    <td colspan="5">
+                        <table>
+                            <tbody>
+                                {% for depositDetail in depositHeader.depositDetails %}
+                                    <tr>
+                                        <td class="text-start">{{ depositDetail.account.code|default }}</td>
+                                        <td class="text-start">{{ depositDetail.account.name|default }}</td>
+                                        <td class="text-start">{{ depositDetail.description|default }}</td>
+                                        <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
+                                        <td class="text-start">{{ depositDetail.memo|default }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="border-top-solid-normal">
+                                <tr>
+                                    <td class="text-end" colspan="3"><strong>Total Amount</strong></td>
+                                    <td class="text-end"><strong>{{ depositHeader.totalAmount|default|number_format(2) }}</strong></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="d-print-none">
+    <br />
+    {{ grid.navigation(form, count, depositHeaders) }}
+</div>

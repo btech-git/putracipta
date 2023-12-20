@@ -16,11 +16,11 @@
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
         <div class="report-title">Laporan Purchase Return</div>
-        {#<div>
-            {% set startDate = grid.searchVals['purchaseReturnHeader']['transactionDate'][1]|default %}
-            {% set endDate = grid.searchVals['purchaseReturnHeader']['transactionDate'][2]|default %}
+        <div>
+            {% set startDate = form.vars.value.filter.transactionDate.1|default %}
+            {% set endDate = form.vars.value.filter.transactionDate.2|default %}
             {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
-        </div>#}
+        </div>
     </div>
 
     <br />
