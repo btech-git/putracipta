@@ -73,7 +73,7 @@ class MasterOrderHeaderFormService
         if ($masterOrderHeader->getTransactionDate() !== null && $masterOrderHeader->getId() === null) {
             $year = $masterOrderHeader->getTransactionDate()->format('y');
             $month = $masterOrderHeader->getTransactionDate()->format('m');
-            $lastMasterOrderHeader = $this->masterOrderHeaderRepository->findRecentBy($year, $month);
+            $lastMasterOrderHeader = $this->masterOrderHeaderRepository->findRecentBy($year);
             $currentMasterOrderHeader = ($lastMasterOrderHeader === null) ? $masterOrderHeader : $lastMasterOrderHeader;
             $masterOrderHeader->setCodeNumberToNext($currentMasterOrderHeader->getCodeNumber(), $year, $month);
         }
@@ -84,11 +84,14 @@ class MasterOrderHeaderFormService
                 $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
                 $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
                 $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
+                $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
             }
         }
         $masterOrderHeader->setTotalQuantityOrder($masterOrderHeader->getSyncTotalQuantityOrder());
         $masterOrderHeader->setTotalQuantityStock($masterOrderHeader->getSyncTotalQuantityStock());
         $masterOrderHeader->setTotalQuantityShortage($masterOrderHeader->getSyncTotalQuantityShortage());
+        $masterOrderHeader->setTotalQuantityProduction($masterOrderHeader->getSyncTotalQuantityProduction());
+        $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
         
         $paper = $masterOrderHeader->getPaper();
         if (!empty($paper)) {
