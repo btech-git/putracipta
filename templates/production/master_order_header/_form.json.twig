@@ -30,7 +30,7 @@
         {%- for masterOrderProductDetailForm in form.masterOrderProductDetails -%}
             {%- set masterOrderProductDetail = masterOrderProductDetailForm.vars.data -%}
             "{{ masterOrderProductDetailForm.vars.name }}": {
-                "quantityShortage": "{{ masterOrderProductDetail.quantityShortage|default|number_format(2) }}"
+                "quantityShortage": "{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
         {%- endfor -%}

@@ -53,9 +53,9 @@
                     'unitId': paper.unit.id, 
                     'unitName': paper.unit.name,
                     'pricingMode': paper.pricingMode,
-                    'paperLength': paper.length, 
-                    'paperWidth': paper.width, 
-                    'paperWeight': paper.weight}|json_encode }}">
+                    'paperLength': paper.length|number_format(2), 
+                    'paperWidth': paper.width|number_format(2), 
+                    'paperWeight': paper.weight|number_format(2)}|json_encode }}">
                     <td>{{ paper.codeNumber }}</td>
                     <td>{{ paper.length }}</td>
                     <td>{{ paper.width }}</td>
