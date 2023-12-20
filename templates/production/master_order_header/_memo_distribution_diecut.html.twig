@@ -1,57 +1,51 @@
-{% extends 'base.html.twig' %}
-
-{% block title 'Memo' %}
-
-{% block body %}
-    <div class="memo">
-        <div class="note" style="font-size: 10px">
-            <div class="table full">
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label"><img id="logo" alt="logo" max-height="300px" src="{{ asset('images/Logo.jpg') }}"></div>
-                        </div>
+<div class="memo">
+    <div class="header" style="font-size: 10px; text-align: left">
+        <div class="table full">
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label"><img id="logo" alt="logo" max-height="300px" src="{{ asset('images/Logo.jpg') }}"></div>
                     </div>
                 </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER DIECUT BOBST/MANUAL</div>
-                        </div>
+            </div>
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER DIECUT BOBST/MANUAL</div>
                     </div>
                 </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                                <div class="cell label">No Dokumen</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label">F/PCK/PPIC/8.1-7</div>
-                        </div>
-                        <div class="row">
-                                <div class="cell label">Revisi</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label">0</div>
-                        </div>
-                        <div class="row">
-                                <div class="cell label">Tanggal</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label"></div>
-                        </div>
-                        <div class="row">
-                                <div class="cell label">Halaman</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label">1 dari 1</div>
-                        </div>
+            </div>
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label">No Dokumen</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">F/PCK/PPIC/8.1-7</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Revisi</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">0</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Tanggal</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Halaman</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">1 dari 1</div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <hr />
-        
+
         <div class="note">
             <div class="table full">
                 <div class="cell col">
@@ -86,69 +80,65 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Kode Pisau</div>
-                            <div class="cell value">{{ masterOrderHeader.diecutKnife.codeNumber }}</div>
+                            <div class="cell value">{{ masterOrderHeader.diecutKnife.codeNumber|default }}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-              
+
         <br />
-        
-        <fieldset class="border border-secondary rounded mb-3 p-3">
+
+        <fieldset>
             <div class="note">
                 <div class="table full">
-                    <div class="cell col-12 col-md-8">
-                        <div class="table full">
-                            <div class="row">
-                                <table class="detail">
-                                    <thead class="table-secondary">
-                                        <tr>
-                                            <th>Pekerjaan</th>
-                                            <th>Waktu Mulai</th>
-                                            <th>Waktu Selesai</th>
-                                            <th>Keterangan</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <td rowspan="3">Pembersihan</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="3">Lama Setting</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="cell col-6 col-md-8">
+                        <table class="detail">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Pekerjaan</th>
+                                    <th>Waktu Mulai</th>
+                                    <th>Waktu Selesai</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td rowspan="3">Pembersihan</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">Lama Setting</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <div class="cell col-6 col-md-4">
+                    <div class="cell col-6 col-md-6">
                         <div class="table full">
                             <div class="row">
                                 <div class="cell label">Pemakaian Chito</div>
@@ -171,48 +161,42 @@
                 </div>
             </div>
         </fieldset>
-                
+
         <br />
-        
-        <div class="note">
-            <div class="table full">
-                <div class="row">
-                    <table class="detail">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th class="text-center">Shift </th>
-                                <th class="text-center">Tanggal</th>
-                                <th class="text-center">Jumlah lembar yg diterima</th>
-                                <th class="text-center">Waktu Mulai</th>
-                                <th class="text-center">Waktu Selesai</th>
-                                <th class="text-center">Operator</th>
-                                <th class="text-center">Jumlah yg dihasilkan</th>
-                                <th class="text-center">Keterangan</th>
-                                <th class="text-center">Estimasi Kerja</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            {% for row in 0..25 %}
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            {% endfor %}
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-              
+
+        <table class="detail">
+            <thead class="table-secondary">
+                <tr>
+                    <th class="text-center">Shift </th>
+                    <th class="text-center">Tanggal</th>
+                    <th class="text-center">Jumlah lembar yg diterima</th>
+                    <th class="text-center">Waktu Mulai</th>
+                    <th class="text-center">Waktu Selesai</th>
+                    <th class="text-center">Operator</th>
+                    <th class="text-center">Jumlah yg dihasilkan</th>
+                    <th class="text-center">Keterangan</th>
+                    <th class="text-center">Estimasi Kerja</th>
+                </tr>
+            </thead>
+            <tfoot>
+                {% for row in 0..25 %}
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                {% endfor %}
+            </tfoot>
+        </table>
+
         <br />
-              
+
         <div class="note">
             <div class="table full">
                 <div class="cell col">
@@ -225,9 +209,9 @@
                 </div>
             </div>
         </div>
-          
+
         <br />
-              
+
         <div class="note">
             <div class="table full">
                 <div class="cell col">
@@ -248,76 +232,27 @@
                 </div>
             </div>
         </div>
-           
+
         <br />
-                        
-        <div class="note">
+
+        <div class="signature">
             <div class="table full">
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="cell sig">
-                            <div>Diselesaikan oleh,</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div>Operator</div>
-                        </div>
-                    </div>
+                <div class="cell sig">
+                    <div>Diselesaikan oleh,</div>
+                    <div class="blank">&nbsp;</div>
+                    <div>Operator</div>
                 </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="cell sig">
-                            <div>Diperiksa oleh,</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div>Spv Prod</div>
-                        </div>
-                    </div>
+                <div class="cell sig">
+                    <div>Diperiksa oleh,</div>
+                    <div class="blank">&nbsp;</div>
+                    <div>Spv Prod</div>
                 </div>
-                <div class="cell col">
-                        <div class="table full">
-                            <div class="cell sig">
-                                <div>WO# dikeluarkan oleh,</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div>PPIC</div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="cell sig">
+                    <div>WO# dikeluarkan oleh,</div>
+                    <div class="blank">&nbsp;</div>
+                    <div>PPIC</div>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}{% endblock %}
-
-{% block stylesheets %}
-    {{ encore_entry_link_tags('memo') }}
-    <style>
-        .col:nth-child(1) { width: 50% }
-        .col:nth-child(2) { width: 50% }
-        
-        .col:nth-child(1) .label { width: 35% }
-        .col:nth-child(1) .value { width: 65% }
-        .col:nth-child(2) .label { width: 35% }
-        .col:nth-child(2) .value { width: 65% }
-        
-        .sig:nth-child(1) { width: 50% }
-        .sig:nth-child(2) { width: 50% }
-    </style>
-{% endblock %}
+</div>

@@ -76,14 +76,14 @@
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperLength'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperLength'}},
                                ]|json_encode }}" />
                         <span class="input-group-text">x</span>
                         <input type="text" class="form-control" value="{{ masterOrderHeader.paperPlanoWidth|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].paperWidth'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperWidth'}},
                                ]|json_encode }}" />
                         <span class="input-group-text">cm</span>
                     </div>

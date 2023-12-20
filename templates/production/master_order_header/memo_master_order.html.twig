@@ -140,7 +140,9 @@
             <div class="table full">
                 <div class="row">
                     <div class="cell label">Model Layout : </div>
-                    <div><img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}"></div>
+                    <div style="min-width: 64px; min-height: 64px">
+                        <img id="upload" height="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}">
+                    </div>
                 </div>
             </div>
                      

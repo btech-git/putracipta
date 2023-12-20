@@ -131,13 +131,13 @@
         <tbody>
             <tr>
                 <th>% Insit Cetak</th>
-                <td>{{ masterOrderHeader.insitPrintingPercentage }}</td>
+                <td>{{ masterOrderHeader.insitPrintingPercentage|number_format(2) }}</td>
                 <th>Insit Cetak (dreek)</th>
                 <td>{{ masterOrderHeader.insitPrintingQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>% Insit Sortir</th>
-                <td>{{ masterOrderHeader.insitSortingPercentage }}</td>
+                <td>{{ masterOrderHeader.insitSortingPercentage|number_format(2) }}</td>
                 <th>Insit Cetak (dreek)</th>
                 <td>{{ masterOrderHeader.insitSortingQuantity|number_format(2) }}</td>
             </tr>
@@ -282,7 +282,9 @@
             <tr>
                 <th>WO</th>
                 <th>Subcon</th>
-                <th></th>
+                <th class="text-center">
+                    <a target="_blank" class="btn btn-outline-dark btn-sm" href="{{ path('app_production_master_order_header_memo_distribution', {'id': masterOrderHeader.id, 'constant': 'all'}) }}">Print All</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -290,9 +292,9 @@
                 <tr>
                     <td>{{ masterOrderDistributionDetail.workOrderDistribution.name|default }}</td>
                     <td style="text-align: center">{{ masterOrderDistributionDetail.isSubcon ? 'Yes' : 'No' }}</td>
-                    <td>
+                    <td class="text-center">
                         {% if masterOrderDistributionDetail.workOrderDistribution.memoConstantName != '' %}
-                            <a target="_blank" class="btn btn-outline-dark btn-sm" href="{{ path('app_production_master_order_header_memo_distribution', {'id': masterOrderHeader.id, 'constant': masterOrderDistributionDetail.workOrderDistribution.memoConstantName}) }}">Print</a>
+                            <a target="_blank" class="btn btn-dark btn-sm distribution-detail-print-button" href="{{ path('app_production_master_order_header_memo_distribution', {'id': masterOrderHeader.id, 'constant': masterOrderDistributionDetail.workOrderDistribution.memoConstantName}) }}">Print</a>
                         {% endif %}
                     </td>
                 </tr>
@@ -308,7 +310,9 @@
             <tr>
                 <th>Check Sheet</th>
                 <th>Subcon</th>
-                <th></th>
+                <th class="text-center">
+                    <a target="_blank" class="btn btn-outline-dark btn-sm" href="{{ path('app_production_master_order_header_memo_check_sheet', {'id': masterOrderHeader.id, 'constant': 'all'}) }}">Print All</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -316,9 +320,9 @@
                 <tr>
                     <td>{{ masterOrderCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
                     <td style="text-align: center">{{ masterOrderCheckSheetDetail.isSubcon ? 'Yes' : 'No' }}</td>
-                    <td>
+                    <td class="text-center">
                         {% if masterOrderCheckSheetDetail.workOrderCheckSheet.memoConstantName != '' %}
-                            <a target="_blank" class="btn btn-outline-dark btn-sm" href="{{ path('app_production_master_order_header_memo_check_sheet', {'id': masterOrderHeader.id, 'constant': masterOrderCheckSheetDetail.workOrderCheckSheet.memoConstantName}) }}">Print</a>
+                            <a target="_blank" class="btn btn-dark btn-sm check-sheet-print-button" href="{{ path('app_production_master_order_header_memo_check_sheet', {'id': masterOrderHeader.id, 'constant': masterOrderCheckSheetDetail.workOrderCheckSheet.memoConstantName}) }}">Print</a>
                         {% endif %}
                     </td>
                 </tr>

@@ -1,414 +1,341 @@
-{% extends 'base.html.twig' %}
-
-{% block title 'Memo' %}
-
-{% block body %}
-    <div class="memo">
-        <div class="note" style="font-size: 10px">
-            <div class="table full">
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label"><img id="logo" alt="logo" max-height="300px" src="{{ asset('images/Logo.jpg') }}"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER OFFSET PRINTING</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                                <div class="cell label">No Dokumen</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label">F/PCK/PPIC/8.5-2</div>
-                        </div>
-                        <div class="row">
-                                <div class="cell label">Revisi</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label">0</div>
-                        </div>
-                        <div class="row">
-                                <div class="cell label">Tanggal</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label"></div>
-                        </div>
-                        <div class="row">
-                                <div class="cell label">Halaman</div>
-                                <div class="cell label">:</div>
-                                <div class="cell label">1 dari 1</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <hr />
-        
-        <div class="note">
-            <div class="table full">
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label">Mesin Cetak</div>
-                            <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Kode Design</div>
-                            <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Jumlah Kertas</div>
-                            <div class="cell value">{{ masterOrderHeader.paperTotal }} dreek</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Material</div>
-                            <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Uk. Potong 1</div>
-                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Uk. Potong 2</div>
-                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2 }} x {{ masterOrderHeader.cuttingWidthSize2 }} cm</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Ukuran Jadi </div>
-                            <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Warna/Pantone</div>
-                            <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label">No WO</div>
-                            <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Tanggal Produksi</div>
-                            <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Total Kertas</div>
-                            <div class="cell value">{{ masterOrderHeader.paperTotal }} dreek</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Kebutuhan</div>
-                            <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Insit</div>
-                            <div class="cell value">{{ masterOrderHeader.printingInsit|default }} dreek</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Layout</div>
-                            <div class="cell value"></div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Finishing</div>
-                            <div class="cell value">{{ masterOrderHeader.finishing|default }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <br />
-        
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <div class="note">
+<div class="memo">
+    <div class="header" style="font-size: 10px; text-align: left">
+        <div class="table full">
+            <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <table  class="detail">
-                            <thead>
-                                <tr>
-                                    <th>PO#</th>
-                                    <th>Kode</th>
-                                    <th>Nama Produk</th>
-                                    <th>Tanggal Kirim</th>
-                                    <th>Qty Order</th>
-                                    <th>Stock</th>
-                                    <th>Kekurangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
-                                    <tr>
-                                        <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
-                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
-                                        <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
-                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
-                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td style="text-align:right; font-weight: bold" colspan="4">TOTAL</td>
-                                    <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
-                                    <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
-                                    <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <div class="cell label"><img id="logo" alt="logo" max-height="300px" src="{{ asset('images/Logo.jpg') }}"></div>
                     </div>
                 </div>
             </div>
-        </fieldset>
-                
-        <br />
-        
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <div class="note">
+            <div class="cell col">
                 <div class="table full">
-                    <div class="cell col">
-                        <div class="table full">
-                            <div class="row">
-                                <table class="detail">
-                                    <thead class="table-secondary">
-                                        <tr>
-                                            <th colspan="4">Jumlah Tinta & Plate yang dipakai</th>
-                                        </tr>
-                                        <tr>
-                                            <th>Warna</th>
-                                            <th>Unit Cetak</th>
-                                            <th>Pakai Tinta</th>
-                                            <th>Pakai Plate</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <td>Cyan</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Magenta</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Yellow</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Black</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="row">
+                        <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
                     </div>
-                    <div class="cell col">
-                        <div class="table full">
-                            <div class="row">
-                                <div class="cell label">Kualitas hasil cetak</div>
-                                <div class="cell value"> _____________________________ </div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Catatan</div>
-                                <div class="cell value"> _______________________________ </div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Speed/jam</div>
-                                <div class="cell value"> ___________________________ lembar / jam</div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Air</div>
-                                <div class="cell value"> _____________________________ </div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Alkohol</div>
-                                <div class="cell value"> _____________________________ </div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Fountain</div>
-                                <div class="cell value"> ______________________________ </div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">WB</div>
-                                <div class="cell value"> _____________________________ </div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Note</div>
-                                <div class="cell value"> _______________________________ </div>
-                            </div>
-                        </div>
+                    <div class="row">
+                        <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER OFFSET PRINTING</div>
                     </div>
                 </div>
             </div>
-        </fieldset>
-                
-        <br />
-        
-        <div class="note">
-            <div class="table full">
-                <div class="row">
-                    <table class="detail">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th class="text-center">Shift #</th>
-                                <th class="text-center">Tanggal</th>
-                                <th class="text-center">Warna</th>
-                                <th class="text-center">Jam Mulai</th>
-                                <th class="text-center">Jam Selesai</th>
-                                <th class="text-center">Hasil Mulai</th>
-                                <th class="text-center">Hasil Selesai</th>
-                                <th class="text-center">Keterangan Setting / Produksi / Downtime</th>
-                                <th class="text-center">Operator / Kenek</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            {% for row in 0..15 %}
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            {% endfor %}
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-                
-        <br />
-              
-        <div class="note">
-            <div class="table full">
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label">Tanggal Pengembalian WO#</div>
-                            <div class="cell value">_______________________</div>
-                        </div>
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label">No Dokumen</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">F/PCK/PPIC/8.5-2</div>
                     </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label">WO# dikembalikan oleh</div>
-                            <div class="cell value">_______________________</div>
-                        </div>
+                    <div class="row">
+                        <div class="cell label">Revisi</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">0</div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <br />
-                        
-        <div class="note">
-            <div class="table full">
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="cell sig">
-                            <div>Dikerjakan oleh,</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div>Operator</div>
-                        </div>
+                    <div class="row">
+                        <div class="cell label">Tanggal</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label"></div>
                     </div>
-                </div>
-                <div class="cell col">
-                    <div class="table full">
-                        <div class="cell sig">
-                            <div>Diperiksa oleh,</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div class="blank">&nbsp;</div>
-                            <div>Spv Prod</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cell col">
-                        <div class="table full">
-                            <div class="cell sig">
-                                <div>WO# dikeluarkan oleh,</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div class="blank">&nbsp;</div>
-                                <div>PPIC</div>
-                            </div>
-                        </div>
+                    <div class="row">
+                        <div class="cell label">Halaman</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">1 dari 1</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
 
-{% block javascripts %}{% endblock %}
+    <hr />
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('memo') }}
-    <style>
-        .col:nth-child(1) { width: 50% }
-        .col:nth-child(2) { width: 50% }
-        
-        .col:nth-child(1) .label { width: 35% }
-        .col:nth-child(1) .value { width: 65% }
-        .col:nth-child(2) .label { width: 35% }
-        .col:nth-child(2) .value { width: 65% }
-        
-        .sig:nth-child(1) { width: 50% }
-        .sig:nth-child(2) { width: 50% }
-    </style>
-{% endblock %}
+    <div class="note">
+        <div class="table full">
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label">Mesin Cetak</div>
+                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Kode Design</div>
+                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Jumlah Kertas</div>
+                        <div class="cell value">{{ masterOrderHeader.paperTotal }} dreek</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Material</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Uk. Potong 1</div>
+                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Uk. Potong 2</div>
+                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2 }} x {{ masterOrderHeader.cuttingWidthSize2 }} cm</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Ukuran Jadi </div>
+                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Warna/Pantone</div>
+                        <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label">No WO</div>
+                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Tanggal Produksi</div>
+                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Total Kertas</div>
+                        <div class="cell value">{{ masterOrderHeader.paperTotal }} dreek</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Kebutuhan</div>
+                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Insit</div>
+                        <div class="cell value">{{ masterOrderHeader.printingInsit|default }} dreek</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Layout</div>
+                        <div class="cell value"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Finishing</div>
+                        <div class="cell value">{{ masterOrderHeader.finishing|default }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <table  class="detail">
+        <thead>
+            <tr>
+                <th>PO#</th>
+                <th>Kode</th>
+                <th>Nama Produk</th>
+                <th>Tanggal Kirim</th>
+                <th>Qty Order</th>
+                <th>Stock</th>
+                <th>Kekurangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                <tr>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                    <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                    <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="text-align:right; font-weight: bold" colspan="4">TOTAL</td>
+                <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
+                <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
+                <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <br />
+
+    <fieldset>
+        <div class="note">
+            <div class="table full">
+                <div class="cell col">
+                    <table class="detail">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th colspan="4">Jumlah Tinta & Plate yang dipakai</th>
+                            </tr>
+                            <tr>
+                                <th>Warna</th>
+                                <th>Unit Cetak</th>
+                                <th>Pakai Tinta</th>
+                                <th>Pakai Plate</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td>Cyan</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Magenta</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Yellow</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Black</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">Kualitas hasil cetak</div>
+                            <div class="cell value"> _____________________________ </div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Catatan</div>
+                            <div class="cell value"> _______________________________ </div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Speed/jam</div>
+                            <div class="cell value"> ___________________________ lembar / jam</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Air</div>
+                            <div class="cell value"> _____________________________ </div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Alkohol</div>
+                            <div class="cell value"> _____________________________ </div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Fountain</div>
+                            <div class="cell value"> ______________________________ </div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">WB</div>
+                            <div class="cell value"> _____________________________ </div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Note</div>
+                            <div class="cell value"> _______________________________ </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <br />
+
+    <table class="detail">
+        <thead class="table-secondary">
+            <tr>
+                <th class="text-center">Shift #</th>
+                <th class="text-center">Tanggal</th>
+                <th class="text-center">Warna</th>
+                <th class="text-center">Jam Mulai</th>
+                <th class="text-center">Jam Selesai</th>
+                <th class="text-center">Hasil Mulai</th>
+                <th class="text-center">Hasil Selesai</th>
+                <th class="text-center">Keterangan Setting / Produksi / Downtime</th>
+                <th class="text-center">Operator / Kenek</th>
+            </tr>
+        </thead>
+        <tfoot>
+            {% for row in 0..15 %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            {% endfor %}
+        </tfoot>
+    </table>
+
+    <br />
+
+    <div class="note">
+        <div class="table full">
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label">Tanggal Pengembalian WO#</div>
+                        <div class="cell value">_______________________</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell col">
+                <div class="table full">
+                    <div class="row">
+                        <div class="cell label">WO# dikembalikan oleh</div>
+                        <div class="cell value">_______________________</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="signature">
+        <div class="table full">
+            <div class="cell sig">
+                <div>Dikerjakan oleh,</div>
+                <div class="blank">&nbsp;</div>
+                <div>Operator</div>
+            </div>
+            <div class="cell sig">
+                <div>Diperiksa oleh,</div>
+                <div class="blank">&nbsp;</div>
+                <div>Spv Prod</div>
+            </div>
+            <div class="cell sig">
+                <div>WO# dikeluarkan oleh,</div>
+                <div class="blank">&nbsp;</div>
+                <div>PPIC</div>
+            </div>
+        </div>
+    </div>
+</div>
