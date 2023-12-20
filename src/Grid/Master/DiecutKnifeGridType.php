@@ -22,7 +22,7 @@ class DiecutKnifeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'location', 'customer:company'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'location', 'customer:company', 'printingSize'],
                 'field_label_list' => [
                     'code' => 'Code',
                     'version' => '',
@@ -36,10 +36,11 @@ class DiecutKnifeGridType extends AbstractType
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'location' => [FilterContain::class, FilterNotContain::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
+                    'printingSize' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'location', 'customer:company'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'location', 'customer:company', 'printingSize'],
                 'field_label_list' => [
                     'code' => '',
                     'version' => 'Code',
@@ -54,6 +55,7 @@ class DiecutKnifeGridType extends AbstractType
                     'name' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
+                    'printingSize' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

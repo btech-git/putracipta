@@ -22,10 +22,11 @@ class DielineMillarGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'customer:company'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'customer:company', 'printingLayout'],
                 'field_label_list' => [
                     'code' => 'Code',
                     'version' => '',
+                    'printingLayout' => 'Kris Layout Cetak',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
@@ -34,14 +35,16 @@ class DielineMillarGridType extends AbstractType
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
+                    'printingLayout' => [FilterContain::class, FilterNotContain::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'customer:company'],
+                'field_names' => ['note', 'version', 'isInactive', 'name', 'code', 'customer:company', 'printingLayout'],
                 'field_label_list' => [
                     'code' => '',
                     'version' => 'Code',
+                    'printingLayout' => 'Kris Layout Cetak',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
@@ -50,6 +53,7 @@ class DielineMillarGridType extends AbstractType
                     'isInactive' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'code' => [SortAscending::class, SortDescending::class],
+                    'printingLayout' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                 ],
             ])
