@@ -76,7 +76,8 @@ class DeliveryDetail extends SaleDetail
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]
     private Collection $saleInvoiceDetails;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'deliveryDetails')]
+    #[Assert\NotNull]
     private ?MasterOrderProductDetail $masterOrderProductDetail = null;
 
     #[ORM\Column]
