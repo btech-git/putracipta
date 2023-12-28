@@ -14,7 +14,10 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\SaleHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,24 +27,52 @@ class SalePaymentHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['referenceNumber', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => '',
+                    'transactionDate' => 'Tanggal',
+                    'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
+                ],
                 'field_operators_list' => [
-                    'referenceNumber' => [FilterContain::class, FilterNotContain::class],
+                    'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
+                    'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
+                    'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
+                    'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
+                ],
+                'field_value_type_list' => [
+                    'codeNumberOrdinal' => IntegerType::class,
+                    'codeNumberMonth' => ChoiceType::class,
+                    'codeNumberYear' => IntegerType::class,
                 ],
                 'field_value_options_list' => [
+                    'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['referenceNumber', 'transactionDate', 'note', 'isCanceled'],
+                'field_names' => ['transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_label_list' => [
+                    'codeNumberOrdinal' => '',
+                    'codeNumberMonth' => '',
+                    'codeNumberYear' => 'Code Number',
+                    'transactionDate' => 'Tanggal',
+                    'customer:company' => 'Customer',
+                    'saleOrderReferenceNumbers' => 'PO #',
+                ],
                 'field_operators_list' => [
-                    'referenceNumber' => [SortAscending::class, SortDescending::class],
+                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
-                    'isCanceled' => [SortAscending::class, SortDescending::class],
+                    'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
