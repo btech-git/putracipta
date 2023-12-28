@@ -36,10 +36,10 @@ class SaleReturnHeaderType extends AbstractType
                             ->andWhere("e.isInactive = false");
                 },
             ])
-            ->add('taxMode', ChoiceType::class, ['choices' => [
-                '0%' => SaleReturnHeader::TAX_MODE_NON_TAX,
-                "{$vatPercentage}%" => SaleReturnHeader::TAX_MODE_TAX_EXCLUSION,
-            ]])
+//            ->add('taxMode', ChoiceType::class, ['choices' => [
+//                '0%' => SaleReturnHeader::TAX_MODE_NON_TAX,
+//                "{$vatPercentage}%" => SaleReturnHeader::TAX_MODE_TAX_EXCLUSION,
+//            ]])
             ->add('deliveryHeader', EntityHiddenType::class, ['class' => DeliveryHeader::class])
             ->add('saleReturnDetails', CollectionType::class, [
                 'entry_type' => SaleReturnDetailType::class,
