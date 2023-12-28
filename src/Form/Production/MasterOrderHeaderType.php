@@ -99,6 +99,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('inkK4Percentage')
             ->add('inkOpvPercentage')
             ->add('inkLaminatingSize')
+            ->add('quantityStockPaper')
             ->add('packagingGlueQuantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('packagingRubberQuantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('packagingPaperQuantity', FormattedNumberType::class, ['decimals' => 0])
