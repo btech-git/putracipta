@@ -3,6 +3,7 @@
 namespace App\Entity\Production;
 
 use App\Entity\Master\Product;
+use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\ProductionDetail;
 use App\Entity\Stock\InventoryProductReceiveDetail;
@@ -41,6 +42,9 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: InventoryProductReceiveDetail::class)]
     private Collection $inventoryProductReceiveDetails;
 
+    #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: DeliveryDetail::class)]
+    private Collection $deliveryDetails;
+
     #[ORM\Column]
     private ?int $quantityProduction = 0;
 
@@ -51,11 +55,12 @@ class MasterOrderProductDetail extends ProductionDetail
     private ?int $quantityDelivery = 0;
 
     #[ORM\Column]
-    private ?int $remainingDelivery = 0;
+    private ?int $remainingStockDelivery = 0;
 
     public function __construct()
     {
         $this->inventoryProductReceiveDetails = new ArrayCollection();
+        $this->deliveryDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -181,6 +186,36 @@ class MasterOrderProductDetail extends ProductionDetail
         return $this;
     }
 
+    /**
+     * @return Collection<int, DeliveryDetail>
+     */
+    public function getDeliveryDetails(): Collection
+    {
+        return $this->deliveryDetails;
+    }
+
+    public function addDeliveryDetail(DeliveryDetail $deliveryDetail): self
+    {
+        if (!$this->deliveryDetails->contains($deliveryDetail)) {
+            $this->deliveryDetails->add($deliveryDetail);
+            $deliveryDetail->setMasterOrderProductDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliveryDetail(DeliveryDetail $deliveryDetail): self
+    {
+        if ($this->deliveryDetails->removeElement($deliveryDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($deliveryDetail->getMasterOrderProductDetail() === $this) {
+                $deliveryDetail->setMasterOrderProductDetail(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getQuantityProduction(): ?int
     {
         return $this->quantityProduction;
@@ -217,14 +252,14 @@ class MasterOrderProductDetail extends ProductionDetail
         return $this;
     }
 
-    public function getRemainingDelivery(): ?int
+    public function getRemainingStockDelivery(): ?int
     {
-        return $this->remainingDelivery;
+        return $this->remainingStockDelivery;
     }
 
-    public function setRemainingDelivery(int $remainingDelivery): self
+    public function setRemainingStockDelivery(int $remainingStockDelivery): self
     {
-        $this->remainingDelivery = $remainingDelivery;
+        $this->remainingStockDelivery = $remainingStockDelivery;
 
         return $this;
     }

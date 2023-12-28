@@ -357,6 +357,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $totalRemainingProduction = 0;
 
+    #[ORM\Column]
+    private ?int $quantityStockPaper = 0;
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -2073,6 +2076,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setTotalRemainingProduction(int $totalRemainingProduction): self
     {
         $this->totalRemainingProduction = $totalRemainingProduction;
+
+        return $this;
+    }
+
+    public function getQuantityStockPaper(): ?int
+    {
+        return $this->quantityStockPaper;
+    }
+
+    public function setQuantityStockPaper(int $quantityStockPaper): self
+    {
+        $this->quantityStockPaper = $quantityStockPaper;
 
         return $this;
     }
