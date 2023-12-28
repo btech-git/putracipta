@@ -34,7 +34,9 @@ export default class extends Controller {
     sync(event) {
         event.detail.fieldList.forEach(field => {
             for (let i = 0; i < event.detail.values.length; i++) {
-                this.fieldRef[field][i].value = event.detail.values[i];
+                if (event.detail.values[i] !== null) {
+                    this.fieldRef[field][i].value = event.detail.values[i];
+                }
             }
             this.normalizeElement(this.fieldRef[field][0], false);
         });
