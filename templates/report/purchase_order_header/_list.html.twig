@@ -11,10 +11,10 @@
                     <div class="col-sm-10 w-75">
                         <div class="row">
                             <div class="col">
-                                <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate', [form.filter['transactionDate'].0.vars.choices.0.value, true, false]) }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                             </div>
                             <div class="col">
-                                <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate', [form.filter['transactionDate'].0.vars.choices.0.value, false, true]) }} value="{{ form.filter.transactionDate.2.vars.value }}" />
                             </div>
                         </div>
                     </div>
@@ -34,6 +34,24 @@
                         </select>
                         <span><small>/</small></span>
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Supplier</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Status</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
                     </div>
                 </div>
             </div>
@@ -68,16 +86,17 @@
                 <th class="text-start">PO #</th>
                 <th class="text-start">Tanggal</th>
                 <th class="text-start">Supplier</th>
-                <th class="text-start">Tanggal Kirim</th>
+                <th class="text-start">Status</th>
                 <th class="text-start">Note</th>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <table>
                         <thead>
                             <tr>
                                 <th class="text-start">Kode</th>
                                 <th class="text-start">Nama Produk</th>
+                                <th class="text-start">Tanggal Kirim</th>
                                 <th class="text-start">Qty</th>
                                 <th class="text-start">Satuan</th>
                                 <th class="text-start">Harga</th>
@@ -95,10 +114,11 @@
                     <td class="text-start">{{ purchaseOrderHeader.transactionDate|default ? purchaseOrderHeader.transactionDate|date('j F Y') }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.supplier.company|default }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.deliveryDate|default ? purchaseOrderHeader.deliveryDate|date('j F Y') }}</td>
+                    <td class="text-start">{{ purchaseOrderHeader.transactionStatus|default }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="5">
+                    <td colspan="6">
                         <table>
                             <tbody>
                                 {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
