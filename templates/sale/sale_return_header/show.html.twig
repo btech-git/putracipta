@@ -58,8 +58,6 @@
                 <th>Description</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
-                <th>Harga</th>
-                <th>Total</th>
             </tr>
         </thead>
         <tbody>
@@ -70,35 +68,9 @@
                     <td>{{ saleReturnDetail.product.name|default }}</td>
                     <td style="text-align: right">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ saleReturnDetail.unit.name|default }}</td>
-                    <td style="text-align: right">{{ saleReturnDetail.unitPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ saleReturnDetail.total|default|number_format(2) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="6" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ saleReturnHeader.subTotal|default|number_format(2) }}</strong></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align: right">
-                    <strong>
-                        {% if saleReturnHeader.taxMode == constant('TAX_MODE_NON_TAX', saleReturnHeader) %}
-                            Non PPn 0%
-                        {% elseif saleReturnHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleReturnHeader) %}
-                            PPn {{ saleReturnHeader.taxPercentage }}%
-                        {% elseif saleReturnHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleReturnHeader) %}
-                            Include PPn {{ saleReturnHeader.taxPercentage }}%
-                        {% endif %}
-                    </strong>
-                </td>
-                <td style="text-align: right"><strong>{{ saleReturnHeader.taxNominal|default|number_format(2) }}</strong></td>
-            </tr>
-            <tr>
-                <td colspan="6" style="text-align: right"><strong>Grand Total</strong></td>
-                <td style="text-align: right"><strong>{{ saleReturnHeader.grandTotal|default|number_format(2) }}</strong></td>
-            </tr>
-        </tfoot>
     </table>
                 
     {#{{ include('sale/sale_return_header/_delete_form.html.twig') }}#}
