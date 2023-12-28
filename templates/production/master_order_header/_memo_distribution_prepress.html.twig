@@ -97,7 +97,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Dreek</div>
-                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default }}</div>
+                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Finishing</div>

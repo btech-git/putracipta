@@ -25,7 +25,7 @@
     "packagingTapeLargeSize": "{{ masterOrderHeader.packagingTapeLargeSize|default|number_format(2) }}",
     "packagingTapeSmallSize": "{{ masterOrderHeader.packagingTapeSmallSize|default|number_format(2) }}",
     "packagingPlasticSize": "{{ masterOrderHeader.packagingPlasticSize|default|number_format(2) }}",
-    
+    "quantityStockPaper": "{{ masterOrderHeader.quantityStockPaper|default|number_format(0) }}",    
     "masterOrderProductDetails": {
         {%- for masterOrderProductDetailForm in form.masterOrderProductDetails -%}
             {%- set masterOrderProductDetail = masterOrderProductDetailForm.vars.data -%}

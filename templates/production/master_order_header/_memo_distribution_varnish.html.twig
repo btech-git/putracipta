@@ -77,7 +77,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Material</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper }} rim {{ masterOrderHeader.paperRequirement }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah lembar yang diterima</div>
@@ -149,7 +149,7 @@
                     </table>
                 </div>
                 <div class="cell col">
-                    <table  class="detail">
+                    <table class="detail" style="width: 95%">
                         <thead>
                             <tr>
                                 <th colspan="2">Urutan Proses</th>

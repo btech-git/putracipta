@@ -61,17 +61,17 @@
                 <th>Warna/Pantone</th>
                 <td>{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</td>
                 <th>Berat per pcs</th>
-                <td>{{ masterOrderHeader.weightPerPiece }}</td>
+                <td>{{ masterOrderHeader.weightPerPiece|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Glossiness</th>
                 <td>{{ masterOrderHeader.glossiness }}</td>
                 <th>Ukuran Mountage / Kris (cm)</th>
-                <td>{{ masterOrderHeader.mountageSize }}</td>
+                <td>{{ masterOrderHeader.mountageSize|default|number_format(0) }}</td>
             </tr>
             <tr>
                 <th>Jumlah Up Cetak</th>
-                <td>{{ masterOrderHeader.quantityPrinting }}</td>
+                <td>{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</td>
                 <th></th>
                 <td></td>
             </tr>
@@ -131,43 +131,43 @@
         <tbody>
             <tr>
                 <th>% Insit Cetak</th>
-                <td>{{ masterOrderHeader.insitPrintingPercentage|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.insitPrintingPercentage|default|number_format(2) }}</td>
                 <th>Insit Cetak (dreek)</th>
-                <td>{{ masterOrderHeader.insitPrintingQuantity|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.insitPrintingQuantity|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>% Insit Sortir</th>
-                <td>{{ masterOrderHeader.insitSortingPercentage|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.insitSortingPercentage|default|number_format(2) }}</td>
                 <th>Insit Cetak (dreek)</th>
-                <td>{{ masterOrderHeader.insitSortingQuantity|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.insitSortingQuantity|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Quantity Kertas (rim)</th>
-                <td>{{ masterOrderHeader.quantityPaper|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.quantityPaper|default|number_format(2) }}</td>
                 <th>Kebutuhan (dreek)</th>
-                <td>{{ masterOrderHeader.paperRequirement|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.paperRequirement|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Mountage Kertas (up)</th>
-                <td>{{ masterOrderHeader.paperMountage }}</td>
+                <td>{{ masterOrderHeader.paperMountage|default }}</td>
                 <th>Total Kertas (dreek)</th>
-                <td>{{ masterOrderHeader.paperTotal|number_format(2) }}</td>
+                <td>{{ masterOrderHeader.paperTotal|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Uk Kertas (cm)</th>
-                <td>{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }}</td>
+                <td>{{ masterOrderHeader.paperPlanoLength|default|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|default|number_format(2) }}</td>
                 <th>PO Kertas #</th>
                 <td>{{ masterOrderHeader.purchaseOrderPaperHeader.getCodeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Uk Potong 1 (cm)</th>
-                <td>{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }}</td>
+                <td>{{ masterOrderHeader.cuttingLengthSize1|default }} x {{ masterOrderHeader.cuttingWidthSize1|default }}</td>
                 <th>Tanggal</th>
                 <td>{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate|default ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Uk Potong 2 (cm)</th>
-                <td>{{ masterOrderHeader.cuttingLengthSize2 }} x {{ masterOrderHeader.cuttingWidthSize2 }}</td>
+                <td>{{ masterOrderHeader.cuttingLengthSize2|default }} x {{ masterOrderHeader.cuttingWidthSize2|default }}</td>
                 <th>Supplier</th>
                 <td>{{ masterOrderHeader.purchaseOrderPaperHeader.supplier.company|default }}</td>
             </tr>
@@ -183,37 +183,37 @@
         <tbody>
             <tr>
                 <th>Cyan</th>
-                <td>{{ masterOrderHeader.inkCyanPercentage }}% = {{ masterOrderHeader.inkCyanWeight }} kg</td>
+                <td>{{ masterOrderHeader.inkCyanPercentage|default }}% = {{ masterOrderHeader.inkCyanWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-1</th>
-                <td>{{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage }}% = {{ masterOrderHeader.inkK1Weight }} kg</td>
+                <td>{{ masterOrderHeader.inkK1Color|default }} : {{ masterOrderHeader.inkK1Percentage|default }}% = {{ masterOrderHeader.inkK1Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>Magenta</th>
-                <td>{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight }} kg</td>
+                <td>{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-2</th>
-                <td>{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight }} kg</td>
+                <td>{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>Yellow</th>
-                <td>{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight }} kg</td>
+                <td>{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-3</th>
-                <td>{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight }} kg</td>
+                <td>{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>Black</th>
-                <td>{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight }} kg</td>
+                <td>{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-4</th>
-                <td>{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight }} kg</td>
+                <td>{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>OPV/WB/UV</th>
-                <td>{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight }} KG</td>
+                <td>{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight|default|number_format(2) }} KG</td>
                 <th>Laminating</th>
-                <td>{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity }} roll</td>
+                <td>{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity|default|number_format(0) }} roll</td>
             </tr>
             <tr>
                 <th>Hot Stamping</th>
-                <td>{{ masterOrderHeader.inkHotStampingSize }} cm = {{ masterOrderHeader.inkHotStampingQuantity }} roll</td>
+                <td>{{ masterOrderHeader.inkHotStampingSize }} cm = {{ masterOrderHeader.inkHotStampingQuantity|default|number_format(0) }} roll</td>
             </tr>
         </tbody>
     </table>
