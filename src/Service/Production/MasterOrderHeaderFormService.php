@@ -87,6 +87,7 @@ class MasterOrderHeaderFormService
                 $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
             }
         }
+        
         $masterOrderHeader->setTotalQuantityOrder($masterOrderHeader->getSyncTotalQuantityOrder());
         $masterOrderHeader->setTotalQuantityStock($masterOrderHeader->getSyncTotalQuantityStock());
         $masterOrderHeader->setTotalQuantityShortage($masterOrderHeader->getSyncTotalQuantityShortage());
@@ -97,6 +98,11 @@ class MasterOrderHeaderFormService
         if (!empty($paper)) {
             $masterOrderHeader->setPaperPlanoLength($paper->getLength());
             $masterOrderHeader->setPaperPlanoWidth($paper->getWidth());
+            
+            $stockQuantityList = $this->inventoryRepository->getPaperStockQuantityList($masterOrderHeader->getWarehouse(), $paper);
+            $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'paperId');
+            $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
+            $masterOrderHeader->setQuantityStockPaper($stockQuantity);
         }
         $masterOrderHeader->setQuantityPaper($masterOrderHeader->getSyncQuantityPaper());
         $masterOrderHeader->setPaperTotal($masterOrderHeader->getSyncPaperTotal());
