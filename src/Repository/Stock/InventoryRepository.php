@@ -63,4 +63,18 @@ class InventoryRepository extends ServiceEntityRepository
 
         return $stockQuantityList;
     }
+
+    public function getAllWarehouseProductStockQuantityList(array $products): array
+    {
+        $dql = 'SELECT IDENTITY(e.product) AS productId, SUM(e.quantityIn - e.quantityOut) AS stockQuantity
+                FROM ' . Inventory::class . ' e
+                WHERE e.product IN (:products) AND e.isReversed = false
+                GROUP BY e.product';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('products', $products);
+        $stockQuantityList = $query->getScalarResult();
+
+        return $stockQuantityList;
+    }
 }
