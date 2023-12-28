@@ -106,18 +106,17 @@ class DeliveryHeaderFormService
 //            }
         }
         
-        if ($deliveryHeader->getWarehouse() !== null) {
+        if ($deliveryHeader->getId() === null) {
             $products = array_map(fn($deliveryDetail) => $deliveryDetail->getProduct(), $deliveryHeader->getDeliveryDetails()->toArray());
-            $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($deliveryHeader->getWarehouse(), $products);
+            $stockQuantityList = $this->inventoryRepository->getAllWarehouseProductStockQuantityList($products);
             $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
             foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
-                $deliveryDetail->setIsCanceled($deliveryDetail->getSyncIsCanceled());
                 $product = $deliveryDetail->getProduct();
                 $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
                 $deliveryDetail->setQuantityCurrent($stockQuantity);
             }
         }
-        
+
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();

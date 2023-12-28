@@ -81,6 +81,8 @@ class SaleReturnHeaderFormService {
             $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
             $saleOrderHeader->setHasReturnTransaction(true);
+            $saleReturnHeader->setTaxMode($saleOrderHeader->getTaxMode());
+            $saleReturnHeader->setTaxPercentage($saleOrderHeader->getTaxPercentage());
 
             $oldDeliveryDetails = [];
             $oldSaleReturnDetailsList = [];
@@ -131,15 +133,15 @@ class SaleReturnHeaderFormService {
             }
         }
         $saleReturnHeader->setSubTotal($saleReturnHeader->getSyncSubTotal());
-
-        if ($saleReturnHeader->getTaxMode() !== $saleReturnHeader::TAX_MODE_NON_TAX) {
-            $saleReturnHeader->setTaxPercentage($options['vatPercentage']);
-        } else {
-            $saleReturnHeader->setTaxPercentage(0);
-        }
-
         $saleReturnHeader->setTaxNominal($saleReturnHeader->getSyncTaxNominal());
         $saleReturnHeader->setGrandTotal($saleReturnHeader->getSyncGrandTotal());
+
+//        if ($saleReturnHeader->getTaxMode() !== $saleReturnHeader::TAX_MODE_NON_TAX) {
+//            $saleReturnHeader->setTaxPercentage($options['vatPercentage']);
+//        } else {
+//            $saleReturnHeader->setTaxPercentage(0);
+//        }
+
     }
 
     public function save(SaleReturnHeader $saleReturnHeader, array $options = []): void {

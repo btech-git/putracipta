@@ -78,18 +78,19 @@ class SaleOrderHeaderFormService
             if ($saleOrderDetail->isIsTransactionClosed() === true or $saleOrderDetail->isIsCanceled() === true) {
                 $saleOrderDetail->setRemainingDelivery(0);
             }
-            
+        }
+        
+        if ($saleOrderHeader->getId() === null) {
             $products = array_map(fn($saleOrderDetail) => $saleOrderDetail->getProduct(), $saleOrderHeader->getSaleOrderDetails()->toArray());
-            $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($saleOrderHeader->getWarehouse(), $products);
+            $stockQuantityList = $this->inventoryRepository->getAllWarehouseProductStockQuantityList($products);
             $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
             foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
-                $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
                 $product = $saleOrderDetail->getProduct();
                 $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
                 $saleOrderDetail->setQuantityStock($stockQuantity);
             }
         }
-        
+
         if ($saleOrderHeader->getTaxMode() !== $saleOrderHeader::TAX_MODE_NON_TAX) {
             $saleOrderHeader->setTaxPercentage($options['vatPercentage']);
         } else {
