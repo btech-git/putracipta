@@ -57,6 +57,7 @@
                     'saleOrderHeaderDate': saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '',
                     'saleOrderDetailDeliveryDate': saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '',
                     'saleOrderDetailId': saleOrderDetail.id,
+                    'saleOrderDetailLinePo': saleOrderDetail.linePo|default,
                     'productName': saleOrderDetail.product.name|default,
                     'productId': saleOrderDetail.product.id|default,
                     'productCode': saleOrderDetail.product.code|default,
