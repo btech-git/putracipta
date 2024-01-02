@@ -1,6 +1,8 @@
-{% macro start(id, title) %}
-    <div id="{{ id }}" class="modal fade" role="dialog" data-controller="bootstrap-modal" data-action="data-table:select@document->bootstrap-modal#close">
-        <div class="modal-dialog modal-lg">
+{% macro start(id, title, close_events = ['data-table:select']) %}
+    {% set dataActions = close_events|map(event => "#{event}@document->bootstrap-modal#close") %}
+    <div id="{{ id }}" class="modal fade" role="dialog"
+         data-controller="bootstrap-modal" {% if close_events is not empty %}data-action="{{ dataActions|join(' ') }}"{% endif %}>
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ title }}</h5>
