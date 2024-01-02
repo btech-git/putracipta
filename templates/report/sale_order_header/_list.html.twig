@@ -58,6 +58,16 @@
         </div>
     </div>
 
+    <form action="{{ path('app_report_sale_order_header_export') }}">
+        <div class="d-grid">
+            <div class="row">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary btn-sm">Export</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     {{ grid.info(form, count, saleOrderHeaders) }}
 
     {#<div class="text-center">
