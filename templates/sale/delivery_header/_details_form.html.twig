@@ -52,7 +52,7 @@
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailRemainingDelivery">{{ detailForm.vars.value.saleOrderDetail.remainingDelivery|default|number_format(0) }}</td>
                     <td class="text-center" data-item-field-name="masterOrderProductDetailRemainingStockDelivery">
-                        {{ detailForm.vars.value.quantityCurrent|default }}
+                        {{ detailForm.vars.value.quantityCurrent|default|number_format(0) }}
                     </td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {

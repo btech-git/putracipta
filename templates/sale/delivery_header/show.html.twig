@@ -92,7 +92,7 @@
                     <td>{{ deliveryDetail.product.code|default }}</td>
                     <td>{{ deliveryDetail.product.name|default }}</td>
                     <td>{{ deliveryDetail.fscCode|default }}</td>
-                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }}</td>
+                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }}</td>
                     <td>{{ deliveryDetail.lotNumber|default }}</td>
                     <td>{{ deliveryDetail.linePo|default }}</td>
                     <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>

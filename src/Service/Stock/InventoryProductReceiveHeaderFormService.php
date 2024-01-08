@@ -78,6 +78,7 @@ class InventoryProductReceiveHeaderFormService
             }
             $masterOrderProductDetail->setQuantityProduction($totalProduction);
             $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
+            $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
             
         }
         $inventoryProductReceiveHeader->setTotalQuantity($inventoryProductReceiveHeader->getSyncTotalQuantity());

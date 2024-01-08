@@ -70,7 +70,7 @@ class DeliveryDetail extends SaleDetail
 
     #[ORM\Column]
     #[Assert\GreaterThan(0)]
-    #[Assert\Expression("this.getQuantityCurrent() >= value")]
+//    #[Assert\Expression("this.getQuantityCurrent() >= value")]
     private ?int $quantity = 0;
 
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]

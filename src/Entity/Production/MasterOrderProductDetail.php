@@ -79,6 +79,11 @@ class MasterOrderProductDetail extends ProductionDetail
         return $this->quantityShortage - $this->quantityProduction;
     }
     
+    public function getSyncRemainingStockDelivery() 
+    {
+        return $this->quantityProduction - $this->quantityDelivery;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

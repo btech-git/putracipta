@@ -66,11 +66,11 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label" style="min-width: 60px">Kepada:</div>
-                            <div class="cell value" style="max-width: 150px">{{ deliveryHeader.customer.company|default }}</div>
+                            <div class="cell value">{{ deliveryHeader.customer.company|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">{{ attribute(deliveryHeader.customer, 'addressDelivery' ~ deliveryHeader.deliveryAddressOrdinal)|default|nl2br }}</div>
+                            <div class="cell value" style="max-width: 250px">{{ attribute(deliveryHeader.customer, 'addressDelivery' ~ deliveryHeader.deliveryAddressOrdinal)|default|nl2br }}</div>
                         </div>
                     </div>
                 </div>
@@ -113,14 +113,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% set rowspan = 25 %}
+                {% set rowspan = 20 %}
                 {% for row in deliveryHeader.deliveryDetails|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
                             {% if deliveryDetail and not deliveryDetail.isCanceled %}
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
-                                <td class="left">{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }} / {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') }}</td>
+                                <td class="left">{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }} / {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') }}</td>
                                 {% if deliveryHeader.isUsingFscPaper %}
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
                                     <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
