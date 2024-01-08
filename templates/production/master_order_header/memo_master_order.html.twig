@@ -197,15 +197,15 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">% Insit Print</div>
-                            <div class="cell value">{{ masterOrderHeader.insitPrintingPercentage|default }}%</div>
+                            <div class="cell value">{{ masterOrderHeader.insitPrintingPercentage|default|number_format(2) }}%</div>
                         </div>
                         <div class="row">
                             <div class="cell label">% Insit Sortir</div>
-                            <div class="cell value">{{ masterOrderHeader.insitSortingPercentage|default }}%</div>
+                            <div class="cell value">{{ masterOrderHeader.insitSortingPercentage|default|number_format(2) }}%</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Quantity Kertas</div>
-                            <div class="cell value">{{ masterOrderHeader.quantityPaper|default }} Rim</div>
+                            <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(0) }} Rim</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Mountage Kertas</div>
@@ -213,15 +213,15 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Uk Kertas</div>
-                            <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.paperPlanoLength|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(2) }} cm</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Uk Potong 1</div>
-                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|number_format(2) }} cm</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Uk Potong 2</div>
-                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2 }} x {{ masterOrderHeader.cuttingWidthSize2 }} cm</div>
+                            <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize2|number_format(2) }} cm</div>
                         </div>
                     </div>
                 </div>
@@ -230,19 +230,19 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Insit Cetak</div>
-                            <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default|number_format(0) }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Insit Sortir</div>
-                            <div class="cell value">{{ masterOrderHeader.insitSortingQuantity|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.insitSortingQuantity|default|number_format(0) }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Kebutuhan</div>
-                            <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Total Kertas</div>
-                            <div class="cell value">{{ masterOrderHeader.paperTotal|default }} dreek</div>
+                            <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
                         </div>
                         <div class="row">
                             <div class="cell label">PO Kertas #</div>
@@ -266,27 +266,27 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Cyan</div>
-                            <div class="cell value">{{ masterOrderHeader.inkCyanPercentage }}% = {{ masterOrderHeader.inkCyanWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkCyanPercentage|number_format(2) }}% = {{ masterOrderHeader.inkCyanWeight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Magenta</div>
-                            <div class="cell value">{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkMagentaPercentage|number_format(2) }}% = {{ masterOrderHeader.inkMagentaWeight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Yellow</div>
-                            <div class="cell value">{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkYellowPercentage|number_format(2) }}% = {{ masterOrderHeader.inkYellowWeight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Black</div>
-                            <div class="cell value">{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkBlackPercentage|number_format(2) }}% = {{ masterOrderHeader.inkBlackWeight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">OPV/WB/UV</div>
-                            <div class="cell value">{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkOpvPercentage|number_format(2) }}% = {{ masterOrderHeader.inkOpvWeight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Hot Stamping</div>
-                            <div class="cell value">{{ masterOrderHeader.inkHotStampingSize }}% cm = {{ masterOrderHeader.inkHotStampingQuantity }} Roll</div>
+                            <div class="cell value">{{ masterOrderHeader.inkHotStampingSize|number_format(2) }}% cm = {{ masterOrderHeader.inkHotStampingQuantity|number_format(0) }} Roll</div>
                         </div>
                     </div>
                 </div>
@@ -295,23 +295,23 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Khusus-1</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage }}% = {{ masterOrderHeader.inkK1Weight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK1Weight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Khusus-2</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK2Weight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Khusus-3</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK3Weight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Khusus-4</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK4Weight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Laminating</div>
-                            <div class="cell value">{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity }} roll</div>
+                            <div class="cell value">{{ masterOrderHeader.inkLaminatingSize|number_format(2) }} cm = {{ masterOrderHeader.inkLaminatingQuantity|number_format(0) }} roll</div>
                         </div>
                     </div>
                 </div>
@@ -323,19 +323,19 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Lem</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingGlueQuantity }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight }} kg</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingGlueQuantity|number_format(0) }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight|number_format(2) }} kg</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Karet</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingRubberQuantity }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight }} pcs</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingRubberQuantity|number_format(0) }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight|number_format(2) }} pcs</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Kertas Packing</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingPaperQuantity }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight }} lbr</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingPaperQuantity|number_format(0) }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight|number_format(2) }} lbr</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Dus</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingBoxQuantity }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight }} pcs</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingBoxQuantity|number_format(0) }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight|number_format(2) }} pcs</div>
                         </div>
                     </div>
                 </div>
@@ -344,15 +344,15 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Lakban >besar</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize }} roll</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingTapeLargeQuantity|number_format(0) }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize|number_format(2) }} roll</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Lakban >kecil</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize }} roll</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingTapeSmallQuantity|number_format(0) }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize|number_format(2) }} roll</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Plastik</div>
-                            <div class="cell value">{{ masterOrderHeader.packagingPlasticQuantity }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize }} m2</div>
+                            <div class="cell value">{{ masterOrderHeader.packagingPlasticQuantity|number_format(0) }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize|number_format(2) }} m2</div>
                         </div>
                     </div>
                 </div>

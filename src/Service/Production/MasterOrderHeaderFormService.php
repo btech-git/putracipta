@@ -99,7 +99,7 @@ class MasterOrderHeaderFormService
             $masterOrderHeader->setPaperPlanoLength($paper->getLength());
             $masterOrderHeader->setPaperPlanoWidth($paper->getWidth());
             
-            $stockQuantityList = $this->inventoryRepository->getPaperStockQuantityList($masterOrderHeader->getWarehouse(), $paper);
+            $stockQuantityList = $this->inventoryRepository->getAllWarehousePaperStockQuantityList($paper);
             $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'paperId');
             $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
             $masterOrderHeader->setQuantityStockPaper($stockQuantity);
