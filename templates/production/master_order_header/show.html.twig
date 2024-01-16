@@ -100,8 +100,8 @@
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
-                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>{{ masterOrderProductDetail.product.code|default }}</td>
+                    <td>{{ masterOrderProductDetail.product.name|default }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>

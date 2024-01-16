@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Grid\Production;
+namespace App\Grid\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterBetween;
 use App\Common\Data\Operator\FilterContain;
 use App\Common\Data\Operator\FilterEqual;
+use App\Common\Data\Operator\FilterNotBetween;
 use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\FilterNotEqual;
 use App\Common\Data\Operator\SortAscending;
@@ -25,7 +27,7 @@ class MasterOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'orderType'],
+                'field_names' => ['isCanceled', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'note', 'orderType'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -37,7 +39,7 @@ class MasterOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'orderType' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],

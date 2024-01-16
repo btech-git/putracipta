@@ -40,11 +40,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, purchaseInvoiceHeaders) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_purchase_invoice_header__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, purchaseInvoiceHeaders) }}
 
     <hr />
 </div>
@@ -109,10 +120,10 @@
                             <tbody>
                                 {% for purchaseInvoiceDetail in purchaseInvoiceHeader.purchaseInvoiceDetails %}
                                     <tr>
-                                        <td class="text-start">{{ purchaseInvoiceDetail.receiveDetail.material is null ? purchaseInvoiceDetail.receiveDetail.paper.codeNumber|default : purchaseInvoiceDetail.receiveDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ purchaseInvoiceDetail.receiveDetail.material is null ? purchaseInvoiceDetail.receiveDetail.paper.paperNameSizeCombination|default : purchaseInvoiceDetail.receiveDetail.material.name|default }}</td>
+                                        <td class="text-start">{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.codeNumber|default : purchaseInvoiceDetail.material.code|default }}</td>
+                                        <td class="text-start">{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.paperNameSizeCombination|default : purchaseInvoiceDetail.material.name|default }}</td>
                                         <td class="text-start">{{ purchaseInvoiceDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ purchaseInvoiceDetail.receiveDetail.unit.name|default }}</td>
+                                        <td class="text-start">{{ purchaseInvoiceDetail.unit.name|default }}</td>
                                         <td class="text-end">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
                                         <td class="text-end">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
                                     </tr>

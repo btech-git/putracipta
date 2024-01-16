@@ -25,9 +25,9 @@
                     <label class="col-sm-2 col-form-label w-25">Code Number</label>
                     <div class="col-sm-10 w-75">
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                        <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseRequestHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                        <span><small>/{{ constant('App\\Entity\\Production\\MasterOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
                         <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
-                            {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% for value, label in constant('App\\Entity\\ProductionHeader::MONTH_ROMAN_NUMERALS') %}
                                 {% set val = value == 0 ? '' : value %}
                                 <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -45,7 +45,7 @@
             <div class="col text-center">
                 <button type="submit" class="btn btn-primary btn-sm"
                         data-controller="redirection"
-                        data-redirection-url-value="{{ path('app_report_purchase_request_header__list') }}"
+                        data-redirection-url-value="{{ path('app_report_master_order_header__list') }}"
                         data-redirection-form-target-value="form[name={{ form.vars.name }}]"
                         data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
                         data-action="redirection#redirect">
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, purchaseRequestHeaders) }}
+    {{ grid.info(form, count, masterOrderHeaders) }}
 
     <hr />
 </div>
@@ -63,7 +63,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Purchase Request</div>
+        <div class="report-title">Laporan Master Order</div>
         <div>
             {% set startDate = form.vars.value.filter.transactionDate.1|default %}
             {% set endDate = form.vars.value.filter.transactionDate.2|default %}
@@ -76,24 +76,27 @@
     <table class="report-data">
         <thead class="border-top-solid-bold border-bottom-solid-bold">
             <tr>
-                <th class="text-start">Request #</th>
+                <th class="text-start">MO #</th>
                 <th class="text-start">Tanggal</th>
-                <th class="text-start">Gudang</th>
-                <th class="text-start">Status</th>
-                <th class="text-start">Note</th>
+                <th class="text-start">Customer</th>
+                <th class="text-start">Kertas</th>
+                <th class="text-start">Mesin Cetak</th>
+                <th class="text-start">Design Code</th>
+                <th class="text-start">Pisau Die Cut</th>
+                <th class="text-start">Film Dieline</th>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="8">
                     <table>
                         <thead>
                             <tr>
-                                <th class="text-start">Kode</th>
+                                <th class="text-start">PO#</th>
+                                <th class="text-start">Kode Produk</th>
                                 <th class="text-start">Nama Produk</th>
-                                <th class="text-start">Qty</th>
-                                <th class="text-start">Satuan</th>
-                                <th class="text-start">Tanggal Pakai</th>
-                                <th class="text-start">Memo</th>
-                                <th class="text-start">Status</th>
+                                <th class="text-start">Tanggal Kirim</th>
+                                <th class="text-start">Qty Order</th>
+                                <th class="text-start">Stock</th>
+                                <th class="text-start">Kekurangan</th>
                             </tr>
                         </thead>
                     </table>
@@ -101,35 +104,39 @@
             </tr>
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
-            {% for purchaseRequestHeader in purchaseRequestHeaders %}
+            {% for masterOrderHeader in masterOrderHeaders %}
                 <tr>
-                    <td class="text-start">{{ purchaseRequestHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ purchaseRequestHeader.transactionDate|default ? purchaseRequestHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ purchaseRequestHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ purchaseRequestHeader.transactionStatus|default }}</td>
-                    <td class="text-start">{{ purchaseRequestHeader.note|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.getCodeNumber|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ masterOrderHeader.customer.company|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.machinePrinting.name|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.designCode.codeNumber|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.diecutKnife.codeNumber|default }}</td>
+                    <td class="text-start">{{ masterOrderHeader.dielineMillar.codeNumber|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="5">
+                    <td colspan="8">
                         <table>
                             <tbody>
-                                {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
+                                {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                                     <tr>
-                                        <td class="text-start">{{ purchaseRequestDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.material.name|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.unit.name|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.usageDate|default ? purchaseRequestDetail.usageDate|date('j M Y') }}</td>
-                                        <td class="text-end">{{ purchaseRequestDetail.memo|default }}</td>
-                                        <td class="text-end">{{ purchaseRequestDetail.transactionStatus|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                        <td>{{ masterOrderProductDetail.product.code|default }}</td>
+                                        <td>{{ masterOrderProductDetail.product.name|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                                        <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">
                                 <tr>
-                                    <td class="text-end" colspan="2"><strong>Total</strong></td>
-                                    <td class="text-end"><strong>{{ purchaseRequestHeader.totalQuantity|default|number_format(0) }}</strong></td>
-                                    <td colspan="4">&nbsp;</td>
+                                    <td colspan="4" class="text-end">Total</td>
+                                    <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
+                                    <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
+                                    <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -142,5 +149,5 @@
 
 <div class="d-print-none">
     <br />
-    {{ grid.navigation(form, count, purchaseRequestHeaders) }}
+    {{ grid.navigation(form, count, masterOrderHeaders) }}
 </div>

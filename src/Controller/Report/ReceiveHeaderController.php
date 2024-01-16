@@ -6,10 +6,15 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
 use App\Grid\Report\ReceiveHeaderGridType;
 use App\Repository\Purchase\ReceiveHeaderRepository;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/report/receive_header')]
@@ -35,11 +40,15 @@ class ReceiveHeaderController extends AbstractController
             }
         });
 
-        return $this->renderForm("report/receive_header/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'receiveHeaders' => $receiveHeaders,
-        ]);
+        if ($request->request->has('export')) {
+            return $this->export($form, $receiveHeaders);
+        } else {
+            return $this->renderForm("report/receive_header/_list.html.twig", [
+                'form' => $form,
+                'count' => $count,
+                'receiveHeaders' => $receiveHeaders,
+            ]);
+        }
     }
 
     #[Route('/', name: 'app_report_receive_header_index', methods: ['GET', 'POST'])]
@@ -49,31 +58,26 @@ class ReceiveHeaderController extends AbstractController
         return $this->render("report/receive_header/index.html.twig");
     }
 
-//    #[Route('/export', name: 'app_report_receive_header_export', methods: ['GET'])]
-//    #[IsGranted('ROLE_USER')]
-//    public function exportAction(Request $request)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $repository = $em->getRepository(ReceiveHeader::class);
-//
-//        $grid = $this->get('lib.grid.datagrid');
-//        $grid->build(ReceiveHeaderGridType::class, $repository, $request);
-//
-//        $excel = $this->get('phpexcel');
-//        $excelXmlReader = $this->get('lib.excel.xml_reader');
-//        $xml = $this->renderView('report/receive_header/export.xml.twig', array(
-//            'grid' => $grid->createView(),
-//        ));
-//        $excelObject = $excelXmlReader->load($xml);
-//        $writer = $excel->createWriter($excelObject, 'Excel5');
-//        $response = $excel->createStreamedResponse($writer);
-//
-//        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'report.xls');
-//        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-//        $response->headers->set('Pragma', 'public');
-//        $response->headers->set('Cache-Control', 'maxage=1');
-//        $response->headers->set('Content-Disposition', $dispositionHeader);
-//
-//        return $response;
-//    }
+    public function export(FormInterface $form, array $receiveHeaders): Response
+    {
+        $htmlString = $this->renderView("report/receive_header/_list_export.html.twig", [
+            'form' => $form->createView(),
+            'receiveHeaders' => $receiveHeaders,
+        ]);
+
+        $reader = new Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $response =  new StreamedResponse(function() use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $filename = 'receive.xlsx';
+        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
+    }
 }

@@ -1,0 +1,81 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>Laporan Sales Invoice</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7">
+                <strong>
+                    {% set startDate = form.vars.value.filter.transactionDate.1|default %}
+                    {% set endDate = form.vars.value.filter.transactionDate.2|default %}
+                    {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+                </strong>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="7"></th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt"><strong>Pengiriman #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Customer</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Gudang</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Kendaraan</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Sopir</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 100pt"></th>
+        </tr>
+        <tr>
+            <th></th>
+            <th style="text-align: center"><strong>Kode</strong></th>
+            <th style="text-align: center"><strong>Nama Produk</strong></th>
+            <th style="text-align: center"><strong>FSC Code</strong></th>
+            <th style="text-align: center"><strong>Lot #</strong></th>
+            <th style="text-align: center"><strong>Qty Order</strong></th>
+            <th style="text-align: center"><strong>Qty Kirim</strong></th>
+            <th style="text-align: center"><strong>Satuan</strong></th>
+            <th style="text-align: center"><strong>Packing</strong></th>
+        </tr>
+        <tr>
+            <th colspan="7"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for deliveryHeader in deliveryHeaders %}
+            <tr>
+                <td style="text-align: left">{{ deliveryHeader.codeNumber|default }}</td>
+                <td style="text-align: left">{{ deliveryHeader.transactionDate|default ? deliveryHeader.transactionDate|date('j M Y') }}</td>
+                <td style="text-align: left">{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
+                <td style="text-align: left">{{ deliveryHeader.customer.company|default }}</td>
+                <td style="text-align: left">{{ deliveryHeader.warehouse.name|default }}</td>
+                <td style="text-align: left">{{ deliveryHeader.vehiclePlateNumber|default }}</td>
+                <td style="text-align: left">{{ deliveryHeader.vehicleDriverName|default }}</td>
+                <td style="text-align: left">{{ deliveryHeader.note|default }}</td>
+            </tr>
+            {% for deliveryDetail in deliveryHeader.deliveryDetails %}
+                <tr>
+                    <td style="text-align: left"></td>
+                    <td style="text-align: left">{{ deliveryDetail.product.code|default }}</td>
+                    <td style="text-align: left">{{ deliveryDetail.product.name|default }}</td>
+                    <td style="text-align: left">{{ deliveryDetail.fscCode|default }}</td>
+                    <td style="text-align: left">{{ deliveryDetail.lotNumber|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.quantity|default }}</td>
+                    <td style="text-align: left">{{ deliveryDetail.unit.name|default }}</td>
+                    <td style="text-align: left">{{ deliveryDetail.packaging|default }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td style="text-align: right" colspan="6"><strong>Total Quantity</strong></td>
+                <td style="text-align: center"><strong>{{ deliveryHeader.totalQuantity|default }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="7"></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

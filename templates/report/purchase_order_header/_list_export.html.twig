@@ -1,0 +1,84 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>Laporan PO Material</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7">
+                <strong>
+                    {% set startDate = form.vars.value.filter.transactionDate.1|default %}
+                    {% set endDate = form.vars.value.filter.transactionDate.2|default %}
+                    {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+                </strong>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="7"></th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt">PO #</th>
+            <th style="text-align: center; width: 100pt">Tanggal</th>
+            <th style="text-align: center; width: 100pt">Supplier</th>
+            <th style="text-align: center; width: 100pt">Status</th>
+            <th style="text-align: center; width: 100pt">Note</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th style="text-align: center;">Kode</th>
+            <th style="text-align: center;">Nama Produk</th>
+            <th style="text-align: center;">Tanggal Kirim</th>
+            <th style="text-align: center;">Qty</th>
+            <th style="text-align: center;">Satuan</th>
+            <th style="text-align: center;">Harga</th>
+            <th style="text-align: center;">Total</th>
+        </tr>
+        <tr>
+            <th colspan="7"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for purchaseOrderHeader in purchaseOrderHeaders %}
+            <tr>
+                <td style="text-align: left;">{{ purchaseOrderHeader.codeNumber|default }}</td>
+                <td style="text-align: left;">{{ purchaseOrderHeader.transactionDate|default ? purchaseOrderHeader.transactionDate|date('j F Y') }}</td>
+                <td style="text-align: left;">{{ purchaseOrderHeader.supplier.company|default }}</td>
+                <td style="text-align: left;">{{ purchaseOrderHeader.transactionStatus|default }}</td>
+                <td style="text-align: left;">{{ purchaseOrderHeader.note|default }}</td>
+            </tr>
+            {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
+                <tr>
+                    <td style="text-align: left"></td>
+                    <td style="text-align: left;">{{ purchaseOrderDetail.material.code|default }}</td>
+                    <td style="text-align: left;">{{ purchaseOrderDetail.material.name|default }}</td>
+                    <td style="text-align: left;">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('j F Y') }}</td>
+                    <td style="text-align: left;">{{ purchaseOrderDetail.quantity|default }}</td>
+                    <td style="text-align: left;">{{ purchaseOrderDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderDetail.total|default }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td style="text-align: right" colspan="7"><strong>Sub Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default }}</strong></td>
+            </tr>
+            <tr>
+                <td style="text-align: right" colspan="7"><strong>Diskon {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default }}</strong></td>
+            </tr>
+            <tr>
+                <td style="text-align: right" colspan="7"><strong>PPn {{ purchaseOrderHeader.taxPercentage|default }}%</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default }}</strong></td>
+            </tr>
+            <tr>
+                <td style="text-align: right" colspan="7"><strong>Grand Total</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="7"></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
