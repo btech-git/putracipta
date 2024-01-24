@@ -55,7 +55,7 @@ class SaleInvoiceHeaderController extends AbstractController
         return $this->render("sale/sale_invoice_header/index.html.twig");
     }
 
-    #[Route('/_head', name: 'app_sale_sale_invoice_header__head', methods: ['GET'])]
+    #[Route('/_head', name: 'app_sale_sale_invoice_header__head', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _head(Request $request, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {

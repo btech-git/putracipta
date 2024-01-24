@@ -56,12 +56,12 @@ class SaleOrderHeaderController extends AbstractController
         return $this->render("sale/sale_order_header/index.html.twig");
     }
 
-    #[Route('/_head', name: 'app_sale_sale_order_header__head', methods: ['GET'])]
+    #[Route('/_head', name: 'app_sale_sale_order_header__head', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _head(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
                 ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
                 ->getForm();
         $form->handleRequest($request);

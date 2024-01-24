@@ -4,12 +4,15 @@ namespace App\Controller\Sale;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\DeliveryHeader;
+//use App\Entity\Sale\SaleOrderDetail;
 use App\Form\Sale\DeliveryHeaderType;
 use App\Grid\Sale\DeliveryHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
+use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Service\Sale\DeliveryHeaderFormService;
 use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -57,6 +60,35 @@ class DeliveryHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("sale/delivery_header/index.html.twig");
+    }
+    
+    #[Route('/_list_outstanding_sale_order', name: 'app_sale_delivery_header__list_outstanding_sale_order', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.remainingDelivery > 0 AND {$alias}.isTransactionClosed = 0");
+        });
+
+        return $this->renderForm("sale/delivery_header/_list_outstanding_sale_order.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'saleOrderDetails' => $saleOrderDetails,
+        ]);
+    }
+
+    #[Route('/index_outstanding_sale_order', name: 'app_sale_delivery_header_index_outstanding_sale_order', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function indexOutstandingSaleOrder(): Response
+    {
+        return $this->render("sale/delivery_header/index_outstanding_sale_order.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_sale_delivery_header_new', methods: ['GET', 'POST'])]
