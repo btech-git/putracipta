@@ -57,7 +57,7 @@
             </tr>
             <tr>
                 <th>Glossiness</th>
-                <td>{{ designCode.glossiness }}</td>
+                <td>{{ designCode.glossiness|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Hot Stamping</th>
@@ -103,11 +103,11 @@
         <tbody>
             <tr>
                 <th>Uk. Plano Kertas (cm)</th>
-                <td>{{ designCode.paperPlanoLength }} x {{ designCode.paperPlanoWidth }}</td>
+                <td>{{ designCode.paperPlanoLength|number_format(2) }} x {{ designCode.paperPlanoWidth|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Uk. Ptg Kertas (cm)</th>
-                <td>{{ designCode.paperCuttingLength }} x {{ designCode.paperCuttingWidth }}</td>
+                <td>{{ designCode.paperCuttingLength|number_format(2) }} x {{ designCode.paperCuttingWidth|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Mountage Kertas (lbr/plano)</th>
@@ -125,39 +125,39 @@
         <tbody>
             <tr>
                 <th>Cyan (%)</th>
-                <td>{{ designCode.inkCyanPercentage }}</td>
+                <td>{{ designCode.inkCyanPercentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Magenta (%)</th>
-                <td>{{ designCode.inkMagentaPercentage }}</td>
+                <td>{{ designCode.inkMagentaPercentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Yellow (%)</th>
-                <td>{{ designCode.inkYellowPercentage }}</td>
+                <td>{{ designCode.inkYellowPercentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Black (%)</th>
-                <td>{{ designCode.inkBlackPercentage }}</td>
+                <td>{{ designCode.inkBlackPercentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Khusus 1 (%)</th>
-                <td>{{ designCode.inkK1Percentage }}</td>
+                <td>{{ designCode.inkK1Percentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Khusus 2 (%)</th>
-                <td>{{ designCode.inkK2Percentage }}</td>
+                <td>{{ designCode.inkK2Percentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Khusus 3 (%)</th>
-                <td>{{ designCode.inkK3Percentage }}</td>
+                <td>{{ designCode.inkK3Percentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Khusus 4 (%)</th>
-                <td>{{ designCode.inkK4Percentage }}</td>
+                <td>{{ designCode.inkK4Percentage|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>OPV / WB / UV (%)</th>
-                <td>{{ designCode.inkOpvPercentage }}</td>
+                <td>{{ designCode.inkOpvPercentage|number_format(2) }}</td>
             </tr>
         </tbody>
     </table>
@@ -171,113 +171,115 @@
         <tbody>
             <tr>
                 <th>Lem (cm/pcs)</th>
-                <td>{{ designCode.packagingGlueQuantity }}</td>
+                <td>{{ designCode.packagingGlueQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Karet (pcs/ikat)</th>
-                <td>{{ designCode.packagingRubberQuantity }}</td>
+                <td>{{ designCode.packagingRubberQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Kertas Packing (pcs/pack)</th>
-                <td>{{ designCode.packagingPaperQuantity }}</td>
+                <td>{{ designCode.packagingPaperQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Dus (pcs/dus)</th>
-                <td>{{ designCode.packagingBoxQuantity }}</td>
+                <td>{{ designCode.packagingBoxQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Lakban Besar (cm/pack)</th>
-                <td>{{ designCode.packagingTapeLargeQuantity }}</td>
+                <td>{{ designCode.packagingTapeLargeQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Lakban Kecil (cm/pack)</th>
-                <td>{{ designCode.packagingTapeSmallQuantity }}</td>
+                <td>{{ designCode.packagingTapeSmallQuantity|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Plastik (cm2/pack)</th>
-                <td>{{ designCode.packagingPlasticQuantity }}</td>
+                <td>{{ designCode.packagingPlasticQuantity|number_format(2) }}</td>
             </tr>
         </tbody>
     </table>
             
     <hr />
     
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th colspan="3" class="text-center bg-info">Urutan Proses</th>
-            </tr>
-            <tr>
-                <th>No</th>
-                <th>Proses</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% set counter = 0 %}
-            {% for designCodeProcessDetail in designCode.designCodeProcessDetails %}
-                {% if not designCodeProcessDetail.isIsInactive %}
-                    {% set counter = counter + 1 %}
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-striped">
+                <thead>
                     <tr>
-                        <td style="text-align: center; width: 5%">{{ counter }}</td>
-                        <td>{{ designCodeProcessDetail.workOrderProcess.name|default }}</td>
+                        <th colspan="3" class="text-center bg-info">Urutan Proses</th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <hr />
-    
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th colspan="3" class="text-center bg-info">Distribusi WO</th>
-            </tr>
-            <tr>
-                <th>No</th>
-                <th>Work Order</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% set counter = 0 %}
-            {% for designCodeDistributionDetail in designCode.designCodeDistributionDetails %}
-                {% if not designCodeDistributionDetail.isIsInactive %}
-                    {% set counter = counter + 1 %}
                     <tr>
-                        <td style="text-align: center; width: 5%">{{ counter }}</td>
-                        <td>{{ designCodeDistributionDetail.workOrderDistribution.name|default }}</td>
+                        <th>No</th>
+                        <th>Proses</th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <hr />
-    
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th colspan="3" class="text-center bg-info">Check Sheet</th>
-            </tr>
-            <tr>
-                <th>No</th>
-                <th>Check Sheet</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% set counter = 0 %}
-            {% for designCodeCheckSheetDetail in designCode.designCodeCheckSheetDetails %}
-                {% if not designCodeCheckSheetDetail.isIsInactive %}
-                    {% set counter = counter + 1 %}
+                </thead>
+                <tbody>
+                    {% set counter = 0 %}
+                    {% for designCodeProcessDetail in designCode.designCodeProcessDetails %}
+                        {% if not designCodeProcessDetail.isIsInactive %}
+                            {% set counter = counter + 1 %}
+                            <tr>
+                                <td style="text-align: center; width: 5%">{{ counter }}</td>
+                                <td>{{ designCodeProcessDetail.workOrderProcess.name|default }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <table class="table table-bordered table-striped">
+                <thead>
                     <tr>
-                        <td style="text-align: center; width: 5%">{{ counter }}</td>
-                        <td>{{ designCodeCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
+                        <th colspan="3" class="text-center bg-info">Distribusi WO</th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
- 
+                    <tr>
+                        <th>No</th>
+                        <th>Work Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set counter = 0 %}
+                    {% for designCodeDistributionDetail in designCode.designCodeDistributionDetails %}
+                        {% if not designCodeDistributionDetail.isIsInactive %}
+                            {% set counter = counter + 1 %}
+                            <tr>
+                                <td style="text-align: center; width: 5%">{{ counter }}</td>
+                                <td>{{ designCodeDistributionDetail.workOrderDistribution.name|default }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="text-center bg-info">Check Sheet</th>
+                    </tr>
+                    <tr>
+                        <th>No</th>
+                        <th>Check Sheet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set counter = 0 %}
+                    {% for designCodeCheckSheetDetail in designCode.designCodeCheckSheetDetails %}
+                        {% if not designCodeCheckSheetDetail.isIsInactive %}
+                            {% set counter = counter + 1 %}
+                            <tr>
+                                <td style="text-align: center; width: 5%">{{ counter }}</td>
+                                <td>{{ designCodeCheckSheetDetail.workOrderCheckSheet.name|default }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+                
     <hr />
     
     <legend class="float-none w-auto text-dark px-1">Product List</legend>
