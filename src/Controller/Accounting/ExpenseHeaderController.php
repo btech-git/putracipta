@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExpenseHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_accounting_expense_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EXPENSE_COMMON')]
     public function _list(Request $request, ExpenseHeaderRepository $expenseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,14 +41,14 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_accounting_expense_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EXPENSE_COMMON')]
     public function index(): Response
     {
         return $this->render("accounting/expense_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_accounting_expense_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EXPENSE_ADD')]
     public function new(Request $request, ExpenseHeaderFormService $expenseHeaderFormService, $_format = 'html'): Response
     {
         $expenseHeader = new ExpenseHeader();
@@ -70,7 +70,7 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_accounting_expense_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EXPENSE_COMMON')]
     public function show(ExpenseHeader $expenseHeader): Response
     {
         return $this->render('accounting/expense_header/show.html.twig', [
@@ -79,7 +79,7 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_accounting_expense_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EXPENSE_EDIT')]
     public function edit(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderFormService $expenseHeaderFormService, $_format = 'html'): Response
     {
         $expenseHeaderFormService->initialize($expenseHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -100,7 +100,7 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_accounting_expense_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EXPENSE_EDIT')]
     public function delete(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderRepository $expenseHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $expenseHeader->getId(), $request->request->get('_token'))) {

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepositHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_accounting_deposit_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEPOSIT_COMMON')]
     public function _list(Request $request, DepositHeaderRepository $depositHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,14 +41,14 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_accounting_deposit_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEPOSIT_COMMON')]
     public function index(): Response
     {
         return $this->render("accounting/deposit_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_accounting_deposit_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEPOSIT_ADD')]
     public function new(Request $request, DepositHeaderFormService $depositHeaderFormService, $_format = 'html'): Response
     {
         $depositHeader = new DepositHeader();
@@ -70,7 +70,7 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_accounting_deposit_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEPOSIT_COMMON')]
     public function show(DepositHeader $depositHeader): Response
     {
         return $this->render('accounting/deposit_header/show.html.twig', [
@@ -79,7 +79,7 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_accounting_deposit_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEPOSIT_EDIT')]
     public function edit(Request $request, DepositHeader $depositHeader, DepositHeaderFormService $depositHeaderFormService, $_format = 'html'): Response
     {
         $depositHeaderFormService->initialize($depositHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -100,7 +100,7 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_accounting_deposit_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEPOSIT_EDIT')]
     public function delete(Request $request, DepositHeader $depositHeader, DepositHeaderRepository $depositHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $depositHeader->getId(), $request->request->get('_token'))) {
