@@ -8,6 +8,7 @@ use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Stock\InventoryProductReceiveHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryProductReceiveHeaderRepository::class)]
@@ -32,6 +33,9 @@ class InventoryProductReceiveHeader extends StockHeader
 
     #[ORM\ManyToOne(inversedBy: 'inventoryProductReceiveHeaders')]
     private ?MasterOrderHeader $masterOrderHeader = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $productDetailLists = '';
 
     public function __construct()
     {
@@ -121,6 +125,18 @@ class InventoryProductReceiveHeader extends StockHeader
     public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
         $this->masterOrderHeader = $masterOrderHeader;
+
+        return $this;
+    }
+
+    public function getProductDetailLists(): ?string
+    {
+        return $this->productDetailLists;
+    }
+
+    public function setProductDetailLists(string $productDetailLists): self
+    {
+        $this->productDetailLists = $productDetailLists;
 
         return $this;
     }
