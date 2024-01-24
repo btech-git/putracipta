@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     #[Route('/_list', name: 'app_admin_user__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function _list(Request $request, UserRepository $userRepository): Response
     {
         $criteria = new DataCriteria();
@@ -35,14 +35,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/', name: 'app_admin_user_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function index(): Response
     {
         return $this->render("admin/user/index.html.twig");
     }
 
     #[Route('/new', name: 'app_admin_user_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function new(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
         $user = new User();
@@ -64,7 +64,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_user_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function show(User $user): Response
     {
         return $this->render('admin/user/show.html.twig', [
@@ -73,7 +73,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_user_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -92,7 +92,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {

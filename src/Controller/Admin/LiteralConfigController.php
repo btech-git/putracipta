@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LiteralConfigController extends AbstractController
 {
     #[Route('/_list', name: 'app_admin_literal_config__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SETTING_COMMON')]
     public function _list(Request $request, LiteralConfigRepository $literalConfigRepository): Response
     {
         $criteria = new DataCriteria();
@@ -34,7 +34,7 @@ class LiteralConfigController extends AbstractController
     }
 
     #[Route('/', name: 'app_admin_literal_config_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SETTING_COMMON')]
     public function index(): Response
     {
         return $this->render("admin/literal_config/index.html.twig");
@@ -61,7 +61,7 @@ class LiteralConfigController extends AbstractController
 //    }
 
     #[Route('/{id}', name: 'app_admin_literal_config_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SETTING_COMMON')]
     public function show(LiteralConfig $literalConfig): Response
     {
         return $this->render('admin/literal_config/show.html.twig', [
@@ -70,7 +70,7 @@ class LiteralConfigController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_literal_config_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SETTING_EDIT')]
     public function edit(Request $request, LiteralConfig $literalConfig, LiteralConfigRepository $literalConfigRepository): Response
     {
         $form = $this->createForm(LiteralConfigType::class, $literalConfig);
