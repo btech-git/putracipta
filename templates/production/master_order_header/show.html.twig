@@ -161,13 +161,13 @@
             </tr>
             <tr>
                 <th>Uk Potong 1 (cm)</th>
-                <td>{{ masterOrderHeader.cuttingLengthSize1|default }} x {{ masterOrderHeader.cuttingWidthSize1|default }}</td>
+                <td>{{ masterOrderHeader.cuttingLengthSize1|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(2) }}</td>
                 <th>Tanggal</th>
                 <td>{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate|default ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Uk Potong 2 (cm)</th>
-                <td>{{ masterOrderHeader.cuttingLengthSize2|default }} x {{ masterOrderHeader.cuttingWidthSize2|default }}</td>
+                <td>{{ masterOrderHeader.cuttingLengthSize2|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize2|default|number_format(2) }}</td>
                 <th>Supplier</th>
                 <td>{{ masterOrderHeader.purchaseOrderPaperHeader.supplier.company|default }}</td>
             </tr>
@@ -183,37 +183,37 @@
         <tbody>
             <tr>
                 <th>Cyan</th>
-                <td>{{ masterOrderHeader.inkCyanPercentage|default }}% = {{ masterOrderHeader.inkCyanWeight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkCyanPercentage|default|number_format(2) }}% = {{ masterOrderHeader.inkCyanWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-1</th>
-                <td>{{ masterOrderHeader.inkK1Color|default }} : {{ masterOrderHeader.inkK1Percentage|default }}% = {{ masterOrderHeader.inkK1Weight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkK1Color|default }} : {{ masterOrderHeader.inkK1Percentage|default|number_format(2) }}% = {{ masterOrderHeader.inkK1Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>Magenta</th>
-                <td>{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkMagentaPercentage|number_format(2) }}% = {{ masterOrderHeader.inkMagentaWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-2</th>
-                <td>{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK2Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>Yellow</th>
-                <td>{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkYellowPercentage|number_format(2) }}% = {{ masterOrderHeader.inkYellowWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-3</th>
-                <td>{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK3Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>Black</th>
-                <td>{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkBlackPercentage|number_format(2) }}% = {{ masterOrderHeader.inkBlackWeight|default|number_format(2) }} kg</td>
                 <th>Khusus-4</th>
-                <td>{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight|default|number_format(2) }} kg</td>
+                <td>{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK4Weight|default|number_format(2) }} kg</td>
             </tr>
             <tr>
                 <th>OPV/WB/UV</th>
-                <td>{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight|default|number_format(2) }} KG</td>
+                <td>{{ masterOrderHeader.inkOpvPercentage|number_format(2) }}% = {{ masterOrderHeader.inkOpvWeight|default|number_format(2) }} KG</td>
                 <th>Laminating</th>
-                <td>{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity|default|number_format(0) }} roll</td>
+                <td>{{ masterOrderHeader.inkLaminatingSize|number_format(2) }} cm = {{ masterOrderHeader.inkLaminatingQuantity|default|number_format(0) }} roll</td>
             </tr>
             <tr>
                 <th>Hot Stamping</th>
-                <td>{{ masterOrderHeader.inkHotStampingSize }} cm = {{ masterOrderHeader.inkHotStampingQuantity|default|number_format(0) }} roll</td>
+                <td>{{ masterOrderHeader.inkHotStampingSize|number_format(2) }} cm = {{ masterOrderHeader.inkHotStampingQuantity|default|number_format(0) }} roll</td>
             </tr>
         </tbody>
     </table>
