@@ -3,6 +3,7 @@
 namespace App\Form\Master;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\DesignCodeDistributionDetail;
@@ -41,29 +42,37 @@ class DesignCodeType extends AbstractType
             ->add('coating', null, ['label' => 'Coating'])
             ->add('printingUpQuantity', null, ['label' => 'Jumlah Mata (Up/s)'])
             ->add('printingKrisSize', null, ['label' => 'Uk. Kris Cetak (cm)'])
-            ->add('paperCuttingLength', null, ['label' => false])
-            ->add('paperCuttingWidth', null, ['label' => false])
+            ->add('paperCuttingLength', FormattedNumberType::class, ['label' => false, 'decimals' => 2])
+            ->add('paperCuttingWidth', FormattedNumberType::class, ['label' => false, 'decimals' => 2])
             ->add('paperMountage', null, ['label' => 'Mountage Kertas (lbr/plano)'])
-            ->add('paperPlanoLength', null, ['label' => false])
-            ->add('paperPlanoWidth', null, ['label' => false])
-            ->add('inkCyanPercentage', null, ['label' => 'Cyan (%)'])
-            ->add('inkMagentaPercentage', null, ['label' => 'Magenta (%)'])
-            ->add('inkYellowPercentage', null, ['label' => 'Yellow (%)'])
-            ->add('inkBlackPercentage', null, ['label' => 'Black (%)'])
-            ->add('inkOpvPercentage', null, ['label' => 'OPV / WB / UV (%)'])
-            ->add('inkK1Percentage', null, ['label' => 'Khusus 1 (%)'])
-            ->add('inkK2Percentage', null, ['label' => 'Khusus 2 (%)'])
-            ->add('inkK3Percentage', null, ['label' => 'Khusus 3 (%)'])
-            ->add('inkK4Percentage', null, ['label' => 'Khusus 4 (%)'])
-            ->add('packagingGlueQuantity', null, ['label' => 'Lem (cm/pcs)'])
-            ->add('packagingRubberQuantity', null, ['label' => 'Karet (pcs/ikat)'])
-            ->add('packagingPaperQuantity', null, ['label' => 'Kertas Packing (pcs/pack)'])
-            ->add('packagingBoxQuantity', null, ['label' => 'Dus (pcs/dus)'])
-            ->add('packagingTapeLargeQuantity', null, ['label' => 'Lakban Besar (cm/pack)'])
-            ->add('packagingTapeSmallQuantity', null, ['label' => 'Lakban Kecil (cm/pack)'])
-            ->add('packagingPlasticQuantity', null, ['label' => 'Plastik (cm2/pack)'])
+            ->add('paperPlanoLength', FormattedNumberType::class, ['label' => false, 'decimals' => 2])
+            ->add('paperPlanoWidth', FormattedNumberType::class, ['label' => false, 'decimals' => 2])
+            ->add('inkCyanPercentage', FormattedNumberType::class, ['label' => 'Cyan (%)', 'decimals' => 2])
+            ->add('inkMagentaPercentage', FormattedNumberType::class, ['label' => 'Magenta (%)', 'decimals' => 2])
+            ->add('inkYellowPercentage', FormattedNumberType::class, ['label' => 'Yellow (%)', 'decimals' => 2])
+            ->add('inkBlackPercentage', FormattedNumberType::class, ['label' => 'Black (%)', 'decimals' => 2])
+            ->add('inkOpvPercentage', FormattedNumberType::class, ['label' => 'OPV / WB / UV (%)', 'decimals' => 2])
+            ->add('inkK1Percentage', FormattedNumberType::class, ['label' => 'Khusus 1 (%)', 'decimals' => 2])
+            ->add('inkK2Percentage', FormattedNumberType::class, ['label' => 'Khusus 2 (%)', 'decimals' => 2])
+            ->add('inkK3Percentage', FormattedNumberType::class, ['label' => 'Khusus 3 (%)', 'decimals' => 2])
+            ->add('inkK4Percentage', FormattedNumberType::class, ['label' => 'Khusus 4 (%)', 'decimals' => 2])
+            ->add('packagingGlueQuantity', FormattedNumberType::class, ['label' => 'Lem (cm/pcs)', 'decimals' => 2])
+            ->add('packagingRubberQuantity', FormattedNumberType::class, ['label' => 'Karet (pcs/ikat)', 'decimals' => 2])
+            ->add('packagingPaperQuantity', FormattedNumberType::class, ['label' => 'Kertas Packing (pcs/pack)', 'decimals' => 2])
+            ->add('packagingBoxQuantity', FormattedNumberType::class, ['label' => 'Dus (pcs/dus)', 'decimals' => 2])
+            ->add('packagingTapeLargeQuantity', FormattedNumberType::class, ['label' => 'Lakban Besar (cm/pack)', 'decimals' => 2])
+            ->add('packagingTapeSmallQuantity', FormattedNumberType::class, ['label' => 'Lakban Kecil (cm/pack)', 'decimals' => 2])
+            ->add('packagingPlasticQuantity', FormattedNumberType::class, ['label' => 'Plastik (cm2/pack)', 'decimals' => 2])
             ->add('glossiness', ChoiceType::class, ['choices' => [
+                '35' => 35,
+                '40' => 40,
+                '45' => 45,
+                '50' => 50,
+                '55' => 55,
+                '60' => 60,
+                '65' => 65,
                 '70' => 70,
+                '75' => 75,
                 '80' => 80,
             ]])
             ->add('diecutKnife', null, [
