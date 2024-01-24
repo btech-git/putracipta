@@ -109,7 +109,7 @@ class Customer extends Master
     private Collection $dielineMillars;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $quantityTolerancePercentage = null;
+    private ?string $quantityTolerancePercentage = '0.00';
 
     public function __construct()
     {
