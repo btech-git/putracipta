@@ -60,6 +60,25 @@ class PurchaseOrderHeaderFormSync
         $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
     }
     
+    public function syncInvoiceSummary($purchaseOrderHeader)
+    {
+        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            foreach ($purchaseOrderDetail->getReceiveDetails() as $receiveDetail) {
+                foreach ($receiveDetail->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
+                    $purchaseInvoiceHeader = $purchaseInvoiceDetail->getPurchaseInvoiceHeader();
+                    $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
+                    $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
+                    $purchaseInvoiceHeader->setDiscountValueType($purchaseOrderHeader->getDiscountValueType());
+                    $purchaseInvoiceHeader->setDiscountValue($purchaseOrderHeader->getDiscountValue());
+                    $purchaseInvoiceHeader->setTaxMode($purchaseOrderHeader->getTaxMode());
+                    $purchaseInvoiceHeader->setTaxPercentage($purchaseOrderHeader->getTaxPercentage());
+                    $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
+                    $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
+                }
+            }
+        }
+    }
+    
     public function syncRequestStatus($purchaseOrderHeader)
     {
         foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
