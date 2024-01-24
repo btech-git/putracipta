@@ -65,6 +65,7 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceHeader->setDiscountValueType($purchaseOrderHeader === null ? PurchaseInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE : $purchaseOrderHeader->getDiscountValueType());
             $purchaseInvoiceHeader->setDiscountValue($purchaseOrderHeader === null ? '0.00' : $purchaseOrderHeader->getDiscountValue());
             $purchaseInvoiceHeader->setTaxMode($purchaseOrderHeader === null ? PurchaseInvoiceHeader::TAX_MODE_NON_TAX : $purchaseOrderHeader->getTaxMode());
+            $purchaseInvoiceHeader->setTaxPercentage($purchaseOrderHeader === null ? 0 : $purchaseOrderHeader->getTaxPercentage());
         }
         
         $purchaseInvoiceHeader->setSupplier($receiveHeader === null ? null : $receiveHeader->getSupplier());
@@ -84,9 +85,6 @@ class PurchaseInvoiceHeaderFormService
         }
         
         $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
-        if ($purchaseInvoiceHeader->getTaxMode() !== $purchaseInvoiceHeader::TAX_MODE_NON_TAX) {
-            $purchaseInvoiceHeader->setTaxPercentage($options['vatPercentage']);
-        }
         $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
         $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
         
