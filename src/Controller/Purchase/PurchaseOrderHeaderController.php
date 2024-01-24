@@ -16,6 +16,7 @@ use App\Service\Purchase\PurchaseOrderHeaderFormService;
 use App\Util\PdfGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_order_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function _list(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -51,14 +52,14 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_order_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_order_header/index.html.twig");
     }
     
-    #[Route('/_head', name: 'app_purchase_purchase_order_header__head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Route('/_head', name: 'app_purchase_purchase_order_header__head', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function _head(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -80,14 +81,14 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_order_header_head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_order_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_order_header_read', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function read(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -99,7 +100,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
     
     #[Route('/new.{_format}', name: 'app_purchase_purchase_order_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_ADD')]
     public function new(Request $request, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderHeader = new PurchaseOrderHeader();
@@ -121,7 +122,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_order_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function show(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
         return $this->render('purchase/purchase_order_header/show.html.twig', [
@@ -130,7 +131,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{source_id}/new_repeat.{_format}', name: 'app_purchase_purchase_order_header_new_repeat', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_ADD')]
     public function newRepeat(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $sourcePurchaseOrderHeader = $purchaseOrderHeaderRepository->find($request->attributes->getInt('source_id'));
@@ -153,7 +154,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_purchase_purchase_order_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')]
     public function edit(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderFormService $purchaseOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderHeaderFormService->initialize($purchaseOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -174,7 +175,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_purchase_purchase_order_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')]
     public function delete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -225,7 +226,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/hold', name: 'app_purchase_purchase_order_header_hold', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')]
     public function hold(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('hold' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -242,7 +243,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/release', name: 'app_purchase_purchase_order_header_release', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')]
     public function release(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('release' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -259,7 +260,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/complete', name: 'app_purchase_purchase_order_header_complete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')]
     public function complete(Request $request, PurchaseOrderHeader $purchaseOrderHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('complete' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -285,7 +286,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_order_header_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
     public function memo(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
         $fileName = 'purchase-order.pdf';

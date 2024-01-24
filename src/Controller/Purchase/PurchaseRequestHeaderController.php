@@ -53,7 +53,7 @@ class PurchaseRequestHeaderController extends AbstractController
         return $this->render("purchase/purchase_request_header/index.html.twig");
     }
 
-    #[Route('/_head', name: 'app_purchase_purchase_request_header__head', methods: ['GET'])]
+    #[Route('/_head', name: 'app_purchase_purchase_request_header__head', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _head(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
@@ -95,7 +95,7 @@ class PurchaseRequestHeaderController extends AbstractController
         return $this->redirectToRoute('app_purchase_purchase_request_header_show', ['id' => $purchaseRequestHeader->getId()], Response::HTTP_SEE_OTHER);
     }
     
-    #[Route('/_approval', name: 'app_purchase_purchase_request_header__approval', methods: ['GET'])]
+    #[Route('/_approval', name: 'app_purchase_purchase_request_header__approval', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _approval(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {

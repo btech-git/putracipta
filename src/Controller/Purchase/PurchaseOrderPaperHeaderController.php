@@ -57,7 +57,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         return $this->render("purchase/purchase_order_paper_header/index.html.twig");
     }
 
-    #[Route('/_head', name: 'app_purchase_purchase_order_paper_header__head', methods: ['GET'])]
+    #[Route('/_head', name: 'app_purchase_purchase_order_paper_header__head', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function _head(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
