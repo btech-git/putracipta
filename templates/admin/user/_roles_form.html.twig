@@ -1,39 +1,84 @@
-{% macro form_check(variables, name, label) %}
-    {% set childForm = variables.form.roles.children[variables.roleIndexes[name]] %}
-    {% set labelText = label ? childForm.vars.label : ' ' %}
-    {{ form_widget(childForm, {'label': labelText, 'attr': {
-        'data-controller': 'dom-element',
-        'data-action': 'dom-element#bind',
-        'data-dom-element-bind-specifications-param': [
-            {
-                'destinationsTarget': "[data-role-parent*=#{childForm.vars.value}]",
-                'action': 'setPropertyValue',
-                'descriptor': {'property': 'checked', 'value': 'false'},
-                'condition': '$element.checked',
-            },
-            {
-                'destinationsTarget': "[data-role-parent*=#{childForm.vars.value}]",
-                'action': 'setPropertyValue',
-                'descriptor': {'property': 'disabled', 'value': '$element.checked'},
-            },
-        ]|json_encode,
-        'data-role-parent': role_ref.data[childForm.vars.value]|join(' '),
-    }}) }}
-{% endmacro %}
+{% import 'app/role_form_input.html.twig' as input %}
 
-{% set roleIndexes = {} %}
+{% set indexes = {} %}
 {% for index, childForm in form.roles.children %}
-    {% set roleIndexes = roleIndexes|merge({(childForm.vars.value): index}) %}
+    {% set indexes = indexes|merge({(childForm.vars.value): index}) %}
 {% endfor %}
 
-<table class="table table-bordered table-striped">
-    <tbody>
-        <tr>
-            <td>{{ _self.form_check(_context, 'ROLE_SALE', true) }}</td>
-            <td>{{ _self.form_check(_context, 'ROLE_PURCHASE', true) }}</td>
-            <td>{{ _self.form_check(_context, 'ROLE_TRANSACTION', true) }}</td>
-            <td>{{ _self.form_check(_context, 'ROLE_MASTER', true) }}</td>
-            <td>{{ _self.form_check(_context, 'ROLE_ADMIN', true) }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>{{ input.check(indexes, form, 'ROLE_ADMIN', 'Admin') }}</th>
+                <th>{{ input.check(indexes, form, 'ROLE_SETTING', 'Setting') }}</th>
+                <th>{{ input.check(indexes, form, 'ROLE_USER_MANAGEMENT', 'User Management') }}</th>
+            </tr>
+        </thead>
+    </table>
+            
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td></td>
+                <td class="text-center bg-info"><strong>New</strong></td>
+                <td class="text-center bg-info"><strong>Edit</strong></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-center bg-warning"><strong>{{ input.check(indexes, form, 'ROLE_PURCHASE', 'PEMBELIAN') }}</strong></td>
+            </tr>
+            <tr>
+                <td>Permintaan Pembelian Material</td>
+                <td class="float-center">{{ input.check(indexes, form, 'ROLE_PURCHASE_REQUEST_MATERIAL_ADD') }}</td>
+                <td class="text-center">{{ input.check(indexes, form, 'ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Permintaan Pembelian Kertas</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_REQUEST_PAPER_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_REQUEST_PAPER_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Order Pembelian Material</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_ORDER_MATERIAL_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_ORDER_MATERIAL_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Order Pembelian Kertas</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_ORDER_PAPER_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_ORDER_PAPER_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Penerimaan Barang</td>
+                <td>{{ input.check(indexes, form, 'ROLE_RECEIVE_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_RECEIVE_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Retur Pembelian</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_RETURN_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_RETURN_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Invoice Pembelian</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_INVOICE_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_INVOICE_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>Pembayaran Pembelian</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_PAYMENT_ADD') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PURCHASE_PAYMENT_EDIT') }}</td>
+            </tr>
+            <tr>
+                <td>{{ input.check(indexes, form, 'ROLE_SALE', 'Sale') }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_MASTER', true) }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_ADMINISTRATION', true) }}</td>
+            </tr>
+            <tr>
+                <td>{{ input.check(indexes, form, 'ROLE_INVENTORY', true) }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_PRODUCTION', true) }}</td>
+                <td>{{ input.check(indexes, form, 'ROLE_FINANCE', true) }}</td>
+            </tr>
+            <tr>
+                <td>{{ input.check(indexes, form, 'ROLE_REPORT', true) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
