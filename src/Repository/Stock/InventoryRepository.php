@@ -68,7 +68,7 @@ class InventoryRepository extends ServiceEntityRepository
     {
         $dql = 'SELECT IDENTITY(e.paper) AS paperId, SUM(e.quantityIn - e.quantityOut) AS stockQuantity
                 FROM ' . Inventory::class . ' e
-                WHERE e.paper IN (:paper) AND e.isReversed = false
+                WHERE e.paper = :paper AND e.isReversed = false
                 GROUP BY e.paper';
 
         $query = $this->getEntityManager()->createQuery($dql);
