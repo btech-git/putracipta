@@ -11,16 +11,15 @@
                 <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
                     Penerimaan # {{ grid.sort_char(form.sort.id.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 120px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
                 <th>Master Order #</th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
+                <th>Customer</th>
+                <th>Products</th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -48,8 +47,9 @@
                     </select>
                 </th>
                 <th></th>
+                <th></th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'productDetailLists') }} value="{{ form.filter.productDetailLists.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -61,7 +61,8 @@
                     <td>{{ inventoryProductReceiveHeader.transactionDate ? inventoryProductReceiveHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryProductReceiveHeader.warehouse.name|default }}</td>
                     <td>{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber|default }}</td>
-                    <td>{{ inventoryProductReceiveHeader.note }}</td>
+                    <td>{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company|default }}</td>
+                    <td>{{ inventoryProductReceiveHeader.productDetailLists|default }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_product_receive_header_show', {'id': inventoryProductReceiveHeader.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_product_receive_header_edit', {'id': inventoryProductReceiveHeader.id}) }}"><i class="bi-pencil"></i></a>
@@ -69,7 +70,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No records found</td>
+                    <td colspan="7">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
