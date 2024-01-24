@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DiecutKnifeController extends AbstractController
 {
     #[Route('/_diecut_list', name: 'app_master_diecut_knife__diecut_list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_COMMON')]
     public function _diecutList(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         $lastDiecutKnives = $diecutKnifeRepository->findBy(['customer' => $request->request->get('diecut_knife')['customer']], ['id' => 'DESC'], 5, 0);
@@ -30,7 +30,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_master_diecut_knife__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_COMMON')]
     public function _list(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -53,14 +53,14 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_diecut_knife_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_COMMON')]
     public function index(): Response
     {
         return $this->render("master/diecut_knife/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_diecut_knife_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_ADD')]
     public function new(Request $request, DiecutKnifeFormService $diecutKnifeFormService): Response
     {
         $diecutKnife = new DiecutKnife();
@@ -81,7 +81,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_diecut_knife_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_COMMON')]
     public function show(DiecutKnife $diecutKnife): Response
     {
         return $this->render('master/diecut_knife/show.html.twig', [
@@ -90,7 +90,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_diecut_knife_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_EDIT')]
     public function edit(Request $request, DiecutKnife $diecutKnife, DiecutKnifeRepository $diecutKnifeRepository, DiecutKnifeFormService $diecutKnifeFormService): Response
     {
         $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
@@ -110,7 +110,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_diecut_knife_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIECUT_EDIT')]
     public function delete(Request $request, DiecutKnife $diecutKnife, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $diecutKnife->getId(), $request->request->get('_token'))) {

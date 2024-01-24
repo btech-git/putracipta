@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DesignCodeController extends AbstractController
 {
     #[Route('/_design_code_list', name: 'app_master_design_code__design_code_list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_COMMON')]
     public function _designCodeList(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->request->get('design_code')['customer']], ['id' => 'DESC'], 5, 0);
@@ -33,7 +33,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_master_design_code__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_COMMON')]
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -56,14 +56,14 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_design_code_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_COMMON')]
     public function index(): Response
     {
         return $this->render("master/design_code/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_master_design_code_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_ADD')]
     public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $designCode = new DesignCode();
@@ -87,7 +87,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_design_code_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_COMMON')]
     public function show(DesignCode $designCode): Response
     {
         return $this->render('master/design_code/show.html.twig', [
@@ -96,7 +96,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/{source_id}/new_repeat.{_format}', name: 'app_master_design_code_new_repeat', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_ADD')]
     public function newRepeat(Request $request, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $sourceDesignCode = $designCodeRepository->find($request->attributes->getInt('source_id'));
@@ -121,7 +121,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_master_design_code_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_EDIT')]
     public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $form = $this->createForm(DesignCodeType::class, $designCode);
@@ -144,7 +144,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_design_code_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DESIGN_CODE_EDIT')]
     public function delete(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $designCode->getId(), $request->request->get('_token'))) {
