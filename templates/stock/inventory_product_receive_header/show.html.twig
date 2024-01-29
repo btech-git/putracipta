@@ -46,7 +46,9 @@
                 <th>Nama Produk</th>
                 <th>Tanggal Kirim</th>
                 <th>Qty Order</th>
-                <th>Qty Terima</th>
+                <th>Qty Produksi</th>
+                <th>Qty Box</th>
+                <th>Qty Pcs</th>
                 <th>Satuan</th>
                 <th>Keterangan</th>
             </tr>
@@ -59,7 +61,9 @@
                     <td>{{ inventoryProductReceiveDetail.product.name|default }}</td>
                     <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
-                    <td>{{ inventoryProductReceiveDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
+                    <td>{{ inventoryProductReceiveDetail.quantityBox|default|number_format(0) }}</td>
+                    <td>{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(0) }}</td>
                     <td>{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
                     <td>{{ inventoryProductReceiveDetail.memo|default }}</td>
                 </tr>

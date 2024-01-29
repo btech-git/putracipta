@@ -13,8 +13,9 @@
                 <th style="min-width: 200px">Nama Barang</th>
                 <th style="min-width: 100px">Tanggal Kirim</th>
                 <th style="min-width: 100px">Qty Order</th>
-                <th style="min-width: 100px">Qty Sisa</th>
-                <th style="min-width: 100px">Qty Terima</th>
+                <th style="min-width: 100px">Qty Produksi</th>
+                <th style="min-width: 100px">Qty Box</th>
+                <th style="min-width: 100px">Qty Pcs</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 200px">Keterangan</th>
                 <th style="min-width: 0"></th>
@@ -32,7 +33,17 @@
                     <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td data-item-field-name="masterOrderProductDetailRemainingProduction" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.remainingProduction|default|number_format(0) }}</td>
                     <td>
-                        {{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                        {{ form_row(detailForm.quantityBox, {'label': false, 'attr': {
+                            'size': '5',
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}
+                    </td>
+                    <td>
+                        {{ form_row(detailForm.quantityBoxExtraPieces, {'label': false, 'attr': {
                             'size': '5',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
