@@ -63,18 +63,19 @@ class DesignCodeType extends AbstractType
             ->add('packagingTapeLargeQuantity', FormattedNumberType::class, ['label' => 'Lakban Besar (cm/pack)', 'decimals' => 2])
             ->add('packagingTapeSmallQuantity', FormattedNumberType::class, ['label' => 'Lakban Kecil (cm/pack)', 'decimals' => 2])
             ->add('packagingPlasticQuantity', FormattedNumberType::class, ['label' => 'Plastik (cm2/pack)', 'decimals' => 2])
-            ->add('glossiness', ChoiceType::class, ['choices' => [
-                '35' => 35,
-                '40' => 40,
-                '45' => 45,
-                '50' => 50,
-                '55' => 55,
-                '60' => 60,
-                '65' => 65,
-                '70' => 70,
-                '75' => 75,
-                '80' => 80,
-            ]])
+            ->add('glossiness')
+//            ->add('glossiness', ChoiceType::class, ['choices' => [
+//                '35' => 35,
+//                '40' => 40,
+//                '45' => 45,
+//                '50' => 50,
+//                '55' => 55,
+//                '60' => 60,
+//                '65' => 65,
+//                '70' => 70,
+//                '75' => 75,
+//                '80' => 80,
+//            ]])
             ->add('diecutKnife', null, [
                 'choice_label' => 'codeNumber',
                 'label' => 'Pisau Diecut',
