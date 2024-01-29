@@ -62,6 +62,7 @@ class InventoryProductReceiveHeaderFormService
         
         foreach ($inventoryProductReceiveHeader->getInventoryProductReceiveDetails() as $inventoryProductReceiveDetail) {
             $inventoryProductReceiveDetail->setIsCanceled($inventoryProductReceiveDetail->getSyncIsCanceled());
+            $inventoryProductReceiveDetail->setQuantityTotalPieces($inventoryProductReceiveDetail->getSyncQuantityTotalPieces());
             
             $masterOrderProductDetail = $inventoryProductReceiveDetail->getMasterOrderProductDetail();
             $inventoryProductReceiveDetail->setSaleOrderDetail($masterOrderProductDetail->getSaleOrderDetail());
@@ -70,11 +71,11 @@ class InventoryProductReceiveHeaderFormService
             $totalProduction = 0;
             foreach ($oldInventoryProductReceiveDetails as $oldInventoryProductReceiveDetail) {
                 if ($oldInventoryProductReceiveDetail->getId() !== $inventoryProductReceiveDetail->getId() && $oldInventoryProductReceiveDetail->isIsCanceled() === false) {
-                    $totalProduction += $oldInventoryProductReceiveDetail->getQuantity();
+                    $totalProduction += $oldInventoryProductReceiveDetail->getQuantityTotalPieces();
                 }
             }
             if ($inventoryProductReceiveDetail->isIsCanceled() === false) {
-                $totalProduction += $inventoryProductReceiveDetail->getQuantity();
+                $totalProduction += $inventoryProductReceiveDetail->getQuantityTotalPieces();
             }
             $masterOrderProductDetail->setQuantityProduction($totalProduction);
             $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
@@ -84,7 +85,6 @@ class InventoryProductReceiveHeaderFormService
         $inventoryProductReceiveHeader->setTotalQuantity($inventoryProductReceiveHeader->getSyncTotalQuantity());
         $masterOrderHeader = $inventoryProductReceiveHeader->getMasterOrderHeader();
         if ($masterOrderHeader !== null) {
-            $masterOrderHeader->setTotalQuantityProduction($masterOrderHeader->getSyncTotalQuantityProduction());
             $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
         }
         
@@ -119,7 +119,7 @@ class InventoryProductReceiveHeaderFormService
             $newInventory->setProduct($product);
             $newInventory->setWarehouse($inventoryProductReceiveHeader->getWarehouse());
             $newInventory->setInventoryMode('product');
-            $newInventory->setQuantityIn($inventoryProductReceiveDetail->getQuantity());
+            $newInventory->setQuantityIn($inventoryProductReceiveDetail->getQuantityTotalPieces());
         });
     }
 }
