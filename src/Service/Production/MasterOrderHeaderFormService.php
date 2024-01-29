@@ -79,10 +79,10 @@ class MasterOrderHeaderFormService
         }
         
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
-            $saleOrderDetail = $masterOrderProductDetail->getSaleOrderDetail();
-            if (!empty($saleOrderDetail)) {
-                $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
-                $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
+            $masterOrderProcessDetail = $masterOrderProductDetail->getSaleOrderDetail();
+            if (!empty($masterOrderProcessDetail)) {
+                $masterOrderProductDetail->setProduct($masterOrderProcessDetail->getProduct());
+                $masterOrderProductDetail->setQuantityOrder($masterOrderProcessDetail->getQuantity());
                 $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
                 $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
             }
@@ -166,5 +166,73 @@ class MasterOrderHeaderFormService
             } catch (FileException $e) {
             }
         }
+    }
+
+    public function copyFrom(MasterOrderHeader $sourceMasterOrderHeader): MasterOrderHeader
+    {
+        $masterOrderHeader = new MasterOrderHeader();
+        $masterOrderHeader->setCustomer($sourceMasterOrderHeader->getCustomer());
+        $masterOrderHeader->setDesignCode($sourceMasterOrderHeader->getDesignCode());
+        $masterOrderHeader->setOrderType($sourceMasterOrderHeader->getOrderType());
+        $masterOrderHeader->setPrintingStatus($sourceMasterOrderHeader->getPrintingStatus());
+        $masterOrderHeader->setMachinePrinting($sourceMasterOrderHeader->getMachinePrinting());
+        $masterOrderHeader->setPaper($sourceMasterOrderHeader->getPaper());
+        $masterOrderHeader->setMountageSize($sourceMasterOrderHeader->getMountageSize());
+        $masterOrderHeader->setHotStamping($sourceMasterOrderHeader->getHotStamping());
+        $masterOrderHeader->setGlossiness($sourceMasterOrderHeader->getGlossiness());
+        $masterOrderHeader->setFinishing($sourceMasterOrderHeader->getFinishing());
+        $masterOrderHeader->setColor($sourceMasterOrderHeader->getColor());
+        $masterOrderHeader->setPantone($sourceMasterOrderHeader->getPantone());
+        $masterOrderHeader->setQuantityPrinting($sourceMasterOrderHeader->getQuantityPrinting());
+        $masterOrderHeader->setQuantityPrinting2($sourceMasterOrderHeader->getQuantityPrinting2());
+        $masterOrderHeader->setDieCutBlade($sourceMasterOrderHeader->getDieCutBlade());
+        $masterOrderHeader->setDiecutKnife($sourceMasterOrderHeader->getDiecutKnife());
+        $masterOrderHeader->setDielineMillar($sourceMasterOrderHeader->getDielineMillar());
+        $masterOrderHeader->setInsitPrintingPercentage($sourceMasterOrderHeader->getInsitPrintingPercentage());
+        $masterOrderHeader->setInsitSortingPercentage($sourceMasterOrderHeader->getInsitSortingPercentage());
+        $masterOrderHeader->setPaperMountage($sourceMasterOrderHeader->getPaperMountage());
+        $masterOrderHeader->setPaperPlanoLength($sourceMasterOrderHeader->getPaperPlanoLength());
+        $masterOrderHeader->setPaperPlanoWidth($sourceMasterOrderHeader->getPaperPlanoWidth());
+        $masterOrderHeader->setInkBlackPercentage($sourceMasterOrderHeader->getInkBlackPercentage());
+        $masterOrderHeader->setInkCyanPercentage($sourceMasterOrderHeader->getInkCyanPercentage());
+        $masterOrderHeader->setInkMagentaPercentage($sourceMasterOrderHeader->getInkMagentaPercentage());
+        $masterOrderHeader->setInkYellowPercentage($sourceMasterOrderHeader->getInkYellowPercentage());
+        $masterOrderHeader->setInkOpvPercentage($sourceMasterOrderHeader->getInkOpvPercentage());
+        $masterOrderHeader->setInkHotStampingSize($sourceMasterOrderHeader->getInkHotStampingSize());
+        $masterOrderHeader->setInkK1Percentage($sourceMasterOrderHeader->getInkK1Percentage());
+        $masterOrderHeader->setInkK2Percentage($sourceMasterOrderHeader->getInkK2Percentage());
+        $masterOrderHeader->setInkK3Percentage($sourceMasterOrderHeader->getInkK3Percentage());
+        $masterOrderHeader->setInkK4Percentage($sourceMasterOrderHeader->getInkK4Percentage());
+        $masterOrderHeader->setInkK1Color($sourceMasterOrderHeader->getInkK1Color());
+        $masterOrderHeader->setInkK2Color($sourceMasterOrderHeader->getInkK2Color());
+        $masterOrderHeader->setInkK3Color($sourceMasterOrderHeader->getInkK3Color());
+        $masterOrderHeader->setInkK4Color($sourceMasterOrderHeader->getInkK4Color());
+        $masterOrderHeader->setInkLaminatingSize($sourceMasterOrderHeader->getInkLaminatingSize());
+        $masterOrderHeader->setPackagingBoxQuantity($sourceMasterOrderHeader->getPackagingBoxQuantity());
+        $masterOrderHeader->setPackagingGlueQuantity($sourceMasterOrderHeader->getPackagingGlueQuantity());
+        $masterOrderHeader->setPackagingPaperQuantity($sourceMasterOrderHeader->getPackagingPaperQuantity());
+        $masterOrderHeader->setPackagingPlasticQuantity($sourceMasterOrderHeader->getPackagingPlasticQuantity());
+        $masterOrderHeader->setPackagingRubberQuantity($sourceMasterOrderHeader->getPackagingRubberQuantity());
+        $masterOrderHeader->setPackagingTapeLargeQuantity($sourceMasterOrderHeader->getPackagingTapeLargeQuantity());
+        $masterOrderHeader->setPackagingTapeSmallQuantity($sourceMasterOrderHeader->getPackagingTapeSmallQuantity());
+        foreach ($sourceMasterOrderHeader->getMasterOrderProcessDetails() as $sourceMasterOrderProcessDetail) {
+            $masterOrderProcessDetail = new MasterOrderProcessDetail();
+            $masterOrderProcessDetail->setDesignCodeProcessDetail($sourceMasterOrderProcessDetail->getDesignCodeProcessDetail());
+            $masterOrderProcessDetail->setWorkOrderProcess($sourceMasterOrderProcessDetail->getWorkOrderProcess());
+            $masterOrderHeader->addMasterOrderProcessDetail($masterOrderProcessDetail);
+        }
+        foreach ($sourceMasterOrderHeader->getMasterOrderDistributionDetails() as $sourceMasterOrderDistributionDetail) {
+            $masterOrderDistributionDetail = new MasterOrderDistributionDetail();
+            $masterOrderDistributionDetail->setDesignCodeDistributionDetail($sourceMasterOrderDistributionDetail->getDesignCodeDistributionDetail());
+            $masterOrderDistributionDetail->setWorkOrderDistribution($sourceMasterOrderDistributionDetail->getWorkOrderDistribution());
+            $masterOrderHeader->addMasterOrderDistributionDetail($masterOrderDistributionDetail);
+        }
+        foreach ($sourceMasterOrderHeader->getMasterOrderCheckSheetDetails() as $sourceMasterOrderCheckSheetDetail) {
+            $masterOrderCheckSheetDetail = new MasterOrderCheckSheetDetail();
+            $masterOrderCheckSheetDetail->setDesignCodeCheckSheetDetail($sourceMasterOrderCheckSheetDetail->getDesignCodeCheckSheetDetail());
+            $masterOrderCheckSheetDetail->setWorkOrderCheckSheet($sourceMasterOrderCheckSheetDetail->getWorkOrderCheckSheet());
+            $masterOrderHeader->addMasterOrderCheckSheetDetail($masterOrderCheckSheetDetail);
+        }
+        return $masterOrderHeader;
     }
 }
