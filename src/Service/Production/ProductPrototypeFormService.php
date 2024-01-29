@@ -42,7 +42,7 @@ class ProductPrototypeFormService
         if ($productPrototype->getTransactionDate() !== null && $productPrototype->getId() === null) {
             $year = $productPrototype->getTransactionDate()->format('y');
             $month = $productPrototype->getTransactionDate()->format('m');
-            $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year);
+            $lastProductPrototype = $this->productPrototypeRepository->findRecentBy($year, $month);
             $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
             $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
         }

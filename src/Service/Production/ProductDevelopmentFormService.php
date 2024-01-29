@@ -49,7 +49,7 @@ class ProductDevelopmentFormService
         if ($productDevelopment->getTransactionDate() !== null && $productDevelopment->getId() === null) {
             $year = $productDevelopment->getTransactionDate()->format('y');
             $month = $productDevelopment->getTransactionDate()->format('m');
-            $lastProductDevelopment = $this->productDevelopmentRepository->findRecentBy($year);
+            $lastProductDevelopment = $this->productDevelopmentRepository->findRecentBy($year, $month);
             $currentProductDevelopment = ($lastProductDevelopment === null) ? $productDevelopment : $lastProductDevelopment;
             $productDevelopment->setCodeNumberToNext($currentProductDevelopment->getCodeNumber(), $year, $month);
         }
