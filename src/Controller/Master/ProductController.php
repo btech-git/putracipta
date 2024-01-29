@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_product__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT')")]
     public function _list(Request $request, ProductRepository $productRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,14 +42,14 @@ class ProductController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_product_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/product/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_product_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRODUCT_ADD')]
     public function new(Request $request, ProductFormService $productFormService): Response
     {
         $product = new Product();
@@ -72,7 +72,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_product_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT')")]
     public function show(Product $product): Response
     {
         return $this->render('master/product/show.html.twig', [
@@ -81,7 +81,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_product_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRODUCT_EDIT')]
     public function edit(Request $request, Product $product, ProductFormService $productFormService): Response
     {
         $form = $this->createForm(ProductType::class, $product);
@@ -103,7 +103,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_product_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRODUCT_EDIT')]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {

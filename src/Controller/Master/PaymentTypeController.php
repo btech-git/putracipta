@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaymentTypeController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_payment_type__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT')")]
     public function _list(Request $request, PaymentTypeRepository $paymentTypeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class PaymentTypeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_payment_type_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/payment_type/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_payment_type_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PAYMENT_TYPE_ADD')]
     public function new(Request $request, PaymentTypeFormService $paymentTypeFormService): Response
     {
         $paymentType = new PaymentType();
@@ -63,7 +63,7 @@ class PaymentTypeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_payment_type_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT')")]
     public function show(PaymentType $paymentType): Response
     {
         return $this->render('master/payment_type/show.html.twig', [
@@ -72,7 +72,7 @@ class PaymentTypeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_payment_type_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PAYMENT_TYPE_EDIT')]
     public function edit(Request $request, PaymentType $paymentType, PaymentTypeFormService $paymentTypeFormService): Response
     {
         $form = $this->createForm(PaymentTypeType::class, $paymentType);
@@ -91,7 +91,7 @@ class PaymentTypeController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_payment_type_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PAYMENT_TYPE_EDIT')]
     public function delete(Request $request, PaymentType $paymentType, PaymentTypeRepository $paymentTypeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $paymentType->getId(), $request->request->get('_token'))) {

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmployeeController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_employee__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT')")]
     public function _list(Request $request, EmployeeRepository $employeeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -37,14 +37,14 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_employee_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/employee/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_employee_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EMPLOYEE_ADD')]
     public function new(Request $request, EmployeeFormService $employeeFormService): Response
     {
         $employee = new Employee();
@@ -64,7 +64,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_employee_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT')")]
     public function show(Employee $employee): Response
     {
         return $this->render('master/employee/show.html.twig', [
@@ -73,7 +73,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_employee_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EMPLOYEE_EDIT')]
     public function edit(Request $request, Employee $employee, EmployeeFormService $employeeFormService): Response
     {
         $form = $this->createForm(EmployeeType::class, $employee);
@@ -92,7 +92,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_employee_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_EMPLOYEE_EDIT')]
     public function delete(Request $request, Employee $employee, EmployeeRepository $employeeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $employee->getId(), $request->request->get('_token'))) {

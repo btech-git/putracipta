@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WarehouseController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_warehouse__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_WAREHOUSE_ADD') or is_granted('ROLE_WAREHOUSE_EDIT')")]
     public function _list(Request $request, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class WarehouseController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_warehouse_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_WAREHOUSE_ADD') or is_granted('ROLE_WAREHOUSE_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/warehouse/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_warehouse_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_WAREHOUSE_ADD')]
     public function new(Request $request, WarehouseFormService $warehouseFormService): Response
     {
         $warehouse = new Warehouse();
@@ -63,7 +63,7 @@ class WarehouseController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_warehouse_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_WAREHOUSE_ADD') or is_granted('ROLE_WAREHOUSE_EDIT')")]
     public function show(Warehouse $warehouse): Response
     {
         return $this->render('master/warehouse/show.html.twig', [
@@ -72,7 +72,7 @@ class WarehouseController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_warehouse_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_WAREHOUSE_EDIT')]
     public function edit(Request $request, Warehouse $warehouse, WarehouseFormService $warehouseFormService): Response
     {
         $form = $this->createForm(WarehouseType::class, $warehouse);
@@ -91,7 +91,7 @@ class WarehouseController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_warehouse_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_WAREHOUSE_EDIT')]
     public function delete(Request $request, Warehouse $warehouse, WarehouseRepository $warehouseRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $warehouse->getId(), $request->request->get('_token'))) {

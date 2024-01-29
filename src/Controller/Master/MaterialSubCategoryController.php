@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MaterialSubCategoryController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_material_sub_category__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')")]
     public function _list(Request $request, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,14 +42,14 @@ class MaterialSubCategoryController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_material_sub_category_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/material_sub_category/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_material_sub_category_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_SUB_CATEGORY_ADD')]
     public function new(Request $request, MaterialSubCategoryFormService $materialSubCategoryFormService): Response
     {
         $materialSubCategory = new MaterialSubCategory();
@@ -69,7 +69,7 @@ class MaterialSubCategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_material_sub_category_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')")]
     public function show(MaterialSubCategory $materialSubCategory): Response
     {
         return $this->render('master/material_sub_category/show.html.twig', [
@@ -78,7 +78,7 @@ class MaterialSubCategoryController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_material_sub_category_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')]
     public function edit(Request $request, MaterialSubCategory $materialSubCategory, MaterialSubCategoryFormService $materialSubCategoryFormService): Response
     {
         $form = $this->createForm(MaterialSubCategoryType::class, $materialSubCategory);
@@ -97,7 +97,7 @@ class MaterialSubCategoryController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_material_sub_category_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')]
     public function delete(Request $request, MaterialSubCategory $materialSubCategory, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $materialSubCategory->getId(), $request->request->get('_token'))) {

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UnitController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_unit__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT')")]
     public function _list(Request $request, UnitRepository $unitRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class UnitController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_unit_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/unit/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_unit_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_UNIT_ADD')]
     public function new(Request $request, UnitFormService $unitFormService): Response
     {
         $unit = new Unit();
@@ -63,7 +63,7 @@ class UnitController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_unit_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT')")]
     public function show(Unit $unit): Response
     {
         return $this->render('master/unit/show.html.twig', [
@@ -72,7 +72,7 @@ class UnitController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_unit_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_UNIT_EDIT')]
     public function edit(Request $request, Unit $unit, UnitFormService $unitFormService): Response
     {
         $form = $this->createForm(UnitType::class, $unit);
@@ -91,7 +91,7 @@ class UnitController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_unit_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_UNIT_EDIT')]
     public function delete(Request $request, Unit $unit, UnitRepository $unitRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $unit->getId(), $request->request->get('_token'))) {

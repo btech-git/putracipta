@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkOrderCheckSheetController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_work_order_check_sheet__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT')")]
     public function _list(Request $request, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class WorkOrderCheckSheetController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_work_order_check_sheet_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/work_order_check_sheet/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_work_order_check_sheet_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_CHECK_SHEET_ADD')]
     public function new(Request $request, WorkOrderCheckSheetFormService $workOrderCheckSheetFormService): Response
     {
         $workOrderCheckSheet = new WorkOrderCheckSheet();
@@ -63,7 +63,7 @@ class WorkOrderCheckSheetController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_work_order_check_sheet_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT')")]
     public function show(WorkOrderCheckSheet $workOrderCheckSheet): Response
     {
         return $this->render('master/work_order_check_sheet/show.html.twig', [
@@ -72,7 +72,7 @@ class WorkOrderCheckSheetController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_work_order_check_sheet_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_CHECK_SHEET_EDIT')]
     public function edit(Request $request, WorkOrderCheckSheet $workOrderCheckSheet, WorkOrderCheckSheetFormService $workOrderCheckSheetFormService): Response
     {
         $form = $this->createForm(WorkOrderCheckSheetType::class, $workOrderCheckSheet);
@@ -91,7 +91,7 @@ class WorkOrderCheckSheetController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_work_order_check_sheet_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_CHECK_SHEET_EDIT')]
     public function delete(Request $request, WorkOrderCheckSheet $workOrderCheckSheet, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $workOrderCheckSheet->getId(), $request->request->get('_token'))) {

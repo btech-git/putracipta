@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransportationController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_transportation__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT')")]
     public function _list(Request $request, TransportationRepository $transportationRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class TransportationController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_transportation_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/transportation/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_transportation_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_TRANSPORTATION_ADD')]
     public function new(Request $request, TransportationFormService $transportationFormService): Response
     {
         $transportation = new Transportation();
@@ -63,7 +63,7 @@ class TransportationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_transportation_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT')")]
     public function show(Transportation $transportation): Response
     {
         return $this->render('master/transportation/show.html.twig', [
@@ -72,7 +72,7 @@ class TransportationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_transportation_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_TRANSPORTATION_EDIT')]
     public function edit(Request $request, Transportation $transportation, TransportationFormService $transportationFormService): Response
     {
         $form = $this->createForm(TransportationType::class, $transportation);
@@ -91,7 +91,7 @@ class TransportationController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_transportation_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_TRANSPORTATION_EDIT')]
     public function delete(Request $request, Transportation $transportation, TransportationRepository $transportationRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $transportation->getId(), $request->request->get('_token'))) {

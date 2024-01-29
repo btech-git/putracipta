@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_customer__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_CUSTOMER_COMMON')]
+    #[Security("is_granted('ROLE_CUSTOMER_ADD') or is_granted('ROLE_CUSTOMER_EDIT')")]
     public function _list(Request $request, CustomerRepository $customerRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_customer_index', methods: ['GET'])]
-    #[IsGranted('ROLE_CUSTOMER_COMMON')]
+    #[Security("is_granted('ROLE_CUSTOMER_ADD') or is_granted('ROLE_CUSTOMER_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/customer/index.html.twig");
@@ -63,7 +63,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_customer_show', methods: ['GET'])]
-    #[IsGranted('ROLE_CUSTOMER_COMMON')]
+    #[Security("is_granted('ROLE_CUSTOMER_ADD') or is_granted('ROLE_CUSTOMER_EDIT')")]
     public function show(Customer $customer): Response
     {
         return $this->render('master/customer/show.html.twig', [

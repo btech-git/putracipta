@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DiecutKnifeController extends AbstractController
 {
     #[Route('/_diecut_list', name: 'app_master_diecut_knife__diecut_list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_DIECUT_COMMON')]
+    #[Security("is_granted('ROLE_DIECUT_ADD') or is_granted('ROLE_DIECUT_EDIT')")]
     public function _diecutList(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         $lastDiecutKnives = $diecutKnifeRepository->findBy(['customer' => $request->request->get('diecut_knife')['customer']], ['id' => 'DESC'], 5, 0);
@@ -30,7 +30,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_master_diecut_knife__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_DIECUT_COMMON')]
+    #[Security("is_granted('ROLE_DIECUT_ADD') or is_granted('ROLE_DIECUT_EDIT')")]
     public function _list(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -53,7 +53,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_diecut_knife_index', methods: ['GET'])]
-    #[IsGranted('ROLE_DIECUT_COMMON')]
+    #[Security("is_granted('ROLE_DIECUT_ADD') or is_granted('ROLE_DIECUT_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/diecut_knife/index.html.twig");
@@ -81,7 +81,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_diecut_knife_show', methods: ['GET'])]
-    #[IsGranted('ROLE_DIECUT_COMMON')]
+    #[Security("is_granted('ROLE_DIECUT_ADD') or is_granted('ROLE_DIECUT_EDIT')")]
     public function show(DiecutKnife $diecutKnife): Response
     {
         return $this->render('master/diecut_knife/show.html.twig', [

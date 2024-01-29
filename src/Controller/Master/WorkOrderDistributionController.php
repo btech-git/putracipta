@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkOrderDistributionController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_work_order_distribution__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT')")]
     public function _list(Request $request, WorkOrderDistributionRepository $workOrderDistributionRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class WorkOrderDistributionController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_work_order_distribution_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/work_order_distribution/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_work_order_distribution_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DISTRIBUTION_ADD')]
     public function new(Request $request, WorkOrderDistributionFormService $workOrderDistributionFormService): Response
     {
         $workOrderDistribution = new WorkOrderDistribution();
@@ -63,7 +63,7 @@ class WorkOrderDistributionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_work_order_distribution_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT')")]
     public function show(WorkOrderDistribution $workOrderDistribution): Response
     {
         return $this->render('master/work_order_distribution/show.html.twig', [
@@ -72,7 +72,7 @@ class WorkOrderDistributionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_work_order_distribution_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DISTRIBUTION_EDIT')]
     public function edit(Request $request, WorkOrderDistribution $workOrderDistribution, WorkOrderDistributionFormService $workOrderDistributionFormService): Response
     {
         $form = $this->createForm(WorkOrderDistributionType::class, $workOrderDistribution);
@@ -91,7 +91,7 @@ class WorkOrderDistributionController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_work_order_distribution_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DISTRIBUTION_EDIT')]
     public function delete(Request $request, WorkOrderDistribution $workOrderDistribution, WorkOrderDistributionRepository $workOrderDistributionRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $workOrderDistribution->getId(), $request->request->get('_token'))) {

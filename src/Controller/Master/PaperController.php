@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaperController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_paper__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT')")]
     public function _list(Request $request, PaperRepository $paperRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,14 +42,14 @@ class PaperController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_paper_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/paper/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_paper_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PAPER_ADD')]
     public function new(Request $request, PaperFormService $paperFormService): Response
     {
         $paper = new Paper();
@@ -70,7 +70,7 @@ class PaperController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_paper_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT')")]
     public function show(Paper $paper): Response
     {
         return $this->render('master/paper/show.html.twig', [
@@ -79,7 +79,7 @@ class PaperController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_paper_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PAPER_EDIT')]
     public function edit(Request $request, Paper $paper, PaperFormService $paperFormService): Response
     {
         $form = $this->createForm(PaperType::class, $paper);
@@ -98,7 +98,7 @@ class PaperController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_paper_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PAPER_EDIT')]
     public function delete(Request $request, Paper $paper, PaperRepository $paperRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $paper->getId(), $request->request->get('_token'))) {

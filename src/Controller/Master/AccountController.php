@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccountController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_account__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ACCOUNT_COMMON')]
+    #[Security("is_granted('ROLE_ACCOUNT_ADD') or is_granted('ROLE_ACCOUNT_EDIT')")]
     public function _list(Request $request, AccountRepository $accountRepository): Response
     {
         $criteria = new DataCriteria();
@@ -45,7 +45,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_account_index', methods: ['GET'])]
-    #[IsGranted('ROLE_ACCOUNT_COMMON')]
+    #[Security("is_granted('ROLE_ACCOUNT_ADD') or is_granted('ROLE_ACCOUNT_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/account/index.html.twig");
@@ -72,7 +72,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_account_show', methods: ['GET'])]
-    #[IsGranted('ROLE_ACCOUNT_COMMON')]
+    #[Security("is_granted('ROLE_ACCOUNT_ADD') or is_granted('ROLE_ACCOUNT_EDIT')")]
     public function show(Account $account): Response
     {
         return $this->render('master/account/show.html.twig', [

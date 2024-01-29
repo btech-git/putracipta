@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MaterialController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_material__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT')")]
     public function _list(Request $request, MaterialRepository $materialRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,14 +52,14 @@ class MaterialController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_material_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/material/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_material_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_ADD')]
     public function new(Request $request, MaterialFormService $materialFormService): Response
     {
         $material = new Material();
@@ -79,7 +79,7 @@ class MaterialController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_material_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT')")]
     public function show(Material $material): Response
     {
         return $this->render('master/material/show.html.twig', [
@@ -88,7 +88,7 @@ class MaterialController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_material_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_EDIT')]
     public function edit(Request $request, Material $material, MaterialFormService $materialFormService): Response
     {
         $form = $this->createForm(MaterialType::class, $material);
@@ -107,7 +107,7 @@ class MaterialController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_material_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_EDIT')]
     public function delete(Request $request, Material $material, MaterialRepository $materialRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $material->getId(), $request->request->get('_token'))) {

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SupplierController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_supplier__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
     public function _list(Request $request, SupplierRepository $supplierRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_supplier_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/supplier/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_supplier_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SUPPLIER_ADD')]
     public function new(Request $request, SupplierFormService $supplierFormService): Response
     {
         $supplier = new Supplier();
@@ -63,7 +63,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_supplier_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
     public function show(Supplier $supplier): Response
     {
         return $this->render('master/supplier/show.html.twig', [
@@ -72,7 +72,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_supplier_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SUPPLIER_EDIT')]
     public function edit(Request $request, Supplier $supplier, SupplierFormService $supplierFormService): Response
     {
         $form = $this->createForm(SupplierType::class, $supplier);
@@ -91,7 +91,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_supplier_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SUPPLIER_EDIT')]
     public function delete(Request $request, Supplier $supplier, SupplierRepository $supplierRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $supplier->getId(), $request->request->get('_token'))) {

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MachinePrintingController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_machine_printing__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT')")]
     public function _list(Request $request, MachinePrintingRepository $machinePrintingRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,14 +36,14 @@ class MachinePrintingController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_machine_printing_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT')")]
     public function index(): Response
     {
         return $this->render("master/machine_printing/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_machine_printing_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRINTING_MACHINE_ADD')]
     public function new(Request $request, MachinePrintingFormService $machinePrintingFormService): Response
     {
         $machinePrinting = new MachinePrinting();
@@ -63,7 +63,7 @@ class MachinePrintingController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_machine_printing_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT')")]
     public function show(MachinePrinting $machinePrinting): Response
     {
         return $this->render('master/machine_printing/show.html.twig', [
@@ -72,7 +72,7 @@ class MachinePrintingController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_machine_printing_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRINTING_MACHINE_EDIT')]
     public function edit(Request $request, MachinePrinting $machinePrinting, MachinePrintingFormService $machinePrintingFormService): Response
     {
         $form = $this->createForm(MachinePrintingType::class, $machinePrinting);
@@ -91,7 +91,7 @@ class MachinePrintingController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_machine_printing_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRINTING_MACHINE_EDIT')]
     public function delete(Request $request, MachinePrinting $machinePrinting, MachinePrintingRepository $machinePrintingRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $machinePrinting->getId(), $request->request->get('_token'))) {
