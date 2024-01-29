@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryProductReceiveHeaderController extends AbstractController
 {
     #[Route('/_receive_list', name: 'app_stock_inventory_product_receive_header__receive_list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
     public function _receiveList(Request $request, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
     {
         $lastInventoryProductReceiveHeaders = $inventoryProductReceiveHeaderRepository->findBy(['masterOrderHeader' => $request->request->get('inventory_product_receive_header')['masterOrderHeader']], ['id' => 'DESC'], 5, 0);
@@ -32,7 +32,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_stock_inventory_product_receive_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
     public function _list(Request $request, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -53,14 +53,14 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_inventory_product_receive_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
     public function index(): Response
     {
         return $this->render("stock/inventory_product_receive_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_stock_inventory_product_receive_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINISHED_GOODS_RECEIVE_ADD')]
     public function new(Request $request, InventoryProductReceiveHeaderFormService $inventoryProductReceiveHeaderFormService, $_format = 'html'): Response
     {
         $inventoryProductReceiveHeader = new InventoryProductReceiveHeader();
@@ -82,7 +82,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_inventory_product_receive_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
     public function show(InventoryProductReceiveHeader $inventoryProductReceiveHeader): Response
     {
         return $this->render('stock/inventory_product_receive_header/show.html.twig', [
@@ -91,7 +91,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_inventory_product_receive_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')]
     public function edit(Request $request, InventoryProductReceiveHeader $inventoryProductReceiveHeader, InventoryProductReceiveHeaderFormService $inventoryProductReceiveHeaderFormService, $_format = 'html'): Response
     {
         $inventoryProductReceiveHeaderFormService->initialize($inventoryProductReceiveHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -112,7 +112,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo_inventory_product_receive_header', name: 'app_stock_inventory_product_receive_header_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
     public function memo(InventoryProductReceiveHeader $inventoryProductReceiveHeader): Response
     {
         $fileName = 'inventory_product_receive.pdf';
@@ -128,7 +128,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
     
     #[Route('/{id}/delete', name: 'app_stock_inventory_product_receive_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')]
     public function delete(Request $request, InventoryProductReceiveHeader $inventoryProductReceiveHeader, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $inventoryProductReceiveHeader->getId(), $request->request->get('_token'))) {

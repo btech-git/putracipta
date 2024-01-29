@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryRequestHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_inventory_request_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
     public function _list(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_inventory_request_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
     public function index(): Response
     {
         return $this->render("stock/inventory_request_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_stock_inventory_request_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_REQUEST_ADD')]
     public function new(Request $request, InventoryRequestHeaderFormService $inventoryRequestHeaderFormService, $_format = 'html'): Response
     {
         $inventoryRequestHeader = new InventoryRequestHeader();
@@ -76,7 +76,7 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_inventory_request_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
     public function show(InventoryRequestHeader $inventoryRequestHeader): Response
     {
         return $this->render('stock/inventory_request_header/show.html.twig', [
@@ -85,7 +85,7 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_inventory_request_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_REQUEST_EDIT')]
     public function edit(Request $request, InventoryRequestHeader $inventoryRequestHeader, InventoryRequestHeaderFormService $inventoryRequestHeaderFormService, $_format = 'html'): Response
     {
         $inventoryRequestHeaderFormService->initialize($inventoryRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -106,7 +106,7 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_stock_inventory_request_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_REQUEST_EDIT')]
     public function delete(Request $request, InventoryRequestHeader $inventoryRequestHeader, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $inventoryRequestHeader->getId(), $request->request->get('_token'))) {

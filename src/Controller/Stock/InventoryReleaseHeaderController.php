@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryReleaseHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_inventory_release_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT')")]
     public function _list(Request $request, InventoryReleaseHeaderRepository $inventoryReleaseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,14 +41,14 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_inventory_release_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT')")]
     public function index(): Response
     {
         return $this->render("stock/inventory_release_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_stock_inventory_release_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_RELEASE_ADD')]
     public function new(Request $request, InventoryReleaseHeaderFormService $inventoryReleaseHeaderFormService, $_format = 'html'): Response
     {
         $inventoryReleaseHeader = new InventoryReleaseHeader();
@@ -70,7 +70,7 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_inventory_release_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT')")]
     public function show(InventoryReleaseHeader $inventoryReleaseHeader): Response
     {
         return $this->render('stock/inventory_release_header/show.html.twig', [
@@ -79,7 +79,7 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_inventory_release_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_RELEASE_EDIT')]
     public function edit(Request $request, InventoryReleaseHeader $inventoryReleaseHeader, InventoryReleaseHeaderFormService $inventoryReleaseHeaderFormService, $_format = 'html'): Response
     {
         $inventoryReleaseHeaderFormService->initialize($inventoryReleaseHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -100,7 +100,7 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_stock_inventory_release_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MATERIAL_RELEASE_EDIT')]
     public function delete(Request $request, InventoryReleaseHeader $inventoryReleaseHeader, InventoryReleaseHeaderRepository $inventoryReleaseHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $inventoryReleaseHeader->getId(), $request->request->get('_token'))) {

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StockTransferHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_stock_transfer_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT')")]
     public function _list(Request $request, StockTransferHeaderRepository $stockTransferHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,14 +41,14 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_stock_transfer_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT')")]
     public function index(): Response
     {
         return $this->render("stock/stock_transfer_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_stock_stock_transfer_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_TRANSFER_ADD')]
     public function new(Request $request, StockTransferHeaderFormService $stockTransferHeaderFormService, $_format = 'html'): Response
     {
         $stockTransferHeader = new StockTransferHeader();
@@ -70,7 +70,7 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_stock_transfer_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT')")]
     public function show(StockTransferHeader $stockTransferHeader): Response
     {
         return $this->render('stock/stock_transfer_header/show.html.twig', [
@@ -79,7 +79,7 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_stock_transfer_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_TRANSFER_EDIT')]
     public function edit(Request $request, StockTransferHeader $stockTransferHeader, StockTransferHeaderFormService $stockTransferHeaderFormService, $_format = 'html'): Response
     {
         $stockTransferHeaderFormService->initialize($stockTransferHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -100,7 +100,7 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_stock_stock_transfer_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_TRANSFER_EDIT')]
     public function delete(Request $request, StockTransferHeader $stockTransferHeader, StockTransferHeaderRepository $stockTransferHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $stockTransferHeader->getId(), $request->request->get('_token'))) {

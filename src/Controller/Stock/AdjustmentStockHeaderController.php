@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdjustmentStockHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_adjustment_stock_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT')")]
     public function _list(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class AdjustmentStockHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_adjustment_stock_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT')")]
     public function index(): Response
     {
         return $this->render("stock/adjustment_stock_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_stock_adjustment_stock_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_ADJUSTMENT_ADD')]
     public function new(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
@@ -76,7 +76,7 @@ class AdjustmentStockHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_adjustment_stock_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT')")]
     public function show(AdjustmentStockHeader $adjustmentStockHeader): Response
     {
         return $this->render('stock/adjustment_stock_header/show.html.twig', [
@@ -85,7 +85,7 @@ class AdjustmentStockHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_adjustment_stock_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_ADJUSTMENT_EDIT')]
     public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -106,7 +106,7 @@ class AdjustmentStockHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_stock_adjustment_stock_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_ADJUSTMENT_EDIT')]
     public function delete(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $adjustmentStockHeader->getId(), $request->request->get('_token'))) {
