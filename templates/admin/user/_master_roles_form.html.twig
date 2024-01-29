@@ -1,0 +1,114 @@
+{% import 'app/role_form_input.html.twig' as input %}
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td></td>
+            <td class="text-center bg-info"><strong>New</strong></td>
+            <td class="text-center bg-info"><strong>Edit</strong></td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-center bg-warning"><strong>{{ input.check(indexes, form, 'ROLE_MASTER', 'MASTER') }}</strong></td>
+        </tr>
+        <tr>
+            <td>Customer</td>
+            <td class="float-center">{{ input.check(indexes, form, 'ROLE_CUSTOMER_ADD') }}</td>
+            <td class="text-center">{{ input.check(indexes, form, 'ROLE_CUSTOMER_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Supplier</td>
+            <td>{{ input.check(indexes, form, 'ROLE_SUPPLIER_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_SUPPLIER_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Employee</td>
+            <td>{{ input.check(indexes, form, 'ROLE_EMPLOYEE_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_EMPLOYEE_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Material</td>
+            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Kertas</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PAPER_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PAPER_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Finished Goods</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PRODUCT_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PRODUCT_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Design Code</td>
+            <td>{{ input.check(indexes, form, 'ROLE_DESIGN_CODE_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_DESIGN_CODE_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Pisau Diecut</td>
+            <td>{{ input.check(indexes, form, 'ROLE_DIECUT_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_DIECUT_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Dieline Millar</td>
+            <td class="float-center">{{ input.check(indexes, form, 'ROLE_MILLAR_ADD') }}</td>
+            <td class="text-center">{{ input.check(indexes, form, 'ROLE_MILLAR_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>WO Proses</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PROCESS_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PROCESS_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>WO Distribusi</td>
+            <td>{{ input.check(indexes, form, 'ROLE_DISTRIBUTION_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_DISTRIBUTION_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>WO Check Sheet</td>
+            <td>{{ input.check(indexes, form, 'ROLE_CHECK_SHEET_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_CHECK_SHEET_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Mesin Cetak</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PRINTING_MACHINE_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PRINTING_MACHINE_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Material Kategori</td>
+            <td class="float-center">{{ input.check(indexes, form, 'ROLE_MATERIAL_CATEGORY_ADD') }}</td>
+            <td class="text-center">{{ input.check(indexes, form, 'ROLE_MATERIAL_CATEGORY_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Material Sub Kategori</td>
+            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_SUB_CATEGORY_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_SUB_CATEGORY_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Gudang</td>
+            <td>{{ input.check(indexes, form, 'ROLE_WAREHOUSE_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_WAREHOUSE_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Transportasi</td>
+            <td>{{ input.check(indexes, form, 'ROLE_TRANSPORTATION_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_TRANSPORTATION_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Satuan</td>
+            <td>{{ input.check(indexes, form, 'ROLE_UNIT_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_UNIT_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Jenis Pembayaran</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PAYMENT_TYPE_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_PAYMENT_TYPE_EDIT') }}</td>
+        </tr>
+        <tr>
+            <td>Chart of Account</td>
+            <td>{{ input.check(indexes, form, 'ROLE_ACCOUNT_ADD') }}</td>
+            <td>{{ input.check(indexes, form, 'ROLE_ACCOUNT_EDIT') }}</td>
+        </tr>
+    </tbody>
+</table>
