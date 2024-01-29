@@ -52,7 +52,7 @@ class InventoryProductReceiveHeader extends StockHeader
         $totalQuantity = 0;
         foreach ($this->inventoryProductReceiveDetails as $detail) {
             if (!$detail->isIsCanceled()) {
-                $totalQuantity += $detail->getQuantity();
+                $totalQuantity += $detail->getQuantityTotalPieces();
             }
         }
         return $totalQuantity;
