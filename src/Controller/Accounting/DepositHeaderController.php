@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepositHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_accounting_deposit_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_DEPOSIT_COMMON')]
+    #[Security("is_granted('ROLE_DEPOSIT_ADD') or is_granted('ROLE_DEPOSIT_EDIT')")]
     public function _list(Request $request, DepositHeaderRepository $depositHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,7 +41,7 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_accounting_deposit_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_DEPOSIT_COMMON')]
+    #[Security("is_granted('ROLE_DEPOSIT_ADD') or is_granted('ROLE_DEPOSIT_EDIT')")]
     public function index(): Response
     {
         return $this->render("accounting/deposit_header/index.html.twig");
@@ -70,7 +70,7 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_accounting_deposit_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_DEPOSIT_COMMON')]
+    #[Security("is_granted('ROLE_DEPOSIT_ADD') or is_granted('ROLE_DEPOSIT_EDIT')")]
     public function show(DepositHeader $depositHeader): Response
     {
         return $this->render('accounting/deposit_header/show.html.twig', [

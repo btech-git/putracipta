@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExpenseHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_accounting_expense_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_EXPENSE_COMMON')]
+    #[Security("is_granted('ROLE_EXPENSE_ADD') or is_granted('ROLE_EXPENSE_EDIT')")]
     public function _list(Request $request, ExpenseHeaderRepository $expenseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,7 +41,7 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_accounting_expense_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_EXPENSE_COMMON')]
+    #[Security("is_granted('ROLE_EXPENSE_ADD') or is_granted('ROLE_EXPENSE_EDIT')")]
     public function index(): Response
     {
         return $this->render("accounting/expense_header/index.html.twig");
@@ -70,7 +70,7 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_accounting_expense_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_EXPENSE_COMMON')]
+    #[Security("is_granted('ROLE_EXPENSE_ADD') or is_granted('ROLE_EXPENSE_EDIT')")]
     public function show(ExpenseHeader $expenseHeader): Response
     {
         return $this->render('accounting/expense_header/show.html.twig', [
