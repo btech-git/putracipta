@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductDevelopmentController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_product_development__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
     public function _list(Request $request, ProductDevelopmentRepository $productDevelopmentRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,14 +42,14 @@ class ProductDevelopmentController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_product_development_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
     public function index(): Response
     {
         return $this->render("production/product_development/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_production_product_development_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEVELOPMENT_PRODUCT_ADD')]
     public function new(Request $request, ProductDevelopmentFormService $productDevelopmentFormService, $_format = 'html'): Response
     {
         $productDevelopment = new ProductDevelopment();
@@ -73,7 +73,7 @@ class ProductDevelopmentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_product_development_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
     public function show(ProductDevelopment $productDevelopment): Response
     {
         return $this->render('production/product_development/show.html.twig', [
@@ -82,7 +82,7 @@ class ProductDevelopmentController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_production_product_development_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEVELOPMENT_PRODUCT_EDIT')]
     public function edit(Request $request, ProductDevelopment $productDevelopment, ProductDevelopmentFormService $productDevelopmentFormService, $_format = 'html'): Response
     {
         $productDevelopmentFormService->initialize($productDevelopment, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -105,7 +105,7 @@ class ProductDevelopmentController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_production_product_development_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DEVELOPMENT_PRODUCT_EDIT')]
     public function delete(Request $request, ProductDevelopment $productDevelopment, ProductDevelopmentRepository $productDevelopmentRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $productDevelopment->getId(), $request->request->get('_token'))) {
@@ -120,7 +120,7 @@ class ProductDevelopmentController extends AbstractController
     }
     
     #[Route('/{id}/memo', name: 'app_production_product_development_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
     public function memo(ProductDevelopment $productDevelopment): Response
     {
         $fileName = 'form_produk_baru.pdf';

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductPrototypeController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_product_prototype__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
     public function _list(Request $request, ProductPrototypeRepository $productPrototypeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -43,14 +43,14 @@ class ProductPrototypeController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_product_prototype_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
     public function index(): Response
     {
         return $this->render("production/product_prototype/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_production_product_prototype_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_NEW_PRODUCT_ADD')]
     public function new(Request $request, ProductPrototypeFormService $productPrototypeFormService, $_format = 'html'): Response
     {
         $productPrototype = new ProductPrototype();
@@ -72,7 +72,7 @@ class ProductPrototypeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_product_prototype_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
     public function show(ProductPrototype $productPrototype, ProductDevelopmentRepository $productDevelopmentRepository): Response
     {
         $productDevelopment = $productDevelopmentRepository->findBy(['productPrototype' => $productPrototype->getId()], ['id' => 'DESC'], 1, 0);
@@ -84,7 +84,7 @@ class ProductPrototypeController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_production_product_prototype_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_NEW_PRODUCT_EDIT')]
     public function edit(Request $request, ProductPrototype $productPrototype, ProductPrototypeFormService $productPrototypeFormService, $_format = 'html'): Response
     {
         $productPrototypeFormService->initialize($productPrototype, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -105,7 +105,7 @@ class ProductPrototypeController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_production_product_prototype_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_NEW_PRODUCT_EDIT')]
     public function delete(Request $request, ProductPrototype $productPrototype, ProductPrototypeRepository $productPrototypeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $productPrototype->getId(), $request->request->get('_token'))) {
@@ -120,7 +120,7 @@ class ProductPrototypeController extends AbstractController
     }
     
     #[Route('/{id}/memo', name: 'app_production_product_prototype_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
     public function memo(ProductPrototype $productPrototype): Response
     {
         $fileName = 'form_produk_baru.pdf';

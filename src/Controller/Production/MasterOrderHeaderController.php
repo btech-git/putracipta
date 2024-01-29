@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MasterOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_master_order_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function _list(Request $request, MasterOrderHeaderRepository $masterOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -45,14 +45,14 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_master_order_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function index(): Response
     {
         return $this->render("production/master_order_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_production_master_order_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MASTER_ORDER_ADD')]
     public function new(Request $request, MasterOrderHeaderFormService $masterOrderHeaderFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, $_format = 'html'): Response
     {
         $masterOrderHeader = new MasterOrderHeader();
@@ -79,7 +79,7 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_master_order_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function show(MasterOrderHeader $masterOrderHeader): Response
     {
         return $this->render('production/master_order_header/show.html.twig', [
@@ -87,8 +87,36 @@ class MasterOrderHeaderController extends AbstractController
         ]);
     }
 
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_production_master_order_header_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_MASTER_ORDER_ADD')]
+    public function newRepeat(Request $request, MasterOrderHeaderRepository $masterOrderHeaderRepository, MasterOrderHeaderFormService $masterOrderHeaderFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, $_format = 'html'): Response
+    {
+        $sourceMasterOrderHeader = $masterOrderHeaderRepository->find($request->attributes->getInt('source_id'));
+        $masterOrderHeader = $masterOrderHeaderFormService->copyFrom($sourceMasterOrderHeader);
+        $masterOrderHeaderFormService->initialize($masterOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(MasterOrderHeaderType::class, $masterOrderHeader);
+        $form->handleRequest($request);
+        $masterOrderHeaderFormService->finalize($masterOrderHeader, ['transactionFile' => $form->get('transactionFile')->getData()]);
+
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $masterOrderHeaderFormService->save($masterOrderHeader);
+            $masterOrderHeaderFormService->uploadFile($masterOrderHeader, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/sale-order');
+
+            return $this->redirectToRoute('app_production_master_order_header_show', ['id' => $masterOrderHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("production/master_order_header/new_repeat.{$_format}.twig", [
+            'masterOrderHeader' => $masterOrderHeader,
+            'form' => $form,
+            'transactionFileExists' => false,
+            'workOrderProcesses' => $workOrderProcessRepository->findAll(),
+            'workOrderCheckSheets' => $workOrderCheckSheetRepository->findAll(),
+            'workOrderDistributions' => $workOrderDistributionRepository->findAll(),
+        ]);
+    }
+
     #[Route('/{id}/edit.{_format}', name: 'app_production_master_order_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MASTER_ORDER_EDIT')]
     public function edit(Request $request, MasterOrderHeader $masterOrderHeader, MasterOrderHeaderFormService $masterOrderHeaderFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, $_format = 'html'): Response
     {
         $masterOrderHeaderFormService->initialize($masterOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -114,7 +142,7 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo_master_order', name: 'app_production_master_order_header_memo_master_order', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function memoMasterOrder(MasterOrderHeader $masterOrderHeader): Response
     {
         $fileName = 'master_order.pdf';
@@ -131,7 +159,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/memo_work_order', name: 'app_production_master_order_header_memo_work_order', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function memoWorkOrder(MasterOrderHeader $masterOrderHeader): Response
     {
         $fileName = 'work_order.pdf';
@@ -148,7 +176,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/{constant}/memo_distribution', name: 'app_production_master_order_header_memo_distribution', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function memoDistribution(MasterOrderHeader $masterOrderHeader, string $constant): Response
     {
         return $this->render('production/master_order_header/memo_distribution.html.twig', [
@@ -158,7 +186,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/{constant}/memo_check_sheet', name: 'app_production_master_order_header_memo_check_sheet', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
     public function memoCheckSheet(MasterOrderHeader $masterOrderHeader, string $constant): Response
     {
         return $this->render('production/master_order_header/memo_check_sheet.html.twig', [
@@ -168,7 +196,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/delete', name: 'app_production_master_order_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_MASTER_ORDER_EDIT')]
     public function delete(Request $request, MasterOrderHeader $masterOrderHeader, MasterOrderHeaderRepository $masterOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $masterOrderHeader->getId(), $request->request->get('_token'))) {
