@@ -191,19 +191,6 @@
             </div>
         </div>
         <div class="mb-3">
-            <label class="form-label">Stok Kertas</label>
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        <input type="text" class="form-control" value="{{ masterOrderHeader.quantityStockPaper|default|number_format(0) }}" readonly="readonly"
-                               data-json-loader-target="placeholder"
-                               data-property-path="quantityStockPaper" />
-                        <span class="input-group-text">dreek</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mb-3">
             <label for="{{ form.purchaseOrderPaperHeader.vars.id }}-text" class="form-label">PO Kertas #</label>
             {{ form_row(form.purchaseOrderPaperHeader, {
                 'attr': {

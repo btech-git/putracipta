@@ -11,7 +11,7 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Master Order # {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 60px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px">Customer</th>
@@ -22,7 +22,7 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Catatan {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="min-width: 90px"></th>
+                <th style="min-width: 130px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -70,6 +70,7 @@
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_header_edit', {'id': masterOrderHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        <a class="btn btn-success btn-sm" href="{{ path('app_production_master_order_header_new_repeat', {'source_id': masterOrderHeader.id}) }}"><i class="bi-c-square"></i></a>
                     </td>
                 </tr>
             {% else %}
