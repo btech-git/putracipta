@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeliveryHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_delivery_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_REPORT')]
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,7 +52,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_delivery_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_REPORT')]
     public function index(): Response
     {
         return $this->render("report/delivery_header/index.html.twig");

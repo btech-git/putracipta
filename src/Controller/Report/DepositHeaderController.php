@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepositHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_deposit_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINANCE_REPORT')]
     public function _list(Request $request, DepositHeaderRepository $depositHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -37,7 +37,7 @@ class DepositHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_deposit_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINANCE_REPORT')]
     public function index(): Response
     {
         return $this->render("report/deposit_header/index.html.twig");

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StockTransferHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_stock_transfer_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_INVENTORY_REPORT')]
     public function _list(Request $request, StockTransferHeaderRepository $stockTransferHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -37,7 +37,7 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_stock_transfer_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_INVENTORY_REPORT')]
     public function index(): Response
     {
         return $this->render("report/stock_transfer_header/index.html.twig");

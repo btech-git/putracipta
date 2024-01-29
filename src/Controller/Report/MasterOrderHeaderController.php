@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MasterOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_master_order_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function _list(Request $request, MasterOrderHeaderRepository $masterOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,7 +52,7 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_master_order_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function index(): Response
     {
         return $this->render("report/master_order_header/index.html.twig");

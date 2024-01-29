@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SupplierPayableSummaryController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_supplier_payable_summary__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINANCE_REPORT')]
     public function _list(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -39,7 +39,7 @@ class SupplierPayableSummaryController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_supplier_payable_summary_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINANCE_REPORT')]
     public function index(): Response
     {
         return $this->render("report/supplier_payable_summary/index.html.twig");

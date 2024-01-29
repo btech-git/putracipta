@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExpenseHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_expense_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINANCE_REPORT')]
     public function _list(Request $request, ExpenseHeaderRepository $expenseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -37,7 +37,7 @@ class ExpenseHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_expense_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_FINANCE_REPORT')]
     public function index(): Response
     {
         return $this->render("report/expense_header/index.html.twig");
