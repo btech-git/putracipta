@@ -94,7 +94,7 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeId'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
                                 ]|json_encode,
                             },
                         }) }}
@@ -103,7 +103,7 @@
                                data-controller="dom-element"
                                data-action="design-code-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.designCode) }}
                     </div>
@@ -126,7 +126,7 @@
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paper.code|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.paper.codeNumber|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#paper-dialog"
                                data-controller="dom-element"
                                data-action="paper-table:data-table:select@document->dom-element#bind"
@@ -154,7 +154,7 @@
                             'data-controller': 'dom-element',
                             'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeColor'}},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeColor'}},
                             ]|json_encode,
                         },
                     }) }}
@@ -165,7 +165,7 @@
                             'data-controller': 'dom-element',
                             'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodePrintingUpQuantity'}},
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodePrintingUpQuantity'}},
                             ]|json_encode,
                         },
                     }) }}

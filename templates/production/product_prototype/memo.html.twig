@@ -129,7 +129,7 @@
                         <div class="table full">
                             <div class="row">
                                 <div class="cell label">Hari / Tanggal:</div>
-                                <div class="cell value">{{ productPrototype.productionDate ? productPrototype.productionDate|date('d M Y') : '' }}</div>
+                                <div class="cell value">{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Marketing</div>
@@ -146,10 +146,6 @@
                             <div class="row">
                                 <div class="cell label">Kode Produk</div>
                                 <div class="cell value">{{ productPrototype.productCode|default }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Ukuran Jadi</div>
-                                <div class="cell value">{{ productPrototype.measurement }}</div>
                             </div>
                         </div>
                     </div>
@@ -292,19 +288,25 @@
                   
         <br />
                                                 
-        <div class="note">
+        {#<div class="note">
             <div class="table full">
                 <div class="cell col">  
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Layout : </div>
-                            <div><img id="upload" width="128px" alt="Layout Image" src="{{ asset('uploads/product-prototype/' ~ productPrototype.id ~ '.' ~ productPrototype.productionFileExtension) }}"></div>
+                            {% if layoutImage == true %}
+                                {% if layoutImage.transactionFileExtension == 'pdf' %}
+                                    <a target="_blank" href="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}">Layout PDF File</a>
+                                {% elseif layoutImage.transactionFileExtension == 'jpg' or layoutImage.transactionFileExtension == 'jpeg' or layoutImage.transactionFileExtension == 'png' %}
+                                    <img width="256px" src="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}" alt="Product Prototype Image" />
+                                {% endif %}
+                            {% endif %}
                         </div>
                     </div>
 
                 </div>
             </div>
-        </div>
+        </div>#}
                         
         <hr />
                         
