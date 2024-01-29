@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalePaymentHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_payment_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT')")]
     public function _list(Request $request, SalePaymentHeaderRepository $salePaymentHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class SalePaymentHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_payment_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT')")]
     public function index(): Response
     {
         return $this->render("sale/sale_payment_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_sale_sale_payment_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_PAYMENT_ADD')]
     public function new(Request $request, SalePaymentHeaderFormService $salePaymentHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $salePaymentHeader = new SalePaymentHeader();
@@ -76,7 +76,7 @@ class SalePaymentHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_payment_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT')")]
     public function show(SalePaymentHeader $salePaymentHeader): Response
     {
         return $this->render('sale/sale_payment_header/show.html.twig', [
@@ -85,7 +85,7 @@ class SalePaymentHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_sale_sale_payment_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_PAYMENT_EDIT')]
     public function edit(Request $request, SalePaymentHeader $salePaymentHeader, SalePaymentHeaderFormService $salePaymentHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $salePaymentHeaderFormService->initialize($salePaymentHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -106,7 +106,7 @@ class SalePaymentHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_sale_sale_payment_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_PAYMENT_EDIT')]
     public function delete(Request $request, SalePaymentHeader $salePaymentHeader, SalePaymentHeaderRepository $salePaymentHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $salePaymentHeader->getId(), $request->request->get('_token'))) {

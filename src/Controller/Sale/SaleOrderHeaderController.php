@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SaleOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_order_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT')")]
     public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -50,14 +50,14 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_order_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT')")]
     public function index(): Response
     {
         return $this->render("sale/sale_order_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_sale_sale_order_header__head', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT')")]
     public function _head(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -79,14 +79,14 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_sale_sale_order_header_head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT')")]
     public function head(): Response
     {
         return $this->render("sale/sale_order_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_sale_sale_order_header_read', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT')")]
     public function read(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -98,7 +98,7 @@ class SaleOrderHeaderController extends AbstractController
     }
     
     #[Route('/new.{_format}', name: 'app_sale_sale_order_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_ADD')]
     public function new(Request $request, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleOrderHeader = new SaleOrderHeader();
@@ -122,7 +122,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_order_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT')")]
     public function show(SaleOrderHeader $saleOrderHeader): Response
     {
         return $this->render('sale/sale_order_header/show.html.twig', [
@@ -131,7 +131,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{source_id}/new_repeat.{_format}', name: 'app_sale_sale_order_header_new_repeat', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_ADD')]
     public function newRepeat(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $sourceSaleOrderHeader = $saleOrderHeaderRepository->find($request->attributes->getInt('source_id'));
@@ -156,7 +156,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_sale_sale_order_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_EDIT')]
     public function edit(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleOrderHeaderFormService->initialize($saleOrderHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -179,7 +179,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_sale_sale_order_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_EDIT')]
     public function delete(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -194,7 +194,7 @@ class SaleOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/approve', name: 'app_sale_sale_order_header_approve', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_APPROVAL')]
     public function approve(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('approve' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -212,7 +212,7 @@ class SaleOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/reject', name: 'app_sale_sale_order_header_reject', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_APPROVAL')]
     public function reject(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('reject' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -230,7 +230,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/hold', name: 'app_sale_sale_order_header_hold', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_EDIT')]
     public function hold(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('hold' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -247,7 +247,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/release', name: 'app_sale_sale_order_header_release', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_EDIT')]
     public function release(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('release' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -264,7 +264,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/done', name: 'app_sale_sale_order_header_done', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_ORDER_EDIT')]
     public function done(Request $request, SaleOrderHeader $saleOrderHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('done' . $saleOrderHeader->getId(), $request->request->get('_token'))) {

@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeliveryHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_delivery_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -56,14 +56,14 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_delivery_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
     public function index(): Response
     {
         return $this->render("sale/delivery_header/index.html.twig");
     }
     
     #[Route('/_list_outstanding_sale_order', name: 'app_sale_delivery_header__list_outstanding_sale_order', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
     public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository): Response
     {
         $criteria = new DataCriteria();
@@ -85,14 +85,14 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/index_outstanding_sale_order', name: 'app_sale_delivery_header_index_outstanding_sale_order', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
     public function indexOutstandingSaleOrder(): Response
     {
         return $this->render("sale/delivery_header/index_outstanding_sale_order.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_sale_delivery_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DELIVERY_ADD')]
     public function new(Request $request, DeliveryHeaderFormService $deliveryHeaderFormService, $_format = 'html'): Response
     {
         $deliveryHeader = new DeliveryHeader();
@@ -114,7 +114,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_delivery_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
     public function show(DeliveryHeader $deliveryHeader): Response
     {
         return $this->render('sale/delivery_header/show.html.twig', [
@@ -123,7 +123,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_sale_delivery_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DELIVERY_EDIT')]
     public function edit(Request $request, DeliveryHeader $deliveryHeader, DeliveryHeaderFormService $deliveryHeaderFormService, $_format = 'html'): Response
     {
         $deliveryHeaderFormService->initialize($deliveryHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -144,7 +144,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_sale_delivery_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DELIVERY_EDIT')]
     public function delete(Request $request, DeliveryHeader $deliveryHeader, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $deliveryHeader->getId(), $request->request->get('_token'))) {
@@ -159,7 +159,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_sale_delivery_header_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
     public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'delivery.pdf';

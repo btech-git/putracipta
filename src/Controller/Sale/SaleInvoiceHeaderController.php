@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SaleInvoiceHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_invoice_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function _list(Request $request, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -49,14 +49,14 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_invoice_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function index(): Response
     {
         return $this->render("sale/sale_invoice_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_sale_sale_invoice_header__head', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function _head(Request $request, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -78,14 +78,14 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_sale_sale_invoice_header_head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function head(): Response
     {
         return $this->render("sale/sale_invoice_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_sale_sale_invoice_header_read', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function read(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $saleInvoiceHeader->getId(), $request->request->get('_token'))) {
@@ -97,7 +97,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
     
     #[Route('/new.{_format}', name: 'app_sale_sale_invoice_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_INVOICE_ADD')]
     public function new(Request $request, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleInvoiceHeader = new SaleInvoiceHeader();
@@ -119,7 +119,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_invoice_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function show(SaleInvoiceHeader $saleInvoiceHeader): Response
     {
         return $this->render('sale/sale_invoice_header/show.html.twig', [
@@ -128,7 +128,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_sale_sale_invoice_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_INVOICE_EDIT')]
     public function edit(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $saleInvoiceHeaderFormService->initialize($saleInvoiceHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -149,7 +149,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_sale_sale_invoice_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_SALE_INVOICE_EDIT')]
     public function delete(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $saleInvoiceHeader->getId(), $request->request->get('_token'))) {
@@ -164,7 +164,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_sale_sale_invoice_header_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function memo(SaleInvoiceHeader $saleInvoiceHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'sale_invoice.pdf';
