@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseOrderPaperHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_order_paper_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function _list(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -51,14 +51,14 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_order_paper_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_order_paper_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_order_paper_header__head', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function _head(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -80,14 +80,14 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_order_paper_header_head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_order_paper_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_order_paper_header_read', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function read(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -99,7 +99,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
     
     #[Route('/new.{_format}', name: 'app_purchase_purchase_order_paper_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_ADD')]
     public function new(Request $request, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderPaperHeader = new PurchaseOrderPaperHeader();
@@ -121,7 +121,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_order_paper_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function show(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): Response
     {
         return $this->render('purchase/purchase_order_paper_header/show.html.twig', [
@@ -130,7 +130,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{source_id}/new_repeat.{_format}', name: 'app_purchase_purchase_order_paper_header_new_repeat', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_ADD')]
     public function newRepeat(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $sourcePurchaseOrderPaperHeader = $purchaseOrderPaperHeaderRepository->find($request->attributes->getInt('source_id'));
@@ -153,7 +153,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_purchase_purchase_order_paper_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_EDIT')]
     public function edit(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderFormService $purchaseOrderPaperHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseOrderPaperHeaderFormService->initialize($purchaseOrderPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -174,7 +174,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_purchase_purchase_order_paper_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_EDIT')]
     public function delete(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -189,7 +189,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
     
     #[Route('/{id}/approve', name: 'app_purchase_purchase_order_paper_header_approve', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')]
     public function approve(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('approve' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -207,7 +207,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
     
     #[Route('/{id}/reject', name: 'app_purchase_purchase_order_paper_header_reject', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')]
     public function reject(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('reject' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -225,7 +225,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/hold', name: 'app_purchase_purchase_order_paper_header_hold', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_EDIT')]
     public function hold(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('hold' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -242,7 +242,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/release', name: 'app_purchase_purchase_order_paper_header_release', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_EDIT')]
     public function release(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('release' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -259,7 +259,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/complete', name: 'app_purchase_purchase_order_paper_header_complete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_PAPER_EDIT')]
     public function complete(Request $request, PurchaseOrderPaperHeader $purchaseOrderPaperHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('complete' . $purchaseOrderPaperHeader->getId(), $request->request->get('_token'))) {
@@ -285,7 +285,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_order_paper_header_memo', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
     public function memo(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): Response
     {
         $fileName = 'purchase-order.pdf';

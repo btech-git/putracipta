@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseInvoiceHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_invoice_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
     public function _list(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_invoice_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_invoice_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_invoice_header__head', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
     public function _head(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -76,14 +76,14 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_invoice_header_head', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_invoice_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_invoice_header_read', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
     public function read(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseInvoiceHeader->getId(), $request->request->get('_token'))) {
@@ -95,7 +95,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
     
     #[Route('/new.{_format}', name: 'app_purchase_purchase_invoice_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_INVOICE_ADD')]
     public function new(Request $request, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, $_format = 'html'): Response
     {
         $purchaseInvoiceHeader = new PurchaseInvoiceHeader();
@@ -117,7 +117,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_invoice_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
     public function show(PurchaseInvoiceHeader $purchaseInvoiceHeader): Response
     {
         return $this->render('purchase/purchase_invoice_header/show.html.twig', [
@@ -126,7 +126,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_purchase_purchase_invoice_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_INVOICE_EDIT')]
     public function edit(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService, $_format = 'html'): Response
     {
         $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -147,7 +147,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_purchase_purchase_invoice_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_INVOICE_EDIT')]
     public function delete(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $purchaseInvoiceHeader->getId(), $request->request->get('_token'))) {

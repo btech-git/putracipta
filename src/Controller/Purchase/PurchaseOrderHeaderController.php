@@ -190,7 +190,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/approve', name: 'app_purchase_purchase_order_header_approve', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')]
     public function approve(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('approve' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -208,7 +208,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/reject', name: 'app_purchase_purchase_order_header_reject', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')]
     public function reject(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('reject' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {

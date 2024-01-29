@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseReturnHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_return_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_RETURN_ADD') or is_granted('ROLE_PURCHASE_RETURN_EDIT')")]
     public function _list(Request $request, PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,14 +52,14 @@ class PurchaseReturnHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_return_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_RETURN_ADD') or is_granted('ROLE_PURCHASE_RETURN_EDIT')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_return_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_purchase_purchase_return_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_RETURN_ADD')]
     public function new(Request $request, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseReturnHeader = new PurchaseReturnHeader();
@@ -81,7 +81,7 @@ class PurchaseReturnHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_return_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_PURCHASE_RETURN_ADD') or is_granted('ROLE_PURCHASE_RETURN_EDIT')")]
     public function show(PurchaseReturnHeader $purchaseReturnHeader): Response
     {
         return $this->render('purchase/purchase_return_header/show.html.twig', [
@@ -90,7 +90,7 @@ class PurchaseReturnHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_purchase_purchase_return_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_RETURN_EDIT')]
     public function edit(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderFormService $purchaseReturnHeaderFormService, LiteralConfigRepository $literalConfigRepository, $_format = 'html'): Response
     {
         $purchaseReturnHeaderFormService->initialize($purchaseReturnHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -111,7 +111,7 @@ class PurchaseReturnHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_purchase_purchase_return_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_PURCHASE_RETURN_EDIT')]
     public function delete(Request $request, PurchaseReturnHeader $purchaseReturnHeader, PurchaseReturnHeaderRepository $purchaseReturnHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $purchaseReturnHeader->getId(), $request->request->get('_token'))) {

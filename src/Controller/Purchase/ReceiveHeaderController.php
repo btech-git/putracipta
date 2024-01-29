@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReceiveHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_receive_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT')")]
     public function _list(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -51,14 +51,14 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_receive_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT')")]
     public function index(): Response
     {
         return $this->render("purchase/receive_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_purchase_receive_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_RECEIVE_ADD')]
     public function new(Request $request, ReceiveHeaderFormService $receiveHeaderFormService, $_format = 'html'): Response
     {
         $receiveHeader = new ReceiveHeader();
@@ -80,7 +80,7 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_receive_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT')")]
     public function show(ReceiveHeader $receiveHeader): Response
     {
         return $this->render('purchase/receive_header/show.html.twig', [
@@ -89,7 +89,7 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_purchase_receive_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_RECEIVE_EDIT')]
     public function edit(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderFormService $receiveHeaderFormService, $_format = 'html'): Response
     {
         $receiveHeaderFormService->initialize($receiveHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -110,7 +110,7 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_purchase_receive_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_RECEIVE_EDIT')]
     public function delete(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderRepository $receiveHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $receiveHeader->getId(), $request->request->get('_token'))) {
