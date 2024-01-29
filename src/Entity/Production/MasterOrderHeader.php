@@ -217,9 +217,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(length: 100)]
     private ?string $diecutBladeData = '';
 
-    #[ORM\ManyToOne]
-    private ?Product $product = null;
-
     #[ORM\Column(length: 60)]
     private ?string $pantone = '';
 
@@ -1350,18 +1347,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setDiecutBladeData(string $diecutBladeData): self
     {
         $this->diecutBladeData = $diecutBladeData;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }

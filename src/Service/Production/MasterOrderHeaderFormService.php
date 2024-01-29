@@ -215,6 +215,7 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setPackagingRubberQuantity($sourceMasterOrderHeader->getPackagingRubberQuantity());
         $masterOrderHeader->setPackagingTapeLargeQuantity($sourceMasterOrderHeader->getPackagingTapeLargeQuantity());
         $masterOrderHeader->setPackagingTapeSmallQuantity($sourceMasterOrderHeader->getPackagingTapeSmallQuantity());
+        $masterOrderHeader->setLayoutModelFileExtension($sourceMasterOrderHeader->getLayoutModelFileExtension());
         foreach ($sourceMasterOrderHeader->getMasterOrderProcessDetails() as $sourceMasterOrderProcessDetail) {
             $masterOrderProcessDetail = new MasterOrderProcessDetail();
             $masterOrderProcessDetail->setDesignCodeProcessDetail($sourceMasterOrderProcessDetail->getDesignCodeProcessDetail());
