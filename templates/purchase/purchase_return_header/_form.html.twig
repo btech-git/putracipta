@@ -26,7 +26,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.receiveHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.receiveHeader.vars.valid %}is-invalid{% endif %}" value="{{ purchaseReturnHeader.receiveHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#receive-header-dialog"
+                               {% if purchaseReturnHeader.id == null %}data-bs-toggle="modal" data-bs-target="#receive-header-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="receive-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

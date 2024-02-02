@@ -45,7 +45,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.purchaseOrderHeader.vars.id }}-text" class="form-control readonly-form-input" value="{{ receiveHeader.purchaseOrderHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#purchase-order-header-dialog"
+                               {% if receiveHeader.id == null %}data-bs-toggle="modal" data-bs-target="#purchase-order-header-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="purchase-order-header-table:data-table:select@document->dom-element#bind purchase-order-paper-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

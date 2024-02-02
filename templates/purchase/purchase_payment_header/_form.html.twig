@@ -27,7 +27,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.supplier.vars.id }}-text" class="form-control readonly-form-input {% if not form.supplier.vars.valid %}is-invalid{% endif %}" value="{{ purchasePaymentHeader.supplier.company|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#supplier-dialog"
+                               {% if purchasePaymentHeader.id == null %}data-bs-toggle="modal" data-bs-target="#supplier-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="supplier-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
