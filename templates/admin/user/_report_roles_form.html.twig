@@ -3,31 +3,30 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <td></td>
-            <td class="text-center bg-info"><strong>Show</strong></td>
-        </tr>
-        <tr>
-            <td colspan="3" class="text-center bg-warning"><strong>{{ input.check(indexes, form, 'ROLE_REPORT', 'LAPORAN') }}</strong></td>
+            <td class="bg-success text-light">
+                <div class="d-flex justify-content-center"><strong>{{ input.check(indexes, form, 'ROLE_REPORT', 'LAPORAN') }}</strong></div>
+            </td>
+            <td class="text-center bg-primary text-light" style="width: 10%"><strong>Show</strong></td>
         </tr>
         <tr>
             <td>Pembelian</td>
-            <td class="float-center">{{ input.check(indexes, form, 'ROLE_PURCHASE_REPORT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_PURCHASE_REPORT') }}</div></td>
         </tr>
         <tr>
             <td>Penjualan</td>
-            <td>{{ input.check(indexes, form, 'ROLE_SALE_REPORT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_SALE_REPORT') }}</div></td>
         </tr>
         <tr>
             <td>Produksi</td>
-            <td>{{ input.check(indexes, form, 'ROLE_PRODUCTION_REPORT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_PRODUCTION_REPORT') }}</div></td>
         </tr>
         <tr>
             <td>Gudang</td>
-            <td>{{ input.check(indexes, form, 'ROLE_INVENTORY_REPORT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_INVENTORY_REPORT') }}</div></td>
         </tr>
         <tr>
             <td>Finance/Accounting</td>
-            <td>{{ input.check(indexes, form, 'ROLE_FINANCE_REPORT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_FINANCE_REPORT') }}</div></td>
         </tr>
     </tbody>
 </table>

@@ -3,55 +3,57 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <td></td>
-            <td class="text-center bg-info"><strong>New</strong></td>
-            <td class="text-center bg-info"><strong>Edit</strong></td>
-        </tr>
-        <tr>
-            <td colspan="3" class="text-center bg-warning"><strong>{{ input.check(indexes, form, 'ROLE_PRODUCTION', 'PRODUKSI') }}</strong></td>
+            <td class="bg-success text-light">
+                <div class="d-flex justify-content-center"><strong>{{ input.check(indexes, form, 'ROLE_PRODUCTION', 'PRODUKSI') }}</strong></div>
+            </td>
+            <td class="text-center bg-primary text-light" style="width: 10%"><strong>New</strong></td>
+            <td class="text-center bg-primary text-light" style="width: 10%"><strong>Edit</strong></td>
         </tr>
         <tr>
             <td>Formulir Produk Baru</td>
-            <td class="float-center">{{ input.check(indexes, form, 'ROLE_NEW_PRODUCT_ADD') }}</td>
-            <td class="text-center">{{ input.check(indexes, form, 'ROLE_NEW_PRODUCT_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_NEW_PRODUCT_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_NEW_PRODUCT_EDIT') }}</div></td>
         </tr>
         <tr>
             <td>Development Produk</td>
-            <td>{{ input.check(indexes, form, 'ROLE_DEVELOPMENT_PRODUCT_ADD') }}</td>
-            <td>{{ input.check(indexes, form, 'ROLE_DEVELOPMENT_PRODUCT_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_DEVELOPMENT_PRODUCT_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_DEVELOPMENT_PRODUCT_EDIT') }}</div></td>
         </tr>
         <tr>
             <td>Master Order</td>
-            <td>{{ input.check(indexes, form, 'ROLE_MASTER_ORDER_ADD') }}</td>
-            <td>{{ input.check(indexes, form, 'ROLE_MASTER_ORDER_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_MASTER_ORDER_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_MASTER_ORDER_EDIT') }}</div></td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center bg-warning"><strong>{{ input.check(indexes, form, 'ROLE_INVENTORY', 'GUDANG') }}</strong></td>
+            <td class="bg-success text-light">
+                <div class="d-flex justify-content-center"><strong>{{ input.check(indexes, form, 'ROLE_INVENTORY', 'GUDANG') }}</strong></div>
+            </td>
+            <td colspan="2" class="bg-primary text-light"></td>
         </tr>
         <tr>
             <td>Penyesuaian Stok</td>
-            <td class="float-center">{{ input.check(indexes, form, 'ROLE_ADJUSTMENT_ADD') }}</td>
-            <td class="text-center">{{ input.check(indexes, form, 'ROLE_ADJUSTMENT_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_ADJUSTMENT_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_ADJUSTMENT_EDIT') }}</div></td>
         </tr>
         <tr>
             <td>Permintaan Material</td>
-            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_REQUEST_ADD') }}</td>
-            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_REQUEST_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_MATERIAL_REQUEST_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_MATERIAL_REQUEST_EDIT') }}</div></td>
         </tr>
         <tr>
             <td>Pengeluaran Material</td>
-            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_RELEASE_ADD') }}</td>
-            <td>{{ input.check(indexes, form, 'ROLE_MATERIAL_RELEASE_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_MATERIAL_RELEASE_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_MATERIAL_RELEASE_EDIT') }}</div></td>
         </tr>
         <tr>
             <td>Transfer Antar Gudang</td>
-            <td>{{ input.check(indexes, form, 'ROLE_TRANSFER_ADD') }}</td>
-            <td>{{ input.check(indexes, form, 'ROLE_TRANSFER_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_TRANSFER_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_TRANSFER_EDIT') }}</div></td>
         </tr>
         <tr>
             <td>Penerimaan Finished Goods</td>
-            <td>{{ input.check(indexes, form, 'ROLE_FINISHED_GOODS_RECEIVE_ADD') }}</td>
-            <td>{{ input.check(indexes, form, 'ROLE_FINISHED_GOODS_RECEIVE_EDIT') }}</td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_FINISHED_GOODS_RECEIVE_ADD') }}</div></td>
+            <td><div class="d-flex justify-content-center">{{ input.check(indexes, form, 'ROLE_FINISHED_GOODS_RECEIVE_EDIT') }}</div></td>
         </tr>
     </tbody>
 </table>
