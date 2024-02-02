@@ -30,7 +30,7 @@ class MasterOrderHeaderController extends AbstractController
 
         list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.totalRemainingProduction > 0");
+//            $qb->andWhere("{$alias}.totalRemainingProduction > 0");
         });
 
         return $this->renderForm("shared/master_order_header/_list.html.twig", [
