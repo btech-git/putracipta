@@ -26,7 +26,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.deliveryHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.deliveryHeader.vars.valid %}is-invalid{% endif %}" value="{{ saleReturnHeader.deliveryHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#delivery-header-dialog"
+                               {% if saleReturnHeader.id == null %}data-bs-toggle="modal" data-bs-target="#delivery-header-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="delivery-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

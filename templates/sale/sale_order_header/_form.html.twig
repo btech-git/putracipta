@@ -33,7 +33,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.customer.vars.id }}-text" class="form-control readonly-form-input {% if not form.customer.vars.valid %}is-invalid{% endif %}" value="{{ saleOrderHeader.customer.company|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#customer-dialog"
+                               {% if saleOrderHeader.id == null %}data-bs-toggle="modal" data-bs-target="#customer-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="customer-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
