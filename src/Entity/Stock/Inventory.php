@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'stock_inventory')]
 class Inventory
 {
+    public const MONTH_ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -69,6 +71,13 @@ class Inventory
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
+
+    public function getCodeNumber(): string
+    {
+        $numerals = self::MONTH_ROMAN_NUMERALS;
+
+        return sprintf('%04d/%s/%s/%02d', intval($this->transactionCodeNumberOrdinal), $this->getTransactionType(), $numerals[intval($this->transactionCodeNumberMonth)], intval($this->transactionCodeNumberYear));
+    }
 
     public function getId(): ?int
     {
