@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, materials) }}
+    {{ grid.info(form, count, papers) }}
 
     {#<div class="text-center">
         <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
@@ -43,7 +43,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Stok Gudang Material</div>
+        <div class="report-title">Laporan Stok Gudang Kertas</div>
         <div>
             {% set startDate = form.vars.value.filter['inventory:transactionDate'].1|default %}
             {% set endDate = form.vars.value.filter['inventory:transactionDate'].2|default %}
@@ -77,16 +77,16 @@
             </tr>
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
-            {% for material in materials %}
+            {% for paper in papers %}
                 <tr>
-                    <td class="text-start">{{ material.code|default }}</td>
-                    <td class="text-start">{{ material.name|default }}</td>
+                    <td class="text-start">{{ paper.codeNumber|default }}</td>
+                    <td class="text-start">{{ paper.paperNameSizeCombination|default }}</td>
                     <td class="text-start"></td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         <table>
-                            {% for inventory in inventories[material.id] %}
+                            {% for inventory in inventories[paper.id] %}
                                 <tr>
                                     <td class="text-start">{{ inventory.codeNumber|default }}</td>
                                     <td class="text-start">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
@@ -107,5 +107,5 @@
 
 <div class="d-print-none">
     <br />
-    {{ grid.navigation(form, count, materials) }}
+    {{ grid.navigation(form, count, papers) }}
 </div>
