@@ -39,7 +39,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.inventoryRequestHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.inventoryRequestHeader.vars.valid %}is-invalid{% endif %}" value="{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#inventory-request-header-dialog"
+                               {% if inventoryReleaseHeader.id == null %}data-bs-toggle="modal" data-bs-target="#inventory-request-header-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [

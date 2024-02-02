@@ -25,7 +25,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.masterOrderHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.masterOrderHeader.vars.valid %}is-invalid{% endif %}" value="{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#master-order-header-dialog"
+                               {% if inventoryProductReceiveHeader.id == null %}data-bs-toggle="modal" data-bs-target="#master-order-header-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="master-order-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
