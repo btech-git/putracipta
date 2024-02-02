@@ -91,4 +91,52 @@ class InventoryRepository extends ServiceEntityRepository
 
         return $stockQuantityList;
     }
+
+    public function findMaterialInventories(array $materials, $startDate, $endDate): array
+    {
+        $dql = 'SELECT e
+                FROM ' . Inventory::class . ' e
+                WHERE e.material IN (:materials) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.material ASC, e.transactionDate ASC';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('materials', $materials);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $inventories = $query->getResult();
+
+        return $inventories;
+    }
+
+    public function findPaperInventories(array $papers, $startDate, $endDate): array
+    {
+        $dql = 'SELECT e
+                FROM ' . Inventory::class . ' e
+                WHERE e.paper IN (:papers) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.paper ASC, e.transactionDate ASC';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('papers', $papers);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $inventories = $query->getResult();
+
+        return $inventories;
+    }
+
+    public function findProductInventories(array $products, $startDate, $endDate): array
+    {
+        $dql = 'SELECT e
+                FROM ' . Inventory::class . ' e
+                WHERE e.product IN (:products) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.product ASC, e.transactionDate ASC';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('products', $products);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $inventories = $query->getResult();
+
+        return $inventories;
+    }
 }
