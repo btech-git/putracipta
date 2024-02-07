@@ -30,21 +30,24 @@ class InventoryStockProductController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
+            $warehouseConditionString = !empty($criteria->getFilter()['inventory:warehouse'][1]) ? 'AND IDENTITY(i.warehouse) = :warehouseId' : '';
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate BETWEEN :startDate AND :endDate)");
+            $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate BETWEEN :startDate AND :endDate {$warehouseConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['inventory:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['inventory:transactionDate'][2]);
+            if (!empty($criteria->getFilter()['inventory:warehouse'][1])) {
+                $qb->setParameter('warehouseId', $criteria->getFilter()['inventory:warehouse'][1]);
+            }
+            $qb->addOrderBy("{$alias}.id", 'ASC');
         });
-        $productInventories = $inventoryRepository->findProductInventories($products, $criteria->getFilter()['inventory:transactionDate'][1], $criteria->getFilter()['inventory:transactionDate'][2]);
-        $inventories = [];
-        foreach ($productInventories as $productInventory) {
-            $inventories[$productInventory->getProduct()->getId()][] = $productInventory;
-        }
+        $beginningStockList = $this->getBeginningStockList($inventoryRepository, $criteria, $products);
+        $inventories = $this->getInventories($inventoryRepository, $criteria, $products);
 
         return $this->renderForm("report/inventory_stock_product/_list.html.twig", [
             'form' => $form,
             'count' => $count,
             'products' => $products,
+            'beginningStockList' => $beginningStockList,
             'inventories' => $inventories,
         ]);
     }
@@ -54,5 +57,32 @@ class InventoryStockProductController extends AbstractController
     public function index(): Response
     {
         return $this->render("report/inventory_stock_product/index.html.twig");
+    }
+
+    private function getBeginningStockList(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
+    {
+        $warehouseId = isset($criteria->getFilter()['inventory:warehouse'][1]) ? $criteria->getFilter()['inventory:warehouse'][1] : '';
+        $startDate = $criteria->getFilter()['inventory:transactionDate'][1];
+        $productBeginningStockList = $inventoryRepository->getProductBeginningStockList($products, $startDate, $warehouseId);
+        $beginningStockList = [];
+        foreach ($productBeginningStockList as $productBeginningStockItem) {
+            $beginningStockList[$productBeginningStockItem['productId']] = $productBeginningStockItem['beginningStock'];
+        }
+
+        return $beginningStockList;
+    }
+
+    private function getInventories(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
+    {
+        $warehouseId = isset($criteria->getFilter()['inventory:warehouse'][1]) ? $criteria->getFilter()['inventory:warehouse'][1] : '';
+        $startDate = $criteria->getFilter()['inventory:transactionDate'][1];
+        $endDate = $criteria->getFilter()['inventory:transactionDate'][2];
+        $productInventories = $inventoryRepository->findProductInventories($products, $startDate, $endDate, $warehouseId);
+        $inventories = [];
+        foreach ($productInventories as $productInventory) {
+            $inventories[$productInventory->getProduct()->getId()][] = $productInventory;
+        }
+
+        return $inventories;
     }
 }

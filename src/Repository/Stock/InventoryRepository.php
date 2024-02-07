@@ -24,7 +24,7 @@ class InventoryRepository extends ServiceEntityRepository
         $dql = 'SELECT IDENTITY(e.material) AS materialId, SUM(e.quantityIn - e.quantityOut) AS stockQuantity
                 FROM ' . Inventory::class . ' e
                 WHERE e.warehouse = :warehouse AND e.material IN (:materials) AND e.isReversed = false
-                GROUP BY e.warehouse, e.material';
+                GROUP BY e.material';
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('warehouse', $warehouse);
@@ -39,7 +39,7 @@ class InventoryRepository extends ServiceEntityRepository
         $dql = 'SELECT IDENTITY(e.paper) AS paperId, SUM(e.quantityIn - e.quantityOut) AS stockQuantity
                 FROM ' . Inventory::class . ' e
                 WHERE e.warehouse = :warehouse AND e.paper IN (:papers) AND e.isReversed = false
-                GROUP BY e.warehouse, e.paper';
+                GROUP BY e.paper';
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('warehouse', $warehouse);
@@ -54,7 +54,7 @@ class InventoryRepository extends ServiceEntityRepository
         $dql = 'SELECT IDENTITY(e.product) AS productId, SUM(e.quantityIn - e.quantityOut) AS stockQuantity
                 FROM ' . Inventory::class . ' e
                 WHERE e.warehouse = :warehouse AND e.product IN (:products) AND e.isReversed = false
-                GROUP BY e.warehouse, e.product';
+                GROUP BY e.product';
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('warehouse', $warehouse);
@@ -92,20 +92,62 @@ class InventoryRepository extends ServiceEntityRepository
         return $stockQuantityList;
     }
 
-    public function findMaterialInventories(array $materials, $startDate, $endDate): array
+    public function getMaterialBeginningStockList(array $materials, $startDate, $warehouseId): array
     {
-        $dql = 'SELECT e
-                FROM ' . Inventory::class . ' e
-                WHERE e.material IN (:materials) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate
-                ORDER BY e.material ASC, e.transactionDate ASC';
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT IDENTITY(e.material) AS materialId, SUM(e.quantityIn - e.quantityOut) AS beginningStock
+                FROM " . Inventory::class . " e
+                WHERE e.material IN (:materials) AND e.isReversed = false AND e.transactionDate < :startDate {$warehouseConditionString}
+                GROUP BY e.material";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('materials', $materials);
+        $query->setParameter('startDate', $startDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
+        $beginningStockList = $query->getScalarResult();
+
+        return $beginningStockList;
+    }
+
+    public function findMaterialInventories(array $materials, $startDate, $endDate, $warehouseId): array
+    {
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT e
+                FROM " . Inventory::class . " e
+                WHERE e.material IN (:materials) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate {$warehouseConditionString}
+                ORDER BY e.material ASC, e.transactionDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('materials', $materials);
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
         $inventories = $query->getResult();
 
         return $inventories;
+    }
+
+    public function getPaperBeginningStockList(array $papers, $startDate, $warehouseId): array
+    {
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT IDENTITY(e.paper) AS paperId, SUM(e.quantityIn - e.quantityOut) AS beginningStock
+                FROM " . Inventory::class . " e
+                WHERE e.paper IN (:papers) AND e.isReversed = false AND e.transactionDate < :startDate {$warehouseConditionString}
+                GROUP BY e.paper";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('papers', $papers);
+        $query->setParameter('startDate', $startDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
+        $beginningStockList = $query->getScalarResult();
+
+        return $beginningStockList;
     }
 
     public function findPaperInventories(array $papers, $startDate, $endDate): array
@@ -122,6 +164,25 @@ class InventoryRepository extends ServiceEntityRepository
         $inventories = $query->getResult();
 
         return $inventories;
+    }
+
+    public function getProductBeginningStockList(array $products, $startDate, $warehouseId): array
+    {
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT IDENTITY(e.product) AS productId, SUM(e.quantityIn - e.quantityOut) AS beginningStock
+                FROM " . Inventory::class . " e
+                WHERE e.product IN (:products) AND e.isReversed = false AND e.transactionDate < :startDate {$warehouseConditionString}
+                GROUP BY e.product";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('products', $products);
+        $query->setParameter('startDate', $startDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
+        $beginningStockList = $query->getScalarResult();
+
+        return $beginningStockList;
     }
 
     public function findProductInventories(array $products, $startDate, $endDate): array
