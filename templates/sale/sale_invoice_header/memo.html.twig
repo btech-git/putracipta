@@ -70,11 +70,11 @@
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">{{ saleInvoiceHeader.customer.addressInvoice|default|nl2br }}</div>
+                            <div class="cell value">{{ attribute(saleInvoiceHeader.customer, 'addressTax' ~ saleInvoiceHeader.customerAddressTaxOrdinal)|default|nl2br }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">NPWP:</div>
-                            <div class="cell value">{{ saleInvoiceHeader.customer.taxNumber|default }}</div>
+                            <div class="cell value">{{ saleInvoiceHeader.customerTaxNumber|default }}</div>
                         </div>
                     </div>
                 </div>

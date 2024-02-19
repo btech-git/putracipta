@@ -3,7 +3,9 @@
 {% block title 'Manage Delivery' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_sale_delivery_header_new') }}">Add</a>
+    {% if is_granted('ROLE_DELIVERY_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_sale_delivery_header_new') }}">Add</a>
+    {% endif %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_sale_delivery_header_index_outstanding_sale_order') }}">Outstanding Order</a>
 {% endblock %}
 

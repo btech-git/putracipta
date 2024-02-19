@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_sale_sale_invoice_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_sale_sale_invoice_header_edit', {'id': saleInvoiceHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_sale_sale_invoice_header_new') }}">Add</a>
+    {% if is_granted('ROLE_SALE_INVOICE_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_sale_sale_invoice_header_edit', {'id': saleInvoiceHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_SALE_INVOICE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_sale_sale_invoice_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -28,12 +32,12 @@
                 <td>{{ saleInvoiceHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>Kawasan Berikat / Bebas</th>
-                <td>{{ saleInvoiceHeader.customer.bondedZoneLiteral }}</td>
+                <th>NPWP Customer</th>
+                <td>{{ saleInvoiceHeader.customerTaxNumber }}</td>
             </tr>
             <tr>
-                <th>TOP (days)</th>
-                <td>{{ saleInvoiceHeader.customer.paymentTerm }}</td>
+                <th>Alamat NPWP</th>
+                <td>{{ attribute(saleInvoiceHeader.customer, 'addressTax' ~ saleInvoiceHeader.customerAddressTaxOrdinal)|default|nl2br }}</td>
             </tr>
             <tr>
                 <th>Faktur Pajak #</th>
@@ -46,6 +50,14 @@
             <tr>
                 <th>Tanggal Jatuh Tempo</th>
                 <td>{{ saleInvoiceHeader.dueDate ? saleInvoiceHeader.dueDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Kawasan Berikat / Bebas</th>
+                <td>{{ saleInvoiceHeader.customer.bondedZoneLiteral }}</td>
+            </tr>
+            <tr>
+                <th>TOP (days)</th>
+                <td>{{ saleInvoiceHeader.customer.paymentTerm }}</td>
             </tr>
             <tr>
                 <th>Status</th>
@@ -110,18 +122,6 @@
                 </td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
             </tr>
-            {#<tr>
-                <td colspan="7" style="text-align: right">
-                    <strong>
-                        {% if saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', saleInvoiceHeader) %}
-                            Non PPh
-                        {% elseif saleInvoiceHeader.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', saleInvoiceHeader) %}
-                            PPh {{ saleInvoiceHeader.serviceTaxPercentage }}%
-                        {% endif %}
-                    </strong>
-                </td>
-                <td style="text-align: right"><strong>{{ saleInvoiceHeader.serviceTaxNominal|default|number_format(2) }}</strong></td>
-            </tr>#}
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>

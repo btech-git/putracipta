@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_sale_sale_payment_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_sale_sale_payment_header_edit', {'id': salePaymentHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_sale_sale_payment_header_new') }}">Add</a>
+    {% if is_granted('ROLE_SALE_PAYMENT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_sale_sale_payment_header_edit', {'id': salePaymentHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_SALE_PAYMENT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_sale_sale_payment_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -66,7 +70,7 @@
                     <td>{{ salePaymentDetail.saleInvoiceHeader.dueDate ? salePaymentDetail.saleInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
                     <td>{{ salePaymentDetail.memo|default }}</td>
                     <td>{{ salePaymentDetail.account.name|default }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.invoiceAmount|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.invoiceAmount|default|number_format(2) }}</td>
                     <td style="text-align: right">
                         {% if salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', salePaymentDetail) %}
                             0.00%
@@ -74,25 +78,25 @@
                             {{ salePaymentDetail.serviceTaxPercentage }}%
                         {% endif %}
                     </td>
-                    <td style="text-align: right">{{ salePaymentDetail.serviceTaxNominal|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.receivableAmount|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.serviceTaxNominal|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.receivableAmount|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="7" style="text-align: right"><strong>Total</strong></td>
-                <td style="text-align: right"><strong>{{ salePaymentHeader.totalReceivable|default|number_format(0) }}</strong></td>
-                <td style="text-align: right"><strong>{{ salePaymentHeader.totalAmount|default|number_format(0) }}</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.totalReceivable|default|number_format(2) }}</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.totalAmount|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
                 <td colspan="8" style="text-align: right"><strong>Admin Fee</strong></td>
-                <td style="text-align: right"><strong>{{ salePaymentHeader.administrationFee|default|number_format(0) }}</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.administrationFee|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
                 <td colspan="8" style="text-align: right"><strong>Jumlah Terima</strong></td>
-                <td style="text-align: right"><strong>{{ salePaymentHeader.receivedAmount|default|number_format(0) }}</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.receivedAmount|default|number_format(2) }}</strong></td>
             </tr>
         </tfoot>
     </table>
