@@ -111,6 +111,81 @@ class Customer extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityTolerancePercentage = '0.00';
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery6 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery7 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery8 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery9 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery10 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery11 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery12 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery13 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery14 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressDelivery15 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name6 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name7 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name8 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name9 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name10 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name11 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name12 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name13 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name14 = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $name15 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressTax1 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressTax2 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressTax3 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressTax4 = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $addressTax5 = '';
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -514,6 +589,306 @@ class Customer extends Master
     public function setQuantityTolerancePercentage(string $quantityTolerancePercentage): self
     {
         $this->quantityTolerancePercentage = $quantityTolerancePercentage;
+
+        return $this;
+    }
+
+    public function getAddressDelivery6(): ?string
+    {
+        return $this->addressDelivery6;
+    }
+
+    public function setAddressDelivery6(string $addressDelivery6): self
+    {
+        $this->addressDelivery6 = $addressDelivery6;
+
+        return $this;
+    }
+
+    public function getAddressDelivery7(): ?string
+    {
+        return $this->addressDelivery7;
+    }
+
+    public function setAddressDelivery7(string $addressDelivery7): self
+    {
+        $this->addressDelivery7 = $addressDelivery7;
+
+        return $this;
+    }
+
+    public function getAddressDelivery8(): ?string
+    {
+        return $this->addressDelivery8;
+    }
+
+    public function setAddressDelivery8(string $addressDelivery8): self
+    {
+        $this->addressDelivery8 = $addressDelivery8;
+
+        return $this;
+    }
+
+    public function getAddressDelivery9(): ?string
+    {
+        return $this->addressDelivery9;
+    }
+
+    public function setAddressDelivery9(string $addressDelivery9): self
+    {
+        $this->addressDelivery9 = $addressDelivery9;
+
+        return $this;
+    }
+
+    public function getAddressDelivery10(): ?string
+    {
+        return $this->addressDelivery10;
+    }
+
+    public function setAddressDelivery10(string $addressDelivery10): self
+    {
+        $this->addressDelivery10 = $addressDelivery10;
+
+        return $this;
+    }
+
+    public function getAddressDelivery11(): ?string
+    {
+        return $this->addressDelivery11;
+    }
+
+    public function setAddressDelivery11(string $addressDelivery11): self
+    {
+        $this->addressDelivery11 = $addressDelivery11;
+
+        return $this;
+    }
+
+    public function getAddressDelivery12(): ?string
+    {
+        return $this->addressDelivery12;
+    }
+
+    public function setAddressDelivery12(string $addressDelivery12): self
+    {
+        $this->addressDelivery12 = $addressDelivery12;
+
+        return $this;
+    }
+
+    public function getAddressDelivery13(): ?string
+    {
+        return $this->addressDelivery13;
+    }
+
+    public function setAddressDelivery13(string $addressDelivery13): self
+    {
+        $this->addressDelivery13 = $addressDelivery13;
+
+        return $this;
+    }
+
+    public function getAddressDelivery14(): ?string
+    {
+        return $this->addressDelivery14;
+    }
+
+    public function setAddressDelivery14(string $addressDelivery14): self
+    {
+        $this->addressDelivery14 = $addressDelivery14;
+
+        return $this;
+    }
+
+    public function getAddressDelivery15(): ?string
+    {
+        return $this->addressDelivery15;
+    }
+
+    public function setAddressDelivery15(string $addressDelivery15): self
+    {
+        $this->addressDelivery15 = $addressDelivery15;
+
+        return $this;
+    }
+
+    public function getName6(): ?string
+    {
+        return $this->name6;
+    }
+
+    public function setName6(string $name6): self
+    {
+        $this->name6 = $name6;
+
+        return $this;
+    }
+
+    public function getName7(): ?string
+    {
+        return $this->name7;
+    }
+
+    public function setName7(string $name7): self
+    {
+        $this->name7 = $name7;
+
+        return $this;
+    }
+
+    public function getName8(): ?string
+    {
+        return $this->name8;
+    }
+
+    public function setName8(string $name8): self
+    {
+        $this->name8 = $name8;
+
+        return $this;
+    }
+
+    public function getName9(): ?string
+    {
+        return $this->name9;
+    }
+
+    public function setName9(string $name9): self
+    {
+        $this->name9 = $name9;
+
+        return $this;
+    }
+
+    public function getName10(): ?string
+    {
+        return $this->name10;
+    }
+
+    public function setName10(string $name10): self
+    {
+        $this->name10 = $name10;
+
+        return $this;
+    }
+
+    public function getName11(): ?string
+    {
+        return $this->name11;
+    }
+
+    public function setName11(string $name11): self
+    {
+        $this->name11 = $name11;
+
+        return $this;
+    }
+
+    public function getName12(): ?string
+    {
+        return $this->name12;
+    }
+
+    public function setName12(string $name12): self
+    {
+        $this->name12 = $name12;
+
+        return $this;
+    }
+
+    public function getName13(): ?string
+    {
+        return $this->name13;
+    }
+
+    public function setName13(string $name13): self
+    {
+        $this->name13 = $name13;
+
+        return $this;
+    }
+
+    public function getName14(): ?string
+    {
+        return $this->name14;
+    }
+
+    public function setName14(string $name14): self
+    {
+        $this->name14 = $name14;
+
+        return $this;
+    }
+
+    public function getName15(): ?string
+    {
+        return $this->name15;
+    }
+
+    public function setName15(string $name15): self
+    {
+        $this->name15 = $name15;
+
+        return $this;
+    }
+
+    public function getAddressTax1(): ?string
+    {
+        return $this->addressTax1;
+    }
+
+    public function setAddressTax1(string $addressTax1): self
+    {
+        $this->addressTax1 = $addressTax1;
+
+        return $this;
+    }
+
+    public function getAddressTax2(): ?string
+    {
+        return $this->addressTax2;
+    }
+
+    public function setAddressTax2(string $addressTax2): self
+    {
+        $this->addressTax2 = $addressTax2;
+
+        return $this;
+    }
+
+    public function getAddressTax3(): ?string
+    {
+        return $this->addressTax3;
+    }
+
+    public function setAddressTax3(string $addressTax3): self
+    {
+        $this->addressTax3 = $addressTax3;
+
+        return $this;
+    }
+
+    public function getAddressTax4(): ?string
+    {
+        return $this->addressTax4;
+    }
+
+    public function setAddressTax4(string $addressTax4): self
+    {
+        $this->addressTax4 = $addressTax4;
+
+        return $this;
+    }
+
+    public function getAddressTax5(): ?string
+    {
+        return $this->addressTax5;
+    }
+
+    public function setAddressTax5(string $addressTax5): self
+    {
+        $this->addressTax5 = $addressTax5;
 
         return $this;
     }
