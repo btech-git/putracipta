@@ -87,6 +87,34 @@
                 <td>{{ customer.taxNumber }}</td>
             </tr>
             <tr>
+                <th>Alamat NPWP 1</th>
+                <td>{{ customer.addressTax1 }}</td>
+            </tr>
+            {% if (customer.addressTax2 != '') %}
+                <tr>
+                    <th>Alamat NPWP 2</th>
+                    <td>{{ customer.addressTax2 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.addressTax3 != '') %}
+                <tr>
+                    <th>Alamat NPWP 3</th>
+                    <td>{{ customer.addressTax3 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.addressTax4 != '') %}
+                <tr>
+                    <th>Alamat NPWP 4</th>
+                    <td>{{ customer.addressTax4 }}</td>
+                </tr>
+            {% endif %}
+            {% if (customer.addressTax5 != '') %}
+                <tr>
+                    <th>Alamat NPWP 5</th>
+                    <td>{{ customer.addressTax5 }}</td>
+                </tr>
+            {% endif %}
+            <tr>
                 <th>TOP (hari)</th>
                 <td>{{ customer.paymentTerm }}</td>
             </tr>

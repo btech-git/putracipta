@@ -30,17 +30,13 @@
                             ]|json_encode,
                         },
                     }) }}
-                    {{ form_widget(form.name, {
-                        'attr': {
-                            'data-bs-toggle': 'modal',
-                            'data-bs-target': '#product-dialog',
-                            'data-controller': 'dom-element',
-                            'data-action': 'product-table:data-table:select@document->dom-element#bind',
-                            'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
-                            ]|json_encode,
-                        },
-                    }) }}
+                    <input type="text" id="{{ form.product.vars.id }}-text" class="form-control readonly-form-input {% if not form.product.vars.valid %}is-invalid{% endif %}" value="{{ diecutKnife.product.name|default }}" readonly="readonly"
+                           {% if diecutKnife.id == null %}data-bs-toggle="modal" data-bs-target="#product-dialog"{% endif %}
+                           data-controller="dom-element"
+                           data-action="product-table:data-table:select@document->dom-element#bind"
+                           data-dom-element-bind-specifications-param="{{ [
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
+                           ]|json_encode }}" />
                     {{ form_errors(form.product) }}
                 </div>
             </div>

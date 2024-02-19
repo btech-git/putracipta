@@ -20,14 +20,11 @@
                 <th style="min-width: 100px">
                     Location
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'printingSize') }}>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'printingSize') }}>
                     Kris Cetak {{ grid.sort_char(form.sort.printingSize.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
-                <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -43,16 +40,13 @@
                     <input type="text"{{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'location') }} value="{{ form.filter.location.1.vars.value }}" />
+                    <input type="text" size="6" {{ grid.filter_link_item(form, 'location') }} value="{{ form.filter.location.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'printingSize') }} value="{{ form.filter.printingSize.1.vars.value }}" />
+                    <input type="text" size="10" {{ grid.filter_link_item(form, 'printingSize') }} value="{{ form.filter.printingSize.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text"  size="4" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -66,7 +60,6 @@
                     <td>{{ diecutKnife.location }}</td>
                     <td>{{ diecutKnife.printingSize }}</td>
                     <td>{{ diecutKnife.note }}</td>
-                    <td>{{ diecutKnife.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_diecut_knife_show', {'id': diecutKnife.id}) }}"><i class="bi-search"></i></a>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_master_diecut_knife_edit', {'id': diecutKnife.id}) }}"><i class="bi-pencil"></i></a>
@@ -74,7 +67,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
