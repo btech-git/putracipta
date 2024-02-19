@@ -17,10 +17,6 @@
         {% endif %}
         
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Profile</legend>
-            {{ form_row(form.name) }}
-        </fieldset>
-        <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Roles</legend>
             {{ include('admin/user/_roles_form.html.twig') }}
         </fieldset>
