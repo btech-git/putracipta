@@ -11,16 +11,16 @@
                 <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
                     Penerimaan # {{ grid.sort_char(form.sort.id.vars.value) }}
                 </th>
-                <th style="min-width: 120px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
-                <th>Master Order #</th>
-                <th>Customer</th>
-                <th>Products</th>
-                <th></th>
+                <th style="min-width: 150px">Master Order #</th>
+                <th style="min-width: 250px">Customer</th>
+                <th style="min-width: 200px">Products</th>
+                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
