@@ -121,7 +121,15 @@ class SaleInvoiceHeader extends SaleHeader
     protected ?bool $isRead = false;
 
     #[ORM\Column(length: 100)]
-    private ?string $deliveryReferenceNumbers = null;
+    private ?string $deliveryReferenceNumbers = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $customerTaxNumber = '';
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\GreaterThan(0)]
+    #[Assert\LessThan(6)]
+    private ?int $customerAddressTaxOrdinal = 0;
 
     public function __construct()
     {
@@ -510,6 +518,30 @@ class SaleInvoiceHeader extends SaleHeader
     public function setDeliveryReferenceNumbers(string $deliveryReferenceNumbers): self
     {
         $this->deliveryReferenceNumbers = $deliveryReferenceNumbers;
+
+        return $this;
+    }
+
+    public function getCustomerTaxNumber(): ?string
+    {
+        return $this->customerTaxNumber;
+    }
+
+    public function setCustomerTaxNumber(string $customerTaxNumber): self
+    {
+        $this->customerTaxNumber = $customerTaxNumber;
+
+        return $this;
+    }
+
+    public function getCustomerAddressTaxOrdinal(): ?int
+    {
+        return $this->customerAddressTaxOrdinal;
+    }
+
+    public function setCustomerAddressTaxOrdinal(int $customerAddressTaxOrdinal): self
+    {
+        $this->customerAddressTaxOrdinal = $customerAddressTaxOrdinal;
 
         return $this;
     }

@@ -21,7 +21,6 @@ class SaleReturnDetail extends SaleDetail
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
     private ?int $quantity = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]

@@ -109,7 +109,7 @@ class SaleOrderHeader extends SaleHeader
 
     #[ORM\Column(type: Types::SMALLINT)]
     #[Assert\GreaterThan(0)]
-    #[Assert\LessThan(6)]
+    #[Assert\LessThan(16)]
     private ?int $deliveryAddressOrdinal = 0;
 
     #[ORM\Column]
