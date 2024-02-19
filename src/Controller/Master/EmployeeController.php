@@ -53,8 +53,11 @@ class EmployeeController extends AbstractController
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $employeeFormService->save($employee);
-
-            return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
+            if ($request->request->has('submit_save')) {
+                return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
+            } else if ($request->request->has('submit_save_add_user')) {
+                return $this->redirectToRoute('app_admin_user_new', ['referral_id' => $employee->getId()], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->renderForm('master/employee/new.html.twig', [
