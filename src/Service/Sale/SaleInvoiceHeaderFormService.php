@@ -58,7 +58,9 @@ class SaleInvoiceHeaderFormService
             $saleInvoiceHeader->setCodeNumberToNext($currentSaleInvoiceHeader->getCodeNumber(), $year, $month);
 
         }
+        $customer = $saleInvoiceHeader->getCustomer();
         $saleInvoiceHeader->setDueDate($saleInvoiceHeader->getSyncDueDate());
+        $saleInvoiceHeader->setCustomerTaxNumber($customer === null ? '' : $customer->getTaxNumber());
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
             $deliveryHeader = $deliveryDetail->getDeliveryHeader();
