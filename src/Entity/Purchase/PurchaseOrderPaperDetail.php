@@ -25,11 +25,6 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
 
     #[ORM\Column]
     #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
-    private ?int $quantity = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
     private ?int $apkiValue = 0;
 
@@ -48,18 +43,6 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
     #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalReceive = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalReturn = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $remainingReceive = 0;
-
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
@@ -68,14 +51,6 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
 
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperDetail', targetEntity: ReceiveDetail::class)]
     private Collection $receiveDetails;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $length = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $width = 0;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
@@ -101,6 +76,31 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
     private ?PurchaseRequestPaperDetail $purchaseRequestPaperDetail = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
+    private ?string $quantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $totalReceive = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $totalReturn = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $remainingReceive = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $length = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $width = '0.00';
 
     public function __construct()
     {
@@ -153,18 +153,6 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
         return $this->id;
     }
 
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
     public function getApkiValue(): ?int
     {
         return $this->apkiValue;
@@ -209,42 +197,6 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
     public function setUnitPrice(string $unitPrice): self
     {
         $this->unitPrice = $unitPrice;
-
-        return $this;
-    }
-
-    public function getTotalReceive(): ?int
-    {
-        return $this->totalReceive;
-    }
-
-    public function setTotalReceive(int $totalReceive): self
-    {
-        $this->totalReceive = $totalReceive;
-
-        return $this;
-    }
-
-    public function getTotalReturn(): ?int
-    {
-        return $this->totalReturn;
-    }
-
-    public function setTotalReturn(int $totalReturn): self
-    {
-        $this->totalReturn = $totalReturn;
-
-        return $this;
-    }
-
-    public function getRemainingReceive(): ?int
-    {
-        return $this->remainingReceive;
-    }
-
-    public function setRemainingReceive(int $remainingReceive): self
-    {
-        $this->remainingReceive = $remainingReceive;
 
         return $this;
     }
@@ -299,30 +251,6 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
                 $receiveDetail->setPurchaseOrderPaperDetail(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getLength(): ?int
-    {
-        return $this->length;
-    }
-
-    public function setLength(int $length): self
-    {
-        $this->length = $length;
-
-        return $this;
-    }
-
-    public function getWidth(): ?int
-    {
-        return $this->width;
-    }
-
-    public function setWidth(int $width): self
-    {
-        $this->width = $width;
 
         return $this;
     }
@@ -407,6 +335,78 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
     public function setPurchaseRequestPaperDetail(?PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
     {
         $this->purchaseRequestPaperDetail = $purchaseRequestPaperDetail;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getTotalReceive(): ?string
+    {
+        return $this->totalReceive;
+    }
+
+    public function setTotalReceive(string $totalReceive): self
+    {
+        $this->totalReceive = $totalReceive;
+
+        return $this;
+    }
+
+    public function getTotalReturn(): ?string
+    {
+        return $this->totalReturn;
+    }
+
+    public function setTotalReturn(string $totalReturn): self
+    {
+        $this->totalReturn = $totalReturn;
+
+        return $this;
+    }
+
+    public function getRemainingReceive(): ?string
+    {
+        return $this->remainingReceive;
+    }
+
+    public function setRemainingReceive(string $remainingReceive): self
+    {
+        $this->remainingReceive = $remainingReceive;
+
+        return $this;
+    }
+
+    public function getLength(): ?string
+    {
+        return $this->length;
+    }
+
+    public function setLength(string $length): self
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    public function getWidth(): ?string
+    {
+        return $this->width;
+    }
+
+    public function setWidth(string $width): self
+    {
+        $this->width = $width;
 
         return $this;
     }

@@ -23,11 +23,6 @@ class PurchaseOrderDetail extends PurchaseDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
-    private ?int $quantity = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
@@ -48,18 +43,6 @@ class PurchaseOrderDetail extends PurchaseDetail
     #[Assert\NotNull]
     private ?Unit $unit = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalReceive = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalReturn = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $remainingReceive = 0;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deliveryDate = null;
 
@@ -76,6 +59,23 @@ class PurchaseOrderDetail extends PurchaseDetail
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderDetails')]
     private ?PurchaseRequestDetail $purchaseRequestDetail = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
+    private ?string $quantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $totalReceive = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $totalReturn = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $remainingReceive = '0.00';
 
     public function __construct()
     {
@@ -112,18 +112,6 @@ class PurchaseOrderDetail extends PurchaseDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getUnitPrice(): ?string
@@ -204,42 +192,6 @@ class PurchaseOrderDetail extends PurchaseDetail
         return $this;
     }
 
-    public function getTotalReceive(): ?int
-    {
-        return $this->totalReceive;
-    }
-
-    public function setTotalReceive(int $totalReceive): self
-    {
-        $this->totalReceive = $totalReceive;
-
-        return $this;
-    }
-
-    public function getTotalReturn(): ?int
-    {
-        return $this->totalReturn;
-    }
-
-    public function setTotalReturn(int $totalReturn): self
-    {
-        $this->totalReturn = $totalReturn;
-
-        return $this;
-    }
-
-    public function getRemainingReceive(): ?int
-    {
-        return $this->remainingReceive;
-    }
-
-    public function setRemainingReceive(int $remainingReceive): self
-    {
-        $this->remainingReceive = $remainingReceive;
-
-        return $this;
-    }
-
     public function getDeliveryDate(): ?\DateTimeInterface
     {
         return $this->deliveryDate;
@@ -296,6 +248,54 @@ class PurchaseOrderDetail extends PurchaseDetail
     public function setPurchaseRequestDetail(?PurchaseRequestDetail $purchaseRequestDetail): self
     {
         $this->purchaseRequestDetail = $purchaseRequestDetail;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getTotalReceive(): ?string
+    {
+        return $this->totalReceive;
+    }
+
+    public function setTotalReceive(string $totalReceive): self
+    {
+        $this->totalReceive = $totalReceive;
+
+        return $this;
+    }
+
+    public function getTotalReturn(): ?string
+    {
+        return $this->totalReturn;
+    }
+
+    public function setTotalReturn(string $totalReturn): self
+    {
+        $this->totalReturn = $totalReturn;
+
+        return $this;
+    }
+
+    public function getRemainingReceive(): ?string
+    {
+        return $this->remainingReceive;
+    }
+
+    public function setRemainingReceive(string $remainingReceive): self
+    {
+        $this->remainingReceive = $remainingReceive;
 
         return $this;
     }

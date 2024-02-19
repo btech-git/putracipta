@@ -20,10 +20,6 @@ class PurchaseInvoiceDetail extends PurchaseDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $quantity = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     private ?string $unitPrice = '0.00';
@@ -44,6 +40,10 @@ class PurchaseInvoiceDetail extends PurchaseDetail
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceDetails')]
     private ?ReceiveDetail $receiveDetail = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $quantity = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->purchaseInvoiceHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -58,18 +58,6 @@ class PurchaseInvoiceDetail extends PurchaseDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getUnitPrice(): ?string
@@ -140,6 +128,18 @@ class PurchaseInvoiceDetail extends PurchaseDetail
     public function setReceiveDetail(?ReceiveDetail $receiveDetail): self
     {
         $this->receiveDetail = $receiveDetail;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

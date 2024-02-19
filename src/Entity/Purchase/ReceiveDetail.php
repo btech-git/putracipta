@@ -9,6 +9,7 @@ use App\Entity\PurchaseDetail;
 use App\Repository\Purchase\ReceiveDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -21,11 +22,6 @@ class ReceiveDetail extends PurchaseDetail
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?int $receivedQuantity = 0;
 
     #[ORM\ManyToOne]
     private ?Material $material = null;
@@ -52,11 +48,17 @@ class ReceiveDetail extends PurchaseDetail
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
 
-    #[ORM\Column]
-    private ?int $remainingQuantity = null;
-
     #[ORM\OneToMany(mappedBy: 'receiveDetail', targetEntity: PurchaseInvoiceDetail::class)]
     private Collection $purchaseInvoiceDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
+    private ?string $receivedQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    private ?string $remainingQuantity = '0.00';
 
     public function __construct()
     {
@@ -91,18 +93,6 @@ class ReceiveDetail extends PurchaseDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getReceivedQuantity(): ?int
-    {
-        return $this->receivedQuantity;
-    }
-
-    public function setReceivedQuantity(int $receivedQuantity): self
-    {
-        $this->receivedQuantity = $receivedQuantity;
-
-        return $this;
     }
 
     public function getMaterial(): ?Material
@@ -219,18 +209,6 @@ class ReceiveDetail extends PurchaseDetail
         return $this;
     }
 
-    public function getRemainingQuantity(): ?int
-    {
-        return $this->remainingQuantity;
-    }
-
-    public function setRemainingQuantity(int $remainingQuantity): self
-    {
-        $this->remainingQuantity = $remainingQuantity;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, PurchaseInvoiceDetail>
      */
@@ -257,6 +235,30 @@ class ReceiveDetail extends PurchaseDetail
                 $purchaseInvoiceDetail->setReceiveDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReceivedQuantity(): ?string
+    {
+        return $this->receivedQuantity;
+    }
+
+    public function setReceivedQuantity(string $receivedQuantity): self
+    {
+        $this->receivedQuantity = $receivedQuantity;
+
+        return $this;
+    }
+
+    public function getRemainingQuantity(): ?string
+    {
+        return $this->remainingQuantity;
+    }
+
+    public function setRemainingQuantity(string $remainingQuantity): self
+    {
+        $this->remainingQuantity = $remainingQuantity;
 
         return $this;
     }

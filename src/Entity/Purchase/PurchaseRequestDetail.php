@@ -26,11 +26,6 @@ class PurchaseRequestDetail extends PurchaseDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
-    private ?int $quantity = 0;
-
     #[ORM\ManyToOne]
     private ?Material $material = null;
 
@@ -53,6 +48,11 @@ class PurchaseRequestDetail extends PurchaseDetail
     #[ORM\OneToMany(mappedBy: 'purchaseRequestDetail', targetEntity: PurchaseOrderDetail::class)]
     private Collection $purchaseOrderDetails;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
+    private ?string $quantity = '0.00';
+
     public function __construct()
     {
         $this->purchaseOrderDetails = new ArrayCollection();
@@ -67,18 +67,6 @@ class PurchaseRequestDetail extends PurchaseDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getMaterial(): ?Material
@@ -179,6 +167,18 @@ class PurchaseRequestDetail extends PurchaseDetail
                 $purchaseOrderDetail->setPurchaseRequestDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }
