@@ -10,6 +10,7 @@ use App\Repository\Admin\LiteralConfigRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -53,6 +54,7 @@ class SaleInvoiceHeaderType extends AbstractType
                 'prototype_data' => new SaleInvoiceDetail(),
                 'label' => false,
             ])
+            ->add('customerAddressTaxOrdinal', TextType::class)
         ;
     }
 
