@@ -57,8 +57,8 @@
                     'materialOrPaperCode': purchaseOrderDetail.material.code,
                     'materialOrPaperName': purchaseOrderDetail.material.name,
                     'unitName': purchaseOrderDetail.unit.name,
-                    'purchaseOrderDetailQuantity': purchaseOrderDetail.quantity|number_format(0),
-                    'purchaseOrderDetailRemainingReceive': purchaseOrderDetail.remainingReceive})|json_encode }}">
+                    'purchaseOrderDetailQuantity': purchaseOrderDetail.quantity|number_format(2),
+                    'purchaseOrderDetailRemainingReceive': purchaseOrderDetail.remainingReceive|number_format(2)})|json_encode }}">
                     <td>{{ purchaseOrderHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderHeader.supplier.company|default }}</td>

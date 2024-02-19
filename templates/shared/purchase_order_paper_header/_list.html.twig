@@ -56,8 +56,8 @@
                     'materialOrPaperCode': purchaseOrderPaperDetail.paper.codeNumber,
                     'materialOrPaperName': purchaseOrderPaperDetail.paper.paperNameSizeCombination,
                     'unitName': purchaseOrderPaperDetail.unit.name,
-                    'purchaseOrderDetailQuantity': purchaseOrderPaperDetail.quantity|number_format(0),
-                    'purchaseOrderDetailRemainingReceive': purchaseOrderPaperDetail.remainingReceive|number_format(0)})|json_encode }}">
+                    'purchaseOrderDetailQuantity': purchaseOrderPaperDetail.quantity|number_format(2),
+                    'purchaseOrderDetailRemainingReceive': purchaseOrderPaperDetail.remainingReceive|number_format(2)})|json_encode }}">
                     <td>{{ purchaseOrderPaperHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
