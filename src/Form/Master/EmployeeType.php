@@ -28,6 +28,13 @@ class EmployeeType extends AbstractType
             ]])
             ->add('startDate', null, ['label' => 'Tanggal Mulai', 'widget' => 'single_text'])
             ->add('note')
+            ->add('user', null, [
+                'choice_label' => 'username',
+//                'query_builder' => function($repository) {
+//                    return $repository->createQueryBuilder('e')
+//                            ->andWhere("e.isInactive = false");
+//                },
+            ])
         ;
     }
 

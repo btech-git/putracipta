@@ -12,6 +12,7 @@ use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,7 +30,7 @@ class DesignCodeType extends AbstractType
                 },
             ])
             ->add('product', EntityHiddenType::class, ['class' => Product::class])
-            ->add('name', null, ['label' => 'Nama Produk'])
+            ->add('name', HiddenType::class, ['label' => 'Nama Produk'])
             ->add('code', null, ['label' => 'Kode Produk'])
             ->add('variant', null, ['label' => false])
             ->add('version', null, ['label' => 'Revisi'])
