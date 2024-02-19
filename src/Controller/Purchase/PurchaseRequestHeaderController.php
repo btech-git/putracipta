@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseRequestHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_request_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function _list(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_request_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_request_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_request_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function _head(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -77,14 +77,14 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_request_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_request_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_request_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function read(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
@@ -126,7 +126,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}/view', name: 'app_purchase_purchase_request_header_view', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function view(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('view' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
@@ -160,7 +160,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_request_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function show(PurchaseRequestHeader $purchaseRequestHeader): Response
     {
         return $this->render('purchase/purchase_request_header/show.html.twig', [
@@ -241,7 +241,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_request_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
     public function memo(PurchaseRequestHeader $purchaseRequestHeader): Response
     {
         $fileName = 'purchase-request.pdf';

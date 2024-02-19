@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseOrderPaperHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_order_paper_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')")]
     public function _list(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -51,14 +51,14 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_order_paper_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_order_paper_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_order_paper_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')")]
     public function _head(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -80,7 +80,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_order_paper_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_order_paper_header/head.html.twig");
@@ -121,7 +121,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_order_paper_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')")]
     public function show(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): Response
     {
         return $this->render('purchase/purchase_order_paper_header/show.html.twig', [
@@ -285,7 +285,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_order_paper_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL')")]
     public function memo(PurchaseOrderPaperHeader $purchaseOrderPaperHeader): Response
     {
         $fileName = 'purchase-order.pdf';

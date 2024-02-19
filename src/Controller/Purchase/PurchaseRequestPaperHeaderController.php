@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseRequestPaperHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_request_paper_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function _list(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -48,14 +48,14 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_request_paper_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_request_paper_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_request_paper_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function _head(Request $request, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -78,14 +78,14 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_request_paper_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_request_paper_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_request_paper_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function read(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
@@ -127,7 +127,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/view', name: 'app_purchase_purchase_request_paper_header_view', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function view(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('view' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
@@ -161,7 +161,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_request_paper_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function show(PurchaseRequestPaperHeader $purchaseRequestPaperHeader): Response
     {
         return $this->render('purchase/purchase_request_paper_header/show.html.twig', [
@@ -242,7 +242,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_request_paper_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL')")]
     public function memo(PurchaseRequestPaperHeader $purchaseRequestPaperHeader): Response
     {
         $fileName = 'purchase-request-paper.pdf';

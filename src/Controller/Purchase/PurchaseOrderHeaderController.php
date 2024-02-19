@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_order_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function _list(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,14 +52,14 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_order_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_order_header/index.html.twig");
     }
     
     #[Route('/_head', name: 'app_purchase_purchase_order_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function _head(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -81,14 +81,14 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_order_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_order_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_order_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function read(Request $request, PurchaseOrderHeader $purchaseOrderHeader, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseOrderHeader->getId(), $request->request->get('_token'))) {
@@ -122,7 +122,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_order_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function show(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
         return $this->render('purchase/purchase_order_header/show.html.twig', [
@@ -286,7 +286,7 @@ class PurchaseOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_order_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL')")]
     public function memo(PurchaseOrderHeader $purchaseOrderHeader): Response
     {
         $fileName = 'purchase-order.pdf';
