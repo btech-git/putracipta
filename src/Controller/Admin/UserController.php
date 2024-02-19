@@ -54,7 +54,12 @@ class UserController extends AbstractController
             $user->setPassword($password);
             $userRepository->add($user, true);
 
-            return $this->redirectToRoute('app_master_employee_add', ['user_id' => $user->getId()], Response::HTTP_SEE_OTHER);
+            if ($request->query->has('referral_id')) {
+                $referralId = $request->query->get('referral_id');
+                return $this->forward('App\Controller\Admin\ReferralController::assign', ['userId' => $user->getId(), 'referralId' => $referralId]);
+            } else {
+                return $this->redirectToRoute('app_admin_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->renderForm('admin/user/new.html.twig', [
