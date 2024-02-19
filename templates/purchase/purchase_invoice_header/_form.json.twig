@@ -26,7 +26,7 @@
         {%- for purchaseInvoiceDetailForm in form.purchaseInvoiceDetails -%}
             {%- set purchaseInvoiceDetail = purchaseInvoiceDetailForm.vars.data -%}
             "{{ purchaseInvoiceDetailForm.vars.name }}": {
-                "quantity": "{{ purchaseInvoiceDetail.quantity|default|number_format(0) }}",
+                "quantity": "{{ purchaseInvoiceDetail.quantity|default|number_format(2) }}",
                 "unitPrice": "{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}",
                 "discount": "{{ purchaseInvoiceDetail.discount|default|number_format(2) }}",
                 "total": "{{ purchaseInvoiceDetail.total|default|number_format(2) }}"

@@ -56,7 +56,7 @@
                             {% if purchaseRequestDetail and not purchaseRequestDetail.isCanceled %}
                                 <td class="left">{{ purchaseRequestDetail.material.code|default }}</td>
                                 <td class="left">{{ purchaseRequestDetail.material.name|default }}</td>
-                                <td class="center">{{ purchaseRequestDetail.quantity|default }}</td>
+                                <td class="center">{{ purchaseRequestDetail.quantity|default|number_format(2) }}</td>
                                 <td class="left">{{ purchaseRequestDetail.unit.name|default }}</td>
                                 <td class="left">{{ purchaseRequestDetail.usageDate|default ? purchaseRequestDetail.usageDate|date('d M Y') }}</td>
                                 <td class="left">{{ purchaseRequestDetail.memo|default }}</td>

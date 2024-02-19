@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_payment_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_payment_header_edit', {'id': purchasePaymentHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_payment_header_new') }}">Add</a>
+    {% if is_granted('ROLE_PURCHASE_PAYMENT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_payment_header_edit', {'id': purchasePaymentHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_PURCHASE_PAYMENT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_payment_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

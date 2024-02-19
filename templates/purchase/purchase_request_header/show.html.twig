@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_request_header_index') }}">Manage</a>
+    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') %}
     <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_header_edit', {'id': purchaseRequestHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') %}
     <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -59,7 +63,7 @@
                 <tr>
                     <td>{{ purchaseRequestDetail.material.code|default }}</td>
                     <td>{{ purchaseRequestDetail.material.name|default }}</td>
-                    <td class="text-center">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center">{{ purchaseRequestDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ purchaseRequestDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestDetail.memo|default }}</td>
@@ -150,7 +154,7 @@
     </div>
        
     {#{{ include('purchase/purchase_request_header/_delete_form.html.twig') }}#}
-    {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestHeader) or purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestHeader) %}
+    {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestHeader) or purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestHeader) or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL') %}
         <div class="d-inline-block">{{ include('purchase/purchase_request_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('purchase/purchase_request_header/_approve_form.html.twig') }}</div>
     {% endif %}

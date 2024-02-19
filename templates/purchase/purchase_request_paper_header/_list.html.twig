@@ -68,7 +68,9 @@
                     <td>{{ purchaseRequestPaperHeader.transactionStatus }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_show', {'id': purchaseRequestPaperHeader.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_edit', {'id': purchaseRequestPaperHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_edit', {'id': purchaseRequestPaperHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

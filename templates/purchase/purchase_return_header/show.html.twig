@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_return_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_return_header_edit', {'id': purchaseReturnHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_return_header_new') }}">Add</a>
+    {% if is_granted('ROLE_PURCHASE_RETURN_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_return_header_edit', {'id': purchaseReturnHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_PURCHASE_RETURN_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_return_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -66,7 +70,7 @@
                 <tr>
                     <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.codeNumber|default : purchaseReturnDetail.material.code|default }}</td>
                     <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.paperNameSizeCombination|default : purchaseReturnDetail.material.name|default }}</td>
-                    <td style="text-align: right">{{ purchaseReturnDetail.quantity|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseReturnDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ purchaseReturnDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseReturnDetail.unitPrice|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseReturnDetail.total|default|number_format(2) }}</td>

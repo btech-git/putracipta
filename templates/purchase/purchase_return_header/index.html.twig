@@ -3,7 +3,9 @@
 {% block title 'Manage Purchase Return' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_return_header_new') }}">Add</a>
+    {% if is_granted('ROLE_PURCHASE_RETURN_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_return_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

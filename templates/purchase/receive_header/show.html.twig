@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_receive_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_receive_header_edit', {'id': receiveHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_receive_header_new') }}">Add</a>
+    {% if is_granted('ROLE_RECEIVE_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_receive_header_edit', {'id': receiveHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_RECEIVE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_receive_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -71,9 +75,9 @@
                 <tr>
                     <td>{{ receiveDetail.material is null ? receiveDetail.paper.codeNumber|default : receiveDetail.material.code|default }}</td>
                     <td>{{ receiveDetail.material is null ? receiveDetail.paper.paperNameSizeCombination|default : receiveDetail.material.name|default }}</td>
-                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity|default|number_format(0) : receiveDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ receiveDetail.remainingQuantity|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ receiveDetail.receivedQuantity|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity|default|number_format(2) : receiveDetail.purchaseOrderDetail.quantity|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ receiveDetail.remainingQuantity|default|number_format(2) }}</td>
+                    <td style="text-align: right">{{ receiveDetail.receivedQuantity|default|number_format(2) }}</td>
                     <td>{{ receiveDetail.unit.name|default }}</td>
                     <td>{{ receiveDetail.memo|default }}</td>
                 </tr>

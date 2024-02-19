@@ -7,9 +7,13 @@
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_complete_form.html.twig') }}</div>
     {% endif %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_index') }}">Manage</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new') }}">Add</a>
+    {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new') }}">Add</a>
+    {% endif %}
     {% if purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_APPROVE', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderPaperHeader) and purchaseOrderPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_PARTIAL_RECEIVE', purchaseOrderPaperHeader) %}
-        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}">Edit</a>
+        {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') %}
+            <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}">Edit</a>
+        {% endif %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_delete_form.html.twig') }}</div>
     {% endif %}
 {% endblock %}
@@ -87,7 +91,7 @@
                     <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperDetail.length|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.width|default }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
@@ -205,7 +209,7 @@
     </div>
                 
     {#<div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_delete_form.html.twig') }}</div>#}
-    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) or purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderPaperHeader) %}
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) or purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderPaperHeader) or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL') %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}

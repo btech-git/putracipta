@@ -87,10 +87,10 @@
                                 <td class="left">{{ purchaseOrderDetail.material.code|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('d M Y') }}</td>
-                                <td class="center">{{ purchaseOrderDetail.quantity|default }}</td>
+                                <td class="center">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
                                 <td class="left">{{ purchaseOrderDetail.unit.name|default }}</td>
-                                <td class="right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(0) }}</td>
-                                <td class="right">{{ purchaseOrderDetail.total|default|number_format(0) }}</td>
+                                <td class="right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
+                                <td class="right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
                             {% elseif not purchaseOrderDetail %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

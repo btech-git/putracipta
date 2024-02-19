@@ -3,7 +3,9 @@
 {% block title 'Manage Purchase Request' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_header_new') }}">Add</a>
+    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

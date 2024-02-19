@@ -62,8 +62,12 @@
                     <td>{{ purchaseOrderPaperHeader.transactionStatus }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_show', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-pencil"></i></a>
-                        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new_repeat', {'source_id': purchaseOrderPaperHeader.id}) }}"><i class="bi-c-square"></i></a>
+                        {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_edit', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') %}
+                            <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new_repeat', {'source_id': purchaseOrderPaperHeader.id}) }}"><i class="bi-c-square"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

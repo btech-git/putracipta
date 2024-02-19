@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_edit', {'id': purchaseRequestPaperHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_new') }}">Add</a>
+    {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_edit', {'id': purchaseRequestPaperHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -59,7 +63,7 @@
                 <tr>
                     <td>{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                    <td style="text-align: center">{{ purchaseRequestPaperDetail.quantity|default|number_format(0) }}</td>
+                    <td style="text-align: center">{{ purchaseRequestPaperDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ purchaseRequestPaperDetail.unit.name|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestPaperDetail.memo|default }}</td>
@@ -148,7 +152,7 @@
     </div>
        
     {#{{ include('purchase/purchase_request_paper_header/_delete_form.html.twig') }}#}
-    {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestPaperHeader) or purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestPaperHeader) %}
+    {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestPaperHeader) or purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestPaperHeader) or is_granted('ROLE_PURCHASE_REQUEST_PAPER_APPROVAL') %}
         <div class="d-inline-block">{{ include('purchase/purchase_request_paper_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('purchase/purchase_request_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}

@@ -3,7 +3,9 @@
 {% block title 'Manage Receive' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_receive_header_new') }}">Add</a>
+    {% if is_granted('ROLE_RECEIVE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_receive_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
