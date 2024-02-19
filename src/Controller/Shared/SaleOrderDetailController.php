@@ -62,7 +62,7 @@ class SaleOrderDetailController extends AbstractController
                 $sub = $new(\App\Entity\Production\MasterOrderProductDetail::class, 'm');
                 $sub->andWhere("IDENTITY(m.saleOrderDetail) = {$alias}.id");
                 $qb->leftJoin("{$alias}.masterOrderProductDetails", 'd');
-//                $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
+                $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             }
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("s.transactionStatus IN ('Approve', 'partial_delivery')");
