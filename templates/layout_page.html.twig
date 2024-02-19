@@ -33,24 +33,26 @@
             'Permintaan Pembelian Kertas': ['app_purchase_purchase_request_paper_header_index', ['ROLE_USER']],
             'PO Material': ['app_purchase_purchase_order_header_index', ['ROLE_USER']],
             'PO Kertas': ['app_purchase_purchase_order_paper_header_index', ['ROLE_USER']],
-            'Penerimaan': ['app_purchase_receive_header_index', ['ROLE_USER']],
-            'Retur Pembelian': ['app_purchase_purchase_return_header_index', ['ROLE_USER']],
             'Faktur Pembelian': ['app_purchase_purchase_invoice_header_index', ['ROLE_USER']],
             'Pembayaran Pembelian': ['app_purchase_purchase_payment_header_index', ['ROLE_USER']],
         },
         'PENJUALAN': {
             'Customer Order': ['app_sale_sale_order_header_index', ['ROLE_USER']],
-            'Pengiriman Barang': ['app_sale_delivery_header_index', ['ROLE_USER']],
-            'Retur Penjualan': ['app_sale_sale_return_header_index', ['ROLE_USER']],
             'Faktur Penjualan': ['app_sale_sale_invoice_header_index', ['ROLE_USER']],
             'Pelunasan Penjualan': ['app_sale_sale_payment_header_index', ['ROLE_USER']],
         },
-        'GUDANG': {
+        'GUDANG MATERIAL': {
+            'Penerimaan': ['app_purchase_receive_header_index', ['ROLE_USER']],
+            'Retur Pembelian': ['app_purchase_purchase_return_header_index', ['ROLE_USER']],
             'Penyesuaian Stok': ['app_stock_adjustment_stock_header_index', ['ROLE_USER']],
             'Permintaan Material': ['app_stock_inventory_request_header_index', ['ROLE_USER']],
             'Pengeluaran Material': ['app_stock_inventory_release_header_index', ['ROLE_USER']],
             'Transfer Antar Gudang': ['app_stock_stock_transfer_header_index', ['ROLE_USER']],
-            'Penerimaan Finished Goods': ['app_stock_inventory_product_receive_header_index', ['ROLE_USER']],
+        },
+        'GUDANG FG': {
+            'Pengiriman Barang': ['app_sale_delivery_header_index', ['ROLE_USER']],
+            'Retur Penjualan': ['app_sale_sale_return_header_index', ['ROLE_USER']],
+            'Penerimaan FG': ['app_stock_inventory_product_receive_header_index', ['ROLE_USER']],
         },
         'PRODUKSI': {
             'Formulir Produk Baru': ['app_production_product_prototype_index', ['ROLE_USER']],
@@ -120,8 +122,9 @@
                             <span class="d-none d-sm-inline mx-1">{{ app.user.username|default }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                            {#<li><a class="dropdown-item" href="#">New project...</a></li>#}
-                            {#<li><a class="dropdown-item" href="#">Profile</a></li>#}
+                            <li><a class="dropdown-item" href="{{ path('app_admin_referral_show_profile', {'id': app.user.id}) }}">Show Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_admin_referral_change_profile', {'id': app.user.id}) }}">Change Profile</a></li>
+                            {#<li><a class="dropdown-item" href="{{ path('app_admin_referral_change_password', {'id': app.user.id}) }}">Change Password</a></li>#}
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
