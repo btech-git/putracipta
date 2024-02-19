@@ -34,7 +34,7 @@ class InventoryProductReceiveHeader extends StockHeader
     #[ORM\ManyToOne(inversedBy: 'inventoryProductReceiveHeaders')]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 200)]
     private ?string $productDetailLists = '';
 
     public function __construct()
