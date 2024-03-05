@@ -16,8 +16,9 @@ class InventoryProductReceiveDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantityBox', FormattedNumberType::class, ['decimals' => 0])
-            ->add('quantityBoxExtraPieces', FormattedNumberType::class, ['decimals' => 0])
+            ->add('quantityBox', FormattedNumberType::class, ['decimals' => 2])
+            ->add('quantityBoxExtraPieces', FormattedNumberType::class, ['decimals' => 2])
+//            ->add('quantityTotalPieces', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('isCanceled')
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
