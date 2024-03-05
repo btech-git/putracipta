@@ -12,7 +12,7 @@
                 <th style="min-width: 250px">Nama Barang</th>
                 <th style="min-width: 150px">FSC Code</th>
                 <th style="min-width: 80px">WO #</th>
-                <th style="min-width: 80px">Lot #</th>
+                <th style="min-width: 100px">Lot #</th>
                 <th style="min-width: 200px">PO #</th>
                 <th style="min-width: 80px">Line PO</th>
                 <th style="min-width: 100px">Qty Order</th>
@@ -46,7 +46,21 @@
                         }}) }}
                     </td>
                     <td data-item-field-name="masterOrderHeaderCodeNumber">{{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.codeNumber|default }}</td>
-                    <td data-item-field-name="masterOrderHeaderLotNumber">{{ detailForm.vars.value.lotNumber|default }}</td>
+                    <td>
+                        {{ form_row(detailForm.lotNumber, {'label': false, 'attr': {
+                            'size': 3, 
+                            'data-item-field-name': 'masterOrderProductDetailLotNumber',
+                            'readonly': not detailForm.vars.value.saleOrderDetail.saleOrderHeader.isUsingFscPaper|default,
+                            'data-item-field-action': '
+                                const hasFscCode = $row.querySelector("[data-item-field-name=saleOrderHeaderIsUsingFscPaper]").textContent;
+                                if (hasFscCode === "No") {
+                                    $element.setAttribute("readonly", "readonly");
+                                } else {
+                                    $element.removeAttribute("readonly");
+                                }
+                            ',
+                        }}) }}
+                    </td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td data-item-field-name="saleOrderDetailLinePo">{{ detailForm.vars.value.linePo|default }}</td>
                     <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.saleOrderDetail.quantity|default|number_format(0) }}</td>

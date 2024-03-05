@@ -19,10 +19,16 @@
                             <div class="cell label" style="color: blue; font-size: 14px">PT. Putracipta Karindomas</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Jl. Daan Mogot No. 6N, Jakarta 11460 - Indonesia</div>
+                            <div class="cell label">Millenium 15A, Kawasan Industri Millenium I2 No. 05</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Tel. (62-21) 565-5431, 563-3248 Fax. 565-5422</div>
+                            <div class="cell label">Peusar, Panongan</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Kab. Tangerang Banten</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">NPWP: 01.539.872.0-452.001</div>
                         </div>
                     </div>
                 </div>
@@ -32,7 +38,7 @@
                             <div class="cell label">Factory: Kawasan Industri Millenium</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Jl. Millenium 15A Blok 12 No. 5 Pos 12</div>
+                            <div class="cell label">Jl. Millenium 15A Blok I2 No. 5 Pos 12</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Cikupa - Tigaraksa - Tangerang</div>
@@ -54,7 +60,7 @@
             </div>
             <br />
             <div class="header">
-                <h2 class="title">SURAT JALAN</h2>
+                <h1 class="title">SURAT JALAN</h1>
             </div>
         </div>
         
@@ -78,7 +84,7 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label" style="min-width: 130px">SJ #</div>
-                            <div class="cell value" style="min-width: 100px">{{ deliveryHeader.codeNumber|default }}</div>
+                            <div class="cell value" style="min-width: 100px">{{ deliveryHeader.codeNumberMemo|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Kirim</div>
@@ -114,10 +120,10 @@
             </thead>
             <tbody>
                 {% set rowspan = 20 %}
-                {% for row in deliveryHeader.deliveryDetails|batch(rowspan, '') %}
+                {% for row in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
-                            {% if deliveryDetail and not deliveryDetail.isCanceled %}
+                            {% if deliveryDetail %}
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
                                 <td class="left">{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }} / {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') }}</td>
@@ -224,7 +230,7 @@
                     <div class="blank">&nbsp;</div>
                     <div class="blank">&nbsp;</div>
                     <div class="blank">&nbsp;</div>
-                    <div>Gudang Jadi</div>
+                    <div class="blank">(..........................................)</div>
                 </div>
             </div>
         </div>

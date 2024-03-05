@@ -9,6 +9,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
+                    {{ form_row(form.transactionType, {'label': 'Jenis Order'}) }}
                     {{ form_row(form.transactionDate, {'label': 'Tanggal SO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.referenceNumber, {'label': 'Customer PO #'}) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
