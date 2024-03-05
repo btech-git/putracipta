@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryStockMaterialController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_inventory_stock_material__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_INVENTORY_REPORT')]
+    #[IsGranted('ROLE_INVENTORY_MATERIAL_REPORT')]
     public function _list(Request $request, MaterialRepository $materialRepository, InventoryRepository $inventoryRepository): Response
     {
         $criteria = new DataCriteria();
@@ -53,7 +53,7 @@ class InventoryStockMaterialController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_inventory_stock_material_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_INVENTORY_REPORT')]
+    #[IsGranted('ROLE_INVENTORY_MATERIAL_REPORT')]
     public function index(): Response
     {
         return $this->render("report/inventory_stock_material/index.html.twig");

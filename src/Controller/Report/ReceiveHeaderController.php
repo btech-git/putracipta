@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReceiveHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_receive_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_PURCHASE_REPORT')]
+    #[IsGranted('ROLE_INVENTORY_MATERIAL_REPORT')]
     public function _list(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,7 +52,7 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_receive_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_PURCHASE_REPORT')]
+    #[IsGranted('ROLE_INVENTORY_MATERIAL_REPORT')]
     public function index(): Response
     {
         return $this->render("report/receive_header/index.html.twig");
