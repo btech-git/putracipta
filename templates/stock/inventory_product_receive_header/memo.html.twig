@@ -66,19 +66,35 @@
                 </tr>
             </thead>
             <tbody>
-                {% for inventoryProductReceiveDetail in inventoryProductReceiveHeader.inventoryProductReceiveDetails %}
-                    <tr>
-                        <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                        <td>{{ inventoryProductReceiveDetail.product.code|default }}</td>
-                        <td>{{ inventoryProductReceiveDetail.product.name|default }}</td>
-                        <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                        <td style="text-align:center">{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
-                        <td style="text-align:center">{{ inventoryProductReceiveDetail.masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
-                        <td style="text-align:center">{{ inventoryProductReceiveDetail.quantityBox|default|number_format(0) }}</td>
-                        <td style="text-align:center">{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(0) }}</td>
-                        <td>{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
-                        <td>{{ inventoryProductReceiveDetail.memo|default }}</td>
-                    </tr>
+                {% set rowspan = 20 %}
+                {% for row in inventoryProductReceiveHeader.inventoryProductReceiveDetails|batch(rowspan, '') %}
+                    {% for inventoryProductReceiveDetail in row %}
+                        <tr>
+                            {% if inventoryProductReceiveDetail and not inventoryProductReceiveDetail.isCanceled %}
+                                <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                <td>{{ inventoryProductReceiveDetail.product.code|default }}</td>
+                                <td>{{ inventoryProductReceiveDetail.product.name|default }}</td>
+                                <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                                <td style="text-align:center">{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                                <td style="text-align:center">{{ inventoryProductReceiveDetail.masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
+                                <td style="text-align:center">{{ inventoryProductReceiveDetail.quantityBox|default|number_format(0) }}</td>
+                                <td style="text-align:center">{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(0) }}</td>
+                                <td>{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
+                                <td>{{ inventoryProductReceiveDetail.memo|default }}</td>
+                            {% elseif not inventoryProductReceiveDetail %}
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
             </tbody>
             {#<tfoot>
@@ -106,9 +122,13 @@
             <div class="table full">
                 <div class="cell sig">
                     <div>Menyerahkan,</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">Produksi</div>
                 </div>
                 <div class="cell sig">
                     <div>Menerima,</div>
+                    <div class="blank">&nbsp;</div>
+                    <div class="blank">Gudang</div>
                 </div>
             </div>
         </div>

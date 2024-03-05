@@ -15,7 +15,8 @@
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 100px">Qty Produksi</th>
                 <th style="min-width: 100px">Qty Box</th>
-                <th style="min-width: 100px">Qty Pcs</th>
+                <th style="min-width: 150px">Qty Pcs</th>
+                <th style="min-width: 150px">Total Pcs</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 200px">Keterangan</th>
                 <th style="min-width: 0"></th>
@@ -44,13 +45,17 @@
                     </td>
                     <td>
                         {{ form_row(detailForm.quantityBoxExtraPieces, {'label': false, 'attr': {
-                            'size': '5',
+                            'size': '8',
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load',
                             'data-dom-element-bind-specifications-param': [
                                 {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
                             ]|json_encode,
                         }}) }}
+                    </td>
+                    <td class="text-end" data-json-loader-target="placeholder"
+                        data-property-path="inventoryProductReceiveDetails.{{ detailForm.vars.name }}.quantityTotalPieces">
+                        {{ detailForm.vars.value.quantityTotalPieces|default|number_format(2) }}
                     </td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.product.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
