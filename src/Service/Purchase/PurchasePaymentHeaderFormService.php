@@ -84,12 +84,13 @@ class PurchasePaymentHeaderFormService
                 $purchaseInvoiceHeader->setTransactionStatus(PurchaseInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
             }
         }
-        $supplierInvoiceCodeNumberList = array();
+        $supplierInvoiceCodeNumberList = [];
         foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
             $purchaseInvoiceHeader = $purchasePaymentDetail->getPurchaseInvoiceHeader();
             $supplierInvoiceCodeNumberList[] = $purchaseInvoiceHeader->getSupplierInvoiceCodeNumber();
         }
-        $purchasePaymentHeader->setSupplierInvoiceCodeNumbers(implode(', ', $supplierInvoiceCodeNumberList));
+        $supplierInvoiceCodeNumberUniqueList = array_unique(explode(', ', implode(', ', $supplierInvoiceCodeNumberList)));
+        $purchasePaymentHeader->setSupplierInvoiceCodeNumbers(implode(', ', $supplierInvoiceCodeNumberUniqueList));
     }
 
     public function save(PurchasePaymentHeader $purchasePaymentHeader, array $options = []): void
