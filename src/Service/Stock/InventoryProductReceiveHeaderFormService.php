@@ -92,7 +92,8 @@ class InventoryProductReceiveHeaderFormService
         foreach ($inventoryProductReceiveHeader->getInventoryProductReceiveDetails() as $inventoryProductReceiveDetail) {
             $productList[] = $inventoryProductReceiveDetail->getProduct()->getName();
         }
-        $inventoryProductReceiveHeader->setProductDetailLists(implode(', ', $productList));
+        $productUniqueList = array_unique(explode(', ', implode(', ', $productList)));
+        $inventoryProductReceiveHeader->setProductDetailLists(implode(', ', $productUniqueList));
     }
 
     public function save(InventoryProductReceiveHeader $inventoryProductReceiveHeader, array $options = []): void
