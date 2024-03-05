@@ -7,11 +7,13 @@ use App\Entity\Master\DesignCode;
 use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
+use App\Entity\Master\DesignCodeProductDetail;
 use App\Entity\Support\Idempotent;
 use App\Repository\Master\DesignCodeRepository;
 use App\Repository\Master\DesignCodeCheckSheetDetailRepository;
 use App\Repository\Master\DesignCodeDistributionDetailRepository;
 use App\Repository\Master\DesignCodeProcessDetailRepository;
+use App\Repository\Master\DesignCodeProductDetailRepository;
 use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,6 +27,7 @@ class DesignCodeFormService
     private DesignCodeCheckSheetDetailRepository $designCodeCheckSheetDetailRepository;
     private DesignCodeDistributionDetailRepository $designCodeDistributionDetailRepository;
     private DesignCodeProcessDetailRepository $designCodeProcessDetailRepository;
+    private DesignCodeProductDetailRepository $designCodeProductDetailRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -35,6 +38,18 @@ class DesignCodeFormService
         $this->designCodeCheckSheetDetailRepository = $entityManager->getRepository(DesignCodeCheckSheetDetail::class);
         $this->designCodeDistributionDetailRepository = $entityManager->getRepository(DesignCodeDistributionDetail::class);
         $this->designCodeProcessDetailRepository = $entityManager->getRepository(DesignCodeProcessDetail::class);
+        $this->designCodeProductDetailRepository = $entityManager->getRepository(DesignCodeProductDetail::class);
+    }
+    
+    public function finalize(DesignCode $designCode, array $options = []): void
+    {
+        $productCodeList = array();
+        foreach ($designCode->getDesignCodeProductDetails() as $designCodeProductDetail) {
+            $product = $designCodeProductDetail->getProduct();
+            $productCodeList[] = $product->getCode();
+        }
+        $designCode->setCode(implode(', ', $productCodeList));
+        
     }
 
     public function save(DesignCode $designCode, array $options = []): void
@@ -50,6 +65,9 @@ class DesignCodeFormService
         }
         foreach ($designCode->getDesignCodeCheckSheetDetails() as $designCodeCheckSheetDetail) {
             $this->designCodeCheckSheetDetailRepository->add($designCodeCheckSheetDetail);
+        }
+        foreach ($designCode->getDesignCodeProductDetails() as $designCodeProductDetail) {
+            $this->designCodeProductDetailRepository->add($designCodeProductDetail);
         }
         $this->entityManager->flush();
     }
