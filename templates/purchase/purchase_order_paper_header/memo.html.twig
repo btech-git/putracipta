@@ -80,7 +80,7 @@
             </thead>
             <tbody>
                 {% set rowspan = 25 %}
-                {% for row in purchaseOrderPaperHeader.purchaseOrderPaperDetails|batch(rowspan, '') %}
+                {% for row in purchaseOrderPaperHeader.purchaseOrderPaperDetails|filter(purchaseOrderPaperDetail => not purchaseOrderPaperDetail.isCanceled and purchaseOrderPaperDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for purchaseOrderPaperDetail in row %}
                         <tr>
                             {% if purchaseOrderPaperDetail and not purchaseOrderPaperDetail.isCanceled %}

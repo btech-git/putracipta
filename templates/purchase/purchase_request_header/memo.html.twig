@@ -50,7 +50,7 @@
             </thead>
             <tbody>
                 {% set rowspan = 25 %}
-                {% for row in purchaseRequestHeader.purchaseRequestDetails|batch(rowspan, '') %}
+                {% for row in purchaseRequestHeader.purchaseRequestDetails|filter(purchaseRequestDetail => not purchaseRequestDetail.isCanceled and purchaseRequestDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for purchaseRequestDetail in row %}
                         <tr>
                             {% if purchaseRequestDetail and not purchaseRequestDetail.isCanceled %}
