@@ -99,6 +99,11 @@ class DeliveryHeader extends SaleHeader
         return $totalQuantity;
     }
 
+    public function getCodeNumberMemo(): string
+    {
+        return sprintf('%04d-%02d', intval($this->codeNumberOrdinal), intval($this->codeNumberYear));
+    }
+
     public function getId(): ?int
     {
         return $this->id;

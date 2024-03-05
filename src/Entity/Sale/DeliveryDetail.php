@@ -116,8 +116,9 @@ class DeliveryDetail extends SaleDetail
         return $total;
     }
 
-    public function getMasterOrderOrdinalYear() {
-        return $this->getMasterOrderProductDetail()->getMasterOrderHeader()->getCodeNumberOrdinal() . '.' . $this->getMasterOrderProductDetail()->getMasterOrderHeader()->getCodeNumberYear();
+    public function getMasterOrderOrdinalYear() 
+    {
+        return sprintf('%04d.%02d', intval($this->getMasterOrderProductDetail()->getMasterOrderHeader()->getCodeNumberOrdinal()), intval($this->getMasterOrderProductDetail()->getMasterOrderHeader()->getCodeNumberYear()));
     }
     
     public function getId(): ?int

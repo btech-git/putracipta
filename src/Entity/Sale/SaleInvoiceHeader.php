@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'sale_sale_invoice_header')]
 class SaleInvoiceHeader extends SaleHeader
 {
-    public const CODE_NUMBER_CONSTANT = 'SIN';
+    public const CODE_NUMBER_CONSTANT = 'INV';
     public const DISCOUNT_VALUE_TYPE_PERCENTAGE = 'percentage';
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';

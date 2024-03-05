@@ -33,6 +33,8 @@ class SaleOrderHeader extends SaleHeader
     public const TRANSACTION_STATUS_RELEASE = 'release';
     public const TRANSACTION_STATUS_PARTIAL_DELIVERY = 'partial_delivery';
     public const TRANSACTION_STATUS_FULL_DELIVERY = 'full_delivery';
+    public const TRANSACTION_TYPE_PRODUCTION = 'production';
+    public const TRANSACTION_TYPE_INTERNAL = 'internal';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -130,6 +132,9 @@ class SaleOrderHeader extends SaleHeader
     #[ORM\Column]
     #[Assert\NotNull]
     protected ?bool $isRead = false;
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionType = self::TRANSACTION_TYPE_PRODUCTION;
 
     public function __construct()
     {
@@ -503,6 +508,18 @@ class SaleOrderHeader extends SaleHeader
     public function setRejectedTransactionUser(?User $rejectedTransactionUser): self
     {
         $this->rejectedTransactionUser = $rejectedTransactionUser;
+
+        return $this;
+    }
+
+    public function getTransactionType(): ?string
+    {
+        return $this->transactionType;
+    }
+
+    public function setTransactionType(string $transactionType): self
+    {
+        $this->transactionType = $transactionType;
 
         return $this;
     }

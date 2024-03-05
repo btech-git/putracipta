@@ -80,6 +80,12 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column]
     private ?int $quantityStock = 0;
 
+    #[ORM\Column]
+    private ?int $quantityProduction = 0;
+
+    #[ORM\Column]
+    private ?int $quantityProductionRemaining = 0;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -96,6 +102,11 @@ class SaleOrderDetail extends SaleDetail
     public function getSyncRemainingDelivery(): int
     {
         return $this->quantity - $this->totalDelivery + $this->totalReturn;
+    }
+    
+    public function getSyncRemainingProduction(): int
+    {
+        return $this->quantity - $this->quantityProduction;
     }
 
     public function getSyncUnitPriceBeforeTax(): string
@@ -368,6 +379,30 @@ class SaleOrderDetail extends SaleDetail
     public function setQuantityStock(int $quantityStock): self
     {
         $this->quantityStock = $quantityStock;
+
+        return $this;
+    }
+
+    public function getQuantityProduction(): ?int
+    {
+        return $this->quantityProduction;
+    }
+
+    public function setQuantityProduction(int $quantityProduction): self
+    {
+        $this->quantityProduction = $quantityProduction;
+
+        return $this;
+    }
+
+    public function getQuantityProductionRemaining(): ?int
+    {
+        return $this->quantityProductionRemaining;
+    }
+
+    public function setQuantityProductionRemaining(int $quantityProductionRemaining): self
+    {
+        $this->quantityProductionRemaining = $quantityProductionRemaining;
 
         return $this;
     }
