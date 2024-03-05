@@ -23,9 +23,9 @@ class CustomerGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['id', 'company', 'name', 'phone', 'email', 'addressInvoice', 'isInactive'],
+                'field_names' => ['code', 'company', 'name', 'phone', 'email', 'addressInvoice', 'isInactive'],
                 'field_operators_list' => [
-                    'id' => [FilterContain::class, FilterNotContain::class],
+                    'code' => [FilterContain::class, FilterNotContain::class],
                     'company' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'addressInvoice' => [FilterContain::class, FilterNotContain::class],
@@ -41,9 +41,9 @@ class CustomerGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['id', 'company', 'name', 'phone', 'email', 'addressInvoice', 'isInactive'],
+                'field_names' => ['code', 'company', 'name', 'phone', 'email', 'addressInvoice', 'isInactive'],
                 'field_operators_list' => [
-                    'id' => [SortAscending::class, SortDescending::class],
+                    'code' => [SortAscending::class, SortDescending::class],
                     'company' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'addressInvoice' => [SortAscending::class, SortDescending::class],
