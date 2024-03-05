@@ -48,7 +48,7 @@ class DesignCode extends Master
     #[ORM\Column(length: 20)]
     private ?string $coating = '';
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 200)]
     private ?string $code = '';
 
     #[ORM\Column(length: 60)]
@@ -147,9 +147,6 @@ class DesignCode extends Master
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeDistributionDetail::class)]
     private Collection $designCodeDistributionDetails;
 
-    #[ORM\ManyToOne(inversedBy: 'designCodes')]
-    private ?Product $product = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $paperPlanoLength = '0.00';
 
@@ -159,17 +156,21 @@ class DesignCode extends Master
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $glossiness = '0.00';
 
+    #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProductDetail::class)]
+    private Collection $designCodeProductDetails;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
         $this->designCodeProcessDetails = new ArrayCollection();
         $this->designCodeCheckSheetDetails = new ArrayCollection();
         $this->designCodeDistributionDetails = new ArrayCollection();
+        $this->designCodeProductDetails = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . '-P' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-V' . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . '-R' . $this->version;
+        return str_pad($this->customer->getCode(), 3, '0', STR_PAD_LEFT) . '-P' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-V' . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . '-R' . $this->version;
     }
     
     public function getColorPantoneAdditional() 
@@ -760,18 +761,6 @@ class DesignCode extends Master
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getPaperPlanoLength(): ?string
     {
         return $this->paperPlanoLength;
@@ -804,6 +793,36 @@ class DesignCode extends Master
     public function setGlossiness(string $glossiness): self
     {
         $this->glossiness = $glossiness;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DesignCodeProductDetail>
+     */
+    public function getDesignCodeProductDetails(): Collection
+    {
+        return $this->designCodeProductDetails;
+    }
+
+    public function addDesignCodeProductDetail(DesignCodeProductDetail $designCodeProductDetail): self
+    {
+        if (!$this->designCodeProductDetails->contains($designCodeProductDetail)) {
+            $this->designCodeProductDetails->add($designCodeProductDetail);
+            $designCodeProductDetail->setDesignCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCodeProductDetail(DesignCodeProductDetail $designCodeProductDetail): self
+    {
+        if ($this->designCodeProductDetails->removeElement($designCodeProductDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($designCodeProductDetail->getDesignCode() === $this) {
+                $designCodeProductDetail->setDesignCode(null);
+            }
+        }
 
         return $this;
     }

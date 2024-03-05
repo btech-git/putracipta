@@ -67,14 +67,14 @@ class Product extends Master
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: DielineMillar::class)]
     private Collection $dielineMillars;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DesignCode::class)]
-    private Collection $designCodes;
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: DesignCodeProductDetail::class)]
+    private Collection $designCodeProductDetails;
 
     public function __construct()
     {
         $this->diecutKnives = new ArrayCollection();
         $this->dielineMillars = new ArrayCollection();
-        $this->designCodes = new ArrayCollection();
+        $this->designCodeProductDetails = new ArrayCollection();
     }
     
     public function getProductLengthWidthHeightCombination() {
@@ -291,29 +291,29 @@ class Product extends Master
     }
 
     /**
-     * @return Collection<int, DesignCode>
+     * @return Collection<int, DesignCodeProductDetail>
      */
-    public function getDesignCodes(): Collection
+    public function getDesignCodeProductDetails(): Collection
     {
-        return $this->designCodes;
+        return $this->designCodeProductDetails;
     }
 
-    public function addDesignCode(DesignCode $designCode): self
+    public function addDesignCodeProductDetail(DesignCodeProductDetail $designCodeProductDetail): self
     {
-        if (!$this->designCodes->contains($designCode)) {
-            $this->designCodes->add($designCode);
-            $designCode->setProduct($this);
+        if (!$this->designCodeProductDetails->contains($designCodeProductDetail)) {
+            $this->designCodeProductDetails->add($designCodeProductDetail);
+            $designCodeProductDetail->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeDesignCode(DesignCode $designCode): self
+    public function removeDesignCodeProductDetail(DesignCodeProductDetail $designCodeProductDetail): self
     {
-        if ($this->designCodes->removeElement($designCode)) {
+        if ($this->designCodeProductDetails->removeElement($designCodeProductDetail)) {
             // set the owning side to null (unless already changed)
-            if ($designCode->getProduct() === $this) {
-                $designCode->setProduct(null);
+            if ($designCodeProductDetail->getProduct() === $this) {
+                $designCodeProductDetail->setProduct(null);
             }
         }
 
