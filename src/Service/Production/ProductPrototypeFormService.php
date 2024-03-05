@@ -4,8 +4,10 @@ namespace App\Service\Production;
 
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductPrototype;
+use App\Entity\Production\ProductPrototypeDetail;
 use App\Entity\Support\Idempotent;
 use App\Repository\Production\ProductPrototypeRepository;
+use App\Repository\Production\ProductPrototypeDetailRepository;
 use App\Repository\Support\IdempotentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -15,6 +17,7 @@ class ProductPrototypeFormService
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
     private ProductPrototypeRepository $productPrototypeRepository;
+    private ProductPrototypeDetailRepository $productPrototypeDetailRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -22,6 +25,7 @@ class ProductPrototypeFormService
         $this->entityManager = $entityManager;
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->productPrototypeRepository = $entityManager->getRepository(ProductPrototype::class);
+        $this->productPrototypeDetailRepository = $entityManager->getRepository(ProductPrototypeDetail::class);
     }
 
     public function initialize(ProductPrototype $productPrototype, array $options = []): void
@@ -46,10 +50,6 @@ class ProductPrototypeFormService
             $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
             $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
         }
-        
-//        if ($options['transactionFile']) {
-//            $productPrototype->setProductionFileExtension($options['transactionFile']->guessExtension());
-//        }
     }
 
     public function save(ProductPrototype $productPrototype, array $options = []): void
@@ -57,17 +57,9 @@ class ProductPrototypeFormService
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
         $this->idempotentRepository->add($idempotent);
         $this->productPrototypeRepository->add($productPrototype);
+        foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
+            $this->productPrototypeDetailRepository->add($productPrototypeDetail);
+        }
         $this->entityManager->flush();
     }
-
-//    public function uploadFile(ProductPrototype $productPrototype, $transactionFile, $uploadDirectory): void
-//    {
-//        if ($transactionFile) {
-//            try {
-//                $filename = $productPrototype->getId() . '.' . $productPrototype->getProductionFileExtension();
-//                $transactionFile->move($uploadDirectory, $filename);
-//            } catch (FileException $e) {
-//            }
-//        }
-//    }
 }

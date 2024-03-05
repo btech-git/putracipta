@@ -79,12 +79,13 @@ class MasterOrderHeaderFormService
         }
         
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
-            $masterOrderProcessDetail = $masterOrderProductDetail->getSaleOrderDetail();
-            if (!empty($masterOrderProcessDetail)) {
-                $masterOrderProductDetail->setProduct($masterOrderProcessDetail->getProduct());
-                $masterOrderProductDetail->setQuantityOrder($masterOrderProcessDetail->getQuantity());
+            $saleOrderDetail = $masterOrderProductDetail->getSaleOrderDetail();
+            if (!empty($saleOrderDetail)) {
+                $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
+                $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
                 $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
                 $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
+                $saleOrderDetail->setQuantityProduction($masterOrderProductDetail->getQuantityOrder());
             }
         }
         
