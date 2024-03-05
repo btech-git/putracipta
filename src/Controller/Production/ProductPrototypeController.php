@@ -33,7 +33,27 @@ class ProductPrototypeController extends AbstractController
         $form = $this->createForm(ProductPrototypeGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $productPrototypes) = $productPrototypeRepository->fetchData($criteria);
+        list($count, $productPrototypes) = $productPrototypeRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('product_prototype_grid')['filter']['customer:company']) && isset($request->request->get('product_prototype_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 'c');
+                $add['filter']($qb, 'c', 'company', $request->request->get('product_prototype_grid')['filter']['customer:company']);
+                $add['sort']($qb, 'c', 'company', $request->request->get('product_prototype_grid')['sort']['customer:company']);
+            }
+            if (isset($request->request->get('product_prototype_grid')['filter']['designCode:codeNumber']) && isset($request->request->get('product_prototype_grid')['sort']['designCode:codeNumber'])) {
+                $qb->innerJoin("{$alias}.designCode", 'd');
+                $add['filter']($qb, 'd', 'code', $request->request->get('product_prototype_grid')['filter']['designCode:code']);
+                $add['sort']($qb, 'd', 'code', $request->request->get('product_prototype_grid')['sort']['designCode:code']);
+                $add['filter']($qb, 'd', 'variant', $request->request->get('product_prototype_grid')['filter']['designCode:variant']);
+                $add['sort']($qb, 'd', 'variant', $request->request->get('product_prototype_grid')['sort']['designCode:variant']);
+                $add['filter']($qb, 'd', 'version', $request->request->get('product_prototype_grid')['filter']['designCode:version']);
+                $add['sort']($qb, 'd', 'version', $request->request->get('product_prototype_grid')['sort']['designCode:version']);
+            }
+            if (isset($request->request->get('product_prototype_grid')['filter']['paper:name']) && isset($request->request->get('product_prototype_grid')['sort']['paper:name'])) {
+                $qb->innerJoin("{$alias}.paper", 'p');
+                $add['filter']($qb, 'p', 'name', $request->request->get('product_prototype_grid')['filter']['paper:name']);
+                $add['sort']($qb, 'p', 'name', $request->request->get('product_prototype_grid')['sort']['paper:name']);
+            }
+        });
 
         return $this->renderForm("production/product_prototype/_list.html.twig", [
             'form' => $form,

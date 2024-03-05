@@ -35,7 +35,13 @@ class MasterOrderHeaderController extends AbstractController
         $form = $this->createForm(MasterOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria);
+        list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            if (isset($request->request->get('master_order_header_grid')['filter']['customer:company']) && isset($request->request->get('master_order_header_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("{$alias}.customer", 'c');
+                $add['filter']($qb, 'c', 'company', $request->request->get('master_order_header_grid')['filter']['customer:company']);
+                $add['sort']($qb, 'c', 'company', $request->request->get('master_order_header_grid')['sort']['customer:company']);
+            }
+        });
 
         return $this->renderForm("production/master_order_header/_list.html.twig", [
             'form' => $form,
