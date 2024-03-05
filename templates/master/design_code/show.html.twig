@@ -21,7 +21,7 @@
             </tr>
             <tr>
                 <th>Customer</th>
-                <td>{{ designCode.customer.name|default }}</td>
+                <td>{{ designCode.customer.company|default }}</td>
             </tr>
             <tr>
                 <th>Nama Produk</th>
@@ -94,6 +94,30 @@
         </tbody>
     </table>
 
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="3" class="text-center bg-info">Product</th>
+            </tr>
+            <tr>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for designCodeProductDetail in designCode.designCodeProductDetails %}
+                {% if not designCodeProductDetail.isIsInactive %}
+                    <tr>
+                        <td>{{ designCodeProductDetail.product.code|default }}</td>
+                        <td>{{ designCodeProductDetail.product.name|default }}</td>
+                        <td>{{ designCodeProductDetail.product.productLengthWidthHeightCombination|default }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+          
     <table class="table table-bordered table-striped">
         <thead>
             <tr>

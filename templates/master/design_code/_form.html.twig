@@ -32,7 +32,7 @@
                 },
             }) }}
         </div>
-        <div class="col">
+        {#<div class="col">
             <div class="mb-3">
                 <label for="{{ form.product.vars.id }}-text" class="form-label">Nama Produk</label>
                 {{ form_row(form.product, {
@@ -62,7 +62,7 @@
                        ]|json_encode }}" />
                 {{ form_errors(form.product) }}
             </div>
-        </div>
+        </div>#}
         <div class="col">
             {{ form_row(form.status) }}
         </div>
@@ -78,6 +78,7 @@
                             <span class="input-group-text">P</span>
                             {{ form_widget(form.code, {
                                 'attr': {
+                                    'readonly': true,
                                     'data-controller': 'dom-element',
                                     'data-action': 'product-table:data-table:select@document->dom-element#bind',
                                     'data-dom-element-bind-specifications-param': [
@@ -172,6 +173,12 @@
         </div>
     </div>
          
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Products</legend>
+        <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add</button>
+        {{ include('master/design_code/_products_form.html.twig') }}
+    </fieldset>
+
     <fieldset class="border border-secondary rounded mb-3 p-3">
         <legend class="float-none w-auto text-dark px-1">Kebutuhan Material Kertas</legend>            
         <div class="row">
@@ -344,6 +351,7 @@
     {{ dialog.start('product-dialog', 'Product List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
+             data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}

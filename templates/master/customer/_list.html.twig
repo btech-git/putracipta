@@ -8,8 +8,8 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'id') }}>
-                    Code {{ grid.sort_char(form.sort.id.vars.value) }}
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'company') }}>
                     Company {{ grid.sort_char(form.sort.company.vars.value) }}
@@ -30,7 +30,7 @@
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'id') }} value="{{ form.filter.id.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'company') }} value="{{ form.filter.company.1.vars.value }}" />
@@ -58,7 +58,7 @@
         <tbody>
             {% for customer in customers %}
                 <tr>
-                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.code }}</td>
                     <td>{{ customer.company }}</td>
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.phone }}</td>
