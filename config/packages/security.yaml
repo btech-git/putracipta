@@ -71,7 +71,14 @@ security:
             ROLE_TRANSFER_ADD, ROLE_TRANSFER_EDIT,
             ROLE_FINISHED_GOODS_RECEIVE_ADD, ROLE_FINISHED_GOODS_RECEIVE_EDIT,
         ]
-        ROLE_REPORT: [ROLE_PURCHASE_REPORT, ROLE_SALE_REPORT, ROLE_INVENTORY_REPORT, ROLE_PRODUCTION_REPORT, ROLE_FINANCE_REPORT]
+        ROLE_REPORT: [
+            ROLE_PURCHASE_REPORT, 
+            ROLE_SALE_REPORT, 
+            ROLE_INVENTORY_MATERIAL_REPORT, 
+            ROLE_INVENTORY_FINISHED_GOODS_REPORT, 
+            ROLE_PRODUCTION_REPORT, 
+            ROLE_FINANCE_REPORT
+        ]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
