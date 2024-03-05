@@ -134,13 +134,14 @@ class DeliveryHeaderFormService
                 $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_FULL_DELIVERY);
             }
         }
-        $saleOrderReferenceNumberList = array();
+        $saleOrderReferenceNumberList = [];
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
         }
-        $deliveryHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
+        $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
+        $deliveryHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
     }
 
     public function save(DeliveryHeader $deliveryHeader, array $options = []): void

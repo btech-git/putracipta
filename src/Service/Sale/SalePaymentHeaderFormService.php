@@ -98,12 +98,13 @@ class SalePaymentHeaderFormService
         $salePaymentHeader->setTotalReceivable($salePaymentHeader->getSyncTotalReceivable());
         $salePaymentHeader->setReceivedAmount($salePaymentHeader->getSyncReceivedAmount());
         
-        $saleOrderReferenceNumberList = array();
+        $saleOrderReferenceNumberList = [];
         foreach ($salePaymentHeader->getSalePaymentDetails() as $salePaymentDetail) {
             $saleInvoiceHeader = $salePaymentDetail->getSaleInvoiceHeader();
             $saleOrderReferenceNumberList[] = $saleInvoiceHeader->getSaleOrderReferenceNumbers();
         }
-        $salePaymentHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
+        $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
+        $salePaymentHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
     }
 
     public function save(SalePaymentHeader $salePaymentHeader, array $options = []): void

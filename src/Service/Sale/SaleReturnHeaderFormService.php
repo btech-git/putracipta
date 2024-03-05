@@ -135,13 +135,16 @@ class SaleReturnHeaderFormService {
         $saleReturnHeader->setSubTotal($saleReturnHeader->getSyncSubTotal());
         $saleReturnHeader->setTaxNominal($saleReturnHeader->getSyncTaxNominal());
         $saleReturnHeader->setGrandTotal($saleReturnHeader->getSyncGrandTotal());
-
-//        if ($saleReturnHeader->getTaxMode() !== $saleReturnHeader::TAX_MODE_NON_TAX) {
-//            $saleReturnHeader->setTaxPercentage($options['vatPercentage']);
-//        } else {
-//            $saleReturnHeader->setTaxPercentage(0);
-//        }
-
+        
+        $saleOrderReferenceNumberList = [];
+        foreach ($saleReturnHeader->getSaleReturnDetails() as $saleReturnDetail) {
+            $deliveryDetail = $saleReturnDetail->getDeliveryDetail();
+            $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+            $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+            $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
+        }
+        $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
+        $saleReturnHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
     }
 
     public function save(SaleReturnHeader $saleReturnHeader, array $options = []): void {

@@ -91,18 +91,20 @@ class SaleInvoiceHeaderFormService
         $saleInvoiceHeader->setGrandTotal($saleInvoiceHeader->getSyncGrandTotal());
         $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
         
-        $saleOrderReferenceNumberList = array();
-        $deliveryReferenceNumberList = array();
+        $saleOrderReferenceNumberList = [];
+        $deliveryReferenceNumberList = [];
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
             $deliveryHeader = $deliveryDetail->getDeliveryHeader();
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
-            $deliveryReferenceNumberList[] = $deliveryHeader->getCodeNumber();
+            $deliveryReferenceNumberList[] = $deliveryHeader->getCodeNumberMemo();
         }
-        $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberList));
-        $saleInvoiceHeader->setDeliveryReferenceNumbers(implode(', ', $deliveryReferenceNumberList));
+        $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
+        $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
+        $deliveryReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $deliveryReferenceNumberList)));
+        $saleInvoiceHeader->setDeliveryReferenceNumbers(implode(', ', $deliveryReferenceNumberUniqueList));
     }
 
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void

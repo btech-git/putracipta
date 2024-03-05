@@ -62,7 +62,6 @@ class SaleOrderHeaderFormService
             $lastSaleOrderHeader = $this->saleOrderHeaderRepository->findRecentBy($year, $month);
             $currentSaleOrderHeader = ($lastSaleOrderHeader === null) ? $saleOrderHeader : $lastSaleOrderHeader;
             $saleOrderHeader->setCodeNumberToNext($currentSaleOrderHeader->getCodeNumber(), $year, $month);
-
         }
         
         foreach ($saleOrderHeader->getSaleOrderDetails() as $i => $saleOrderDetail) {
@@ -70,6 +69,7 @@ class SaleOrderHeaderFormService
             $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
             $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
             $saleOrderDetail->setLinePo($i + 1);
+            $saleOrderDetail->setQuantityProductionRemaining($saleOrderDetail->getSyncRemainingProduction());
             
             if ($saleOrderDetail->getRemainingDelivery() <= 0) {
                 $saleOrderDetail->setIsTransactionClosed(true);
