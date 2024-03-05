@@ -7,6 +7,7 @@ use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\StockDetail;
 use App\Entity\Production\MasterOrderProductDetail;
 use App\Repository\Stock\InventoryProductReceiveDetailRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryProductReceiveDetailRepository::class)]
@@ -33,14 +34,14 @@ class InventoryProductReceiveDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'inventoryProductReceiveDetails')]
     private ?SaleOrderDetail $saleOrderDetail = null;
 
-    #[ORM\Column]
-    private ?int $quantityBox = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityBox = '0.00';
 
-    #[ORM\Column]
-    private ?int $quantityBoxExtraPieces = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityBoxExtraPieces = '0.00';
 
-    #[ORM\Column]
-    private ?int $quantityTotalPieces = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityTotalPieces = '0.00';
 
     public function getSyncIsCanceled(): bool
     {
@@ -121,36 +122,36 @@ class InventoryProductReceiveDetail extends StockDetail
         return $this;
     }
 
-    public function getQuantityBox(): ?int
+    public function getQuantityBox(): ?string
     {
         return $this->quantityBox;
     }
 
-    public function setQuantityBox(int $quantityBox): self
+    public function setQuantityBox(string $quantityBox): self
     {
         $this->quantityBox = $quantityBox;
 
         return $this;
     }
 
-    public function getQuantityBoxExtraPieces(): ?int
+    public function getQuantityBoxExtraPieces(): ?string
     {
         return $this->quantityBoxExtraPieces;
     }
 
-    public function setQuantityBoxExtraPieces(int $quantityBoxExtraPieces): self
+    public function setQuantityBoxExtraPieces(string $quantityBoxExtraPieces): self
     {
         $this->quantityBoxExtraPieces = $quantityBoxExtraPieces;
 
         return $this;
     }
 
-    public function getQuantityTotalPieces(): ?int
+    public function getQuantityTotalPieces(): ?string
     {
         return $this->quantityTotalPieces;
     }
 
-    public function setQuantityTotalPieces(int $quantityTotalPieces): self
+    public function setQuantityTotalPieces(string $quantityTotalPieces): self
     {
         $this->quantityTotalPieces = $quantityTotalPieces;
 
