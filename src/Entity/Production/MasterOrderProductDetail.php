@@ -57,6 +57,9 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\Column]
     private ?int $remainingStockDelivery = 0;
 
+    #[ORM\Column]
+    private ?int $quantityPrinting = 0;
+
     public function __construct()
     {
         $this->inventoryProductReceiveDetails = new ArrayCollection();
@@ -82,6 +85,11 @@ class MasterOrderProductDetail extends ProductionDetail
     public function getSyncRemainingStockDelivery() 
     {
         return $this->quantityProduction - $this->quantityDelivery;
+    }
+    
+    public function getDeliveryLotNumber()
+    {
+        return sprintf('%04d.%02d', intval($this->getMasterOrderHeader()->getCodeNumberOrdinal()), intval($this->getMasterOrderHeader()->getCodeNumberYear()));
     }
     
     public function getId(): ?int
@@ -265,6 +273,18 @@ class MasterOrderProductDetail extends ProductionDetail
     public function setRemainingStockDelivery(int $remainingStockDelivery): self
     {
         $this->remainingStockDelivery = $remainingStockDelivery;
+
+        return $this;
+    }
+
+    public function getQuantityPrinting(): ?int
+    {
+        return $this->quantityPrinting;
+    }
+
+    public function setQuantityPrinting(int $quantityPrinting): self
+    {
+        $this->quantityPrinting = $quantityPrinting;
 
         return $this;
     }

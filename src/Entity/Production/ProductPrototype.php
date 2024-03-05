@@ -91,17 +91,18 @@ class ProductPrototype extends ProductionHeader
     private array $coatingList = [];
 
     #[ORM\ManyToOne]
-    private ?Product $product = null;
-
-    #[ORM\ManyToOne]
     private ?DesignCode $designCode = null;
 
     #[ORM\OneToMany(mappedBy: 'productPrototype', targetEntity: ProductDevelopment::class)]
     private Collection $productDevelopments;
 
+    #[ORM\OneToMany(mappedBy: 'productPrototype', targetEntity: ProductPrototypeDetail::class)]
+    private Collection $productPrototypeDetails;
+
     public function __construct()
     {
         $this->productDevelopments = new ArrayCollection();
+        $this->productPrototypeDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -246,18 +247,6 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getDesignCode(): ?DesignCode
     {
         return $this->designCode;
@@ -294,6 +283,36 @@ class ProductPrototype extends ProductionHeader
             // set the owning side to null (unless already changed)
             if ($productDevelopment->getProductPrototype() === $this) {
                 $productDevelopment->setProductPrototype(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductPrototypeDetail>
+     */
+    public function getProductPrototypeDetails(): Collection
+    {
+        return $this->productPrototypeDetails;
+    }
+
+    public function addProductPrototypeDetail(ProductPrototypeDetail $productPrototypeDetail): self
+    {
+        if (!$this->productPrototypeDetails->contains($productPrototypeDetail)) {
+            $this->productPrototypeDetails->add($productPrototypeDetail);
+            $productPrototypeDetail->setProductPrototype($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductPrototypeDetail(ProductPrototypeDetail $productPrototypeDetail): self
+    {
+        if ($this->productPrototypeDetails->removeElement($productPrototypeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($productPrototypeDetail->getProductPrototype() === $this) {
+                $productPrototypeDetail->setProductPrototype(null);
             }
         }
 
