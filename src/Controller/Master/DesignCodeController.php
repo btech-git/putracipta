@@ -69,6 +69,7 @@ class DesignCodeController extends AbstractController
         $designCode = new DesignCode();
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
+        $designCodeFormService->finalize($designCode);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
@@ -103,6 +104,7 @@ class DesignCodeController extends AbstractController
         $designCode = $designCodeFormService->copyFrom($sourceDesignCode);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
+        $designCodeFormService->finalize($designCode);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
@@ -126,6 +128,7 @@ class DesignCodeController extends AbstractController
     {
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
+        $designCodeFormService->finalize($designCode);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $designCodeFormService->save($designCode);
