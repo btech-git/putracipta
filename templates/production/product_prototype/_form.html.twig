@@ -18,7 +18,28 @@
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
-                    {#<div class="mb-3">
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.designCode.vars.id }}-text" class="form-label">Kode Design</label>
+                        {{ form_row(form.designCode, {
+                            'attr': {
+                                'data-controller': 'dom-element',
+                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-dom-element-bind-specifications-param': [
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
+                                ]|json_encode,
+                            },
+                        }) }}
+                        <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.designCode.codeNumber|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#design-code-dialog"
+                               data-controller="dom-element"
+                               data-action="design-code-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeNumber'}},
+                               ]|json_encode }}" />
+                        {{ form_errors(form.designCode) }}
+                    </div>
+                        {#<div class="mb-3">
                         <label for="{{ form.customer.vars.id }}-text" class="form-label">Customer</label>
                         {{ form_row(form.customer, {
                             'attr': {
@@ -38,6 +59,9 @@
                                ]|json_encode }}" />
                         {{ form_errors(form.customer) }}
                     </div>#}
+                </div>
+                    
+                <div class="col">
                     {{ form_row(form.customer, {
                         'label': 'Customer',
                         'attr': {
@@ -46,10 +70,7 @@
                         },
                     }) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
-                </div>
-                    
-                <div class="col">
-                    <div class="mb-3">
+                    {#<div class="mb-3">
                         <label for="{{ form.product.vars.id }}-text" class="form-label">Kode Produk</label>
                         {{ form_row(form.product, {
                             'attr': {
@@ -86,29 +107,14 @@
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productMeasurement'}},
                                ]|json_encode }}" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="{{ form.designCode.vars.id }}-text" class="form-label">Kode Design</label>
-                        {{ form_row(form.designCode, {
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
-                                ]|json_encode,
-                            },
-                        }) }}
-                        <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ productPrototype.designCode.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#design-code-dialog"
-                               data-controller="dom-element"
-                               data-action="design-code-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeNumber'}},
-                               ]|json_encode }}" />
-                        {{ form_errors(form.designCode) }}
-                    </div>
+                    </div>#}
                 </div>
             </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Products</legend>
+            {{ include('production/product_prototype/_details_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
@@ -216,16 +222,10 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('product-dialog', 'Product List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
-             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
-        </div>
-    {{ dialog.end() }}
-
     {{ dialog.start('design-code-dialog', 'Design Code List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
+             data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}

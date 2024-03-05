@@ -14,7 +14,7 @@
                         <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
                     </div>
                     <div class="row">
-                        <div class="cell label" style="font-size: 18px; text-align: center">CHECKLIST LINE CLEARANCE DIECUT</div>
+                        <div class="cell label" style="font-size: 18px; text-align: center">CHECKLIST LINE CLEARANCE SORTIR</div>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="cell label">No Dokumen</div>
                         <div class="cell label">:</div>
-                        <div class="cell label">F/PCK/PPIC/8.5-13</div>
+                        <div class="cell label">F/PCK/PROD/8.5-11</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Revisi</div>
@@ -52,8 +52,8 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">Mesin</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell label">Bagian</div>
+                        <div class="cell value"></div>
                     </div>
                     <div class="row">
                         <div class="cell label">No WO</div>
@@ -100,12 +100,9 @@
             <tr>
                 <td style="width: 5%; font-weight: bold; text-align: center" rowspan="2">No</td>
                 <td style="width: 50%; font-weight: bold; text-align: center" rowspan="2">ITEM CLEAN</td>
-                <td style="font-weight: bold; text-align: center" colspan="2">CHECKLIST-1</td>
-                <td style="font-weight: bold; text-align: center" colspan="2">CHECKLIST-2</td>
+                <td style="font-weight: bold; text-align: center" colspan="2">CHECKLIST</td>
             </tr>
             <tr>
-                <td style="font-weight: bold; text-align: center">OK</td>
-                <td style="font-weight: bold; text-align: center">NG</td>
                 <td style="font-weight: bold; text-align: center">OK</td>
                 <td style="font-weight: bold; text-align: center">NG</td>
             </tr>
@@ -114,14 +111,10 @@
                 <td>Cek kesesuaian Working Order (WO)</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">2</td>
                 <td>Cek kesesuaian barang</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
@@ -130,86 +123,64 @@
                 <td>Cek kesesuaian jumlah</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">4</td>
                 <td>Cek kecukupan bahan</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">5</td>
-                <td>Area kerja/mesin sudah tidak ada bahan-bahan setelan</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Cek sekitar area/mesin sudah tidak ada bahan lain</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">6</td>
-                <td>Area kerja/mesin sudah tidak ada produk-produk bekas setelan</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Cek sekitar area/mesin sudah tidak ada produk lain</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">7</td>
-                <td>Sudah tersedia box/kontainer Rijeck</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Cek ketersediaan label dan sudah tidak ada label produk lain</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">8</td>
-                <td>Sudah tersedia palet awal jalan produksi</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Cek kesiapan dan kesesuaian Palet/Box/Kontainer</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">9</td>
-                <td>Sudah tersedia palet Mass. Production</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Cek kesiapan dan kesesuaian Peralatan/Timbangan</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">10</td>
-                <td>Sudah tersedia label Hold dan Release</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Cek kesiapan dan kesesuaian standar yang digunakan</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">11</td>
-                <td>Sisa-sisa setelan sudah dipindahkan ke box Rijeck</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Bersihkan meja sortir dari sisa-sisa kotoran dan debu kertas</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">12</td>
-                <td>Cek kesiapan dan kesesuaian Peralatan</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Pastikan tidak ada botol/gelas minuman yang ditempatkan di meja sortir</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td class="center">13</td>
-                <td>Cek kesiapan dan kesesuaian Standar yang digunakan</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>Pastikan tidak ada karet atau cutter yang berada di meja sortir</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>

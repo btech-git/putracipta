@@ -20,6 +20,7 @@
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 150px">Stock</th>
                 <th style="min-width: 100px">Kekurangan</th>
+                <th style="min-width: 100px">Up Cetak</th>
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
@@ -57,6 +58,7 @@
                     </td>
                     <td class="text-center" data-json-loader-target="placeholder"
                         data-property-path="masterOrderProductDetails.{{ detailForm.vars.name }}.quantityShortage">{{ detailForm.vars.value.quantityShortage|default|number_format(0) }}</td>
+                    <td class="text-center">{{ form_row(detailForm.quantityPrinting, {'label': false}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
@@ -96,7 +98,7 @@
                     data-property-path="totalQuantityShortage">
                     {{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}
                 </td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
         </tfoot>
     </table>

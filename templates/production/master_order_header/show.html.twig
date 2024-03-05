@@ -69,19 +69,19 @@
                 <th>Ukuran Mountage / Kris (cm)</th>
                 <td>{{ masterOrderHeader.mountageSize|default|number_format(0) }}</td>
             </tr>
-            <tr>
+            {#<tr>
                 <th>Jumlah Up Cetak</th>
                 <td>{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</td>
                 <th></th>
                 <td></td>
-            </tr>
+            </tr>#}
         </tbody>
     </table>
          
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th colspan='10' class='text-center bg-info'>PRODUCT DETAILS</th>
+                <th colspan='11' class='text-center bg-info'>PRODUCT DETAILS</th>
             </tr>
             <tr>
                 <th style="min-width: 150px">PO#</th>
@@ -94,6 +94,7 @@
                 <th style="min-width: 100px" class="text-center">Qty Order</th>
                 <th style="min-width: 100px" class="text-center">Stock</th>
                 <th style="min-width: 100px" class="text-center">Kekurangan</th>
+                <th style="min-width: 100px" class="text-center">Up Cetak</th>
             </tr>
         </thead>
         <tbody>
@@ -109,6 +110,7 @@
                     <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                    <td class="text-center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                 </tr>
             {% endfor %}
         </tbody>

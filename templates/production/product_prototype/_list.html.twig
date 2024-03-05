@@ -14,14 +14,14 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productCode') }}>
-                    Kode {{ grid.sort_char(form.sort.productCode.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
+                    Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'productName') }}>
-                    Nama {{ grid.sort_char(form.sort.productName.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'designCode:code') }}>
+                    Kode Design {{ grid.sort_char(form.sort['designCode:code'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'measurement') }}>
-                    Ukuran Jadi {{ grid.sort_char(form.sort.measurement.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'paper:name') }}>
+                    Material {{ grid.sort_char(form.sort['paper:name'].vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
@@ -45,13 +45,15 @@
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'productCode') }} value="{{ form.filter.productCode.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'productName') }} value="{{ form.filter.productName.1.vars.value }}" />
+                    P<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:code') }} value="{{ form.filter['designCode:code'].1.vars.value }}" />
+                    -V<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:variant') }} value="{{ form.filter['designCode:variant'].1.vars.value }}" />
+                    -R<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:version') }} value="{{ form.filter['designCode:version'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'measurement') }} value="{{ form.filter.measurement.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
@@ -64,9 +66,9 @@
                 <tr>
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ productPrototype.product.code|default }}</td>
-                    <td>{{ productPrototype.product.name|default }}</td>
-                    <td>{{ productPrototype.product.productLengthWidthHeightCombination|default }}</td>
+                    <td>{{ productPrototype.customer.company|default }}</td>
+                    <td>{{ productPrototype.designCode.codeNumber|default }}</td>
+                    <td>{{ productPrototype.paper.codeNumber|default }}</td>
                     <td>{{ productPrototype.note }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_production_product_prototype_show', {'id': productPrototype.id}) }}"><i class="bi-search"></i></a>

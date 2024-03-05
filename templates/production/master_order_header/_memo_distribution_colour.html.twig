@@ -100,10 +100,10 @@
                         <div class="cell label">Material Kertas</div>
                         <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
                     </div>
-                    <div class="row">
+                    {#<div class="row">
                         <div class="cell label">Jumlah Up Cetak</div>
                         <div class="cell value">{{ masterOrderHeader.quantityPrinting }} & {{ masterOrderHeader.quantityPrinting2 }} Up/s</div>
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </div>
@@ -120,6 +120,7 @@
                     <th>Qty Order</th>
                     <th>Stock</th>
                     <th>Kekurangan</th>
+                    <th>Up/s (Mata)</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,6 +133,7 @@
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                        <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -141,6 +143,7 @@
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>

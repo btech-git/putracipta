@@ -14,7 +14,9 @@
                 <th style="min-width: 60px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px">Customer</th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
+                    Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
+                </th>
                 <th style="min-width: 150px">Design Code</th>
                 <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'orderType') }}>
                     Jenis {{ grid.sort_char(form.sort.orderType.vars.value) }}
@@ -40,7 +42,9 @@
                 <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                </th>
                 <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'orderType') }} value="{{ form.filter.orderType.1.vars.value }}" />

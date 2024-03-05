@@ -64,10 +64,6 @@
                         <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Status Cetakan</div>
-                        <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</div>
-                    </div>
-                    <div class="row">
                         <div class="cell label">Warna</div>
                         <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
@@ -104,9 +100,13 @@
                         <div class="cell value">{{ masterOrderHeader.finishing|default }}</div>
                     </div>
                     <div class="row">
+                        <div class="cell label">Status Cetakan</div>
+                        <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</div>
+                    </div>
+                    {#<div class="row">
                         <div class="cell label">Up/s (Mata)</div>
                         <div class="cell value">{{ masterOrderHeader.quantityPrinting }} & {{ masterOrderHeader.quantityPrinting2 }} Up/s</div>
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </div>
@@ -124,6 +124,7 @@
                 <th>Qty Order</th>
                 <th>Stock</th>
                 <th>Kekurangan</th>
+                <th>Up/s (Mata)</th>
             </tr>
         </thead>
         <tbody>
@@ -136,6 +137,7 @@
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                    <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -145,6 +147,7 @@
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+                <td></td>
             </tr>
         </tfoot>
     </table>

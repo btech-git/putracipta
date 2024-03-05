@@ -19,24 +19,16 @@
             <tr>
                 <th>Produk Baru #</th>
                 <td>{{ productPrototype.getCodeNumber }}</td>
-                <th>Kode Produk</th>
-                <td>{{ productPrototype.product.code|default }}</td>
-            </tr>
-            <tr>
                 <th>Tanggal</th>
                 <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
-                <th>Nama Produk</th>
-                <td>{{ productPrototype.product.name|default }}</td>
             </tr>
             <tr>
                 <th>Customer</th>
                 <td>{{ productPrototype.customer.name|default }}</td>
-                <th>Ukuran Jadi</th>
-                <td>{{ productPrototype.product.productLengthWidthHeightCombination|default }}</td>
-            </tr>
-            <tr>
                 <th>Marketing</th>
                 <td>{{ productPrototype.employee.name|default }}</td>
+            </tr>
+            <tr>
                 <th>Kode Design</th>
                 <td>{{ productPrototype.designCode.codeNumber|default }}</td>
             </tr>
@@ -46,7 +38,29 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th colspan='6' class='text-center'>SPESIFIKASI</th>
+                <th colspan='3' class='text-center bg-info'>PRODUCTS</th>
+            </tr>
+            <tr>
+                <th class="text-center">Item Code</th>
+                <th class="text-center">Item Name</th>
+                <th class="text-center">Ukuran Jadi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
+            <tr>
+                <td>{{ productPrototypeDetail.product.code|default }}</td>
+                <td>{{ productPrototypeDetail.product.name|default }}</td>
+                <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+                
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='6' class='text-center bg-info'>SPESIFIKASI</th>
             </tr>
         </thead>
         <tbody>
@@ -61,6 +75,7 @@
             <tr>
                 <th>Warna (TC/Pantone)</th>
                 <td>{{ productPrototype.color }}</td>
+            </tr>
             <tr>
                 <th>Quantity (pcs)</th>
                 <td>{{ productPrototype.quantityProduction|number_format(0) }}</td>
@@ -75,7 +90,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th colspan='6' class='text-center'>FINISHING</th>
+                <th colspan='6' class='text-center bg-info'>FINISHING</th>
             </tr>
         </thead>
         <tbody>
@@ -105,7 +120,7 @@
     <br />
     
     <div class="d-inline-block">
-        <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_product_prototype_memo', {'id': productPrototype.id}) }}">Print Formulir Produk Baru</a>
+        <a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_production_product_prototype_memo', {'id': productPrototype.id}) }}">Print Formulir Produk Baru</a>
     </div>
     
     {#<div class="text-center">

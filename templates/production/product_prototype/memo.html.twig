@@ -140,19 +140,39 @@
                                 <div class="cell value">{{ productPrototype.customer.company|default }}</div>
                             </div>
                             <div class="row">
-                                <div class="cell label">Nama Produk</div>
-                                <div class="cell value">{{ productPrototype.productName|default }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Kode Produk</div>
-                                <div class="cell value">{{ productPrototype.productCode|default }}</div>
+                                <div class="cell label">Kode Design</div>
+                                <div class="cell value">{{ productPrototype.designCode.codeNumber|default }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </fieldset>
-                            
+                    
+        <fieldset class="border border-secondary rounded mb-3 p-3">  
+            <table class="detail">
+                <thead>
+                    <tr>
+                        <th colspan='3' class='center'>PRODUCTS</th>
+                    </tr>
+                    <tr>
+                        <th class="center">Item Code</th>
+                        <th class="center">Item Name</th>
+                        <th class="center">Ukuran Jadi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
+                    <tr>
+                        <td>{{ productPrototypeDetail.product.code|default }}</td>
+                        <td>{{ productPrototypeDetail.product.name|default }}</td>
+                        <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
+                
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="note">
                 <h3>SPESIFIKASI</h3>
