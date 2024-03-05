@@ -19,7 +19,7 @@ class DeliveryDetailType extends AbstractType
         $builder
             ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('isCanceled')
-//            ->add('lotNumber')
+            ->add('lotNumber')
             ->add('packaging')
             ->add('fscCode', ChoiceType::class, ['choices' => [
                 '' => '',

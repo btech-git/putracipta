@@ -54,6 +54,10 @@ class SaleOrderHeaderType extends AbstractType
             ->add('deliveryAddressOrdinal', TextType::class)
             ->add('customerName', TextType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+            ->add('transactionType', ChoiceType::class, ['choices' => [
+                'Produksi' => SaleOrderHeader::TRANSACTION_TYPE_PRODUCTION,
+                'Internal' => SaleOrderHeader::TRANSACTION_TYPE_INTERNAL,
+            ]])
             ->add('transactionFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,

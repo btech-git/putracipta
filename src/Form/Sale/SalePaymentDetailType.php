@@ -31,7 +31,7 @@ class SalePaymentDetailType extends AbstractType
                 '0.00%' => SalePaymentDetail::SERVICE_TAX_MODE_NON_TAX,
                 "{$serviceTaxPercentage}%" => SalePaymentDetail::SERVICE_TAX_MODE_TAX,
             ]])
-            ->add('serviceTaxNominal')
+//            ->add('serviceTaxNominal')
             ->add('isCanceled')
             ->add('account', null, [
                 'choice_label' => 'name',
