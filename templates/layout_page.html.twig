@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% set menu = {
+    {#{% set menu = {
         'ADMINISTRATION': {
             'User Management': ['app_admin_user_index', ['ROLE_USER']],
             'Transaction Settings': ['app_admin_literal_config_index', ['ROLE_USER']],
@@ -65,7 +65,7 @@
         },
     } %}
 
-    {% set actionNames = {'index': '*', 'new': '*', 'edit': '*', 'show': '*', 'head': '*', 'add': '*', 'approval': '*', 'new_repeat': '*'} %}
+    {% set actionNames = {'index': '*', 'new': '*', 'edit': '*', 'show': '*', 'head': '*', 'add': '*', 'approval': '*', 'new_repeat': '*'} %}#}
 
     <div class="container-fluid">
         <div class="row flex-nowrap">
@@ -76,7 +76,82 @@
                             <strong>PT Putracipta Karindomas</strong>
                         </span>
                     </a>
-                    {% set activeClass = 'bg-light border border-3 border-primary rounded' %}
+
+                    {% import 'app/navigation_menu.html.twig' as menu %}
+
+                    {{ menu.start() }}
+                        {{ menu.render_1('MENU_DASHBOARD') }}
+                        {{ menu.render_2('MENU_ADMINISTRATION', {
+                            'MENU_USER_MANAGEMENT': 'User Management', 
+                            'MENU_TRANSACTION_SETTING': 'Transaction Setting'
+                        }) }}
+                        {{ menu.render_2('MENU_MASTER', {
+                            'MENU_EMPLOYEE': 'Employee', 
+                            'MENU_SUPPLIER': 'Supplier', 
+                            'MENU_CUSTOMER': 'Customer',
+                            'MENU_PRODUCT': 'Product', 
+                            'MENU_PAPER': 'Kertas', 
+                            'MENU_MATERIAL': 'Material',
+                            'MENU_DESIGN_CODE': 'Design Code', 
+                            'MENU_DIECUT_KNIFE': 'Pisau Diecut', 
+                            'MENU_DIELINE_MILLAR': 'Millar',
+                            'MENU_WORK_ORDER_PROCESS': 'WO Process', 
+                            'MENU_WORK_ORDER_DISTRIBUTION': 'WO Distribusi', 
+                            'MENU_WORK_ORDER_CHECK_SHEET': 'WO Check Sheet',
+                            'MENU_MACHINE_PRINTING': 'Mesin Cetak', 
+                            'MENU_MATERIAL_CATEGORY': 'Kategori Material', 
+                            'MENU_MATERIAL_SUB_CATEGORY': 'Sub Kategori Material',
+                            'MENU_WAREHOUSE': 'Gudang', 
+                            'MENU_TRANSPORTATION': 'Kendaraan',
+                            'MENU_UNIT': 'Satuan Barang', 
+                            'MENU_PAYMENT_TYPE': 'Jenis Pembayaran', 
+                            'MENU_CHART_OF_ACCOUNT': 'Chart of Account'
+                        }) }}
+                        {{ menu.render_2('MENU_PURCHASE', {
+                            'MENU_PURCHASE': 'PEMBELIAN', 
+                            'MENU_PURCHASE_REQUEST_MATERIAL': 'Permintaan Pembelian Material', 
+                            'MENU_PURCHASE_REQUEST_PAPER': 'Permintaan Pembelian Kertas',
+                            'MENU_PURCHASE_ORDER_MATERIAL': 'Order Pembelian Material', 
+                            'MENU_PURCHASE_ORDER_PAPER': 'Order Pembelian Kertas',
+                            'MENU_PURCHASE_INVOICE': 'Invoice Pembelian', 
+                            'MENU_PURCHASE_PAYMENT': 'Pembayaran Pembelian'
+                        }) }}
+                        {{ menu.render_2('MENU_SALE', {
+                            'MENU_SALE': 'PENJUALAN', 
+                            'MENU_SALE_ORDER': 'Customer Order', 
+                            'MENU_SALE_INVOICE': 'Faktur Penjualan', 
+                            'MENU_SALE_PAYMENT': 'Pelunasan Penjualan'
+                        }) }}
+                        {{ menu.render_2('MENU_WAREHOUSE_MATERIAL', {
+                            'MENU_WAREHOUSE_MATERIAL': 'GUDANG MATERIAL', 
+                            'MENU_PURCHASE_RECEIVE': 'Penerimaan Material', 
+                            'MENU_PURCHASE_RETURN': 'Retur Pembelian', 
+                            'MENU_ADJUSTMENT_STOCK': 'Penyesuaian Stok', 
+                            'MENU_MATERIAL_REQUEST': 'Permintaan Material', 
+                            'MENU_MATERIAL_RELEASE': 'Pengeluaran Material', 
+                            'MENU_STOCK_TRANSFER': 'Transfer Stok'
+                        }) }}
+                        {{ menu.render_2('MENU_WAREHOUSE_FINISHED_GOODS', {
+                            'MENU_WAREHOUSE_FINISHED_GOODS': 'GUDANG FG', 
+                            'MENU_SALE_DELIVERY': 'Pengiriman Barang', 
+                            'MENU_SALE_RETURN': 'Retur Penjualan', 
+                            'MENU_PRODUCTION_RECEIVE': 'Penerimaan Produksi FG'
+                        }) }}
+                        {{ menu.render_2('MENU_PRODUCTION', {
+                            'MENU_PRODUCTION': 'PRODUKSI', 
+                            'MENU_PRODUCT_PROTOTYPE': 'Formulir Produk Baru', 
+                            'MENU_DEVELOPMENT_PRODUCT': 'Development Produk', 
+                            'MENU_MASTER_ORDER': 'Master Order'
+                        }) }}
+                        {{ menu.render_2('MENU_FINANCE', {
+                            'MENU_FINANCE': 'KEUANGAN', 
+                            'MENU_DEPOSIT': 'Penerimaan kas / bank', 
+                            'MENU_EXPENSE': 'Pengeluaran kas / bank'
+                        }) }}
+                        {{ menu.render_1('MENU_REPORT', null, 'app_menu_report') }}
+                    {{ menu.end() }}
+
+                    {#{% set activeClass = 'bg-light border border-3 border-primary rounded' %}
                     <div class="mb-sm-auto mb-0 overflow-auto" style="max-height: 512px">
                         <ul class="nav nav-pills flex-column align-items-center align-items-sm-start" id="menu" data-controller="scroll-element" data-scroll-element-active-class="{{ activeClass }}">
                             <li class="w-100 {% if app.request.attributes.get("_route") == 'app_home_page' %}{{ activeClass }}{% endif %}">
@@ -84,7 +159,7 @@
                                     <span class="ps-1 d-none d-sm-inline {% if app.request.attributes.get("_route") == 'app_home_page' %}text-dark{% else %}text-white{% endif %}">DASHBOARD</span>
                                 </a>
                             </li>
-                            {% set activeRoute = '' %}
+                            {% set mainRoute = '' %}
                             {% set views = menu|map(v1 => app.request.attributes.get("_route")|replace(actionNames) in v1|map(v2 => v2[0]|replace(actionNames))) %}
                             {% for title, content in menu %}
                                 <li>
@@ -101,7 +176,7 @@
                                                     </a>
                                                 </li>
                                                 {% if active %}
-                                                    {% set activeRoute = item[0] %}
+                                                    {% set mainRoute = item[0] %}
                                                 {% endif %}
                                             {% endif %}
                                         {% endfor %}
@@ -114,7 +189,8 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div>#}
+
                     <div class="dropdown pb-4">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi-person-circle" style="font-size: 2rem"></i>
@@ -148,21 +224,24 @@
                         </div>
                     </div>
                     <hr />
-                    {% if activeRoute != '' %}
+                    {% set frontRoute = 'app_home_page' %}
+                    {% set mainRoute = user_menu.menuAttributes|map((attr, name) => user_menu.accessed(name) ? attr.route : '')|join('') %}
+                    {% set currentRoute = app.request.attributes.get('_route') %}
+                    {% if currentRoute != frontRoute and mainRoute != '' %}
                         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 {% set controllerNames = app.request.attributes.get("_controller")|split('\\')|last|split('::') %}
                                 {% set controllerClass = controllerNames[0]|replace({'Controller': ''})|humanize %}
                                 {% set controllerAction = controllerNames[1]|humanize %}
-                                <li class="breadcrumb-item"><a href="{{ path('app_home_page') }}">Home</a></li>
-                                <li class="breadcrumb-item text-capitalize {{ activeRoute == app.request.attributes.get("_route") ? 'active' : '' }}">
-                                    {% if activeRoute == app.request.attributes.get("_route") %}
+                                <li class="breadcrumb-item"><a href="{{ path(frontRoute) }}">Home</a></li>
+                                <li class="breadcrumb-item text-capitalize {{ mainRoute == currentRoute ? 'active' : '' }}">
+                                    {% if mainRoute == currentRoute %}
                                         {{ controllerClass }}
                                     {% else %}
-                                        <a href="{{ path(activeRoute) }}">{{ controllerClass }}</a>
+                                        <a href="{{ path(mainRoute) }}">{{ controllerClass }}</a>
                                     {% endif %}
                                 </li>
-                                {% if activeRoute != app.request.attributes.get("_route") %}
+                                {% if mainRoute != currentRoute %}
                                     <li class="breadcrumb-item text-capitalize active">{{ controllerAction }}</li>
                                 {% endif %}
                             </ol>
