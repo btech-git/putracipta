@@ -2,13 +2,13 @@
 
 namespace App\Form\Master;
 
-use App\Common\Form\Type\EntityHiddenType;
+//use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
-use App\Entity\Master\Product;
+use App\Entity\Master\DesignCodeProductDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -29,7 +29,6 @@ class DesignCodeType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('product', EntityHiddenType::class, ['class' => Product::class])
             ->add('name', HiddenType::class, ['label' => 'Nama Produk'])
             ->add('code', null, ['label' => 'Kode Produk'])
             ->add('variant', null, ['label' => false])
@@ -132,6 +131,14 @@ class DesignCodeType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => new DesignCodeCheckSheetDetail(),
+                'label' => false,
+            ])
+            ->add('designCodeProductDetails', CollectionType::class, [
+                'entry_type' => DesignCodeProductDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new DesignCodeProductDetail(),
                 'label' => false,
             ])
         ;

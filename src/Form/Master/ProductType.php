@@ -52,6 +52,7 @@ class ProductType extends AbstractType
                             'application/pdf',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
+                        'maxSizeMessage' => 'Please upload file size smaller than 5MB',
                     ])
                 ],
             ])

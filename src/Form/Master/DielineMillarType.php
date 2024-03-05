@@ -22,7 +22,7 @@ class DielineMillarType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('name', null, ['label' => 'Nama Produk'])
+//            ->add('name', null, ['label' => 'Nama Produk'])
             ->add('code', null, ['label' => 'Kode'])
             ->add('version', null, ['label' => 'Revisi'])
             ->add('product', EntityHiddenType::class, ['class' => Product::class])
