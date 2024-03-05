@@ -57,8 +57,8 @@ class MasterOrderHeaderType extends AbstractType
             ->add('color')
             ->add('pantone')
             ->add('finishing')
-            ->add('quantityPrinting', FormattedNumberType::class, ['decimals' => 0])
-            ->add('quantityPrinting2', FormattedNumberType::class, ['decimals' => 0])
+//            ->add('quantityPrinting', FormattedNumberType::class, ['decimals' => 0])
+//            ->add('quantityPrinting2', FormattedNumberType::class, ['decimals' => 0])
             ->add('mountageSize')
             ->add('orderType', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'MO Biasa' => MasterOrderHeader::ORDER_TYPE_REGULAR,
@@ -150,7 +150,8 @@ class MasterOrderHeaderType extends AbstractType
                             'image/png',
                             'application/pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG',
+                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
+                        'maxSizeMessage' => 'Please upload file size smaller than 5MB',
                     ])
                 ],
             ])

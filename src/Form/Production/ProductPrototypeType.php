@@ -7,10 +7,11 @@ use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Designcode;
 use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
-use App\Entity\Master\Product;
 use App\Entity\Production\ProductPrototype;
+use App\Entity\Production\ProductPrototypeDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,7 +21,6 @@ class ProductPrototypeType extends AbstractType
     {
         $builder
             ->add('designCode', EntityHiddenType::class, ['class' => Designcode::class])
-            ->add('product', EntityHiddenType::class, ['class' => Product::class])
             ->add('dataSource', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'Hard FA' => ProductPrototype::DATA_SOURCE_HARD_FA,
                 'Email' => ProductPrototype::DATA_SOURCE_EMAIL,
@@ -78,6 +78,14 @@ class ProductPrototypeType extends AbstractType
                 },
             ])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('productPrototypeDetails', CollectionType::class, [
+                'entry_type' => ProductPrototypeDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new ProductPrototypeDetail(),
+                'label' => false,
+            ])
         ;
     }
 

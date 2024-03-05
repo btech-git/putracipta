@@ -18,6 +18,7 @@ class MasterOrderProductDetailType extends AbstractType
             ->add('isCanceled')
             ->add('quantityStock', FormattedNumberType::class, ['decimals' => 0])
             ->add('saleOrderDetail', EntityHiddenType::class, ['class' => SaleOrderDetail::class])
+            ->add('quantityPrinting')
         ;
     }
 
