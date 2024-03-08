@@ -1,0 +1,16 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<div style="font-family: Arial">
+    {% for key, value in transactionLog.newData %}
+        {% if value is iterable %}
+            {{ key }}:
+            {% for key2, value2 in value %}
+                {% if value2 is not iterable %}
+                    <div style="margin-left: 12px">{{ key2 }}: {{ value2 }}</div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div style="margin-left: 0">{{ key }}: {{ value }}</div>
+        {% endif %}
+    {% endfor %}
+</div>
