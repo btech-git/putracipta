@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'support_transaction_log')]
 class TransactionLog
 {
+    public const MONTH_ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -41,6 +43,13 @@ class TransactionLog
 
     #[ORM\Column(nullable: true)]
     private array $newData = [];
+
+    public function getCodeNumber(): string
+    {
+        $numerals = self::MONTH_ROMAN_NUMERALS;
+
+        return sprintf('%04d/%s/%s/%02d', intval($this->codeNumberOrdinal), (new $this->entityName)->getCodeNumberConstant(), $numerals[intval($this->codeNumberMonth)], intval($this->codeNumberYear));
+    }
 
     public function getId(): ?int
     {
