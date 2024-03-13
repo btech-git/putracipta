@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Master\Employee;
+use App\Entity\Admin\User;
 use App\Repository\Admin\UserRepository;
 use App\Repository\Master\EmployeeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -36,15 +36,17 @@ class ReferralController extends AbstractController
 
     #[Route('/{id}/show_profile', name: 'app_admin_referral_show_profile', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function showProfile(Employee $employee): Response
+    public function showProfile(User $user): Response
     {
+        $employee = $this->employeeRepository->findOneByUser($user);
         return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/change_profile', name: 'app_admin_referral_change_profile', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
-    public function changeProfile(Employee $employee): Response
+    public function changeProfile(User $user): Response
     {
+        $employee = $this->employeeRepository->findOneByUser($user);
         return $this->redirectToRoute('app_master_employee_edit', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
     }
 
