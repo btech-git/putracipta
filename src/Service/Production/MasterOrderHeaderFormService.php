@@ -9,6 +9,7 @@ use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\MasterOrderProcessDetail;
 use App\Entity\Production\MasterOrderProductDetail;
+use App\Entity\Production\MasterOrderPrototypeDetail;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Entity\Support\TransactionLog;
@@ -18,6 +19,7 @@ use App\Repository\Production\MasterOrderDistributionDetailRepository;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use App\Repository\Production\MasterOrderProcessDetailRepository;
 use App\Repository\Production\MasterOrderProductDetailRepository;
+use App\Repository\Production\MasterOrderPrototypeDetailRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
@@ -39,6 +41,7 @@ class MasterOrderHeaderFormService
     private MasterOrderProcessDetailRepository $masterOrderProcessDetailRepository;
     private MasterOrderDistributionDetailRepository $masterOrderDistributionDetailRepository;
     private MasterOrderCheckSheetDetailRepository $masterOrderCheckSheetDetailRepository;
+    private MasterOrderPrototypeDetailRepository $masterOrderPrototypeDetailRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -52,6 +55,7 @@ class MasterOrderHeaderFormService
         $this->masterOrderProcessDetailRepository = $entityManager->getRepository(MasterOrderProcessDetail::class);
         $this->masterOrderDistributionDetailRepository = $entityManager->getRepository(MasterOrderDistributionDetail::class);
         $this->masterOrderCheckSheetDetailRepository = $entityManager->getRepository(MasterOrderCheckSheetDetail::class);
+        $this->masterOrderPrototypeDetailRepository = $entityManager->getRepository(MasterOrderPrototypeDetail::class);
         $this->warehouseRepository = $entityManager->getRepository(Warehouse::class);
     }
 
@@ -87,6 +91,10 @@ class MasterOrderHeaderFormService
                 $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
                 $saleOrderDetail->setQuantityProduction($masterOrderProductDetail->getQuantityOrder());
             }
+        }
+        
+        foreach ($masterOrderHeader->getMasterOrderPrototypeDetails() as $masterOrderPrototypeDetail) {
+            $masterOrderPrototypeDetail->setQuantityShortage($masterOrderPrototypeDetail->getSyncQuantityShortage());
         }
         
         $masterOrderHeader->setTotalQuantityOrder($masterOrderHeader->getSyncTotalQuantityOrder());
@@ -150,6 +158,9 @@ class MasterOrderHeaderFormService
             }
             foreach ($masterOrderHeader->getMasterOrderCheckSheetDetails() as $masterOrderCheckSheetDetail) {
                 $this->masterOrderCheckSheetDetailRepository->add($masterOrderCheckSheetDetail);
+            }
+            foreach ($masterOrderHeader->getMasterOrderPrototypeDetails() as $masterOrderPrototypeDetail) {
+                $this->masterOrderPrototypeDetailRepository->add($masterOrderPrototypeDetail);
             }
             $this->entityManager->flush();
             $transactionLog = $this->buildTransactionLog($masterOrderHeader);
