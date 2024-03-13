@@ -34,5 +34,14 @@
             }
             {%- if not loop.last -%},{%- endif -%}
         {%- endfor -%}
+    },
+    "masterOrderPrototypeDetails": {
+        {%- for masterOrderPrototypeDetailForm in form.masterOrderPrototypeDetails -%}
+            {%- set masterOrderPrototypeDetail = masterOrderPrototypeDetailForm.vars.data -%}
+            "{{ masterOrderPrototypeDetailForm.vars.name }}": {
+                "quantityShortage": "{{ masterOrderPrototypeDetail.quantityShortage|default|number_format(0) }}"
+            }
+            {%- if not loop.last -%},{%- endif -%}
+        {%- endfor -%}
     }
 }
