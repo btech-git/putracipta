@@ -11,8 +11,9 @@ use App\Entity\Master\Paper;
 use App\Entity\Production\MasterOrderCheckSheetDetail;
 use App\Entity\Production\MasterOrderDistributionDetail;
 use App\Entity\Production\MasterOrderHeader;
-use App\Entity\Production\MasterOrderProductDetail;
 use App\Entity\Production\MasterOrderProcessDetail;
+use App\Entity\Production\MasterOrderProductDetail;
+use App\Entity\Production\MasterOrderPrototypeDetail;
 use App\Entity\Production\ProductDevelopment;
 use App\Entity\Transaction\PurchaseOrderPaperHeader;
 use App\Repository\Master\CustomerRepository;
@@ -77,6 +78,10 @@ class MasterOrderHeaderType extends AbstractType
                 'Lama' => MasterOrderHeader::DIECUT_BLADE_OLD,
                 'Revisi' => MasterOrderHeader::DIECUT_BLADE_REVISION,
             ]])
+            ->add('transactionMode', ChoiceType::class, ['choices' => [
+                'Customer Order' => MasterOrderHeader::TRANSACTION_MODE_SALE_ORDER,
+                'Produk Baru' => MasterOrderHeader::TRANSACTION_MODE_PRODUCT_PROTOTYPE,
+            ]])
             ->add('insitPrintingPercentage', FormattedNumberType::class, ['decimals' => 2])
             ->add('insitSortingPercentage', FormattedNumberType::class, ['decimals' => 2])
             ->add('paperMountage')
@@ -137,6 +142,14 @@ class MasterOrderHeaderType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => new MasterOrderCheckSheetDetail(),
+                'label' => false,
+            ])
+            ->add('masterOrderPrototypeDetails', CollectionType::class, [
+                'entry_type' => MasterOrderPrototypeDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new MasterOrderPrototypeDetail(),
                 'label' => false,
             ])
             ->add('transactionFile', FileType::class, [
