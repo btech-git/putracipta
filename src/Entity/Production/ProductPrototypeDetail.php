@@ -6,6 +6,8 @@ use App\Entity\Master\DesignCodeProductDetail;
 use App\Entity\Master\Product;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\ProductPrototypeDetailRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductPrototypeDetailRepository::class)]
@@ -25,6 +27,14 @@ class ProductPrototypeDetail extends ProductionDetail
 
     #[ORM\ManyToOne]
     private ?Product $product = null;
+
+    #[ORM\OneToMany(mappedBy: 'productPrototypeDetail', targetEntity: MasterOrderPrototypeDetail::class)]
+    private Collection $masterOrderPrototypeDetails;
+
+    public function __construct()
+    {
+        $this->masterOrderPrototypeDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -63,6 +73,36 @@ class ProductPrototypeDetail extends ProductionDetail
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderPrototypeDetail>
+     */
+    public function getMasterOrderPrototypeDetails(): Collection
+    {
+        return $this->masterOrderPrototypeDetails;
+    }
+
+    public function addMasterOrderPrototypeDetail(MasterOrderPrototypeDetail $masterOrderPrototypeDetail): self
+    {
+        if (!$this->masterOrderPrototypeDetails->contains($masterOrderPrototypeDetail)) {
+            $this->masterOrderPrototypeDetails->add($masterOrderPrototypeDetail);
+            $masterOrderPrototypeDetail->setProductPrototypeDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderPrototypeDetail(MasterOrderPrototypeDetail $masterOrderPrototypeDetail): self
+    {
+        if ($this->masterOrderPrototypeDetails->removeElement($masterOrderPrototypeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderPrototypeDetail->getProductPrototypeDetail() === $this) {
+                $masterOrderPrototypeDetail->setProductPrototypeDetail(null);
+            }
+        }
 
         return $this;
     }

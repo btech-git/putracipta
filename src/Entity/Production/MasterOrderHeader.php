@@ -8,7 +8,6 @@ use App\Entity\Master\DiecutKnife;
 use App\Entity\Master\DielineMillar;
 use App\Entity\Master\MachinePrinting;
 use App\Entity\Master\Paper;
-use App\Entity\Master\Product;
 use App\Entity\Master\Warehouse;
 use App\Entity\ProductionHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
@@ -37,6 +36,8 @@ class MasterOrderHeader extends ProductionHeader
     public const ORDER_TYPE_RETURN_SHORTAGE = 'return_shortage';
     public const ORDER_TYPE_EXTENSION = 'extension';
     public const CHECK_SHEET_PRINTING_INSPECTION = 'printing_inspection';
+    public const TRANSACTION_MODE_SALE_ORDER = 'sale_order';
+    public const TRANSACTION_MODE_PRODUCT_PROTOTYPE = 'product_prototype';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -308,7 +309,7 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProductDetail::class)]
     #[Assert\Valid]
-    #[Assert\Count(min: 1)]
+    #[Assert\Count(min: 0)]
     private Collection $masterOrderProductDetails;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProcessDetail::class)]
@@ -357,6 +358,14 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column]
     private ?int $quantityStockPaper = 0;
 
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderPrototypeDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 0)]
+    private Collection $masterOrderPrototypeDetails;
+
+    #[ORM\Column(length: 100)]
+    private ?string $transactionMode = self::TRANSACTION_MODE_SALE_ORDER;
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -370,6 +379,7 @@ class MasterOrderHeader extends ProductionHeader
         $this->masterOrderProcessDetails = new ArrayCollection();
         $this->masterOrderCheckSheetDetails = new ArrayCollection();
         $this->inventoryProductReceiveHeaders = new ArrayCollection();
+        $this->masterOrderPrototypeDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -409,7 +419,9 @@ class MasterOrderHeader extends ProductionHeader
     {
         $totalQuantity = 0;
         
-        foreach ($this->masterOrderProductDetails as $detail) {
+        $detailsField = $this->transactionMode === self::TRANSACTION_MODE_SALE_ORDER ? 'masterOrderProductDetails' : 'masterOrderPrototypeDetails';
+        
+        foreach ($this->$detailsField as $detail) {
             $totalQuantity += $detail->getQuantityShortage();
         }
         return $totalQuantity;
@@ -2073,6 +2085,48 @@ class MasterOrderHeader extends ProductionHeader
     public function setQuantityStockPaper(int $quantityStockPaper): self
     {
         $this->quantityStockPaper = $quantityStockPaper;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MasterOrderPrototypeDetail>
+     */
+    public function getMasterOrderPrototypeDetails(): Collection
+    {
+        return $this->masterOrderPrototypeDetails;
+    }
+
+    public function addMasterOrderPrototypeDetail(MasterOrderPrototypeDetail $masterOrderPrototypeDetail): self
+    {
+        if (!$this->masterOrderPrototypeDetails->contains($masterOrderPrototypeDetail)) {
+            $this->masterOrderPrototypeDetails->add($masterOrderPrototypeDetail);
+            $masterOrderPrototypeDetail->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMasterOrderPrototypeDetail(MasterOrderPrototypeDetail $masterOrderPrototypeDetail): self
+    {
+        if ($this->masterOrderPrototypeDetails->removeElement($masterOrderPrototypeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($masterOrderPrototypeDetail->getMasterOrderHeader() === $this) {
+                $masterOrderPrototypeDetail->setMasterOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTransactionMode(): ?string
+    {
+        return $this->transactionMode;
+    }
+
+    public function setTransactionMode(string $transactionMode): self
+    {
+        $this->transactionMode = $transactionMode;
 
         return $this;
     }
