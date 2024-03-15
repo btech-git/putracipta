@@ -1,13 +1,13 @@
 {{ form_start(form) }}
     <div class="row">
         <div class="col">
-            {{ form_row(form.name, {'attr': {'readonly': paper.id is not null}}) }}
+            {{ form_row(form.name) }}
         </div>
         <div class="col">
-            {{ form_row(form.weight, {'attr': {'readonly': paper.id is not null}}) }}
+            {{ form_row(form.weight) }}
         </div>
         <div class="col">
-            {{ form_row(form.type, {'attr': {'readonly': paper.id is not null}}) }}
+            {{ form_row(form.type) }}
         </div>
     </div>
         
