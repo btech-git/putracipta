@@ -111,7 +111,7 @@ class SaleOrderDetail extends SaleDetail
 
     public function getSyncUnitPriceBeforeTax(): string
     {
-        return $this->saleOrderHeader->getTaxMode() === $this->saleOrderHeader::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100), 2) : $this->unitPrice;
+        return $this->saleOrderHeader->getTaxMode() === self::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100), 2) : $this->unitPrice;
     }
 
     public function getSyncTotalQuantityReturn(): int
@@ -129,7 +129,7 @@ class SaleOrderDetail extends SaleDetail
 
     public function getTotal(): string
     {
-        return $this->quantity * $this->unitPriceBeforeTax;
+        return $this->saleOrderHeader->getTaxMode() === self::TAX_MODE_TAX_INCLUSION ? round($this->quantity * $this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100), 2) : $this->quantity * $this->unitPrice;
     }
 
     public function getId(): ?int
