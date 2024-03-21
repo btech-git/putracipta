@@ -43,6 +43,7 @@ class TransactionLogController extends AbstractController
     {
         return $this->render("report/transaction_log/_info.html.twig", [
             'transactionLog' => $transactionLog,
+            'newData' => $this->getFlattenedNewData($transactionLog->getNewData()),
         ]);
     }
 
@@ -51,5 +52,26 @@ class TransactionLogController extends AbstractController
     public function index(): Response
     {
         return $this->render("report/transaction_log/index.html.twig");
+    }
+
+    private function getFlattenedNewData($list): array
+    {
+        $result = [];
+        $names = [];
+        $this->flattenNewData($list, $result, $names);
+        return $result;
+    }
+
+    private function flattenNewData(array &$src, array &$dest, array &$names): void
+    {
+        $curr = array_reduce($names, fn($current, $name) => $current[$name], $src);
+        if (is_array($curr)) {
+            foreach ($curr as $k => $v) {
+                array_push($names, $k);
+                $dest[implode('.', $names)] = is_array($v) ? '' : $v;
+                $this->flattenNewData($src, $dest, $names);
+            }
+        }
+        array_pop($names);
     }
 }
