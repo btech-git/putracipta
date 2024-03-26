@@ -27,20 +27,20 @@ class Paper extends Master
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
-    private ?string $length = '0.00';
+    private ?string $length = '0';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
-    private ?string $width = '0.00';
+    private ?string $width = '0';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
-    private ?string $weight = '0.00';
+    private ?string $weight = '0';
 
     #[ORM\ManyToOne(inversedBy: 'papers')]
     #[Assert\NotNull]
