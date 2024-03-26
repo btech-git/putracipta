@@ -59,7 +59,7 @@ class UserMenuConfig
             'MENU_CUSTOMER' => ['route' => 'app_master_customer_index', 'pattern' => '/^app_master_customer_.+$/', 'roles' => ['ROLE_CUSTOMER_ADD', 'ROLE_CUSTOMER_EDIT']],
             'MENU_PRODUCT' => ['route' => 'app_master_product_index', 'pattern' => '/^app_master_product_.+$/', 'roles' => ['ROLE_PRODUCT_ADD', 'ROLE_PRODUCT_EDIT']],
             'MENU_PAPER' => ['route' => 'app_master_paper_index', 'pattern' => '/^app_master_paper_.+$/', 'roles' => ['ROLE_PAPER_ADD', 'ROLE_PAPER_EDIT']],
-            'MENU_MATERIAL' => ['route' => 'app_master_material_index', 'pattern' => '/^app_master_material_.+$/', 'roles' => ['ROLE_MATERIAL_ADD', 'ROLE_MATERIAL_EDIT']],
+            'MENU_MATERIAL' => ['route' => 'app_master_material_index', 'pattern' => '/^app_master_material_(?!category|sub_category).+$/', 'roles' => ['ROLE_MATERIAL_ADD', 'ROLE_MATERIAL_EDIT']],
             'MENU_DESIGN_CODE' => ['route' => 'app_master_design_code_index', 'pattern' => '/^app_master_design_code_.+$/', 'roles' => ['ROLE_DESIGN_CODE_ADD', 'ROLE_DESIGN_CODE_EDIT']],
             'MENU_DIECUT_KNIFE' => ['route' => 'app_master_diecut_knife_index', 'pattern' => '/^app_master_diecut_knife_.+$/', 'roles' => ['ROLE_DIECUT_ADD', 'ROLE_DIECUT_EDIT']],
             'MENU_DIELINE_MILLAR' => ['route' => 'app_master_dieline_millar_index', 'pattern' => '/^app_master_dieline_millar_.+$/', 'roles' => ['ROLE_MILLAR_ADD', 'ROLE_MILLAR_EDIT']],
