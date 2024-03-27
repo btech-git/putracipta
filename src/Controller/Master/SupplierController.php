@@ -8,6 +8,7 @@ use App\Entity\Master\Supplier;
 use App\Form\Master\SupplierType;
 use App\Grid\Master\SupplierGridType;
 use App\Repository\Master\SupplierRepository;
+use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Service\Master\SupplierFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -64,10 +65,13 @@ class SupplierController extends AbstractController
 
     #[Route('/{id}', name: 'app_master_supplier_show', methods: ['GET'])]
     #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
-    public function show(Supplier $supplier): Response
+    public function show(Supplier $supplier, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
+        $purchaseOrderHeaders = $purchaseOrderHeaderRepository->findBy(['supplier' => $supplier], ['transactionDate' => 'DESC'], 50);
+        
         return $this->render('master/supplier/show.html.twig', [
             'supplier' => $supplier,
+            'purchaseOrderHeaders' => $purchaseOrderHeaders,
         ]);
     }
 
