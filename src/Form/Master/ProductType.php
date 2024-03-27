@@ -2,11 +2,8 @@
 
 namespace App\Form\Master;
 
-use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\Paper;
 use App\Entity\Master\Product;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,10 +16,17 @@ class ProductType extends AbstractType
         $builder
             ->add('code')
             ->add('name')
-            ->add('length', null, ['label' => 'Panjang'])
-            ->add('width', null, ['label' => 'Lebar'])
-            ->add('height', null, ['label' => 'Tinggi'])
-            ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
+            ->add('length', null, ['label' => 'Panjang (mm)'])
+            ->add('width', null, ['label' => 'Lebar (mm)'])
+            ->add('height', null, ['label' => 'Tinggi (mm)'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('customer', null, [
                 'choice_label' => 'idNameLiteral',
                 'query_builder' => function($repository) {

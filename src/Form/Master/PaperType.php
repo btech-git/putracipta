@@ -13,9 +13,9 @@ class PaperType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('length', null, ['label' => 'Panjang'])
-            ->add('width', null, ['label' => 'Lebar'])
+            ->add('name', null, ['label' => 'Nama'])
+            ->add('length', null, ['label' => 'Panjang (cm)'])
+            ->add('width', null, ['label' => 'Lebar (cm)'])
             ->add('weight', null, ['label' => 'Berat (GSM)'])
             ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
             ->add('note')
@@ -29,6 +29,16 @@ class PaperType extends AbstractType
                 '000' => Paper::TYPE_NON_FSC,
                 'FSC' => Paper::TYPE_FSC,
             ]])
+            ->add('materialSubCategory', null, [
+                'label' => 'Jenis',
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->andWhere("e.materialCategory = 1")
+                            ->addOrderBy('e.name', 'ASC');
+                },
+            ])
         ;
     }
 
