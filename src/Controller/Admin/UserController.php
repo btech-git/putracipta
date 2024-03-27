@@ -56,7 +56,7 @@ class UserController extends AbstractController
 
             if ($request->query->has('referral_id')) {
                 $referralId = $request->query->get('referral_id');
-                return $this->forward('App\Controller\Admin\ReferralController::assign', ['userId' => $user->getId(), 'referralId' => $referralId]);
+                return $this->forward('App\Controller\ReferralController::assign', ['userId' => $user->getId(), 'referralId' => $referralId]);
             } else {
                 return $this->redirectToRoute('app_admin_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
             }
