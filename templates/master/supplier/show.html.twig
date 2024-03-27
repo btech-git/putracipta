@@ -89,5 +89,31 @@
         </tbody>
     </table>
 
+    <hr />
+    
+    <legend class="float-none w-auto text-dark px-1">Purchase List</legend>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>PO #</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderHeader in purchaseOrderHeaders %}
+                {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
+                    <tr>
+                        <td>{{ purchaseOrderDetail.material.code|default }}</td>
+                        <td>{{ purchaseOrderDetail.material.name|default }}</td>
+                        <td>{{ purchaseOrderHeader.codeNumber|default }}</td>
+                        <td>{{ purchaseOrderHeader.codeNumber|default }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
     {#{{ include('master/supplier/_delete_form.html.twig') }}#}
 {% endblock %}

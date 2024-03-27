@@ -4,7 +4,7 @@
             {{ form_row(form.name) }}
         </div>
         <div class="col">
-            {{ form_row(form.weight) }}
+            {{ form_row(form.materialSubCategory) }}
         </div>
         <div class="col">
             {{ form_row(form.type) }}
@@ -19,11 +19,14 @@
             {{ form_row(form.width) }}
         </div>
         <div class="col">
-            {{ form_row(form.unit) }}
+            {{ form_row(form.weight) }}
         </div>
     </div>
         
     <div class="row">
+        <div class="col">
+            {{ form_row(form.unit) }}
+        </div>
         <div class="col">
             <div class="mb-3">
                 <label class="form-label">Metode Input Harga</label>

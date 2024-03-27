@@ -1,5 +1,65 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.code) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.materialSubCategory) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.thickness) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.variant) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.density) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.length) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.width) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.weight) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.viscosity) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.unit) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.note) }}
+        </div>
+    </div>        
+        
+    <div class="row">
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        {{ form_widget(form.isInactive) }}
+                        {{ form_errors(form.isInactive) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
     <div class="d-grid">
         <div class="row">
             <div class="col text-center">

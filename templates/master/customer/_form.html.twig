@@ -15,7 +15,6 @@
                 {{ form_row(form.quantityTolerancePercentage, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 {{ form_row(form.note, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 <div class="{{ isMarketingInputDisabled ? 'd-none' : '' }}">
-                    {{ form_row(form.isBondedZone) }}
                     {{ form_row(form.isInactive) }}
                 </div>
             </div>
@@ -310,6 +309,7 @@
                 <div class="col">
                     {{ form_row(form.taxNumber, {'attr': {'readonly': isFinanceInputDisabled}}) }}
                     {{ form_row(form.addressInvoice, {'attr': {'readonly': isFinanceInputDisabled}}) }}
+                    {{ form_row(form.isBondedZone) }}
                 </div>
 
                 <div class="col">
