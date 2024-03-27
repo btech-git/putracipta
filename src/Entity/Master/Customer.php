@@ -196,7 +196,7 @@ class Customer extends Master
 
     public function getIdNameLiteral() 
     {
-        return str_pad($this->id, 3, '0', STR_PAD_LEFT) . ' - ' . $this->company;
+        return str_pad($this->code, 3, '0', STR_PAD_LEFT) . ' - ' . $this->company;
     }
     
     public function getBondedZoneLiteral()

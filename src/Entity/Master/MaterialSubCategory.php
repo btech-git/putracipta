@@ -25,9 +25,13 @@ class MaterialSubCategory extends Master
     #[ORM\OneToMany(mappedBy: 'materialSubCategory', targetEntity: Material::class)]
     private Collection $materials;
 
+    #[ORM\OneToMany(mappedBy: 'materialSubCategory', targetEntity: Paper::class)]
+    private Collection $papers;
+
     public function __construct()
     {
         $this->materials = new ArrayCollection();
+        $this->papers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,6 +75,36 @@ class MaterialSubCategory extends Master
             // set the owning side to null (unless already changed)
             if ($material->getMaterialSubCategory() === $this) {
                 $material->setMaterialSubCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Paper>
+     */
+    public function getPapers(): Collection
+    {
+        return $this->papers;
+    }
+
+    public function addPaper(Paper $paper): self
+    {
+        if (!$this->papers->contains($paper)) {
+            $this->papers->add($paper);
+            $paper->setMaterialSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaper(Paper $paper): self
+    {
+        if ($this->papers->removeElement($paper)) {
+            // set the owning side to null (unless already changed)
+            if ($paper->getMaterialSubCategory() === $this) {
+                $paper->setMaterialSubCategory(null);
             }
         }
 

@@ -4,11 +4,9 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\PaperRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaperRepository::class)]
@@ -59,20 +57,23 @@ class Paper extends Master
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $code = 0;
 
+    #[ORM\ManyToOne(inversedBy: 'papers')]
+    private ?MaterialSubCategory $materialSubCategory = null;
+
     public function __construct()
     {
     }
 
     public function getPaperNameSizeCombination(): string
     {
-        return $this->name . ' ' . number_format($this->weight, 2) . ' x ' . $this->length . ' x ' . $this->width;
+        return $this->name . ' ' . number_format($this->weight, 0) . '-' . $this->length . '-' . $this->width;
     }
     
     public function getCodeNumber(): string
     {
         $type = ($this->type === self::TYPE_FSC) ? 'FSC' : '000';
         
-        return $this->name . '-' . number_format($this->weight, 2) . '-' . $type . '-' . $this->code;
+        return $this->name . '-' . number_format($this->weight, 0) . '-' . $type . '-' . $this->code;
     }
     
     public function setCodeNumberToNext($codeNumber): self
@@ -214,6 +215,18 @@ class Paper extends Master
     public function setCode(int $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getMaterialSubCategory(): ?MaterialSubCategory
+    {
+        return $this->materialSubCategory;
+    }
+
+    public function setMaterialSubCategory(?MaterialSubCategory $materialSubCategory): self
+    {
+        $this->materialSubCategory = $materialSubCategory;
 
         return $this;
     }
