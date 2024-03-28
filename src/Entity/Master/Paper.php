@@ -35,11 +35,6 @@ class Paper extends Master
     #[Assert\GreaterThanOrEqual(0)]
     private ?string $width = '0';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?string $weight = '0';
-
     #[ORM\ManyToOne(inversedBy: 'papers')]
     #[Assert\NotNull]
     private ?Unit $unit = null;
@@ -59,6 +54,9 @@ class Paper extends Master
 
     #[ORM\ManyToOne(inversedBy: 'papers')]
     private ?MaterialSubCategory $materialSubCategory = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $weight = '';
 
     public function __construct()
     {
@@ -113,18 +111,6 @@ class Paper extends Master
     public function setWidth(string $width): self
     {
         $this->width = $width;
-
-        return $this;
-    }
-
-    public function getWeight(): ?string
-    {
-        return $this->weight;
-    }
-
-    public function setWeight(string $weight): self
-    {
-        $this->weight = $weight;
 
         return $this;
     }
@@ -227,6 +213,18 @@ class Paper extends Master
     public function setMaterialSubCategory(?MaterialSubCategory $materialSubCategory): self
     {
         $this->materialSubCategory = $materialSubCategory;
+
+        return $this;
+    }
+
+    public function getWeight(): ?string
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(string $weight): self
+    {
+        $this->weight = $weight;
 
         return $this;
     }
