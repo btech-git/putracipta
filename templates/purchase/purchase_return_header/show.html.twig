@@ -68,8 +68,8 @@
         <tbody>
             {% for purchaseReturnDetail in purchaseReturnHeader.purchaseReturnDetails %}
                 <tr>
-                    <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.codeNumber|default : purchaseReturnDetail.material.code|default }}</td>
-                    <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.paperNameSizeCombination|default : purchaseReturnDetail.material.name|default }}</td>
+                    <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.code|default : purchaseReturnDetail.material.code|default }}</td>
+                    <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.name|default : purchaseReturnDetail.material.name|default }}</td>
                     <td style="text-align: right">{{ purchaseReturnDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ purchaseReturnDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseReturnDetail.unitPrice|default|number_format(2) }}</td>

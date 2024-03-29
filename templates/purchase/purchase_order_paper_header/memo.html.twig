@@ -85,7 +85,7 @@
                         <tr>
                             {% if purchaseOrderPaperDetail and not purchaseOrderPaperDetail.isCanceled %}
                                 <td class="left">{{ purchaseOrderPaperDetail.paper.code|default }}</td>
-                                <td class="left">{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                <td class="left">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                                 <td class="left">{{ purchaseOrderPaperDetail.deliveryDate|default ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') }}</td>
                                 <td class="center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                                 <td class="left">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
