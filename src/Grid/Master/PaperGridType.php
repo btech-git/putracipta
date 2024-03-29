@@ -24,50 +24,40 @@ class PaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'type', 'length', 'width', 'weight', 'isInactive'],
+                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
-                    'name' => 'Code',
-                    'weight' => '',
-                    'type' => '',
-                    'code' => '',
-                    'length' => 'Panjang',
-                    'width' => 'Lebar',
+                    'code' => 'Code',
+                    'name' => 'Nama',
+                    'weight' => 'Berat (gsm)',
+                    'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
-                    'length' => [FilterEqual::class, FilterNotEqual::class],
-                    'width' => [FilterEqual::class, FilterNotEqual::class],
-                    'weight' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
-                    'type' => [FilterEqual::class, FilterNotEqual::class],
+                    'weight' => [FilterEqual::class, FilterNotEqual::class],
+                    'materialSubCategory:name' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'isInactive' => ChoiceType::class,
-                    'type' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
-                    'type' => ['choices' => ['FSC' => Paper::TYPE_FSC, '000' => Paper::TYPE_NON_FSC]],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'isInactive'],
+                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
-                    'name' => '',
-                    'weight' => '',
-                    'type' => '',
+                    'name' => 'Nama',
+                    'weight' => 'Berat (gsm)',
                     'code' => 'Code',
-                    'length' => 'Panjang',
-                    'width' => 'Lebar',
+                    'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
-                    'length' => [SortAscending::class, SortDescending::class],
-                    'width' => [SortAscending::class, SortDescending::class],
-                    'type' => [SortAscending::class, SortDescending::class],
-                    'weight' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'materialSubCategory:name' => [SortAscending::class, SortDescending::class],
+                    'weight' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
