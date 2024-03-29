@@ -16,37 +16,29 @@
                 <th style="min-width: 300px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'length') }}>
-                    Panjang {{ grid.sort_char(form.sort.length.vars.value) }}
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Nama{{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'width') }}>
-                    Lebar {{ grid.sort_char(form.sort.width.vars.value) }}
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
+                    Berat (gsm){{ grid.sort_char(form.sort.weight.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
-                    Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'materialSubCategory:name') }}>
+                    Jenis{{ grid.sort_char(form.sort['materialSubCategory:name'].vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
                 <th>
-                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />-
-                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />-
-                    <select {{ grid.filter_link_item(form, 'type') }}>
-                        <option value="" {% if form.filter.type.1.vars.value == '' %}selected="selected"{% endif %}></option>
-                        {% for choice in form.filter.type.1.vars.choices %}
-                            <option value="{{ choice.value }}" {% if form.filter.type.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
-                        {% endfor %}
-                    </select>-
-                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'width') }} value="{{ form.filter.width.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
                 </th>
             </tr>
         </thead>
@@ -54,8 +46,8 @@
             {% for paper in papers %}
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'paperId': paper.id, 
-                    'paperCode': paper.codeNumber, 
-                    'paperName': paper.paperNameSizeCombination, 
+                    'paperCode': paper.code, 
+                    'paperName': paper.name, 
                     'unitId': paper.unit.id, 
                     'unitName': paper.unit.name,
                     'pricingMode': paper.pricingMode,
@@ -63,10 +55,10 @@
                     'paperWidth': paper.width, 
                     'paperWeight': paper.weight}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
-                    <td>{{ paper.codeNumber }}</td>
-                    <td>{{ paper.length }}</td>
-                    <td>{{ paper.width }}</td>
-                    <td>{{ paper.unit.name|default }}</td>
+                    <td>{{ paper.code }}</td>
+                    <td>{{ paper.name }}</td>
+                    <td>{{ paper.weight }}</td>
+                    <td>{{ paper.materialSubCategory.name|default }}</td>
                 </tr>
             {% else %}
                 <tr>

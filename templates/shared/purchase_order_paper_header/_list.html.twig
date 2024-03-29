@@ -53,8 +53,8 @@
                     'supplierCompany': purchaseOrderPaperHeader.supplier.company,
                     'purchaseOrderPaperDetailId': purchaseOrderPaperDetail.id,
                     'paperId': purchaseOrderPaperDetail.paper.id,
-                    'materialOrPaperCode': purchaseOrderPaperDetail.paper.codeNumber,
-                    'materialOrPaperName': purchaseOrderPaperDetail.paper.paperNameSizeCombination,
+                    'materialOrPaperCode': purchaseOrderPaperDetail.paper.code,
+                    'materialOrPaperName': purchaseOrderPaperDetail.paper.name,
                     'unitName': purchaseOrderPaperDetail.unit.name,
                     'purchaseOrderDetailQuantity': purchaseOrderPaperDetail.quantity|number_format(2),
                     'purchaseOrderDetailRemainingReceive': purchaseOrderPaperDetail.remainingReceive|number_format(2)})|json_encode }}">
