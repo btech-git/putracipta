@@ -24,51 +24,41 @@ class PaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'type', 'length', 'width', 'weight', 'unit:name'],
+                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
-                    'name' => 'Code',
-                    'weight' => '',
-                    'type' => '',
-                    'code' => '',
-                    'unit:name' => 'Satuan',
-                    'length' => 'Panjang',
-                    'width' => 'Lebar',
+                    'code' => 'Code',
+                    'name' => 'Nama',
+                    'weight' => 'Berat (gsm)',
+                    'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
                     'code' => [FilterContain::class, FilterNotContain::class],
-                    'length' => [FilterEqual::class, FilterNotEqual::class],
-                    'width' => [FilterEqual::class, FilterNotEqual::class],
-                    'weight' => [FilterEqual::class, FilterNotEqual::class],
-                    'unit:name' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
-                    'type' => [FilterEqual::class, FilterNotEqual::class],
+                    'weight' => [FilterEqual::class, FilterNotEqual::class],
+                    'materialSubCategory:name' => [FilterContain::class, FilterNotContain::class],
+                    'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
-                    'type' => ChoiceType::class,
+                    'isInactive' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
-                    'type' => ['choices' => ['FSC' => Paper::TYPE_FSC, '000' => Paper::TYPE_NON_FSC]],
+                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'length', 'width', 'weight', 'unit:name'],
+                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
-                    'name' => '',
-                    'weight' => '',
-                    'type' => '',
+                    'name' => 'Nama',
+                    'weight' => 'Berat (gsm)',
                     'code' => 'Code',
-                    'unit:name' => 'Satuan',
-                    'length' => 'Panjang',
-                    'width' => 'Lebar',
+                    'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
-                    'length' => [SortAscending::class, SortDescending::class],
-                    'width' => [SortAscending::class, SortDescending::class],
-                    'type' => [SortAscending::class, SortDescending::class],
-                    'weight' => [SortAscending::class, SortDescending::class],
-                    'unit:name' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'materialSubCategory:name' => [SortAscending::class, SortDescending::class],
+                    'weight' => [SortAscending::class, SortDescending::class],
+                    'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
