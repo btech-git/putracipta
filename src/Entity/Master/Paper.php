@@ -49,14 +49,14 @@ class Paper extends Master
     #[Assert\NotNull]
     private ?string $note = '';
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $code = 0;
-
     #[ORM\ManyToOne(inversedBy: 'papers')]
     private ?MaterialSubCategory $materialSubCategory = null;
 
     #[ORM\Column(length: 60)]
     private ?string $weight = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $code = '';
 
     public function __construct()
     {
@@ -193,18 +193,6 @@ class Paper extends Master
         return $this;
     }
 
-    public function getCode(): ?int
-    {
-        return $this->code;
-    }
-
-    public function setCode(int $code): self
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
     public function getMaterialSubCategory(): ?MaterialSubCategory
     {
         return $this->materialSubCategory;
@@ -225,6 +213,18 @@ class Paper extends Master
     public function setWeight(string $weight): self
     {
         $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
