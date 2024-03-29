@@ -11,11 +11,14 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'length') }}>
-                    Panjang (cm){{ grid.sort_char(form.sort.length.vars.value) }}
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Nama{{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'width') }}>
-                    Lebar (cm){{ grid.sort_char(form.sort.width.vars.value) }}
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'weight') }}>
+                    Berat (gsm){{ grid.sort_char(form.sort.weight.vars.value) }}
+                </th>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'materialSubCategory:name') }}>
+                    Jenis{{ grid.sort_char(form.sort['materialSubCategory:name'].vars.value) }}
                 </th>
                 <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
@@ -24,21 +27,16 @@
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />-
-                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />-
-                    <select {{ grid.filter_link_item(form, 'type') }}>
-                        <option value="" {% if form.filter.type.1.vars.value == '' %}selected="selected"{% endif %}></option>
-                        {% for choice in form.filter.type.1.vars.choices %}
-                            <option value="{{ choice.value }}" {% if form.filter.type.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
-                        {% endfor %}
-                    </select>-
-                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'length') }} value="{{ form.filter.length.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'width') }} value="{{ form.filter.width.1.vars.value }}" />
+                    <input type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
                 </th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
@@ -54,9 +52,10 @@
         <tbody>
             {% for paper in papers %}
                 <tr>
-                    <td>{{ paper.codeNumber }}</td>
-                    <td>{{ paper.length }}</td>
-                    <td>{{ paper.width }}</td>
+                    <td>{{ paper.code }}</td>
+                    <td>{{ paper.name }}</td>
+                    <td>{{ paper.weight }}</td>
+                    <td>{{ paper.materialSubCategory.name }}</td>
                     <td>{{ paper.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ path('app_master_paper_show', {'id': paper.id}) }}"><i class="bi-search"></i></a>
@@ -65,7 +64,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

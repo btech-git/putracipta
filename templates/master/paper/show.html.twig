@@ -12,11 +12,11 @@
         <tbody>
             <tr>
                 <th>Code</th>
-                <td>{{ paper.codeNumber }}</td>
+                <td>{{ paper.code }}</td>
             </tr>
             <tr>
                 <th>Name</th>
-                <td>{{ paper.paperNameSizeCombination }}</td>
+                <td>{{ paper.name }}</td>
             </tr>
             <tr>
                 <th>Panjang (cm)</th>
@@ -35,8 +35,16 @@
                 <td>{{ paper.unit.name }}</td>
             </tr>
             <tr>
+                <th>Jenis</th>
+                <td>{{ paper.materialSubCategory.name }}</td>
+            </tr>
+            <tr>
                 <th>Pricing Mode</th>
                 <td>{{ paper.pricingMode }}</td>
+            </tr>
+            <tr>
+                <th>FSC/non</th>
+                <td>{{ paper.type }}</td>
             </tr>
             <tr>
                 <th>Note</th>
