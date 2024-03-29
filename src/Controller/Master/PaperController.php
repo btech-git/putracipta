@@ -32,6 +32,11 @@ class PaperController extends AbstractController
                 $add['filter']($qb, 'u', 'name', $request->request->get('paper_grid')['filter']['unit:name']);
                 $add['sort']($qb, 'u', 'name', $request->request->get('paper_grid')['sort']['unit:name']);
             }
+            if (isset($request->request->get('paper_grid')['filter']['materialSubCategory:name']) && isset($request->request->get('paper_grid')['sort']['materialSubCategory:name'])) {
+                $qb->innerJoin("{$alias}.materialSubCategory", 's');
+                $add['filter']($qb, 's', 'name', $request->request->get('paper_grid')['filter']['materialSubCategory:name']);
+                $add['sort']($qb, 's', 'name', $request->request->get('paper_grid')['sort']['materialSubCategory:name']);
+            }
         });
 
         return $this->renderForm("master/paper/_list.html.twig", [
