@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th>Gudang</th>
-                <td>{{ purchaseRequestPaperHeader.warehouse.name }}</td>
+                <td>{{ purchaseRequestPaperHeader.warehouse.name|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th>User Created</th>
-                <td>{{ purchaseRequestPaperHeader.createdTransactionUser.username }}</td>
+                <td>{{ purchaseRequestPaperHeader.createdTransactionUser.username|default }}</td>
             </tr>
             <tr>
                 <th>Created Date</th>
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th>User Edited</th>
-                <td>{{ purchaseRequestPaperHeader.modifiedTransactionUser.username }}</td>
+                <td>{{ purchaseRequestPaperHeader.modifiedTransactionUser.username|default }}</td>
             </tr>
             <tr>
                 <th>Edited Date</th>
