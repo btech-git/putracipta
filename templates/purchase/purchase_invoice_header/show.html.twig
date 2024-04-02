@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 <th>User Created</th>
-                <td>{{ purchaseInvoiceHeader.createdTransactionUser.username }}</td>
+                <td>{{ purchaseInvoiceHeader.createdTransactionUser.username|default }}</td>
             </tr>
             <tr>
                 <th>Created Date</th>
@@ -81,7 +81,7 @@
             </tr>
             <tr>
                 <th>User Edited</th>
-                <td>{{ purchaseInvoiceHeader.modifiedTransactionUser.username }}</td>
+                <td>{{ purchaseInvoiceHeader.modifiedTransactionUser.username|default }}</td>
             </tr>
             <tr>
                 <th>Edited Date</th>
