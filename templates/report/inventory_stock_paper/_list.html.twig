@@ -86,8 +86,8 @@
                 {% set beginningStock = beginningStockList[paper.id]|default(0) %}
                 {% set currentStock = beginningStock %}
                 <tr>
-                    <td class="text-start" style="width: 15%">{{ paper.codeNumber|default }}</td>
-                    <td class="text-start">{{ paper.paperNameSizeCombination|default }}</td>
+                    <td class="text-start" style="width: 15%">{{ paper.code|default }}</td>
+                    <td class="text-start">{{ paper.name|default }}</td>
                     <td class="text-start" style="width: 15%">{{ beginningStock|number_format(0) }}</td>
                 </tr>
                 <tr>
