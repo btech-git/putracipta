@@ -72,6 +72,22 @@
                 <td>{{ purchaseInvoiceHeader.transactionStatus }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ purchaseInvoiceHeader.createdTransactionUser.username }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ purchaseInvoiceHeader.createdTransactionDateTime ? purchaseInvoiceHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ purchaseInvoiceHeader.modifiedTransactionUser.username }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ purchaseInvoiceHeader.modifiedTransactionDateTime ? purchaseInvoiceHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Note</th>
                 <td>{{ purchaseInvoiceHeader.note }}</td>
             </tr>
