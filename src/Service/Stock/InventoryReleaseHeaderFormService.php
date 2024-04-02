@@ -168,7 +168,7 @@ class InventoryReleaseHeaderFormService
                 $newInventory->setMaterial($material);
                 $newInventory->setWarehouse($inventoryReleaseHeader->getWarehouse());
                 $newInventory->setInventoryMode($inventoryReleaseHeader->getReleaseMode());
-                $newInventory->setQuantityIn($inventoryReleaseMaterialDetail->getQuantity());
+                $newInventory->setQuantityOut($inventoryReleaseMaterialDetail->getQuantity());
             });
         } else if ($inventoryReleaseHeader->getReleaseMode() === InventoryReleaseHeader::RELEASE_MODE_PAPER) {
             $inventoryReleasePaperDetails = $inventoryReleaseHeader->getInventoryReleasePaperDetails()->toArray();
@@ -181,7 +181,7 @@ class InventoryReleaseHeaderFormService
                 $newInventory->setPaper($paper);
                 $newInventory->setWarehouse($inventoryReleaseHeader->getWarehouse());
                 $newInventory->setInventoryMode($inventoryReleaseHeader->getReleaseMode());
-                $newInventory->setQuantityIn($inventoryReleasePaperDetail->getQuantity());
+                $newInventory->setQuantityOut($inventoryReleasePaperDetail->getQuantity());
             });
         }
     }
