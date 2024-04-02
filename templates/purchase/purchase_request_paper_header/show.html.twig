@@ -36,6 +36,22 @@
                 <td>{{ purchaseRequestPaperHeader.transactionStatus }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ purchaseRequestPaperHeader.createdTransactionUser.username }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ purchaseRequestPaperHeader.createdTransactionDateTime ? purchaseInvoiceHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ purchaseRequestPaperHeader.modifiedTransactionUser.username }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ purchaseRequestPaperHeader.modifiedTransactionDateTime ? purchaseInvoiceHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction On Hold?</th>
                 <td>{{ purchaseRequestPaperHeader.isOnHold ? 'Yes' : 'No' }}</td>
             </tr>
