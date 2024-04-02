@@ -68,6 +68,22 @@
                 <td>{{ saleInvoiceHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ saleInvoiceHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ saleInvoiceHeader.createdTransactionDateTime ? saleInvoiceHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ saleInvoiceHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ saleInvoiceHeader.modifiedTransactionDateTime ? saleInvoiceHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ saleInvoiceHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

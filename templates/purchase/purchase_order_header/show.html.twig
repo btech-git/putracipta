@@ -55,6 +55,22 @@
                 <td>{{ purchaseOrderHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ purchaseOrderHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ purchaseOrderHeader.createdTransactionDateTime ? purchaseOrderHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ purchaseOrderHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ purchaseOrderHeader.modifiedTransactionDateTime ? purchaseOrderHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction On Hold?</th>
                 <td>{{ purchaseOrderHeader.isOnHold ? 'Yes' : 'No' }}</td>
             </tr>

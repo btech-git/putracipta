@@ -64,6 +64,22 @@
                 <td>{{ deliveryHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ deliveryHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ deliveryHeader.createdTransactionDateTime ? deliveryHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ deliveryHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ deliveryHeader.modifiedTransactionDateTime ? deliveryHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ deliveryHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

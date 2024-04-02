@@ -71,6 +71,22 @@
                 <td>{{ saleOrderHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ saleOrderHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ saleOrderHeader.createdTransactionDateTime ? saleOrderHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ saleOrderHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ saleOrderHeader.modifiedTransactionDateTime ? saleOrderHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Retur Transaksi</th>
                 <td>{{ saleOrderHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
             </tr>

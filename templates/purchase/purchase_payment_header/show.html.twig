@@ -52,6 +52,22 @@
                 <td>{{ purchasePaymentHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ purchasePaymentHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ purchasePaymentHeader.createdTransactionDateTime ? purchasePaymentHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ purchasePaymentHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ purchasePaymentHeader.modifiedTransactionDateTime ? purchasePaymentHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ purchasePaymentHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

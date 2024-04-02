@@ -44,6 +44,22 @@
                 <td>{{ saleReturnHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ saleReturnHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ saleReturnHeader.createdTransactionDateTime ? saleReturnHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ saleReturnHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ saleReturnHeader.modifiedTransactionDateTime ? saleReturnHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Tukar Guling?</th>
                 <td>{{ saleReturnHeader.isIsProductExchange ? 'Yes' : 'No' }}</td>
             </tr>

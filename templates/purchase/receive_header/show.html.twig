@@ -52,6 +52,22 @@
                 <td>{{ receiveHeader.hasReturnTransaction ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ receiveHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ receiveHeader.createdTransactionDateTime ? receiveHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ receiveHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ receiveHeader.modifiedTransactionDateTime ? receiveHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled?</th>
                 <td>{{ receiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

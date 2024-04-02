@@ -48,6 +48,22 @@
                 <td>{{ purchaseReturnHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ purchaseReturnHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ purchaseReturnHeader.createdTransactionDateTime ? purchaseReturnHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ purchaseReturnHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ purchaseReturnHeader.modifiedTransactionDateTime ? purchaseReturnHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction Canceled ?</th>
                 <td>{{ purchaseReturnHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

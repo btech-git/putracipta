@@ -36,6 +36,22 @@
                 <td>{{ purchaseRequestHeader.transactionStatus }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ purchaseRequestHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ purchaseRequestHeader.createdTransactionDateTime ? purchaseRequestHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ purchaseRequestHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ purchaseRequestHeader.modifiedTransactionDateTime ? purchaseRequestHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Transaction On Hold?</th>
                 <td>{{ purchaseRequestHeader.isOnHold ? 'Yes' : 'No' }}</td>
             </tr>
