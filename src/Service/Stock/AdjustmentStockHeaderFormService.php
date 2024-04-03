@@ -146,7 +146,7 @@ class AdjustmentStockHeaderFormService
                 $newInventory->setMaterial($material);
                 $newInventory->setWarehouse($adjustmentStockHeader->getWarehouse());
                 $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
-                $newInventory->setQuantityIn($adjustmentStockMaterialDetail->getQuantityAdjustment());
+                $newInventory->setQuantityIn($adjustmentStockMaterialDetail->getQuantityDifference());
             });
         } else if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_PAPER) {
             $adjustmentStockPaperDetails = $adjustmentStockHeader->getAdjustmentStockPaperDetails()->toArray();
@@ -159,7 +159,7 @@ class AdjustmentStockHeaderFormService
                 $newInventory->setPaper($paper);
                 $newInventory->setWarehouse($adjustmentStockHeader->getWarehouse());
                 $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
-                $newInventory->setQuantityIn($adjustmentStockPaperDetail->getQuantityAdjustment());
+                $newInventory->setQuantityIn($adjustmentStockPaperDetail->getQuantityDifference());
             });
         } else if ($adjustmentStockHeader->getAdjustmentMode() === AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT) {
             $adjustmentStockProductDetails = $adjustmentStockHeader->getAdjustmentStockProductDetails()->toArray();
@@ -172,7 +172,7 @@ class AdjustmentStockHeaderFormService
                 $newInventory->setProduct($product);
                 $newInventory->setWarehouse($adjustmentStockHeader->getWarehouse());
                 $newInventory->setInventoryMode($adjustmentStockHeader->getAdjustmentMode());
-                $newInventory->setQuantityIn($adjustmentStockProductDetail->getQuantityAdjustment());
+                $newInventory->setQuantityIn($adjustmentStockProductDetail->getQuantityDifference());
             });
         }
     }
