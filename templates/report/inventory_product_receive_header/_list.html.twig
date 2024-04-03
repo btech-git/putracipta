@@ -79,7 +79,9 @@
                             <tr>
                                 <th class="text-start">Kode</th>
                                 <th class="text-start">Nama Barang</th>
-                                <th class="text-start">Qty</th>
+                                <th class="text-start">Qty Box</th>
+                                <th class="text-start">Qty Pcs</th>
+                                <th class="text-start">Total Pcs</th>
                                 <th class="text-start">Satuan</th>
                                 <th class="text-start">Memo</th>
                             </tr>
@@ -106,7 +108,9 @@
                                     <tr>
                                         <td class="text-start">{{ inventoryProductReceiveDetail.product.code|default }}</td>
                                         <td class="text-start">{{ inventoryProductReceiveDetail.product.name|default }}</td>
-                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantity|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantityBox|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantityTotalPieces|default|number_format(0) }}</td>
                                         <td class="text-start">{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
                                         <td class="text-start">{{ inventoryProductReceiveDetail.memo|default }}</td>
                                     </tr>
