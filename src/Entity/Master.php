@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,7 +13,7 @@ abstract class Master
     protected ?bool $isInactive = false;
 
     #[ORM\Column(length: 150)]
-    #[Assert\NotBlank]
+//    #[Assert\NotBlank]
     protected ?string $name = '';
 
     public function isIsInactive(): ?bool

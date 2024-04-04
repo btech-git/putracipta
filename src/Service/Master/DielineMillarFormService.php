@@ -25,6 +25,14 @@ class DielineMillarFormService
         $this->dielineMillarRepository = $entityManager->getRepository(DielineMillar::class);
     }
 
+    public function finalize(DielineMillar $dielineMillar, array $options = []): void
+    {
+        $product = $dielineMillar->getProduct();
+        if (!empty($product)) {
+            $dielineMillar->setName($product->getName());
+        }
+    }
+
     public function save(DielineMillar $dielineMillar, array $options = []): void
     {
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());

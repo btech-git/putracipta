@@ -44,11 +44,14 @@ class DesignCodeFormService
     public function finalize(DesignCode $designCode, array $options = []): void
     {
         $productCodeList = array();
+        $productNameList = array();
         foreach ($designCode->getDesignCodeProductDetails() as $designCodeProductDetail) {
             $product = $designCodeProductDetail->getProduct();
             $productCodeList[] = $product->getCode();
+            $productNameList[] = $product->getName();
         }
         $designCode->setCode(implode(', ', $productCodeList));
+        $designCode->setName(implode(', ', $productNameList));
         
     }
 

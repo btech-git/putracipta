@@ -66,6 +66,7 @@ class DiecutKnifeController extends AbstractController
         $diecutKnife = new DiecutKnife();
         $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
         $form->handleRequest($request);
+        $diecutKnifeFormService->finalize($diecutKnife);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $diecutKnifeFormService->save($diecutKnife);

@@ -29,7 +29,7 @@ class DesignCodeType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-            ->add('name', HiddenType::class, ['label' => 'Nama Produk'])
+//            ->add('name', HiddenType::class, ['label' => 'Nama Produk'])
             ->add('code', null, ['label' => 'Kode Produk'])
             ->add('variant', null, ['label' => false])
             ->add('version', null, ['label' => 'Revisi'])

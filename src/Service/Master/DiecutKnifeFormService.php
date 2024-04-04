@@ -25,6 +25,14 @@ class DiecutKnifeFormService
         $this->diecutKnifeRepository = $entityManager->getRepository(DiecutKnife::class);
     }
 
+    public function finalize(DiecutKnife $diecutKnife, array $options = []): void
+    {
+        $product = $diecutKnife->getProduct();
+        if (!empty($product)) {
+            $diecutKnife->setName($product->getName());
+        }
+    }
+
     public function save(DiecutKnife $diecutKnife, array $options = []): void
     {
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
