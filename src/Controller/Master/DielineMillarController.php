@@ -96,6 +96,7 @@ class DielineMillarController extends AbstractController
     {
         $form = $this->createForm(DielineMillarType::class, $dielineMillar);
         $form->handleRequest($request);
+        $dielineMillarFormService->finalize($dielineMillar);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $dielineMillarFormService->save($dielineMillar);
