@@ -13,7 +13,7 @@ abstract class Master
     protected ?bool $isInactive = false;
 
     #[ORM\Column(length: 150)]
-    #[Assert\NotBlank]
+//    #[Assert\NotBlank]
     protected ?string $name = '';
 
     public function isIsInactive(): ?bool
