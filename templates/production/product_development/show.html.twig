@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <th>Nama Customer</th>
-                <td>{{ productDevelopment.productPrototype.customer.name|default }}</td>
+                <td>{{ productDevelopment.productPrototype.customer.company|default }}</td>
             </tr>
             <tr>
                 <th>Nama Produk</th>
@@ -41,161 +41,161 @@
         </tbody>
     </table>
             
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th style="min-width: 5%">No.</th>
-                    <th colspan="2">Progress</th>
-                    <th style="min-width: 25%">Tanggal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="9" class="text-center" style="font-weight: bold">I.</td>
-                    <td colspan="2" class="text-center" style="font-weight: bold">EP Development</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="text-center">1.</td>
-                    <td>Terima file artwork & sample</td>
-                    <td>{{ productDevelopment.epArtworkFileDate ? productDevelopment.epArtworkFileDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">2.</td>
-                    <td>Konfirmasi hasil review file ke customer</td>
-                    <td>{{ productDevelopment.epCustomerReviewDate ? productDevelopment.epCustomerReviewDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">3.</td>
-                    <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
-                    <td>{{ productDevelopment.epSubconDiecutDate ? productDevelopment.epSubconDiecutDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">4.</td>
-                    <td>Pembuatan film dieline (kirim file)</td>
-                    <td>{{ productDevelopment.epDielineDevelopmentDate ? productDevelopment.epDielineDevelopmentDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">5.</td>
-                    <td>Penyerahan gambar / sample ke produksi</td>
-                    <td>{{ productDevelopment.epImageDeliveryProductionDate ? productDevelopment.epImageDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">6.</td>
-                    <td>Penyerahan pisau diecut ke produksi (1 up)</td>
-                    <td>{{ productDevelopment.epDiecutDeliveryProductionDate ? productDevelopment.epDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">7.</td>
-                    <td>Penyerahan gambar / film dieline ke produksi</td>
-                    <td>{{ productDevelopment.epDielineDeliveryProductionDate ? productDevelopment.epDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-            </tbody>
-        </table>
-    
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th style="min-width: 5%">No.</th>
-                    <th colspan="2">Progress</th>
-                    <th style="min-width: 25%">Tanggal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">II.</td>
-                    <td colspan="2" class="text-center" style="font-weight: bold">FEP Development</td>
-                    <td style="min-width: 25%"></td>
-                </tr>
-                <tr>
-                    <td class="text-center">1.</td>
-                    <td>Terima file artwork & sample</td>
-                    <td>{{ productDevelopment.fepArtworkFileDate ? productDevelopment.fepArtworkFileDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">2.</td>
-                    <td>Konfirmasi hasil review file ke customer</td>
-                    <td>{{ productDevelopment.fepCustomerReviewDate ? productDevelopment.fepCustomerReviewDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">3.</td>
-                    <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
-                    <td>{{ productDevelopment.fepSubconDiecutDate ? productDevelopment.fepSubconDiecutDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">4.</td>
-                    <td>Pembuatan film dieline (kirim file)</td>
-                    <td>{{ productDevelopment.fepDielineDevelopmentDate ? productDevelopment.fepDielineDevelopmentDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">5.</td>
-                    <td>Penyerahan gambar / sample ke produksi</td>
-                    <td>{{ productDevelopment.fepImageDeliveryProductionDate ? productDevelopment.fepImageDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">6.</td>
-                    <td>Penyerahan pisau diecut ke produksi (1 up)</td>
-                    <td>{{ productDevelopment.fepDiecutDeliveryProductionDate ? productDevelopment.fepDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">7.</td>
-                    <td>Penyerahan gambar / film dieline ke produksi</td>
-                    <td>{{ productDevelopment.fepDielineDeliveryProductionDate ? productDevelopment.fepDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="min-width: 5%">No.</th>
+                <th colspan="2">Progress</th>
+                <th style="min-width: 25%">Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="9" class="text-center" style="font-weight: bold">I.</td>
+                <td colspan="2" class="text-center" style="font-weight: bold">EP Development</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-center">1.</td>
+                <td>Terima file artwork & sample</td>
+                <td>{{ productDevelopment.epArtworkFileDate ? productDevelopment.epArtworkFileDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">2.</td>
+                <td>Konfirmasi hasil review file ke customer</td>
+                <td>{{ productDevelopment.epCustomerReviewDate ? productDevelopment.epCustomerReviewDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">3.</td>
+                <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                <td>{{ productDevelopment.epSubconDiecutDate ? productDevelopment.epSubconDiecutDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">4.</td>
+                <td>Pembuatan film dieline (kirim file)</td>
+                <td>{{ productDevelopment.epDielineDevelopmentDate ? productDevelopment.epDielineDevelopmentDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">5.</td>
+                <td>Penyerahan gambar / sample ke produksi</td>
+                <td>{{ productDevelopment.epImageDeliveryProductionDate ? productDevelopment.epImageDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">6.</td>
+                <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                <td>{{ productDevelopment.epDiecutDeliveryProductionDate ? productDevelopment.epDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">7.</td>
+                <td>Penyerahan gambar / film dieline ke produksi</td>
+                <td>{{ productDevelopment.epDielineDeliveryProductionDate ? productDevelopment.epDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th style="min-width: 5%">No.</th>
-                    <th colspan="2">Progress</th>
-                    <th style="min-width: 25%">Tanggal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">III.</td>
-                    <td colspan="2" class="text-center" style="font-weight: bold">PP / PS Development</td>
-                    <td style="min-width: 25%"></td>
-                </tr>
-                <tr>
-                    <td class="text-center">1.</td>
-                    <td>Terima file artwork & sample</td>
-                    <td>{{ productDevelopment.psArtworkFileDate ? productDevelopment.psArtworkFileDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">2.</td>
-                    <td>Konfirmasi hasil review file ke customer</td>
-                    <td>{{ productDevelopment.psCustomerReviewDate ? productDevelopment.psCustomerReviewDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">3.</td>
-                    <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
-                    <td>{{ productDevelopment.psSubconDiecutDate ? productDevelopment.psSubconDiecutDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">4.</td>
-                    <td>Pembuatan film dieline (kirim file)</td>
-                    <td>{{ productDevelopment.psDielineDevelopmentDate ? productDevelopment.psDielineDevelopmentDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">5.</td>
-                    <td>Penyerahan gambar / sample ke produksi</td>
-                    <td>{{ productDevelopment.psImageDeliveryProductionDate ? productDevelopment.psImageDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">6.</td>
-                    <td>Penyerahan pisau diecut ke produksi (1 up)</td>
-                    <td>{{ productDevelopment.psDiecutDeliveryProductionDate ? productDevelopment.psDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-                <tr>
-                    <td class="text-center">7.</td>
-                    <td>Penyerahan gambar / film dieline ke produksi</td>
-                    <td>{{ productDevelopment.psDielineDeliveryProductionDate ? productDevelopment.psDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="min-width: 5%">No.</th>
+                <th colspan="2">Progress</th>
+                <th style="min-width: 25%">Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">II.</td>
+                <td colspan="2" class="text-center" style="font-weight: bold">FEP Development</td>
+                <td style="min-width: 25%"></td>
+            </tr>
+            <tr>
+                <td class="text-center">1.</td>
+                <td>Terima file artwork & sample</td>
+                <td>{{ productDevelopment.fepArtworkFileDate ? productDevelopment.fepArtworkFileDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">2.</td>
+                <td>Konfirmasi hasil review file ke customer</td>
+                <td>{{ productDevelopment.fepCustomerReviewDate ? productDevelopment.fepCustomerReviewDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">3.</td>
+                <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                <td>{{ productDevelopment.fepSubconDiecutDate ? productDevelopment.fepSubconDiecutDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">4.</td>
+                <td>Pembuatan film dieline (kirim file)</td>
+                <td>{{ productDevelopment.fepDielineDevelopmentDate ? productDevelopment.fepDielineDevelopmentDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">5.</td>
+                <td>Penyerahan gambar / sample ke produksi</td>
+                <td>{{ productDevelopment.fepImageDeliveryProductionDate ? productDevelopment.fepImageDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">6.</td>
+                <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                <td>{{ productDevelopment.fepDiecutDeliveryProductionDate ? productDevelopment.fepDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">7.</td>
+                <td>Penyerahan gambar / film dieline ke produksi</td>
+                <td>{{ productDevelopment.fepDielineDeliveryProductionDate ? productDevelopment.fepDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="min-width: 5%">No.</th>
+                <th colspan="2">Progress</th>
+                <th style="min-width: 25%">Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">III.</td>
+                <td colspan="2" class="text-center" style="font-weight: bold">PP / PS Development</td>
+                <td style="min-width: 25%"></td>
+            </tr>
+            <tr>
+                <td class="text-center">1.</td>
+                <td>Terima file artwork & sample</td>
+                <td>{{ productDevelopment.psArtworkFileDate ? productDevelopment.psArtworkFileDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">2.</td>
+                <td>Konfirmasi hasil review file ke customer</td>
+                <td>{{ productDevelopment.psCustomerReviewDate ? productDevelopment.psCustomerReviewDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">3.</td>
+                <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                <td>{{ productDevelopment.psSubconDiecutDate ? productDevelopment.psSubconDiecutDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">4.</td>
+                <td>Pembuatan film dieline (kirim file)</td>
+                <td>{{ productDevelopment.psDielineDevelopmentDate ? productDevelopment.psDielineDevelopmentDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">5.</td>
+                <td>Penyerahan gambar / sample ke produksi</td>
+                <td>{{ productDevelopment.psImageDeliveryProductionDate ? productDevelopment.psImageDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">6.</td>
+                <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                <td>{{ productDevelopment.psDiecutDeliveryProductionDate ? productDevelopment.psDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <td class="text-center">7.</td>
+                <td>Penyerahan gambar / film dieline ke produksi</td>
+                <td>{{ productDevelopment.psDielineDeliveryProductionDate ? productDevelopment.psDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
               
     <br />
     

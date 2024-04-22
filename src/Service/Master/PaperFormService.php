@@ -31,9 +31,9 @@ class PaperFormService
             $name = $paper->getName();
             $weight = $paper->getWeight();
             $type = $paper->getType();
-//            $lastPaperCode = $this->paperRepository->findRecentBy($name, $weight, $type);
-//            $currentPaperCode = ($lastPaperCode === null) ? $paper : $lastPaperCode;
-//            $paper->setCodeNumberToNext($currentPaperCode->getCodeNumber());
+            $lastPaperCode = $this->paperRepository->findRecentBy($name, $weight, $type);
+            $currentPaperCode = ($lastPaperCode === null) ? $paper : $lastPaperCode;
+            $paper->setCodeNumberToNext($currentPaperCode->getCodeNumber());
         }
     }
     
