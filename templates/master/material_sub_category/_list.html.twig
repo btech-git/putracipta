@@ -8,6 +8,9 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Sub Category Code {{ grid.sort_char(form.sort.code.vars.value) }}
+                </th>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Sub Category Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
@@ -20,6 +23,9 @@
                 <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
@@ -45,6 +51,7 @@
         <tbody>
             {% for materialSubCategory in materialSubCategories %}
                 <tr>
+                    <td>{{ materialSubCategory.code }}</td>
                     <td>{{ materialSubCategory.name }}</td>
                     <td>{{ materialSubCategory.materialCategory.name|default }}</td>
                     <td>{{ materialSubCategory.isInactive ? 'Yes' : 'No' }}</td>

@@ -22,14 +22,14 @@
                     <td class="d-none">{{ form_widget(detailForm.receiveDetail, {'attr': {'data-item-field-name': 'receiveDetailId'}}) }}</td>
                     <td data-item-field-name="materialCode">
                         {% if (detailForm.vars.value.material == null) %}
-                            {{ detailForm.vars.value.paper.code|default }}
+                            {{ detailForm.vars.value.paper.codeNumber|default }}
                         {% else %}
                             {{ detailForm.vars.value.material.code|default }}
                         {%  endif %}
                     </td>
                     <td data-item-field-name="materialName">
                         {% if (detailForm.vars.value.material == null) %}
-                            {{ detailForm.vars.value.paper.paperNameSizeCombination|default }}
+                            {{ detailForm.vars.value.paper.name|default }}
                         {% else %}
                             {{ detailForm.vars.value.material.name|default }}
                         {%  endif %}

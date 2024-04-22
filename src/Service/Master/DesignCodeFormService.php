@@ -92,6 +92,9 @@ class DesignCodeFormService
         $designCode->setPrintingUpQuantity($sourceDesignCode->getPrintingUpQuantity());
         $designCode->setPrintingKrisSize($sourceDesignCode->getPrintingKrisSize());
         $designCode->setPaperMountage($sourceDesignCode->getPaperMountage());
+        $designCode->setGlossiness($sourceDesignCode->getGlossiness());
+        $designCode->setPaperPlanoLength($sourceDesignCode->getPaperPlanoLength());
+        $designCode->setPaperPlanoWidth($sourceDesignCode->getPaperPlanoWidth());
         $designCode->setDiecutKnife($sourceDesignCode->getDiecutKnife());
         $designCode->setDielineMillar($sourceDesignCode->getDielineMillar());
         $designCode->setStatus($sourceDesignCode->getStatus());
@@ -114,6 +117,12 @@ class DesignCodeFormService
         $designCode->setPackagingTapeSmallQuantity($sourceDesignCode->getPackagingTapeSmallQuantity());
         $designCode->setPackagingPlasticQuantity($sourceDesignCode->getPackagingPlasticQuantity());
         $designCode->setHotStamping($sourceDesignCode->getHotStamping());
+        foreach ($sourceDesignCode->getDesignCodeProductDetails() as $sourceDesignCodeProductDetail) {
+            $designCodeProductDetail = new DesignCodeProductDetail();
+            $designCodeProductDetail->setDesignCode($sourceDesignCodeProductDetail->getDesignCode());
+            $designCodeProductDetail->setProduct($sourceDesignCodeProductDetail->getProduct());
+            $designCode->addDesignCodeProductDetail($designCodeProductDetail);
+        }
         foreach ($sourceDesignCode->getDesignCodeCheckSheetDetails() as $sourceDesignCodeCheckSheetDetail) {
             $designCodeCheckSheetDetail = new DesignCodeCheckSheetDetail();
             $designCodeCheckSheetDetail->setDesignCode($sourceDesignCodeCheckSheetDetail->getDesignCode());

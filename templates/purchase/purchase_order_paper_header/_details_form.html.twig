@@ -29,7 +29,7 @@
                     <td class="d-none">{{ form_widget(detailForm.purchaseRequestPaperDetail, {'attr': {'data-item-field-name': 'purchaseRequestPaperDetailId'}}) }}</td>
                     <td class="d-none" data-item-field-name="pricingMode">{{ detailForm.vars.value.paper.pricingMode|default }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
-                    <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.paperNameSizeCombination|default }}</td>
+                    <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
                     <td>
                         {{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {
                             'data-controller': 'flatpickr-element', 

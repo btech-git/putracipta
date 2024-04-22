@@ -25,13 +25,15 @@ class MaterialSubCategoryGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['name', 'materialCategory', 'isInactive'],
+                'field_names' => ['name', 'code', 'materialCategory', 'isInactive'],
                 'field_label_list' => [
+                    'code' => 'Kode',
                     'name' => 'Nama',
                     'materialCategory' => 'Category',
                     'isInactive' => 'Inactive',
                 ],
                 'field_operators_list' => [
+                    'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'materialCategory' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
@@ -46,14 +48,16 @@ class MaterialSubCategoryGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['name', 'materialCategory:name', 'isInactive'],
+                'field_names' => ['name', 'code', 'materialCategory:name', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
+                    'code' => 'Kode',
                     'materialCategory:name' => 'Category',
                     'isInactive' => 'Inactive',
                 ],
                 'field_operators_list' => [
                     'name' => [SortAscending::class, SortDescending::class],
+                    'code' => [SortAscending::class, SortDescending::class],
                     'materialCategory:name' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                 ],

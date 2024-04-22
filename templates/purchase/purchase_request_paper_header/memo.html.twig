@@ -54,8 +54,8 @@
                     {% for purchaseRequestPaperDetail in row %}
                         <tr>
                             {% if purchaseRequestPaperDetail and not purchaseRequestPaperDetail.isCanceled %}
-                                <td class="left">{{ purchaseRequestPaperDetail.paper.code|default }}</td>
-                                <td class="left">{{ purchaseRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                <td class="left">{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
+                                <td class="left">{{ purchaseRequestPaperDetail.paper.name|default }}</td>
                                 <td class="center">{{ purchaseRequestPaperDetail.quantity|default|number_format(2) }}</td>
                                 <td class="left">{{ purchaseRequestPaperDetail.unit.name|default }}</td>
                                 <td class="left">{{ purchaseRequestPaperDetail.usageDate|default ? purchaseRequestPaperDetail.usageDate|date('d M Y') }}</td>

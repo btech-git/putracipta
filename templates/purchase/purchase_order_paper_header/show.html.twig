@@ -100,7 +100,7 @@
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
                 <tr>
-                    <td>{{ purchaseOrderPaperDetail.paper.code|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>

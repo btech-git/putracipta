@@ -28,6 +28,9 @@ class MaterialSubCategory extends Master
     #[ORM\OneToMany(mappedBy: 'materialSubCategory', targetEntity: Paper::class)]
     private Collection $papers;
 
+    #[ORM\Column(length: 20)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->materials = new ArrayCollection();
@@ -107,6 +110,18 @@ class MaterialSubCategory extends Master
                 $paper->setMaterialSubCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

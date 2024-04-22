@@ -4,6 +4,7 @@ namespace App\Entity\Master;
 
 use App\Entity\Master;
 use App\Repository\Master\PaperRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,11 +56,15 @@ class Paper extends Master
     #[ORM\Column(length: 60)]
     private ?string $weight = '';
 
-    #[ORM\Column(length: 60)]
-    private ?string $code = '';
+    #[ORM\OneToMany(mappedBy: 'paper', targetEntity: DesignCode::class)]
+    private Collection $designCodes;
+
+    #[ORM\Column]
+    private ?int $code = null;
 
     public function __construct()
     {
+        $this->designCodes = new ArrayCollection();
     }
 
     public function getPaperNameSizeCombination(): string
@@ -70,8 +75,9 @@ class Paper extends Master
     public function getCodeNumber(): string
     {
         $type = ($this->type === self::TYPE_FSC) ? 'FSC' : '000';
+        $materialSubCategory = $this->getMaterialSubCategory();
         
-        return $this->name . '-' . number_format($this->weight, 0) . '-' . $type . '-' . $this->code;
+        return $materialSubCategory->getCode() . '-' . $this->weight . '-' . $type . '-' . $this->code;
     }
     
     public function setCodeNumberToNext($codeNumber): self
@@ -217,12 +223,42 @@ class Paper extends Master
         return $this;
     }
 
-    public function getCode(): ?string
+    /**
+     * @return Collection<int, DesignCode>
+     */
+    public function getDesignCodes(): Collection
+    {
+        return $this->designCodes;
+    }
+
+    public function addDesignCode(DesignCode $designCode): self
+    {
+        if (!$this->designCodes->contains($designCode)) {
+            $this->designCodes->add($designCode);
+            $designCode->setPaper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDesignCode(DesignCode $designCode): self
+    {
+        if ($this->designCodes->removeElement($designCode)) {
+            // set the owning side to null (unless already changed)
+            if ($designCode->getPaper() === $this) {
+                $designCode->setPaper(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCode(): ?int
     {
         return $this->code;
     }
 
-    public function setCode(string $code): self
+    public function setCode(int $code): self
     {
         $this->code = $code;
 

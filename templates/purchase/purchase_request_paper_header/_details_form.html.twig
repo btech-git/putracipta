@@ -21,7 +21,7 @@
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
-                    <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
+                    <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
                     <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
                     <td>

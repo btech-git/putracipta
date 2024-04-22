@@ -159,6 +159,9 @@ class DesignCode extends Master
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProductDetail::class)]
     private Collection $designCodeProductDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'designCodes')]
+    private ?Paper $paper = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -823,6 +826,18 @@ class DesignCode extends Master
                 $designCodeProductDetail->setDesignCode(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaper(): ?Paper
+    {
+        return $this->paper;
+    }
+
+    public function setPaper(?Paper $paper): self
+    {
+        $this->paper = $paper;
 
         return $this;
     }

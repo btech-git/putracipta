@@ -41,14 +41,14 @@
                 <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'paperId': paper.id, 
                     'paperCode': paper.codeNumber, 
-                    'paperName': paper.paperNameSizeCombination, 
+                    'paperName': paper.name, 
                     'unitId': paper.unit.id, 
                     'unitName': paper.unit.name,
                     'pricingMode': paper.pricingMode,
                     'paperLength': paper.length|number_format(2), 
                     'paperWidth': paper.width|number_format(2), 
                     'paperWeight': paper.weight|number_format(2)}|json_encode }}">
-                    <td>{{ paper.code }}</td>
+                    <td>{{ paper.codeNumber }}</td>
                     <td>{{ paper.name }}</td>
                     <td>{{ paper.weight }}</td>
                     <td>{{ paper.materialSubCategory.name|default }}</td>
