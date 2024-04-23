@@ -81,7 +81,9 @@
         <tbody>
             {% for designCodeProductDetail in product.designCodeProductDetails %}
                 <tr>
-                    <td>{{ designCodeProductDetail.designCode.codeNumber|default }}</td>
+                    <td>
+                        <a target="_blank" href="{{ path('app_master_design_code_show', {'id': designCodeProductDetail.designCode.id}) }}">{{ designCodeProductDetail.designCode.codeNumber|default }}</a>
+                    </td>
                     <td>{{ designCodeProductDetail.designCode.name|default }}</td>
                     <td>{{ designCodeProductDetail.designCode.color|default }}</td>
                     <td>{{ designCodeProductDetail.designCode.pantone|default }}</td>
