@@ -41,7 +41,7 @@
         </tbody>
     </table>
             
-    <table class="table table-bordered">
+    <table class="table table-bordered {% if 'ep' not in productDevelopment.developmentTypeList %}d-none{% endif %}">
         <thead>
             <tr>
                 <th style="min-width: 5%">No.</th>
@@ -93,7 +93,7 @@
         </tbody>
     </table>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered {% if 'fep' not in productDevelopment.developmentTypeList %}d-none{% endif %}">
         <thead>
             <tr>
                 <th style="min-width: 5%">No.</th>
@@ -145,7 +145,7 @@
         </tbody>
     </table>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered {% if 'ps' not in productDevelopment.developmentTypeList %}d-none{% endif %}">
         <thead>
             <tr>
                 <th style="min-width: 5%">No.</th>

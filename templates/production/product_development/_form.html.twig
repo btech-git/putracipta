@@ -13,7 +13,7 @@
                     {{ form_row(form.employeeDesigner, {'label': 'PIC Design'}) }}
                     <div class="mb-3">
                         <label class="form-label">Proses Development</label>
-                        <input type="text" class="form-control" value="{{ productDevelopment.productPrototype.developmentTypeList|default ? productDevelopment.productPrototype.developmentTypeList|join(', ') : '' }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
@@ -71,7 +71,7 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
-                <table class="table table-sm table-bordered"
+                <table class="table table-sm table-bordered {% if 'ep' not in productDevelopment.developmentTypeList %}d-none{% endif %}"
                        data-controller="dom-element"
                        data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                        data-dom-element-bind-specifications-param="{{ [
@@ -87,7 +87,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td rowspan="9" class="text-center" style="font-weight: bold">I.</td>
+                            <td rowspan="8" class="text-center" style="font-weight: bold">I.</td>
                             <td colspan="2" class="text-center" style="font-weight: bold">EP Development</td>
                             <td></td>
                         </tr>
@@ -178,7 +178,7 @@
                     </tbody>
                 </table>
                         
-                <table class="table table-sm table-bordered"
+                <table class="table table-sm table-bordered {% if 'fep' not in productDevelopment.developmentTypeList %}d-none{% endif %}"
                        data-controller="dom-element"
                        data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                        data-dom-element-bind-specifications-param="{{ [
@@ -194,7 +194,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">II.</td>
+                            <td rowspan="8" class="text-center" style="font-weight: bold; min-width: 5%">II.</td>
                             <td colspan="2" class="text-center" style="font-weight: bold">FEP Development</td>
                             <td style="min-width: 25%"></td>
                         </tr>
@@ -285,7 +285,7 @@
                     </tbody>
                 </table>
                         
-                <table class="table table-sm table-bordered"
+                <table class="table table-sm table-bordered {% if 'ps' not in productDevelopment.developmentTypeList %}d-none{% endif %}"
                        data-controller="dom-element"
                        data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                        data-dom-element-bind-specifications-param="{{ [
@@ -301,7 +301,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td rowspan="9" class="text-center" style="font-weight: bold; min-width: 5%">III.</td>
+                            <td rowspan="8" class="text-center" style="font-weight: bold; min-width: 5%">III.</td>
                             <td colspan="2" class="text-center" style="font-weight: bold">PP / PS Development</td>
                             <td style="min-width: 25%"></td>
                         </tr>
