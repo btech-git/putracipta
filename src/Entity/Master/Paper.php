@@ -60,7 +60,7 @@ class Paper extends Master
     private Collection $designCodes;
 
     #[ORM\Column]
-    private ?int $code = null;
+    private ?int $code = 0;
 
     public function __construct()
     {
@@ -77,18 +77,6 @@ class Paper extends Master
         $type = ($this->type === self::TYPE_FSC) ? 'FSC' : '000';
         
         return $this->materialSubCategory === null ? '---' : sprintf('%s-%s-%s-%03d', $this->materialSubCategory->getCode(), $this->weight, $type, $this->code);
-    }
-    
-    public function setCodeNumberToNext($codeNumber): self
-    {
-        list($name, $weight, $type, $code) = explode('-', $codeNumber);
-
-        $this->code = intval($code) + 1;
-        $this->name = $name;
-        $this->weight = $weight;
-        $this->type = $type;
-
-        return $this;
     }
 
     public function getId(): ?int
