@@ -75,16 +75,15 @@ class Paper extends Master
     public function getCodeNumber(): string
     {
         $type = ($this->type === self::TYPE_FSC) ? 'FSC' : '000';
-        $materialSubCategory = $this->getMaterialSubCategory();
         
-        return $materialSubCategory->getCode() . '-' . $this->weight . '-' . $type . '-' . $this->code;
+        return $this->materialSubCategory === null ? '---' : sprintf('%s-%s-%s-%03d', $this->materialSubCategory->getCode(), $this->weight, $type, $this->code);
     }
     
     public function setCodeNumberToNext($codeNumber): self
     {
         list($name, $weight, $type, $code) = explode('-', $codeNumber);
 
-        $this->code = $code + 1;
+        $this->code = intval($code) + 1;
         $this->name = $name;
         $this->weight = $weight;
         $this->type = $type;
