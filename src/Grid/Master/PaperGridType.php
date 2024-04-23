@@ -24,15 +24,13 @@ class PaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
+                'field_names' => ['name', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
-                    'code' => 'Code',
                     'name' => 'Nama',
                     'weight' => 'Berat (gsm)',
                     'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
-                    'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'weight' => [FilterEqual::class, FilterNotEqual::class],
                     'materialSubCategory:name' => [FilterContain::class, FilterNotContain::class],
@@ -46,15 +44,13 @@ class PaperGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
+                'field_names' => ['name', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
                     'weight' => 'Berat (gsm)',
-                    'code' => 'Code',
                     'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
-                    'code' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'materialSubCategory:name' => [SortAscending::class, SortDescending::class],
                     'weight' => [SortAscending::class, SortDescending::class],
