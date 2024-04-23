@@ -18,12 +18,12 @@ class PaperRepository extends ServiceEntityRepository
         parent::__construct($registry, Paper::class);
     }
 
-    public function findRecentBy($name, $weight, $type)
+    public function findRecentBy($materialSubCategory, $weight, $type)
     {
-        $dql = 'SELECT e FROM ' . Paper::class . ' e WHERE e.name = :name AND e.weight = :weight AND e.type = :type ORDER BY e.code DESC';
+        $dql = 'SELECT e FROM ' . Paper::class . ' e WHERE e.materialSubCategory = :materialSubCategory AND e.weight = :weight AND e.type = :type ORDER BY e.code DESC';
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('name', $name);
+        $query->setParameter('materialSubCategory', $materialSubCategory);
         $query->setParameter('weight', $weight);
         $query->setParameter('type', $type);
         $query->setMaxResults(1);
