@@ -60,7 +60,7 @@ class PaperController extends AbstractController
         $paper = new Paper();
         $form = $this->createForm(PaperType::class, $paper);
         $form->handleRequest($request);
-        $paperFormService->finalize($paper);
+        $paperFormService->finalize($paper, ['materialSubCategory' => null, 'weight' => '', 'type' => '']);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $paperFormService->save($paper);
@@ -87,8 +87,12 @@ class PaperController extends AbstractController
     #[IsGranted('ROLE_PAPER_EDIT')]
     public function edit(Request $request, Paper $paper, PaperFormService $paperFormService): Response
     {
+        $materialSubCategory = $paper->getMaterialSubCategory();
+        $weight = $paper->getWeight();
+        $type = $paper->getType();
         $form = $this->createForm(PaperType::class, $paper);
         $form->handleRequest($request);
+        $paperFormService->finalize($paper, ['materialSubCategory' => $materialSubCategory, 'weight' => $weight, 'type' => $type]);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $paperFormService->save($paper);
