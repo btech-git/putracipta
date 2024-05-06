@@ -4,9 +4,11 @@ namespace App\Service\Production;
 
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductDevelopment;
+use App\Entity\Production\ProductDevelopmentDetail;
 use App\Entity\Support\Idempotent;
 use App\Entity\Support\TransactionLog;
 use App\Repository\Production\ProductDevelopmentRepository;
+use App\Repository\Production\ProductDevelopmentDetailRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Production\ProductDevelopmentFormSupport;
@@ -21,6 +23,7 @@ class ProductDevelopmentFormService
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private ProductDevelopmentRepository $productDevelopmentRepository;
+    private ProductDevelopmentDetailRepository $productDevelopmentDetailRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -29,6 +32,7 @@ class ProductDevelopmentFormService
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->productDevelopmentRepository = $entityManager->getRepository(ProductDevelopment::class);
+        $this->productDevelopmentDetailRepository = $entityManager->getRepository(ProductDevelopmentDetail::class);
     }
 
     public function initialize(ProductDevelopment $productDevelopment, array $options = []): void
@@ -70,8 +74,11 @@ class ProductDevelopmentFormService
             $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
             $this->idempotentRepository->add($idempotent);
             $this->productDevelopmentRepository->add($productDevelopment);
-            
+            foreach ($productDevelopment->getProductDevelopmentDetails() as $productDevelopmentDetail) {
+                $this->productDevelopmentDetailRepository->add($productDevelopmentDetail);
+            }
             $this->entityManager->flush();
+            
             $transactionLog = $this->buildTransactionLog($productDevelopment);
             $this->transactionLogRepository->add($transactionLog);
             $entityManager->flush();

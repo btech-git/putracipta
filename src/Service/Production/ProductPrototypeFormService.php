@@ -9,12 +9,14 @@ use App\Entity\Support\Idempotent;
 use App\Repository\Production\ProductPrototypeRepository;
 use App\Repository\Production\ProductPrototypeDetailRepository;
 use App\Repository\Support\IdempotentRepository;
+use App\Repository\Support\TransactionLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductPrototypeFormService
 {
     private EntityManagerInterface $entityManager;
+    private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private ProductPrototypeRepository $productPrototypeRepository;
     private ProductPrototypeDetailRepository $productPrototypeDetailRepository;
@@ -23,6 +25,7 @@ class ProductPrototypeFormService
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
+        $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->productPrototypeRepository = $entityManager->getRepository(ProductPrototype::class);
         $this->productPrototypeDetailRepository = $entityManager->getRepository(ProductPrototypeDetail::class);
@@ -54,12 +57,18 @@ class ProductPrototypeFormService
 
     public function save(ProductPrototype $productPrototype, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
-        $this->productPrototypeRepository->add($productPrototype);
-        foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
-            $this->productPrototypeDetailRepository->add($productPrototypeDetail);
-        }
-        $this->entityManager->flush();
+        $this->entityManager->wrapInTransaction(function($entityManager) use ($productPrototype) {
+            $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+            $this->idempotentRepository->add($idempotent);
+            $this->productPrototypeRepository->add($productPrototype);
+            foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
+                $this->productPrototypeDetailRepository->add($productPrototypeDetail);
+            }
+            $this->entityManager->flush();
+            
+            $transactionLog = $this->buildTransactionLog($productPrototype);
+            $this->transactionLogRepository->add($transactionLog);
+            $entityManager->flush();
+        });
     }
 }
