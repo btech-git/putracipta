@@ -13,12 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'master_employee')]
 class Employee extends Master
 {
-    public const DIVISION_SALES = 'sales';
-    public const DIVISION_MARKETING = 'marketing';
-    public const DIVISION_TRANSPORTATION = 'transportation';
-    public const DIVISION_WAREHOUSE = 'warehouse';
-    public const DIVISION_PURCHASING = 'purchasing';
-    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,10 +37,6 @@ class Employee extends Master
     #[Assert\NotNull]
     private ?string $note = '';
 
-    #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $division = '';
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthDate = null;
 
@@ -60,6 +50,9 @@ class Employee extends Master
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employees')]
+    private ?Division $division = null;
 
     public function getId(): ?int
     {
@@ -126,18 +119,6 @@ class Employee extends Master
         return $this;
     }
 
-    public function getDivision(): ?string
-    {
-        return $this->division;
-    }
-
-    public function setDivision(string $division): self
-    {
-        $this->division = $division;
-
-        return $this;
-    }
-
     public function getBirthDate(): ?\DateTimeInterface
     {
         return $this->birthDate;
@@ -182,6 +163,18 @@ class Employee extends Master
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDivision(): ?Division
+    {
+        return $this->division;
+    }
+
+    public function setDivision(?Division $division): self
+    {
+        $this->division = $division;
 
         return $this;
     }
