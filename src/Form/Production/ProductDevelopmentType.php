@@ -4,8 +4,10 @@ namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Production\ProductDevelopment;
+use App\Entity\Production\ProductDevelopmentDetail;
 use App\Entity\Production\ProductPrototype;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,6 +43,14 @@ class ProductDevelopmentType extends AbstractType
             ->add('note')
             ->add('productPrototype', EntityHiddenType::class, ['class' => ProductPrototype::class])
             ->add('employeeDesigner', null, ['choice_label' => 'name'])
+            ->add('productDevelopmentDetails', CollectionType::class, [
+                'entry_type' => ProductDevelopmentDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new ProductDevelopmentDetail(),
+                'label' => false,
+            ])
             ->add('transactionFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
