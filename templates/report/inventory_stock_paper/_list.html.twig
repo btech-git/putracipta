@@ -73,9 +73,10 @@
                             <th class="text-start" style="width: 15%">Tanggal</th>
                             <th class="text-start" style="width: 15%">Gudang</th>
                             <th class="text-start">Remark</th>
-                            <th class="text-start" style="width: 10%">Qty In</th>
-                            <th class="text-start" style="width: 10%">Qty Out</th>
-                            <th class="text-start" style="width: 10%">Stock</th>
+                            <th class="text-start" style="width: 8%">Qty In</th>
+                            <th class="text-start" style="width: 8%">Qty Out</th>
+                            <th class="text-start" style="width: 8%">Stock</th>
+                            <th class="text-start" style="width: 8%">Satuan</th>
                         </tr>
                     </table>
                 </th>
@@ -86,7 +87,7 @@
                 {% set beginningStock = beginningStockList[paper.id]|default(0) %}
                 {% set currentStock = beginningStock %}
                 <tr>
-                    <td class="text-start" style="width: 15%">{{ paper.code|default }}</td>
+                    <td class="text-start" style="width: 15%">{{ paper.codeNumber|default }}</td>
                     <td class="text-start">{{ paper.name|default }}</td>
                     <td class="text-start" style="width: 15%">{{ beginningStock|number_format(0) }}</td>
                 </tr>
@@ -100,9 +101,10 @@
                                     <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
                                     <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
                                     <td class="text-start">{{ inventory.transactionSubject|default }}</td>
-                                    <td class="text-center" style="width: 10%">{{ inventory.quantityIn|default|number_format(0) }}</td>
-                                    <td class="text-center" style="width: 10%">{{ inventory.quantityOut|default|number_format(0) }}</td>
-                                    <td class="text-center" style="width: 10%">{{ currentStock|number_format(0) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(0) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(0) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(0) }}</td>
+                                    <td class="text-start" style="width: 8%">{{ inventory.paper.unit.name|default }}</td>
                                 </tr>
                             {% endfor %}
                         </table>

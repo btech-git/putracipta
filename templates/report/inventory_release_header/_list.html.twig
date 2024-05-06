@@ -111,7 +111,7 @@
                                     {% for inventoryReleasePaperDetail in inventoryReleaseHeader.inventoryReleasePaperDetails %}
                                         <tr>
                                             <td class="text-start">{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
-                                            <td class="text-start">{{ inventoryReleasePaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                            <td class="text-start">{{ inventoryReleasePaperDetail.paper.name|default }}</td>
                                             <td class="text-center">{{ inventoryReleasePaperDetail.quantityCurrent|default|number_format(0) }}</td>
                                             <td class="text-center">{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
                                             <td class="text-start">{{ inventoryReleasePaperDetail.unit.name|default }}</td>
