@@ -25,24 +25,22 @@ class ProductPrototypeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'productCode', 'productName', 'measurement', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'designCode:codeNumber', 'customer:company', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
-                    'productCode' => 'Kode Produk',
-                    'productName' => 'Nama Produk',
-                    'measurement' => 'Ukuran Jadi',
+                    'designCode:codeNumber' => 'Kode Design',
+                    'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
-                    'productCode' => [FilterContain::class, FilterNotContain::class],
-                    'productName' => [FilterContain::class, FilterNotContain::class],
-                    'measurement' => [FilterContain::class, FilterNotContain::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
+                    'designCode:codeNumber' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
@@ -56,21 +54,19 @@ class ProductPrototypeGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['productCode', 'productName', 'measurement', 'transactionDate', 'note', 'id'],
+                'field_names' => ['designCode:codeNumber', 'customer:company', 'transactionDate', 'note', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
-                    'productCode' => 'Kode Produk',
-                    'productName' => 'Nama Produk',
-                    'measurement' => 'Ukuran Jadi',
+                    'designCode:codeNumber' => 'Kode Design',
+                    'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
-                    'productCode' => [SortAscending::class, SortDescending::class],
-                    'productName' => [SortAscending::class, SortDescending::class],
-                    'measurement' => [SortAscending::class, SortDescending::class],
+                    'designCode:codeNumber' => [SortAscending::class, SortDescending::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
