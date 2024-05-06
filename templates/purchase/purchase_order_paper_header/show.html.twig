@@ -221,7 +221,7 @@
     </div>
                 
     {#<div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_delete_form.html.twig') }}</div>#}
-    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) or purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderPaperHeader) or is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL') %}
+    {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderPaperHeader) or purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderPaperHeader) and is_granted('ROLE_PURCHASE_ORDER_PAPER_APPROVAL') %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('purchase/purchase_order_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}
