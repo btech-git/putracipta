@@ -210,11 +210,10 @@ class PurchaseReturnHeaderFormService
         InventoryUtil::reverseOldData($this->inventoryRepository, $purchaseReturnHeader);
         
         $purchaseReturnDetails = $purchaseReturnHeader->getPurchaseReturnDetails()->toArray();
-        $material = $purchaseReturnDetails[0]->getMaterial();
-        $paper = $purchaseReturnDetails[0]->getPaper();
-        if (!empty($material)) {
+        if (!empty($purchaseReturnDetails[0]->getMaterial())) {
             $averagePriceList = InventoryUtil::getAveragePriceList('material', $this->purchaseOrderDetailRepository, $purchaseReturnDetails);
-            InventoryUtil::addNewData($this->inventoryRepository, $purchaseReturnHeader, $purchaseReturnDetails, function($newInventory, $purchaseReturnDetail) use ($averagePriceList, $purchaseReturnHeader, $material) {
+            InventoryUtil::addNewData($this->inventoryRepository, $purchaseReturnHeader, $purchaseReturnDetails, function($newInventory, $purchaseReturnDetail) use ($averagePriceList, $purchaseReturnHeader) {
+                $material = $purchaseReturnDetail->getMaterial();
                 $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : '0.00';
                 $newInventory->setTransactionSubject($purchaseReturnHeader->getSupplier()->getCompany());
                 $newInventory->setPurchasePrice($purchasePrice);
@@ -223,9 +222,10 @@ class PurchaseReturnHeaderFormService
                 $newInventory->setInventoryMode('material');
                 $newInventory->setQuantityOut($purchaseReturnDetail->getQuantity());
             });
-        } else if (!empty($paper)) {
+        } else if (!empty($purchaseReturnDetails[0]->getPaper())) {
             $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderPaperDetailRepository, $purchaseReturnDetails);
-            InventoryUtil::addNewData($this->inventoryRepository, $purchaseReturnHeader, $purchaseReturnDetails, function($newInventory, $purchaseReturnDetail) use ($averagePriceList, $purchaseReturnHeader, $paper) {
+            InventoryUtil::addNewData($this->inventoryRepository, $purchaseReturnHeader, $purchaseReturnDetails, function($newInventory, $purchaseReturnDetail) use ($averagePriceList, $purchaseReturnHeader) {
+                $paper = $purchaseReturnDetail->getPaper();
                 $purchasePrice = isset($averagePriceList[$paper->getId()]) ? $averagePriceList[$paper->getId()] : '0.00';
                 $newInventory->setTransactionSubject($purchaseReturnHeader->getSupplier()->getCompany());
                 $newInventory->setPurchasePrice($purchasePrice);

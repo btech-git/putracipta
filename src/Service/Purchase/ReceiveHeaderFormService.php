@@ -232,11 +232,10 @@ class ReceiveHeaderFormService
         InventoryUtil::reverseOldData($this->inventoryRepository, $receiveHeader);
         
         $receiveDetails = $receiveHeader->getReceiveDetails()->toArray();
-        $material = $receiveDetails[0]->getMaterial();
-        $paper = $receiveDetails[0]->getPaper();
-        if (!empty($material)) {
+        if (!empty($receiveDetails[0]->getMaterial())) {
             $averagePriceList = InventoryUtil::getAveragePriceList('material', $this->purchaseOrderDetailRepository, $receiveDetails);
-            InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader, $material) {
+            InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader) {
+                $material = $receiveDetail->getMaterial();
                 $purchasePrice = isset($averagePriceList[$material->getId()]) ? $averagePriceList[$material->getId()] : '0.00';
                 $newInventory->setTransactionSubject($receiveDetail->getMemo());
                 $newInventory->setPurchasePrice($purchasePrice);
@@ -245,9 +244,10 @@ class ReceiveHeaderFormService
                 $newInventory->setInventoryMode('material');
                 $newInventory->setQuantityIn($receiveDetail->getReceivedQuantity());
             });
-        } else if (!empty($paper)) {
+        } else if (!empty($receiveDetails[0]->getPaper())) {
             $averagePriceList = InventoryUtil::getAveragePriceList('paper', $this->purchaseOrderPaperDetailRepository, $receiveDetails);
-            InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader, $paper) {
+            InventoryUtil::addNewData($this->inventoryRepository, $receiveHeader, $receiveDetails, function($newInventory, $receiveDetail) use ($averagePriceList, $receiveHeader) {
+                $paper = $receiveDetail->getPaper();
                 $purchasePrice = isset($averagePriceList[$paper->getId()]) ? $averagePriceList[$paper->getId()] : '0.00';
                 $newInventory->setTransactionSubject($receiveDetail->getMemo());
                 $newInventory->setPurchasePrice($purchasePrice);
