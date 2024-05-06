@@ -141,8 +141,8 @@ class InventoryReleaseHeaderFormService
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
     {
-//        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-//        $this->idempotentRepository->add($idempotent);
+        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+        $this->idempotentRepository->add($idempotent);
         $this->inventoryReleaseHeaderRepository->add($inventoryReleaseHeader);
         foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
             $this->inventoryReleaseMaterialDetailRepository->add($inventoryReleaseMaterialDetail);
