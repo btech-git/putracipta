@@ -6,6 +6,7 @@ use App\Entity\Master\Product;
 use App\Entity\Master\Unit;
 use App\Entity\StockDetail;
 use App\Repository\Stock\StockTransferProductDetailRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StockTransferProductDetailRepository::class)]
@@ -16,9 +17,6 @@ class StockTransferProductDetail extends StockDetail
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column]
-    private ?int $quantity = 0;
 
     #[ORM\Column(length: 100)]
     private ?string $memo = '';
@@ -32,8 +30,11 @@ class StockTransferProductDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'stockTransferProductDetails')]
     private ?StockTransferHeader $stockTransferHeader = null;
 
-    #[ORM\Column]
-    private ?int $quantityCurrent = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityCurrent = '0.00';
 
     public function getSyncIsCanceled(): bool
     {
@@ -44,18 +45,6 @@ class StockTransferProductDetail extends StockDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getMemo(): ?string
@@ -106,12 +95,24 @@ class StockTransferProductDetail extends StockDetail
         return $this;
     }
 
-    public function getQuantityCurrent(): ?int
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getQuantityCurrent(): ?string
     {
         return $this->quantityCurrent;
     }
 
-    public function setQuantityCurrent(int $quantityCurrent): self
+    public function setQuantityCurrent(string $quantityCurrent): self
     {
         $this->quantityCurrent = $quantityCurrent;
 

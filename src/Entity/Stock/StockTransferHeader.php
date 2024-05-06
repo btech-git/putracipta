@@ -42,8 +42,8 @@ class StockTransferHeader extends StockHeader
     #[ORM\OneToMany(mappedBy: 'stockTransferHeader', targetEntity: StockTransferProductDetail::class)]
     private Collection $stockTransferProductDetails;
 
-    #[ORM\Column]
-    private ?int $totalQuantity = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
 
     public function __construct()
     {
@@ -57,7 +57,7 @@ class StockTransferHeader extends StockHeader
         return self::CODE_NUMBER_CONSTANT;
     }
 
-    public function getSyncTotalQuantity(): int
+    public function getSyncTotalQuantity(): string
     {
         $details = [];
         if ($this->transferMode === self::TRANSFER_MODE_MATERIAL) {
@@ -207,12 +207,12 @@ class StockTransferHeader extends StockHeader
         return $this;
     }
 
-    public function getTotalQuantity(): ?int
+    public function getTotalQuantity(): ?string
     {
         return $this->totalQuantity;
     }
 
-    public function setTotalQuantity(int $totalQuantity): self
+    public function setTotalQuantity(string $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
 

@@ -8,6 +8,7 @@ use App\Entity\StockDetail;
 use App\Repository\Stock\InventoryRequestPaperDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryRequestPaperDetailRepository::class)]
@@ -19,20 +20,11 @@ class InventoryRequestPaperDetail extends StockDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $quantity = 0;
-
     #[ORM\Column(length: 100)]
     private ?string $memo = '';
 
     #[ORM\ManyToOne]
     private ?Unit $unit = null;
-
-    #[ORM\Column]
-    private ?int $quantityRelease = 0;
-
-    #[ORM\Column]
-    private ?int $quantityRemaining = 0;
 
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
@@ -42,6 +34,15 @@ class InventoryRequestPaperDetail extends StockDetail
 
     #[ORM\OneToMany(mappedBy: 'inventoryRequestPaperDetail', targetEntity: InventoryReleasePaperDetail::class)]
     private Collection $inventoryReleasePaperDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityRelease = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityRemaining = '0.00';
 
     public function __construct()
     {
@@ -54,7 +55,7 @@ class InventoryRequestPaperDetail extends StockDetail
         return $isCanceled;
     }
 
-    public function getSyncQuantityRemaining(): int
+    public function getSyncQuantityRemaining(): string
     {
         return $this->quantity - $this->quantityRelease;
     }
@@ -62,18 +63,6 @@ class InventoryRequestPaperDetail extends StockDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getMemo(): ?string
@@ -96,30 +85,6 @@ class InventoryRequestPaperDetail extends StockDetail
     public function setUnit(?Unit $unit): self
     {
         $this->unit = $unit;
-
-        return $this;
-    }
-
-    public function getQuantityRelease(): ?int
-    {
-        return $this->quantityRelease;
-    }
-
-    public function setQuantityRelease(int $quantityRelease): self
-    {
-        $this->quantityRelease = $quantityRelease;
-
-        return $this;
-    }
-
-    public function getQuantityRemaining(): ?int
-    {
-        return $this->quantityRemaining;
-    }
-
-    public function setQuantityRemaining(int $quantityRemaining): self
-    {
-        $this->quantityRemaining = $quantityRemaining;
 
         return $this;
     }
@@ -174,6 +139,42 @@ class InventoryRequestPaperDetail extends StockDetail
                 $inventoryReleasePaperDetail->setInventoryRequestPaperDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getQuantityRelease(): ?string
+    {
+        return $this->quantityRelease;
+    }
+
+    public function setQuantityRelease(string $quantityRelease): self
+    {
+        $this->quantityRelease = $quantityRelease;
+
+        return $this;
+    }
+
+    public function getQuantityRemaining(): ?string
+    {
+        return $this->quantityRemaining;
+    }
+
+    public function setQuantityRemaining(string $quantityRemaining): self
+    {
+        $this->quantityRemaining = $quantityRemaining;
 
         return $this;
     }

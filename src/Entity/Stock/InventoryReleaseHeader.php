@@ -7,6 +7,7 @@ use App\Entity\StockHeader;
 use App\Repository\Stock\InventoryReleaseHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryReleaseHeaderRepository::class)]
@@ -21,9 +22,6 @@ class InventoryReleaseHeader extends StockHeader
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column]
-    private ?int $totalQuantity = 0;
 
     #[ORM\Column(length: 100)]
     private ?string $departmentName = '';
@@ -49,13 +47,16 @@ class InventoryReleaseHeader extends StockHeader
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
+
     public function __construct()
     {
         $this->inventoryReleaseMaterialDetails = new ArrayCollection();
         $this->inventoryReleasePaperDetails = new ArrayCollection();
     }
 
-    public function getSyncTotalQuantity(): int
+    public function getSyncTotalQuantity(): string
     {
         $details = [];
         if ($this->releaseMode === self::RELEASE_MODE_MATERIAL) {
@@ -80,18 +81,6 @@ class InventoryReleaseHeader extends StockHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getDepartmentName(): ?string
@@ -222,6 +211,18 @@ class InventoryReleaseHeader extends StockHeader
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

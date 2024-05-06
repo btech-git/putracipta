@@ -5,6 +5,7 @@ namespace App\Entity\Stock;
 use App\Entity\Master\Paper;
 use App\Entity\StockDetail;
 use App\Repository\Stock\AdjustmentStockPaperDetailRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdjustmentStockPaperDetailRepository::class)]
@@ -16,15 +17,6 @@ class AdjustmentStockPaperDetail extends StockDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $quantityCurrent = 0;
-
-    #[ORM\Column]
-    private ?int $quantityAdjustment = 0;
-
-    #[ORM\Column]
-    private ?int $quantityDifference = 0;
-
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
 
@@ -34,13 +26,22 @@ class AdjustmentStockPaperDetail extends StockDetail
     #[ORM\Column(length: 100)]
     private ?string $memo = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityCurrent = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityAdjustment = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityDifference = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->adjustmentStockHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
     }
 
-    public function getSyncQuantityDifference(): int
+    public function getSyncQuantityDifference(): string
     {
         return $this->quantityAdjustment - $this->quantityCurrent;
     }
@@ -48,42 +49,6 @@ class AdjustmentStockPaperDetail extends StockDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantityCurrent(): ?int
-    {
-        return $this->quantityCurrent;
-    }
-
-    public function setQuantityCurrent(int $quantityCurrent): self
-    {
-        $this->quantityCurrent = $quantityCurrent;
-
-        return $this;
-    }
-
-    public function getQuantityAdjustment(): ?int
-    {
-        return $this->quantityAdjustment;
-    }
-
-    public function setQuantityAdjustment(int $quantityAdjustment): self
-    {
-        $this->quantityAdjustment = $quantityAdjustment;
-
-        return $this;
-    }
-
-    public function getQuantityDifference(): ?int
-    {
-        return $this->quantityDifference;
-    }
-
-    public function setQuantityDifference(int $quantityDifference): self
-    {
-        $this->quantityDifference = $quantityDifference;
-
-        return $this;
     }
 
     public function getPaper(): ?Paper
@@ -118,6 +83,42 @@ class AdjustmentStockPaperDetail extends StockDetail
     public function setMemo(string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
+    }
+
+    public function getQuantityCurrent(): ?string
+    {
+        return $this->quantityCurrent;
+    }
+
+    public function setQuantityCurrent(string $quantityCurrent): self
+    {
+        $this->quantityCurrent = $quantityCurrent;
+
+        return $this;
+    }
+
+    public function getQuantityAdjustment(): ?string
+    {
+        return $this->quantityAdjustment;
+    }
+
+    public function setQuantityAdjustment(string $quantityAdjustment): self
+    {
+        $this->quantityAdjustment = $quantityAdjustment;
+
+        return $this;
+    }
+
+    public function getQuantityDifference(): ?string
+    {
+        return $this->quantityDifference;
+    }
+
+    public function setQuantityDifference(string $quantityDifference): self
+    {
+        $this->quantityDifference = $quantityDifference;
 
         return $this;
     }

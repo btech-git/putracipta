@@ -23,9 +23,6 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $totalQuantity = 0;
-
     #[ORM\Column(length: 100)]
     private ?string $departmentName = '';
 
@@ -37,9 +34,6 @@ class InventoryRequestHeader extends StockHeader
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $pickupDate = null;
-
-    #[ORM\Column]
-    private ?int $totalQuantityRemaining = 0;
 
     #[ORM\OneToMany(mappedBy: 'inventoryRequestHeader', targetEntity: InventoryRequestPaperDetail::class)]
     private Collection $inventoryRequestPaperDetails;
@@ -56,8 +50,14 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\OneToMany(mappedBy: 'inventoryRequestHeader', targetEntity: InventoryReleaseHeader::class)]
     private Collection $inventoryReleaseHeaders;
 
-    #[ORM\Column]
-    private ?int $totalQuantityRelease = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityRelease = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityRemaining = '0.00';
 
     public function __construct()
     {
@@ -71,7 +71,7 @@ class InventoryRequestHeader extends StockHeader
         return self::CODE_NUMBER_CONSTANT;
     }
 
-    public function getSyncTotalQuantity(): int
+    public function getSyncTotalQuantity(): string
     {
         $details = [];
         if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
@@ -88,7 +88,7 @@ class InventoryRequestHeader extends StockHeader
         return $totalQuantity;
     }
 
-    public function getSyncTotalQuantityRelease(): int
+    public function getSyncTotalQuantityRelease(): string
     {
         $details = [];
         if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
@@ -105,7 +105,7 @@ class InventoryRequestHeader extends StockHeader
         return $totalQuantity;
     }
 
-    public function getSyncTotalQuantityRemaining(): int
+    public function getSyncTotalQuantityRemaining(): string
     {
         $details = [];
         if ($this->requestMode === self::REQUEST_MODE_MATERIAL) {
@@ -125,18 +125,6 @@ class InventoryRequestHeader extends StockHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getDepartmentName(): ?string
@@ -183,18 +171,6 @@ class InventoryRequestHeader extends StockHeader
     public function setPickupDate(?\DateTimeInterface $pickupDate): self
     {
         $this->pickupDate = $pickupDate;
-
-        return $this;
-    }
-
-    public function getTotalQuantityRemaining(): ?int
-    {
-        return $this->totalQuantityRemaining;
-    }
-
-    public function setTotalQuantityRemaining(int $totalQuantityRemaining): self
-    {
-        $this->totalQuantityRemaining = $totalQuantityRemaining;
 
         return $this;
     }
@@ -313,14 +289,38 @@ class InventoryRequestHeader extends StockHeader
         return $this;
     }
 
-    public function getTotalQuantityRelease(): ?int
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getTotalQuantityRelease(): ?string
     {
         return $this->totalQuantityRelease;
     }
 
-    public function setTotalQuantityRelease(int $totalQuantityRelease): self
+    public function setTotalQuantityRelease(string $totalQuantityRelease): self
     {
         $this->totalQuantityRelease = $totalQuantityRelease;
+
+        return $this;
+    }
+
+    public function getTotalQuantityRemaining(): ?string
+    {
+        return $this->totalQuantityRemaining;
+    }
+
+    public function setTotalQuantityRemaining(string $totalQuantityRemaining): self
+    {
+        $this->totalQuantityRemaining = $totalQuantityRemaining;
 
         return $this;
     }
