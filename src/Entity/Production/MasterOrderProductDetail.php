@@ -60,10 +60,14 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\Column]
     private ?int $quantityPrinting = 0;
 
+    #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: QualityControlSortingDetail::class)]
+    private Collection $qualityControlSortingDetails;
+
     public function __construct()
     {
         $this->inventoryProductReceiveDetails = new ArrayCollection();
         $this->deliveryDetails = new ArrayCollection();
+        $this->qualityControlSortingDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -285,6 +289,36 @@ class MasterOrderProductDetail extends ProductionDetail
     public function setQuantityPrinting(int $quantityPrinting): self
     {
         $this->quantityPrinting = $quantityPrinting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QualityControlSortingDetail>
+     */
+    public function getQualityControlSortingDetails(): Collection
+    {
+        return $this->qualityControlSortingDetails;
+    }
+
+    public function addQualityControlSortingDetail(QualityControlSortingDetail $qualityControlSortingDetail): self
+    {
+        if (!$this->qualityControlSortingDetails->contains($qualityControlSortingDetail)) {
+            $this->qualityControlSortingDetails->add($qualityControlSortingDetail);
+            $qualityControlSortingDetail->setMasterOrderProductDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQualityControlSortingDetail(QualityControlSortingDetail $qualityControlSortingDetail): self
+    {
+        if ($this->qualityControlSortingDetails->removeElement($qualityControlSortingDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($qualityControlSortingDetail->getMasterOrderProductDetail() === $this) {
+                $qualityControlSortingDetail->setMasterOrderProductDetail(null);
+            }
+        }
 
         return $this;
     }

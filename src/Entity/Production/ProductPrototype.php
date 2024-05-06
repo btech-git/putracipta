@@ -6,7 +6,6 @@ use App\Entity\Master\Customer;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
-use App\Entity\Master\Product;
 use App\Entity\ProductionHeader;
 use App\Repository\Production\ProductPrototypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;

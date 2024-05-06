@@ -162,9 +162,13 @@ class ProductDevelopment extends ProductionHeader
     #[ORM\Column(length: 20)]
     private ?string $transactionFileExtension = '';
 
+    #[ORM\OneToMany(mappedBy: 'product_development', targetEntity: ProductDevelopmentDetail::class)]
+    private Collection $productDevelopmentDetails;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
+        $this->productDevelopmentDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -1007,6 +1011,36 @@ class ProductDevelopment extends ProductionHeader
     public function setTransactionFileExtension(string $transactionFileExtension): self
     {
         $this->transactionFileExtension = $transactionFileExtension;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductDevelopmentDetail>
+     */
+    public function getProductDevelopmentDetails(): Collection
+    {
+        return $this->productDevelopmentDetails;
+    }
+
+    public function addProductDevelopmentDetail(ProductDevelopmentDetail $productDevelopmentDetail): self
+    {
+        if (!$this->productDevelopmentDetails->contains($productDevelopmentDetail)) {
+            $this->productDevelopmentDetails->add($productDevelopmentDetail);
+            $productDevelopmentDetail->setProductDevelopment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductDevelopmentDetail(ProductDevelopmentDetail $productDevelopmentDetail): self
+    {
+        if ($this->productDevelopmentDetails->removeElement($productDevelopmentDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($productDevelopmentDetail->getProductDevelopment() === $this) {
+                $productDevelopmentDetail->setProductDevelopment(null);
+            }
+        }
 
         return $this;
     }
