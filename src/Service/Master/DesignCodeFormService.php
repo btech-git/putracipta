@@ -116,6 +116,7 @@ class DesignCodeFormService
         $designCode->setPackagingTapeLargeQuantity($sourceDesignCode->getPackagingTapeLargeQuantity());
         $designCode->setPackagingTapeSmallQuantity($sourceDesignCode->getPackagingTapeSmallQuantity());
         $designCode->setPackagingPlasticQuantity($sourceDesignCode->getPackagingPlasticQuantity());
+        $designCode->setPaper($sourceDesignCode->getPaper());
         $designCode->setHotStamping($sourceDesignCode->getHotStamping());
         foreach ($sourceDesignCode->getDesignCodeProductDetails() as $sourceDesignCodeProductDetail) {
             $designCodeProductDetail = new DesignCodeProductDetail();
