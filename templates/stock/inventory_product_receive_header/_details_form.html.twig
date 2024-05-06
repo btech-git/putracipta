@@ -9,11 +9,13 @@
                 <th class="d-none">Master Order Product Detail Id</th>
                 <th class="d-none">Product Id</th>
                 <th style="min-width: 100px">PO #</th>
+                <th style="min-width: 100px">WO #</th>
                 <th style="min-width: 200px">Kode Barang</th>
                 <th style="min-width: 200px">Nama Barang</th>
                 <th style="min-width: 100px">Tanggal Kirim</th>
                 <th style="min-width: 100px">Qty PO</th>
                 <th style="min-width: 100px">Qty Produksi</th>
+                <th style="min-width: 100px">Pcs/Box</th>
                 <th style="min-width: 100px">Qty Box</th>
                 <th style="min-width: 150px">Qty Pcs</th>
                 <th style="min-width: 150px">Total Pcs</th>
@@ -28,11 +30,19 @@
                     <td class="d-none">{{ form_widget(detailForm.masterOrderProductDetail , {'attr': {'data-item-field-name': 'masterOrderProductDetailId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td data-item-field-name="masterOrderHeaderCodeNumber">{{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.codeNumber|default }}</td>
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.product.code|default }}</td>
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
                     <td data-item-field-name="saleOrderDetailDeliveryDate">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td data-item-field-name="masterOrderProductDetailRemainingProduction" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.remainingProduction|default|number_format(0) }}</td>
+                    <td data-item-field-name="masterOrderHeaderPackagingQuantity" class="text-center">
+                        {#{% if (detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.packagingPaperQuantity > 0) %}
+                            {{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.packagingBoxQuantity|default|number_format(0) }}
+                        {% else %}
+                            {{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.packagingPaperQuantity|default|number_format(0) }}
+                        {% endif %}#}
+                    </td>
                     <td>
                         {{ form_row(detailForm.quantityBox, {'label': false, 'attr': {
                             'size': '5',

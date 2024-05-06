@@ -59,7 +59,7 @@
             {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
                 {% for inventoryReleasePaperDetail in inventoryReleaseHeader.inventoryReleasePaperDetails %}
                     <tr>
-                        <td>{{ inventoryReleasePaperDetail.paper.code|default }}</td>
+                        <td>{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
                         <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
                         <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>

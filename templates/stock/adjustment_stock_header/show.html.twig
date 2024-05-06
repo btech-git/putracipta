@@ -58,9 +58,9 @@
                     <tr>
                         <td>{{ adjustmentStockPaperDetail.paper.code|default }}</td>
                         <td>{{ adjustmentStockPaperDetail.paper.name|default }}</td>
-                        <td>{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(0) }}</td>
-                        <td>{{ adjustmentStockPaperDetail.quantityAdjustment|default|number_format(0) }}</td>
-                        <td>{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(2) }}</td>
+                        <td>{{ adjustmentStockPaperDetail.quantityAdjustment|default|number_format(2) }}</td>
+                        <td>{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(2) }}</td>
                         <td>{{ adjustmentStockPaperDetail.paper.unit.name|default }}</td>
                         <td>{{ adjustmentStockPaperDetail.memo|default }}</td>
                     </tr>
@@ -70,9 +70,9 @@
                     <tr>
                         <td>{{ adjustmentStockMaterialDetail.material.code|default }}</td>
                         <td>{{ adjustmentStockMaterialDetail.material.name|default }}</td>
-                        <td>{{ adjustmentStockMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
-                        <td>{{ adjustmentStockMaterialDetail.quantityAdjustment|default|number_format(0) }}</td>
-                        <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.quantityCurrent|default|number_format(2) }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.quantityAdjustment|default|number_format(2) }}</td>
+                        <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(2) }}</td>
                         <td>{{ adjustmentStockMaterialDetail.material.unit.name|default }}</td>
                         <td>{{ adjustmentStockMaterialDetail.memo|default }}</td>
                     </tr>
@@ -82,9 +82,9 @@
                     <tr>
                         <td>{{ adjustmentStockProductDetail.product.code|default }}</td>
                         <td>{{ adjustmentStockProductDetail.product.name|default }}</td>
-                        <td>{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(0) }}</td>
-                        <td>{{ adjustmentStockProductDetail.quantityAdjustment|default|number_format(0) }}</td>
-                        <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(0) }}</td>
+                        <td>{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(2) }}</td>
+                        <td>{{ adjustmentStockProductDetail.quantityAdjustment|default|number_format(2) }}</td>
+                        <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(2) }}</td>
                         <td>{{ adjustmentStockProductDetail.product.unit.name|default }}</td>
                         <td>{{ adjustmentStockProductDetail.memo|default }}</td>
                     </tr>

@@ -1,0 +1,48 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, saleOrderDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th style="min-width: 150px">SO #</th>
+                <th style="min-width: 120px">Tanggal</th>
+                <th style="min-width: 250px">Customer</th>
+                <th style="min-width: 150px">PO #</th>
+                <th style="min-width: 80px">Item Code</th>
+                <th style="min-width: 250px">Description</th>
+                <th style="min-width: 80px">Tgl Kirim</th>
+                <th style="min-width: 80px">Qty Order</th>
+                <th style="min-width: 80px">Qty Kirim</th>
+                <th style="min-width: 80px">Qty Stock</th>
+                <th style="min-width: 80px">Satuan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleOrderDetail in saleOrderDetails %}
+                <tr>
+                    <td>{{ saleOrderDetail.saleOrderHeader.codeNumber }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.referenceNumber }}</td>
+                    <td>{{ saleOrderDetail.product.code|default }}</td>
+                    <td>{{ saleOrderDetail.product.name|default }}</td>
+                    <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.totalDelivery|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.quantityStock|default|number_format(0) }}</td>
+                    <td>{{ saleOrderDetail.unit.name|default }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, saleOrderDetails) }}
