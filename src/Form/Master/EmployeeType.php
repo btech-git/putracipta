@@ -20,12 +20,20 @@ class EmployeeType extends AbstractType
             ->add('birthDate', null, ['label' => 'Tanggal Lahir', 'widget' => 'single_text'])
             ->add('birthPlace', null, ['label' => 'Tempat Lahir'])
             ->add('identityNumber', null, ['label' => 'KTP'])
-            ->add('division', ChoiceType::class, ['choices' => [
-                'Marketing' => Employee::DIVISION_MARKETING,
-                'Transportation' => Employee::DIVISION_TRANSPORTATION,
-                'Warehouse' => Employee::DIVISION_WAREHOUSE,
-                'Purchasing' => Employee::DIVISION_PURCHASING,
-            ]])
+//            ->add('division', ChoiceType::class, ['choices' => [
+//                'Marketing' => Employee::DIVISION_MARKETING,
+//                'Transportation' => Employee::DIVISION_TRANSPORTATION,
+//                'Warehouse' => Employee::DIVISION_WAREHOUSE,
+//                'Purchasing' => Employee::DIVISION_PURCHASING,
+//            ]])
+            ->add('division', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.name', 'ASC');
+                },
+            ])
             ->add('startDate', null, ['label' => 'Tanggal Mulai', 'widget' => 'single_text'])
             ->add('note')
             ->add('user', null, [

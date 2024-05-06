@@ -2,17 +2,17 @@
 
 namespace App\Form\Master;
 
-//use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Master\DesignCodeProductDetail;
+use App\Entity\Master\Paper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -63,6 +63,7 @@ class DesignCodeType extends AbstractType
             ->add('packagingTapeLargeQuantity', FormattedNumberType::class, ['label' => 'Lakban Besar (cm/pack)', 'decimals' => 2])
             ->add('packagingTapeSmallQuantity', FormattedNumberType::class, ['label' => 'Lakban Kecil (cm/pack)', 'decimals' => 2])
             ->add('packagingPlasticQuantity', FormattedNumberType::class, ['label' => 'Plastik (cm2/pack)', 'decimals' => 2])
+            ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('glossiness')
 //            ->add('glossiness', ChoiceType::class, ['choices' => [
 //                '35' => 35,
