@@ -15,7 +15,7 @@ class AdjustmentStockProductDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantityAdjustment', FormattedNumberType::class, ['decimals' => 0])
+            ->add('quantityAdjustment', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
             ->add('isCanceled')

@@ -16,7 +16,7 @@ class InventoryReleaseMaterialDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('quantity', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('isCanceled')
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
