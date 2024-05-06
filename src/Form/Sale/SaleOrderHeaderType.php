@@ -34,8 +34,8 @@ class SaleOrderHeaderType extends AbstractType
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
-                            ->andWhere("e.isInactive = false")
-                            ->andWhere("e.division = '" . Employee::DIVISION_MARKETING . "'");
+                            ->andWhere("e.isInactive = false");
+//                            ->andWhere("e.division = '" . Employee::DIVISION_MARKETING . "'");
                 },
             ])
             ->add('taxMode', ChoiceType::class, ['choices' => [
