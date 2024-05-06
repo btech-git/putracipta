@@ -13,15 +13,15 @@ class UserMenuConfig
                 'MENU_EMPLOYEE', 'MENU_SUPPLIER', 'MENU_CUSTOMER', 'MENU_PRODUCT', 'MENU_PAPER', 'MENU_MATERIAL', 'MENU_DESIGN_CODE', 'MENU_DIECUT_KNIFE', 
                 'MENU_DIELINE_MILLAR', 'MENU_WORK_ORDER_PROCESS', 'MENU_WORK_ORDER_DISTRIBUTION', 'MENU_WORK_ORDER_CHECK_SHEET', 'MENU_MACHINE_PRINTING', 
                 'MENU_MATERIAL_CATEGORY', 'MENU_MATERIAL_SUB_CATEGORY', 'MENU_WAREHOUSE', 'MENU_TRANSPORTATION', 'MENU_UNIT', 'MENU_PAYMENT_TYPE', 
-                'MENU_CHART_OF_ACCOUNT'
+                'MENU_CHART_OF_ACCOUNT', 'MENU_DIVISION'
             ],
             'MENU_PURCHASE' => [
-                'MENU_PURCHASE_REQUEST_MATERIAL', 'MENU_PURCHASE_REQUEST_PAPER', 'MENU_PURCHASE_ORDER_MATERIAL', 'MENU_PURCHASE_ORDER_PAPER', 
+                'MENU_PURCHASE_ORDER_MATERIAL', 'MENU_PURCHASE_ORDER_PAPER', 
                 'MENU_PURCHASE_INVOICE', 'MENU_PURCHASE_PAYMENT'
             ],
             'MENU_SALE' => ['MENU_SALE_ORDER', 'MENU_SALE_INVOICE', 'MENU_SALE_PAYMENT'],
             'MENU_WAREHOUSE_MATERIAL' => [
-                'MENU_PURCHASE_RECEIVE', 'MENU_PURCHASE_RETURN', 'MENU_ADJUSTMENT_STOCK', 'MENU_MATERIAL_REQUEST', 
+                'MENU_PURCHASE_REQUEST_MATERIAL', 'MENU_PURCHASE_REQUEST_PAPER', 'MENU_PURCHASE_RECEIVE', 'MENU_PURCHASE_RETURN', 'MENU_ADJUSTMENT_STOCK', 'MENU_MATERIAL_REQUEST', 
                 'MENU_MATERIAL_RELEASE', 'MENU_STOCK_TRANSFER'
             ],
             'MENU_WAREHOUSE_FINISHED_GOODS' => ['MENU_SALE_DELIVERY', 'MENU_SALE_RETURN', 'MENU_PRODUCTION_RECEIVE'],
@@ -73,6 +73,7 @@ class UserMenuConfig
             'MENU_WAREHOUSE' => ['route' => 'app_master_warehouse_index', 'pattern' => '/^app_master_warehouse_.+$/', 'roles' => ['ROLE_WAREHOUSE_ADD', 'ROLE_WAREHOUSE_EDIT']],
             'MENU_TRANSPORTATION' => ['route' => 'app_master_transportation_index', 'pattern' => '/^app_master_transportation_.+$/', 'roles' => ['ROLE_TRANSPORTATION_ADD', 'ROLE_TRANSPORTATION_EDIT']],
             'MENU_UNIT' => ['route' => 'app_master_unit_index', 'pattern' => '/^app_master_unit_.+$/', 'roles' => ['ROLE_UNIT_ADD', 'ROLE_UNIT_EDIT']],
+            'MENU_DIVISION' => ['route' => 'app_master_division_index', 'pattern' => '/^app_master_division_.+$/', 'roles' => ['ROLE_DIVISION_ADD', 'ROLE_DIVISION_EDIT']],
             'MENU_PAYMENT_TYPE' => ['route' => 'app_master_payment_type_index', 'pattern' => '/^app_master_payment_type_.+$/', 'roles' => ['ROLE_PAYMENT_TYPE_ADD', 'ROLE_PAYMENT_TYPE_EDIT']],
             'MENU_CHART_OF_ACCOUNT' => ['route' => 'app_master_account_index', 'pattern' => '/^app_master_account_.+$/', 'roles' => ['ROLE_ACCOUNT_ADD', 'ROLE_ACCOUNT_EDIT']],
             'MENU_PURCHASE_REQUEST_MATERIAL' => ['route' => 'app_purchase_purchase_request_header_index', 'pattern' => '/^app_purchase_purchase_request_header_.+$/', 'roles' => ['ROLE_PURCHASE_REQUEST_MATERIAL_ADD', 'ROLE_PURCHASE_REQUEST_MATERIAL_EDIT']],
