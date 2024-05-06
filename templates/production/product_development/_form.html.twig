@@ -17,7 +17,7 @@
                                data-controller="dom-element"
                                data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeDevelopmentTypeList'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productPrototypeDevelopmentTypeList'}},
                                ]|json_encode }}" />
                     </div>
                 </div>
@@ -29,16 +29,16 @@
                                 'data-controller': 'dom-element',
                                 'data-action': 'product-prototype-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeId'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productPrototypeId'}},
                                 ]|json_encode,
                             },
                         }) }}
                         <input type="text" id="{{ form.productPrototype.vars.id }}-text" class="form-control readonly-form-input {% if not form.productPrototype.vars.valid %}is-invalid{% endif %}" value="{{ productDevelopment.productPrototype.codeNumber|default }}" readonly="readonly"
-                               data-bs-toggle="modal" data-bs-target="#product-prototype-dialog"
+                               {% if productDevelopment.id == null %}data-bs-toggle="modal" data-bs-target="#product-prototype-dialog"{% endif %}
                                data-controller="dom-element"
                                data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productPrototypeCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productPrototypeCodeNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.productPrototype) }}
                     </div>
@@ -48,11 +48,25 @@
                                data-controller="dom-element"
                                data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.customerName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].customerName'}},
+                               ]|json_encode }}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kode Design</label>
+                        <input type="text" class="form-control" value="{{ productDevelopment.productPrototype.designCode.codeNumber|default }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeNumber'}},
                                ]|json_encode }}" />
                     </div>
                 </div>
             </div>
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Products</legend>
+            {{ include('production/product_development/_details_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">

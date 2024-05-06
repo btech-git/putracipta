@@ -186,13 +186,6 @@
         </div>
     {{ dialog.end() }}
     
-    {{ dialog.start('paper-dialog', 'Paper List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
-    {{ dialog.end() }}
-
     {{ dialog.start('purchase-order-paper-header-dialog', 'PO Paper List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_order_paper_header__list') }}"

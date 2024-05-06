@@ -23,10 +23,6 @@
                 <td>{{ productDevelopment.productPrototype.customer.company|default }}</td>
             </tr>
             <tr>
-                <th>Nama Produk</th>
-                <td>{{ productDevelopment.productPrototype.productName|default }}</td>
-            </tr>
-            <tr>
                 <th>Development Type</th>
                 <td>{{ productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
             </tr>

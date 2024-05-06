@@ -25,7 +25,7 @@
                 <th>Tanggal</th>
                 <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                 <th>Material Kertas</th>
-                <td>{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
+                <td>{{ masterOrderHeader.paper.name|default }}</td>
             </tr>
             <tr>
                 <th>Mesin Cetak</th>
