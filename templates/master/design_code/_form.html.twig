@@ -32,37 +32,6 @@
                 },
             }) }}
         </div>
-        {#<div class="col">
-            <div class="mb-3">
-                <label for="{{ form.product.vars.id }}-text" class="form-label">Nama Produk</label>
-                {{ form_row(form.product, {
-                    'attr': {
-                        'data-controller': 'dom-element',
-                        'data-action': 'product-table:data-table:select@document->dom-element#bind',
-                        'data-dom-element-bind-specifications-param': [
-                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productId'}},
-                        ]|json_encode,
-                    },
-                }) }}
-                {{ form_row(form.name, {
-                    'attr': {
-                        'data-controller': 'dom-element',
-                        'data-action': 'product-table:data-table:select@document->dom-element#bind',
-                        'data-dom-element-bind-specifications-param': [
-                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
-                        ]|json_encode,
-                    },
-                }) }}
-                <input type="text" id="{{ form.product.vars.id }}-text" class="form-control readonly-form-input {% if not form.product.vars.valid %}is-invalid{% endif %}" value="{{ designCode.product.name|default }}" readonly="readonly"
-                       {% if designCode.id == null %}data-bs-toggle="modal" data-bs-target="#product-dialog"{% endif %}
-                       data-controller="dom-element"
-                       data-action="product-table:data-table:select@document->dom-element#bind"
-                       data-dom-element-bind-specifications-param="{{ [
-                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
-                       ]|json_encode }}" />
-                {{ form_errors(form.product) }}
-            </div>
-        </div>#}
         <div class="col">
             {{ form_row(form.status) }}
         </div>
@@ -181,6 +150,41 @@
 
     <fieldset class="border border-secondary rounded mb-3 p-3">
         <legend class="float-none w-auto text-dark px-1">Kebutuhan Material Kertas</legend>            
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="{{ form.paper.vars.id }}-text" class="form-label">Material Kertas</label>
+                    {{ form_row(form.paper, {
+                        'attr': {
+                            'data-controller': 'dom-element',
+                            'data-action': 'paper-table:data-table:select@document->dom-element#bind paper-table:data-table:select@document->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperId'}},
+                            ]|json_encode,
+                        },
+                    }) }}
+                    <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input {% if not form.paper.vars.valid %}is-invalid{% endif %}" value="{{ designCode.paper.name|default }}" readonly="readonly"
+                           data-bs-toggle="modal" data-bs-target="#paper-dialog"
+                           data-controller="dom-element"
+                           data-action="paper-table:data-table:select@document->dom-element#bind"
+                           data-dom-element-bind-specifications-param="{{ [
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
+                           ]|json_encode }}" />
+                    {{ form_errors(form.paper) }}
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">Kode Kertas</label>
+                    <input type="text" class="form-control" value="{{ designCode.paper.codeNumber|default }}" readonly="readonly"
+                           data-controller="dom-element"
+                           data-action="paper-table:data-table:select@document->dom-element#bind"
+                           data-dom-element-bind-specifications-param="{{ [
+                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
+                           ]|json_encode }}" />
+                </div>
+            </div>    
+        </div>       
         <div class="row">
             <div class="col">
                 <div class="mb-3">
@@ -355,4 +359,12 @@
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
+    
+    {{ dialog.start('paper-dialog', 'Paper List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
 </div>

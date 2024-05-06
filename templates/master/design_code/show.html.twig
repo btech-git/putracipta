@@ -126,6 +126,14 @@
         </thead>
         <tbody>
             <tr>
+                <th>Material Kertas</th>
+                <td>{{ designCode.paper.name|default }}</td>
+            </tr>
+            <tr>
+                <th>Kode Kertas</th>
+                <td>{{ designCode.paper.codeNumber|default }}</td>
+            </tr>
+            <tr>
                 <th>Uk. Plano Kertas (cm)</th>
                 <td>{{ designCode.paperPlanoLength|number_format(2) }} x {{ designCode.paperPlanoWidth|number_format(2) }}</td>
             </tr>
