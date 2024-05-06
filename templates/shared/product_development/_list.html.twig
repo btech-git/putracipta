@@ -20,7 +20,6 @@
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
@@ -31,12 +30,11 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for productDevelopment in productDevelopments %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'productDevelopmentId': productDevelopment.id,
                     'productDevelopmentCodeNumber': productDevelopment.codeNumber,
                     'productDevelopmentTypeList': productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '',

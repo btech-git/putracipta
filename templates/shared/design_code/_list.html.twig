@@ -70,6 +70,9 @@
                     'designCodeColorPantoneAdditional': designCode.colorPantoneAdditional,
                     'designCodeHotStamping': designCode.hotStamping,
                     'designCodeNote': designCode.note,
+                    'paperId': designCode.paper.id|default,
+                    'paperCodeNumber': designCode.paper.codeNumber|default,
+                    'paperName': designCode.paper.name|default,
                     'designCodeGlossiness': designCode.glossiness|number_format(2),
                 } %}
                 {% set designCodeProcessDetailsData = designCode.designCodeProcessDetails|filter(designCodeProcessDetail => not designCodeProcessDetail.isInactive)|slice(0)|map(designCodeProcessDetail => {
