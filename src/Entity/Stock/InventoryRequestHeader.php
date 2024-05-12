@@ -2,7 +2,9 @@
 
 namespace App\Entity\Stock;
 
+use App\Entity\Master\Division;
 use App\Entity\Master\Warehouse;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\StockHeader;
 use App\Repository\Stock\InventoryRequestHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,12 +24,6 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 100)]
-    private ?string $departmentName = '';
-
-    #[ORM\Column(length: 60)]
-    private ?string $workOrderNumber = '';
 
     #[ORM\Column(length: 60)]
     private ?string $partNumber = '';
@@ -58,6 +54,12 @@ class InventoryRequestHeader extends StockHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantityRemaining = '0.00';
+
+    #[ORM\ManyToOne]
+    private ?Division $division = null;
+
+    #[ORM\ManyToOne(inversedBy: 'inventoryRequestHeaders')]
+    private ?MasterOrderHeader $masterOrderHeader = null;
 
     public function __construct()
     {
@@ -125,30 +127,6 @@ class InventoryRequestHeader extends StockHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDepartmentName(): ?string
-    {
-        return $this->departmentName;
-    }
-
-    public function setDepartmentName(string $departmentName): self
-    {
-        $this->departmentName = $departmentName;
-
-        return $this;
-    }
-
-    public function getWorkOrderNumber(): ?string
-    {
-        return $this->workOrderNumber;
-    }
-
-    public function setWorkOrderNumber(string $workOrderNumber): self
-    {
-        $this->workOrderNumber = $workOrderNumber;
-
-        return $this;
     }
 
     public function getPartNumber(): ?string
@@ -321,6 +299,30 @@ class InventoryRequestHeader extends StockHeader
     public function setTotalQuantityRemaining(string $totalQuantityRemaining): self
     {
         $this->totalQuantityRemaining = $totalQuantityRemaining;
+
+        return $this;
+    }
+
+    public function getDivision(): ?Division
+    {
+        return $this->division;
+    }
+
+    public function setDivision(?Division $division): self
+    {
+        $this->division = $division;
+
+        return $this;
+    }
+
+    public function getMasterOrderHeader(): ?MasterOrderHeader
+    {
+        return $this->masterOrderHeader;
+    }
+
+    public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
+    {
+        $this->masterOrderHeader = $masterOrderHeader;
 
         return $this;
     }
