@@ -50,8 +50,9 @@
                     'inventoryRequestHeaderId': inventoryRequestHeader.id, 
                     'inventoryRequestHeaderCodeNumber': inventoryRequestHeader.codeNumber, 
                     'inventoryRequestHeaderTransactionDate': inventoryRequestHeader.transactionDate ? inventoryRequestHeader.transactionDate|date('d M Y') : '', 
-                    'inventoryRequestHeaderDepartment': inventoryRequestHeader.departmentName|default,
-                    'inventoryRequestHeaderWorkOrderNumber': inventoryRequestHeader.workOrderNumber|default, 
+                    'divisionId': inventoryRequestHeader.division.id|default,
+                    'divisionName': inventoryRequestHeader.division.name|default,
+                    'masterOrderHeaderCodeNumber': inventoryRequestHeader.masterOrderHeader.codeNumber|default, 
                     'inventoryRequestHeaderPartNumber': inventoryRequestHeader.partNumber|default, 
                     'inventoryRequestHeaderMode': inventoryRequestHeader.requestMode|default,
                     'materialId': inventoryRequestHeader.requestMode == 'material' ? detail.material.id|default : '',
@@ -68,9 +69,9 @@
                     'inventoryRequestPaperDetailId': inventoryRequestHeader.requestMode == 'paper' ? detail.id : ''})|json_encode }}">
                     <td>{{ inventoryRequestHeader.codeNumber }}</td>
                     <td>{{ inventoryRequestHeader.transactionDate ? inventoryRequestHeader.transactionDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ inventoryRequestHeader.departmentName }}</td>
-                    <td>{{ inventoryRequestHeader.workOrderNumber }}</td>
-                    <td>{{ inventoryRequestHeader.requestMode }}</td>
+                    <td>{{ inventoryRequestHeader.division.name|default }}</td>
+                    <td>{{ inventoryRequestHeader.masterOrderHeader.codeNumber|default }}</td>
+                    <td>{{ inventoryRequestHeader.requestMode|default }}</td>
                     <td>{{ inventoryRequestHeader.warehouse.name|default }}</td>
                 </tr>
             {% else %}
