@@ -39,21 +39,6 @@ class Material extends Master
     #[Assert\NotNull]
     private ?string $variant = '';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?string $weight = '0.00';
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?int $length = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
-    private ?int $width = 0;
-
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotNull]
     private ?string $note = '';
@@ -125,42 +110,6 @@ class Material extends Master
     public function setVariant(string $variant): self
     {
         $this->variant = $variant;
-
-        return $this;
-    }
-
-    public function getWeight(): ?string
-    {
-        return $this->weight;
-    }
-
-    public function setWeight(string $weight): self
-    {
-        $this->weight = $weight;
-
-        return $this;
-    }
-
-    public function getLength(): ?int
-    {
-        return $this->length;
-    }
-
-    public function setLength(int $length): self
-    {
-        $this->length = $length;
-
-        return $this;
-    }
-
-    public function getWidth(): ?int
-    {
-        return $this->width;
-    }
-
-    public function setWidth(int $width): self
-    {
-        $this->width = $width;
 
         return $this;
     }
