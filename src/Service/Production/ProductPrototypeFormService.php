@@ -6,15 +6,19 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductPrototype;
 use App\Entity\Production\ProductPrototypeDetail;
 use App\Entity\Support\Idempotent;
+use App\Entity\Support\TransactionLog;
 use App\Repository\Production\ProductPrototypeRepository;
 use App\Repository\Production\ProductPrototypeDetailRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
+use App\Support\Production\ProductPrototypeFormSupport;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProductPrototypeFormService
 {
+    use ProductPrototypeFormSupport;
+
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
