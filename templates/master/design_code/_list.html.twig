@@ -11,7 +11,7 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 260px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
@@ -30,8 +30,8 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
-                    P<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
-                    -V<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'variant') }} value="{{ form.filter.variant.1.vars.value }}" />
+                    P<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    -V<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'variant') }} value="{{ form.filter.variant.1.vars.value }}" />
                     -R<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'version') }} value="{{ form.filter.version.1.vars.value }}" />
                 </th>
                 <th>
