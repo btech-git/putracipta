@@ -72,8 +72,8 @@ class InventoryReleaseHeaderFormService
         
         if (!empty($inventoryRequestHeader)) {
             $inventoryReleaseHeader->setReleaseMode($inventoryRequestHeader->getRequestMode());
-            $inventoryReleaseHeader->setWorkOrderNumber($inventoryRequestHeader->getWorkOrderNumber());
-            $inventoryReleaseHeader->setDepartmentName($inventoryRequestHeader->getDepartmentName());
+            $inventoryReleaseHeader->setMasterOrderHeader($inventoryRequestHeader->getMasterOrderHeader());
+            $inventoryReleaseHeader->setDivision($inventoryRequestHeader->getDivision());
             $inventoryReleaseHeader->setPartNumber($inventoryRequestHeader->getPartNumber());
         }
         
