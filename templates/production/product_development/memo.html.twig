@@ -65,22 +65,53 @@
                                 <div class="cell label">Nama Customer</div>
                                 <div class="cell value">{{ productDevelopment.productPrototype.customer.company|default }}</div>
                             </div>
-                            <div class="row">
-                                <div class="cell label">Nama Produk</div>
-                                <div class="cell value">{{ productDevelopment.productPrototype.productName|default }}</div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </fieldset>
-                            
+                       
+        <fieldset class="border border-secondary rounded mb-3 p-3">  
+            <table class="detail">
+                <thead>
+                    <tr>
+                        <th colspan='3' class='center'>PRODUCTS</th>
+                    </tr>
+                    <tr>
+                        <th class="center">Item Code</th>
+                        <th class="center">Item Name</th>
+                        <th class="center">Ukuran Jadi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for productDevelopmentDetail in productDevelopment.productDevelopmentDetails %}
+                    <tr>
+                        <td>{{ productDevelopmentDetail.product.code|default }}</td>
+                        <td>{{ productDevelopmentDetail.product.name|default }}</td>
+                        <td>{{ productDevelopmentDetail.product.productLengthWidthHeightCombination }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
+                  
+        <fieldset class="border border-secondary rounded mb-3 p-3">  
+            <div class="table full">
+                <div class="row">
+                    <div class="cell label">Model Layout : </div>
+                    <div style="min-width: 64px; min-height: 64px">
+                        <img id="upload" height="128px" alt="Layout Model Image" src="{{ asset('uploads/product-development/' ~ productDevelopment.id ~ '.' ~ productDevelopment.transactionFileExtension) }}">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+                      
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="note">
                 <h3>SPESIFIKASI</h3>
                 <div class="table full">
                     <div class="row">
-                        <table class="detail">
+                        <table class="detail" style="{% if 'ep' not in productDevelopment.developmentTypeList %}display:none{% endif %}">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">No.</th>
@@ -131,7 +162,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="detail">
+                                
+                        <table class="detail" style="{% if 'fep' not in productDevelopment.developmentTypeList %}display:none{% endif %}">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">No.</th>
@@ -183,7 +215,7 @@
                             </tbody>
                         </table>
 
-                        <table class="detail">
+                        <table class="detail" style="{% if 'ps' not in productDevelopment.developmentTypeList %}display:none{% endif %}">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">No.</th>
@@ -234,7 +266,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

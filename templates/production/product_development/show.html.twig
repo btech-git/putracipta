@@ -11,19 +11,31 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Form Produk Baru</th>
+                <th>Pengembangan #</th>
+                <td>{{ productDevelopment.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal</th>
+                <td>{{ productDevelopment.transactionDate|default ? productDevelopment.transactionDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Formulir Produk Baru #</th>
                 <td>{{ productDevelopment.productPrototype.codeNumber|default }}</td>
             </tr>
             <tr>
-                <th>Production Date</th>
-                <td>{{ productDevelopment.transactionDate|default ? productDevelopment.transactionDate|date('d M Y') : '' }}</td>
+                <th>Kode Design</th>
+                <td>{{ productDevelopment.productPrototype.designCode.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Nama Customer</th>
                 <td>{{ productDevelopment.productPrototype.customer.company|default }}</td>
             </tr>
             <tr>
-                <th>Development Type</th>
+                <th>PIC Design</th>
+                <td>{{ productDevelopment.employeeDesigner.name|default }}</td>
+            </tr>
+            <tr>
+                <th>Proses Development</th>
                 <td>{{ productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
             </tr>
             <tr>
@@ -36,7 +48,29 @@
             </tr>
         </tbody>
     </table>
-            
+                
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='3' class='text-center bg-info'>PRODUCTS</th>
+            </tr>
+            <tr>
+                <th class="text-center">Item Code</th>
+                <th class="text-center">Item Name</th>
+                <th class="text-center">Ukuran Jadi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for productDevelopmentDetail in productDevelopment.productDevelopmentDetails %}
+            <tr>
+                <td>{{ productDevelopmentDetail.product.code|default }}</td>
+                <td>{{ productDevelopmentDetail.product.name|default }}</td>
+                <td>{{ productDevelopmentDetail.product.productLengthWidthHeightCombination }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+          
     <table class="table table-bordered {% if 'ep' not in productDevelopment.developmentTypeList %}d-none{% endif %}">
         <thead>
             <tr>
