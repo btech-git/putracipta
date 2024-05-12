@@ -4,8 +4,8 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
-use App\Grid\Report\ExpenseHeaderGridType;
-use App\Repository\Accounting\ExpenseHeaderRepository;
+use App\Grid\Report\ProductDevelopmentGridType;
+use App\Repository\Production\ProductDevelopmentRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,46 +17,46 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/report/expense_header')]
-class ExpenseHeaderController extends AbstractController
+#[Route('/report/product_development')]
+class ProductDevelopmentController extends AbstractController
 {
-    #[Route('/_list', name: 'app_report_expense_header__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_FINANCE_REPORT')]
-    public function _list(Request $request, ExpenseHeaderRepository $expenseHeaderRepository): Response
+    #[Route('/_list', name: 'app_report_product_development__list', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
+    public function _list(Request $request, ProductDevelopmentRepository $productDevelopmentRepository): Response
     {
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
             'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
         ]);
-        $form = $this->createForm(ExpenseHeaderGridType::class, $criteria);
+        $form = $this->createForm(ProductDevelopmentGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $expenseHeaders) = $expenseHeaderRepository->fetchData($criteria);
+        list($count, $productDevelopments) = $productDevelopmentRepository->fetchData($criteria);
 
         if ($request->request->has('export')) {
-            return $this->export($form, $expenseHeaders);
+            return $this->export($form, $productDevelopments);
         } else {
-        return $this->renderForm("report/expense_header/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'expenseHeaders' => $expenseHeaders,
-        ]);
+            return $this->renderForm("report/product_development/_list.html.twig", [
+                'form' => $form,
+                'count' => $count,
+                'productDevelopments' => $productDevelopments,
+            ]);
         }
     }
 
-    #[Route('/', name: 'app_report_expense_header_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_FINANCE_REPORT')]
+    #[Route('/', name: 'app_report_product_development_index', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function index(): Response
     {
-        return $this->render("report/expense_header/index.html.twig");
+        return $this->render("report/product_development/index.html.twig");
     }
 
-    public function export(FormInterface $form, array $expenseHeaders): Response
+    public function export(FormInterface $form, array $productDevelopments): Response
     {
-        $htmlString = $this->renderView("report/expense_header/_list_export.html.twig", [
+        $htmlString = $this->renderView("report/product_development/_list_export.html.twig", [
             'form' => $form->createView(),
-            'expenseHeaders' => $expenseHeaders,
+            'productDevelopments' => $productDevelopments,
         ]);
 
         $reader = new Html();
@@ -67,7 +67,7 @@ class ExpenseHeaderController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'pengeluaran kas bank.xlsx';
+        $filename = 'development produk.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);

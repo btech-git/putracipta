@@ -8,10 +8,15 @@ use App\Entity\Stock\Inventory;
 use App\Grid\Report\InventoryStockProductGridType;
 use App\Repository\Master\ProductRepository;
 use App\Repository\Stock\InventoryRepository;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/report/inventory_stock_product')]
@@ -43,13 +48,17 @@ class InventoryStockProductController extends AbstractController
         $beginningStockList = $this->getBeginningStockList($inventoryRepository, $criteria, $products);
         $inventories = $this->getInventories($inventoryRepository, $criteria, $products);
 
-        return $this->renderForm("report/inventory_stock_product/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'products' => $products,
-            'beginningStockList' => $beginningStockList,
-            'inventories' => $inventories,
-        ]);
+        if ($request->request->has('export')) {
+            return $this->export($form, $products, $beginningStockList, $inventories);
+        } else {
+            return $this->renderForm("report/inventory_stock_product/_list.html.twig", [
+                'form' => $form,
+                'count' => $count,
+                'products' => $products,
+                'beginningStockList' => $beginningStockList,
+                'inventories' => $inventories,
+            ]);
+        }
     }
 
     #[Route('/', name: 'app_report_inventory_stock_product_index', methods: ['GET', 'POST'])]
@@ -84,5 +93,30 @@ class InventoryStockProductController extends AbstractController
         }
 
         return $inventories;
+    }
+
+    public function export(FormInterface $form, array $products, array $beginningStockList, array $inventories): Response
+    {
+        $htmlString = $this->renderView("report/inventory_stock_product/_list_export.html.twig", [
+            'form' => $form->createView(),
+            'products' => $products,
+            'beginningStockList' => $beginningStockList,
+            'inventories' => $inventories,
+        ]);
+
+        $reader = new Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $response =  new StreamedResponse(function() use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $filename = 'stok finished goods.xlsx';
+        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
     }
 }
