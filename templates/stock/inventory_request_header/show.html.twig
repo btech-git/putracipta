@@ -12,31 +12,39 @@
         <tbody>
             <tr>
                 <th>Code Number</th>
-                <td>{{ inventoryRequestHeader.codeNumber }}</td>
+                <td>{{ inventoryRequestHeader.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
-                <td>{{ inventoryRequestHeader.transactionDate ? inventoryRequestHeader.transactionDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Department Name</th>
-                <td>{{ inventoryRequestHeader.departmentName }}</td>
-            </tr>
-            <tr>
-                <th>Work Order Number</th>
-                <td>{{ inventoryRequestHeader.workOrderNumber }}</td>
-            </tr>
-            <tr>
-                <th>Part Number</th>
-                <td>{{ inventoryRequestHeader.partNumber }}</td>
+                <td>{{ inventoryRequestHeader.transactionDate ? inventoryRequestHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Pickup Date</th>
-                <td>{{ inventoryRequestHeader.pickupDate ? inventoryRequestHeader.pickupDate|date('Y-m-d') : '' }}</td>
+                <td>{{ inventoryRequestHeader.pickupDate ? inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Gudang</th>
+                <td>{{ inventoryRequestHeader.warehouse.name|default }}</td>
+            </tr>
+            <tr>
+                <th>Divisi</th>
+                <td>{{ inventoryRequestHeader.division.name|default }}</td>
+            </tr>
+            <tr>
+                <th>Work Order Number</th>
+                <td>{{ inventoryRequestHeader.masterOrderHeader.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Customer</th>
+                <td>{{ inventoryRequestHeader.masterOrderHeader.customer.company|default }}</td>
+            </tr>
+            <tr>
+                <th>Part Number</th>
+                <td>{{ inventoryRequestHeader.partNumber|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ inventoryRequestHeader.note }}</td>
+                <td>{{ inventoryRequestHeader.note|default }}</td>
             </tr>
             <tr>
                 <th>Is Canceled</th>
@@ -63,7 +71,7 @@
             {% if (inventoryRequestHeader.requestMode == 'paper') %}
                 {% for inventoryRequestPaperDetail in inventoryRequestHeader.inventoryRequestPaperDetails %}
                     <tr>
-                        <td>{{ inventoryRequestPaperDetail.paper.code|default }}</td>
+                        <td>{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
                         <td>{{ inventoryRequestPaperDetail.paper.name|default }}</td>
                         <td>{{ inventoryRequestPaperDetail.quantity|default|number_format(2) }}</td>
                         <td>{{ inventoryRequestPaperDetail.unit.name|default }}</td>

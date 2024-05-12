@@ -27,7 +27,7 @@
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.inventoryRequestPaperDetail , {'attr': {'data-item-field-name': 'inventoryRequestPaperDetailId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
-                    <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.code|default }}</td>
+                    <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
                     <td class="text-center" data-item-field-name="inventoryRequestPaperDetailQuantity">{{ detailForm.vars.value.inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
                     <td class="text-center" data-json-loader-target="placeholder"

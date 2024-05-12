@@ -16,15 +16,15 @@
             </tr>
             <tr>
                 <th>Tanggal</th>
-                <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Department</th>
-                <td>{{ inventoryReleaseHeader.departmentName }}</td>
+                <th>Divisi</th>
+                <td>{{ inventoryReleaseHeader.division.name }}</td>
             </tr>
             <tr>
                 <th>WO #</th>
-                <td>{{ inventoryReleaseHeader.workOrderNumber }}</td>
+                <td>{{ inventoryReleaseHeader.masterOrderHeader.codeNumber }}</td>
             </tr>
             <tr>
                 <th>Part #</th>

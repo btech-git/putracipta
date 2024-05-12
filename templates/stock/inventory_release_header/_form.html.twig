@@ -49,20 +49,20 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">WO #</label>
-                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.workOrderNumber|default }}" readonly="readonly"
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderWorkOrderNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].masterOrderHeaderCodeNumber'}},
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Departemen</label>
-                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.departmentName|default }}" readonly="readonly"
+                        <label class="form-label">Divisi</label>
+                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.division.name|default }}" readonly="readonly"
                                data-controller="dom-element"
                                data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderDepartment'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].divisionName'}},
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
@@ -83,23 +83,23 @@
             </div>
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-material-container"
+        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_MATERIAL', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-material-container"
                   data-controller="dom-element"
                   data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                   data-dom-element-bind-specifications-param="{{ [
-                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "material"'},
-                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "material"'},
+                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader !== "material"'},
+                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader === "material"'},
                   ]|json_encode }}">
             <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
             {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-paper-container"
+        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_PAPER', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-paper-container"
                   data-controller="dom-element"
                   data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                   data-dom-element-bind-specifications-param="{{ [
-                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "paper"'},
-                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "paper"'},
+                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader !== "paper"'},
+                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader === "paper"'},
                   ]|json_encode }}">
             <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
             {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
