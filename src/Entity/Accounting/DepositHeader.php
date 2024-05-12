@@ -28,8 +28,8 @@ class DepositHeader extends AccountingHeader
     #[ORM\OneToMany(mappedBy: 'depositHeader', targetEntity: DepositDetail::class)]
     private Collection $depositDetails;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalAmount = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $totalAmount = '0.00';
 
     public function __construct()
     {

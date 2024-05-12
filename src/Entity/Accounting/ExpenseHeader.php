@@ -28,8 +28,8 @@ class ExpenseHeader extends AccountingHeader
     #[ORM\OneToMany(mappedBy: 'expenseHeader', targetEntity: ExpenseDetail::class)]
     private Collection $expenseDetails;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalAmount = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $totalAmount = '0.00';
 
     public function __construct()
     {
