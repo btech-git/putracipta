@@ -2,6 +2,8 @@
 
 namespace App\Form\Stock;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Stock\InventoryRequestMaterialDetail;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Entity\Stock\InventoryRequestHeader;
@@ -16,8 +18,6 @@ class InventoryRequestHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('departmentName')
-            ->add('workOrderNumber')
             ->add('partNumber')
             ->add('warehouse', null, [
                 'choice_label' => 'name',
@@ -26,6 +26,15 @@ class InventoryRequestHeaderType extends AbstractType
                             ->andWhere("e.isInactive = false");
                 },
             ])
+            ->add('division', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.name', 'ASC');
+                },
+            ])
+            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
             ->add('pickupDate', null, ['widget' => 'single_text'])
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
