@@ -40,11 +40,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, inventoryRequestHeaders) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_inventory_request_header__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, inventoryRequestHeaders) }}
 
     <hr />
 </div>
@@ -52,7 +63,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Permintaan Material</div>
+        <div class="report-title">Laporan Permintaan Produksi</div>
         <div>
             {% set startDate = form.vars.value.filter.transactionDate.1|default %}
             {% set endDate = form.vars.value.filter.transactionDate.2|default %}
@@ -68,14 +79,15 @@
                 <th class="text-start">Permintaan #</th>
                 <th class="text-start">Tanggal</th>
                 <th class="text-start">Gudang</th>
-                <th class="text-start">Departemen</th>
+                <th class="text-start">WO #</th>
+                <th class="text-start">Divisi</th>
                 <th class="text-start">Part #</th>
                 <th class="text-start">Tanggal Kirim</th>
                 <th class="text-start">Jenis</th>
                 <th class="text-start">Note</th>
             </tr>
             <tr>
-                <td colspan="8">
+                <td colspan="9">
                     <table>
                         <thead>
                             <tr>
@@ -96,14 +108,15 @@
                     <td class="text-start">{{ inventoryRequestHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ inventoryRequestHeader.transactionDate|default ? inventoryRequestHeader.transactionDate|date('j M Y') }}</td>
                     <td class="text-start">{{ inventoryRequestHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ inventoryRequestHeader.departmentName|default }}</td>
+                    <td class="text-start">{{ inventoryRequestHeader.masterOrderHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ inventoryRequestHeader.division.name|default }}</td>
                     <td class="text-start">{{ inventoryRequestHeader.partNumber|default }}</td>
                     <td class="text-start">{{ inventoryRequestHeader.pickupDate|default ? inventoryRequestHeader.pickupDate|date('j M Y') }}</td>
                     <td class="text-start">{{ inventoryRequestHeader.requestMode|default }}</td>
                     <td class="text-start">{{ inventoryRequestHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="8">
+                    <td colspan="9">
                         <table>
                             <tbody>
                                 {% if (inventoryRequestHeader.requestMode == 'paper') %}
@@ -111,7 +124,7 @@
                                         <tr>
                                             <td class="text-start">{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
                                             <td class="text-start">{{ inventoryRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                                            <td class="text-center">{{ inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ inventoryRequestPaperDetail.quantity|default|number_format(2) }}</td>
                                             <td class="text-start">{{ inventoryRequestPaperDetail.unit.name|default }}</td>
                                             <td class="text-start">{{ inventoryRequestPaperDetail.memo|default }}</td>
                                         </tr>
@@ -121,7 +134,7 @@
                                         <tr>
                                             <td class="text-start">{{ inventoryRequestMaterialDetail.material.code|default }}</td>
                                             <td class="text-start">{{ inventoryRequestMaterialDetail.material.name|default }}</td>
-                                            <td class="text-center">{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ inventoryRequestMaterialDetail.quantity|default|number_format(2) }}</td>
                                             <td class="text-start">{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
                                             <td class="text-start">{{ inventoryRequestMaterialDetail.memo|default }}</td>
                                         </tr>

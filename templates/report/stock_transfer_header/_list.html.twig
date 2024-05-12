@@ -40,11 +40,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, stockTransferHeaders) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_stock_transfer_header__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, stockTransferHeaders) }}
 
     <hr />
 </div>
@@ -107,9 +118,9 @@
                                     {% for stockTransferPaperDetail in stockTransferHeader.stockTransferPaperDetails %}
                                         <tr>
                                             <td class="text-start">{{ stockTransferPaperDetail.paper.codeNumber|default }}</td>
-                                            <td class="text-start">{{ stockTransferPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                                            <td class="text-center">{{ stockTransferPaperDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ stockTransferPaperDetail.paper.name|default }}</td>
+                                            <td class="text-center">{{ stockTransferPaperDetail.quantityCurrent|default|number_format(2) }}</td>
+                                            <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(2) }}</td>
                                             <td class="text-start">{{ stockTransferPaperDetail.unit.name|default }}</td>
                                             <td class="text-start">{{ stockTransferPaperDetail.memo|default }}</td>
                                         </tr>
@@ -119,19 +130,19 @@
                                         <tr>
                                             <td class="text-start">{{ stockTransferMaterialDetail.material.code|default }}</td>
                                             <td class="text-start">{{ stockTransferMaterialDetail.material.name|default }}</td>
-                                            <td class="text-center">{{ stockTransferMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ stockTransferMaterialDetail.quantityCurrent|default|number_format(2) }}</td>
+                                            <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(2) }}</td>
                                             <td class="text-start">{{ stockTransferMaterialDetail.unit.name|default }}</td>
                                             <td class="text-start">{{ stockTransferMaterialDetail.memo|default }}</td>
                                         </tr>
                                     {% endfor %}
-                                {% elseif (stockTransferHeader.adjustmentMode == 'product') %} 
+                                {% elseif (stockTransferHeader.transferMode == 'product') %} 
                                     {% for stockTransferProductDetail in stockTransferHeader.stockTransferProductDetails %}
                                         <tr>
                                             <td class="text-start">{{ stockTransferProductDetail.product.code|default }}</td>
                                             <td class="text-start">{{ stockTransferProductDetail.product.name|default }}</td>
-                                            <td class="text-center">{{ stockTransferProductDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ stockTransferProductDetail.quantityCurrent|default|number_format(2) }}</td>
+                                            <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(2) }}</td>
                                             <td class="text-start">{{ stockTransferProductDetail.unit.name|default }}</td>
                                             <td class="text-start">{{ stockTransferProductDetail.memo|default }}</td>
                                         </tr>

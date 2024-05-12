@@ -25,9 +25,9 @@
                     <label class="col-sm-2 col-form-label w-25">Code Number</label>
                     <div class="col-sm-10 w-75">
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                        <span><small>/{{ constant('App\\Entity\\Accounting\\DepositHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                        <span><small>/{{ constant('App\\Entity\\Production\\ProductDevelopment::CODE_NUMBER_CONSTANT') }}/</small></span>
                         <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
-                            {% for value, label in constant('App\\Entity\\AccountingHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% for value, label in constant('App\\Entity\\ProductionHeader::MONTH_ROMAN_NUMERALS') %}
                                 {% set val = value == 0 ? '' : value %}
                                 <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -45,7 +45,7 @@
             <div class="col text-center">
                 <button type="submit" class="btn btn-primary btn-sm"
                         data-controller="redirection"
-                        data-redirection-url-value="{{ path('app_report_deposit_header__list') }}"
+                        data-redirection-url-value="{{ path('app_report_product_development__list') }}"
                         data-redirection-form-target-value="form[name={{ form.vars.name }}]"
                         data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
                         data-action="redirection#redirect">
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, depositHeaders) }}
+    {{ grid.info(form, count, productDevelopments) }}
 
     <hr />
 </div>
@@ -63,7 +63,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Penerimaan Kas/Bank</div>
+        <div class="report-title">Laporan Pengembangan Produk</div>
         <div>
             {% set startDate = form.vars.value.filter.transactionDate.1|default %}
             {% set endDate = form.vars.value.filter.transactionDate.2|default %}
@@ -76,10 +76,13 @@
     <table class="report-data">
         <thead class="border-top-solid-bold border-bottom-solid-bold">
             <tr>
-                <th class="text-start">Penerimaan #</th>
+                <th class="text-start">Pengembangan #</th>
                 <th class="text-start">Tanggal</th>
-                <th class="text-start">Kode Account</th>
-                <th class="text-start">Nama Account</th>
+                <th class="text-start">Form Produk Baru #</th>
+                <th class="text-start">Customer</th>
+                <th class="text-start">Kode Design</th>
+                <th class="text-start">Proses</th>
+                <th class="text-start">PIC</th>
                 <th class="text-start">Note</th>
             </tr>
             <tr>
@@ -87,11 +90,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="text-start">Kode Account</th>
-                                <th class="text-start">Nama Account</th>
-                                <th class="text-start">Description</th>
-                                <th class="text-start">Amount</th>
-                                <th class="text-start">Memo</th>
+                                <th class="text-start">Kode Item</th>
+                                <th class="text-start">Nama Item</th>
+                                <th class="text-start">Ukuran Jadi</th>
                             </tr>
                         </thead>
                     </table>
@@ -99,35 +100,29 @@
             </tr>
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
-            {% for depositHeader in depositHeaders %}
+            {% for productDevelopment in productDevelopments %}
                 <tr>
-                    <td class="text-start">{{ depositHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ depositHeader.transactionDate|default ? depositHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ depositHeader.account.code|default }}</td>
-                    <td class="text-start">{{ depositHeader.account.name|default }}</td>
-                    <td class="text-start">{{ depositHeader.note|default }}</td>
+                    <td class="text-start">{{ productDevelopment.codeNumber|default }}</td>
+                    <td class="text-start">{{ productDevelopment.transactionDate|default ? productDevelopment.transactionDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ productDevelopment.productPrototype.codeNumber|default }}</td>
+                    <td class="text-start">{{ productDevelopment.productPrototype.customer.company|default }}</td>
+                    <td class="text-start">{{ productDevelopment.productPrototype.designCode.codeNumber|default }}</td>
+                    <td class="text-start">{{ productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
+                    <td class="text-start">{{ productDevelopment.employeeDesigner.name|default }}</td>
+                    <td class="text-start">{{ productDevelopment.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
                     <td colspan="5">
                         <table>
                             <tbody>
-                                {% for depositDetail in depositHeader.depositDetails %}
+                                {% for productDevelopmentDetail in productDevelopment.productDevelopmentDetails %}
                                     <tr>
-                                        <td class="text-start">{{ depositDetail.account.code|default }}</td>
-                                        <td class="text-start">{{ depositDetail.account.name|default }}</td>
-                                        <td class="text-start">{{ depositDetail.description|default }}</td>
-                                        <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
-                                        <td class="text-start">{{ depositDetail.memo|default }}</td>
+                                        <td class="text-start">{{ productDevelopmentDetail.product.code|default }}</td>
+                                        <td class="text-start">{{ productDevelopmentDetail.product.name|default }}</td>
+                                        <td class="text-start">{{ productDevelopmentDetail.product.productLengthWidthHeightCombination|default }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
-                            <tfoot class="border-top-solid-normal">
-                                <tr>
-                                    <td class="text-end" colspan="3"><strong>Total Amount</strong></td>
-                                    <td class="text-end"><strong>{{ depositHeader.totalAmount|default|number_format(2) }}</strong></td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </td>
                 </tr>
@@ -138,5 +133,5 @@
 
 <div class="d-print-none">
     <br />
-    {{ grid.navigation(form, count, depositHeaders) }}
+    {{ grid.navigation(form, count, productDevelopments) }}
 </div>

@@ -40,11 +40,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, adjustmentStockHeaders) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_adjustment_stock_header__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, adjustmentStockHeaders) }}
 
     <hr />
 </div>
@@ -105,10 +116,10 @@
                                     {% for adjustmentStockPaperDetail in adjustmentStockHeader.adjustmentStockPaperDetails %}
                                         <tr>
                                             <td>{{ adjustmentStockPaperDetail.paper.codeNumber|default }}</td>
-                                            <td>{{ adjustmentStockPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                                            <td>{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td>{{ adjustmentStockPaperDetail.quantityAdjustment|default|number_format(0) }}</td>
-                                            <td>{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(0) }}</td>
+                                            <td>{{ adjustmentStockPaperDetail.paper.name|default }}</td>
+                                            <td>{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(2) }}</td>
+                                            <td>{{ adjustmentStockPaperDetail.quantityAdjustment|default|number_format(2) }}</td>
+                                            <td>{{ adjustmentStockPaperDetail.quantityDifference|default|number_format(2) }}</td>
                                             <td>{{ adjustmentStockPaperDetail.memo|default }}</td>
                                         </tr>
                                     {% endfor %}
@@ -117,9 +128,9 @@
                                         <tr>
                                             <td>{{ adjustmentStockMaterialDetail.material.code|default }}</td>
                                             <td>{{ adjustmentStockMaterialDetail.material.name|default }}</td>
-                                            <td>{{ adjustmentStockMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td>{{ adjustmentStockMaterialDetail.quantityAdjustment|default|number_format(0) }}</td>
-                                            <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(0) }}</td>
+                                            <td>{{ adjustmentStockMaterialDetail.quantityCurrent|default|number_format(2) }}</td>
+                                            <td>{{ adjustmentStockMaterialDetail.quantityAdjustment|default|number_format(2) }}</td>
+                                            <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(2) }}</td>
                                             <td>{{ adjustmentStockMaterialDetail.memo|default }}</td>
                                         </tr>
                                     {% endfor %}
@@ -128,9 +139,9 @@
                                         <tr>
                                             <td>{{ adjustmentStockProductDetail.product.code|default }}</td>
                                             <td>{{ adjustmentStockProductDetail.product.name|default }}</td>
-                                            <td>{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td>{{ adjustmentStockProductDetail.quantityAdjustment|default|number_format(0) }}</td>
-                                            <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(0) }}</td>
+                                            <td>{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(2) }}</td>
+                                            <td>{{ adjustmentStockProductDetail.quantityAdjustment|default|number_format(2) }}</td>
+                                            <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(2) }}</td>
                                             <td>{{ adjustmentStockProductDetail.memo|default }}</td>
                                         </tr>
                                     {% endfor %}

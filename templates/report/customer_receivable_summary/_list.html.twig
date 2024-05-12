@@ -58,11 +58,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, saleInvoiceHeaders) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_customer_receivable_summary__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, saleInvoiceHeaders) }}
 
     <hr />
 </div>
@@ -85,9 +96,9 @@
             <tr>
                 <th class="text-start">Invoice #</th>
                 <th class="text-start">Tanggal</th>
-                <th class="text-start">Customer</th>
                 <th class="text-start">TOP (hari)</th>
                 <th class="text-start">Jatuh Tempo</th>
+                <th class="text-start">Customer</th>
                 <th class="text-start">Amount</th>
                 <th class="text-start">Payment</th>
                 <th class="text-start">Retur</th>
@@ -103,13 +114,13 @@
                 <tr>
                     <td class="text-start">{{ saleInvoiceHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ saleInvoiceHeader.transactionDate|default ? saleInvoiceHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ saleInvoiceHeader.customer.company|default }}</td>
                     <td class="text-start">{{ saleInvoiceHeader.customer.paymentTerm|default }}</td>
                     <td class="text-start">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('j M Y') }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.totalPayment|default|number_format(0) }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.totalReturn|default|number_format(0) }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.remainingPayment|default|number_format(0) }}</td>
+                    <td class="text-start">{{ saleInvoiceHeader.customer.company|default }}</td>
+                    <td class="text-end">{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                    <td class="text-end">{{ saleInvoiceHeader.totalPayment|default|number_format(2) }}</td>
+                    <td class="text-end">{{ saleInvoiceHeader.totalReturn|default|number_format(2) }}</td>
+                    <td class="text-end">{{ saleInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
                 </tr>
                 {% set totalAmount = totalAmount + saleInvoiceHeader.grandTotal|default %}
                 {% set totalPayment = totalPayment + saleInvoiceHeader.totalPayment|default %}
@@ -120,10 +131,10 @@
         <tfoot>
             <tr>
                 <td class="text-end" style="font-weight: bold" colspan="5">Total</td>
-                <td class="text-end" style="font-weight: bold">{{ totalAmount|default|number_format(0) }}</td>
-                <td class="text-end" style="font-weight: bold">{{ totalPayment|default|number_format(0) }}</td>
-                <td class="text-end" style="font-weight: bold">{{ totalReturn|default|number_format(0) }}</td>
-                <td class="text-end" style="font-weight: bold">{{ totalRemaining|default|number_format(0) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalAmount|default|number_format(2) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalPayment|default|number_format(2) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalReturn|default|number_format(2) }}</td>
+                <td class="text-end" style="font-weight: bold">{{ totalRemaining|default|number_format(2) }}</td>
             </tr>
         </tfoot>
     </table>

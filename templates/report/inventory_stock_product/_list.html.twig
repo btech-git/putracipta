@@ -36,11 +36,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, products) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_inventory_stock_product__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, products) }}
 
     <hr />
 </div>
@@ -63,7 +74,7 @@
             <tr>
                 <th class="text-start" style="width: 15%">Kode</th>
                 <th class="text-start">Nama Item</th>
-                <th class="text-start" style="width: 15%">Beginning Stok</th>
+                <th class="text-start" style="width: 15%">Stok Awal</th>
             </tr>
             <tr>
                 <th colspan="3">
@@ -89,7 +100,7 @@
                 <tr>
                     <td class="text-start" style="width: 15%">{{ product.code|default }}</td>
                     <td class="text-start">{{ product.name|default }}</td>
-                    <td class="text-start" style="width: 15%">{{ beginningStock|number_format(0) }}</td>
+                    <td class="text-start" style="width: 15%">{{ beginningStock|number_format(2) }}</td>
                 </tr>
                 <tr>
                     <td colspan="3">
@@ -101,9 +112,9 @@
                                     <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
                                     <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
                                     <td class="text-start">{{ inventory.transactionSubject|default }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(0) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(0) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(0) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(2) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(2) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(2) }}</td>
                                     <td class="text-start" style="width: 8%">{{ inventory.product.unit.name|default }}</td>
                                 </tr>
                             {% endfor %}

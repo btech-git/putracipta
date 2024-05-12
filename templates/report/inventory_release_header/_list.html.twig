@@ -40,11 +40,22 @@
         </div>
     </div>
 
-    {{ grid.info(form, count, inventoryReleaseHeaders) }}
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_inventory_release_header__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    {#<div class="text-center">
-        <button type="button" class="btn btn-info btn-sm" id="export">Export</button>
-    </div>#}
+    {{ grid.info(form, count, inventoryReleaseHeaders) }}
 
     <hr />
 </div>
@@ -69,13 +80,14 @@
                 <th class="text-start">Tanggal</th>
                 <th class="text-start">Request #</th>
                 <th class="text-start">Gudang</th>
-                <th class="text-start">Departemen</th>
+                <th class="text-start">WO #</th>
+                <th class="text-start">Divisi</th>
                 <th class="text-start">Part #</th>
                 <th class="text-start">Jenis</th>
                 <th class="text-start">Note</th>
             </tr>
             <tr>
-                <td colspan="8">
+                <td colspan="9">
                     <table>
                         <thead>
                             <tr>
@@ -98,13 +110,14 @@
                     <td class="text-start">{{ inventoryReleaseHeader.transactionDate|default ? inventoryReleaseHeader.transactionDate|date('j M Y') }}</td>
                     <td class="text-start">{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ inventoryReleaseHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseHeader.departmentName|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ inventoryReleaseHeader.division.name|default }}</td>
                     <td class="text-start">{{ inventoryReleaseHeader.partNumber|default }}</td>
                     <td class="text-start">{{ inventoryReleaseHeader.releaseMode|default }}</td>
                     <td class="text-start">{{ inventoryReleaseHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="8">
+                    <td colspan="9">
                         <table>
                             <tbody>
                                 {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
