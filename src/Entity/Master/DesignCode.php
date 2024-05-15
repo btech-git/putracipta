@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Admin\User;
 use App\Entity\Master;
 use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Master\DesignCodeRepository;
@@ -161,6 +162,18 @@ class DesignCode extends Master
 
     #[ORM\ManyToOne(inversedBy: 'designCodes')]
     private ?Paper $paper = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $createdTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
+
+    #[ORM\ManyToOne]
+    protected ?User $createdTransactionUser = null;
+
+    #[ORM\ManyToOne]
+    protected ?User $modifiedTransactionUser = null;
 
     public function __construct()
     {
@@ -838,6 +851,54 @@ class DesignCode extends Master
     public function setPaper(?Paper $paper): self
     {
         $this->paper = $paper;
+
+        return $this;
+    }
+    
+    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->createdTransactionDateTime;
+    }
+
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
+    {
+        $this->createdTransactionDateTime = $createdTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->modifiedTransactionDateTime;
+    }
+
+    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
+    {
+        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getCreatedTransactionUser(): ?User
+    {
+        return $this->createdTransactionUser;
+    }
+
+    public function setCreatedTransactionUser(?User $createdTransactionUser): self
+    {
+        $this->createdTransactionUser = $createdTransactionUser;
+
+        return $this;
+    }
+
+    public function getModifiedTransactionUser(): ?User
+    {
+        return $this->modifiedTransactionUser;
+    }
+
+    public function setModifiedTransactionUser(?User $modifiedTransactionUser): self
+    {
+        $this->modifiedTransactionUser = $modifiedTransactionUser;
 
         return $this;
     }

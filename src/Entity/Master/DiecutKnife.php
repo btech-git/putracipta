@@ -2,6 +2,7 @@
 
 namespace App\Entity\Master;
 
+use App\Entity\Admin\User;
 use App\Entity\Master;
 use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Master\DiecutKnifeRepository;
@@ -52,21 +53,34 @@ class DiecutKnife extends Master
     #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: DesignCode::class)]
     private Collection $designCodes;
 
-    #[ORM\ManyToOne(inversedBy: 'diecutKnives')]
-    private ?Product $product = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $createdTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
+
+    #[ORM\ManyToOne]
+    protected ?User $createdTransactionUser = null;
+
+    #[ORM\ManyToOne]
+    protected ?User $modifiedTransactionUser = null;
+
+    #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: DiecutKnifeDetail::class)]
+    private Collection $diecutKnifeDetails;
 
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
         $this->designCodes = new ArrayCollection();
+        $this->diecutKnifeDetails = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . '-P-' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-R' . str_pad($this->version, 3, '0', STR_PAD_LEFT);
+        return str_pad($this->customer->getCode(), 3, '0', STR_PAD_LEFT) . '-P' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-R' . str_pad($this->version, 3, '0', STR_PAD_LEFT);
     }
     
     public function getId(): ?int
@@ -230,18 +244,6 @@ class DiecutKnife extends Master
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
@@ -253,4 +255,83 @@ class DiecutKnife extends Master
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, DiecutKnifeDetail>
+     */
+    public function getDiecutKnifeDetails(): Collection
+    {
+        return $this->diecutKnifeDetails;
+    }
+
+    public function addDiecutKnifeDetail(DiecutKnifeDetail $diecutKnifeDetail): self
+    {
+        if (!$this->diecutKnifeDetails->contains($diecutKnifeDetail)) {
+            $this->diecutKnifeDetails->add($diecutKnifeDetail);
+            $diecutKnifeDetail->setDiecutKnife($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiecutKnifeDetail(DiecutKnifeDetail $diecutKnifeDetail): self
+    {
+        if ($this->diecutKnifeDetails->removeElement($diecutKnifeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($diecutKnifeDetail->getDiecutKnife() === $this) {
+                $diecutKnifeDetail->setDiecutKnife(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->createdTransactionDateTime;
+    }
+
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
+    {
+        $this->createdTransactionDateTime = $createdTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->modifiedTransactionDateTime;
+    }
+
+    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
+    {
+        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getCreatedTransactionUser(): ?User
+    {
+        return $this->createdTransactionUser;
+    }
+
+    public function setCreatedTransactionUser(?User $createdTransactionUser): self
+    {
+        $this->createdTransactionUser = $createdTransactionUser;
+
+        return $this;
+    }
+
+    public function getModifiedTransactionUser(): ?User
+    {
+        return $this->modifiedTransactionUser;
+    }
+
+    public function setModifiedTransactionUser(?User $modifiedTransactionUser): self
+    {
+        $this->modifiedTransactionUser = $modifiedTransactionUser;
+
+        return $this;
+    }
+
 }

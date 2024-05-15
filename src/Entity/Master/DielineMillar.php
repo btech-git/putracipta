@@ -49,18 +49,19 @@ class DielineMillar extends Master
     #[ORM\OneToMany(mappedBy: 'dielineMillar', targetEntity: DesignCode::class)]
     private Collection $designCodes;
 
-    #[ORM\ManyToOne(inversedBy: 'dielineMillars')]
-    private ?Product $product = null;
+    #[ORM\OneToMany(mappedBy: 'dielineMillar', targetEntity: DielineMillarDetail::class)]
+    private Collection $dielineMillarDetails;
 
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
         $this->designCodes = new ArrayCollection();
+        $this->dielineMillarDetails = new ArrayCollection();
     }
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getId(), 3, '0', STR_PAD_LEFT) . '-M-' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-R' . str_pad($this->version, 3, '0', STR_PAD_LEFT);
+        return str_pad($this->customer->getCode(), 3, '0', STR_PAD_LEFT) . '-M' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-R' . str_pad($this->version, 3, '0', STR_PAD_LEFT);
     }
     
     public function getId(): ?int
@@ -224,14 +225,32 @@ class DielineMillar extends Master
         return $this;
     }
 
-    public function getProduct(): ?Product
+    /**
+     * @return Collection<int, DielineMillarDetail>
+     */
+    public function getDielineMillarDetails(): Collection
     {
-        return $this->product;
+        return $this->dielineMillarDetails;
     }
 
-    public function setProduct(?Product $product): self
+    public function addDielineMillarDetail(DielineMillarDetail $dielineMillarDetail): self
     {
-        $this->product = $product;
+        if (!$this->dielineMillarDetails->contains($dielineMillarDetail)) {
+            $this->dielineMillarDetails->add($dielineMillarDetail);
+            $dielineMillarDetail->setDielineMillar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDielineMillarDetail(DielineMillarDetail $dielineMillarDetail): self
+    {
+        if ($this->dielineMillarDetails->removeElement($dielineMillarDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($dielineMillarDetail->getDielineMillar() === $this) {
+                $dielineMillarDetail->setDielineMillar(null);
+            }
+        }
 
         return $this;
     }
