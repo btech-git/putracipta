@@ -19,6 +19,7 @@ class InventoryReleaseHeaderType extends AbstractType
         $builder
             ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
+            ->add('releaseMode', null, ['label' => false])
             ->add('warehouse', null, [
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {

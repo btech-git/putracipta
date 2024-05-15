@@ -12,27 +12,35 @@
         <tbody>
             <tr>
                 <th>Code Number</th>
-                <td>{{ inventoryReleaseHeader.codeNumber }}</td>
+                <td>{{ inventoryReleaseHeader.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
                 <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
+                <th>Request #</th>
+                <td>{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}</td>
+            </tr>
+            <tr>
                 <th>Divisi</th>
-                <td>{{ inventoryReleaseHeader.division.name }}</td>
+                <td>{{ inventoryReleaseHeader.division.name|default }}</td>
             </tr>
             <tr>
                 <th>WO #</th>
-                <td>{{ inventoryReleaseHeader.masterOrderHeader.codeNumber }}</td>
+                <td>{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Part #</th>
-                <td>{{ inventoryReleaseHeader.partNumber }}</td>
+                <td>{{ inventoryReleaseHeader.partNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Jenis</th>
+                <td>{{ inventoryReleaseHeader.releaseMode|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ inventoryReleaseHeader.note }}</td>
+                <td>{{ inventoryReleaseHeader.note|default }}</td>
             </tr>
             <tr>
                 <th>Is Canceled</th>
