@@ -43,7 +43,7 @@ class UserMenuConfig
             'MENU_REPORT_WAREHOUSE_FINISHED_GOODS' => [
                 'MENU_REPORT_SALE_DELIVERY', 'MENU_REPORT_SALE_RETURN', 'MENU_REPORT_PRODUCTION_RECEIVE', 'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS'
             ],
-            'MENU_REPORT_PRODUCTION' => ['MENU_REPORT_NEW_PRODUCT', 'MENU_REPORT_DEVELOPMENT_PRODUCT', 'MENU_REPORT_MASTER_ORDER'],
+            'MENU_REPORT_PRODUCTION' => ['MENU_REPORT_NEW_PRODUCT', 'MENU_REPORT_DEVELOPMENT_PRODUCT', 'MENU_REPORT_MASTER_ORDER', 'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE'],
             'MENU_REPORT_FINANCE' => ['MENU_REPORT_DEPOSIT', 'MENU_REPORT_EXPENSE', 'MENU_REPORT_ACCOUNT_RECEIVABLE', 'MENU_REPORT_ACCOUNT_PAYABLE'],
             'MENU_TRANSACTION_LOG' => [],
         ];
@@ -123,6 +123,9 @@ class UserMenuConfig
             'MENU_REPORT_NEW_PRODUCT' => ['route' => 'app_report_product_prototype_index', 'pattern' => '/^app_report_product_prototype_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DEVELOPMENT_PRODUCT' => ['route' => 'app_report_product_development_index', 'pattern' => '/^app_report_product_development_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_MASTER_ORDER' => ['route' => 'app_report_master_order_header_index', 'pattern' => '/^app_report_master_order_header_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
+            'MENU_REPORT_DESIGN_CODE' => ['route' => 'app_report_design_code_index', 'pattern' => '/^app_report_design_code_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
+            'MENU_REPORT_DIELINE_MILLAR' => ['route' => 'app_report_dieline_millar_index', 'pattern' => '/^app_report_dieline_millar_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
+            'MENU_REPORT_DIECUT_KNIFE' => ['route' => 'app_report_diecut_knife_index', 'pattern' => '/^app_report_diecut_knife_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DEPOSIT' => ['route' => 'app_report_deposit_header_index', 'pattern' => '/^app_report_deposit_header_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_REPORT_EXPENSE' => ['route' => 'app_report_expense_header_index', 'pattern' => '/^app_report_expense_header_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_REPORT_ACCOUNT_RECEIVABLE' => ['route' => 'app_report_customer_receivable_summary_index', 'pattern' => '/^app_report_customer_receivable_summary_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
