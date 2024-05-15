@@ -64,6 +64,7 @@ class DiecutKnifeController extends AbstractController
     public function new(Request $request, DiecutKnifeFormService $diecutKnifeFormService): Response
     {
         $diecutKnife = new DiecutKnife();
+        $diecutKnifeFormService->initialize($diecutKnife, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
         $form->handleRequest($request);
         $diecutKnifeFormService->finalize($diecutKnife);
@@ -94,6 +95,7 @@ class DiecutKnifeController extends AbstractController
     #[IsGranted('ROLE_DIECUT_EDIT')]
     public function edit(Request $request, DiecutKnife $diecutKnife, DiecutKnifeRepository $diecutKnifeRepository, DiecutKnifeFormService $diecutKnifeFormService): Response
     {
+        $diecutKnifeFormService->initialize($diecutKnife, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
         $form->handleRequest($request);
         $diecutKnifeFormService->finalize($diecutKnife);

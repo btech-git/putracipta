@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DesignCode;
 use App\Form\Master\DesignCodeType;
@@ -37,6 +38,10 @@ class DesignCodeController extends AbstractController
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortDescending::class,
+            'createdTransactionDateTime' => SortDescending::class,
+        ]);
         $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);
 
@@ -67,6 +72,7 @@ class DesignCodeController extends AbstractController
     public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $designCode = new DesignCode();
+        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
         $designCodeFormService->finalize($designCode);
@@ -102,6 +108,7 @@ class DesignCodeController extends AbstractController
     {
         $sourceDesignCode = $designCodeRepository->find($request->attributes->getInt('source_id'));
         $designCode = $designCodeFormService->copyFrom($sourceDesignCode);
+        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
         $designCodeFormService->finalize($designCode);
@@ -126,6 +133,7 @@ class DesignCodeController extends AbstractController
     #[IsGranted('ROLE_DESIGN_CODE_EDIT')]
     public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
+        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
         $designCodeFormService->finalize($designCode);

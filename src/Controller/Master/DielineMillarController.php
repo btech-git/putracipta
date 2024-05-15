@@ -64,6 +64,7 @@ class DielineMillarController extends AbstractController
     public function new(Request $request, DielineMillarFormService $dielineMillarFormService): Response
     {
         $dielineMillar = new DielineMillar();
+        $dielineMillarFormService->initialize($dielineMillar, ['datetime' => new \DateTime()]);
         $form = $this->createForm(DielineMillarType::class, $dielineMillar);
         $form->handleRequest($request);
         $dielineMillarFormService->finalize($dielineMillar);
@@ -94,6 +95,7 @@ class DielineMillarController extends AbstractController
     #[IsGranted('ROLE_MILLAR_EDIT')]
     public function edit(Request $request, DielineMillar $dielineMillar, DielineMillarRepository $dielineMillarRepository, DielineMillarFormService $dielineMillarFormService): Response
     {
+        $dielineMillarFormService->initialize($dielineMillar, ['datetime' => new \DateTime()]);
         $form = $this->createForm(DielineMillarType::class, $dielineMillar);
         $form->handleRequest($request);
         $dielineMillarFormService->finalize($dielineMillar);
