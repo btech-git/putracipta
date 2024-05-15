@@ -41,6 +41,19 @@ class DesignCodeFormService
         $this->designCodeProductDetailRepository = $entityManager->getRepository(DesignCodeProductDetail::class);
     }
     
+    public function initialize(DesignCode $designCode, array $options = []): void
+    {
+        list($datetime, $user) = [$options['datetime'], $options['user']];
+
+        if (empty($designCode->getId())) {
+            $designCode->setCreatedTransactionDateTime($datetime);
+            $designCode->setCreatedTransactionUser($user);
+        } else {
+            $designCode->setModifiedTransactionDateTime($datetime);
+            $designCode->setModifiedTransactionUser($user);
+        }
+    }
+
     public function finalize(DesignCode $designCode, array $options = []): void
     {
         $productCodeList = array();
