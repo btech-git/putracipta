@@ -35,11 +35,6 @@ class DiecutKnifeFormService
 
         if (empty($diecutKnife->getId())) {
             $diecutKnife->setDate($datetime);
-            $diecutKnife->setCreatedTransactionDateTime($datetime);
-            $diecutKnife->setCreatedTransactionUser($user);
-        } else {
-            $diecutKnife->setModifiedTransactionDateTime($datetime);
-            $diecutKnife->setModifiedTransactionUser($user);
         }
     }
 

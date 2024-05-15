@@ -56,18 +56,6 @@ class DiecutKnife extends Master
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $createdTransactionDateTime = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $modifiedTransactionDateTime = null;
-
-    #[ORM\ManyToOne]
-    protected ?User $createdTransactionUser = null;
-
-    #[ORM\ManyToOne]
-    protected ?User $modifiedTransactionUser = null;
-
     #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: DiecutKnifeDetail::class)]
     private Collection $diecutKnifeDetails;
 
@@ -285,53 +273,4 @@ class DiecutKnife extends Master
 
         return $this;
     }
-    
-    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->createdTransactionDateTime;
-    }
-
-    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
-    {
-        $this->createdTransactionDateTime = $createdTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
-    {
-        return $this->modifiedTransactionDateTime;
-    }
-
-    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
-    {
-        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
-
-        return $this;
-    }
-
-    public function getCreatedTransactionUser(): ?User
-    {
-        return $this->createdTransactionUser;
-    }
-
-    public function setCreatedTransactionUser(?User $createdTransactionUser): self
-    {
-        $this->createdTransactionUser = $createdTransactionUser;
-
-        return $this;
-    }
-
-    public function getModifiedTransactionUser(): ?User
-    {
-        return $this->modifiedTransactionUser;
-    }
-
-    public function setModifiedTransactionUser(?User $modifiedTransactionUser): self
-    {
-        $this->modifiedTransactionUser = $modifiedTransactionUser;
-
-        return $this;
-    }
-
 }
