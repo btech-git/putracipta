@@ -2,10 +2,10 @@
 
 namespace App\Form\Master;
 
-use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\DielineMillar;
-use App\Entity\Master\Product;
+use App\Entity\Master\DielineMillarDetail;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,15 +22,20 @@ class DielineMillarType extends AbstractType
                             ->addOrderBy('e.company', 'ASC');
                 },
             ])
-//            ->add('name', null, ['label' => 'Nama Produk'])
-            ->add('code', null, ['label' => 'Kode'])
             ->add('version', null, ['label' => 'Revisi'])
-            ->add('product', EntityHiddenType::class, ['class' => Product::class])
             ->add('quantityUpPrinting', null, ['label' => 'Jmlh Up Cetak'])
             ->add('printingLayout', null, ['label' => 'Kris Layout Cetak'])
             ->add('date', null, ['widget' => 'single_text', 'label' => 'Tanggal Pembuatan'])
             ->add('note')
             ->add('isInactive')
+            ->add('dielineMillarDetails', CollectionType::class, [
+                'entry_type' => DielineMillarDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new DielineMillarDetail(),
+                'label' => false,
+            ])
         ;
     }
 
