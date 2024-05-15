@@ -17,7 +17,7 @@
         <tbody>
             <tr>
                 <th>Kode Design</th>
-                <td>{{ designCode.codeNumber }}</td>
+                <td>{{ designCode.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Customer</th>
@@ -29,31 +29,31 @@
             </tr>
             <tr>
                 <th>Jlh Warna</th>
-                <td>{{ designCode.color }}</td>
+                <td>{{ designCode.color|default }}</td>
             </tr>
             <tr>
                 <th>Separasi Warna</th>
-                <td>{{ designCode.pantone }}</td>
+                <td>{{ designCode.pantone|default }}</td>
             </tr>
             <tr>
                 <th>Warna Khusus 1</th>
-                <td>{{ designCode.colorSpecial1 }}</td>
+                <td>{{ designCode.colorSpecial1|default }}</td>
             </tr>
             <tr>
                 <th>Warna Khusus 2</th>
-                <td>{{ designCode.colorSpecial2 }}</td>
+                <td>{{ designCode.colorSpecial2|default }}</td>
             </tr>
             <tr>
                 <th>Warna Khusus 3</th>
-                <td>{{ designCode.colorSpecial3 }}</td>
+                <td>{{ designCode.colorSpecial3|default }}</td>
             </tr>
             <tr>
                 <th>Warna Khusus 4</th>
-                <td>{{ designCode.colorSpecial4 }}</td>
+                <td>{{ designCode.colorSpecial4|default }}</td>
             </tr>
             <tr>
                 <th>Coating</th>
-                <td>{{ designCode.coating }}</td>
+                <td>{{ designCode.coating|default }}</td>
             </tr>
             <tr>
                 <th>Glossiness</th>
@@ -61,15 +61,15 @@
             </tr>
             <tr>
                 <th>Hot Stamping</th>
-                <td>{{ designCode.hotstamping }}</td>
+                <td>{{ designCode.hotstamping|default }}</td>
             </tr>
             <tr>
                 <th>Jumlah Mata (Up/s)</th>
-                <td>{{ designCode.printingUpQuantity }}</td>
+                <td>{{ designCode.printingUpQuantity|default }}</td>
             </tr>
             <tr>
                 <th>Uk. Kris Cetak (cm)</th>
-                <td>{{ designCode.printingKrisSize }}</td>
+                <td>{{ designCode.printingKrisSize|default }}</td>
             </tr>
             <tr>
                 <th>Pisau Diecut</th>
@@ -81,11 +81,15 @@
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ designCode.status }}</td>
+                <td>{{ designCode.status|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ designCode.note }}</td>
+                <td>{{ designCode.note|default }}</td>
+            </tr>
+            <tr>
+                <th>Tanggal Input</th>
+                <td>{{ designCode.createdTransactionDateTime ? designCode.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Is Inactive</th>
@@ -143,7 +147,7 @@
             </tr>
             <tr>
                 <th>Mountage Kertas (lbr/plano)</th>
-                <td>{{ designCode.paperMountage }}</td>
+                <td>{{ designCode.paperMountage|default }}</td>
             </tr>
         </tbody>
     </table>

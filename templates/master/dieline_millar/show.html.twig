@@ -12,35 +12,31 @@
         <tbody>
             <tr>
                 <th>Customer</th>
-                <td>{{ dielineMillar.customer.name }}</td>
+                <td>{{ dielineMillar.customer.company|default }}</td>
             </tr>
             <tr>
                 <th>Kode</th>
-                <td>{{ dielineMillar.codeNumber }}</td>
+                <td>{{ dielineMillar.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Nama Produk</th>
-                <td>{{ dielineMillar.name }}</td>
+                <td>{{ dielineMillar.name|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal Pembuatan</th>
-                <td>{{ dielineMillar.date ? dielineMillar.date|date('d m Y') : '' }}</td>
+                <td>{{ dielineMillar.date ? dielineMillar.date|date('d M Y') : '' }}</td>
             </tr>
-            {#<tr>
-                <th>Quantity</th>
-                <td>{{ dielineMillar.quantity }}</td>
-            </tr>#}
             <tr>
                 <th>Jml Up Cetak</th>
-                <td>{{ dielineMillar.quantityUpPrinting }}</td>
+                <td>{{ dielineMillar.quantityUpPrinting|default }}</td>
             </tr>
             <tr>
                 <th>Layout Cetak</th>
-                <td>{{ dielineMillar.printingLayout }}</td>
+                <td>{{ dielineMillar.printingLayout|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ dielineMillar.note }}</td>
+                <td>{{ dielineMillar.note|default }}</td>
             </tr>
             <tr>
                 <th>Is Inactive</th>
@@ -51,7 +47,7 @@
 
     <hr />
     
-    <legend class="float-none w-auto text-dark px-1">Product List</legend>
+    <legend class="float-none w-auto text-dark px-1">Millar List</legend>
     <table class="table table-bordered table-striped">
         <thead>
             <tr class=" bg-info">
