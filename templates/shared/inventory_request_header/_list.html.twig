@@ -62,7 +62,7 @@
                     'inventoryRequestMaterialDetailQuantity': inventoryRequestHeader.requestMode == 'material' ? detail.quantity|number_format(0) : '',
                     'inventoryRequestMaterialDetailId': inventoryRequestHeader.requestMode == 'material' ? detail.id : '',
                     'paperId': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.id|default : '',
-                    'paperCode': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.codeNumber|default : '',
+                    'paperCode': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.code|default : '',
                     'paperName': inventoryRequestHeader.requestMode == 'paper' ? detail.paper.paperNameSizeCombination|default : '',
                     'paperUnitName': inventoryRequestHeader.requestMode == 'paper' ? detail.unit.name|default : '',
                     'inventoryRequestPaperDetailQuantity': inventoryRequestHeader.requestMode == 'paper' ? detail.quantity|number_format(0) : '',
