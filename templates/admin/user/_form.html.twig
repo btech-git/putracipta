@@ -19,6 +19,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Roles</legend>
             {{ include('admin/user/_roles_form.html.twig') }}
+            {% do form.roles.setRendered %}
         </fieldset>
     </div>
     <div class="d-grid">
