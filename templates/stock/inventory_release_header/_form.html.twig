@@ -90,8 +90,8 @@
                   data-controller="dom-element"
                   data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                   data-dom-element-bind-specifications-param="{{ [
-                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader !== "material"'},
-                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader === "material"'},
+                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "material"'},
+                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "material"'},
                   ]|json_encode }}">
             <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
             {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
@@ -101,8 +101,8 @@
                   data-controller="dom-element"
                   data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
                   data-dom-element-bind-specifications-param="{{ [
-                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader !== "paper"'},
-                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryReleaseHeader === "paper"'},
+                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "paper"'},
+                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "paper"'},
                   ]|json_encode }}">
             <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
             {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
