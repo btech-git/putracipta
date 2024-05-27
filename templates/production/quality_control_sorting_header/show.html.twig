@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Quality Control Sorting Header' %}
+{% block title 'Show QC Sorting' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_production_quality_control_sorting_header_index') }}">Manage</a>
@@ -11,47 +11,79 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
-                <th>Employee In Charge</th>
-                <td>{{ qualityControlSortingHeader.employeeInCharge }}</td>
+                <th>QC #</th>
+                <td>{{ qualityControlSortingHeader.codeNumber|default }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
-                <td>{{ qualityControlSortingHeader.isCanceled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Ordinal</th>
-                <td>{{ qualityControlSortingHeader.codeNumberOrdinal }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Month</th>
-                <td>{{ qualityControlSortingHeader.codeNumberMonth }}</td>
-            </tr>
-            <tr>
-                <th>Code Number Year</th>
-                <td>{{ qualityControlSortingHeader.codeNumberYear }}</td>
-            </tr>
-            <tr>
-                <th>Created Transaction Date Time</th>
-                <td>{{ qualityControlSortingHeader.createdTransactionDateTime ? qualityControlSortingHeader.createdTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified Transaction Date Time</th>
-                <td>{{ qualityControlSortingHeader.modifiedTransactionDateTime ? qualityControlSortingHeader.modifiedTransactionDateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Transaction Date</th>
+                <th>Tanggal</th>
                 <td>{{ qualityControlSortingHeader.transactionDate ? qualityControlSortingHeader.transactionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nama Customer</th>
+                <td>{{ qualityControlSortingHeader.customer.company|default }}</td>
+            </tr>
+            <tr>
+                <th>WO #</th>
+                <td>{{ qualityControlSortingHeader.masterOrderHeader.codeNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>PIC</th>
+                <td>{{ qualityControlSortingHeader.employeeInCharge }}</td>
             </tr>
             <tr>
                 <th>Note</th>
                 <td>{{ qualityControlSortingHeader.note }}</td>
             </tr>
             <tr>
-                <th>Code Number Version</th>
-                <td>{{ qualityControlSortingHeader.codeNumberVersion }}</td>
+                <th>Is Canceled</th>
+                <td>{{ qualityControlSortingHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
-
-    {{ include('production/quality_control_sorting_header/_delete_form.html.twig') }}
+          
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='14' class='text-center bg-info'>PRODUCTS</th>
+            </tr>
+            <tr>
+                <th class="text-center">Item Code</th>
+                <th class="text-center">Item Name</th>
+                <th class="text-center">Qty Order</th>
+                <th class="text-center">Qty Bagus</th>
+                <th class="text-center">Qty Reject Cetak</th>
+                <th class="text-center">Qty Reject Coating</th>
+                <th class="text-center">Qty Reject Potong</th>
+                <th class="text-center">Qty Reject Diecut</th>
+                <th class="text-center">Qty Reject Lem</th>
+                <th class="text-center">Qty Reject Finishing</th>
+                <th class="text-center">Qty Reject Lain2</th>
+                <th class="text-center">Total Sortir</th>
+                <th class="text-center">Total Reject</th>
+                <th class="text-center">Sisa</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for qualityControlSortingDetail in qualityControlSortingHeader.qualityControlSortingDetails %}
+            <tr>
+                <td>{{ qualityControlSortingDetail.product.code|default }}</td>
+                <td>{{ qualityControlSortingDetail.product.name|default }}</td>
+                <td>{{ qualityControlSortingDetail.quantityOrder|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityGood|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectPrinting|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectCoating|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectCutting|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectDiecutting|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectGlueing|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectFinishing|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRejectOthers|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.totalQuantitySorting|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.totalQuantityReject|default|number_format(2) }}</td>
+                <td>{{ qualityControlSortingDetail.quantityRemaining|default|number_format(2) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+         
+    {# {{ include('production/quality_control_sorting_header/_delete_form.html.twig') }} #}
 {% endblock %}
