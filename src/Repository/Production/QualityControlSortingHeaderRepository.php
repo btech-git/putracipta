@@ -17,4 +17,16 @@ class QualityControlSortingHeaderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, QualityControlSortingHeader::class);
     }
+
+    public function findRecentBy($year, $month)
+    {
+        $dql = 'SELECT e FROM ' . QualityControlSortingHeader::class . ' e WHERE e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('codeNumberYear', $year);
+        $query->setMaxResults(1);
+        $lastProductDevelopment = $query->getOneOrNullResult();
+
+        return $lastProductDevelopment;
+    }
 }
