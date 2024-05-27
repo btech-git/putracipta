@@ -21,11 +21,11 @@ class UserMenuConfig
             ],
             'MENU_SALE' => ['MENU_SALE_ORDER', 'MENU_SALE_INVOICE', 'MENU_SALE_PAYMENT'],
             'MENU_WAREHOUSE_MATERIAL' => [
-                'MENU_PURCHASE_REQUEST_MATERIAL', 'MENU_PURCHASE_REQUEST_PAPER', 'MENU_PURCHASE_RECEIVE', 'MENU_PURCHASE_RETURN', 'MENU_ADJUSTMENT_STOCK', 'MENU_MATERIAL_REQUEST', 
+                'MENU_PURCHASE_REQUEST_MATERIAL', 'MENU_PURCHASE_REQUEST_PAPER', 'MENU_PURCHASE_RECEIVE', 'MENU_PURCHASE_RETURN', 'MENU_ADJUSTMENT_STOCK', 
                 'MENU_MATERIAL_RELEASE', 'MENU_STOCK_TRANSFER'
             ],
             'MENU_WAREHOUSE_FINISHED_GOODS' => ['MENU_SALE_DELIVERY', 'MENU_SALE_RETURN', 'MENU_PRODUCTION_RECEIVE'],
-            'MENU_PRODUCTION' => ['MENU_PRODUCT_PROTOTYPE', 'MENU_DEVELOPMENT_PRODUCT', 'MENU_MASTER_ORDER'],
+            'MENU_PRODUCTION' => ['MENU_PRODUCT_PROTOTYPE', 'MENU_DEVELOPMENT_PRODUCT', 'MENU_MASTER_ORDER', 'MENU_MATERIAL_REQUEST', 'MENU_QUALITY_CONTROL_SORTING'],
             'MENU_FINANCE' => ['MENU_DEPOSIT', 'MENU_EXPENSE'],
             'MENU_REPORT' => [
                 'MENU_REPORT_PURCHASE', 'MENU_REPORT_SALE', 'MENU_REPORT_PRODUCTION', 'MENU_REPORT_WAREHOUSE_MATERIAL', 
@@ -37,13 +37,15 @@ class UserMenuConfig
             ],
             'MENU_REPORT_SALE' => ['MENU_REPORT_SALE_ORDER', 'MENU_REPORT_SALE_INVOICE', 'MENU_REPORT_SALE_PAYMENT'],
             'MENU_REPORT_WAREHOUSE_MATERIAL' => [
-                'MENU_REPORT_PURCHASE_RECEIVE', 'MENU_REPORT_PURCHASE_RETURN', 'MENU_REPORT_ADJUSTMENT_STOCK', 'MENU_REPORT_MATERIAL_REQUEST', 
+                'MENU_REPORT_PURCHASE_RECEIVE', 'MENU_REPORT_PURCHASE_RETURN', 'MENU_REPORT_ADJUSTMENT_STOCK', 
                 'MENU_REPORT_MATERIAL_RELEASE', 'MENU_REPORT_STOCK_TRANSFER', 'MENU_REPORT_INVENTORY_STOCK_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_PAPER'
             ],
             'MENU_REPORT_WAREHOUSE_FINISHED_GOODS' => [
                 'MENU_REPORT_SALE_DELIVERY', 'MENU_REPORT_SALE_RETURN', 'MENU_REPORT_PRODUCTION_RECEIVE', 'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS'
             ],
-            'MENU_REPORT_PRODUCTION' => ['MENU_REPORT_NEW_PRODUCT', 'MENU_REPORT_DEVELOPMENT_PRODUCT', 'MENU_REPORT_MASTER_ORDER', 'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE'],
+            'MENU_REPORT_PRODUCTION' => ['MENU_REPORT_NEW_PRODUCT', 'MENU_REPORT_DEVELOPMENT_PRODUCT', 'MENU_REPORT_MASTER_ORDER', 'MENU_REPORT_QUALITY_CONTROL_SORTING', 
+                'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE', 'MENU_REPORT_MATERIAL_REQUEST'
+            ],
             'MENU_REPORT_FINANCE' => ['MENU_REPORT_DEPOSIT', 'MENU_REPORT_EXPENSE', 'MENU_REPORT_ACCOUNT_RECEIVABLE', 'MENU_REPORT_ACCOUNT_PAYABLE'],
             'MENU_TRANSACTION_LOG' => [],
         ];
@@ -97,6 +99,7 @@ class UserMenuConfig
             'MENU_PRODUCT_PROTOTYPE' => ['route' => 'app_production_product_prototype_index', 'pattern' => '/^app_production_product_prototype_.+$/', 'roles' => ['ROLE_NEW_PRODUCT_ADD', 'ROLE_NEW_PRODUCT_EDIT']],
             'MENU_DEVELOPMENT_PRODUCT' => ['route' => 'app_production_product_development_index', 'pattern' => '/^app_production_product_development_.+$/', 'roles' => ['ROLE_DEVELOPMENT_PRODUCT_ADD', 'ROLE_DEVELOPMENT_PRODUCT_EDIT']],
             'MENU_MASTER_ORDER' => ['route' => 'app_production_master_order_header_index', 'pattern' => '/^app_production_master_order_header_.+$/', 'roles' => ['ROLE_MASTER_ORDER_ADD', 'ROLE_MASTER_ORDER_EDIT']],
+            'MENU_QUALITY_CONTROL_SORTING' => ['route' => 'app_production_quality_control_sorting_header_index', 'pattern' => '/^app_production_quality_control_sorting_header_.+$/', 'roles' => ['ROLE_QUALITY_CONTROL_SORTING_ADD', 'ROLE_QUALITY_CONTROL_SORTING_EDIT']],
             'MENU_DEPOSIT' => ['route' => 'app_accounting_deposit_header_index', 'pattern' => '/^app_accounting_deposit_header_.+$/', 'roles' => ['ROLE_EXPENSE_ADD', 'ROLE_EXPENSE_EDIT']],
             'MENU_EXPENSE' => ['route' => 'app_accounting_expense_header_index', 'pattern' => '/^app_accounting_expense_header_.+$/', 'roles' => ['ROLE_DEPOSIT_ADD', 'ROLE_DEPOSIT_EDIT']],
             'MENU_REPORT_PURCHASE_REQUEST_MATERIAL' => ['route' => 'app_report_purchase_request_header_index', 'pattern' => '/^app_report_purchase_request_header_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
@@ -123,6 +126,7 @@ class UserMenuConfig
             'MENU_REPORT_NEW_PRODUCT' => ['route' => 'app_report_product_prototype_index', 'pattern' => '/^app_report_product_prototype_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DEVELOPMENT_PRODUCT' => ['route' => 'app_report_product_development_index', 'pattern' => '/^app_report_product_development_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_MASTER_ORDER' => ['route' => 'app_report_master_order_header_index', 'pattern' => '/^app_report_master_order_header_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
+            'MENU_REPORT_QUALITY_CONTROL_SORTING' => ['route' => 'app_report_quality_control_sorting_index', 'pattern' => '/^app_report_quality_control_sorting_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DESIGN_CODE' => ['route' => 'app_report_design_code_index', 'pattern' => '/^app_report_design_code_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DIELINE_MILLAR' => ['route' => 'app_report_dieline_millar_index', 'pattern' => '/^app_report_dieline_millar_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DIECUT_KNIFE' => ['route' => 'app_report_diecut_knife_index', 'pattern' => '/^app_report_diecut_knife_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
