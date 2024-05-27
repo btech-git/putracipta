@@ -83,7 +83,7 @@
                             <th class="text-start" style="width: 15%">Transaction #</th>
                             <th class="text-start" style="width: 15%">Tanggal</th>
                             <th class="text-start" style="width: 15%">Gudang</th>
-                            <th class="text-start">Remark</th>
+                            <th class="text-start">Keterangan</th>
                             <th class="text-start" style="width: 8%">Qty In</th>
                             <th class="text-start" style="width: 8%">Qty Out</th>
                             <th class="text-start" style="width: 8%">Stock</th>
@@ -100,7 +100,7 @@
                 <tr>
                     <td class="text-start" style="width: 15%">{{ paper.codeNumber|default }}</td>
                     <td class="text-start">{{ paper.name|default }}</td>
-                    <td class="text-start" style="width: 15%">{{ beginningStock|number_format(0) }}</td>
+                    <td class="text-start" style="width: 15%">{{ beginningStock|number_format(2) }}</td>
                 </tr>
                 <tr>
                     <td colspan="3">
@@ -112,9 +112,9 @@
                                     <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
                                     <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
                                     <td class="text-start">{{ inventory.transactionSubject|default }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(0) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(0) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(0) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(2) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(2) }}</td>
+                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(2) }}</td>
                                     <td class="text-start" style="width: 8%">{{ inventory.paper.unit.name|default }}</td>
                                 </tr>
                             {% endfor %}

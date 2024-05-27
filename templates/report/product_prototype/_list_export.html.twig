@@ -59,8 +59,8 @@
                 <td style="text-align: left">{{ productPrototype.paper.codeNumber|default }}</td>
                 <td style="text-align: left">{{ productPrototype.paper.name|default }}</td>
                 <td style="text-align: left">{{ productPrototype.color|default }}</td>
-                <td style="text-align: left">{{ productPrototype.quantityProduction|number_format(0) }}</td>
-                <td style="text-align: left">{{ productPrototype.quantityBlade|number_format(0) }}</td>
+                <td style="text-align: left">{{ productPrototype.quantityProduction }}</td>
+                <td style="text-align: left">{{ productPrototype.quantityBlade }}</td>
                 <td style="text-align: left">{{ productPrototype.dataSource ? productPrototype.laminatingList|join(', ') : '' }}</td>
                 <td style="text-align: left">{{ productPrototype.dataSource ? productPrototype.coatingList|join(', ') : '' }}</td>
                 <td style="text-align: left">{{ productPrototype.dataSource ? productPrototype.processList|join(', ') : '' }}</td>
