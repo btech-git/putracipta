@@ -62,6 +62,30 @@ class QualityControlSortingDetail extends ProductionDetail
     #[ORM\Column(length: 100)]
     private ?string $memo = '';
 
+    #[ORM\ManyToOne(inversedBy: 'qualityControlSortingDetails')]
+    private ?QualityControlSortingHeader $qualityControlSortingHeader = null;
+
+    public function getSyncIsCanceled(): bool
+    {
+        $isCanceled = $this->qualityControlSortingHeader->isIsCanceled() ? true : $this->isCanceled;
+        return $isCanceled;
+    }
+
+    public function getSyncTotalQuantityReject(): string
+    {
+        return $this->quantityRejectPrinting + $this->quantityRejectCoating + $this->quantityRejectCutting + $this->quantityRejectDiecutting + $this->quantityRejectGlueing + $this->quantityRejectFinishing + $this->quantityRejectOthers;
+    }
+    
+    public function getSyncTotalQuantitySorting(): string
+    {
+        return $this->quantityGood + $this->quantityRejectPrinting + $this->quantityRejectCoating + $this->quantityRejectCutting + $this->quantityRejectDiecutting + $this->quantityRejectGlueing + $this->quantityRejectFinishing + $this->quantityRejectOthers;
+    }
+    
+    public function getSyncQuantityRemaining(): string
+    {
+        return $this->quantityOrder - $this->totalQuantitySorting;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -243,6 +267,18 @@ class QualityControlSortingDetail extends ProductionDetail
     public function setMemo(string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
+    }
+
+    public function getQualityControlSortingHeader(): ?QualityControlSortingHeader
+    {
+        return $this->qualityControlSortingHeader;
+    }
+
+    public function setQualityControlSortingHeader(?QualityControlSortingHeader $qualityControlSortingHeader): self
+    {
+        $this->qualityControlSortingHeader = $qualityControlSortingHeader;
 
         return $this;
     }
