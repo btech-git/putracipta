@@ -4,7 +4,6 @@ namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
-use App\Entity\Master\Employee;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\SaleOrderHeader;
 use Symfony\Component\Form\AbstractType;
