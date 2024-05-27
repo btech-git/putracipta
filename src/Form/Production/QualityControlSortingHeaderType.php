@@ -2,8 +2,13 @@
 
 namespace App\Form\Production;
 
+use App\Common\Form\Type\EntityHiddenType;
+use App\Entity\Master\Customer;
+use App\Entity\Production\MasterOrderHeader;
+use App\Entity\Production\QualityControlSortingDetail;
 use App\Entity\Production\QualityControlSortingHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,19 +18,18 @@ class QualityControlSortingHeaderType extends AbstractType
     {
         $builder
             ->add('employeeInCharge')
-            ->add('isCanceled')
-            ->add('codeNumberOrdinal')
-            ->add('codeNumberMonth')
-            ->add('codeNumberYear')
-            ->add('createdTransactionDateTime')
-            ->add('modifiedTransactionDateTime')
-            ->add('transactionDate')
+            ->add('transactionDate', null, ['widget' => 'single_text'])
             ->add('note')
-            ->add('codeNumberVersion')
-            ->add('masterOrderHeader')
-            ->add('customer')
-            ->add('createdTransactionUser')
-            ->add('modifiedTransactionUser')
+            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
+            ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
+            ->add('qualityControlSortingDetails', CollectionType::class, [
+                'entry_type' => QualityControlSortingDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new QualityControlSortingDetail(),
+                'label' => false,
+            ])
         ;
     }
 
