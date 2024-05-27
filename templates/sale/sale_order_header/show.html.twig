@@ -59,6 +59,10 @@
                 <td>{{ saleOrderHeader.customer.paymentTerm }}</td>
             </tr>
             <tr>
+                <th>Toleransi (%)</th>
+                <td>{{ saleOrderHeader.customer.quantityTolerancePercentage }}</td>
+            </tr>
+            <tr>
                 <th>Using FSC Paper?</th>
                 <td>{{ saleOrderHeader.isUsingFscPaper ? 'Yes' : 'No' }}</td>
             </tr>
