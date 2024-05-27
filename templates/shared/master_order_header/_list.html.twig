@@ -59,6 +59,7 @@
                     'masterOrderHeaderDate': masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') : '', 
                     'saleOrderDetailDeliveryDate': masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '', 
                     'machinePrintingName': masterOrderProductDetail.masterOrderHeader.machinePrinting.name|default, 
+                    'customerId': masterOrderProductDetail.masterOrderHeader.customer.id|default, 
                     'customerCompany': masterOrderProductDetail.masterOrderHeader.customer.company|default,
                     'masterOrderProductDetailId': masterOrderProductDetail.id|default,
                     'saleOrderDetailQuantity': masterOrderProductDetail.saleOrderDetail.quantity|number_format(0)|default,
