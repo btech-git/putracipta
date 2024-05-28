@@ -24,8 +24,6 @@
                 <th>PO Material</th>
                 <th>PO Kertas</th>
                 <th>Invoice Pembelian</th>
-                <th>Order Penjualan</th>
-                <th>Invoice Penjualan</th>
             </tr>
         </thead>
         <tbody>
@@ -33,9 +31,71 @@
                 <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_order_header_head') }}">{{ purchaseOrderHeaderCount }}</a></td>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_order_paper_header_head') }}">{{ purchaseOrderPaperHeaderCount }}</a></td>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_invoice_header_head') }}">{{ purchaseInvoiceHeaderCount }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>Order Penjualan</th>
+                <th>Invoice Penjualan</th>
+                <th>Permintaan Produksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_sale_sale_order_header_head') }}">{{ saleOrderHeaderCount }}</a></td>
                 <td class="text-center font-weight-bold"><a href="{{ path('app_sale_sale_invoice_header_head') }}">{{ saleInvoiceHeaderCount }}</a></td>
+                <td class="text-center font-weight-bold"><a href="{{ path('app_stock_inventory_request_header_head') }}">{{ inventoryRequestHeaderCount }}</a></td>
             </tr>
         </tbody>
     </table>
 </div>
+                
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, saleOrderHeaders) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th style="min-width: 280px">
+                    SO #
+                </th>
+                <th style="min-width: 150px">
+                    Tanggal
+                </th>
+                <th style="min-width: 350px">
+                    Customer
+                </th>
+                <th style="min-width: 200px">
+                    PO #
+                </th>
+                <th style="min-width: 200px">
+                    Note
+                </th>
+                <th style="min-width: 150px">
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saleOrderHeader in saleOrderHeaders %}
+                <tr>
+                    <td>{{ saleOrderHeader.codeNumber }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, saleOrderHeaders) }}
+
+            
