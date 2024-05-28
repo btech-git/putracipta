@@ -10,9 +10,12 @@ use App\Entity\Purchase\PurchaseRequestPaperHeader;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Sale\SaleInvoiceHeader;
+use App\Entity\Stock\InventoryRequestHeader;
+use App\Grid\Shared\DashboardSaleOrderGridType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -21,7 +24,7 @@ class DefaultController extends AbstractController
 {
     #[Route('/_dashboard', name: 'app__dashboard', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function _dashboard(EntityManagerInterface $entityManager): Response
+    public function _dashboard(Request $request, EntityManagerInterface $entityManager): Response
     {
         $criteria = new DataCriteria();
         $purchaseRequestHeaderRepository = $entityManager->getRepository(PurchaseRequestHeader::class);
@@ -71,8 +74,29 @@ class DefaultController extends AbstractController
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isRead = false");
         });
+        $inventoryRequestHeaderRepository = $entityManager->getRepository(InventoryRequestHeader::class);
+        $inventoryRequestHeaderCount = $inventoryRequestHeaderRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
 
-        return $this->render('default/_dashboard.html.twig', [
+        $criteria = new DataCriteria();
+        $form = $this->createForm(DashboardSaleOrderGridType::class, $criteria);
+        $form->handleRequest($request);
+
+        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
+//            $qb->innerJoin("{$alias}.saleOrderDetails", 'd');
+//            $qb->leftJoin("d.masterOrderProductDetails", 'md');
+//            $qb->leftJoin("md.masterOrderHeader", 'mh');
+//            $qb->leftJoin("md.deliveryDetails", 'dd');
+//            $qb->leftJoin("dd.deliveryHeader", 'dh');
+//            $qb->leftJoin("dd.saleInvoiceDetails", 'sd');
+//            $qb->leftJoin("sd.saleInvoiceHeader", 'sh');
+//            $qb->leftJoin("sh.salePaymentDetails", 'pd');
+//            $qb->leftJoin("pd.salePaymentHeader", 'ph');
+        });
+        
+        return $this->renderForm('default/_dashboard.html.twig', [
             'purchaseRequestHeaderCount' => $purchaseRequestHeaderCount,
             'purchaseRequestPaperHeaderCount' => $purchaseRequestPaperHeaderCount,
             'purchaseRequestHeaderCountApproval' => $purchaseRequestHeaderCountApproval,
@@ -82,6 +106,10 @@ class DefaultController extends AbstractController
             'purchaseInvoiceHeaderCount' => $purchaseInvoiceHeaderCount,
             'saleOrderHeaderCount' => $saleOrderHeaderCount,
             'saleInvoiceHeaderCount' => $saleInvoiceHeaderCount,
+            'inventoryRequestHeaderCount' => $inventoryRequestHeaderCount,
+            'form' => $form,
+            'count' => $count,
+            'saleOrderHeaders' => $saleOrderHeaders,
         ]);
     }
 
