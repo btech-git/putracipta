@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Criteria\DataCriteriaPagination;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestHeader;
@@ -84,17 +85,28 @@ class DefaultController extends AbstractController
         $form = $this->createForm(DashboardSaleOrderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias) {
-//            $qb->innerJoin("{$alias}.saleOrderDetails", 'd');
-//            $qb->leftJoin("d.masterOrderProductDetails", 'md');
-//            $qb->leftJoin("md.masterOrderHeader", 'mh');
-//            $qb->leftJoin("md.deliveryDetails", 'dd');
-//            $qb->leftJoin("dd.deliveryHeader", 'dh');
-//            $qb->leftJoin("dd.saleInvoiceDetails", 'sd');
-//            $qb->leftJoin("sd.saleInvoiceHeader", 'sh');
-//            $qb->leftJoin("sh.salePaymentDetails", 'pd');
-//            $qb->leftJoin("pd.salePaymentHeader", 'ph');
+        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria);
+
+        $criteria = new DataCriteria();
+        $dataCriteriaPagination = new DataCriteriaPagination();
+        $dataCriteriaPagination->setSize(1000);
+        $criteria->setPagination($dataCriteriaPagination);
+        $saleOrderHeaderItems = $saleOrderHeaderRepository->fetchObjects($criteria, function($qb, $alias) use ($saleOrderHeaders) {
+            $qb->leftJoin("{$alias}.saleOrderDetails", 'd');
+            $qb->leftJoin("d.masterOrderProductDetails", 'md');
+            $qb->leftJoin("md.masterOrderHeader", 'mh');
+            $qb->leftJoin("md.deliveryDetails", 'dd');
+            $qb->leftJoin("dd.deliveryHeader", 'dh');
+            $qb->leftJoin("dd.saleInvoiceDetails", 'sd');
+            $qb->leftJoin("sd.saleInvoiceHeader", 'sh');
+            $qb->leftJoin("sh.salePaymentDetails", 'pd');
+            $qb->leftJoin("pd.salePaymentHeader", 'ph');
+            $qb->andWhere("{$alias} IN (:saleOrderHeaders)")->setParameter('saleOrderHeaders', $saleOrderHeaders);
         });
+        $saleOrderHeaderData = [];
+        foreach ($saleOrderHeaderItems as $saleOrderHeaderItem) {
+            $saleOrderHeaderData[$saleOrderHeaderItem->getId()] = $saleOrderHeaderItem;
+        }
         
         return $this->renderForm('default/_dashboard.html.twig', [
             'purchaseRequestHeaderCount' => $purchaseRequestHeaderCount,
@@ -110,6 +122,7 @@ class DefaultController extends AbstractController
             'form' => $form,
             'count' => $count,
             'saleOrderHeaders' => $saleOrderHeaders,
+            'saleOrderHeaderData' => $saleOrderHeaderData,
         ]);
     }
 

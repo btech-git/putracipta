@@ -66,30 +66,37 @@
                     SO #
                 </th>
                 <th style="min-width: 150px">
-                    Tanggal
+                    MO #
                 </th>
                 <th style="min-width: 350px">
-                    Customer
+                    Delivery #
                 </th>
                 <th style="min-width: 200px">
-                    PO #
+                    Invoice #
                 </th>
                 <th style="min-width: 200px">
-                    Note
-                </th>
-                <th style="min-width: 150px">
-                    Status
+                    Payment #
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for saleOrderHeader in saleOrderHeaders %}
+                {% set currentSaleOrderHeader = saleOrderHeaderData[saleOrderHeader.id]|default(saleOrderHeader) %}
+                {% set saleOrderDetails = currentSaleOrderHeader.saleOrderDetails %}
+                {% set masterOrderProductDetails = saleOrderDetails|map(saleOrderDetail => saleOrderDetail.masterOrderProductDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set deliveryDetails = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.deliveryDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set saleInvoiceDetails = deliveryDetails|map(deliveryDetail => deliveryDetail.saleInvoiceDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set salePaymentDetails = saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.salePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
                 <tr>
-                    <td>{{ saleOrderHeader.codeNumber }}</td>
+                    <td>{{ currentSaleOrderHeader.codeNumber }}</td>
+                    <td>{{ masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader.codeNumber)|join(', ') }}</td>
+                    <td>{{ deliveryDetails|map(deliveryDetail => deliveryDetail.deliveryHeader.codeNumber)|join(', ') }}</td>
+                    <td>{{ saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.codeNumber)|join(', ') }}</td>
+                    <td>{{ salePaymentDetails|map(salePaymentDetail => salePaymentDetail.salePaymentHeader.codeNumber)|join(', ') }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
