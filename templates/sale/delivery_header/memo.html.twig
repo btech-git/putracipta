@@ -120,7 +120,25 @@
             </thead>
             <tbody>
                 {% set rowspan = 20 %}
-                {% for row in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0)|batch(rowspan, '') %}
+                
+                {% set quantitySums = {} %}
+                {% set ids = {} %}
+                {% for detail in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0) %}
+                    {% set sum = (quantitySums[detail.product.id ~ '_'] is defined ? quantitySums[detail.product.id ~ '_'] : 0) + detail.quantity %}
+                    {% set quantitySums = quantitySums|merge({(detail.product.id ~ '_'): sum}) %}
+                    {% set ids = ids|merge({(detail.product.id ~ '_'): (ids[detail.product.id ~ '_'] is defined ? ids[detail.product.id ~ '_'] : [])|merge([detail.masterOrderProductDetail.id])}) %}
+                {% endfor %}
+                {% set idMaxes = ids|map(idList => max(idList)) %}
+                {% set details = [] %}
+                {% set productIds = [] %}
+                {% for detail in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0) %}
+                    {% if detail.product.id not in productIds and detail.masterOrderProductDetail.id == idMaxes[detail.product.id ~ '_'] %}
+                        {% set details = details|merge([detail]) %}
+                        {% set productIds = productIds|merge([detail.product.id]) %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% for row in details|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
                             {% if deliveryDetail %}
@@ -134,9 +152,9 @@
                                     <td class="center">{{ deliveryDetail.linePo|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                <td class="center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
+                                <td class="center">{{ quantitySums[deliveryDetail.product.id ~ '_']|default|number_format(0) }}</td>
                                 <td class="left">{{ deliveryDetail.packaging|default }}</td>
-                            {% elseif not deliveryDetail %}
+                            {% else %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

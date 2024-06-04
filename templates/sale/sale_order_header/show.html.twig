@@ -59,8 +59,12 @@
                 <td>{{ saleOrderHeader.customer.paymentTerm }}</td>
             </tr>
             <tr>
-                <th>Toleransi (%)</th>
-                <td>{{ saleOrderHeader.customer.quantityTolerancePercentage }}</td>
+                <th>Toleransi Bawah (%)</th>
+                <td>{{ saleOrderHeader.customer.minimumTolerancePercentage }}</td>
+            </tr>
+            <tr>
+                <th>Toleransi Atas (%)</th>
+                <td>{{ saleOrderHeader.customer.maximumTolerancePercentage }}</td>
             </tr>
             <tr>
                 <th>Using FSC Paper?</th>
@@ -134,6 +138,10 @@
                     <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
                     <td>{{ saleOrderDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
                 </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
             {% endfor %}
         </tbody>
         <tfoot>
@@ -178,6 +186,7 @@
             <button class="nav-link" id="sale-return-header-tab" data-bs-toggle="tab" data-bs-target="#sale-return-header-tab-pane" type="button" role="tab" aria-controls="sale-return-header-tab-pane" aria-selected="false">Retur</button>
         </li>
     </ul>
+                
     <div class="tab-content" id="delivery-sale-return-tab-content">
         <div class="tab-pane fade show active" id="delivery-header-tab-pane" role="tabpanel" aria-labelledby="delivery-header-tab" tabindex="0">
             <legend class="float-none w-auto text-dark px-1">Data Pengiriman</legend>
@@ -203,15 +212,16 @@
                                 <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ deliveryDetail.unit.name|default }}</td>
                             </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="6">No Records Found</td>
-                            </tr>
                         {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No Records Found</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+                
         <div class="tab-pane fade" id="sale-return-header-tab-pane" role="tabpanel" aria-labelledby="sale-return-header-tab" tabindex="0">
             <legend class="float-none w-auto text-dark px-1">Data Retur</legend>
             <table class="table table-bordered table-striped">
@@ -236,6 +246,10 @@
                                     <td>{{ saleReturnDetail.product.name|default }}</td>
                                     <td class="text-center">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
                                     <td>{{ saleReturnDetail.unit.name|default }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6">No records found</td>
                                 </tr>
                             {% endfor %}
                         {% endfor %}
