@@ -83,7 +83,7 @@
                 {% for row in purchaseOrderPaperHeader.purchaseOrderPaperDetails|filter(purchaseOrderPaperDetail => not purchaseOrderPaperDetail.isCanceled and purchaseOrderPaperDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for purchaseOrderPaperDetail in row %}
                         <tr>
-                            {% if purchaseOrderPaperDetail and not purchaseOrderPaperDetail.isCanceled %}
+                            {% if purchaseOrderPaperDetail %}
                                 <td class="left">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                                 <td class="left">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                                 <td class="left">{{ purchaseOrderPaperDetail.deliveryDate|default ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') }}</td>
@@ -91,7 +91,7 @@
                                 <td class="left">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                                 <td class="right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                                 <td class="right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
-                            {% elseif not purchaseOrderPaperDetail %}
+                            {% else %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>

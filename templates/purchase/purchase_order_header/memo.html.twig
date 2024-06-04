@@ -83,7 +83,7 @@
                 {% for row in purchaseOrderHeader.purchaseOrderDetails|filter(purchaseOrderDetail => not purchaseOrderDetail.isCanceled and purchaseOrderDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for purchaseOrderDetail in row %}
                         <tr>
-                            {% if purchaseOrderDetail and not purchaseOrderDetail.isCanceled %}
+                            {% if purchaseOrderDetail %}
                                 <td class="left">{{ purchaseOrderDetail.material.code|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('d M Y') }}</td>
@@ -91,7 +91,7 @@
                                 <td class="left">{{ purchaseOrderDetail.unit.name|default }}</td>
                                 <td class="right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                                 <td class="right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
-                            {% elseif not purchaseOrderDetail %}
+                            {% else %}
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
