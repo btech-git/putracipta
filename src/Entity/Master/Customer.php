@@ -108,9 +108,6 @@ class Customer extends Master
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: DielineMillar::class)]
     private Collection $dielineMillars;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $quantityTolerancePercentage = '0.00';
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $addressDelivery6 = '';
 
@@ -185,6 +182,12 @@ class Customer extends Master
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $addressTax5 = '';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $minimumTolerancePercentage = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $maximumTolerancePercentage = null;
 
     public function __construct()
     {
@@ -581,18 +584,6 @@ class Customer extends Master
         return $this;
     }
 
-    public function getQuantityTolerancePercentage(): ?string
-    {
-        return $this->quantityTolerancePercentage;
-    }
-
-    public function setQuantityTolerancePercentage(string $quantityTolerancePercentage): self
-    {
-        $this->quantityTolerancePercentage = $quantityTolerancePercentage;
-
-        return $this;
-    }
-
     public function getAddressDelivery6(): ?string
     {
         return $this->addressDelivery6;
@@ -889,6 +880,30 @@ class Customer extends Master
     public function setAddressTax5(string $addressTax5): self
     {
         $this->addressTax5 = $addressTax5;
+
+        return $this;
+    }
+
+    public function getMinimumTolerancePercentage(): ?string
+    {
+        return $this->minimumTolerancePercentage;
+    }
+
+    public function setMinimumTolerancePercentage(string $minimumTolerancePercentage): self
+    {
+        $this->minimumTolerancePercentage = $minimumTolerancePercentage;
+
+        return $this;
+    }
+
+    public function getMaximumTolerancePercentage(): ?string
+    {
+        return $this->maximumTolerancePercentage;
+    }
+
+    public function setMaximumTolerancePercentage(string $maximumTolerancePercentage): self
+    {
+        $this->maximumTolerancePercentage = $maximumTolerancePercentage;
 
         return $this;
     }
