@@ -86,6 +86,12 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column]
     private ?int $quantityProductionRemaining = 0;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $minimumToleranceQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $maximumToleranceQuantity = '0.00';
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -125,6 +131,20 @@ class SaleOrderDetail extends SaleDetail
         }
         
         return $total;
+    }
+
+    public function getSyncMinimumToleranceQuantity(): int
+    {
+        $customer = $this->saleOrderHeader->getCustomer();
+        
+        return $this->quantity * (1 - $customer->getMinimumTolerancePercentage()/100);
+    }
+
+    public function getSyncMaximumToleranceQuantity(): int
+    {
+        $customer = $this->saleOrderHeader->getCustomer();
+        
+        return $this->quantity * (1 + $customer->getMaximumTolerancePercentage()/100);
     }
 
     public function getTotal(): string
@@ -406,6 +426,30 @@ class SaleOrderDetail extends SaleDetail
     public function setQuantityProductionRemaining(int $quantityProductionRemaining): self
     {
         $this->quantityProductionRemaining = $quantityProductionRemaining;
+
+        return $this;
+    }
+
+    public function getMinimumToleranceQuantity(): ?string
+    {
+        return $this->minimumToleranceQuantity;
+    }
+
+    public function setMinimumToleranceQuantity(string $minimumToleranceQuantity): self
+    {
+        $this->minimumToleranceQuantity = $minimumToleranceQuantity;
+
+        return $this;
+    }
+
+    public function getMaximumToleranceQuantity(): ?string
+    {
+        return $this->maximumToleranceQuantity;
+    }
+
+    public function setMaximumToleranceQuantity(string $maximumToleranceQuantity): self
+    {
+        $this->maximumToleranceQuantity = $maximumToleranceQuantity;
 
         return $this;
     }
