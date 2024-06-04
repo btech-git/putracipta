@@ -51,31 +51,40 @@
         </tbody>
     </table>
 </div>
-                
+           
+<hr />
+
 {% import 'app/data_grid.html.twig' as grid %}
 
-{{ grid.form(form) }}
+{{ grid.form(saleForm) }}
 
-{{ grid.info(form, count, saleOrderHeaders) }}
+{{ grid.info(saleForm, saleCount, saleOrderHeaders) }}
 
 <div class="table-responsive">
+    <h6>Sales Transactions</h6>
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary">
                 <th style="min-width: 280px">
                     SO #
                 </th>
+                <th style="min-width: 280px">
+                    Customer
+                </th>
+                <th style="min-width: 280px">
+                    Product
+                </th>
                 <th style="min-width: 150px">
                     MO #
                 </th>
                 <th style="min-width: 350px">
-                    Delivery #
+                    Pengiriman #
                 </th>
                 <th style="min-width: 200px">
                     Invoice #
                 </th>
                 <th style="min-width: 200px">
-                    Payment #
+                    Pelunasan #
                 </th>
             </tr>
         </thead>
@@ -88,11 +97,15 @@
                 {% set saleInvoiceDetails = deliveryDetails|map(deliveryDetail => deliveryDetail.saleInvoiceDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set salePaymentDetails = saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.salePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
                 <tr>
-                    <td>{{ currentSaleOrderHeader.codeNumber }}</td>
-                    <td>{{ masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader.codeNumber)|join(', ') }}</td>
-                    <td>{{ deliveryDetails|map(deliveryDetail => deliveryDetail.deliveryHeader.codeNumber)|join(', ') }}</td>
-                    <td>{{ saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.codeNumber)|join(', ') }}</td>
-                    <td>{{ salePaymentDetails|map(salePaymentDetail => salePaymentDetail.salePaymentHeader.codeNumber)|join(', ') }}</td>
+                    <td>
+                        <a target="_blank" href="{{ path('app_sale_sale_order_header_show', {'id': currentSaleOrderHeader.id}) }}">{{ currentSaleOrderHeader.codeNumber|default }}</a>
+                    </td>
+                    <td>{{ currentSaleOrderHeader.customer.company }}</td>
+                    <td>{{ saleOrderDetails|map(saleOrderDetail => saleOrderDetail.product.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ deliveryDetails|map(deliveryDetail => deliveryDetail.deliveryHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ salePaymentDetails|map(salePaymentDetail => salePaymentDetail.salePaymentHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -103,6 +116,122 @@
     </table>
 </div>
 
-{{ grid.navigation(form, count, saleOrderHeaders) }}
+{{ grid.navigation(saleForm, saleCount, saleOrderHeaders) }}
+         
+<hr />
 
-            
+{{ grid.form(purchaseForm) }}
+
+{{ grid.info(purchaseForm, purchaseCount, purchaseOrderHeaders) }}
+
+<div class="table-responsive">
+    <h6>Purchase Material Transactions</h6>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th style="min-width: 280px">
+                    PO #
+                </th>
+                <th style="min-width: 280px">
+                    Supplier
+                </th>
+                <th style="min-width: 280px">
+                    Material
+                </th>
+                <th style="min-width: 350px">
+                    Penerimaan #
+                </th>
+                <th style="min-width: 200px">
+                    Invoice #
+                </th>
+                <th style="min-width: 200px">
+                    Pelunasan #
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderHeader in purchaseOrderHeaders %}
+                {% set currentPurchaseOrderHeader = purchaseOrderHeaderData[purchaseOrderHeader.id]|default(purchaseOrderHeader) %}
+                {% set purchaseOrderDetails = currentPurchaseOrderHeader.purchaseOrderDetails %}
+                {% set receiveDetails = purchaseOrderDetails|map(purchaseOrderDetail => purchaseOrderDetail.receiveDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set purchaseInvoiceDetails = receiveDetails|map(receiveDetail => receiveDetail.purchaseInvoiceDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set purchasePaymentDetails = purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader.purchasePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
+                <tr>
+                    <td>
+                        <a target="_blank" href="{{ path('app_purchase_purchase_order_header_show', {'id': currentPurchaseOrderHeader.id}) }}">{{ currentPurchaseOrderHeader.codeNumber|default }}</a>
+                    </td>
+                    <td>{{ currentPurchaseOrderHeader.supplier.company }}</td>
+                    <td>{{ purchaseOrderDetails|map(purchaseOrderDetail => purchaseOrderDetail.material.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ receiveDetails|map(receiveDetail => receiveDetail.receiveHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ purchasePaymentDetails|map(purchasePaymentDetail => purchasePaymentDetail.purchasePaymentHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(purchaseForm, purchaseCount, purchaseOrderHeaders) }}  
+
+<hr />
+
+{{ grid.form(purchasePaperForm) }}
+
+{{ grid.info(purchasePaperForm, purchasePaperCount, purchaseOrderPaperHeaders) }}
+
+<div class="table-responsive">
+    <h6>Purchase Paper Transactions</h6>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th style="min-width: 280px">
+                    PO Kertas #
+                </th>
+                <th style="min-width: 280px">
+                    Supplier
+                </th>
+                <th style="min-width: 280px">
+                    Kertas
+                </th>
+                <th style="min-width: 350px">
+                    Penerimaan #
+                </th>
+                <th style="min-width: 200px">
+                    Invoice #
+                </th>
+                <th style="min-width: 200px">
+                    Pelunasan #
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderPaperHeader in purchaseOrderPaperHeaders %}
+                {% set currentPurchaseOrderPaperHeader = purchaseOrderPaperHeaderData[purchaseOrderPaperHeader.id]|default(purchaseOrderPaperHeader) %}
+                {% set purchaseOrderPaperDetails = currentPurchaseOrderPaperHeader.purchaseOrderPaperDetails %}
+                {% set receiveDetails = purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => purchaseOrderPaperDetail.receiveDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set purchaseInvoiceDetails = receiveDetails|map(receiveDetail => receiveDetail.purchaseInvoiceDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set purchasePaymentDetails = purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader.purchasePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
+                <tr>
+                    <td>
+                        <a target="_blank" href="{{ path('app_purchase_purchase_order_paper_header_show', {'id': currentPurchaseOrderPaperHeader.id}) }}">{{ currentPurchaseOrderPaperHeader.codeNumber|default }}</a>
+                    </td>
+                    <td>{{ currentPurchaseOrderPaperHeader.supplier.company }}</td>
+                    <td>{{ purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => purchaseOrderPaperDetail.paper.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ receiveDetails|map(receiveDetail => receiveDetail.receiveHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ purchasePaymentDetails|map(purchasePaymentDetail => purchasePaymentDetail.purchasePaymentHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(purchasePaperForm, purchasePaperCount, purchaseOrderPaperHeaders) }}
