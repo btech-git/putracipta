@@ -17,4 +17,14 @@ class DivisionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Division::class);
     }
+    
+    public function findTransportationRecord()
+    {
+        return $this->find(3);
+    }
+    
+    public function findMarketingRecord()
+    {
+        return $this->find(1);
+    }
 }
