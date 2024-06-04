@@ -4,10 +4,9 @@ namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Entity\Master\Customer;
-use App\Entity\Master\Employee;
 use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\DeliveryHeader;
-use App\Repository\Master\CustomerRepository;
+use App\Repository\Master\DivisionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -17,11 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeliveryHeaderType extends AbstractType
 {
-    private CustomerRepository $customerRepository;
+    private DivisionRepository $divisionRepository;
 
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(DivisionRepository $divisionRepository)
     {
-        $this->customerRepository = $customerRepository;
+        $this->divisionRepository = $divisionRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -39,7 +38,7 @@ class DeliveryHeaderType extends AbstractType
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
-                        ->andWhere("e.division = '" . Employee::DIVISION_TRANSPORTATION . "'")
+                        ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findTransportationRecord())
                         ->andWhere("e.isInactive = false");
                 },
             ])
