@@ -12,7 +12,8 @@
                 {{ form_row(form.phone, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 {{ form_row(form.email, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 {{ form_row(form.paymentTerm, {'attr': {'readonly': isMarketingInputDisabled}}) }}
-                {{ form_row(form.quantityTolerancePercentage, {'attr': {'readonly': isMarketingInputDisabled}}) }}
+                {{ form_row(form.minimumTolerancePercentage, {'attr': {'readonly': isMarketingInputDisabled}}) }}
+                {{ form_row(form.maximumTolerancePercentage, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 {{ form_row(form.note, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 <div class="{{ isMarketingInputDisabled ? 'd-none' : '' }}">
                     {{ form_row(form.isInactive) }}

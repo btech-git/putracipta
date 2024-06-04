@@ -123,8 +123,12 @@
                 <td>{{ customer.paymentTerm }}</td>
             </tr>
             <tr>
-                <th>Toleransi Quantity Order (%)</th>
-                <td>{{ customer.quantityTolerancePercentage }}</td>
+                <th>Toleransi Bawah Quantity Order (%)</th>
+                <td>{{ customer.minimumTolerancePercentage }}</td>
+            </tr>
+            <tr>
+                <th>Toleransi Atas Quantity Order (%)</th>
+                <td>{{ customer.maximumTolerancePercentage }}</td>
             </tr>
             <tr>
                 <th>Kawasan Berikat 017?</th>
