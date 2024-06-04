@@ -14,7 +14,8 @@ class CustomerType extends AbstractType
         $builder
             ->add('code')
             ->add('company')
-            ->add('quantityTolerancePercentage', null, ['label' => 'Toleransi Quantity Order (%)'])
+            ->add('minimumTolerancePercentage', null, ['label' => 'Toleransi Bawah Quantity Order (%)'])
+            ->add('maximumTolerancePercentage', null, ['label' => 'Toleransi Atas Quantity Order (%)'])
             ->add('name', null, ['label' => 'PIC 1'])
             ->add('name2', null, ['label' => 'PIC 2'])
             ->add('name3', null, ['label' => 'PIC 3'])
