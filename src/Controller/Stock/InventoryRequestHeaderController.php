@@ -4,6 +4,7 @@ namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryRequestHeader;
 use App\Form\Stock\InventoryRequestHeaderType;
@@ -53,6 +54,47 @@ class InventoryRequestHeaderController extends AbstractController
         return $this->render("stock/inventory_request_header/index.html.twig");
     }
 
+    #[Route('/_head', name: 'app_stock_inventory_request_header__head', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    public function _head(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $inventoryRequestHeaders) = $inventoryRequestHeaderRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
+
+        return $this->renderForm("stock/inventory_request_header/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'inventoryRequestHeaders' => $inventoryRequestHeaders,
+        ]);
+    }
+
+    #[Route('/head', name: 'app_stock_inventory_request_header_head', methods: ['GET'])]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    public function head(): Response
+    {
+        return $this->render("stock/inventory_request_header/head.html.twig");
+    }
+
+    #[Route('/{id}/read', name: 'app_stock_inventory_request_header_read', methods: ['POST'])]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    public function read(Request $request, InventoryRequestHeader $inventoryRequestHeader, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $inventoryRequestHeader->getId(), $request->request->get('_token'))) {
+            $inventoryRequestHeader->setIsRead(true);
+            $inventoryRequestHeaderRepository->add($inventoryRequestHeader, true);
+        }
+
+        return $this->redirectToRoute('app_stock_inventory_request_header_show', ['id' => $inventoryRequestHeader->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_stock_inventory_request_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MATERIAL_REQUEST_ADD')]
     public function new(Request $request, InventoryRequestHeaderFormService $inventoryRequestHeaderFormService, $_format = 'html'): Response
