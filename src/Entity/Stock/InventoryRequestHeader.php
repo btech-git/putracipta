@@ -61,6 +61,9 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\ManyToOne(inversedBy: 'inventoryRequestHeaders')]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
+    #[ORM\Column]
+    private ?bool $isRead = false;
+
     public function __construct()
     {
         $this->inventoryRequestPaperDetails = new ArrayCollection();
@@ -323,6 +326,18 @@ class InventoryRequestHeader extends StockHeader
     public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
         $this->masterOrderHeader = $masterOrderHeader;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }
