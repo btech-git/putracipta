@@ -163,6 +163,22 @@ class SaleInvoiceHeaderController extends AbstractController
         return $this->redirectToRoute('app_sale_sale_invoice_header_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/complete', name: 'app_sale_sale_invoice_header_complete', methods: ['POST'])]
+    #[IsGranted('ROLE_SALE_INVOICE_EDIT')]
+    public function complete(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService): Response
+    {
+        if ($this->isCsrfTokenValid('complete' . $saleInvoiceHeader->getId(), $request->request->get('_token')) && IdempotentUtility::check($request)) {
+            $saleInvoiceHeaderFormService->complete($saleInvoiceHeader);
+            $saleInvoiceHeaderFormService->save($saleInvoiceHeader);
+
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was completed successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to complete the record.'));
+        }
+
+        return $this->redirectToRoute('app_sale_sale_invoice_header_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/memo', name: 'app_sale_sale_invoice_header_memo', methods: ['GET'])]
     #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
     public function memo(SaleInvoiceHeader $saleInvoiceHeader, LiteralConfigRepository $literalConfigRepository): Response
