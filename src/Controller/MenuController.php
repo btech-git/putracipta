@@ -16,4 +16,11 @@ class MenuController extends AbstractController
     {
         return $this->render('menu/report.html.twig');
     }
+
+    #[Route('/master', name: 'app_menu_master', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function master(): Response
+    {
+        return $this->render('menu/master.html.twig');
+    }
 }
