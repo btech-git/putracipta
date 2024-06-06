@@ -19,29 +19,6 @@
                             'MENU_USER_MANAGEMENT': 'User Management', 
                             'MENU_TRANSACTION_SETTING': 'Transaction Setting'
                         }) }}
-                        {{ menu.render_2('MENU_MASTER', {
-                            'MENU_EMPLOYEE': 'Employee', 
-                            'MENU_SUPPLIER': 'Supplier', 
-                            'MENU_CUSTOMER': 'Customer',
-                            'MENU_PRODUCT': 'Product', 
-                            'MENU_PAPER': 'Kertas', 
-                            'MENU_MATERIAL': 'Material',
-                            'MENU_DESIGN_CODE': 'Design Code', 
-                            'MENU_DIECUT_KNIFE': 'Pisau Diecut', 
-                            'MENU_DIELINE_MILLAR': 'Millar',
-                            'MENU_WORK_ORDER_PROCESS': 'WO Process', 
-                            'MENU_WORK_ORDER_DISTRIBUTION': 'WO Distribusi', 
-                            'MENU_WORK_ORDER_CHECK_SHEET': 'WO Check Sheet',
-                            'MENU_MACHINE_PRINTING': 'Mesin Cetak', 
-                            'MENU_MATERIAL_CATEGORY': 'Kategori Material', 
-                            'MENU_MATERIAL_SUB_CATEGORY': 'Sub Kategori Material',
-                            'MENU_WAREHOUSE': 'Gudang', 
-                            'MENU_TRANSPORTATION': 'Kendaraan',
-                            'MENU_DIVISION': 'Divisi Employee',
-                            'MENU_UNIT': 'Satuan Barang', 
-                            'MENU_PAYMENT_TYPE': 'Jenis Pembayaran', 
-                            'MENU_CHART_OF_ACCOUNT': 'Chart of Account'
-                        }) }}
                         {{ menu.render_2('MENU_PURCHASE', {
                             'MENU_PURCHASE': 'PEMBELIAN', 
                             'MENU_PURCHASE_ORDER_MATERIAL': 'Order Pembelian Material', 
@@ -84,6 +61,7 @@
                             'MENU_DEPOSIT': 'Penerimaan kas / bank', 
                             'MENU_EXPENSE': 'Pengeluaran kas / bank'
                         }) }}
+                        {{ menu.render_1('MENU_MASTER', null, 'app_menu_master') }}
                         {{ menu.render_1('MENU_REPORT', null, 'app_menu_report') }}
                         {{ menu.render_1('MENU_TRANSACTION_LOG') }}
                     {{ menu.end() }}
