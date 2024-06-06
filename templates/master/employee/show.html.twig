@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <th>Mulai Kerja</th>
-                <td>{{ employee.startDate ? employee.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ employee.startDate ? employee.startDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Email</th>
@@ -32,11 +32,11 @@
             </tr>
             <tr>
                 <th>Divisi</th>
-                <td>{{ employee.division }}</td>
+                <td>{{ employee.division.name|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal Lahir</th>
-                <td>{{ employee.birthDate ? employee.birthDate|date('Y-m-d') : '' }}</td>
+                <td>{{ employee.birthDate ? employee.birthDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Tempat Lahir</th>
