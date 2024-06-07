@@ -22,6 +22,7 @@
                 <th style="min-width: 150px">Total Sortir</th>
                 <th style="min-width: 150px">Total Reject</th>
                 <th style="min-width: 150px">Sisa</th>
+                <th style="min-width: 250px">Memo</th>
                 <th style="width: 0"></th>
             </tr>
         </thead>
@@ -34,7 +35,7 @@
                     <td data-item-field-name="productName">{{ detailForm.vars.value.product.name|default }}</td>
                     <td class="text-end" data-json-loader-target="placeholder"
                         data-property-path="qualityControlSortingDetails.{{ detailForm.vars.name }}.quantityOrder">
-                        {{ detailForm.vars.value.total|default|number_format(2) }}
+                        {{ detailForm.vars.value.quantityOrder|default|number_format(2) }}
                     </td>
                     <td>
                         {{ form_row(detailForm.quantityGood, {'label': false, 'attr': {
@@ -118,16 +119,17 @@
                     </td>
                     <td class="text-end" data-json-loader-target="placeholder"
                         data-property-path="qualityControlSortingDetails.{{ detailForm.vars.name }}.totalQuantitySorting">
-                        {{ detailForm.vars.value.total|default|number_format(2) }}
+                        {{ detailForm.vars.value.totalQuantitySorting|default|number_format(2) }}
                     </td>
                     <td class="text-end" data-json-loader-target="placeholder"
                         data-property-path="qualityControlSortingDetails.{{ detailForm.vars.name }}.totalQuantityReject">
-                        {{ detailForm.vars.value.total|default|number_format(2) }}
+                        {{ detailForm.vars.value.totalQuantityReject|default|number_format(2) }}
                     </td>
                     <td class="text-end" data-json-loader-target="placeholder"
                         data-property-path="qualityControlSortingDetails.{{ detailForm.vars.name }}.quantityRemaining">
-                        {{ detailForm.vars.value.total|default|number_format(2) }}
+                        {{ detailForm.vars.value.quantityRemaining|default|number_format(2) }}
                     </td>
+                    <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
