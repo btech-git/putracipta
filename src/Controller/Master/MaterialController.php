@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MaterialController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_material__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT') or is_granted('ROLE_MATERIAL_VIEW')")]
     public function _list(Request $request, MaterialRepository $materialRepository): Response
     {
         $criteria = new DataCriteria();
@@ -52,7 +52,7 @@ class MaterialController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_material_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT') or is_granted('ROLE_MATERIAL_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/material/index.html.twig");
@@ -79,7 +79,7 @@ class MaterialController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_material_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_ADD') or is_granted('ROLE_MATERIAL_EDIT') or is_granted('ROLE_MATERIAL_VIEW')")]
     public function show(Material $material): Response
     {
         return $this->render('master/material/show.html.twig', [

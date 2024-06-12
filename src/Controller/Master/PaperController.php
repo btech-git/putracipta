@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaperController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_paper__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT') or is_granted('ROLE_PAPER_VIEW')")]
     public function _list(Request $request, PaperRepository $paperRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,7 +47,7 @@ class PaperController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_paper_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT') or is_granted('ROLE_PAPER_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/paper/index.html.twig");
@@ -75,7 +75,7 @@ class PaperController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_paper_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT')")]
+    #[Security("is_granted('ROLE_PAPER_ADD') or is_granted('ROLE_PAPER_EDIT') or is_granted('ROLE_PAPER_VIEW')")]
     public function show(Paper $paper): Response
     {
         return $this->render('master/paper/show.html.twig', [

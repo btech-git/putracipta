@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SupplierController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_supplier__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
+    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT') or is_granted('ROLE_SUPPLIER_VIEW')")]
     public function _list(Request $request, SupplierRepository $supplierRepository): Response
     {
         $criteria = new DataCriteria();
@@ -37,7 +37,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_supplier_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
+    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT') or is_granted('ROLE_SUPPLIER_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/supplier/index.html.twig");
@@ -64,7 +64,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_supplier_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT')")]
+    #[Security("is_granted('ROLE_SUPPLIER_ADD') or is_granted('ROLE_SUPPLIER_EDIT') or is_granted('ROLE_SUPPLIER_VIEW')")]
     public function show(Supplier $supplier, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
     {
         $purchaseOrderHeaders = $purchaseOrderHeaderRepository->findBy(['supplier' => $supplier], ['transactionDate' => 'DESC'], 50);

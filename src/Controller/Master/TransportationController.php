@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransportationController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_transportation__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT')")]
+    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT') or is_granted('ROLE_TRANSPORTATION_VIEW')")]
     public function _list(Request $request, TransportationRepository $transportationRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class TransportationController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_transportation_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT')")]
+    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT') or is_granted('ROLE_TRANSPORTATION_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/transportation/index.html.twig");
@@ -63,7 +63,7 @@ class TransportationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_transportation_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT')")]
+    #[Security("is_granted('ROLE_TRANSPORTATION_ADD') or is_granted('ROLE_TRANSPORTATION_EDIT') or is_granted('ROLE_TRANSPORTATION_VIEW')")]
     public function show(Transportation $transportation): Response
     {
         return $this->render('master/transportation/show.html.twig', [

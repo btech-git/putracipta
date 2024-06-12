@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MaterialCategoryController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_material_category__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_CATEGORY_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_CATEGORY_EDIT') or is_granted('ROLE_MATERIAL_CATEGORY_VIEW')")]
     public function _list(Request $request, MaterialCategoryRepository $materialCategoryRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class MaterialCategoryController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_material_category_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_CATEGORY_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_CATEGORY_EDIT') or is_granted('ROLE_MATERIAL_CATEGORY_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/material_category/index.html.twig");
@@ -63,7 +63,7 @@ class MaterialCategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_material_category_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_CATEGORY_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_CATEGORY_EDIT') or is_granted('ROLE_MATERIAL_CATEGORY_VIEW')")]
     public function show(MaterialCategory $materialCategory): Response
     {
         return $this->render('master/material_category/show.html.twig', [

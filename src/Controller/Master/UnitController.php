@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UnitController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_unit__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT')")]
+    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT') or is_granted('ROLE_UNIT_VIEW')")]
     public function _list(Request $request, UnitRepository $unitRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class UnitController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_unit_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT')")]
+    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT') or is_granted('ROLE_UNIT_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/unit/index.html.twig");
@@ -63,7 +63,7 @@ class UnitController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_unit_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT')")]
+    #[Security("is_granted('ROLE_UNIT_ADD') or is_granted('ROLE_UNIT_EDIT') or is_granted('ROLE_UNIT_VIEW')")]
     public function show(Unit $unit): Response
     {
         return $this->render('master/unit/show.html.twig', [

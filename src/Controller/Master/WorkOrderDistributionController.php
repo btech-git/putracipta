@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkOrderDistributionController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_work_order_distribution__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT')")]
+    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT') or is_granted('ROLE_DISTRIBUTION_VIEW')")]
     public function _list(Request $request, WorkOrderDistributionRepository $workOrderDistributionRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class WorkOrderDistributionController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_work_order_distribution_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT')")]
+    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT') or is_granted('ROLE_DISTRIBUTION_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/work_order_distribution/index.html.twig");
@@ -63,7 +63,7 @@ class WorkOrderDistributionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_work_order_distribution_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT')")]
+    #[Security("is_granted('ROLE_DISTRIBUTION_ADD') or is_granted('ROLE_DISTRIBUTION_EDIT') or is_granted('ROLE_DISTRIBUTION_VIEW')")]
     public function show(WorkOrderDistribution $workOrderDistribution): Response
     {
         return $this->render('master/work_order_distribution/show.html.twig', [

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MachinePrintingController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_machine_printing__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT')")]
+    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT') or is_granted('ROLE_PRINTING_MACHINE_VIEW')")]
     public function _list(Request $request, MachinePrintingRepository $machinePrintingRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class MachinePrintingController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_machine_printing_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT')")]
+    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT') or is_granted('ROLE_PRINTING_MACHINE_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/machine_printing/index.html.twig");
@@ -63,7 +63,7 @@ class MachinePrintingController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_machine_printing_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT')")]
+    #[Security("is_granted('ROLE_PRINTING_MACHINE_ADD') or is_granted('ROLE_PRINTING_MACHINE_EDIT') or is_granted('ROLE_PRINTING_MACHINE_VIEW')")]
     public function show(MachinePrinting $machinePrinting): Response
     {
         return $this->render('master/machine_printing/show.html.twig', [

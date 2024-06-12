@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_product__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_VIEW')")]
     public function _list(Request $request, ProductRepository $productRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,7 +42,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_product_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/product/index.html.twig");
@@ -72,7 +72,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_product_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_VIEW')")]
     public function show(Product $product): Response
     {
         return $this->render('master/product/show.html.twig', [

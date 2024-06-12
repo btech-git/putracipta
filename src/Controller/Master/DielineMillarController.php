@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DielineMillarController extends AbstractController
 {
     #[Route('/_dieline_list', name: 'app_master_dieline_millar__dieline_list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT')")]
+    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT') or is_granted('ROLE_MILLAR_VIEW')")]
     public function _dielineList(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
         $lastDielineMillars = $dielineMillarRepository->findBy(['customer' => $request->request->get('dieline_millar')['customer']], ['id' => 'DESC'], 5, 0);
@@ -30,7 +30,7 @@ class DielineMillarController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_master_dieline_millar__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT')")]
+    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT') or is_granted('ROLE_MILLAR_VIEW')")]
     public function _list(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
         $criteria = new DataCriteria();
@@ -53,7 +53,7 @@ class DielineMillarController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_dieline_millar_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT')")]
+    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT') or is_granted('ROLE_MILLAR_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/dieline_millar/index.html.twig");
@@ -83,7 +83,7 @@ class DielineMillarController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_dieline_millar_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT')")]
+    #[Security("is_granted('ROLE_MILLAR_ADD') or is_granted('ROLE_MILLAR_EDIT') or is_granted('ROLE_MILLAR_VIEW')")]
     public function show(DielineMillar $dielineMillar): Response
     {
         return $this->render('master/dieline_millar/show.html.twig', [

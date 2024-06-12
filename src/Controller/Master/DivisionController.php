@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DivisionController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_division__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DIVISION_ADD') or is_granted('ROLE_DIVISION_EDIT') or is_granted('ROLE_DIVISION_VIEW')")]
     public function _list(Request $request, DivisionRepository $divisionRepository): Response
     {
         $criteria = new DataCriteria();
@@ -34,14 +34,14 @@ class DivisionController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_division_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DIVISION_ADD') or is_granted('ROLE_DIVISION_EDIT') or is_granted('ROLE_DIVISION_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/division/index.html.twig");
     }
 
     #[Route('/new', name: 'app_master_division_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIVISION_ADD')]
     public function new(Request $request, DivisionRepository $divisionRepository): Response
     {
         $division = new Division();
@@ -61,7 +61,7 @@ class DivisionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_division_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_DIVISION_ADD') or is_granted('ROLE_DIVISION_EDIT') or is_granted('ROLE_DIVISION_VIEW')")]
     public function show(Division $division): Response
     {
         return $this->render('master/division/show.html.twig', [
@@ -70,7 +70,7 @@ class DivisionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_division_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIVISION_EDIT')]
     public function edit(Request $request, Division $division, DivisionRepository $divisionRepository): Response
     {
         $form = $this->createForm(DivisionType::class, $division);
@@ -89,7 +89,7 @@ class DivisionController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_master_division_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_DIVISION_EDIT')]
     public function delete(Request $request, Division $division, DivisionRepository $divisionRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $division->getId(), $request->request->get('_token'))) {

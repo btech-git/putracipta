@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MaterialSubCategoryController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_material_sub_category__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_VIEW')")]
     public function _list(Request $request, MaterialSubCategoryRepository $materialSubCategoryRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,7 +42,7 @@ class MaterialSubCategoryController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_material_sub_category_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/material_sub_category/index.html.twig");
@@ -69,7 +69,7 @@ class MaterialSubCategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_material_sub_category_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_SUB_CATEGORY_ADD') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT') or is_granted('ROLE_MATERIAL_SUB_CATEGORY_VIEW')")]
     public function show(MaterialSubCategory $materialSubCategory): Response
     {
         return $this->render('master/material_sub_category/show.html.twig', [

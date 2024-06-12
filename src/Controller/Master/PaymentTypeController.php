@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaymentTypeController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_payment_type__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT')")]
+    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT') or is_granted('ROLE_PAYMENT_TYPE_VIEW')")]
     public function _list(Request $request, PaymentTypeRepository $paymentTypeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class PaymentTypeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_payment_type_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT')")]
+    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT') or is_granted('ROLE_PAYMENT_TYPE_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/payment_type/index.html.twig");
@@ -63,7 +63,7 @@ class PaymentTypeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_payment_type_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT')")]
+    #[Security("is_granted('ROLE_PAYMENT_TYPE_ADD') or is_granted('ROLE_PAYMENT_TYPE_EDIT') or is_granted('ROLE_PAYMENT_TYPE_VIEW')")]
     public function show(PaymentType $paymentType): Response
     {
         return $this->render('master/payment_type/show.html.twig', [

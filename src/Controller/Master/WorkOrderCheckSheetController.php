@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkOrderCheckSheetController extends AbstractController
 {
     #[Route('/_list', name: 'app_master_work_order_check_sheet__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT')")]
+    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT') or is_granted('ROLE_CHECK_SHEET_VIEW')")]
     public function _list(Request $request, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository): Response
     {
         $criteria = new DataCriteria();
@@ -36,7 +36,7 @@ class WorkOrderCheckSheetController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_work_order_check_sheet_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT')")]
+    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT') or is_granted('ROLE_CHECK_SHEET_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/work_order_check_sheet/index.html.twig");
@@ -63,7 +63,7 @@ class WorkOrderCheckSheetController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_work_order_check_sheet_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT')")]
+    #[Security("is_granted('ROLE_CHECK_SHEET_ADD') or is_granted('ROLE_CHECK_SHEET_EDIT') or is_granted('ROLE_CHECK_SHEET_VIEW')")]
     public function show(WorkOrderCheckSheet $workOrderCheckSheet): Response
     {
         return $this->render('master/work_order_check_sheet/show.html.twig', [

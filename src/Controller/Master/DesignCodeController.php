@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DesignCodeController extends AbstractController
 {
     #[Route('/_design_code_list', name: 'app_master_design_code__design_code_list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT')")]
+    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_VIEW')")]
     public function _designCodeList(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->request->get('design_code')['customer']], ['id' => 'DESC'], 5, 0);
@@ -34,7 +34,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_master_design_code__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT')")]
+    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_VIEW')")]
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -61,7 +61,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/', name: 'app_master_design_code_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT')")]
+    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_VIEW')")]
     public function index(): Response
     {
         return $this->render("master/design_code/index.html.twig");
@@ -94,7 +94,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_design_code_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT')")]
+    #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_VIEW')")]
     public function show(DesignCode $designCode): Response
     {
         return $this->render('master/design_code/show.html.twig', [
