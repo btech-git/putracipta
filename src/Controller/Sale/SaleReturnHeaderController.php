@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SaleReturnHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_return_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SALE_RETURN_ADD') or is_granted('ROLE_SALE_RETURN_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_RETURN_ADD') or is_granted('ROLE_SALE_RETURN_EDIT') or is_granted('ROLE_SALE_RETURN_VIEW')")]
     public function _list(Request $request, SaleReturnHeaderRepository $saleReturnHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,7 +47,7 @@ class SaleReturnHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_return_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_RETURN_ADD') or is_granted('ROLE_SALE_RETURN_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_RETURN_ADD') or is_granted('ROLE_SALE_RETURN_EDIT') or is_granted('ROLE_SALE_RETURN_VIEW')")]
     public function index(): Response
     {
         return $this->render("sale/sale_return_header/index.html.twig");
@@ -76,7 +76,7 @@ class SaleReturnHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_return_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_RETURN_ADD') or is_granted('ROLE_SALE_RETURN_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_RETURN_ADD') or is_granted('ROLE_SALE_RETURN_EDIT') or is_granted('ROLE_SALE_RETURN_VIEW')")]
     public function show(SaleReturnHeader $saleReturnHeader): Response
     {
         return $this->render('sale/sale_return_header/show.html.twig', [

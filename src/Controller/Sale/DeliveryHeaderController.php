@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeliveryHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_delivery_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
     public function _list(Request $request, DeliveryHeaderRepository $deliveryHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -56,14 +56,14 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_delivery_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
     public function index(): Response
     {
         return $this->render("sale/delivery_header/index.html.twig");
     }
     
     #[Route('/_list_outstanding_sale_order', name: 'app_sale_delivery_header__list_outstanding_sale_order', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
     public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository): Response
     {
         $criteria = new DataCriteria();
@@ -85,7 +85,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/index_outstanding_sale_order', name: 'app_sale_delivery_header_index_outstanding_sale_order', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
     public function indexOutstandingSaleOrder(): Response
     {
         return $this->render("sale/delivery_header/index_outstanding_sale_order.html.twig");
@@ -114,7 +114,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_delivery_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
     public function show(DeliveryHeader $deliveryHeader): Response
     {
         return $this->render('sale/delivery_header/show.html.twig', [
@@ -159,7 +159,7 @@ class DeliveryHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_sale_delivery_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
     public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'delivery.pdf';

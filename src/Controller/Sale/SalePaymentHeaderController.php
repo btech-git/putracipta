@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalePaymentHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_payment_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT') or is_granted('ROLE_SALE_PAYMENT_VIEW')")]
     public function _list(Request $request, SalePaymentHeaderRepository $salePaymentHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,7 +47,7 @@ class SalePaymentHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_payment_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT') or is_granted('ROLE_SALE_PAYMENT_VIEW')")]
     public function index(): Response
     {
         return $this->render("sale/sale_payment_header/index.html.twig");
@@ -76,7 +76,7 @@ class SalePaymentHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_payment_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_PAYMENT_ADD') or is_granted('ROLE_SALE_PAYMENT_EDIT') or is_granted('ROLE_SALE_PAYMENT_VIEW')")]
     public function show(SalePaymentHeader $salePaymentHeader): Response
     {
         return $this->render('sale/sale_payment_header/show.html.twig', [

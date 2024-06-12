@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SaleOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_order_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
     public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -50,14 +50,14 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_order_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
     public function index(): Response
     {
         return $this->render("sale/sale_order_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_sale_sale_order_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
     public function _head(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -79,14 +79,14 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_sale_sale_order_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
     public function head(): Response
     {
         return $this->render("sale/sale_order_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_sale_sale_order_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
     public function read(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
@@ -122,7 +122,7 @@ class SaleOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_order_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
+    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_APPROVAL')")]
     public function show(SaleOrderHeader $saleOrderHeader): Response
     {
         return $this->render('sale/sale_order_header/show.html.twig', [

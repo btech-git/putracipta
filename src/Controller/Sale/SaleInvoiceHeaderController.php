@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SaleInvoiceHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_sale_sale_invoice_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function _list(Request $request, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -49,14 +49,14 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_sale_sale_invoice_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function index(): Response
     {
         return $this->render("sale/sale_invoice_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_sale_sale_invoice_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function _head(Request $request, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -78,14 +78,14 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_sale_sale_invoice_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function head(): Response
     {
         return $this->render("sale/sale_invoice_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_sale_sale_invoice_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function read(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderRepository $saleInvoiceHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $saleInvoiceHeader->getId(), $request->request->get('_token'))) {
@@ -119,7 +119,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sale_sale_invoice_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function show(SaleInvoiceHeader $saleInvoiceHeader): Response
     {
         return $this->render('sale/sale_invoice_header/show.html.twig', [
@@ -180,7 +180,7 @@ class SaleInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_sale_sale_invoice_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
     public function memo(SaleInvoiceHeader $saleInvoiceHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'sale_invoice.pdf';
