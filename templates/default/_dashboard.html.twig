@@ -102,10 +102,30 @@
                     </td>
                     <td>{{ currentSaleOrderHeader.customer.company }}</td>
                     <td>{{ saleOrderDetails|map(saleOrderDetail => saleOrderDetail.product.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ deliveryDetails|map(deliveryDetail => deliveryDetail.deliveryHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ salePaymentDetails|map(salePaymentDetail => salePaymentDetail.salePaymentHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>
+                        {% set masterOrderHeaders = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for masterOrderHeader in masterOrderHeaders %}
+                            <a target="_blank" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}">{{ masterOrderHeader.codeNumber|default }}</a>{% if loop.index < masterOrderHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set deliveryHeaders = deliveryDetails|map(deliveryDetail => deliveryDetail.deliveryHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for deliveryHeader in deliveryHeaders %}
+                            <a target="_blank" href="{{ path('app_sale_delivery_header_show', {'id': deliveryHeader.id}) }}">{{ deliveryHeader.codeNumber|default }}</a>{% if loop.index < deliveryHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set saleInvoiceHeaders = saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for saleInvoiceHeader in saleInvoiceHeaders %}
+                            <a target="_blank" href="{{ path('app_sale_sale_invoice_header_show', {'id': saleInvoiceHeader.id}) }}">{{ saleInvoiceHeader.codeNumber|default }}</a>{% if loop.index < saleInvoiceHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set salePaymentHeaders = salePaymentDetails|map(salePaymentDetail => salePaymentDetail.salePaymentHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for salePaymentHeader in salePaymentHeaders %}
+                            <a target="_blank" href="{{ path('app_sale_sale_payment_header_show', {'id': salePaymentHeader.id}) }}">{{ salePaymentHeader.codeNumber|default }}</a>{% if loop.index < salePaymentHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -162,9 +182,24 @@
                     </td>
                     <td>{{ currentPurchaseOrderHeader.supplier.company }}</td>
                     <td>{{ purchaseOrderDetails|map(purchaseOrderDetail => purchaseOrderDetail.material.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ receiveDetails|map(receiveDetail => receiveDetail.receiveHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ purchasePaymentDetails|map(purchasePaymentDetail => purchasePaymentDetail.purchasePaymentHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>
+                        {% set receiveHeaders = receiveDetails|map(receiveDetail => receiveDetail.receiveHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for receiveHeader in receiveHeaders %}
+                            <a target="_blank" href="{{ path('app_purchase_receive_header_show', {'id': receiveHeader.id}) }}">{{ receiveHeader.codeNumber|default }}</a>{% if loop.index < receiveHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set purchaseInvoiceHeaders = purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
+                            <a target="_blank" href="{{ path('app_purchase_purchase_invoice_header_show', {'id': purchaseInvoiceHeader.id}) }}">{{ purchaseInvoiceHeader.codeNumber|default }}</a>{% if loop.index < purchaseInvoiceHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set purchasePaymentHeaders = purchasePaymentDetails|map(purchasePaymentDetail => purchasePaymentDetail.purchasePaymentHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for purchasePaymentHeader in purchasePaymentHeaders %}
+                            <a target="_blank" href="{{ path('app_purchase_purchase_payment_header_show', {'id': purchasePaymentHeader.id}) }}">{{ purchasePaymentHeader.codeNumber|default }}</a>{% if loop.index < purchasePaymentHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -221,9 +256,24 @@
                     </td>
                     <td>{{ currentPurchaseOrderPaperHeader.supplier.company }}</td>
                     <td>{{ purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => purchaseOrderPaperDetail.paper.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ receiveDetails|map(receiveDetail => receiveDetail.receiveHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
-                    <td>{{ purchasePaymentDetails|map(purchasePaymentDetail => purchasePaymentDetail.purchasePaymentHeader.codeNumber)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>
+                        {% set receiveHeaders = receiveDetails|map(receiveDetail => receiveDetail.receiveHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for receiveHeader in receiveHeaders %}
+                            <a target="_blank" href="{{ path('app_purchase_receive_header_show', {'id': receiveHeader.id}) }}">{{ receiveHeader.codeNumber|default }}</a>{% if loop.index < receiveHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set purchaseInvoiceHeaders = purchaseInvoiceDetails|map(purchaseInvoiceDetail => purchaseInvoiceDetail.purchaseInvoiceHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
+                            <a target="_blank" href="{{ path('app_purchase_purchase_invoice_header_show', {'id': purchaseInvoiceHeader.id}) }}">{{ purchaseInvoiceHeader.codeNumber|default }}</a>{% if loop.index < purchaseInvoiceHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set purchasePaymentHeaders = purchasePaymentDetails|map(purchasePaymentDetail => purchasePaymentDetail.purchasePaymentHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for purchasePaymentHeader in purchasePaymentHeaders %}
+                            <a target="_blank" href="{{ path('app_purchase_purchase_payment_header_show', {'id': purchasePaymentHeader.id}) }}">{{ purchasePaymentHeader.codeNumber|default }}</a>{% if loop.index < purchasePaymentHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
                 </tr>
             {% else %}
                 <tr>
