@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_accounting_expense_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_expense_header_edit', {'id': expenseHeader.id}) }}">Edit</a>
+    {% if is_granted('ROLE_EXPENSE_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_expense_header_edit', {'id': expenseHeader.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -3,7 +3,9 @@
 {% block title 'Manage Expense Header' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_accounting_expense_header_new') }}">Add</a>
+    {% if is_granted('ROLE_EXPENSE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_accounting_expense_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -48,8 +48,12 @@
                     <td>{{ depositHeader.transactionDate ? depositHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ depositHeader.note }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_accounting_deposit_header_show', {'id': depositHeader.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_deposit_header_edit', {'id': depositHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% if is_granted('ROLE_DEPOSIT_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_accounting_deposit_header_show', {'id': depositHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_DEPOSIT_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_deposit_header_edit', {'id': depositHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

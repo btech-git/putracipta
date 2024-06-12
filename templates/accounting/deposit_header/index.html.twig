@@ -3,7 +3,9 @@
 {% block title 'Manage Deposit Header' %}
 
 {% block toolbar %}
+    {% if is_granted('ROLE_DEPOSIT_ADD') %}
     <a class="btn btn-success btn-sm" href="{{ path('app_accounting_deposit_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
