@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryProductReceiveHeaderController extends AbstractController
 {
     #[Route('/_receive_list', name: 'app_stock_inventory_product_receive_header__receive_list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_VIEW')")]
     public function _receiveList(Request $request, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
     {
         $lastInventoryProductReceiveHeaders = $inventoryProductReceiveHeaderRepository->findBy(['masterOrderHeader' => $request->request->get('inventory_product_receive_header')['masterOrderHeader']], ['id' => 'DESC'], 5, 0);
@@ -32,7 +32,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/_list', name: 'app_stock_inventory_product_receive_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_VIEW')")]
     public function _list(Request $request, InventoryProductReceiveHeaderRepository $inventoryProductReceiveHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -53,7 +53,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_inventory_product_receive_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_VIEW')")]
     public function index(): Response
     {
         return $this->render("stock/inventory_product_receive_header/index.html.twig");
@@ -82,7 +82,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_inventory_product_receive_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_VIEW')")]
     public function show(InventoryProductReceiveHeader $inventoryProductReceiveHeader): Response
     {
         return $this->render('stock/inventory_product_receive_header/show.html.twig', [
@@ -112,7 +112,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo_inventory_product_receive_header', name: 'app_stock_inventory_product_receive_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_VIEW')")]
     public function memo(InventoryProductReceiveHeader $inventoryProductReceiveHeader): Response
     {
         $fileName = 'inventory_product_receive.pdf';

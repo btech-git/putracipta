@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdjustmentStockHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_adjustment_stock_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT')")]
+    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function _list(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,7 +47,7 @@ class AdjustmentStockHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_adjustment_stock_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT')")]
+    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function index(): Response
     {
         return $this->render("stock/adjustment_stock_header/index.html.twig");
@@ -76,7 +76,7 @@ class AdjustmentStockHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_adjustment_stock_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT')")]
+    #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function show(AdjustmentStockHeader $adjustmentStockHeader): Response
     {
         return $this->render('stock/adjustment_stock_header/show.html.twig', [

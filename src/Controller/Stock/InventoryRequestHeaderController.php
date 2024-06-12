@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryRequestHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_inventory_request_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_VIEW')")]
     public function _list(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -48,14 +48,14 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_inventory_request_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_VIEW')")]
     public function index(): Response
     {
         return $this->render("stock/inventory_request_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_stock_inventory_request_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_VIEW')")]
     public function _head(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -77,14 +77,14 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_stock_inventory_request_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_VIEW')")]
     public function head(): Response
     {
         return $this->render("stock/inventory_request_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_stock_inventory_request_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_VIEW')")]
     public function read(Request $request, InventoryRequestHeader $inventoryRequestHeader, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $inventoryRequestHeader->getId(), $request->request->get('_token'))) {
@@ -118,7 +118,7 @@ class InventoryRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_inventory_request_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_REQUEST_ADD') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_VIEW')")]
     public function show(InventoryRequestHeader $inventoryRequestHeader): Response
     {
         return $this->render('stock/inventory_request_header/show.html.twig', [

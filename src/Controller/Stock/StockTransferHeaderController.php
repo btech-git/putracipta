@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StockTransferHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_stock_transfer_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT')")]
+    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT') or is_granted('ROLE_TRANSFER_VIEW')")]
     public function _list(Request $request, StockTransferHeaderRepository $stockTransferHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,7 +41,7 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_stock_transfer_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT')")]
+    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT') or is_granted('ROLE_TRANSFER_VIEW')")]
     public function index(): Response
     {
         return $this->render("stock/stock_transfer_header/index.html.twig");
@@ -70,7 +70,7 @@ class StockTransferHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_stock_transfer_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT')")]
+    #[Security("is_granted('ROLE_TRANSFER_ADD') or is_granted('ROLE_TRANSFER_EDIT') or is_granted('ROLE_TRANSFER_VIEW')")]
     public function show(StockTransferHeader $stockTransferHeader): Response
     {
         return $this->render('stock/stock_transfer_header/show.html.twig', [

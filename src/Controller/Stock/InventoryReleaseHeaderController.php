@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InventoryReleaseHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_inventory_release_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
     public function _list(Request $request, InventoryReleaseHeaderRepository $inventoryReleaseHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -41,14 +41,14 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_stock_inventory_release_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
     public function index(): Response
     {
         return $this->render("stock/inventory_release_header/index.html.twig");
     }
 
     #[Route('/_list_outstanding', name: 'app_stock_inventory_release_header__list_outstanding', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
     public function _listOutstanding(Request $request, InventoryRequestMaterialDetailRepository $inventoryRequestMaterialDetailRepository, InventoryRequestPaperDetailRepository $inventoryRequestPaperDetailRepository): Response
     {
         $criteria = new DataCriteria();
@@ -76,7 +76,7 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/index_outstanding', name: 'app_stock_inventory_release_header_index_outstanding', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT')")]
+    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT' or is_granted('ROLE_MATERIAL_RELEASE_VIEW'))")]
     public function indexOutstanding(): Response
     {
         return $this->render("stock/inventory_release_header/index_outstanding.html.twig");
@@ -105,7 +105,7 @@ class InventoryReleaseHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_stock_inventory_release_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT')")]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
     public function show(InventoryReleaseHeader $inventoryReleaseHeader): Response
     {
         return $this->render('stock/inventory_release_header/show.html.twig', [
