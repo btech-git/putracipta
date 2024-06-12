@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_production_quality_control_sorting_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_production_quality_control_sorting_header_edit', {'id': qualityControlSortingHeader.id}) }}">Edit</a>
+    {% if is_granted('ROLE_QUALITY_CONTROL_SORTING_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_production_quality_control_sorting_header_edit', {'id': qualityControlSortingHeader.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

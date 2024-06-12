@@ -59,8 +59,12 @@
                     <td>{{ qualityControlSortingHeader.customer.company|default }}</td>
                     <td>{{ qualityControlSortingHeader.employeeInCharge|default }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_production_quality_control_sorting_header_show', {'id': qualityControlSortingHeader.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_production_quality_control_sorting_header_edit', {'id': qualityControlSortingHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% if is_granted('ROLE_QUALITY_CONTROL_SORTING_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_production_quality_control_sorting_header_show', {'id': qualityControlSortingHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_QUALITY_CONTROL_SORTING_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_production_quality_control_sorting_header_edit', {'id': qualityControlSortingHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

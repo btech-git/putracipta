@@ -3,7 +3,9 @@
 {% block title 'Manage Master Order Header' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_production_master_order_header_new') }}">Add</a>
+    {% if is_granted('ROLE_MASTER_ORDER_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_production_master_order_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

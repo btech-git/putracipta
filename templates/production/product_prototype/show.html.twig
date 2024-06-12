@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_production_product_prototype_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_production_product_prototype_edit', {'id': productPrototype.id}) }}">Edit</a>
+    {% if is_granted('ROLE_NEW_PRODUCT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_production_product_prototype_edit', {'id': productPrototype.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

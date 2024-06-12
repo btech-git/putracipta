@@ -72,9 +72,15 @@
                     <td>{{ masterOrderHeader.orderType }}</td>
                     <td>{{ masterOrderHeader.note }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_header_edit', {'id': masterOrderHeader.id}) }}"><i class="bi-pencil"></i></a>
-                        <a class="btn btn-success btn-sm" href="{{ path('app_production_master_order_header_new_repeat', {'source_id': masterOrderHeader.id}) }}"><i class="bi-c-square"></i></a>
+                        {% if is_granted('ROLE_MASTER_ORDER_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_MASTER_ORDER_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_production_master_order_header_edit', {'id': masterOrderHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_MASTER_ORDER_ADD') %}
+                            <a class="btn btn-success btn-sm" href="{{ path('app_production_master_order_header_new_repeat', {'source_id': masterOrderHeader.id}) }}"><i class="bi-c-square"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

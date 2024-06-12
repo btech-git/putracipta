@@ -3,7 +3,9 @@
 {% block title 'Manage Product Development' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_production_product_development_new') }}">Add</a>
+    {% if is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_production_product_development_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

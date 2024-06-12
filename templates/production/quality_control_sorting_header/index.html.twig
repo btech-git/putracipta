@@ -3,7 +3,9 @@
 {% block title 'Manage QC Sorting' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_production_quality_control_sorting_header_new') }}">Add</a>
+    {% if is_granted('ROLE_QUALITY_CONTROL_SORTING_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_production_quality_control_sorting_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

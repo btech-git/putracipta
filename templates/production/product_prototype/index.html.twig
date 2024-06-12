@@ -3,7 +3,9 @@
 {% block title 'Manage Formulir Produk Baru' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_production_product_prototype_new') }}">Add</a>
+    {% if is_granted('ROLE_NEW_PRODUCT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_production_product_prototype_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
