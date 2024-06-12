@@ -57,7 +57,7 @@ class SaleOrderDetailController extends AbstractController
                 $add['sort']($qb, 'u', 'name', $request->request->get('sale_order_detail_grid')['sort']['unit:name']);
             }
             if ($request->request->has('delivery_header')) {
-                $qb->andWhere("{$alias}.remainingDelivery > 0");
+                $qb->andWhere("{$alias}.remainingDelivery > {$alias}.minimumToleranceQuantity");
             } else if ($request->request->has('master_order_header')) {
 //                $sub = $new(\App\Entity\Production\MasterOrderProductDetail::class, 'm');
 //                $sub->andWhere("IDENTITY(m.saleOrderDetail) = {$alias}.id");
