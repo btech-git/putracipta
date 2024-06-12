@@ -213,7 +213,7 @@
         </div>
     </div>
     
-    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderHeader) and is_granted('ROLE_PURCHASE_ORDER_MATERIAL_APPROVAL') %}
+    {% if purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseOrderHeader) or purchaseOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseOrderHeader) and is_granted('ROLE_APPROVAL') %}
         <div class="d-inline-block">{{ include('purchase/purchase_order_header/_reject_form.html.twig') }}</div>
         <div class="d-inline-block">{{ include('purchase/purchase_order_header/_approve_form.html.twig') }}</div>
     {% endif %}
