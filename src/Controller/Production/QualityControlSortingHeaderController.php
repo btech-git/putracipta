@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class QualityControlSortingHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_quality_control_sorting_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function _list(Request $request, QualityControlSortingHeaderRepository $qualityControlSortingHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class QualityControlSortingHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_quality_control_sorting_header_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function index(): Response
     {
         return $this->render("production/quality_control_sorting_header/index.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_production_quality_control_sorting_header_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_NEW_PRODUCT_ADD')]
     public function new(Request $request, QualityControlSortingHeaderFormService $qualityControlSortingHeaderFormService, $_format = 'html'): Response
     {
         $qualityControlSortingHeader = new QualityControlSortingHeader();
@@ -76,7 +76,7 @@ class QualityControlSortingHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_quality_control_sorting_header_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function show(QualityControlSortingHeader $qualityControlSortingHeader): Response
     {
         return $this->render('production/quality_control_sorting_header/show.html.twig', [
@@ -85,7 +85,7 @@ class QualityControlSortingHeaderController extends AbstractController
     }
 
     #[Route('/{id}/edit.{_format}', name: 'app_production_quality_control_sorting_header_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_NEW_PRODUCT_EDIT')]
     public function edit(Request $request, QualityControlSortingHeader $qualityControlSortingHeader, QualityControlSortingHeaderFormService $qualityControlSortingHeaderFormService, $_format = 'html'): Response
     {
         $qualityControlSortingHeaderFormService->initialize($qualityControlSortingHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
@@ -106,7 +106,7 @@ class QualityControlSortingHeaderController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_production_quality_control_sorting_header_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_NEW_PRODUCT_EDIT')]
     public function delete(Request $request, QualityControlSortingHeader $qualityControlSortingHeader, QualityControlSortingHeaderRepository $qualityControlSortingHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $qualityControlSortingHeader->getId(), $request->request->get('_token'))) {

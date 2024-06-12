@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MasterOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_master_order_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function _list(Request $request, MasterOrderHeaderRepository $masterOrderHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -51,7 +51,7 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_master_order_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function index(): Response
     {
         return $this->render("production/master_order_header/index.html.twig");
@@ -85,7 +85,7 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_master_order_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function show(MasterOrderHeader $masterOrderHeader): Response
     {
         return $this->render('production/master_order_header/show.html.twig', [
@@ -148,7 +148,7 @@ class MasterOrderHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo_master_order', name: 'app_production_master_order_header_memo_master_order', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function memoMasterOrder(MasterOrderHeader $masterOrderHeader): Response
     {
         $fileName = 'master_order.pdf';
@@ -165,7 +165,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/memo_work_order', name: 'app_production_master_order_header_memo_work_order', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function memoWorkOrder(MasterOrderHeader $masterOrderHeader): Response
     {
         $fileName = 'work_order.pdf';
@@ -182,7 +182,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/{constant}/memo_distribution', name: 'app_production_master_order_header_memo_distribution', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function memoDistribution(MasterOrderHeader $masterOrderHeader, string $constant): Response
     {
         return $this->render('production/master_order_header/memo_distribution.html.twig', [
@@ -192,7 +192,7 @@ class MasterOrderHeaderController extends AbstractController
     }
     
     #[Route('/{id}/{constant}/memo_check_sheet', name: 'app_production_master_order_header_memo_check_sheet', methods: ['GET'])]
-    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT')")]
+    #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
     public function memoCheckSheet(MasterOrderHeader $masterOrderHeader, string $constant): Response
     {
         return $this->render('production/master_order_header/memo_check_sheet.html.twig', [

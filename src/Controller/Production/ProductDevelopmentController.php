@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductDevelopmentController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_product_development__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') or is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW')")]
     public function _list(Request $request, ProductDevelopmentRepository $productDevelopmentRepository): Response
     {
         $criteria = new DataCriteria();
@@ -42,7 +42,7 @@ class ProductDevelopmentController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_product_development_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') or is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW')")]
     public function index(): Response
     {
         return $this->render("production/product_development/index.html.twig");
@@ -73,7 +73,7 @@ class ProductDevelopmentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_product_development_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') or is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW')")]
     public function show(ProductDevelopment $productDevelopment): Response
     {
         return $this->render('production/product_development/show.html.twig', [
@@ -120,7 +120,7 @@ class ProductDevelopmentController extends AbstractController
     }
     
     #[Route('/{id}/memo', name: 'app_production_product_development_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') or is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW')")]
     public function memo(ProductDevelopment $productDevelopment): Response
     {
         $fileName = 'form_produk_baru.pdf';

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductPrototypeController extends AbstractController
 {
     #[Route('/_list', name: 'app_production_product_prototype__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function _list(Request $request, ProductPrototypeRepository $productPrototypeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -63,7 +63,7 @@ class ProductPrototypeController extends AbstractController
     }
 
     #[Route('/', name: 'app_production_product_prototype_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function index(): Response
     {
         return $this->render("production/product_prototype/index.html.twig");
@@ -92,7 +92,7 @@ class ProductPrototypeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_production_product_prototype_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function show(ProductPrototype $productPrototype, ProductDevelopmentRepository $productDevelopmentRepository): Response
     {
         $productDevelopment = $productDevelopmentRepository->findBy(['productPrototype' => $productPrototype->getId()], ['id' => 'DESC'], 1, 0);
@@ -140,7 +140,7 @@ class ProductPrototypeController extends AbstractController
     }
     
     #[Route('/{id}/memo', name: 'app_production_product_prototype_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT')")]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
     public function memo(ProductPrototype $productPrototype): Response
     {
         $fileName = 'form_produk_baru.pdf';
