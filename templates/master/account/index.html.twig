@@ -3,7 +3,9 @@
 {% block title 'Manage Account' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_master_account_new') }}">Add</a>
+    {% if is_granted('ROLE_ACCOUNT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_account_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

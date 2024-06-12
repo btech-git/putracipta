@@ -61,8 +61,12 @@
                     <td>{{ diecutKnife.printingSize }}</td>
                     <td>{{ diecutKnife.note }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_diecut_knife_show', {'id': diecutKnife.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_diecut_knife_edit', {'id': diecutKnife.id}) }}"><i class="bi-pencil"></i></a>
+                        {% if is_granted('ROLE_DIECUT_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_master_diecut_knife_show', {'id': diecutKnife.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_DIECUT_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_master_diecut_knife_edit', {'id': diecutKnife.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

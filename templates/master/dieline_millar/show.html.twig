@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_dieline_millar_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_dieline_millar_edit', {'id': dielineMillar.id}) }}">Edit</a>
+    {% if is_granted('ROLE_MILLAR_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_dieline_millar_edit', {'id': dielineMillar.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

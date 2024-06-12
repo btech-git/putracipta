@@ -51,8 +51,12 @@
                     <td>{{ warehouse.description }}</td>
                     <td>{{ warehouse.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_warehouse_show', {'id': warehouse.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_warehouse_edit', {'id': warehouse.id}) }}"><i class="bi-pencil"></i></a>
+                        {% if is_granted('ROLE_WAREHOUSE_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_master_warehouse_show', {'id': warehouse.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_WAREHOUSE_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_master_warehouse_edit', {'id': warehouse.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

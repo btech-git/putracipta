@@ -3,7 +3,9 @@
 {% block title 'Manage Material Category' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_master_material_category_new') }}">Add</a>
+    {% if is_granted('ROLE_MATERIAL_CATEGORY_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_material_category_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -11,14 +11,14 @@
                 <th role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
+                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'remark') }}>
                     Remark {{ grid.sort_char(form.sort.remark.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
-                </th>
-                <th role="button" {{ grid.sort_link_item(form, 'name') }}>
-                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
                 <th></th>
             </tr>
@@ -27,13 +27,13 @@
                     <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'remark') }} value="{{ form.filter.remark.1.vars.value }}" />
                 </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
-                </th>
-                <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -42,12 +42,16 @@
             {% for division in divisions %}
                 <tr>
                     <td>{{ division.code }}</td>
+                    <td>{{ division.name }}</td>
                     <td>{{ division.remark }}</td>
                     <td>{{ division.isInactive ? 'Yes' : 'No' }}</td>
-                    <td>{{ division.name }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_master_division_show', {'id': division.id}) }}">Show</a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_master_division_edit', {'id': division.id}) }}">Edit</a>
+                        {% if is_granted('ROLE_DIVISION_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_master_division_show', {'id': division.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_DIVISION_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_master_division_edit', {'id': division.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

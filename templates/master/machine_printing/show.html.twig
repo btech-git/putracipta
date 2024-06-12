@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_machine_printing_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_machine_printing_edit', {'id': machinePrinting.id}) }}">Edit</a>
+    {% if is_granted('ROLE_PRINTING_MACHINE_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_machine_printing_edit', {'id': machinePrinting.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

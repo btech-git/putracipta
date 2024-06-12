@@ -3,7 +3,9 @@
 {% block title 'Manage Unit' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_master_unit_new') }}">Add</a>
+    {% if is_granted('ROLE_UNIT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_unit_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

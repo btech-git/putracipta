@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_transportation_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_transportation_edit', {'id': transportation.id}) }}">Edit</a>
+    {% if is_granted('ROLE_TRANSPORTATION_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_transportation_edit', {'id': transportation.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

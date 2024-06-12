@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_material_sub_category_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_sub_category_edit', {'id': materialSubCategory.id}) }}">Edit</a>
+    {% if is_granted('ROLE_MATERIAL_SUB_CATEGORY_VIEW') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_sub_category_edit', {'id': materialSubCategory.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

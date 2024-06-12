@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_supplier_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_supplier_edit', {'id': supplier.id}) }}">Edit</a>
+    {% if is_granted('ROLE_SUPPLIER_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_supplier_edit', {'id': supplier.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

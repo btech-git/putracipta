@@ -3,7 +3,9 @@
 {% block title 'Manage Product Category' %}
 
 {% block toolbar %}
+    {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') %}
     <a class="btn btn-success btn-sm" href="{{ path('app_master_product_category_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

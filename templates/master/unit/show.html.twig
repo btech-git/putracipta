@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_unit_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_unit_edit', {'id': unit.id}) }}">Edit</a>
+    {% if is_granted('ROLE_UNIT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_unit_edit', {'id': unit.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

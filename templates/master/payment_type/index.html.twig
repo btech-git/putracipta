@@ -3,7 +3,9 @@
 {% block title 'Manage Payment Type' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_master_payment_type_new') }}">Add</a>
+    {% if is_granted('ROLE_PAYMENT_TYPE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_payment_type_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

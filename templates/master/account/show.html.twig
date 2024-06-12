@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_account_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_account_edit', {'id': account.id}) }}">Edit</a>
+    {% if is_granted('ROLE_ACCOUNT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_account_edit', {'id': account.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -15,12 +17,12 @@
                 <td>{{ account.code }}</td>
             </tr>
             <tr>
-                <th>Is Inactive</th>
-                <td>{{ account.isInactive ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
                 <td>{{ account.name }}</td>
+            </tr>
+            <tr>
+                <th>Is Inactive</th>
+                <td>{{ account.isInactive ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
