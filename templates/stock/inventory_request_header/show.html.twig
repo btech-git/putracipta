@@ -4,7 +4,9 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_inventory_request_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_request_header_edit', {'id': inventoryRequestHeader.id}) }}">Edit</a>
+    {% if is_granted('ROLE_MATERIAL_REQUEST_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_request_header_edit', {'id': inventoryRequestHeader.id}) }}">Edit</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -65,8 +65,12 @@
                     <td>{{ stockTransferHeader.warehouseFrom.name|default }}</td>
                     <td>{{ stockTransferHeader.warehouseTo.name|default }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_stock_stock_transfer_header_show', {'id': stockTransferHeader.id}) }}"><i class="bi-search"></i></a>
-                        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_transfer_header_edit', {'id': stockTransferHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% if is_granted('ROLE_TRANSFER_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_stock_stock_transfer_header_show', {'id': stockTransferHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_TRANSFER_EDIT') %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_transfer_header_edit', {'id': stockTransferHeader.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

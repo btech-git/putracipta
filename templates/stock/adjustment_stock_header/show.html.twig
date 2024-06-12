@@ -4,8 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_adjustment_stock_header_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_header_edit', {'id': adjustmentStockHeader.id}) }}">Edit</a>
-    <a class="btn btn-success btn-sm" href="{{ path('app_stock_adjustment_stock_header_new') }}">Add</a>
+    {% if is_granted('ROLE_ADJUSTMENT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_header_edit', {'id': adjustmentStockHeader.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_ADJUSTMENT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_stock_adjustment_stock_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

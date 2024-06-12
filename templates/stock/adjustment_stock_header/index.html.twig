@@ -3,7 +3,9 @@
 {% block title 'Manage Penyesuaian Stok' %}
 
 {% block toolbar %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_stock_adjustment_stock_header_new') }}">Add</a>
+    {% if is_granted('ROLE_ADJUSTMENT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_stock_adjustment_stock_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
