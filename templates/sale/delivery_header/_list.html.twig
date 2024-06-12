@@ -74,7 +74,9 @@
                     <td>{{ deliveryHeader.warehouse.name|default }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_sale_delivery_header_show', {'id': deliveryHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% if is_granted('ROLE_DELIVERY_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_sale_delivery_header_show', {'id': deliveryHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
                         {% if is_granted('ROLE_DELIVERY_EDIT') %}
                             <a class="btn btn-warning btn-sm" href="{{ path('app_sale_delivery_header_edit', {'id': deliveryHeader.id}) }}"><i class="bi-pencil"></i></a>
                         {% endif %}

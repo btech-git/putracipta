@@ -82,7 +82,9 @@
                     <td class="text-end">{{ saleInvoiceHeader.remainingPayment|number_format(0) }}</td>
                     <td>{{ saleInvoiceHeader.transactionStatus }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_invoice_header_show', {'id': saleInvoiceHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% if is_granted('ROLE_SALE_INVOICE_VIEW') %}
+                            <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_invoice_header_show', {'id': saleInvoiceHeader.id}) }}"><i class="bi-search"></i></a>
+                        {% endif %}
                         {% if is_granted('ROLE_SALE_INVOICE_EDIT') %}
                             <a class="btn btn-warning btn-sm" href="{{ path('app_sale_sale_invoice_header_edit', {'id': saleInvoiceHeader.id}) }}"><i class="bi-pencil"></i></a>
                         {% endif %}
