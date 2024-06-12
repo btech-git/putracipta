@@ -6,9 +6,11 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Purchase\PurchaseRequestHeader;
 use App\Form\Purchase\PurchaseRequestHeaderType;
 use App\Grid\Purchase\PurchaseRequestHeaderGridType;
+use App\Repository\Purchase\PurchaseRequestDetailRepository;
 use App\Repository\Purchase\PurchaseRequestHeaderRepository;
 use App\Service\Purchase\PurchaseRequestHeaderFormService;
 use App\Util\PdfGenerator;
@@ -22,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseRequestHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_request_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function _list(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +49,14 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_request_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_request_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_request_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function _head(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -77,14 +79,14 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_request_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_request_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_request_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function read(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
@@ -96,7 +98,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
     
     #[Route('/_approval', name: 'app_purchase_purchase_request_header__approval', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')]
+    #[IsGranted('ROLE_APPROVAL')]
     public function _approval(Request $request, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -119,14 +121,14 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/approval', name: 'app_purchase_purchase_request_header_approval', methods: ['GET'])]
-    #[IsGranted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')]
+    #[IsGranted('ROLE_APPROVAL')]
     public function approval(): Response
     {
         return $this->render("purchase/purchase_request_header/approval.html.twig");
     }
 
     #[Route('/{id}/view', name: 'app_purchase_purchase_request_header_view', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function view(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('view' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
@@ -160,7 +162,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_request_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function show(PurchaseRequestHeader $purchaseRequestHeader): Response
     {
         return $this->render('purchase/purchase_request_header/show.html.twig', [
@@ -205,7 +207,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
     
     #[Route('/{id}/approve', name: 'app_purchase_purchase_request_header_approve', methods: ['POST'])]
-    #[IsGranted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')]
+    #[IsGranted('ROLE_APPROVAL')]
     public function approve(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('approve' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
@@ -223,8 +225,8 @@ class PurchaseRequestHeaderController extends AbstractController
     }
     
     #[Route('/{id}/reject', name: 'app_purchase_purchase_request_header_reject', methods: ['POST'])]
-    #[IsGranted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')]
-    public function reject(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository): Response
+    #[IsGranted('ROLE_APPROVAL')]
+    public function reject(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository, PurchaseRequestDetailRepository $purchaseRequestDetailRepository): Response
     {
         if ($this->isCsrfTokenValid('reject' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
             $purchaseRequestHeader->setRejectedTransactionDateTime(new \DateTime());
@@ -232,6 +234,11 @@ class PurchaseRequestHeaderController extends AbstractController
             $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_REJECT);
             $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
 
+            foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
+                $purchaseRequestDetail->setTransactionStatus(PurchaseRequestDetail::TRANSACTION_STATUS_CANCEL);
+                $purchaseRequestDetailRepository->add($purchaseRequestDetail, true);
+            }
+            
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was rejected successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to reject the purchase.'));
@@ -241,7 +248,7 @@ class PurchaseRequestHeaderController extends AbstractController
     }
 
     #[Route('/{id}/memo', name: 'app_purchase_purchase_request_header_memo', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_APPROVAL')")]
+    #[Security("is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function memo(PurchaseRequestHeader $purchaseRequestHeader): Response
     {
         $fileName = 'purchase-request.pdf';

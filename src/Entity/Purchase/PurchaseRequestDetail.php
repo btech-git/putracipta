@@ -20,6 +20,7 @@ class PurchaseRequestDetail extends PurchaseDetail
     public const TRANSACTION_STATUS_PURCHASE = 'purchase';
     public const TRANSACTION_STATUS_RECEIVE = 'part_rcv';
     public const TRANSACTION_STATUS_CLOSE = 'full_rcv';
+    public const TRANSACTION_STATUS_CANCEL = 'cancel';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
