@@ -9,9 +9,13 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>{{ input.check(indexes, form, 'ROLE_ADMIN', 'Admin') }}</th>
-                <th>{{ input.check(indexes, form, 'ROLE_SETTING', 'Setting') }}</th>
+                <th colspan="4"><div class="d-flex justify-content-center"><strong>{{ input.check(indexes, form, 'ROLE_ADMIN', 'Director') }}</strong></div></th>
+            </tr>
+            <tr>
+                <th>{{ input.check(indexes, form, 'ROLE_SETTING', 'Transaction Setting') }}</th>
                 <th>{{ input.check(indexes, form, 'ROLE_USER_MANAGEMENT', 'User Management') }}</th>
+                <th>{{ input.check(indexes, form, 'ROLE_APPROVAL', 'SPV Approval') }}</th>
+                <th>{{ input.check(indexes, form, 'ROLE_MARKETING', 'Marketing') }}</th>
             </tr>
         </thead>
     </table>
