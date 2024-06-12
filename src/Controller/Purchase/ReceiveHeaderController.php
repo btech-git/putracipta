@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReceiveHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_receive_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT') or is_granted('ROLE_RECEIVE_VIEW')")]
     public function _list(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -51,7 +51,7 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_receive_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT') or is_granted('ROLE_RECEIVE_VIEW')")]
     public function index(): Response
     {
         return $this->render("purchase/receive_header/index.html.twig");
@@ -80,7 +80,7 @@ class ReceiveHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_receive_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT')")]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT') or is_granted('ROLE_RECEIVE_VIEW')")]
     public function show(ReceiveHeader $receiveHeader): Response
     {
         return $this->render('purchase/receive_header/show.html.twig', [

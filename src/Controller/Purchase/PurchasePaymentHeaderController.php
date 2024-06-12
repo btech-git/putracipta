@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchasePaymentHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_payment_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_PAYMENT_ADD') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_PAYMENT_ADD') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT') or is_granted('ROLE_PURCHASE_PAYMENT_VIEW')")]
     public function _list(Request $request, PurchasePaymentHeaderRepository $purchasePaymentHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -46,7 +46,7 @@ class PurchasePaymentHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_payment_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_PAYMENT_ADD') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_PAYMENT_ADD') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT') or is_granted('ROLE_PURCHASE_PAYMENT_VIEW')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_payment_header/index.html.twig");
@@ -75,7 +75,7 @@ class PurchasePaymentHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_payment_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_PAYMENT_ADD') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_PAYMENT_ADD') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT') or is_granted('ROLE_PURCHASE_PAYMENT_VIEW')")]
     public function show(PurchasePaymentHeader $purchasePaymentHeader): Response
     {
         return $this->render('purchase/purchase_payment_header/show.html.twig', [

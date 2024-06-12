@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseInvoiceHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_purchase_purchase_invoice_header__list', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
     public function _list(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -47,14 +47,14 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/', name: 'app_purchase_purchase_invoice_header_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
     public function index(): Response
     {
         return $this->render("purchase/purchase_invoice_header/index.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_invoice_header__head', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
     public function _head(Request $request, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         $criteria = new DataCriteria();
@@ -76,14 +76,14 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/head', name: 'app_purchase_purchase_invoice_header_head', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
     public function head(): Response
     {
         return $this->render("purchase/purchase_invoice_header/head.html.twig");
     }
 
     #[Route('/{id}/read', name: 'app_purchase_purchase_invoice_header_read', methods: ['POST'])]
-    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
     public function read(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
     {
         if ($this->isCsrfTokenValid('read' . $purchaseInvoiceHeader->getId(), $request->request->get('_token'))) {
@@ -117,7 +117,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_purchase_purchase_invoice_header_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT')")]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
     public function show(PurchaseInvoiceHeader $purchaseInvoiceHeader): Response
     {
         return $this->render('purchase/purchase_invoice_header/show.html.twig', [
