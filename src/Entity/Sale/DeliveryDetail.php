@@ -93,8 +93,8 @@ class DeliveryDetail extends SaleDetail
     public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
     {
         if ($this->deliveryHeader->getId() === null) {
-            if ($this->quantity > $this->saleOrderDetail->getRemainingDelivery()) {
-                $context->buildViolation('Quantity must be < remaining')->atPath('quantity')->addViolation();
+            if ($this->saleOrderDetail->getMaximumToleranceQuantity() > $this->saleOrderDetail->getRemainingDelivery()) {
+                $context->buildViolation('Quantity must be < max quantity tolerance')->atPath('quantity')->addViolation();
             }
         }
     }

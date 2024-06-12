@@ -137,14 +137,14 @@ class SaleOrderDetail extends SaleDetail
     {
         $customer = $this->saleOrderHeader->getCustomer();
         
-        return $this->quantity * (1 - $customer->getMinimumTolerancePercentage()/100);
+        return round($this->quantity * $customer->getMinimumTolerancePercentage() / 100);
     }
 
     public function getSyncMaximumToleranceQuantity(): int
     {
         $customer = $this->saleOrderHeader->getCustomer();
         
-        return $this->quantity * (1 + $customer->getMaximumTolerancePercentage()/100);
+        return round($this->quantity * $customer->getMaximumTolerancePercentage() / 100 * -1);
     }
 
     public function getTotal(): string
