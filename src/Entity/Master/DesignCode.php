@@ -175,6 +175,9 @@ class DesignCode extends Master
     #[ORM\ManyToOne]
     protected ?User $modifiedTransactionUser = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $emboss = '';
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -899,6 +902,18 @@ class DesignCode extends Master
     public function setModifiedTransactionUser(?User $modifiedTransactionUser): self
     {
         $this->modifiedTransactionUser = $modifiedTransactionUser;
+
+        return $this;
+    }
+
+    public function getEmboss(): ?string
+    {
+        return $this->emboss;
+    }
+
+    public function setEmboss(string $emboss): self
+    {
+        $this->emboss = $emboss;
 
         return $this;
     }
