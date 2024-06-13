@@ -62,7 +62,7 @@
                     <td>{{ purchaseOrderHeader.note }}</td>
                     <td>{{ purchaseOrderHeader.transactionStatus }}</td>
                     <td>
-                        {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_VIEW') %}
+                        {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_header_show', {'id': purchaseOrderHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') %}

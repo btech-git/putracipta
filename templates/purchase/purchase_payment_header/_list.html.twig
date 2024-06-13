@@ -55,7 +55,7 @@
                     <td>{{ purchasePaymentHeader.supplier.company|default }}</td>
                     <td>{{ purchasePaymentHeader.supplierInvoiceCodeNumbers }}</td>
                     <td>
-                        {% if is_granted('ROLE_PURCHASE_PAYMENT_VIEW') %}
+                        {% if is_granted('ROLE_PURCHASE_PAYMENT_VIEW') or is_granted('ROLE_PURCHASE_PAYMENT_EDIT') or is_granted('ROLE_PURCHASE_PAYMENT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_payment_header_show', {'id': purchasePaymentHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_PURCHASE_PAYMENT_EDIT') %}

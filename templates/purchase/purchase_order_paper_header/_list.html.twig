@@ -61,7 +61,7 @@
                     <td>{{ purchaseOrderPaperHeader.note }}</td>
                     <td>{{ purchaseOrderPaperHeader.transactionStatus }}</td>
                     <td>
-                        {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_VIEW') %}
+                        {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_VIEW') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_show', {'id': purchaseOrderPaperHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') %}

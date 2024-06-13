@@ -76,7 +76,7 @@
                     <td>{{ purchaseReturnHeader.receiveHeader.codeNumber|default }}</td>
                     <td>{{ purchaseReturnHeader.warehouse.name|default }}</td>
                     <td>
-                        {% if is_granted('ROLE_PURCHASE_RETURN_VIEW') %}
+                        {% if is_granted('ROLE_PURCHASE_RETURN_VIEW') or is_granted('ROLE_PURCHASE_RETURN_EDIT') or is_granted('ROLE_PURCHASE_RETURN_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_return_header_show', {'id': purchaseReturnHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_PURCHASE_RETURN_EDIT') %}
