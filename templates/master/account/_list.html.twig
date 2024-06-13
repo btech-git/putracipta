@@ -56,7 +56,7 @@
                     <td>{{ account.accountCategory.name|default }}</td>
                     <td>{{ account.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        {% if is_granted('ROLE_ACCOUNT_VIEW') %}
+                        {% if is_granted('ROLE_ACCOUNT_VIEW') or is_granted('ROLE_ACCOUNT_EDIT') or is_granted('ROLE_ACCOUNT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_account_show', {'id': account.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_ACCOUNT_EDIT') %}

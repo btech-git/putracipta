@@ -46,7 +46,7 @@
                     <td>{{ division.remark }}</td>
                     <td>{{ division.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        {% if is_granted('ROLE_DIVISION_VIEW') %}
+                        {% if is_granted('ROLE_DIVISION_VIEW') or is_granted('ROLE_DIVISION_EDIT') or is_granted('ROLE_DIVISION_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_division_show', {'id': division.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_DIVISION_EDIT') %}

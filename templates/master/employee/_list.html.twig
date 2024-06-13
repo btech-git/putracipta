@@ -56,7 +56,7 @@
                     <td>{{ employee.division.name1|default }}</td>
                     <td>{{ employee.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        {% if is_granted('ROLE_EMPLOYEE_VIEW') %}
+                        {% if is_granted('ROLE_EMPLOYEE_VIEW') or is_granted('ROLE_EMPLOYEE_EDIT') or is_granted('ROLE_EMPLOYEE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_employee_show', {'id': employee.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_EMPLOYEE_EDIT') %}

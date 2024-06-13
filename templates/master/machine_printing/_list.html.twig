@@ -51,7 +51,7 @@
                     <td>{{ machinePrinting.note }}</td>
                     <td>{{ machinePrinting.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        {% if is_granted('ROLE_PRINTING_MACHINE_VIEW') %}
+                        {% if is_granted('ROLE_PRINTING_MACHINE_VIEW') or is_granted('ROLE_PRINTING_MACHINE_EDIT') or is_granted('ROLE_PRINTING_MACHINE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_machine_printing_show', {'id': machinePrinting.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_PRINTING_MACHINE_EDIT') %}

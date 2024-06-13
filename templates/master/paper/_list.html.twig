@@ -65,7 +65,7 @@
                     <td>{{ paper.materialSubCategory.name }}</td>
                     <td>{{ paper.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        {% if is_granted('ROLE_PAPER_VIEW') %}
+                        {% if is_granted('ROLE_PAPER_VIEW') or is_granted('ROLE_PAPER_EDIT')  or is_granted('ROLE_PAPER_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_paper_show', {'id': paper.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_PAPER_EDIT') %}

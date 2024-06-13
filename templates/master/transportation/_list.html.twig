@@ -44,7 +44,7 @@
                     <td>{{ transportation.plateNumber }}</td>
                     <td>{{ transportation.isInactive ? 'Yes' : 'No' }}</td>
                     <td>
-                        {% if is_granted('ROLE_TRANSPORTATION_VIEW') %}
+                        {% if is_granted('ROLE_TRANSPORTATION_VIEW') or is_granted('ROLE_TRANSPORTATION_EDIT') or is_granted('ROLE_TRANSPORTATION_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_transportation_show', {'id': transportation.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_TRANSPORTATION_EDIT') %}
