@@ -1,52 +1,96 @@
 <div>
     <h6>New Transactions</h6>
     <table class="table table-bordered">
-        <thead class="table-primary">
-            <tr>
-                <th>Draft Request Material</th>
-                <th>Draft Request Kertas</th>
-                <th>Approved Request Material</th>
-                <th>Approved Request Kertas</th>
-            </tr>
-        </thead>
         <tbody>
             <tr>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_request_header_head') }}">{{ purchaseRequestHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_request_paper_header_head') }}">{{ purchaseRequestPaperHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_request_header_approval') }}">{{ purchaseRequestHeaderCountApproval }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_request_paper_header_approval') }}">{{ purchaseRequestPaperHeaderCountApproval }}</a></td>
+                <td>Draft Request Material</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_request_header_head') }}">{{ purchaseRequestHeaderCount }}</a>
+                    {% else %}
+                        {{ purchaseRequestHeaderCount }}
+                    {% endif %}
+                </td>
+                <td>Draft Request Kertas</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_request_paper_header_head') }}">{{ purchaseRequestPaperHeaderCount }}</a>
+                    {% else %}
+                        {{ purchaseRequestPaperHeaderCount }}
+                    {% endif %}
+                </td>
+                <td>Approved Request Material</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_request_header_approval') }}">{{ purchaseRequestHeaderCountApproval }}</a>
+                    {% else %}
+                        {{ purchaseRequestHeaderCountApproval }}
+                    {% endif %}
+                </td>
+                <td>Approved Request Kertas</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_VIEW') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') or is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_request_paper_header_approval') }}">{{ purchaseRequestPaperHeaderCountApproval }}</a>
+                    {% else %}
+                        {{ purchaseRequestPaperHeaderCountApproval }}
+                    {% endif %}
+                </td>
             </tr>
-        </tbody>
-    </table>
-    <table class="table table-bordered">
-        <thead class="table-primary">
             <tr>
-                <th>PO Material</th>
-                <th>PO Kertas</th>
-                <th>Invoice Pembelian</th>
+                <td>PO Material</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_VIEW') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_order_header_head') }}">{{ purchaseOrderHeaderCount }}</a>
+                    {% else %}
+                        {{ purchaseOrderHeaderCount }}
+                    {% endif %}
+                </td>
+                <td>PO Kertas</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_VIEW') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_order_paper_header_head') }}">{{ purchaseOrderPaperHeaderCount }}</a>
+                    {% else %}
+                        {{ purchaseOrderPaperHeaderCount }}
+                    {% endif %}
+                </td>
+                <td>Invoice Pembelian</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_PURCHASE_INVOICE_VIEW') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_ADD') %}
+                        <a href="{{ path('app_purchase_purchase_invoice_header_head') }}">{{ purchaseInvoiceHeaderCount }}</a>
+                    {% else %}
+                        {{ purchaseInvoiceHeaderCount }}
+                    {% endif %}
+                </td>
+                <td>Permintaan Produksi</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_MATERIAL_REQUEST_VIEW') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_ADD') %}
+                        <a href="{{ path('app_stock_inventory_request_header_head') }}">{{ inventoryRequestHeaderCount }}</a>
+                    {% else %}
+                        {{ inventoryRequestHeaderCount }}
+                    {% endif %}
+                </td>
             </tr>
-        </thead>
-        <tbody>
             <tr>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_order_header_head') }}">{{ purchaseOrderHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_order_paper_header_head') }}">{{ purchaseOrderPaperHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_purchase_purchase_invoice_header_head') }}">{{ purchaseInvoiceHeaderCount }}</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-bordered">
-        <thead class="table-primary">
-            <tr>
-                <th>Order Penjualan</th>
-                <th>Invoice Penjualan</th>
-                <th>Permintaan Produksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_sale_sale_order_header_head') }}">{{ saleOrderHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_sale_sale_invoice_header_head') }}">{{ saleInvoiceHeaderCount }}</a></td>
-                <td class="text-center font-weight-bold"><a href="{{ path('app_stock_inventory_request_header_head') }}">{{ inventoryRequestHeaderCount }}</a></td>
+                <td>Order Penjualan</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_ADD') %}
+                        <a href="{{ path('app_sale_sale_order_header_head') }}">{{ saleOrderHeaderCount }}</a>
+                    {% else %}
+                        {{ saleOrderHeaderCount }}
+                    {% endif %}
+                </td>
+                <td>Invoice Penjualan</td>
+                <td class="text-center font-weight-bold">
+                    {% if is_granted('ROLE_SALE_INVOICE_VIEW') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_ADD') %}
+                        <a href="{{ path('app_sale_sale_invoice_header_head') }}">{{ saleInvoiceHeaderCount }}</a>
+                    {% else %}
+                        {{ saleInvoiceHeaderCount }}
+                    {% endif %}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
