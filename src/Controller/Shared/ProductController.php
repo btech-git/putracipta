@@ -37,6 +37,8 @@ class ProductController extends AbstractController
                 $customerId = $request->request->get('diecut_knife')['customer'];
             } else if (isset($request->request->get('design_code')['customer'])) {
                 $customerId = $request->request->get('design_code')['customer'];
+            } else if (isset($request->request->get('product_prototype')['customer'])) {
+                $customerId = $request->request->get('product_prototype')['customer'];
             }
             if (isset($request->request->get('product_grid')['filter']['unit:name']) && isset($request->request->get('product_grid')['sort']['unit:name'])) {
                 $qb->innerJoin("{$alias}.unit", 'u');
