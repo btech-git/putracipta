@@ -65,18 +65,10 @@ class DesignCodeType extends AbstractType
             ->add('packagingPlasticQuantity', FormattedNumberType::class, ['label' => 'Plastik (cm2/pack)', 'decimals' => 2])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('glossiness')
-//            ->add('glossiness', ChoiceType::class, ['choices' => [
-//                '35' => 35,
-//                '40' => 40,
-//                '45' => 45,
-//                '50' => 50,
-//                '55' => 55,
-//                '60' => 60,
-//                '65' => 65,
-//                '70' => 70,
-//                '75' => 75,
-//                '80' => 80,
-//            ]])
+            ->add('emboss', ChoiceType::class, ['choices' => [
+                'Ada' => 'Ada',
+                'Tidak Ada' => 'Tidak Ada',
+            ]])
             ->add('diecutKnife', null, [
                 'choice_label' => 'codeNumber',
                 'label' => 'Pisau Diecut',
