@@ -227,9 +227,12 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     
     #[Route('/{id}/reject', name: 'app_purchase_purchase_request_paper_header_reject', methods: ['POST'])]
     #[IsGranted('ROLE_APPROVAL')]
-    public function reject(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository, PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository): Response
+    public function reject(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('reject' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeaderRepository = $entityManager->getRepository(PurchaseRequestPaperHeader::class);
+            $purchaseRequestPaperDetailRepository = $entityManager->getRepository(PurchaseRequestPaperDetail::class);
+            
             $purchaseRequestPaperHeader->setRejectedTransactionDateTime(new \DateTime());
             $purchaseRequestPaperHeader->setRejectedTransactionUser($this->getUser());
             $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_REJECT);

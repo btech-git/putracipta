@@ -226,9 +226,12 @@ class PurchaseRequestHeaderController extends AbstractController
     
     #[Route('/{id}/reject', name: 'app_purchase_purchase_request_header_reject', methods: ['POST'])]
     #[IsGranted('ROLE_APPROVAL')]
-    public function reject(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository, PurchaseRequestDetailRepository $purchaseRequestDetailRepository): Response
+    public function reject(Request $request, PurchaseRequestHeader $purchaseRequestHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('reject' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestHeaderRepository = $entityManager->getRepository(PurchaseRequestHeader::class);
+            $purchaseRequestDetailRepository = $entityManager->getRepository(PurchaseRequestDetail::class);
+            
             $purchaseRequestHeader->setRejectedTransactionDateTime(new \DateTime());
             $purchaseRequestHeader->setRejectedTransactionUser($this->getUser());
             $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_REJECT);
