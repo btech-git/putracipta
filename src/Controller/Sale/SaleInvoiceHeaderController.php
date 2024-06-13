@@ -165,11 +165,14 @@ class SaleInvoiceHeaderController extends AbstractController
 
     #[Route('/{id}/complete', name: 'app_sale_sale_invoice_header_complete', methods: ['POST'])]
     #[IsGranted('ROLE_SALE_INVOICE_EDIT')]
-    public function complete(Request $request, SaleInvoiceHeader $saleInvoiceHeader, SaleInvoiceHeaderFormService $saleInvoiceHeaderFormService): Response
+    public function complete(Request $request, SaleInvoiceHeader $saleInvoiceHeader, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('complete' . $saleInvoiceHeader->getId(), $request->request->get('_token')) && IdempotentUtility::check($request)) {
-            $saleInvoiceHeaderFormService->complete($saleInvoiceHeader);
-            $saleInvoiceHeaderFormService->save($saleInvoiceHeader);
+            $saleInvoiceHeaderRepository = $entityManager->getRepository(SaleInvoiceHeader::class);
+
+            $saleInvoiceHeader->setRemainingPayment('0.00');
+            $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
+            $saleInvoiceHeaderRepository->add($saleInvoiceHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was completed successfully.'));
         } else {
