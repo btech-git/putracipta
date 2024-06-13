@@ -6,7 +6,29 @@
 
     {{ form_start(form) }}
         <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Header</legend>
+            <legend class="float-none w-auto text-dark px-1">Customer</legend>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.customer, {
+                        'label': 'Customer',
+                        'attr': {
+                            'readonly': productPrototype.id is not null,
+                            'data-controller': 'dom-element data-choice',
+                            'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind change->data-choice#select',
+                        },
+                    }) }}
+                </div>
+            </div>
+        </fieldset>
+                
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Products</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Product</button>
+            {{ include('production/product_prototype/_details_form.html.twig') }}
+        </fieldset>
+
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Data</legend>
             <div class="row">
                 <div class="col">
                     {{ form_row(form.developmentTypeList, {'label': 'Proses Development'}) }}
@@ -19,7 +41,7 @@
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     
-                    <div class="mb-3">
+                    {#<div class="mb-3">
                         <label for="{{ form.designCode.vars.id }}-text" class="form-label">Kode Design</label>
                         {{ form_row(form.designCode, {
                             'attr': {
@@ -38,25 +60,12 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeNumber'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.designCode) }}
-                    </div>
+                    </div>#}
                 </div>
-                    
                 <div class="col">
-                    {{ form_row(form.customer, {
-                        'label': 'Customer',
-                        'attr': {
-                            'data-controller': 'data-choice',
-                            'data-action': 'data-choice#select',
-                        },
-                    }) }}
-                    {{ form_row(form.employee, {'label': 'Marketing'}) }}
+                    {{ form_row(form.employee, {'label': 'PIC Design'}) }}
                 </div>
             </div>
-        </fieldset>
-
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Products</legend>
-            {{ include('production/product_prototype/_details_form.html.twig') }}
         </fieldset>
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
@@ -162,9 +171,17 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('design-code-dialog', 'Design Code List') }}
+    {#{{ dialog.start('design-code-dialog', 'Design Code List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
+             data-html-loader-auto-load-value="true"
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
+        </div>
+    {{ dialog.end() }}#}
+
+    {{ dialog.start('product-dialog', 'Product List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>

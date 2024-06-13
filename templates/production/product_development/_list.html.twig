@@ -44,7 +44,7 @@
                     <td>{{ productDevelopment.developmentTypeList ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
                     <td>{{ productDevelopment.note }}</td>
                     <td>
-                        {% if is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW') %}
+                        {% if is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') or is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_production_product_development_show', {'id': productDevelopment.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') %}

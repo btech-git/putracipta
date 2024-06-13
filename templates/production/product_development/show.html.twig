@@ -24,10 +24,10 @@
                 <th>Formulir Produk Baru #</th>
                 <td>{{ productDevelopment.productPrototype.codeNumber|default }}</td>
             </tr>
-            <tr>
+            {#<tr>
                 <th>Kode Design</th>
                 <td>{{ productDevelopment.productPrototype.designCode.codeNumber|default }}</td>
-            </tr>
+            </tr>#}
             <tr>
                 <th>Nama Customer</th>
                 <td>{{ productDevelopment.productPrototype.customer.company|default }}</td>
@@ -45,7 +45,23 @@
                 <td>{{ productDevelopment.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>User Created</th>
+                <td>{{ saleOrderHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ productDevelopment.createdTransactionDateTime ? productDevelopment.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ productDevelopment.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ productDevelopment.modifiedTransactionDateTime ? productDevelopment.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
                 <td>{{ productDevelopment.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>

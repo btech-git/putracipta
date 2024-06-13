@@ -11,15 +11,6 @@
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
                     {{ form_row(form.employeeDesigner, {'label': 'PIC Design'}) }}
-                    <div class="mb-3">
-                        <label class="form-label">Proses Development</label>
-                        <input type="text" class="form-control" value="{{ productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productPrototypeDevelopmentTypeList'}},
-                               ]|json_encode }}" />
-                    </div>
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -52,6 +43,15 @@
                                ]|json_encode }}" />
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Proses Development</label>
+                        <input type="text" class="form-control" value="{{ productDevelopment.developmentTypeList|default ? productDevelopment.developmentTypeList|join(', ') : '' }}" readonly="readonly"
+                               data-controller="dom-element"
+                               data-action="product-prototype-table:data-table:select@document->dom-element#bind"
+                               data-dom-element-bind-specifications-param="{{ [
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].productPrototypeDevelopmentTypeList'}},
+                               ]|json_encode }}" />
+                    </div>
+                    {#<div class="mb-3">
                         <label class="form-label">Kode Design</label>
                         <input type="text" class="form-control" value="{{ productDevelopment.productPrototype.designCode.codeNumber|default }}" readonly="readonly"
                                data-controller="dom-element"
@@ -59,7 +59,7 @@
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].designCodeNumber'}},
                                ]|json_encode }}" />
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </fieldset>

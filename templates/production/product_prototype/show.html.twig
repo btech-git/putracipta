@@ -28,11 +28,27 @@
                 <th>Customer</th>
                 <td>{{ productPrototype.customer.company|default }}</td>
                 <th>Marketing</th>
-                <td>{{ productPrototype.employee.name|default }}</td>
+                <td>{{ productPrototype.createdTransactionUser.username|default }}</td>
             </tr>
             <tr>
-                <th>Kode Design</th>
-                <td>{{ productPrototype.designCode.codeNumber|default }}</td>
+                {#<th>Kode Design</th>
+                <td>{{ productPrototype.designCode.codeNumber|default }}</td>#}
+                <th>PIC Design</th>
+                <td>{{ productPrototype.employee.name|default }}</td>
+                <th>Transaction Canceled?</th>
+                <td>{{ productPrototype.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>User Created</th>
+                <td>{{ productPrototype.createdTransactionUser.username|default }}</td>
+                <th>User Edited</th>
+                <td>{{ productPrototype.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ productPrototype.createdTransactionDateTime ? productPrototype.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+                <th>Edited Date</th>
+                <td>{{ productPrototype.modifiedTransactionDateTime ? productPrototype.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>

@@ -72,7 +72,7 @@
                     <td>{{ masterOrderHeader.orderType }}</td>
                     <td>{{ masterOrderHeader.note }}</td>
                     <td>
-                        {% if is_granted('ROLE_MASTER_ORDER_VIEW') %}
+                        {% if is_granted('ROLE_MASTER_ORDER_VIEW') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_MASTER_ORDER_EDIT') %}
