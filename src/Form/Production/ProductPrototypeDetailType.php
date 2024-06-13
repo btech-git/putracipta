@@ -3,7 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
-use App\Entity\Master\DesignCodeProductDetail;
+//use App\Entity\Master\DesignCodeProductDetail;
 use App\Entity\Master\Product;
 use App\Entity\Production\ProductPrototypeDetail;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +16,7 @@ class ProductPrototypeDetailType extends AbstractType
     {
         $builder
             ->add('product', EntityHiddenType::class, ['class' => Product::class])
-            ->add('designCodeProductDetail', EntityHiddenType::class, ['class' => DesignCodeProductDetail::class])
+//            ->add('designCodeProductDetail', EntityHiddenType::class, ['class' => DesignCodeProductDetail::class])
         ;
     }
 
