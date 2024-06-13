@@ -60,7 +60,7 @@
                     <td>{{ adjustmentStockHeader.warehouse.name|default }}</td>
                     <td>{{ adjustmentStockHeader.note }}</td>
                     <td>
-                        {% if is_granted('ROLE_ADJUSTMENT_VIEW') %}
+                        {% if is_granted('ROLE_ADJUSTMENT_VIEW') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_stock_adjustment_stock_header_show', {'id': adjustmentStockHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_ADJUSTMENT_EDIT') %}

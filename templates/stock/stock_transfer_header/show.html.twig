@@ -33,7 +33,23 @@
                 <td>{{ stockTransferHeader.note }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>User Created</th>
+                <td>{{ stockTransferHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ stockTransferHeader.createdTransactionDateTime ? stockTransferHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ stockTransferHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ stockTransferHeader.modifiedTransactionDateTime ? stockTransferHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
                 <td>{{ stockTransferHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>

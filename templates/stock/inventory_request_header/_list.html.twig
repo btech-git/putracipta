@@ -61,7 +61,7 @@
                     <td>{{ inventoryRequestHeader.requestMode|default }}</td>
                     <td>{{ inventoryRequestHeader.warehouse.name|default }}</td>
                     <td>
-                        {% if is_granted('ROLE_MATERIAL_REQUEST_VIEW') %}
+                        {% if is_granted('ROLE_MATERIAL_REQUEST_VIEW') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_request_header_show', {'id': inventoryRequestHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_MATERIAL_REQUEST_EDIT') %}

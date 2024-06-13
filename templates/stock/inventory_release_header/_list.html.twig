@@ -44,7 +44,7 @@
                     <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryReleaseHeader.division.name|default }}</td>
                     <td>
-                        {% if is_granted('ROLE_MATERIAL_RELEASE_VIEW') %}
+                        {% if is_granted('ROLE_MATERIAL_RELEASE_VIEW') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_release_header_show', {'id': inventoryReleaseHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_MATERIAL_RELEASE_EDIT') %}

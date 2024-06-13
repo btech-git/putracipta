@@ -39,6 +39,26 @@
                 <th>Note</th>
                 <td>{{ inventoryProductReceiveHeader.note }}</td>
             </tr>
+            <tr>
+                <th>User Created</th>
+                <td>{{ inventoryProductReceiveHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ inventoryProductReceiveHeader.createdTransactionDateTime ? inventoryProductReceiveHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ inventoryProductReceiveHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ inventoryProductReceiveHeader.modifiedTransactionDateTime ? inventoryProductReceiveHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
+                <td>{{ inventoryProductReceiveHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 

@@ -49,7 +49,23 @@
                 <td>{{ inventoryRequestHeader.note|default }}</td>
             </tr>
             <tr>
-                <th>Is Canceled</th>
+                <th>User Created</th>
+                <td>{{ inventoryRequestHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ inventoryRequestHeader.createdTransactionDateTime ? inventoryRequestHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ inventoryRequestHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ inventoryRequestHeader.modifiedTransactionDateTime ? inventoryRequestHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
                 <td>{{ inventoryRequestHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>

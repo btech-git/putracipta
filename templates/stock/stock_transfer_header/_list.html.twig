@@ -65,7 +65,7 @@
                     <td>{{ stockTransferHeader.warehouseFrom.name|default }}</td>
                     <td>{{ stockTransferHeader.warehouseTo.name|default }}</td>
                     <td>
-                        {% if is_granted('ROLE_TRANSFER_VIEW') %}
+                        {% if is_granted('ROLE_TRANSFER_VIEW') or is_granted('ROLE_TRANSFER_EDIT') or is_granted('ROLE_TRANSFER_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_stock_stock_transfer_header_show', {'id': stockTransferHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_TRANSFER_EDIT') %}

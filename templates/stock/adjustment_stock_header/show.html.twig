@@ -35,6 +35,26 @@
                 <th>Note</th>
                 <td>{{ adjustmentStockHeader.note }}</td>
             </tr>
+            <tr>
+                <th>User Created</th>
+                <td>{{ adjustmentStockHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ adjustmentStockHeader.createdTransactionDateTime ? adjustmentStockHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ adjustmentStockHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ adjustmentStockHeader.modifiedTransactionDateTime ? adjustmentStockHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transaction Canceled?</th>
+                <td>{{ adjustmentStockHeader.isCanceled ? 'Yes' : 'No' }}</td>
+            </tr>
         </tbody>
     </table>
 
