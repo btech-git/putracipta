@@ -29,6 +29,22 @@
                 <td>{{ depositHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ depositHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ depositHeader.createdTransactionDateTime ? depositHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ depositHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ depositHeader.modifiedTransactionDateTime ? depositHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Is Canceled</th>
                 <td>{{ depositHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>

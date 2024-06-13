@@ -29,6 +29,22 @@
                 <td>{{ expenseHeader.note }}</td>
             </tr>
             <tr>
+                <th>User Created</th>
+                <td>{{ expenseHeader.createdTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ expenseHeader.createdTransactionDateTime ? expenseHeader.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>User Edited</th>
+                <td>{{ expenseHeader.modifiedTransactionUser.username|default }}</td>
+            </tr>
+            <tr>
+                <th>Edited Date</th>
+                <td>{{ expenseHeader.modifiedTransactionDateTime ? expenseHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Is Canceled</th>
                 <td>{{ expenseHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
