@@ -74,7 +74,7 @@
                     <td>{{ deliveryHeader.warehouse.name|default }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                     <td>
-                        {% if is_granted('ROLE_DELIVERY_VIEW') %}
+                        {% if is_granted('ROLE_DELIVERY_VIEW') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_sale_delivery_header_show', {'id': deliveryHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_DELIVERY_EDIT') %}

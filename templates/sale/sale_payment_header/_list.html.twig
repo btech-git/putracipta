@@ -62,7 +62,7 @@
                     <td>{{ salePaymentHeader.saleOrderReferenceNumbers }}</td>
                     <td>{{ salePaymentHeader.note }}</td>
                     <td>
-                        {% if is_granted('ROLE_SALE_PAYMENT_VIEW') %}
+                        {% if is_granted('ROLE_SALE_PAYMENT_VIEW') or is_granted('ROLE_SALE_PAYMENT_EDIT') or is_granted('ROLE_SALE_PAYMENT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_payment_header_show', {'id': salePaymentHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_SALE_PAYMENT_EDIT') %}

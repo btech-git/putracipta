@@ -82,7 +82,7 @@
                     <td class="text-end">{{ saleInvoiceHeader.remainingPayment|number_format(0) }}</td>
                     <td>{{ saleInvoiceHeader.transactionStatus }}</td>
                     <td>
-                        {% if is_granted('ROLE_SALE_INVOICE_VIEW') %}
+                        {% if is_granted('ROLE_SALE_INVOICE_VIEW') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_invoice_header_show', {'id': saleInvoiceHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_SALE_INVOICE_EDIT') %}

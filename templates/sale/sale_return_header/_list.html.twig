@@ -62,7 +62,7 @@
                     <td>{{ saleReturnHeader.saleOrderReferenceNumbers }}</td>
                     <td>{{ saleReturnHeader.note }}</td>
                     <td>
-                        {% if is_granted('ROLE_SALE_RETURN_VIEW') %}
+                        {% if is_granted('ROLE_SALE_RETURN_VIEW') or is_granted('ROLE_SALE_RETURN_EDIT') or is_granted('ROLE_SALE_RETURN_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_return_header_show', {'id': saleReturnHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_SALE_RETURN_EDIT') %}

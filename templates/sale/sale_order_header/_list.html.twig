@@ -68,7 +68,7 @@
                     <td>{{ saleOrderHeader.note }}</td>
                     <td>{{ saleOrderHeader.transactionStatus }}</td>
                     <td>
-                        {% if is_granted('ROLE_SALE_ORDER_VIEW') %}
+                        {% if is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_order_header_show', {'id': saleOrderHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_SALE_ORDER_EDIT') %}
