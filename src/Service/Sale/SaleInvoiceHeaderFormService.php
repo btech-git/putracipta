@@ -107,12 +107,6 @@ class SaleInvoiceHeaderFormService
         $saleInvoiceHeader->setDeliveryReferenceNumbers(implode(', ', $deliveryReferenceNumberUniqueList));
     }
 
-    public function complete(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
-    {
-        $saleInvoiceHeader->setRemainingPayment('0.00');
-        $saleInvoiceHeader->setTransactionStatus(SaleInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
-    }
-    
     public function save(SaleInvoiceHeader $saleInvoiceHeader, array $options = []): void
     {
         $this->entityManager->wrapInTransaction(function($entityManager) use ($saleInvoiceHeader) {
