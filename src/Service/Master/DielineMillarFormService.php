@@ -53,8 +53,8 @@ class DielineMillarFormService
 
     public function save(DielineMillar $dielineMillar, array $options = []): void
     {
-        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
-        $this->idempotentRepository->add($idempotent);
+//        $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
+//        $this->idempotentRepository->add($idempotent);
         $this->dielineMillarRepository->add($dielineMillar);
         foreach ($dielineMillar->getDielineMillarDetails() as $dielineMillarDetail) {
             $this->dielineMillarDetailRepository->add($dielineMillarDetail);
