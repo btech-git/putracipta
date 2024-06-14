@@ -22,23 +22,23 @@
             </tr>
             <tr>
                 <th>Panjang (cm)</th>
-                <td>{{ paper.length }}</td>
+                <td>{{ paper.length|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Lebar (cm)</th>
-                <td>{{ paper.width }}</td>
+                <td>{{ paper.width|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Berat (gsm)</th>
-                <td>{{ paper.weight }}</td>
+                <td>{{ paper.weight|default|number_format(2) }}</td>
             </tr>
             <tr>
                 <th>Satuan</th>
-                <td>{{ paper.unit.name }}</td>
+                <td>{{ paper.unit.name|default }}</td>
             </tr>
             <tr>
                 <th>Jenis</th>
-                <td>{{ paper.materialSubCategory.name }}</td>
+                <td>{{ paper.materialSubCategory.name|default }}</td>
             </tr>
             <tr>
                 <th>Pricing Mode</th>
