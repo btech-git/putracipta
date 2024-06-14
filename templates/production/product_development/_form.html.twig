@@ -303,8 +303,8 @@
                        data-controller="dom-element"
                        data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                        data-dom-element-bind-specifications-param="{{ [
-                           {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '!($event.detail[0].productPrototypeDevelopmentTypeList.split(",").includes("pp") || $event.detail[0].productPrototypeDevelopmentTypeList.split(", ").includes("ps"))'},
-                           {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].productPrototypeDevelopmentTypeList.split(",").includes("pp") || $event.detail[0].productPrototypeDevelopmentTypeList.split(", ").includes("ps")'},
+                           {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '!($event.detail[0].productPrototypeDevelopmentTypeList.split(", ").includes("pp") || $event.detail[0].productPrototypeDevelopmentTypeList.split(", ").includes("ps"))'},
+                           {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].productPrototypeDevelopmentTypeList.split(", ").includes("pp") || $event.detail[0].productPrototypeDevelopmentTypeList.split(", ").includes("ps")'},
                        ]|json_encode }}">
                     <thead>
                         <tr>

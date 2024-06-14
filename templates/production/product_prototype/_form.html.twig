@@ -77,17 +77,18 @@
                         {{ form_row(form.paper, {
                             'attr': {
                                 'data-controller': 'dom-element',
-                                'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                'data-action': 'paper-table:data-table:select@document->dom-element#bind',
                                 'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperId'}},
+                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperId'}},
                                 ]|json_encode,
                             },
                         }) }}
-                        <input type="text" class="form-control" value="{{ productPrototype.paper.name|default }}" readonly="readonly"
+                        <input type="text" id="{{ form.paper.vars.id }}-text" class="form-control readonly-form-input" value="{{ productPrototype.paper.name|default }}" readonly="readonly"
+                               data-bs-toggle="modal" data-bs-target="#paper-dialog"
                                data-controller="dom-element"
-                               data-action="design-code-table:data-table:select@document->dom-element#bind"
+                               data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperName'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
                                ]|json_encode }}" />
                         {{ form_errors(form.paper) }}
                     </div>
@@ -95,9 +96,9 @@
                         <label class="form-label">Kode Kertas</label>
                         <input type="text" class="form-control" value="{{ productPrototype.paper.codeNumber|default }}" readonly="readonly"
                                data-controller="dom-element"
-                               data-action="design-code-table:data-table:select@document->dom-element#bind"
+                               data-action="paper-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperCodeNumber'}},
+                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                                ]|json_encode }}" />
                     </div>
                 </div>
@@ -171,13 +172,12 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {#{{ dialog.start('design-code-dialog', 'Design Code List') }}
+    {{ dialog.start('paper-dialog', 'Material Kertas List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
-             data-html-loader-auto-load-value="true"
-             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true">
         </div>
-    {{ dialog.end() }}#}
+    {{ dialog.end() }}
 
     {{ dialog.start('product-dialog', 'Product List') }}
         <div data-controller="html-loader"
