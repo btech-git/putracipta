@@ -14,9 +14,6 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'designCode:codeNumber') }}>
-                    Kode Design {{ grid.sort_char(form.sort['designCode:codeNumber'].vars.value) }}
-                </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
@@ -44,9 +41,6 @@
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'designCode:codeNumber') }} value="{{ form.filter['designCode:codeNumber'].1.vars.value }}" />
-                </th>
-                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th></th>
@@ -61,7 +55,6 @@
                     'productPrototypeId': productPrototype.id, 
                     'productPrototypeCodeNumber': productPrototype.codeNumber,  
                     'productPrototypeDevelopmentTypeList': productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '',
-                    'designCodeNumber': productPrototype.designCode.code|default, 
                     'productPrototypeDetailId': productPrototypeDetail.id,
                     'productId': productPrototypeDetail.product.id|default, 
                     'productName': productPrototypeDetail.product.name|default, 
@@ -70,14 +63,13 @@
                     'customerName': productPrototype.customer.company})|json_encode }}">
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ productPrototype.designCode.codeNumber|default }}</td>
                     <td>{{ productPrototype.customer.company|default }}</td>
                     <td>{{ productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '' }}</td>
                     <td>{{ productPrototype.note }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
