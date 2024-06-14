@@ -25,7 +25,7 @@
                             },
                         }) }}
                         <input type="text" id="{{ form.productPrototype.vars.id }}-text" class="form-control readonly-form-input {% if not form.productPrototype.vars.valid %}is-invalid{% endif %}" value="{{ productDevelopment.productPrototype.codeNumber|default }}" readonly="readonly"
-                               {% if productDevelopment.id == null %}data-bs-toggle="modal" data-bs-target="#product-prototype-dialog"{% endif %}
+                               {#{% if productDevelopment.id == null %}#}data-bs-toggle="modal" data-bs-target="#product-prototype-dialog"{#{% endif %}#}
                                data-controller="dom-element"
                                data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
