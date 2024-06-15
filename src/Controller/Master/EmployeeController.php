@@ -67,7 +67,8 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_employee_show', methods: ['GET'])]
-    #[Security("is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT') or is_granted('ROLE_EMPLOYEE_VIEW')")]
+    #[IsGranted('ROLE_USER')]
+//    #[Security("is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT') or is_granted('ROLE_EMPLOYEE_VIEW')")]
     public function show(Employee $employee): Response
     {
         return $this->render('master/employee/show.html.twig', [
@@ -76,7 +77,8 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_employee_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_EMPLOYEE_EDIT')]
+//    #[IsGranted('ROLE_EMPLOYEE_EDIT')]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Employee $employee, EmployeeFormService $employeeFormService): Response
     {
         $form = $this->createForm(EmployeeType::class, $employee);
