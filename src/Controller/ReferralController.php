@@ -6,6 +6,7 @@ use App\Entity\Admin\User;
 use App\Repository\Admin\UserRepository;
 use App\Repository\Master\EmployeeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -13,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -43,24 +43,24 @@ class ReferralController extends AbstractController
     }
 
     #[Route('/{id}/show_profile', name: 'app_referral_show_profile', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
-    public function showProfile(User $user): Response
+    #[Security("is_granted('ROLE_USER') and user === currentUser")]
+    public function showProfile(User $currentUser): Response
     {
-        $employee = $this->employeeRepository->findOneByUser($user);
+        $employee = $this->employeeRepository->findOneByUser($currentUser);
         return $this->redirectToRoute('app_master_employee_show', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/change_profile', name: 'app_referral_change_profile', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
-    public function changeProfile(User $user): Response
+    #[Security("is_granted('ROLE_USER') and user === currentUser")]
+    public function changeProfile(User $currentUser): Response
     {
-        $employee = $this->employeeRepository->findOneByUser($user);
+        $employee = $this->employeeRepository->findOneByUser($currentUser);
         return $this->redirectToRoute('app_master_employee_edit', ['id' => $employee->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/change_password', name: 'app_referral_change_password', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
-    public function changePassword(Request $request, UserInterface $user, UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder): Response
+    #[Security("is_granted('ROLE_USER') and user === currentUser")]
+    public function changePassword(Request $request, User $currentUser, UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoder): Response
     {
         $form = $this->createFormBuilder([])
             ->add('oldPassword', PasswordType::class, ['label' => 'Current Password', 'constraints' => [new NotBlank(), new NotNull(), new UserPassword()]])
@@ -74,15 +74,25 @@ class ReferralController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userPassword = $form->getData();
-            $hashedPassword = $userPasswordEncoder->encodePassword($user, $userPassword['newPassword']);
-            $userRepository->upgradePassword($user, $hashedPassword);
+            $hashedPassword = $userPasswordEncoder->encodePassword($currentUser, $userPassword['newPassword']);
+            $userRepository->upgradePassword($currentUser, $hashedPassword);
 
-            return $this->redirectToRoute('app_referral_show_profile', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_referral_show_profile', ['id' => $currentUser->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('referral/change_password.html.twig', [
-            'user' => $user,
+            'user' => $currentUser,
             'form' => $form,
+        ]);
+    }
+
+    public function userProfile(string $userId): Response
+    {
+        $user = $this->userRepository->find($userId);
+        $employee = $user === null ? null : $this->employeeRepository->findOneByUser($user);
+
+        return $this->renderForm('referral/user_profile.html.twig', [
+            'employee' => $employee,
         ]);
     }
 }

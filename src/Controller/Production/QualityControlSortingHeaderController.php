@@ -11,6 +11,7 @@ use App\Grid\Production\QualityControlSortingHeaderGridType;
 use App\Repository\Production\QualityControlSortingHeaderRepository;
 use App\Service\Production\QualityControlSortingHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

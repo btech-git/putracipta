@@ -11,6 +11,7 @@ use App\Grid\Stock\AdjustmentStockHeaderGridType;
 use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use App\Service\Stock\AdjustmentStockHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

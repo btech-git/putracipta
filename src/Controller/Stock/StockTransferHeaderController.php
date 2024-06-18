@@ -11,6 +11,7 @@ use App\Grid\Stock\StockTransferHeaderGridType;
 use App\Repository\Stock\StockTransferHeaderRepository;
 use App\Service\Stock\StockTransferHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

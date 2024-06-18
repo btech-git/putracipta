@@ -14,6 +14,7 @@ use App\Repository\Master\WorkOrderDistributionRepository;
 use App\Repository\Master\WorkOrderCheckSheetRepository;
 use App\Repository\Master\WorkOrderProcessRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,13 +73,13 @@ class DesignCodeController extends AbstractController
     public function new(Request $request, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
         $designCode = new DesignCode();
-        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'sourceDesignCode' => null]);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
         $designCodeFormService->finalize($designCode);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $designCodeFormService->save($designCode);
+            $designCodeFormService->save($designCode, ['sourceDesignCode' => null]);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -108,13 +109,13 @@ class DesignCodeController extends AbstractController
     {
         $sourceDesignCode = $designCodeRepository->find($request->attributes->getInt('source_id'));
         $designCode = $designCodeFormService->copyFrom($sourceDesignCode);
-        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'sourceDesignCode' => $sourceDesignCode]);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
         $designCodeFormService->finalize($designCode);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $designCodeFormService->save($designCode);
+            $designCodeFormService->save($designCode, ['sourceDesignCode' => $sourceDesignCode]);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -133,13 +134,13 @@ class DesignCodeController extends AbstractController
     #[IsGranted('ROLE_DESIGN_CODE_EDIT')]
     public function edit(Request $request, DesignCode $designCode, DesignCodeRepository $designCodeRepository, DesignCodeFormService $designCodeFormService, WorkOrderProcessRepository $workOrderProcessRepository, WorkOrderDistributionRepository $workOrderDistributionRepository, WorkOrderCheckSheetRepository $workOrderCheckSheetRepository, $_format = 'html'): Response
     {
-        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $designCodeFormService->initialize($designCode, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'sourceDesignCode' => null]);
         $form = $this->createForm(DesignCodeType::class, $designCode);
         $form->handleRequest($request);
         $designCodeFormService->finalize($designCode);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $designCodeFormService->save($designCode);
+            $designCodeFormService->save($designCode, ['sourceDesignCode' => null]);
 
             return $this->redirectToRoute('app_master_design_code_show', ['id' => $designCode->getId()], Response::HTTP_SEE_OTHER);
         }

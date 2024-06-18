@@ -7,10 +7,10 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Employee;
 use App\Form\Master\EmployeeType;
 use App\Grid\Master\EmployeeGridType;
-use App\Repository\Admin\UserRepository;
 use App\Repository\Master\EmployeeRepository;
 use App\Service\Master\EmployeeFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,8 +67,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_master_employee_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
-//    #[Security("is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT') or is_granted('ROLE_EMPLOYEE_VIEW')")]
+    #[Security("user === employee.getUser() or is_granted('ROLE_EMPLOYEE_ADD') or is_granted('ROLE_EMPLOYEE_EDIT') or is_granted('ROLE_EMPLOYEE_VIEW')")]
     public function show(Employee $employee): Response
     {
         return $this->render('master/employee/show.html.twig', [
@@ -77,8 +76,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_master_employee_edit', methods: ['GET', 'POST'])]
-//    #[IsGranted('ROLE_EMPLOYEE_EDIT')]
-    #[IsGranted('ROLE_USER')]
+    #[Security("user === employee.getUser() or is_granted('ROLE_EMPLOYEE_EDIT')")]
     public function edit(Request $request, Employee $employee, EmployeeFormService $employeeFormService): Response
     {
         $form = $this->createForm(EmployeeType::class, $employee);
