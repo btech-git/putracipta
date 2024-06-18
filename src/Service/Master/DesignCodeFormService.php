@@ -43,9 +43,13 @@ class DesignCodeFormService
     
     public function initialize(DesignCode $designCode, array $options = []): void
     {
-        list($datetime, $user) = [$options['datetime'], $options['user']];
+        list($datetime, $user, $sourceDesignCode) = [$options['datetime'], $options['user'], $options['sourceDesignCode']];
 
         if (empty($designCode->getId())) {
+            if ($sourceDesignCode !== null) {
+                $sourceDesignCode->setStatus(DesignCode::STATUS_NA);
+            }
+            $designCode->setStatus(DesignCode::STATUS_FA);
             $designCode->setCreatedTransactionDateTime($datetime);
             $designCode->setCreatedTransactionUser($user);
         } else {
@@ -72,6 +76,9 @@ class DesignCodeFormService
     {
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
         $this->idempotentRepository->add($idempotent);
+        if ($options['sourceDesignCode'] !== null) {
+            $this->designCodeRepository->add($options['sourceDesignCode']);
+        }
         $this->designCodeRepository->add($designCode);
         foreach ($designCode->getDesignCodeProcessDetails() as $designCodeProcessDetail) {
             $this->designCodeProcessDetailRepository->add($designCodeProcessDetail);
@@ -110,7 +117,6 @@ class DesignCodeFormService
         $designCode->setPaperPlanoWidth($sourceDesignCode->getPaperPlanoWidth());
         $designCode->setDiecutKnife($sourceDesignCode->getDiecutKnife());
         $designCode->setDielineMillar($sourceDesignCode->getDielineMillar());
-        $designCode->setStatus($sourceDesignCode->getStatus());
         $designCode->setPaperCuttingLength($sourceDesignCode->getPaperCuttingLength());
         $designCode->setPaperCuttingWidth($sourceDesignCode->getPaperCuttingWidth());
         $designCode->setInkCyanPercentage($sourceDesignCode->getInkCyanPercentage());
