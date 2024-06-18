@@ -118,9 +118,11 @@
                 <th>Tgl Kirim</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
-                <th>Harga</th>
-                <th>DPP</th>
-                <th>Total</th>
+                {#{% if (is_granted('ROLE_MARKETING')) %}#}
+                    <th>Harga</th>
+                    <th>DPP</th>
+                    <th>Total</th>
+                {#{% endif %}#}
                 <th>Status</th>
             </tr>
         </thead>
@@ -133,9 +135,11 @@
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
-                    <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                    {#{% if (is_granted('ROLE_MARKETING')) %}#}
+                        <td style="text-align: right">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                    {#{% endif %}#}
                     <td>{{ saleOrderDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
                 </tr>
             {% else %}
@@ -144,38 +148,40 @@
                 </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="8" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ saleOrderHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="8" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
-                <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="8" style="text-align: right">
-                    <strong>
-                        {% if saleOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', saleOrderHeader) %}
-                            Non Tax 0%
-                        {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleOrderHeader) %}
-                            Exclude Tax {{ saleOrderHeader.taxPercentage }}%
-                        {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleOrderHeader) %}
-                            Include Tax {{ saleOrderHeader.taxPercentage }}%
-                        {% endif %}
-                    </strong>
-                </td>
-                <td style="text-align: right"><strong>{{ saleOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="8" style="text-align: right"><strong>Grand Total</strong></td>
-                <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-        </tfoot>
+        {#{% if (is_granted('ROLE_MARKETING')) %}#}
+            <tfoot>
+                <tr>
+                    <td colspan="8" style="text-align: right"><strong>Sub Total</strong></td>
+                    <td style="text-align: right"><strong>{{ saleOrderHeader.subTotal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="8" style="text-align: right"><strong>Disc {{ saleOrderHeader.discountValue|default }}%</strong></td>
+                    <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="8" style="text-align: right">
+                        <strong>
+                            {% if saleOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', saleOrderHeader) %}
+                                Non Tax 0%
+                            {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleOrderHeader) %}
+                                Exclude Tax {{ saleOrderHeader.taxPercentage }}%
+                            {% elseif saleOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', saleOrderHeader) %}
+                                Include Tax {{ saleOrderHeader.taxPercentage }}%
+                            {% endif %}
+                        </strong>
+                    </td>
+                    <td style="text-align: right"><strong>{{ saleOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="8" style="text-align: right"><strong>Grand Total</strong></td>
+                    <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        {#{% endif %}#}
     </table>
                 
     <ul class="nav nav-tabs" id="delivery-sale-return-tab" role="tablist">
