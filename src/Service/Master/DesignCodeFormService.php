@@ -63,9 +63,11 @@ class DesignCodeFormService
         $productCodeList = array();
         $productNameList = array();
         foreach ($designCode->getDesignCodeProductDetails() as $designCodeProductDetail) {
-            $product = $designCodeProductDetail->getProduct();
-            $productCodeList[] = $product->getCode();
-            $productNameList[] = $product->getName();
+            if ($designCodeProductDetail->isIsInactive === false) {
+                $product = $designCodeProductDetail->getProduct();
+                $productCodeList[] = $product->getCode();
+                $productNameList[] = $product->getName();
+            }
         }
         $designCode->setCode(implode(', ', $productCodeList));
         $designCode->setName(implode(', ', $productNameList));
@@ -139,25 +141,21 @@ class DesignCodeFormService
         $designCode->setHotStamping($sourceDesignCode->getHotStamping());
         foreach ($sourceDesignCode->getDesignCodeProductDetails() as $sourceDesignCodeProductDetail) {
             $designCodeProductDetail = new DesignCodeProductDetail();
-            $designCodeProductDetail->setDesignCode($sourceDesignCodeProductDetail->getDesignCode());
             $designCodeProductDetail->setProduct($sourceDesignCodeProductDetail->getProduct());
             $designCode->addDesignCodeProductDetail($designCodeProductDetail);
         }
         foreach ($sourceDesignCode->getDesignCodeCheckSheetDetails() as $sourceDesignCodeCheckSheetDetail) {
             $designCodeCheckSheetDetail = new DesignCodeCheckSheetDetail();
-            $designCodeCheckSheetDetail->setDesignCode($sourceDesignCodeCheckSheetDetail->getDesignCode());
             $designCodeCheckSheetDetail->setWorkOrderCheckSheet($sourceDesignCodeCheckSheetDetail->getWorkOrderCheckSheet());
             $designCode->addDesignCodeCheckSheetDetail($designCodeCheckSheetDetail);
         }
         foreach ($sourceDesignCode->getDesignCodeDistributionDetails() as $sourceDesignCodeDistributionDetail) {
             $designCodeDistributionDetail = new DesignCodeDistributionDetail();
-            $designCodeDistributionDetail->setDesignCode($sourceDesignCodeDistributionDetail->getDesignCode());
             $designCodeDistributionDetail->setWorkOrderDistribution($sourceDesignCodeDistributionDetail->getWorkOrderDistribution());
             $designCode->addDesignCodeDistributionDetail($sourceDesignCodeDistributionDetail);
         }
         foreach ($sourceDesignCode->getDesignCodeProcessDetails() as $sourceDesignCodeProcessDetail) {
             $designCodeProcessDetail = new DesignCodeProcessDetail();
-            $designCodeProcessDetail->setDesignCode($sourceDesignCodeProcessDetail->getDesignCode());
             $designCodeProcessDetail->setWorkOrderProcess($sourceDesignCodeProcessDetail->getWorkOrderProcess());
             $designCode->addDesignCodeProcessDetail($designCodeProcessDetail);
         }

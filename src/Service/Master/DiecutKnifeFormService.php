@@ -55,10 +55,30 @@ class DiecutKnifeFormService
     {
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
         $this->idempotentRepository->add($idempotent);
+        if ($options['sourceDiecutKnife'] !== null) {
+            $this->diecutKnifeRepository->add($options['sourceDiecutKnife']);
+        }
         $this->diecutKnifeRepository->add($diecutKnife);
         foreach ($diecutKnife->getDiecutKnifeDetails() as $diecutKnifeDetail) {
             $this->diecutKnifeDetailRepository->add($diecutKnifeDetail);
         }
         $this->entityManager->flush();
+    }
+    public function copyFrom(DiecutKnife $sourceDiecutKnife): DiecutKnife
+    {
+        $diecutKnife = new DiecutKnife();
+        $diecutKnife->setUpPerSecondKnife($sourceDiecutKnife->getUpPerSecondKnife());
+        $diecutKnife->setUpPerSecondPrint($sourceDiecutKnife->getUpPerSecondPrint());
+        $diecutKnife->setPrintingSize($sourceDiecutKnife->getPrintingSize());
+        $diecutKnife->setCustomer($sourceDiecutKnife->getCustomer());
+        $diecutKnife->setNote($sourceDiecutKnife->getNote());
+        $diecutKnife->setLocation($sourceDiecutKnife->getLocation());
+        $diecutKnife->setCode($sourceDiecutKnife->getCode());
+        foreach ($sourceDiecutKnife->getDiecutKnifeDetails() as $sourceDiecutKnifeDetail) {
+            $diecutKnifeDetail = new DiecutKnifeDetail();
+            $diecutKnifeDetail->setProduct($sourceDiecutKnifeDetail->getProduct());
+            $diecutKnife->addDiecutKnifeDetail($diecutKnifeDetail);
+        }
+        return $diecutKnife;
     }
 }

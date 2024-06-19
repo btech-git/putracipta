@@ -55,10 +55,29 @@ class DielineMillarFormService
     {
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
         $this->idempotentRepository->add($idempotent);
+        if ($options['sourceDielineMillar'] !== null) {
+            $this->dielineMillarRepository->add($options['sourceDielineMillar']);
+        }
         $this->dielineMillarRepository->add($dielineMillar);
         foreach ($dielineMillar->getDielineMillarDetails() as $dielineMillarDetail) {
             $this->dielineMillarDetailRepository->add($dielineMillarDetail);
         }
         $this->entityManager->flush();
+    }
+    public function copyFrom(DielineMillar $sourceDielineMillar): DielineMillar
+    {
+        $dielineMillar = new DielineMillar();
+        $dielineMillar->setQuantity($sourceDielineMillar->getQuantity());
+        $dielineMillar->setQuantityUpPrinting($sourceDielineMillar->getQuantityUpPrinting());
+        $dielineMillar->setPrintingLayout($sourceDielineMillar->getPrintingLayout());
+        $dielineMillar->setNote($sourceDielineMillar->getNote());
+        $dielineMillar->setCustomer($sourceDielineMillar->getCustomer());
+        $dielineMillar->setCode($sourceDielineMillar->getCode());
+        foreach ($sourceDielineMillar->getDielineMillarDetails() as $sourceDielineMillarDetail) {
+            $dielineMillarDetail = new DielineMillarDetail();
+            $dielineMillarDetail->setProduct($sourceDielineMillarDetail->getProduct());
+            $dielineMillar->addDielineMillarDetail($dielineMillarDetail);
+        }
+        return $dielineMillar;
     }
 }
