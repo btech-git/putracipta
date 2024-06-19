@@ -30,7 +30,7 @@ class SaleOrderDetail extends SaleDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotBlank]
-    #[Assert\GreaterThan(0)]
+//    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\Column]
