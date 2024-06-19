@@ -176,8 +176,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal;
-        return $grandTotal;
+        return round($this->getSubTotalAfterDiscount() + $this->taxNominal, 0);
     }
 
     public function getSyncTotalRemainingDelivery(): int
