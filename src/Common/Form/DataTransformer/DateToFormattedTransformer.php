@@ -20,6 +20,6 @@ class DateToFormattedTransformer implements DataTransformerInterface
 
     public function reverseTransform($formatted)
     {
-        return date_create_from_format($this->dateFormat, $formatted);
+        return $formatted === '' ? null : date_create_from_format($this->dateFormat, $formatted);
     }
 }
