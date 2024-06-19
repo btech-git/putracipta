@@ -63,7 +63,7 @@ class DesignCodeFormService
         $productCodeList = array();
         $productNameList = array();
         foreach ($designCode->getDesignCodeProductDetails() as $designCodeProductDetail) {
-            if ($designCodeProductDetail->isIsInactive === false) {
+            if ($designCodeProductDetail->isInactive === false) {
                 $product = $designCodeProductDetail->getProduct();
                 $productCodeList[] = $product->getCode();
                 $productNameList[] = $product->getName();
