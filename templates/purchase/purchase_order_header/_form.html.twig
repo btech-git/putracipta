@@ -9,7 +9,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.transactionDate, {'label': 'Tanggal PO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal PO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
                     <div class="mb-3">
                         <label class="form-label">Category</label>
                         <input type="text" class="form-control" value="{{ purchaseOrderHeader.supplier.categoryList|default ? purchaseOrderHeader.supplier.categoryList|join(', ') : '' }}" readonly="readonly"
