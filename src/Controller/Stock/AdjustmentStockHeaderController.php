@@ -87,24 +87,24 @@ class AdjustmentStockHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_adjustment_stock_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADJUSTMENT_EDIT')]
-    public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
-    {
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
-        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
-        $form->handleRequest($request);
-        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
-
-        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
-
-            return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm("stock/adjustment_stock_header/edit.{$_format}.twig", [
-            'adjustmentStockHeader' => $adjustmentStockHeader,
-            'form' => $form,
-        ]);
-    }
+//    public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
+//    {
+//        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+//        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
+//        $form->handleRequest($request);
+//        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
+//
+//        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+//            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
+//
+//            return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
+//        }
+//
+//        return $this->renderForm("stock/adjustment_stock_header/edit.{$_format}.twig", [
+//            'adjustmentStockHeader' => $adjustmentStockHeader,
+//            'form' => $form,
+//        ]);
+//    }
 
     #[Route('/{id}/delete', name: 'app_stock_adjustment_stock_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADJUSTMENT_EDIT')]
