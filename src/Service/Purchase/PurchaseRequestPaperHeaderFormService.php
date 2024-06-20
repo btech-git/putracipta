@@ -65,6 +65,14 @@ class PurchaseRequestPaperHeaderFormService
             $purchaseRequestPaperDetail->setTransactionStatus(PurchaseRequestPaperDetail::TRANSACTION_STATUS_OPEN);
         }
         $purchaseRequestPaperHeader->setTotalQuantity($purchaseRequestPaperHeader->getSyncTotalQuantity());
+        
+        $purchaseRequestPaperList = [];
+        foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {
+            $paper = $purchaseRequestPaperDetail->getPaper();
+            $purchaseRequestPaperList[] = $paper->getName();
+        }
+        $purchaseRequestPaperUniqueList = array_unique(explode(', ', implode(', ', $purchaseRequestPaperList)));
+        $purchaseRequestPaperHeader->setPurchaseRequestPaperList(implode(', ', $purchaseRequestPaperUniqueList));
     }
 
     public function save(PurchaseRequestPaperHeader $purchaseRequestPaperHeader, array $options = []): void

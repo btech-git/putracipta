@@ -82,7 +82,6 @@ class DeliveryHeaderFormService
             $deliveryDetail->setLinePo($saleOrderDetail->getLinePo());
             $deliveryDetail->setLotNumber($deliveryDetail->getMasterOrderOrdinalYear());
             $deliveryHeader->setDeliveryAddressOrdinal($saleOrderDetail->getSaleOrderHeader()->getDeliveryAddressOrdinal());
-//            $deliveryDetail->setQuantityCurrent(0);
         }
         $deliveryHeader->setTotalQuantity($deliveryHeader->getSyncTotalQuantity());
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
