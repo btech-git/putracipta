@@ -66,6 +66,9 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     #[Assert\NotNull]
     protected ?bool $isRead = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $purchaseRequestPaperList = null;
+
     public function __construct()
     {
         $this->purchaseRequestPaperDetails = new ArrayCollection();
@@ -226,6 +229,18 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     public function setIsOnHold(bool $isOnHold): self
     {
         $this->isOnHold = $isOnHold;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestPaperList(): ?string
+    {
+        return $this->purchaseRequestPaperList;
+    }
+
+    public function setPurchaseRequestPaperList(string $purchaseRequestPaperList): self
+    {
+        $this->purchaseRequestPaperList = $purchaseRequestPaperList;
 
         return $this;
     }
