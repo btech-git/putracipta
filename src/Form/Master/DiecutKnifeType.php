@@ -28,7 +28,7 @@ class DiecutKnifeType extends AbstractType
 //            ->add('code', null, ['label' => 'Kode'])
             ->add('upPerSecondKnife', null, ['label' => 'Up/s Pisau'])
             ->add('upPerSecondPrint', null, ['label' => 'Up/s Cetak'])
-            ->add('printingSize', null, ['label' => 'Uk. Kris Cetak'])
+            ->add('printingSize', null, ['label' => 'Uk. Kris Cetak (cm)'])
 //            ->add('product', EntityHiddenType::class, ['class' => Product::class])
             ->add('location', ChoiceType::class, ['label' => 'Location', 'choices' => [
                 'BOBST' => DiecutKnife::LOCATION_BOBST,

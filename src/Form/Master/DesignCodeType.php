@@ -66,8 +66,8 @@ class DesignCodeType extends AbstractType
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('glossiness')
             ->add('emboss', ChoiceType::class, ['choices' => [
-                'Ada' => 'Ada',
                 'Tidak Ada' => 'Tidak Ada',
+                'Ada' => 'Ada',
             ]])
             ->add('diecutKnife', null, [
                 'choice_label' => 'codeNumber',
