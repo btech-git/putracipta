@@ -63,9 +63,9 @@
                         {% if is_granted('ROLE_ADJUSTMENT_VIEW') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_stock_adjustment_stock_header_show', {'id': adjustmentStockHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
-                        {% if is_granted('ROLE_ADJUSTMENT_EDIT') %}
+                        {#{% if is_granted('ROLE_ADJUSTMENT_EDIT') %}
                             <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_header_edit', {'id': adjustmentStockHeader.id}) }}"><i class="bi-pencil"></i></a>
-                        {% endif %}
+                        {% endif %}#}
                     </td>
                 </tr>
             {% else %}
