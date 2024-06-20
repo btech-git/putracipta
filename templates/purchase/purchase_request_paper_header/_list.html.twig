@@ -17,6 +17,7 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
+                <th style="min-width: 90px">Kertas</th>
                 <th style="min-width: 300px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -49,6 +50,7 @@
                         {% endfor %}
                     </select>
                 </th>
+                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -64,6 +66,7 @@
                     <td>{{ purchaseRequestPaperHeader.codeNumber }}</td>
                     <td>{{ purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseRequestPaperHeader.warehouse.name|default }}</td>
+                    <td>{{ purchaseRequestPaperHeader.purchaseRequestPaperList }}</td>
                     <td>{{ purchaseRequestPaperHeader.note }}</td>
                     <td>{{ purchaseRequestPaperHeader.transactionStatus }}</td>
                     <td>
@@ -77,7 +80,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="7">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
