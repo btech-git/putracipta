@@ -23,7 +23,7 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="min-width: 90px"></th>
+                <th style="min-width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -59,6 +59,9 @@
                         {% endif %}
                         {% if is_granted('ROLE_MILLAR_EDIT') %}
                             <a class="btn btn-warning btn-sm" href="{{ path('app_master_dieline_millar_edit', {'id': dielineMillar.id}) }}"><i class="bi-pencil"></i></a>
+                        {% endif %}
+                        {% if is_granted('ROLE_MILLAR_ADD') %}
+                            <a class="btn btn-success btn-sm" href="{{ path('app_master_dieline_millar_new_repeat', {'source_id': dielineMillar.id}) }}"><i class="bi-c-square"></i></a>
                         {% endif %}
                     </td>
                 </tr>
