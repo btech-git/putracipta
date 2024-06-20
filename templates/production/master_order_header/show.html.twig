@@ -106,10 +106,10 @@
                     <th style="min-width: 80px" class="text-center">L (mm)</th>
                     <th style="min-width: 80px" class="text-center">T (mm)</th>
                     <th style="min-width: 80px" class="text-center">Tanggal Kirim</th>
+                    <th style="min-width: 100px" class="text-center">Up Cetak</th>
                     <th style="min-width: 100px" class="text-center">Qty Order</th>
                     <th style="min-width: 100px" class="text-center">Stock</th>
                     <th style="min-width: 100px" class="text-center">Kekurangan</th>
-                    <th style="min-width: 100px" class="text-center">Up Cetak</th>
                 </tr>
             </thead>
             <tbody>
@@ -122,16 +122,16 @@
                         <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
                         <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                        <td class="text-center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                         <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                         <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                         <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                        <td class="text-center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7" class="text-end">Total</td>
+                    <td colspan="8" class="text-end">Total</td>
                     <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
