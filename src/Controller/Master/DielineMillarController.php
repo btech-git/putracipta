@@ -71,7 +71,7 @@ class DielineMillarController extends AbstractController
         $dielineMillarFormService->finalize($dielineMillar);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $dielineMillarFormService->save($dielineMillar);
+            $dielineMillarFormService->save($dielineMillar, ['sourceDielineMillar' => null]);
 
             return $this->redirectToRoute('app_master_dieline_millar_show', ['id' => $dielineMillar->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -92,6 +92,30 @@ class DielineMillarController extends AbstractController
         ]);
     }
 
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_master_dieline_millar_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_MILLAR_ADD')]
+    public function newRepeat(Request $request, DielineMillarRepository $dielineMillarRepository, DielineMillarFormService $dielineMillarFormService, $_format = 'html'): Response
+    {
+        $sourceDielineMillar = $dielineMillarRepository->find($request->attributes->getInt('source_id'));
+        $dielineMillar = $dielineMillarFormService->copyFrom($sourceDielineMillar);
+        $dielineMillarFormService->initialize($dielineMillar, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'sourceDielineMillar' => $sourceDielineMillar]);
+        $form = $this->createForm(DielineMillarType::class, $dielineMillar);
+        $form->handleRequest($request);
+        $dielineMillarFormService->finalize($dielineMillar);
+
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $dielineMillarFormService->save($dielineMillar, ['sourceDielineMillar' => $sourceDielineMillar]);
+
+            return $this->redirectToRoute('app_master_dieline_millar_show', ['id' => $dielineMillar->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("master/dieline_millar/new_repeat.{$_format}.twig", [
+            'dielineMillar' => $dielineMillar,
+            'form' => $form,
+            'lastDielineMillars' => $dielineMillarRepository->findBy(['customer' => $dielineMillar->getCustomer()], ['id' => 'DESC'], 5, 0),
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_master_dieline_millar_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_MILLAR_EDIT')]
     public function edit(Request $request, DielineMillar $dielineMillar, DielineMillarRepository $dielineMillarRepository, DielineMillarFormService $dielineMillarFormService): Response
@@ -102,7 +126,7 @@ class DielineMillarController extends AbstractController
         $dielineMillarFormService->finalize($dielineMillar);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $dielineMillarFormService->save($dielineMillar);
+            $dielineMillarFormService->save($dielineMillar, ['sourceDielineMillar' => null]);
 
             return $this->redirectToRoute('app_master_dieline_millar_show', ['id' => $dielineMillar->getId()], Response::HTTP_SEE_OTHER);
         }

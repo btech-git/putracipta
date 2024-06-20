@@ -71,7 +71,7 @@ class DiecutKnifeController extends AbstractController
         $diecutKnifeFormService->finalize($diecutKnife);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $diecutKnifeFormService->save($diecutKnife);
+            $diecutKnifeFormService->save($diecutKnife, ['sourceDiecutKnife' => null]);
 
             return $this->redirectToRoute('app_master_diecut_knife_show', ['id' => $diecutKnife->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -92,6 +92,30 @@ class DiecutKnifeController extends AbstractController
         ]);
     }
 
+    #[Route('/{source_id}/new_repeat.{_format}', name: 'app_master_diecut_knife_new_repeat', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_DIECUT_ADD')]
+    public function newRepeat(Request $request, DiecutKnifeRepository $diecutKnifeRepository, DiecutKnifeFormService $diecutKnifeFormService, $_format = 'html'): Response
+    {
+        $sourceDiecutKnife = $diecutKnifeRepository->find($request->attributes->getInt('source_id'));
+        $diecutKnife = $diecutKnifeFormService->copyFrom($sourceDiecutKnife);
+        $diecutKnifeFormService->initialize($diecutKnife, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'sourceDiecutKnife' => $sourceDiecutKnife]);
+        $form = $this->createForm(DiecutKnifeType::class, $diecutKnife);
+        $form->handleRequest($request);
+        $diecutKnifeFormService->finalize($diecutKnife);
+
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $diecutKnifeFormService->save($diecutKnife, ['sourceDiecutKnife' => $sourceDiecutKnife]);
+
+            return $this->redirectToRoute('app_master_diecut_knife_show', ['id' => $diecutKnife->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("master/diecut_knife/new_repeat.{$_format}.twig", [
+            'diecutKnife' => $diecutKnife,
+            'form' => $form,
+            'lastDiecutKnives' => $diecutKnifeRepository->findBy(['customer' => $diecutKnife->getCustomer()], ['id' => 'DESC'], 5, 0),
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_master_diecut_knife_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_DIECUT_EDIT')]
     public function edit(Request $request, DiecutKnife $diecutKnife, DiecutKnifeRepository $diecutKnifeRepository, DiecutKnifeFormService $diecutKnifeFormService): Response
@@ -102,7 +126,7 @@ class DiecutKnifeController extends AbstractController
         $diecutKnifeFormService->finalize($diecutKnife);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-            $diecutKnifeFormService->save($diecutKnife);
+            $diecutKnifeFormService->save($diecutKnife, ['sourceDiecutKnife' => null]);
 
             return $this->redirectToRoute('app_master_diecut_knife_show', ['id' => $diecutKnife->getId()], Response::HTTP_SEE_OTHER);
         }
