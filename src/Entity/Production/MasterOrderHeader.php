@@ -475,12 +475,12 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncInsitPrintingQuantity() 
     {
-        return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $this->getQuantityPrintingAverage();
+        return ($this->insitPrintingPercentage/100) * $this->totalQuantityOrder / $this->getQuantityPrintingAverage();
     }
     
     public function getSyncInsitSortingQuantity() 
     {
-        return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $this->getQuantityPrintingAverage();
+        return ($this->insitSortingPercentage/100) * $this->totalQuantityOrder / $this->getQuantityPrintingAverage();
     }
     
     public function getSyncPaperRequirement() 
@@ -612,22 +612,22 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncPackagingGlueWeight() 
     {
-        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityShortage / 100000;
+        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityOrder / 100000;
     }
     
     public function getSyncPackagingRubberWeight() 
     {
-        return $this->packagingRubberQuantity == 0 ? 0 : $this->totalQuantityShortage / $this->packagingRubberQuantity;
+        return $this->packagingRubberQuantity == 0 ? 0 : $this->totalQuantityOrder / $this->packagingRubberQuantity;
     }
     
     public function getSyncPackagingPaperWeight()
     {
-        return $this->packagingPaperQuantity == 0 ? 0 : $this->totalQuantityShortage / $this->packagingPaperQuantity;
+        return $this->packagingPaperQuantity == 0 ? 0 : $this->totalQuantityOrder / $this->packagingPaperQuantity;
     }
     
     public function getSyncPackagingBoxWeight() 
     {
-        return $this->packagingBoxQuantity == 0 ? 0 : $this->totalQuantityShortage / $this->packagingBoxQuantity;
+        return $this->packagingBoxQuantity == 0 ? 0 : $this->totalQuantityOrder / $this->packagingBoxQuantity;
     }
     
     public function getSyncPackagingTapeLargeSize() 
