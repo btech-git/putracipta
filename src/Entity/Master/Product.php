@@ -35,6 +35,7 @@ class Product extends Master
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\Column(type: Types::TEXT)]
