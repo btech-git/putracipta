@@ -399,9 +399,14 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getQuantityPrintingAverage() 
     {
-        $quantityPrinting = empty($this->quantityPrinting) ? 1 : $this->quantityPrinting;
+        $total = 0;
         
-        return $this->quantityPrinting2 > 0 ? ($quantityPrinting + $this->quantityPrinting2) / 2 : $quantityPrinting;
+        foreach ($this->masterOrderProductDetails as $i => $detail) {
+            $quantityPrinting = empty($detail->quantityPrinting) ? 1 : $detail->quantityPrinting;
+            $total += $quantityPrinting;
+        }
+        
+        return $quantityPrinting / count($this->masterOrderProductDetails);
         
     }
     
