@@ -401,9 +401,9 @@ class MasterOrderHeader extends ProductionHeader
     {
         $total = 0;
         
-        foreach ($this->masterOrderProductDetails as $i => $detail) {
+        foreach ($this->masterOrderProductDetails as $detail) {
             $quantityPrinting = empty($detail->quantityPrinting) ? 1 : $detail->quantityPrinting;
-            $total += $quantityPrinting;
+            $total += $detail->quantityPrinting;
         }
         
         return $total / count($this->masterOrderProductDetails);
