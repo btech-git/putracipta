@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_EXPENSE_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_accounting_expense_header_edit', {'id': expenseHeader.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_EXPENSE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_accounting_expense_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

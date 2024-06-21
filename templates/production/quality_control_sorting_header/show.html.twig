@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_QUALITY_CONTROL_SORTING_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_production_quality_control_sorting_header_edit', {'id': qualityControlSortingHeader.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_QUALITY_CONTROL_SORTING_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_production_quality_control_sorting_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

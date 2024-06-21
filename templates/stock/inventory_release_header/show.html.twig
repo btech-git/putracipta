@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_MATERIAL_RELEASE_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_release_header_edit', {'id': inventoryReleaseHeader.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_MATERIAL_RELEASE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_stock_inventory_release_header_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
