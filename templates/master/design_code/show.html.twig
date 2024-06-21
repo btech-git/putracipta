@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_DESIGN_CODE_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_design_code_edit', {'id': designCode.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_DESIGN_CODE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_design_code_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

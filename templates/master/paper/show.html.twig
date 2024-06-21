@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_PAPER_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_paper_edit', {'id': paper.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_PAPER_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_paper_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

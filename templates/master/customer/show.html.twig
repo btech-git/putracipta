@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_CUSTOMER_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_customer_edit', {'id': customer.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_CUSTOMER_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_customer_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

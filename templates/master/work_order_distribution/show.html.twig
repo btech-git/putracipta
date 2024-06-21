@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_DISTRIBUTION_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_work_order_distribution_edit', {'id': workOrderDistribution.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_DISTRIBUTION_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_work_order_distribution_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

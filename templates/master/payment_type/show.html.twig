@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_PAYMENT_TYPE_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_payment_type_edit', {'id': paymentType.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_PAYMENT_TYPE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_payment_type_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

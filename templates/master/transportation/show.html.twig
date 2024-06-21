@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_TRANSPORTATION_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_transportation_edit', {'id': transportation.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_TRANSPORTATION_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_transportation_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_PROCESS_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_work_order_process_edit', {'id': workOrderProcess.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_PROCESS_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_work_order_process_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

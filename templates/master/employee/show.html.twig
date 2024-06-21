@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_EMPLOYEE_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_employee_edit', {'id': employee.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_EMPLOYEE_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_employee_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

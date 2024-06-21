@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_PRODUCT_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_product_edit', {'id': product.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_PRODUCT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_product_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

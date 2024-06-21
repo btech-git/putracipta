@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_DIECUT_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_diecut_knife_edit', {'id': diecutKnife.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_DIECUT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_diecut_knife_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

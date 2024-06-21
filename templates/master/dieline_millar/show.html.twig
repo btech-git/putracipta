@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_MILLAR_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_dieline_millar_edit', {'id': dielineMillar.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_MILLAR_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_dieline_millar_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

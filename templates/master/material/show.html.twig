@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_MATERIAL_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_material_edit', {'id': material.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_MATERIAL_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_material_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
