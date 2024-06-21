@@ -403,7 +403,7 @@ class MasterOrderHeader extends ProductionHeader
         
         foreach ($this->masterOrderProductDetails as $i => $detail) {
             $quantityPrinting = empty($detail->quantityPrinting) ? 1 : $detail->quantityPrinting;
-            $total += $quantityPrinting;
+            $total += $detail->quantityPrinting;
         }
         
         return $quantityPrinting / count($this->masterOrderProductDetails);
