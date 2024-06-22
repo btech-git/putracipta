@@ -400,13 +400,14 @@ class MasterOrderHeader extends ProductionHeader
     public function getQuantityPrintingAverage() 
     {
         $total = 0;
+        $detailsCount = count($this->masterOrderProductDetails) > 0 ? count($this->masterOrderProductDetails) : 1;
         
         foreach ($this->masterOrderProductDetails as $detail) {
             $quantityPrinting = empty($detail->getQuantityPrinting()) ? 1 : $detail->getQuantityPrinting();
             $total += $quantityPrinting;
         }
         
-        return $total / count($this->masterOrderProductDetails);
+        return $total / $detailsCount;
         
     }
     
@@ -465,8 +466,9 @@ class MasterOrderHeader extends ProductionHeader
     public function getSyncQuantityPaper(): string
     {
         $totalQuantityShortage = empty($this->totalQuantityShortage) ? 1 : $this->totalQuantityShortage;
+        $quantityPrintingAverage = $this->getQuantityPrintingAverage() === 0 ? 1 : $this->getQuantityPrintingAverage();
         $paperMountage = empty($this->paperMountage) ? 1 : $this->paperMountage;
-        $quantity = (1 + ($this->insitPrintingPercentage/100) + ($this->insitSortingPercentage/100)) * ($totalQuantityShortage / $this->getQuantityPrintingAverage()) / $paperMountage / 500;
+        $quantity = (1 + ($this->insitPrintingPercentage/100) + ($this->insitSortingPercentage/100)) * ($totalQuantityShortage / $quantityPrintingAverage) / $paperMountage / 500;
         
         return $quantity;
     }
@@ -480,12 +482,14 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncInsitPrintingQuantity() 
     {
-        return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $this->getQuantityPrintingAverage();
+        $quantityPrintingAverage = $this->getQuantityPrintingAverage() === 0 ? 1 : $this->getQuantityPrintingAverage();
+        return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $quantityPrintingAverage;
     }
     
     public function getSyncInsitSortingQuantity() 
     {
-        return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $this->getQuantityPrintingAverage();
+        $quantityPrintingAverage = $this->getQuantityPrintingAverage() === 0 ? 1 : $this->getQuantityPrintingAverage();
+        return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $quantityPrintingAverage;
     }
     
     public function getSyncPaperRequirement() 
