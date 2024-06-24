@@ -17,6 +17,7 @@
                 <th role="button" {{ grid.sort_link_item(form, 'developmentType') }}>
                     Development Type {{ grid.sort_char(form.sort.developmentType.vars.value) }}
                 </th>
+                <th style="min-width: 150px">Product</th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -30,6 +31,7 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'developmentType') }} value="{{ form.filter.developmentType.1.vars.value }}" />
                 </th>
+                <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -42,6 +44,7 @@
                     <td>{{ productDevelopment.codeNumber }}</td>
                     <td>{{ productDevelopment.transactionDate ? productDevelopment.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productDevelopment.developmentTypeList ? productDevelopment.developmentTypeList|join(', ') : '' }}</td>
+                    <td>{{ productDevelopment.developmentProductList|default }}</td>
                     <td>{{ productDevelopment.note }}</td>
                     <td>
                         {% if is_granted('ROLE_DEVELOPMENT_PRODUCT_VIEW') or is_granted('ROLE_DEVELOPMENT_PRODUCT_EDIT') or is_granted('ROLE_DEVELOPMENT_PRODUCT_ADD') %}
