@@ -165,6 +165,9 @@ class ProductDevelopment extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'product_development', targetEntity: ProductDevelopmentDetail::class)]
     private Collection $productDevelopmentDetails;
 
+    #[ORM\Column(length: 200)]
+    private ?string $developmentProductList = '';
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -1041,6 +1044,18 @@ class ProductDevelopment extends ProductionHeader
                 $productDevelopmentDetail->setProductDevelopment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDevelopmentProductList(): ?string
+    {
+        return $this->developmentProductList;
+    }
+
+    public function setDevelopmentProductList(string $developmentProductList): self
+    {
+        $this->developmentProductList = $developmentProductList;
 
         return $this;
     }
