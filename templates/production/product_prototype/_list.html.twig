@@ -17,9 +17,6 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'designCode:code') }}>
-                    Kode Design {{ grid.sort_char(form.sort['designCode:code'].vars.value) }}
-                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'paper:name') }}>
                     Material {{ grid.sort_char(form.sort['paper:name'].vars.value) }}
                 </th>
@@ -48,13 +45,6 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
-                    P<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:code') }} value="{{ form.filter['designCode:code'].1.vars.value }}" />
-                    <span><small>-</small></span>
-                    V<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:variant') }} value="{{ form.filter['designCode:variant'].1.vars.value }}" />
-                    <span><small>-</small></span>
-                    R<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:version') }} value="{{ form.filter['designCode:version'].1.vars.value }}" />
-                </th>
-                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
                 </th>
                 <th>
@@ -69,7 +59,6 @@
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productPrototype.customer.company|default }}</td>
-                    <td>{{ productPrototype.designCode.codeNumber|default }}</td>
                     <td>{{ productPrototype.paper.codeNumber|default }}</td>
                     <td>{{ productPrototype.note }}</td>
                     <td>
