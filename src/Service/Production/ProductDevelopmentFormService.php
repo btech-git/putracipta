@@ -66,6 +66,14 @@ class ProductDevelopmentFormService
         if ($options['transactionFile']) {
             $productDevelopment->setTransactionFileExtension($options['transactionFile']->guessExtension());
         }
+        
+        $developmentProductList = [];
+        foreach ($productDevelopment->getProductDevelopmentDetails() as $productDevelopmentDetail) {
+            $product = $productDevelopmentDetail->getProduct();
+            $developmentProductList[] = $product->getName();
+        }
+        $developmentProductUniqueList = array_unique(explode(', ', implode(', ', $developmentProductList)));
+        $productDevelopment->setDevelopmentProductList(implode(', ', $developmentProductUniqueList));
     }
 
     public function save(ProductDevelopment $productDevelopment, array $options = []): void
