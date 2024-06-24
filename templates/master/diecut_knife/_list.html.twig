@@ -26,6 +26,9 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
+                <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                </th>
                 <th style="min-width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -48,6 +51,14 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
+                <th>
+                    <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
+                        <option value="" {% if form.filter.isInactive.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.isInactive.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.isInactive.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -60,6 +71,7 @@
                     <td>{{ diecutKnife.location }}</td>
                     <td>{{ diecutKnife.printingSize }}</td>
                     <td>{{ diecutKnife.note }}</td>
+                    <td>{{ diecutKnife.isInactive ? 'InActive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_DIECUT_VIEW') or is_granted('ROLE_DIECUT_EDIT') or is_granted('ROLE_DIECUT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_diecut_knife_show', {'id': diecutKnife.id}) }}"><i class="bi-search"></i></a>

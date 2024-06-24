@@ -18,7 +18,7 @@
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
                 <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -49,7 +49,7 @@
                     <td>{{ product.code }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.customer.company|default }}</td>
-                    <td>{{ product.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ product.isInactive ? 'InActive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_PRODUCT_VIEW') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_product_show', {'id': product.id}) }}"><i class="bi-search"></i></a>

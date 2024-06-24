@@ -24,7 +24,7 @@
                     Email {{ grid.sort_char(form.sort.email.vars.value) }}
                 </th>
                 <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -63,7 +63,7 @@
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.phone }}</td>
                     <td>{{ customer.email }}</td>
-                    <td>{{ customer.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ customer.isInactive ? 'InActive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_CUSTOMER_VIEW') or is_granted('ROLE_ACCOUNT_EDIT') or is_granted('ROLE_ACCOUNT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_customer_show', {'id': customer.id}) }}"><i class="bi-search"></i></a>
