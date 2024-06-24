@@ -13,6 +13,7 @@ use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -37,6 +38,12 @@ class DiecutKnifeGridType extends AbstractType
                     'location' => [FilterContain::class, FilterNotContain::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'printingSize' => [FilterContain::class, FilterNotContain::class],
+                ],
+                'field_value_type_list' => [
+                    'isInactive' => ChoiceType::class,
+                ],
+                'field_value_options_list' => [
+                    'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [

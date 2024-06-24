@@ -49,7 +49,7 @@ class MaterialGridType extends AbstractType
                 'field_value_options_list' => [
                     'materialSubCategory:materialCategory' => ['class' => MaterialCategory::class, 'choice_label' => 'name'],
                     'materialSubCategory' => ['class' => MaterialSubCategory::class, 'choice_label' => 'name'],
-                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
+                    'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [

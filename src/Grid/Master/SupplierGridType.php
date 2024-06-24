@@ -35,7 +35,7 @@ class SupplierGridType extends AbstractType
                     'isInactive' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
-                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
+                    'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [

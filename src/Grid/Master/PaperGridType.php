@@ -44,7 +44,7 @@ class PaperGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'type' => ['choices' => ['000' => 'non', 'FSC' => 'fsc']],
-                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
+                    'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [
