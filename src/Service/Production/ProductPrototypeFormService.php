@@ -5,10 +5,12 @@ namespace App\Service\Production;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductPrototype;
 use App\Entity\Production\ProductPrototypeDetail;
+use App\Entity\Production\ProductPrototypePilotDetail;
 use App\Entity\Support\Idempotent;
 use App\Entity\Support\TransactionLog;
 use App\Repository\Production\ProductPrototypeRepository;
 use App\Repository\Production\ProductPrototypeDetailRepository;
+use App\Repository\Production\ProductPrototypePilotDetailRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Production\ProductPrototypeFormSupport;
@@ -24,6 +26,7 @@ class ProductPrototypeFormService
     private IdempotentRepository $idempotentRepository;
     private ProductPrototypeRepository $productPrototypeRepository;
     private ProductPrototypeDetailRepository $productPrototypeDetailRepository;
+    private ProductPrototypePilotDetailRepository $productPrototypePilotDetailRepository;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
@@ -33,6 +36,7 @@ class ProductPrototypeFormService
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->productPrototypeRepository = $entityManager->getRepository(ProductPrototype::class);
         $this->productPrototypeDetailRepository = $entityManager->getRepository(ProductPrototypeDetail::class);
+        $this->productPrototypePilotDetailRepository = $entityManager->getRepository(ProductPrototypePilotDetail::class);
     }
 
     public function initialize(ProductPrototype $productPrototype, array $options = []): void
@@ -65,6 +69,9 @@ class ProductPrototypeFormService
             $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
             $this->idempotentRepository->add($idempotent);
             $this->productPrototypeRepository->add($productPrototype);
+            foreach ($productPrototype->getProductPrototypePilotDetails() as $productPrototypePilotDetail) {
+                $this->productPrototypePilotDetailRepository->add($productPrototypePilotDetail);
+            }
             foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
                 $this->productPrototypeDetailRepository->add($productPrototypeDetail);
             }
