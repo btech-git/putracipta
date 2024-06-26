@@ -61,6 +61,17 @@ class ProductPrototypeFormService
             $currentProductPrototype = ($lastProductPrototype === null) ? $productPrototype : $lastProductPrototype;
             $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
         }
+        
+        $prototypeProductList = [];
+        foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
+            $product = $productPrototypeDetail->getProduct();
+            $prototypeProductList[] = $product->getName();
+        }
+        foreach ($productPrototype->getProductPrototypePilotDetails() as $productPrototypePilotDetail) {
+            $prototypeProductList[] = $productPrototypePilotDetail->getProductName();
+        }
+        $prototypeProductUniqueList = array_unique(explode(', ', implode(', ', $prototypeProductList)));
+        $productPrototype->setPrototypeProductList(implode(', ', $prototypeProductUniqueList));
     }
 
     public function save(ProductPrototype $productPrototype, array $options = []): void

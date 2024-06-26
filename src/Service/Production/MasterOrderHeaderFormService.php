@@ -139,6 +139,17 @@ class MasterOrderHeaderFormService
         if ($options['transactionFile']) {
             $masterOrderHeader->setLayoutModelFileExtension($options['transactionFile']->guessExtension());
         }
+        
+        $saleOrderReferenceNumberList = [];
+        foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
+            $saleOrderDetail = $masterOrderProductDetail->getSaleOrderDetail();
+            if (!empty($saleOrderDetail)) {
+                $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+                $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
+            }
+        }
+        $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
+        $masterOrderHeader->setSaleOrderReferenceNumberList(implode(', ', $saleOrderReferenceNumberUniqueList));
     }
 
     public function save(MasterOrderHeader $masterOrderHeader, array $options = []): void
