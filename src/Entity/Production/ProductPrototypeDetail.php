@@ -8,6 +8,7 @@ use App\Entity\ProductionDetail;
 use App\Repository\Production\ProductPrototypeDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductPrototypeDetailRepository::class)]
@@ -33,6 +34,9 @@ class ProductPrototypeDetail extends ProductionDetail
 
     #[ORM\OneToMany(mappedBy: 'productPrototypeDetail', targetEntity: ProductDevelopmentDetail::class)]
     private Collection $productDevelopmentDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantity = '0.00';
 
     public function __construct()
     {
@@ -137,6 +141,18 @@ class ProductPrototypeDetail extends ProductionDetail
                 $productDevelopmentDetail->setProductPrototypeDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

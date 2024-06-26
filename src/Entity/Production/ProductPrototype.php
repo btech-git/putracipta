@@ -67,10 +67,6 @@ class ProductPrototype extends ProductionHeader
     #[Assert\NotNull]
     private ?int $quantityBlade = 0;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $quantityProduction = 0;
-
     #[ORM\Column(type: Types::ARRAY)]
     private array $dataSource = [];
 
@@ -98,10 +94,17 @@ class ProductPrototype extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'productPrototype', targetEntity: ProductPrototypeDetail::class)]
     private Collection $productPrototypeDetails;
 
+    #[ORM\OneToMany(mappedBy: 'productPrototype', targetEntity: ProductPrototypePilotDetail::class)]
+    private Collection $productPrototypePilotDetails;
+
+    #[ORM\Column(length: 100)]
+    private ?string $materialName = '';
+
     public function __construct()
     {
         $this->productDevelopments = new ArrayCollection();
         $this->productPrototypeDetails = new ArrayCollection();
+        $this->productPrototypePilotDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -158,18 +161,6 @@ class ProductPrototype extends ProductionHeader
     public function setQuantityBlade(int $quantityBlade): self
     {
         $this->quantityBlade = $quantityBlade;
-
-        return $this;
-    }
-
-    public function getQuantityProduction(): ?int
-    {
-        return $this->quantityProduction;
-    }
-
-    public function setQuantityProduction(int $quantityProduction): self
-    {
-        $this->quantityProduction = $quantityProduction;
 
         return $this;
     }
@@ -314,6 +305,48 @@ class ProductPrototype extends ProductionHeader
                 $productPrototypeDetail->setProductPrototype(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductPrototypePilotDetail>
+     */
+    public function getProductPrototypePilotDetails(): Collection
+    {
+        return $this->productPrototypePilotDetails;
+    }
+
+    public function addProductPrototypePilotDetail(ProductPrototypePilotDetail $productPrototypePilotDetail): self
+    {
+        if (!$this->productPrototypePilotDetails->contains($productPrototypePilotDetail)) {
+            $this->productPrototypePilotDetails->add($productPrototypePilotDetail);
+            $productPrototypePilotDetail->setProductPrototype($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductPrototypePilotDetail(ProductPrototypePilotDetail $productPrototypePilotDetail): self
+    {
+        if ($this->productPrototypePilotDetails->removeElement($productPrototypePilotDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($productPrototypePilotDetail->getProductPrototype() === $this) {
+                $productPrototypePilotDetail->setProductPrototype(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMaterialName(): ?string
+    {
+        return $this->materialName;
+    }
+
+    public function setMaterialName(string $materialName): self
+    {
+        $this->materialName = $materialName;
 
         return $this;
     }
