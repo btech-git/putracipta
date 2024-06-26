@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'master_product')]
 #[UniqueEntity('code')]
-#[UniqueEntity('name')]
 class Product extends Master
 {
     #[ORM\Id]
