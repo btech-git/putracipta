@@ -12,7 +12,8 @@
                     {{ form_row(form.transactionDate, {'label': 'Tanggal Invoice', 'attr': {
                         'data-controller': 'flatpickr-element',
                         'data-action': 'change->json-loader#load',
-                        'class': 'readonly-form-input'
+                        'class': 'readonly-form-input',
+                        'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode
                     }}) }}
                     <div class="mb-3">
                         <label class="form-label">Tanggal Jatuh Tempo</label>
@@ -21,7 +22,7 @@
                         data-property-path="dueDate" />
                     </div>
                     {{ form_row(form.invoiceTaxCodeNumber, {'label': 'Faktur Pajak #'}) }}
-                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.invoiceTaxDate, {'label': 'Tanggal Faktur Pajak', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">

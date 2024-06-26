@@ -34,8 +34,6 @@
                 <td>{{ productPrototype.createdTransactionUser.username|default }}</td>
             </tr>
             <tr>
-                {#<th>Kode Design</th>
-                <td>{{ productPrototype.designCode.codeNumber|default }}</td>#}
                 <th>PIC Design</th>
                 <td>{{ productPrototype.employee.name|default }}</td>
                 <th>Transaction Canceled?</th>
@@ -59,12 +57,13 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th colspan='3' class='text-center bg-info'>PRODUCTS</th>
+                <th colspan='4' class='text-center bg-info'>PRODUCTS</th>
             </tr>
             <tr>
                 <th class="text-center">Item Code</th>
                 <th class="text-center">Item Name</th>
                 <th class="text-center">Ukuran Jadi</th>
+                <th class="text-center">Quantity (pcs)</th>
             </tr>
         </thead>
         <tbody>
@@ -73,6 +72,7 @@
                 <td>{{ productPrototypeDetail.product.code|default }}</td>
                 <td>{{ productPrototypeDetail.product.name|default }}</td>
                 <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+                <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -96,10 +96,6 @@
             <tr>
                 <th>Warna (TC/Pantone)</th>
                 <td>{{ productPrototype.color }}</td>
-            </tr>
-            <tr>
-                <th>Quantity (pcs)</th>
-                <td>{{ productPrototype.quantityProduction|number_format(0) }}</td>
             </tr>
             <tr>
                 <th>Jumlah Mata (up/sheet)</th>
