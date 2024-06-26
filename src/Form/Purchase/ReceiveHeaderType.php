@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\ReceiveDetail;
@@ -18,7 +19,7 @@ class ReceiveHeaderType extends AbstractType
     {
         $builder
             ->add('supplierDeliveryCodeNumber')
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('warehouse', null, [
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {

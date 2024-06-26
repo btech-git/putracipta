@@ -2,6 +2,7 @@
 
 namespace App\Form\Stock;
 
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Stock\AdjustmentStockMaterialDetail;
 use App\Entity\Stock\AdjustmentStockPaperDetail;
 use App\Entity\Stock\AdjustmentStockProductDetail;
@@ -17,7 +18,7 @@ class AdjustmentStockHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('adjustmentMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'Material' => AdjustmentStockHeader::ADJUSTMENT_MODE_MATERIAL,

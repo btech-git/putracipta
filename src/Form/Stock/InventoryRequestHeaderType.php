@@ -3,6 +3,7 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Stock\InventoryRequestMaterialDetail;
 use App\Entity\Stock\InventoryRequestPaperDetail;
@@ -35,8 +36,8 @@ class InventoryRequestHeaderType extends AbstractType
                 },
             ])
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
-            ->add('pickupDate', null, ['widget' => 'single_text'])
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('pickupDate', FormattedDateType::class)
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('requestMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'Material' => InventoryRequestHeader::REQUEST_MODE_MATERIAL,

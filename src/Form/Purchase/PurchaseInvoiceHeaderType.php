@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Purchase\PurchaseInvoiceDetail;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Entity\Purchase\ReceiveHeader;
@@ -18,9 +19,9 @@ class PurchaseInvoiceHeaderType extends AbstractType
         $builder
             ->add('invoiceTaxCodeNumber')
             ->add('supplierInvoiceCodeNumber')
-            ->add('transactionDate', null, ['widget' => 'single_text'])
-            ->add('invoiceReceivedDate', null, ['widget' => 'single_text'])
-            ->add('invoiceTaxDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
+            ->add('invoiceReceivedDate', FormattedDateType::class)
+            ->add('invoiceTaxDate', FormattedDateType::class)
             ->add('note')
             ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
             ->add('purchaseInvoiceDetails', CollectionType::class, [

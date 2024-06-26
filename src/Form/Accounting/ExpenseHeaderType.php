@@ -2,6 +2,7 @@
 
 namespace App\Form\Accounting;
 
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Accounting\ExpenseDetail;
 use App\Entity\Accounting\ExpenseHeader;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class ExpenseHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('account', null, [
                 'choice_label' => 'name',

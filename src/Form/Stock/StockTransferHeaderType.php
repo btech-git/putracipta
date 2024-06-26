@@ -2,6 +2,7 @@
 
 namespace App\Form\Stock;
 
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Stock\StockTransferMaterialDetail;
 use App\Entity\Stock\StockTransferPaperDetail;
 use App\Entity\Stock\StockTransferProductDetail;
@@ -17,7 +18,7 @@ class StockTransferHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('transferMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
                 'Material' => StockTransferHeader::TRANSFER_MODE_MATERIAL,

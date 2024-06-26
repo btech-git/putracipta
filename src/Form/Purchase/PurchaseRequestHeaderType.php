@@ -2,6 +2,7 @@
 
 namespace App\Form\Purchase;
 
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Purchase\PurchaseRequestHeader;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class PurchaseRequestHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('purchaseRequestDetails', CollectionType::class, [
                 'entry_type' => PurchaseRequestDetailType::class,

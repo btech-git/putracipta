@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Customer;
 use App\Entity\Sale\SalePaymentDetail;
@@ -17,12 +18,12 @@ class SalePaymentHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('referenceNumber')
             ->add('administrationFee', FormattedNumberType::class, ['decimals' => 2])
 //            ->add('returnAmount')
-            ->add('referenceDate', null, ['widget' => 'single_text'])
+            ->add('referenceDate', FormattedDateType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('paymentType', null, [
                 'choice_label' => 'name',

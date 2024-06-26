@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Master\Supplier;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
@@ -17,7 +18,7 @@ class PurchaseOrderPaperHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('discountValueType', ChoiceType::class, ['choices' => [
                 'Percentage' => PurchaseOrderPaperHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE,

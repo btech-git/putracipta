@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Master\Customer;
 use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\DeliveryHeader;
@@ -26,7 +27,7 @@ class DeliveryHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('warehouse', null, [
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {

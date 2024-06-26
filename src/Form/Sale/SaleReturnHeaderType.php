@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Sale\DeliveryHeader;
 use App\Entity\Sale\SaleReturnDetail;
 use App\Entity\Sale\SaleReturnHeader;
@@ -26,7 +27,7 @@ class SaleReturnHeaderType extends AbstractType
     {
         $vatPercentage = $this->literalConfigRepository->findLiteralValue('vatPercentage');
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('isProductExchange')
             ->add('warehouse', null, [

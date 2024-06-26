@@ -3,6 +3,7 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Stock\InventoryProductReceiveDetail;
 use App\Entity\Stock\InventoryProductReceiveHeader;
@@ -16,7 +17,7 @@ class InventoryProductReceiveHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('warehouse', null, [
                 'choice_label' => 'name',

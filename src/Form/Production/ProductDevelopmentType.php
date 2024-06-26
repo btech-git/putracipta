@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Production\ProductDevelopment;
 use App\Entity\Production\ProductDevelopmentDetail;
 use App\Entity\Production\ProductPrototype;
@@ -18,28 +19,28 @@ class ProductDevelopmentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('epArtworkFileDate', null, ['widget' => 'single_text'])
-            ->add('epCustomerReviewDate', null, ['widget' => 'single_text'])
-            ->add('epSubconDiecutDate', null, ['widget' => 'single_text'])
-            ->add('epDielineDevelopmentDate', null, ['widget' => 'single_text'])
-            ->add('epImageDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('epDiecutDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('epDielineDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('fepArtworkFileDate', null, ['widget' => 'single_text'])
-            ->add('fepCustomerReviewDate', null, ['widget' => 'single_text'])
-            ->add('fepSubconDiecutDate', null, ['widget' => 'single_text'])
-            ->add('fepDielineDevelopmentDate', null, ['widget' => 'single_text'])
-            ->add('fepImageDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('fepDiecutDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('fepDielineDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('psArtworkFileDate', null, ['widget' => 'single_text'])
-            ->add('psCustomerReviewDate', null, ['widget' => 'single_text'])
-            ->add('psSubconDiecutDate', null, ['widget' => 'single_text'])
-            ->add('psDielineDevelopmentDate', null, ['widget' => 'single_text'])
-            ->add('psImageDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('psDiecutDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('psDielineDeliveryProductionDate', null, ['widget' => 'single_text'])
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('epArtworkFileDate', FormattedDateType::class)
+            ->add('epCustomerReviewDate', FormattedDateType::class)
+            ->add('epSubconDiecutDate', FormattedDateType::class)
+            ->add('epDielineDevelopmentDate', FormattedDateType::class)
+            ->add('epImageDeliveryProductionDate', FormattedDateType::class)
+            ->add('epDiecutDeliveryProductionDate', FormattedDateType::class)
+            ->add('epDielineDeliveryProductionDate', FormattedDateType::class)
+            ->add('fepArtworkFileDate', FormattedDateType::class)
+            ->add('fepCustomerReviewDate', FormattedDateType::class)
+            ->add('fepSubconDiecutDate', FormattedDateType::class)
+            ->add('fepDielineDevelopmentDate', FormattedDateType::class)
+            ->add('fepImageDeliveryProductionDate', FormattedDateType::class)
+            ->add('fepDiecutDeliveryProductionDate', FormattedDateType::class)
+            ->add('fepDielineDeliveryProductionDate', FormattedDateType::class)
+            ->add('psArtworkFileDate', FormattedDateType::class)
+            ->add('psCustomerReviewDate', FormattedDateType::class)
+            ->add('psSubconDiecutDate', FormattedDateType::class)
+            ->add('psDielineDevelopmentDate', FormattedDateType::class)
+            ->add('psImageDeliveryProductionDate', FormattedDateType::class)
+            ->add('psDiecutDeliveryProductionDate', FormattedDateType::class)
+            ->add('psDielineDeliveryProductionDate', FormattedDateType::class)
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('productPrototype', EntityHiddenType::class, ['class' => ProductPrototype::class])
             ->add('employeeDesigner', null, ['choice_label' => 'name'])

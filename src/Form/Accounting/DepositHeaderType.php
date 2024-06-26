@@ -2,6 +2,7 @@
 
 namespace App\Form\Accounting;
 
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Accounting\DepositDetail;
 use App\Entity\Accounting\DepositHeader;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class DepositHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('account', null, [
                 'choice_label' => 'name',

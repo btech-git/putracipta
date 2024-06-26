@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Master\Customer;
 use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Production\QualityControlSortingDetail;
@@ -18,7 +19,7 @@ class QualityControlSortingHeaderType extends AbstractType
     {
         $builder
             ->add('employeeInCharge')
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])

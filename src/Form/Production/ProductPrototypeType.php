@@ -3,12 +3,13 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Designcode;
-use App\Entity\Master\Employee;
 use App\Entity\Master\Paper;
 use App\Entity\Production\ProductPrototype;
 use App\Entity\Production\ProductPrototypeDetail;
+use App\Entity\Production\ProductPrototypePilotDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -32,9 +33,9 @@ class ProductPrototypeType extends AbstractType
                 'FEP (Final Engineering Piloting)' => ProductPrototype::DEVELOPMENT_TYPE_FEP,
                 'PP (Production Planning)' => ProductPrototype::DEVELOPMENT_TYPE_PP,
                 'PS (Production Schedule)' => ProductPrototype::DEVELOPMENT_TYPE_PS,
-            ]])
-            ->add('quantityProduction', FormattedNumberType::class, ['decimals' => 0])
+            ],])
             ->add('color')
+            ->add('materialName')
             ->add('quantityBlade', FormattedNumberType::class, ['decimals' => 0])
             ->add('coatingList', ChoiceType::class, ['multiple' => true, 'expanded' => true, 'choices' => [
                 'OPV Matt' => ProductPrototype::COATING_OPV_MATT,
@@ -61,13 +62,10 @@ class ProductPrototypeType extends AbstractType
                 'Lem Straight Joint' => ProductPrototype::PROCESS_STRAIGHT_JOINT,
                 'Jilid Buku' => ProductPrototype::PROCESS_JILID,
             ]])
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('employee', null, [
                 'choice_label' => 'name',
-//                'query_builder' => function($repository) {
-//                    return $repository->createQueryBuilder('e')->andWhere("e.division = '" . Employee::DIVISION_MARKETING . "'");
-//                },
             ])
             ->add('customer', null, [
                 'choice_label' => 'company',
@@ -84,6 +82,14 @@ class ProductPrototypeType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype_data' => new ProductPrototypeDetail(),
+                'label' => false,
+            ])
+            ->add('productPrototypePilotDetails', CollectionType::class, [
+                'entry_type' => ProductPrototypePilotDetailType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_data' => new ProductPrototypePilotDetail(),
                 'label' => false,
             ])
         ;

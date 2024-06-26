@@ -3,6 +3,7 @@
 namespace App\Form\Sale;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Master\Customer;
 use App\Entity\Sale\SaleInvoiceDetail;
 use App\Entity\Sale\SaleInvoiceHeader;
@@ -29,8 +30,8 @@ class SaleInvoiceHeaderType extends AbstractType
 //        $serviceTaxPercentage = $this->literalConfigRepository->findLiteralValue('serviceTaxPercentage');
         $builder
             ->add('invoiceTaxCodeNumber')
-            ->add('transactionDate', null, ['widget' => 'single_text'])
-            ->add('invoiceTaxDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
+            ->add('invoiceTaxDate', FormattedDateType::class)
             ->add('note')
             ->add('discountValueType', ChoiceType::class, ['choices' => [
                 'Percentage' => SaleInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE,

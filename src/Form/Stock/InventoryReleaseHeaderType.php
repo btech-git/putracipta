@@ -3,6 +3,7 @@
 namespace App\Form\Stock;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Stock\InventoryReleaseHeader;
 use App\Entity\Stock\InventoryReleaseMaterialDetail;
 use App\Entity\Stock\InventoryReleasePaperDetail;
@@ -17,7 +18,7 @@ class InventoryReleaseHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('releaseMode', null, ['label' => false])
             ->add('warehouse', null, [

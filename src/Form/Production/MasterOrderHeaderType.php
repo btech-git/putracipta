@@ -3,6 +3,7 @@
 namespace App\Form\Production;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\DesignCode;
 use App\Entity\Master\DiecutKnife;
@@ -114,7 +115,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('packagingPlasticQuantity', FormattedNumberType::class, ['decimals' => 2])
             ->add('note')
             ->add('purchaseOrderPaperHeader', EntityHiddenType::class, ['class' => PurchaseOrderPaperHeader::class])
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('productDevelopment', EntityHiddenType::class, ['class' => ProductDevelopment::class])
             ->add('diecutKnife', EntityHiddenType::class, ['class' => DiecutKnife::class])
             ->add('designCode', EntityHiddenType::class, ['class' => DesignCode::class])

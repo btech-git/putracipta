@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Master\Supplier;
 use App\Entity\Purchase\PurchasePaymentDetail;
 use App\Entity\Purchase\PurchasePaymentHeader;
@@ -16,10 +17,10 @@ class PurchasePaymentHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('transactionDate', null, ['widget' => 'single_text'])
+            ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('referenceNumber')
-            ->add('referenceDate', null, ['widget' => 'single_text'])
+            ->add('referenceDate', FormattedDateType::class)
             ->add('currencyRate')
             ->add('supplier', EntityHiddenType::class, ['class' => Supplier::class])
             ->add('paymentType', null, [
