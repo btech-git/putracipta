@@ -77,6 +77,12 @@
                 <th>Transaction Canceled?</th>
                 <td>{{ purchaseOrderPaperHeader.isCanceled ? 'Yes' : 'No' }}</td>
             </tr>
+            {% if purchaseOrderPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_REJECT', purchaseOrderPaperHeader)  %}
+                <tr>
+                    <th>Reject Note</th>
+                    <td>{{ purchaseOrderPaperHeader.rejectNote|default }}</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 
