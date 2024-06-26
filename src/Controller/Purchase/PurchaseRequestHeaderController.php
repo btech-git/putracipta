@@ -10,10 +10,10 @@ use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\Purchase\PurchaseRequestHeader;
 use App\Form\Purchase\PurchaseRequestHeaderType;
 use App\Grid\Purchase\PurchaseRequestHeaderGridType;
-//use App\Repository\Purchase\PurchaseRequestDetailRepository;
 use App\Repository\Purchase\PurchaseRequestHeaderRepository;
 use App\Service\Purchase\PurchaseRequestHeaderFormService;
 use App\Util\PdfGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -236,6 +236,7 @@ class PurchaseRequestHeaderController extends AbstractController
             $purchaseRequestHeader->setRejectedTransactionDateTime(new \DateTime());
             $purchaseRequestHeader->setRejectedTransactionUser($this->getUser());
             $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_REJECT);
+            $purchaseRequestHeader->setRejectNote($request->request->get('reject_note'));
             $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
 
             foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {

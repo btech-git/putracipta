@@ -13,6 +13,7 @@ use App\Grid\Purchase\PurchaseRequestPaperHeaderGridType;
 use App\Repository\Purchase\PurchaseRequestPaperHeaderRepository;
 use App\Service\Purchase\PurchaseRequestPaperHeaderFormService;
 use App\Util\PdfGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -236,6 +237,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
             $purchaseRequestPaperHeader->setRejectedTransactionDateTime(new \DateTime());
             $purchaseRequestPaperHeader->setRejectedTransactionUser($this->getUser());
             $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_REJECT);
+            $purchaseRequestPaperHeader->setRejectNote($request->request->get('reject_note'));
             $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
 
             foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {

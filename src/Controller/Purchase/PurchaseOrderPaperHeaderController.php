@@ -215,6 +215,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
             $purchaseOrderPaperHeader->setRejectedTransactionDateTime(new \DateTime());
             $purchaseOrderPaperHeader->setRejectedTransactionUser($this->getUser());
             $purchaseOrderPaperHeader->setTransactionStatus(PurchaseOrderPaperHeader::TRANSACTION_STATUS_REJECT);
+            $purchaseOrderPaperHeader->setRejectNote($request->request->get('reject_note'));
             $purchaseOrderPaperHeaderRepository->add($purchaseOrderPaperHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was rejected successfully.'));
