@@ -69,6 +69,9 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     #[ORM\Column(length: 255)]
     private ?string $purchaseRequestPaperList = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $rejectNote = '';
+
     public function __construct()
     {
         $this->purchaseRequestPaperDetails = new ArrayCollection();
@@ -241,6 +244,18 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     public function setPurchaseRequestPaperList(string $purchaseRequestPaperList): self
     {
         $this->purchaseRequestPaperList = $purchaseRequestPaperList;
+
+        return $this;
+    }
+
+    public function getRejectNote(): ?string
+    {
+        return $this->rejectNote;
+    }
+
+    public function setRejectNote(string $rejectNote): self
+    {
+        $this->rejectNote = $rejectNote;
 
         return $this;
     }

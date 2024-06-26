@@ -111,6 +111,9 @@ class PurchaseOrderHeader extends PurchaseHeader
     #[Assert\NotNull]
     protected ?bool $isRead = false;
 
+    #[ORM\Column(length: 100)]
+    private ?string $rejectNote = '';
+
     public function __construct()
     {
         $this->purchaseOrderDetails = new ArrayCollection();
@@ -443,6 +446,18 @@ class PurchaseOrderHeader extends PurchaseHeader
     public function setHasReturnTransaction(bool $hasReturnTransaction): self
     {
         $this->hasReturnTransaction = $hasReturnTransaction;
+
+        return $this;
+    }
+
+    public function getRejectNote(): ?string
+    {
+        return $this->rejectNote;
+    }
+
+    public function setRejectNote(string $rejectNote): self
+    {
+        $this->rejectNote = $rejectNote;
 
         return $this;
     }

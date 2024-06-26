@@ -67,6 +67,9 @@ class PurchaseRequestHeader extends PurchaseHeader
     #[Assert\NotNull]
     protected ?bool $isRead = false;
 
+    #[ORM\Column(length: 100)]
+    private ?string $rejectNote = '';
+
     public function __construct()
     {
         $this->purchaseRequestDetails = new ArrayCollection();
@@ -227,6 +230,18 @@ class PurchaseRequestHeader extends PurchaseHeader
     public function setIsOnHold(bool $isOnHold): self
     {
         $this->isOnHold = $isOnHold;
+
+        return $this;
+    }
+
+    public function getRejectNote(): ?string
+    {
+        return $this->rejectNote;
+    }
+
+    public function setRejectNote(string $rejectNote): self
+    {
+        $this->rejectNote = $rejectNote;
 
         return $this;
     }
