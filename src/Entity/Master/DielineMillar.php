@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DielineMillarRepository::class)]
 #[ORM\Table(name: 'master_dieline_millar')]
+#[UniqueEntity(['code', 'version'])]
 class DielineMillar extends Master
 {
     #[ORM\Id]

@@ -2,7 +2,6 @@
 
 namespace App\Entity\Master;
 
-use App\Entity\Admin\User;
 use App\Entity\Master;
 use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Master\DiecutKnifeRepository;
@@ -13,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DiecutKnifeRepository::class)]
 #[ORM\Table(name: 'master_diecut_knife')]
+#[UniqueEntity(['code', 'version'])]
 class DiecutKnife extends Master
 {
     public const LOCATION_BOBST = 'bobst';
