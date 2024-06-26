@@ -64,6 +64,9 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\Column]
     private ?bool $isRead = false;
 
+    #[ORM\Column(length: 200)]
+    private ?string $inventoryRequestProductList = null;
+
     public function __construct()
     {
         $this->inventoryRequestPaperDetails = new ArrayCollection();
@@ -338,6 +341,18 @@ class InventoryRequestHeader extends StockHeader
     public function setIsRead(bool $isRead): self
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function getInventoryRequestProductList(): ?string
+    {
+        return $this->inventoryRequestProductList;
+    }
+
+    public function setInventoryRequestProductList(string $inventoryRequestProductList): self
+    {
+        $this->inventoryRequestProductList = $inventoryRequestProductList;
 
         return $this;
     }
