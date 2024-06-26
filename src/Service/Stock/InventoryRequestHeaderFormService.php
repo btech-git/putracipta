@@ -70,6 +70,18 @@ class InventoryRequestHeaderFormService
         $inventoryRequestHeader->setTotalQuantity($inventoryRequestHeader->getSyncTotalQuantity());
         $inventoryRequestHeader->setTotalQuantityRelease($inventoryRequestHeader->getSyncTotalQuantityRelease());
         $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
+        
+        $inventoryRequestItemList = [];
+        foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
+            $material = $inventoryRequestMaterialDetail->getMaterial();
+            $inventoryRequestItemList[] = $material->getName();
+        }
+        foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
+            $paper = $inventoryRequestPaperDetail->getPaper();
+            $inventoryRequestItemList[] = $paper->getName();
+        }
+        $inventoryRequestItemUniqueList = array_unique(explode(', ', implode(', ', $inventoryRequestItemList)));
+        $inventoryRequestHeader->setInventoryRequestProductList(implode(', ', $inventoryRequestItemUniqueList));
     }
 
     public function save(InventoryRequestHeader $inventoryRequestHeader, array $options = []): void
