@@ -100,6 +100,9 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(length: 100)]
     private ?string $materialName = '';
 
+    #[ORM\Column(length: 200)]
+    private ?string $prototypeProductList = null;
+
     public function __construct()
     {
         $this->productDevelopments = new ArrayCollection();
@@ -347,6 +350,18 @@ class ProductPrototype extends ProductionHeader
     public function setMaterialName(string $materialName): self
     {
         $this->materialName = $materialName;
+
+        return $this;
+    }
+
+    public function getPrototypeProductList(): ?string
+    {
+        return $this->prototypeProductList;
+    }
+
+    public function setPrototypeProductList(string $prototypeProductList): self
+    {
+        $this->prototypeProductList = $prototypeProductList;
 
         return $this;
     }

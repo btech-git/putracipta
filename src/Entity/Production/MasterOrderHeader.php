@@ -374,6 +374,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryReleaseHeader::class)]
     private Collection $inventoryReleaseHeaders;
 
+    #[ORM\Column(length: 200)]
+    private ?string $saleOrderReferenceNumberList = '';
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -2206,6 +2209,18 @@ class MasterOrderHeader extends ProductionHeader
                 $inventoryReleaseHeader->setMasterOrderHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSaleOrderReferenceNumberList(): ?string
+    {
+        return $this->saleOrderReferenceNumberList;
+    }
+
+    public function setSaleOrderReferenceNumberList(string $saleOrderReferenceNumberList): self
+    {
+        $this->saleOrderReferenceNumberList = $saleOrderReferenceNumberList;
 
         return $this;
     }
