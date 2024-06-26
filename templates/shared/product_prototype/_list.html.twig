@@ -20,6 +20,9 @@
                 <th style="min-width: 150px">
                     Proses
                 </th>
+                <th style="min-width: 150px">
+                    Product
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -44,6 +47,7 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th></th>
+                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -65,11 +69,12 @@
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productPrototype.customer.company|default }}</td>
                     <td>{{ productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '' }}</td>
+                    <td>{{ productPrototype.prototypeProductList|default }}</td>
                     <td>{{ productPrototype.note }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
