@@ -9,7 +9,7 @@
             <legend class="float-none w-auto text-dark px-1">Header</legend>
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}
+                    {{ form_row(form.transactionDate, {'label': 'Tanggal', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
                     {{ form_row(form.isUsingOutsourceDelivery, {
                         'label': 'Pengiriman Internal/Expedisi',
                         'attr': {
@@ -208,7 +208,7 @@
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('sale-order-detail-and-master-order-product-detail-dialog', 'Sales Order List', ['master-order-product-detail-for-delivery-table:data-table:select']) }}
+    {{ dialog.start('sale-order-detail-and-master-order-product-detail-dialog', 'Sales Order List', 'xl', ['master-order-product-detail-for-delivery-table:data-table:select']) }}
         <div class="row">
             <div class="col w-50">
                 <div data-controller="html-loader"
