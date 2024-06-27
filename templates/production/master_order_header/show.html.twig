@@ -397,7 +397,7 @@
         {% if masterOrderHeader.layoutModelFileExtension == 'pdf' %}
             <a target="_blank" href="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}">Layout PDF File</a>
         {% elseif masterOrderHeader.layoutModelFileExtension == 'jpg' or masterOrderHeader.layoutModelFileExtension == 'jpeg' or masterOrderHeader.layoutModelFileExtension == 'png' %}
-            <img width="512px" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}" alt="Layout Model Image" />
+            <img width="750px" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}" alt="Layout Model Image" />
         {% endif %}
     </div>
 
