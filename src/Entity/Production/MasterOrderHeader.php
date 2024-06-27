@@ -624,7 +624,7 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncPackagingGlueWeight() 
     {
-        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityShortage / 100000;
+        return $this->packagingGlueQuantity * 0.0057 * $this->totalQuantityShortage / 1000;
     }
     
     public function getSyncPackagingRubberWeight() 
