@@ -53,7 +53,7 @@
                     <td>{{ employee.name }}</td>
                     <td>{{ employee.email }}</td>
                     <td>{{ employee.phone }}</td>
-                    <td>{{ employee.division.name1|default }}</td>
+                    <td>{{ employee.division.name|default }}</td>
                     <td>{{ employee.isInactive ? 'InActive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_EMPLOYEE_VIEW') or is_granted('ROLE_EMPLOYEE_EDIT') or is_granted('ROLE_EMPLOYEE_ADD') %}
