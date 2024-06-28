@@ -57,7 +57,7 @@ class ProductDevelopmentType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '5120k',
+                        'maxSize' => '12000k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
