@@ -7,6 +7,7 @@ use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Master\Customer;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Sale\SaleOrderHeader;
+use App\Repository\Master\DivisionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -18,6 +19,13 @@ use Symfony\Component\Validator\Constraints\File;
 
 class SaleOrderHeaderType extends AbstractType
 {
+    private DivisionRepository $divisionRepository;
+
+    public function __construct(DivisionRepository $divisionRepository)
+    {
+        $this->divisionRepository = $divisionRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -34,8 +42,8 @@ class SaleOrderHeaderType extends AbstractType
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
-                            ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findMarketingRecord())
-                            ->andWhere("e.isInactive = false");
+                        ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findMarketingRecord())
+                        ->andWhere("e.isInactive = false");
                 },
             ])
             ->add('taxMode', ChoiceType::class, ['choices' => [
