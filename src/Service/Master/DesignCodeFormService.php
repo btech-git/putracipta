@@ -62,16 +62,20 @@ class DesignCodeFormService
     {
         $productCodeList = array();
         $productNameList = array();
+        $designCodeProductList = [];
         foreach ($designCode->getDesignCodeProductDetails() as $designCodeProductDetail) {
             if ($designCodeProductDetail->isIsInactive() === false) {
                 $product = $designCodeProductDetail->getProduct();
                 $productCodeList[] = $product->getCode();
                 $productNameList[] = $product->getName();
+                $designCodeProductList[] = $product->getName();
             }
         }
         $designCode->setCode(implode(', ', $productCodeList));
         $designCode->setName(implode(', ', $productNameList));
         
+        $designCodeProductUniqueList = array_unique(explode(', ', implode(', ', $designCodeProductList)));
+        $designCode->setDesignCodeProductList(implode(', ', $designCodeProductUniqueList));
     }
 
     public function save(DesignCode $designCode, array $options = []): void
