@@ -377,6 +377,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(length: 200)]
     private ?string $saleOrderReferenceNumberList = '';
 
+    #[ORM\Column(length: 200)]
+    private ?string $masterOrderProductList = '';
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -400,19 +403,19 @@ class MasterOrderHeader extends ProductionHeader
         return self::CODE_NUMBER_CONSTANT;
     }
     
-    public function getQuantityPrintingAverage() 
-    {
-        $total = 0;
-        $detailsCount = count($this->masterOrderProductDetails) > 0 ? count($this->masterOrderProductDetails) : 1;
-        
-        foreach ($this->masterOrderProductDetails as $detail) {
-            $quantityPrinting = empty($detail->getQuantityPrinting()) ? 1 : $detail->getQuantityPrinting();
-            $total += $quantityPrinting;
-        }
-        
-        return $total / $detailsCount;
-        
-    }
+//    public function getQuantityPrintingAverage() 
+//    {
+//        $total = 0;
+//        $detailsCount = count($this->masterOrderProductDetails) > 0 ? count($this->masterOrderProductDetails) : 1;
+//        
+//        foreach ($this->masterOrderProductDetails as $detail) {
+//            $quantityPrinting = empty($detail->getQuantityPrinting()) ? 1 : $detail->getQuantityPrinting();
+//            $total += $quantityPrinting;
+//        }
+//        
+//        return $total / $detailsCount;
+//        
+//    }
     
     public function getSyncTotalQuantityOrder() 
     {
@@ -469,9 +472,9 @@ class MasterOrderHeader extends ProductionHeader
     public function getSyncQuantityPaper(): string
     {
         $totalQuantityShortage = empty($this->totalQuantityShortage) ? 1 : $this->totalQuantityShortage;
-        $quantityPrintingAverage = $this->getQuantityPrintingAverage() === 0 ? 1 : $this->getQuantityPrintingAverage();
+        $quantityPrinting = $this->quantityPrinting === 0 ? 1 : $this->quantityPrinting;
         $paperMountage = empty($this->paperMountage) ? 1 : $this->paperMountage;
-        $quantity = (1 + ($this->insitPrintingPercentage/100) + ($this->insitSortingPercentage/100)) * ($totalQuantityShortage / $quantityPrintingAverage) / $paperMountage / 500;
+        $quantity = (1 + ($this->insitPrintingPercentage/100) + ($this->insitSortingPercentage/100)) * ($totalQuantityShortage / $quantityPrinting) / $paperMountage / 500;
         
         return $quantity;
     }
@@ -485,14 +488,14 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncInsitPrintingQuantity() 
     {
-        $quantityPrintingAverage = $this->getQuantityPrintingAverage() === 0 ? 1 : $this->getQuantityPrintingAverage();
-        return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $quantityPrintingAverage;
+        $quantityPrinting = $this->quantityPrinting === 0 ? 1 : $this->quantityPrinting;
+        return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $quantityPrinting;
     }
     
     public function getSyncInsitSortingQuantity() 
     {
-        $quantityPrintingAverage = $this->getQuantityPrintingAverage() === 0 ? 1 : $this->getQuantityPrintingAverage();
-        return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $quantityPrintingAverage;
+        $quantityPrinting = $this->quantityPrinting === 0 ? 1 : $this->quantityPrinting;
+        return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $quantityPrinting;
     }
     
     public function getSyncPaperRequirement() 
@@ -2221,6 +2224,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setSaleOrderReferenceNumberList(string $saleOrderReferenceNumberList): self
     {
         $this->saleOrderReferenceNumberList = $saleOrderReferenceNumberList;
+
+        return $this;
+    }
+
+    public function getMasterOrderProductList(): ?string
+    {
+        return $this->masterOrderProductList;
+    }
+
+    public function setMasterOrderProductList(string $masterOrderProductList): self
+    {
+        $this->masterOrderProductList = $masterOrderProductList;
 
         return $this;
     }
