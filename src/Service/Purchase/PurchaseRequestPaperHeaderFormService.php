@@ -68,8 +68,10 @@ class PurchaseRequestPaperHeaderFormService
         
         $purchaseRequestPaperList = [];
         foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {
-            $paper = $purchaseRequestPaperDetail->getPaper();
-            $purchaseRequestPaperList[] = $paper->getName();
+            if ($purchaseRequestPaperDetail->isIsCancelled() == false) {
+                $paper = $purchaseRequestPaperDetail->getPaper();
+                $purchaseRequestPaperList[] = $paper->getName();
+            }
         }
         $purchaseRequestPaperUniqueList = array_unique(explode(', ', implode(', ', $purchaseRequestPaperList)));
         $purchaseRequestPaperHeader->setPurchaseRequestPaperList(implode(', ', $purchaseRequestPaperUniqueList));
