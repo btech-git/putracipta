@@ -25,12 +25,13 @@ class MasterOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'note', 'orderType'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'designCode:code', 'designCode:variant', 'designCode:version', 'customer:company'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
+                    'designCode:code' => 'Design Code',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
@@ -40,6 +41,9 @@ class MasterOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
+                    'designCode:code' => [FilterContain::class, FilterNotContain::class],
+                    'designCode:variant' => [FilterContain::class, FilterNotContain::class],
+                    'designCode:version' => [FilterContain::class, FilterNotContain::class],
                     'orderType' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
@@ -54,13 +58,14 @@ class MasterOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'note', 'orderType'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'designCode:code' => 'Design Code',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
@@ -70,6 +75,9 @@ class MasterOrderHeaderGridType extends AbstractType
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'orderType' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'designCode:code' => [SortAscending::class, SortDescending::class],
+                    'designCode:variant' => [SortAscending::class, SortDescending::class],
+                    'designCode:version' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
