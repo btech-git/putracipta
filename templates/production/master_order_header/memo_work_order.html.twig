@@ -105,9 +105,7 @@
                                     <th>PO#</th>
                                     <th>Kode</th>
                                     <th>Nama Produk</th>
-                                    <th>P (mm)</th>
-                                    <th>L (mm)</th>
-                                    <th>T (mm)</th>
+                                    <th>Up Cetak</th>
                                     <th>Qty Order</th>
                                     <th>Stock</th>
                                     <th>Kekurangan</th>
@@ -119,9 +117,7 @@
                                         <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                         <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                                         <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
-                                        <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
-                                        <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
-                                        <td style="text-align:right">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
+                                        <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                                         <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
@@ -130,7 +126,8 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td style="text-align:right; font-weight: bold" colspan="6">TOTAL</td>
+                                    <td style="text-align:right; font-weight: bold" colspan="3">TOTAL</td>
+                                    <td style="text-align:center; font-weight: bold">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</td>
                                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>

@@ -134,7 +134,8 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="8" class="text-end">Total</td>
+                    <td colspan="7" class="text-end">Total</td>
+                    <td class="text-center">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                     <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>

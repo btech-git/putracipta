@@ -17,8 +17,8 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'paper:name') }}>
-                    Material {{ grid.sort_char(form.sort['paper:name'].vars.value) }}
+                <th style="min-width: 150px">
+                    Material
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
@@ -44,9 +44,7 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
-                </th>
+                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -59,7 +57,13 @@
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productPrototype.customer.company|default }}</td>
-                    <td>{{ productPrototype.paper.codeNumber|default }}</td>
+                    <td>
+                        {% if productPrototype.paper == null %}
+                            {{ productPrototype.paperName|default }}
+                        {%  else %}
+                            {{ productPrototype.paper.codeNumber|default }}
+                        {% endif %}
+                    </td>
                     <td>{{ productPrototype.note }}</td>
                     <td>
                         {% if is_granted('ROLE_NEW_PRODUCT_VIEW') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_ADD') %}

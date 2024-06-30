@@ -17,13 +17,8 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
+                <th style="min-width: 150px">Product</th>
                 <th style="min-width: 150px">Design Code</th>
-                <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'orderType') }}>
-                    Jenis {{ grid.sort_char(form.sort.orderType.vars.value) }}
-                </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Catatan {{ grid.sort_char(form.sort.note.vars.value) }}
-                </th>
                 <th style="min-width: 130px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -47,10 +42,9 @@
                 </th>
                 <th></th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'orderType') }} value="{{ form.filter.orderType.1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    P<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'designCode:code') }} value="{{ form.filter['designCode:code'].1.vars.value }}" />-
+                    V<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'designCode:variant') }} value="{{ form.filter['designCode:variant'].1.vars.value }}" />-
+                    R<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'designCode:version') }} value="{{ form.filter['designCode:version'].1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -65,12 +59,11 @@
                     'customerCompany': masterOrderHeader.customer.company|default,
                     'saleOrderCodeNumber': masterOrderHeader.saleOrderDetail.saleOrderHeader.codeNumber|default,
                     'masterOrderHeaderQuantity': masterOrderHeader.totalQuantityOrder}|json_encode }}">
-                    <td>{{ masterOrderHeader.codeNumber }}</td>
+                    <td>{{ masterOrderHeader.codeNumber|default }}</td>
                     <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderHeader.customer.company|default }}</td>
-                    <td>{{ masterOrderHeader.designCode.codeNumber }}</td>
-                    <td>{{ masterOrderHeader.orderType }}</td>
-                    <td>{{ masterOrderHeader.note }}</td>
+                    <td>{{ masterOrderHeader.masterOrderProductList|default }}</td>
+                    <td>{{ masterOrderHeader.designCode.codeNumber|default }}</td>
                     <td>
                         {% if is_granted('ROLE_MASTER_ORDER_VIEW') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}"><i class="bi-search"></i></a>
@@ -85,7 +78,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="10">No records found</td>
+                    <td colspan="6">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
