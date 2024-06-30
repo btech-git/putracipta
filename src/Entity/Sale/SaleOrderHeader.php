@@ -79,6 +79,7 @@ class SaleOrderHeader extends SaleHeader
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetail::class)]
