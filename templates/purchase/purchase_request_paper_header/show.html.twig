@@ -82,15 +82,17 @@
         </thead>
         <tbody>
             {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
-                <tr>
-                    <td>{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
-                    <td>{{ purchaseRequestPaperDetail.paper.name|default }}</td>
-                    <td style="text-align: center">{{ purchaseRequestPaperDetail.quantity|default|number_format(2) }}</td>
-                    <td>{{ purchaseRequestPaperDetail.unit.name|default }}</td>
-                    <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestPaperDetail.memo|default }}</td>
-                    <td>{{ purchaseRequestPaperDetail.transactionStatus|default }}</td>
-                </tr>
+                {% if purchaseRequestPaperDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.paper.name|default }}</td>
+                        <td style="text-align: center">{{ purchaseRequestPaperDetail.quantity|default|number_format(2) }}</td>
+                        <td>{{ purchaseRequestPaperDetail.unit.name|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.usageDate ? purchaseRequestPaperDetail.usageDate|date('d M Y') : '' }}</td>
+                        <td>{{ purchaseRequestPaperDetail.memo|default }}</td>
+                        <td>{{ purchaseRequestPaperDetail.transactionStatus|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>
