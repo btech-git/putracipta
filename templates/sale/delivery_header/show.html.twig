@@ -107,22 +107,24 @@
         </thead>
         <tbody>
             {% for deliveryDetail in deliveryHeader.deliveryDetails %}
-                <tr>
-                    <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ deliveryDetail.product.code|default }}</td>
-                    <td>{{ deliveryDetail.product.name|default }}</td>
-                    <td>{{ deliveryDetail.fscCode|default }}</td>
-                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }}</td>
-                    <td>{{ deliveryDetail.lotNumber|default }}</td>
-                    <td>{{ deliveryDetail.linePo|default }}</td>
-                    <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
-                    <td style="text-align: center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
-                    <td>{{ deliveryDetail.unit.name|default }}</td>
-                    <td>{{ deliveryDetail.packaging|default }}</td>
-                </tr>
+                {% if deliveryDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td>{{ deliveryDetail.product.code|default }}</td>
+                        <td>{{ deliveryDetail.product.name|default }}</td>
+                        <td>{{ deliveryDetail.fscCode|default }}</td>
+                        <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }}</td>
+                        <td>{{ deliveryDetail.lotNumber|default }}</td>
+                        <td>{{ deliveryDetail.linePo|default }}</td>
+                        <td>{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                        <td style="text-align: center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
+                        <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                        <td style="text-align: center">{{ deliveryDetail.deliveredQuantity|default|number_format(0) }}</td>
+                        <td style="text-align: center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
+                        <td>{{ deliveryDetail.unit.name|default }}</td>
+                        <td>{{ deliveryDetail.packaging|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

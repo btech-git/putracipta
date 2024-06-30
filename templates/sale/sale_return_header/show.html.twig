@@ -82,13 +82,15 @@
         </thead>
         <tbody>
             {% for saleReturnDetail in saleReturnHeader.saleReturnDetails %}
-                <tr>
-                    <td>{{ saleReturnDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ saleReturnDetail.product.code|default }}</td>
-                    <td>{{ saleReturnDetail.product.name|default }}</td>
-                    <td style="text-align: right">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
-                    <td>{{ saleReturnDetail.unit.name|default }}</td>
-                </tr>
+                {% if saleReturnDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ saleReturnDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td>{{ saleReturnDetail.product.code|default }}</td>
+                        <td>{{ saleReturnDetail.product.name|default }}</td>
+                        <td style="text-align: right">{{ saleReturnDetail.quantity|default|number_format(0) }}</td>
+                        <td>{{ saleReturnDetail.unit.name|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

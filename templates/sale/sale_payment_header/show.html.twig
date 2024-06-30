@@ -81,23 +81,25 @@
         </thead>
         <tbody>
             {% for salePaymentDetail in salePaymentHeader.salePaymentDetails %}
-                <tr>
-                    <td>{{ salePaymentDetail.saleInvoiceHeader.codeNumber|default }}</td>
-                    <td>{{ salePaymentDetail.saleInvoiceHeader.dueDate ? salePaymentDetail.saleInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ salePaymentDetail.memo|default }}</td>
-                    <td>{{ salePaymentDetail.account.name|default }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.invoiceAmount|default|number_format(2) }}</td>
-                    <td style="text-align: right">
-                        {% if salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', salePaymentDetail) %}
-                            0.00%
-                        {% elseif salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', salePaymentDetail) %}
-                            {{ salePaymentDetail.serviceTaxPercentage }}%
-                        {% endif %}
-                    </td>
-                    <td style="text-align: right">{{ salePaymentDetail.serviceTaxNominal|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.receivableAmount|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
-                </tr>
+                {% if salePaymentDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ salePaymentDetail.saleInvoiceHeader.codeNumber|default }}</td>
+                        <td>{{ salePaymentDetail.saleInvoiceHeader.dueDate ? salePaymentDetail.saleInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ salePaymentDetail.memo|default }}</td>
+                        <td>{{ salePaymentDetail.account.name|default }}</td>
+                        <td style="text-align: right">{{ salePaymentDetail.invoiceAmount|default|number_format(2) }}</td>
+                        <td style="text-align: right">
+                            {% if salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', salePaymentDetail) %}
+                                0.00%
+                            {% elseif salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', salePaymentDetail) %}
+                                {{ salePaymentDetail.serviceTaxPercentage }}%
+                            {% endif %}
+                        </td>
+                        <td style="text-align: right">{{ salePaymentDetail.serviceTaxNominal|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ salePaymentDetail.receivableAmount|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

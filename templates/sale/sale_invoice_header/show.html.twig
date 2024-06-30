@@ -105,16 +105,18 @@
         </thead>
         <tbody>
             {% for saleInvoiceDetail in saleInvoiceHeader.saleInvoiceDetails %}
-                <tr>
-                    <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ saleInvoiceDetail.deliveryDetail.deliveryHeader.codeNumber|default }}</td>
-                    <td>{{ saleInvoiceDetail.product.code|default }}</td>
-                    <td>{{ saleInvoiceDetail.product.name|default }}</td>
-                    <td style="text-align: right">{{ saleInvoiceDetail.quantity|default|number_format(0) }}</td>
-                    <td>{{ saleInvoiceDetail.unit.name|default }}</td>
-                    <td style="text-align: right">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
-                </tr>
+                {% if saleInvoiceDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td>{{ saleInvoiceDetail.deliveryDetail.deliveryHeader.codeNumber|default }}</td>
+                        <td>{{ saleInvoiceDetail.product.code|default }}</td>
+                        <td>{{ saleInvoiceDetail.product.name|default }}</td>
+                        <td style="text-align: right">{{ saleInvoiceDetail.quantity|default|number_format(0) }}</td>
+                        <td>{{ saleInvoiceDetail.unit.name|default }}</td>
+                        <td style="text-align: right">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>
