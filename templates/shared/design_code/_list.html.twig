@@ -8,22 +8,28 @@
     <table class="table table-bordered table-striped" id="design-code-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th>
-                    Code Number
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
+                </th>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
                 <th>
-                    Color
-                </th>
-                <th>
-                    Pantone
+                    Product
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
-                <th></th>
+                <th>
+                    P<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />-
+                    V<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'variant') }} value="{{ form.filter.variant.1.vars.value }}" />-
+                    R<input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'version') }} value="{{ form.filter.version.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
                 <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
@@ -104,8 +110,8 @@
                     'designCodeProductDetailsData': designCodeProductDetailsData, 
                     'designCodeCheckSheetDetailsData': designCodeCheckSheetDetailsData}|json_encode }}">
                     <td>{{ designCode.codeNumber }}</td>
-                    <td>{{ designCode.color }}</td>
-                    <td>{{ designCode.pantone }}</td>
+                    <td>{{ designCode.name }}</td>
+                    <td>{{ designCode.designCodeProductList }}</td>
                     <td>{{ designCode.note }}</td>
                 </tr>
             {% else %}

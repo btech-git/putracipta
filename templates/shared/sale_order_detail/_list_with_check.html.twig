@@ -67,7 +67,7 @@
                     'unitName': saleOrderDetail.unit.name|default,
                     'saleOrderDetailQuantityRemaining': saleOrderDetail.remainingDelivery|default|number_format(0),
                     'saleOrderDetailQuantity': saleOrderDetail.quantity|default|number_format(0),
-                    'inventoryStockQuantity': stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id] : 0}|json_encode }}">
+                    'inventoryStockQuantity': stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
