@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 #[ORM\Table(name: 'master_employee')]
+#[UniqueEntity('user')]
 class Employee extends Master
 {
     #[ORM\Id]

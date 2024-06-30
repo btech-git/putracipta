@@ -178,6 +178,9 @@ class DesignCode extends Master
     #[ORM\Column(length: 20)]
     private ?string $emboss = '';
 
+    #[ORM\Column(length: 200)]
+    private ?string $designCodeProductList = null;
+
     public function __construct()
     {
         $this->masterOrderHeaders = new ArrayCollection();
@@ -914,6 +917,18 @@ class DesignCode extends Master
     public function setEmboss(string $emboss): self
     {
         $this->emboss = $emboss;
+
+        return $this;
+    }
+
+    public function getDesignCodeProductList(): ?string
+    {
+        return $this->designCodeProductList;
+    }
+
+    public function setDesignCodeProductList(string $designCodeProductList): self
+    {
+        $this->designCodeProductList = $designCodeProductList;
 
         return $this;
     }
