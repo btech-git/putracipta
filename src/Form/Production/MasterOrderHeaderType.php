@@ -59,7 +59,7 @@ class MasterOrderHeaderType extends AbstractType
             ->add('color')
             ->add('pantone')
             ->add('finishing')
-//            ->add('quantityPrinting', FormattedNumberType::class, ['decimals' => 0])
+            ->add('quantityPrinting', FormattedNumberType::class, ['decimals' => 0])
 //            ->add('quantityPrinting2', FormattedNumberType::class, ['decimals' => 0])
             ->add('mountageSize')
             ->add('orderType', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
