@@ -68,7 +68,7 @@ class PurchaseRequestPaperHeaderFormService
         
         $purchaseRequestPaperList = [];
         foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {
-            if ($purchaseRequestPaperDetail->isIsCancelled() == false) {
+            if ($purchaseRequestPaperDetail->isCancelled == false) {
                 $paper = $purchaseRequestPaperDetail->getPaper();
                 $purchaseRequestPaperList[] = $paper->getName();
             }
