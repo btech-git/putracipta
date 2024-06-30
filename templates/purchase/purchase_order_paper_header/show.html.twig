@@ -105,20 +105,22 @@
         </thead>
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
-                <tr>
-                    <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
-                    <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
-                    <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
-                    <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
-                    <td>{{ purchaseOrderPaperDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
-                </tr>
+                {% if purchaseOrderPaperDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
+                        <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                        <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
+                        <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                        <td>{{ purchaseOrderPaperDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

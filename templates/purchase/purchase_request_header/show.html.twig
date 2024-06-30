@@ -82,15 +82,17 @@
         </thead>
         <tbody>
             {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
-                <tr>
-                    <td>{{ purchaseRequestDetail.material.code|default }}</td>
-                    <td>{{ purchaseRequestDetail.material.name|default }}</td>
-                    <td class="text-center">{{ purchaseRequestDetail.quantity|default|number_format(2) }}</td>
-                    <td>{{ purchaseRequestDetail.unit.name|default }}</td>
-                    <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestDetail.memo|default }}</td>
-                    <td>{{ purchaseRequestDetail.transactionStatus|default }}</td>
-                </tr>
+                {% if purchaseRequestDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ purchaseRequestDetail.material.code|default }}</td>
+                        <td>{{ purchaseRequestDetail.material.name|default }}</td>
+                        <td class="text-center">{{ purchaseRequestDetail.quantity|default|number_format(2) }}</td>
+                        <td>{{ purchaseRequestDetail.unit.name|default }}</td>
+                        <td>{{ purchaseRequestDetail.usageDate ? purchaseRequestDetail.usageDate|date('d M Y') : '' }}</td>
+                        <td>{{ purchaseRequestDetail.memo|default }}</td>
+                        <td>{{ purchaseRequestDetail.transactionStatus|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

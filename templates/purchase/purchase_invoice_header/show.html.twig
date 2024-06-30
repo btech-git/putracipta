@@ -111,14 +111,16 @@
         </thead>
         <tbody>
             {% for purchaseInvoiceDetail in purchaseInvoiceHeader.purchaseInvoiceDetails %}
-                <tr>
-                    <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.codeNumber|default : purchaseInvoiceDetail.material.code|default }}</td>
-                    <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.name|default : purchaseInvoiceDetail.material.name|default }}</td>
-                    <td style="text-align: center">{{ purchaseInvoiceDetail.quantity|default|number_format(2) }}</td>
-                    <td>{{ purchaseInvoiceDetail.unit.name|default }}</td>
-                    <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
-                </tr>
+                {% if purchaseInvoiceDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.codeNumber|default : purchaseInvoiceDetail.material.code|default }}</td>
+                        <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.name|default : purchaseInvoiceDetail.material.name|default }}</td>
+                        <td style="text-align: center">{{ purchaseInvoiceDetail.quantity|default|number_format(2) }}</td>
+                        <td>{{ purchaseInvoiceDetail.unit.name|default }}</td>
+                        <td style="text-align: right">{{ purchaseInvoiceDetail.unitPrice|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchaseInvoiceDetail.total|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

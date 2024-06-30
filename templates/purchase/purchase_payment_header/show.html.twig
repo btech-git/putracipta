@@ -89,16 +89,18 @@
         </thead>
         <tbody>
             {% for purchasePaymentDetail in purchasePaymentHeader.purchasePaymentDetails %}
-                <tr>
-                    <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
-                    <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ purchasePaymentDetail.memo|default }}</td>
-                    <td>{{ purchasePaymentDetail.account.name|default }}</td>
-                    <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
-                    <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
-                </tr>
+                {% if purchasePaymentDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
+                        <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ purchasePaymentDetail.memo|default }}</td>
+                        <td>{{ purchasePaymentDetail.account.name|default }}</td>
+                        <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchasePaymentDetail.purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
+                        <td style="text-align: right">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>
