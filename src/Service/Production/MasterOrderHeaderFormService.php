@@ -103,14 +103,14 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setTotalQuantityProduction($masterOrderHeader->getSyncTotalQuantityProduction());
         $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
         
-        $paper = $masterOrderHeader->getPaper();
-        if (!empty($paper)) {
-            $masterOrderHeader->setPaperPlanoLength($paper->getLength());
-            $masterOrderHeader->setPaperPlanoWidth($paper->getWidth());
+        $product = $masterOrderHeader->getPaper();
+        if (!empty($product)) {
+            $masterOrderHeader->setPaperPlanoLength($product->getLength());
+            $masterOrderHeader->setPaperPlanoWidth($product->getWidth());
             
-            $stockQuantityList = $this->inventoryRepository->getAllWarehousePaperStockQuantityList($paper);
+            $stockQuantityList = $this->inventoryRepository->getAllWarehousePaperStockQuantityList($product);
             $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'paperId');
-            $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
+            $stockQuantity = isset($stockQuantityListIndexed[$product->getId()]) ? $stockQuantityListIndexed[$product->getId()] : 0;
             $masterOrderHeader->setQuantityStockPaper($stockQuantity);
         }
         $masterOrderHeader->setQuantityPaper($masterOrderHeader->getSyncQuantityPaper());
@@ -150,6 +150,16 @@ class MasterOrderHeaderFormService
         }
         $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
         $masterOrderHeader->setSaleOrderReferenceNumberList(implode(', ', $saleOrderReferenceNumberUniqueList));
+        
+        $masterOrderProductList = [];
+        foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
+            if ($masterOrderProductDetail->isIsCanceled() == false) {
+                $product = $masterOrderProductDetail->getProduct();
+                $masterOrderProductList[] = $product->getCode();
+            }
+        }
+        $masterOrderProductUniqueList = array_unique(explode(', ', implode(', ', $masterOrderProductList)));
+        $masterOrderHeader->setMasterOrderProductList(implode(', ', $masterOrderProductUniqueList));
     }
 
     public function save(MasterOrderHeader $masterOrderHeader, array $options = []): void
