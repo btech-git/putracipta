@@ -140,11 +140,55 @@
     </div>
          
     <div class="row">
-        <div class="col">
+        {#<div class="col">
             {{ form_row(form.diecutKnife) }}
         </div>
         <div class="col">
             {{ form_row(form.dielineMillar) }}
+        </div>#}
+        <div class="col">
+            <div class="mb-3">
+                <label for="{{ form.diecutKnife.vars.id }}-text" class="form-label">Pisau Diecut</label>
+                {{ form_row(form.diecutKnife, {
+                    'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'diecut-knife-table:data-table:select@document->dom-element#bind diecut-knife-table:data-table:select@document->json-loader#load',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeId'}},
+                        ]|json_encode,
+                    },
+                }) }}
+                <input type="text" id="{{ form.diecutKnife.vars.id }}-text" class="form-control readonly-form-input {% if not form.diecutKnife.vars.valid %}is-invalid{% endif %}" value="{{ designCode.diecutKnife.codeNumber|default }}" readonly="readonly"
+                       data-bs-toggle="modal" data-bs-target="#diecut-knife-dialog"
+                       data-controller="dom-element"
+                       data-action="diecut-knife-table:data-table:select@document->dom-element#bind"
+                       data-dom-element-bind-specifications-param="{{ [
+                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.diecutKnifeCodeNumber'}},
+                       ]|json_encode }}" />
+                {{ form_errors(form.diecutKnife) }}
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="{{ form.dielineMillar.vars.id }}-text" class="form-label">Millar</label>
+                {{ form_row(form.dielineMillar, {
+                    'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dieline-millar-table:data-table:select@document->dom-element#bind dieline-millar-table:data-table:select@document->json-loader#load',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.dielineMillarId'}},
+                        ]|json_encode,
+                    },
+                }) }}
+                <input type="text" id="{{ form.dielineMillar.vars.id }}-text" class="form-control readonly-form-input {% if not form.dielineMillar.vars.valid %}is-invalid{% endif %}" value="{{ designCode.dielineMillar.codeNumber|default }}" readonly="readonly"
+                       data-bs-toggle="modal" data-bs-target="#dieline-millar-dialog"
+                       data-controller="dom-element"
+                       data-action="dieline-millar-table:data-table:select@document->dom-element#bind"
+                       data-dom-element-bind-specifications-param="{{ [
+                           {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.dielineMillarCodeNumber'}},
+                       ]|json_encode }}" />
+                {{ form_errors(form.dielineMillar) }}
+            </div>
         </div>
         <div class="col">
             {{ form_row(form.status, {'attr': {'readonly': true}}) }}
@@ -366,6 +410,20 @@
     {{ dialog.start('paper-dialog', 'Paper List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('diecut-knife-dialog', 'Pisau Diecut List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_diecut_knife__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('dieline-millar-dialog', 'Millar List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_dieline_millar__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
