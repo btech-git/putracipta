@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Criteria\DataCriteriaPagination;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestHeader;
@@ -83,17 +84,19 @@ class DefaultController extends AbstractController
             $qb->andWhere("{$alias}.isRead = false");
         });
 
-        $criteria = new DataCriteria();
-        $saleForm = $this->createForm(DashboardSaleOrderGridType::class, $criteria);
+        $saleCriteria = new DataCriteria();
+        $saleCriteria->setSort([
+            'transactionDate' => SortDescending::class,
+        ]);
+        $saleForm = $this->createForm(DashboardSaleOrderGridType::class, $saleCriteria);
         $saleForm->handleRequest($request);
 
-        list($saleCount, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria);
+        list($saleCount, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($saleCriteria);
 
-        $criteria = new DataCriteria();
-        $dataCriteriaPagination = new DataCriteriaPagination();
-        $dataCriteriaPagination->setSize(1000);
-        $criteria->setPagination($dataCriteriaPagination);
-        $saleOrderHeaderItems = $saleOrderHeaderRepository->fetchObjects($criteria, function($qb, $alias) use ($saleOrderHeaders) {
+        $saleDataCriteriaPagination = new DataCriteriaPagination();
+        $saleDataCriteriaPagination->setSize(1000);
+        $saleCriteria->setPagination($saleDataCriteriaPagination);
+        $saleOrderHeaderItems = $saleOrderHeaderRepository->fetchObjects($saleCriteria, function($qb, $alias) use ($saleOrderHeaders) {
             $qb->leftJoin("{$alias}.saleOrderDetails", 'd');
             $qb->leftJoin("d.masterOrderProductDetails", 'md');
             $qb->leftJoin("md.masterOrderHeader", 'mh');
@@ -110,17 +113,19 @@ class DefaultController extends AbstractController
             $saleOrderHeaderData[$saleOrderHeaderItem->getId()] = $saleOrderHeaderItem;
         }
         
-        $criteria = new DataCriteria();
-        $purchaseForm = $this->createForm(DashboardPurchaseOrderGridType::class, $criteria);
+        $purchaseMaterialCriteria = new DataCriteria();
+        $purchaseMaterialCriteria->setSort([
+            'transactionDate' => SortDescending::class,
+        ]);
+        $purchaseForm = $this->createForm(DashboardPurchaseOrderGridType::class, $purchaseMaterialCriteria);
         $purchaseForm->handleRequest($request);
 
-        list($purchaseCount, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($criteria);
+        list($purchaseCount, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($purchaseMaterialCriteria);
 
-        $criteria = new DataCriteria();
-        $dataCriteriaPagination = new DataCriteriaPagination();
-        $dataCriteriaPagination->setSize(1000);
-        $criteria->setPagination($dataCriteriaPagination);
-        $purchaseOrderHeaderItems = $purchaseOrderHeaderRepository->fetchObjects($criteria, function($qb, $alias) use ($purchaseOrderHeaders) {
+        $purchaseMaterialDataCriteriaPagination = new DataCriteriaPagination();
+        $purchaseMaterialDataCriteriaPagination->setSize(1000);
+        $purchaseMaterialCriteria->setPagination($purchaseMaterialDataCriteriaPagination);
+        $purchaseOrderHeaderItems = $purchaseOrderHeaderRepository->fetchObjects($purchaseMaterialCriteria, function($qb, $alias) use ($purchaseOrderHeaders) {
             $qb->leftJoin("{$alias}.purchaseOrderDetails", 'd');
             $qb->leftJoin("d.receiveDetails", 'dd');
             $qb->leftJoin("dd.receiveHeader", 'dh');
@@ -135,17 +140,19 @@ class DefaultController extends AbstractController
             $purchaseOrderHeaderData[$purchaseOrderHeaderItem->getId()] = $purchaseOrderHeaderItem;
         }
         
-        $criteria = new DataCriteria();
-        $purchasePaperForm = $this->createForm(DashboardPurchaseOrderPaperGridType::class, $criteria);
+        $purchasePaperCriteria = new DataCriteria();
+        $purchasePaperCriteria->setSort([
+            'transactionDate' => SortDescending::class,
+        ]);
+        $purchasePaperForm = $this->createForm(DashboardPurchaseOrderPaperGridType::class, $purchasePaperCriteria);
         $purchasePaperForm->handleRequest($request);
 
-        list($purchasePaperCount, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($criteria);
+        list($purchasePaperCount, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($purchasePaperCriteria);
 
-        $criteria = new DataCriteria();
-        $dataCriteriaPagination = new DataCriteriaPagination();
-        $dataCriteriaPagination->setSize(1000);
-        $criteria->setPagination($dataCriteriaPagination);
-        $purchaseOrderPaperHeaderItems = $purchaseOrderPaperHeaderRepository->fetchObjects($criteria, function($qb, $alias) use ($purchaseOrderPaperHeaders) {
+        $purchasePaperDataCriteriaPagination = new DataCriteriaPagination();
+        $purchasePaperDataCriteriaPagination->setSize(1000);
+        $purchasePaperCriteria->setPagination($purchasePaperDataCriteriaPagination);
+        $purchaseOrderPaperHeaderItems = $purchaseOrderPaperHeaderRepository->fetchObjects($purchasePaperCriteria, function($qb, $alias) use ($purchaseOrderPaperHeaders) {
             $qb->leftJoin("{$alias}.purchaseOrderPaperDetails", 'd');
             $qb->leftJoin("d.receiveDetails", 'dd');
             $qb->leftJoin("dd.receiveHeader", 'dh');
