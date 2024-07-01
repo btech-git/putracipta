@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Product;
 use App\Form\Master\ProductType;
@@ -24,6 +25,9 @@ class ProductController extends AbstractController
     public function _list(Request $request, ProductRepository $productRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortAscending::class,
+        ]);
         $form = $this->createForm(ProductGridType::class, $criteria);
         $form->handleRequest($request);
 

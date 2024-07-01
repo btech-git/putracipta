@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DiecutKnife;
 use App\Form\Master\DiecutKnifeType;
@@ -35,6 +36,10 @@ class DiecutKnifeController extends AbstractController
     public function _list(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'date' => SortDescending::class,
+            'name' => SortDescending::class,
+        ]);
         $form = $this->createForm(DiecutKnifeGridType::class, $criteria);
         $form->handleRequest($request);
 

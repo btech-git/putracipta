@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DielineMillar;
 use App\Form\Master\DielineMillarType;
@@ -35,6 +36,10 @@ class DielineMillarController extends AbstractController
     public function _list(Request $request, DielineMillarRepository $dielineMillarRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'id' => SortDescending::class,
+            'name' => SortDescending::class,
+        ]);
         $form = $this->createForm(DielineMillarGridType::class, $criteria);
         $form->handleRequest($request);
 

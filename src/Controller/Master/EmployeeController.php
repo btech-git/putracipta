@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Employee;
 use App\Form\Master\EmployeeType;
@@ -24,6 +25,9 @@ class EmployeeController extends AbstractController
     public function _list(Request $request, EmployeeRepository $employeeRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortAscending::class,
+        ]);
         $form = $this->createForm(EmployeeGridType::class, $criteria);
         $form->handleRequest($request);
 

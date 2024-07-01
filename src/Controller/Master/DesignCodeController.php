@@ -40,8 +40,8 @@ class DesignCodeController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'name' => SortDescending::class,
             'createdTransactionDateTime' => SortDescending::class,
+            'name' => SortDescending::class,
         ]);
         $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);

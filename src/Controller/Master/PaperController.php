@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Paper;
 use App\Form\Master\PaperType;
@@ -24,6 +25,9 @@ class PaperController extends AbstractController
     public function _list(Request $request, PaperRepository $paperRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'name' => SortAscending::class,
+        ]);
         $form = $this->createForm(PaperGridType::class, $criteria);
         $form->handleRequest($request);
 
