@@ -153,12 +153,11 @@
             <table class="detail">
                 <thead>
                     <tr>
-                        <th colspan='4' class='center'>PRODUCTS</th>
+                        <th colspan='3' class='center'>PRODUCTS</th>
                     </tr>
                     <tr>
                         <th class="center">Item Code</th>
                         <th class="center">Item Name</th>
-                        <th class="center">Ukuran Jadi</th>
                         <th class="center">Quantity (pcs)</th>
                     </tr>
                 </thead>
@@ -167,7 +166,6 @@
                     <tr>
                         <td>{{ productPrototypeDetail.product.code|default }}</td>
                         <td>{{ productPrototypeDetail.product.name|default }}</td>
-                        <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
                         <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
                     </tr>
                     {% endfor %}

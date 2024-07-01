@@ -11,14 +11,17 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Master Order # {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 60px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px">Product</th>
-                <th style="min-width: 150px">Design Code</th>
+                <th style="min-width: 150px" {{ grid.sort_link_item(form, 'saleOrderReferenceNumberList') }}>
+                    PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumberList.vars.value) }}
+                </th>
+                <th style="min-width: 250px">Product</th>
+                <th style="min-width: 350px">Design Code</th>
                 <th style="min-width: 130px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -39,6 +42,9 @@
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumberList') }} value="{{ form.filter.saleOrderReferenceNumberList.1.vars.value }}" />
                 </th>
                 <th></th>
                 <th>
@@ -62,6 +68,7 @@
                     <td>{{ masterOrderHeader.codeNumber|default }}</td>
                     <td>{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderHeader.customer.company|default }}</td>
+                    <td>{{ masterOrderHeader.saleOrderReferenceNumberList|default }}</td>
                     <td>{{ masterOrderHeader.masterOrderProductList|default }}</td>
                     <td>{{ masterOrderHeader.designCode.codeNumber|default }}</td>
                     <td>
@@ -78,7 +85,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No records found</td>
+                    <td colspan="7">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
