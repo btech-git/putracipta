@@ -9,6 +9,8 @@ use App\Entity\Master\DesignCodeCheckSheetDetail;
 use App\Entity\Master\DesignCodeDistributionDetail;
 use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Master\DesignCodeProductDetail;
+use App\Entity\Master\DiecutKnife;
+use App\Entity\Master\DielineMillar;
 use App\Entity\Master\Paper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -64,33 +66,35 @@ class DesignCodeType extends AbstractType
             ->add('packagingTapeSmallQuantity', FormattedNumberType::class, ['label' => 'Lakban Kecil (cm/pack)', 'decimals' => 2])
             ->add('packagingPlasticQuantity', FormattedNumberType::class, ['label' => 'Plastik (cm2/pack)', 'decimals' => 2])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('diecutKnife', EntityHiddenType::class, array('class' => DiecutKnife::class))
+            ->add('dielineMillar', EntityHiddenType::class, array('class' => DielineMillar::class))
             ->add('glossiness')
             ->add('emboss', ChoiceType::class, ['choices' => [
                 'Tidak Ada' => 'Tidak Ada',
                 'Ada' => 'Ada',
             ]])
-            ->add('diecutKnife', null, [
-                'choice_label' => 'codeNumber',
-                'label' => 'Pisau Diecut',
-                'choice_attr' => function($choice) {
-                    return ['data-customer' => $choice->getCustomer()->getId()];
-                },
-                'query_builder' => function($repository) {
-                    return $repository->createQueryBuilder('e')
-                            ->andWhere("e.isInactive = false");
-                },
-            ])
-            ->add('dielineMillar', null, [
-                'choice_label' => 'codeNumber',
-                'label' => 'Millar',
-                'choice_attr' => function($choice) {
-                    return ['data-customer' => $choice->getCustomer()->getId()];
-                },
-                'query_builder' => function($repository) {
-                    return $repository->createQueryBuilder('e')
-                            ->andWhere("e.isInactive = false");
-                },
-            ])
+//            ->add('diecutKnife', null, [
+//                'choice_label' => 'codeNumber',
+//                'label' => 'Pisau Diecut',
+//                'choice_attr' => function($choice) {
+//                    return ['data-customer' => $choice->getCustomer()->getId()];
+//                },
+//                'query_builder' => function($repository) {
+//                    return $repository->createQueryBuilder('e')
+//                            ->andWhere("e.isInactive = false");
+//                },
+//            ])
+//            ->add('dielineMillar', null, [
+//                'choice_label' => 'codeNumber',
+//                'label' => 'Millar',
+//                'choice_attr' => function($choice) {
+//                    return ['data-customer' => $choice->getCustomer()->getId()];
+//                },
+//                'query_builder' => function($repository) {
+//                    return $repository->createQueryBuilder('e')
+//                            ->andWhere("e.isInactive = false");
+//                },
+//            ])
             ->add('status', ChoiceType::class, ['label' => 'Status', 'choices' => [
                 'FA' => DesignCode::STATUS_FA,
                 'NA' => DesignCode::STATUS_NA,
