@@ -17,10 +17,10 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/report/sale_order_detail')]
-class SaleOrderDetailController extends AbstractController
+#[Route('/report/sale_order_summary')]
+class SaleOrderSummaryController extends AbstractController
 {
-    #[Route('/_list', name: 'app_report_sale_order_detail__list', methods: ['GET', 'POST'])]
+    #[Route('/_list', name: 'app_report_sale_order_summary__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_SALE_REPORT')]
     public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
     {
@@ -48,7 +48,7 @@ class SaleOrderDetailController extends AbstractController
         if ($request->request->has('export')) {
             return $this->export($form, $saleOrderHeaders);
         } else {
-            return $this->renderForm("report/sale_order_detail/_list.html.twig", [
+            return $this->renderForm("report/sale_order_summary/_list.html.twig", [
                 'form' => $form,
                 'count' => $count,
                 'saleOrderHeaders' => $saleOrderHeaders,
@@ -56,16 +56,16 @@ class SaleOrderDetailController extends AbstractController
         }
     }
 
-    #[Route('/', name: 'app_report_sale_order_detail_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_report_sale_order_summary_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_SALE_REPORT')]
     public function index(): Response
     {
-        return $this->render("report/sale_order_detail/index.html.twig");
+        return $this->render("report/sale_order_summary/index.html.twig");
     }
 
     public function export(FormInterface $form, array $saleOrderHeaders): Response
     {
-        $htmlString = $this->renderView("report/sale_order_detail/_list_export.html.twig", [
+        $htmlString = $this->renderView("report/sale_order_summary/_list_export.html.twig", [
             'form' => $form->createView(),
             'saleOrderHeaders' => $saleOrderHeaders,
         ]);
@@ -78,7 +78,7 @@ class SaleOrderDetailController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'sale_order_detail.xlsx';
+        $filename = 'sale_order_summary.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);
