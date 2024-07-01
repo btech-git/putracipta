@@ -4,6 +4,7 @@
             <th>PO #</th>
             <th>Kode Barang</th>
             <th>Nama Barang</th>
+            <th>Tanggal Terima</th>
             <th>Tanggal Kirim</th>
             <th>Qty Terima</th>
             <th>Satuan</th>
@@ -17,8 +18,9 @@
                     <td>{{ lastInventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ lastInventoryProductReceiveDetail.product.code|default }}</td>
                     <td>{{ lastInventoryProductReceiveDetail.product.name|default }}</td>
+                    <td>{{ lastInventoryProductReceiveHeader.transactionDate ? lastInventoryProductReceiveHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ lastInventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? lastInventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                    <td>{{ lastInventoryProductReceiveDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ lastInventoryProductReceiveDetail.quantityTotalPieces|default|number_format(0) }}</td>
                     <td>{{ lastInventoryProductReceiveDetail.product.unit.name|default }}</td>
                     <td>{{ lastInventoryProductReceiveDetail.memo|default }}</td>
                 </tr>
