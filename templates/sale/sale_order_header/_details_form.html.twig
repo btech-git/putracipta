@@ -20,7 +20,7 @@
                 <th style="width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="customer-table:data-table:select@document->form-collection#clearCollectionItems product-table:data-table:select@document->form-collection#addCollectionItem product-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="customer-table:data-table:select@document->form-collection#clearCollectionItems product-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
