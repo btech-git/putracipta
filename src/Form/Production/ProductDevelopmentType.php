@@ -32,7 +32,7 @@ class ProductDevelopmentType extends AbstractType
             ->add('fepDielineDevelopmentDate', FormattedDateType::class)
             ->add('fepImageDeliveryProductionDate', FormattedDateType::class)
             ->add('fepDiecutDeliveryProductionDate', FormattedDateType::class)
-            ->add('fepDielineDeliveryProductionDate', FormattedDateType::class)
+//            ->add('fepDielineDeliveryProductionDate', FormattedDateType::class)
             ->add('psArtworkFileDate', FormattedDateType::class)
             ->add('psCustomerReviewDate', FormattedDateType::class)
             ->add('psSubconDiecutDate', FormattedDateType::class)
@@ -64,7 +64,7 @@ class ProductDevelopmentType extends AbstractType
                             'application/pdf',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
-                        'maxSizeMessage' => 'Please upload file size smaller than 5MB',
+                        'maxSizeMessage' => 'Please upload file size smaller than 10MB',
                     ])
                 ],
             ])
