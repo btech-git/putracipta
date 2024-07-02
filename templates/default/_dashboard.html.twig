@@ -142,10 +142,10 @@
                 {% set salePaymentDetails = saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.salePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
                 <tr>
                     <td>
-                        <a target="_blank" href="{{ path('app_sale_sale_order_header_show', {'id': currentSaleOrderHeader.id}) }}">{{ currentSaleOrderHeader.codeNumber|default }}</a>
+                        <a target="_blank" href="{{ path('app_sale_sale_order_header_show', {'id': currentSaleOrderHeader.id}) }}">{{ currentSaleOrderHeader.referenceNumber|default }}</a>
                     </td>
                     <td>{{ currentSaleOrderHeader.customer.company }}</td>
-                    <td>{{ saleOrderDetails|map(saleOrderDetail => saleOrderDetail.product.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>{{ saleOrderDetails|map(saleOrderDetail => saleOrderDetail.product.code)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
                     <td>
                         {% set masterOrderHeaders = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
                         {% for masterOrderHeader in masterOrderHeaders %}
