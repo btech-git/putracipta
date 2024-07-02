@@ -70,7 +70,7 @@ class ProductDevelopmentFormService
         $developmentProductList = [];
         foreach ($productDevelopment->getProductDevelopmentDetails() as $productDevelopmentDetail) {
             $product = $productDevelopmentDetail->getProduct();
-            $developmentProductList[] = $product->getName();
+            $developmentProductList[] = $product->getCode();
         }
         $developmentProductUniqueList = array_unique(explode(', ', implode(', ', $developmentProductList)));
         $productDevelopment->setDevelopmentProductList(implode(', ', $developmentProductUniqueList));
@@ -97,7 +97,7 @@ class ProductDevelopmentFormService
     {
         if ($transactionFile) {
             try {
-                $filename = $productDevelopment->getId() . '.' . $productDevelopment->getTransactionFileExtension();
+                $filename = $productDevelopment->getFileName();
                 $transactionFile->move($uploadDirectory, $filename);
             } catch (FileException $e) {
             }
