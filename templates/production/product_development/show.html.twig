@@ -252,9 +252,9 @@
     <div class="text-center">
         <h4>Layout</h4>
         {% if productDevelopment.transactionFileExtension == 'pdf' %}
-            <a target="_blank" href="{{ asset('uploads/product-development/' ~ productDevelopment.id ~ '.' ~ productDevelopment.transactionFileExtension) }}">Layout PDF File</a>
+            <a target="_blank" href="{{ asset('uploads/product-development/' ~ productDevelopment.fileName) }}">Layout PDF File</a>
         {% elseif productDevelopment.transactionFileExtension == 'jpg' or productDevelopment.transactionFileExtension == 'jpeg' or productDevelopment.transactionFileExtension == 'png' %}
-            <img width="256px" src="{{ asset('uploads/product-development/' ~ productDevelopment.id ~ '.' ~ productDevelopment.transactionFileExtension) }}" alt="Product Layout Image" />
+            <img width="256px" src="{{ asset('uploads/product-development/' ~ productDevelopment.fileName) }}" alt="Product Layout Image" />
         {% endif %}
     </div>
 
