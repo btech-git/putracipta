@@ -2,8 +2,7 @@
     <table class="table table-bordered"
        data-controller="form-collection"
        data-form-collection-start-index-value="{{ form.designCodeProductDetails|length > 0 ? form.designCodeProductDetails|last.vars.name + 1 : 0 }}"
-       data-form-collection-prototype-value="{{ _self.collection_item(form.designCodeProductDetails.vars.prototype)|e('html_attr') }}"
-       data-action="form-collection:collection-item-removed->json-loader#load:self">
+       data-form-collection-prototype-value="{{ _self.collection_item(form.designCodeProductDetails.vars.prototype)|e('html_attr') }}">
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Product Id</th>
@@ -13,7 +12,7 @@
                 <th style="width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="customer-table:data-table:select@document->form-collection#clearCollectionItems product-table:data-table:select@document->form-collection#addCollectionItem product-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="{{ form.customer.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems product-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if detailForm.isInactive.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.product, {'attr': {'data-item-field-name': 'productId'}}) }}</td>
@@ -26,7 +25,7 @@
                         {% else %}
                             <button type="button" class="btn btn-danger"
                                     data-controller="dom-element"
-                                    data-action="dom-element#bind json-loader#load"
+                                    data-action="dom-element#bind"
                                     data-dom-element-bind-specifications-param="{{ [
                                         {'destinationsTarget': '#' ~ detailForm.isInactive.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'true'}},
                                         {'destinations': '[$element.closest("tr")]', 'action': 'addClass', 'descriptor': {'name': 'd-none'}},
