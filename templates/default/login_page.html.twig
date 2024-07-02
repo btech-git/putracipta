@@ -28,13 +28,13 @@
                             <div class="input-group-text bg-white">
                                 <i class="bi-person-fill"></i>
                             </div>
-                            <input type="text" class="form-control border-start-0" id="username" name="_username" placeholder="Username" value="{{ lastUsername }}" />
+                            <input type="text" class="form-control border-start-0" id="username" name="_username" placeholder="Username" value="{{ lastUsername }}" {% if lastUsername == '' %}autofocus="autofocus"{% endif %} />
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-text bg-white">
                                 <i class="bi-lock-fill"></i>
                             </div>
-                            <input type="password" class="form-control border-start-0" id="password" name="_password" placeholder="Password" />
+                            <input type="password" class="form-control border-start-0" id="password" name="_password" placeholder="Password" {% if lastUsername != '' %}autofocus="autofocus"{% endif %} />
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         <div class="d-grid">
