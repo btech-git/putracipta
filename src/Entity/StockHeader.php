@@ -36,6 +36,7 @@ abstract class StockHeader
     protected ?User $modifiedTransactionUser = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     protected ?\DateTimeInterface $transactionDate = null;
 
     #[ORM\Column(type: Types::TEXT)]

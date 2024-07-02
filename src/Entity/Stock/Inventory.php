@@ -89,7 +89,7 @@ class Inventory
         return $this->transactionDate;
     }
 
-    public function setTransactionDate(\DateTimeInterface $transactionDate): self
+    public function setTransactionDate(?\DateTimeInterface $transactionDate): self
     {
         $this->transactionDate = $transactionDate;
 
