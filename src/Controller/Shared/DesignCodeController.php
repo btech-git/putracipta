@@ -41,6 +41,7 @@ class DesignCodeController extends AbstractController
             
             $qb->andWhere("EXISTS(SELECT d FROM "  . DesignCodeProcessDetail::class . " d WHERE IDENTITY(d.designCode) = {$alias}.id)");
             
+            $qb->andWhere("{$alias}.status = 'fa'");
             $qb->andWhere("{$alias}.isInactive = false");
         });
 
