@@ -84,89 +84,10 @@ class DefaultController extends AbstractController
             $qb->andWhere("{$alias}.isRead = false");
         });
 
-        $saleCriteria = new DataCriteria();
-        $saleCriteria->setSort([
-            'transactionDate' => SortDescending::class,
-        ]);
-        $saleForm = $this->createForm(DashboardSaleOrderGridType::class, $saleCriteria);
-        $saleForm->handleRequest($request);
+        list($saleOrderHeaders, $saleOrderHeaderData, $saleForm, $saleCount) = $this->getSaleOrderGridData($request, $saleOrderHeaderRepository);
+        list($purchaseOrderHeaders, $purchaseOrderHeaderData, $purchaseForm, $purchaseCount) = $this->getPurchaseOrderGridData($request, $purchaseOrderHeaderRepository);
+        list($purchaseOrderPaperHeaders, $purchaseOrderPaperHeaderData, $purchasePaperForm, $purchasePaperCount) = $this->getPurchaseOrderPaperGridData($request, $purchaseOrderPaperHeaderRepository);
 
-        list($saleCount, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($saleCriteria);
-
-        $saleDataCriteriaPagination = new DataCriteriaPagination();
-        $saleDataCriteriaPagination->setSize(1000);
-        $saleCriteria->setPagination($saleDataCriteriaPagination);
-        $saleOrderHeaderItems = $saleOrderHeaderRepository->fetchObjects($saleCriteria, function($qb, $alias) use ($saleOrderHeaders) {
-            $qb->leftJoin("{$alias}.saleOrderDetails", 'd');
-            $qb->leftJoin("d.masterOrderProductDetails", 'md');
-            $qb->leftJoin("md.masterOrderHeader", 'mh');
-            $qb->leftJoin("md.deliveryDetails", 'dd');
-            $qb->leftJoin("dd.deliveryHeader", 'dh');
-            $qb->leftJoin("dd.saleInvoiceDetails", 'sd');
-            $qb->leftJoin("sd.saleInvoiceHeader", 'sh');
-            $qb->leftJoin("sh.salePaymentDetails", 'pd');
-            $qb->leftJoin("pd.salePaymentHeader", 'ph');
-            $qb->andWhere("{$alias} IN (:saleOrderHeaders)")->setParameter('saleOrderHeaders', $saleOrderHeaders);
-        });
-        $saleOrderHeaderData = [];
-        foreach ($saleOrderHeaderItems as $saleOrderHeaderItem) {
-            $saleOrderHeaderData[$saleOrderHeaderItem->getId()] = $saleOrderHeaderItem;
-        }
-        
-        $purchaseMaterialCriteria = new DataCriteria();
-        $purchaseMaterialCriteria->setSort([
-            'transactionDate' => SortDescending::class,
-        ]);
-        $purchaseForm = $this->createForm(DashboardPurchaseOrderGridType::class, $purchaseMaterialCriteria);
-        $purchaseForm->handleRequest($request);
-
-        list($purchaseCount, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($purchaseMaterialCriteria);
-
-        $purchaseMaterialDataCriteriaPagination = new DataCriteriaPagination();
-        $purchaseMaterialDataCriteriaPagination->setSize(1000);
-        $purchaseMaterialCriteria->setPagination($purchaseMaterialDataCriteriaPagination);
-        $purchaseOrderHeaderItems = $purchaseOrderHeaderRepository->fetchObjects($purchaseMaterialCriteria, function($qb, $alias) use ($purchaseOrderHeaders) {
-            $qb->leftJoin("{$alias}.purchaseOrderDetails", 'd');
-            $qb->leftJoin("d.receiveDetails", 'dd');
-            $qb->leftJoin("dd.receiveHeader", 'dh');
-            $qb->leftJoin("dd.purchaseInvoiceDetails", 'sd');
-            $qb->leftJoin("sd.purchaseInvoiceHeader", 'sh');
-            $qb->leftJoin("sh.purchasePaymentDetails", 'pd');
-            $qb->leftJoin("pd.purchasePaymentHeader", 'ph');
-            $qb->andWhere("{$alias} IN (:purchaseOrderHeaders)")->setParameter('purchaseOrderHeaders', $purchaseOrderHeaders);
-        });
-        $purchaseOrderHeaderData = [];
-        foreach ($purchaseOrderHeaderItems as $purchaseOrderHeaderItem) {
-            $purchaseOrderHeaderData[$purchaseOrderHeaderItem->getId()] = $purchaseOrderHeaderItem;
-        }
-        
-        $purchasePaperCriteria = new DataCriteria();
-        $purchasePaperCriteria->setSort([
-            'transactionDate' => SortDescending::class,
-        ]);
-        $purchasePaperForm = $this->createForm(DashboardPurchaseOrderPaperGridType::class, $purchasePaperCriteria);
-        $purchasePaperForm->handleRequest($request);
-
-        list($purchasePaperCount, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($purchasePaperCriteria);
-
-        $purchasePaperDataCriteriaPagination = new DataCriteriaPagination();
-        $purchasePaperDataCriteriaPagination->setSize(1000);
-        $purchasePaperCriteria->setPagination($purchasePaperDataCriteriaPagination);
-        $purchaseOrderPaperHeaderItems = $purchaseOrderPaperHeaderRepository->fetchObjects($purchasePaperCriteria, function($qb, $alias) use ($purchaseOrderPaperHeaders) {
-            $qb->leftJoin("{$alias}.purchaseOrderPaperDetails", 'd');
-            $qb->leftJoin("d.receiveDetails", 'dd');
-            $qb->leftJoin("dd.receiveHeader", 'dh');
-            $qb->leftJoin("dd.purchaseInvoiceDetails", 'sd');
-            $qb->leftJoin("sd.purchaseInvoiceHeader", 'sh');
-            $qb->leftJoin("sh.purchasePaymentDetails", 'pd');
-            $qb->leftJoin("pd.purchasePaymentHeader", 'ph');
-            $qb->andWhere("{$alias} IN (:purchaseOrderPaperHeaders)")->setParameter('purchaseOrderPaperHeaders', $purchaseOrderPaperHeaders);
-        });
-        $purchaseOrderPaperHeaderData = [];
-        foreach ($purchaseOrderPaperHeaderItems as $purchaseOrderPaperHeaderItem) {
-            $purchaseOrderPaperHeaderData[$purchaseOrderPaperHeaderItem->getId()] = $purchaseOrderPaperHeaderItem;
-        }
-        
         return $this->renderForm('default/_dashboard.html.twig', [
             'purchaseRequestHeaderCount' => $purchaseRequestHeaderCount,
             'purchaseRequestPaperHeaderCount' => $purchaseRequestPaperHeaderCount,
@@ -191,6 +112,107 @@ class DefaultController extends AbstractController
             'purchasePaperForm' => $purchasePaperForm,
             'purchasePaperCount' => $purchasePaperCount,
         ]);
+    }
+
+    private function getSaleOrderGridData(Request $request, $saleOrderHeaderRepository): array
+    {
+        $saleOrderHeaderCriteria = new DataCriteria();
+        $saleOrderHeaderCriteria->setSort([
+            'transactionDate' => SortDescending::class,
+        ]);
+        $saleForm = $this->createForm(DashboardSaleOrderGridType::class, $saleOrderHeaderCriteria);
+        $saleForm->handleRequest($request);
+
+        list($saleCount, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($saleOrderHeaderCriteria);
+
+        $saleOrderHeaderDataCriteria = new DataCriteria();
+        $saleOrderHeaderDataCriteriaPagination = new DataCriteriaPagination();
+        $saleOrderHeaderDataCriteriaPagination->setSize(1000);
+        $saleOrderHeaderDataCriteria->setPagination($saleOrderHeaderDataCriteriaPagination);
+        $saleOrderHeaderItems = $saleOrderHeaderRepository->fetchObjects($saleOrderHeaderDataCriteria, function($qb, $alias) use ($saleOrderHeaders) {
+            $qb->leftJoin("{$alias}.saleOrderDetails", 'd');
+            $qb->leftJoin("d.masterOrderProductDetails", 'md');
+            $qb->leftJoin("md.masterOrderHeader", 'mh');
+            $qb->leftJoin("md.deliveryDetails", 'dd');
+            $qb->leftJoin("dd.deliveryHeader", 'dh');
+            $qb->leftJoin("dd.saleInvoiceDetails", 'sd');
+            $qb->leftJoin("sd.saleInvoiceHeader", 'sh');
+            $qb->leftJoin("sh.salePaymentDetails", 'pd');
+            $qb->leftJoin("pd.salePaymentHeader", 'ph');
+            $qb->andWhere("{$alias} IN (:saleOrderHeaders)")->setParameter('saleOrderHeaders', $saleOrderHeaders);
+        });
+        $saleOrderHeaderData = [];
+        foreach ($saleOrderHeaderItems as $saleOrderHeaderItem) {
+            $saleOrderHeaderData[$saleOrderHeaderItem->getId()] = $saleOrderHeaderItem;
+        }
+
+        return [$saleOrderHeaders, $saleOrderHeaderData, $saleForm, $saleCount];
+    }
+
+    private function getPurchaseOrderGridData(Request $request, $purchaseOrderHeaderRepository): array
+    {
+        $purchaseOrderHeaderCriteria = new DataCriteria();
+        $purchaseOrderHeaderCriteria->setSort([
+            'transactionDate' => SortDescending::class,
+        ]);
+        $purchaseForm = $this->createForm(DashboardPurchaseOrderGridType::class, $purchaseOrderHeaderCriteria);
+        $purchaseForm->handleRequest($request);
+
+        list($purchaseCount, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($purchaseOrderHeaderCriteria);
+
+        $purchaseOrderHeaderDataCriteria = new DataCriteria();
+        $purchaseOrderHeaderDataCriteriaPagination = new DataCriteriaPagination();
+        $purchaseOrderHeaderDataCriteriaPagination->setSize(1000);
+        $purchaseOrderHeaderDataCriteria->setPagination($purchaseOrderHeaderDataCriteriaPagination);
+        $purchaseOrderHeaderItems = $purchaseOrderHeaderRepository->fetchObjects($purchaseOrderHeaderDataCriteria, function($qb, $alias) use ($purchaseOrderHeaders) {
+            $qb->leftJoin("{$alias}.purchaseOrderDetails", 'd');
+            $qb->leftJoin("d.receiveDetails", 'dd');
+            $qb->leftJoin("dd.receiveHeader", 'dh');
+            $qb->leftJoin("dd.purchaseInvoiceDetails", 'sd');
+            $qb->leftJoin("sd.purchaseInvoiceHeader", 'sh');
+            $qb->leftJoin("sh.purchasePaymentDetails", 'pd');
+            $qb->leftJoin("pd.purchasePaymentHeader", 'ph');
+            $qb->andWhere("{$alias} IN (:purchaseOrderHeaders)")->setParameter('purchaseOrderHeaders', $purchaseOrderHeaders);
+        });
+        $purchaseOrderHeaderData = [];
+        foreach ($purchaseOrderHeaderItems as $purchaseOrderHeaderItem) {
+            $purchaseOrderHeaderData[$purchaseOrderHeaderItem->getId()] = $purchaseOrderHeaderItem;
+        }
+
+        return [$purchaseOrderHeaders, $purchaseOrderHeaderData, $purchaseForm, $purchaseCount];
+    }
+
+    private function getPurchaseOrderPaperGridData(Request $request, $purchaseOrderPaperHeaderRepository): array
+    {
+        $purchaseOrderPaperHeaderCriteria = new DataCriteria();
+        $purchaseOrderPaperHeaderCriteria->setSort([
+            'transactionDate' => SortDescending::class,
+        ]);
+        $purchasePaperForm = $this->createForm(DashboardPurchaseOrderPaperGridType::class, $purchaseOrderPaperHeaderCriteria);
+        $purchasePaperForm->handleRequest($request);
+
+        list($purchasePaperCount, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($purchaseOrderPaperHeaderCriteria);
+
+        $purchaseOrderPaperHeaderDataCriteria = new DataCriteria();
+        $purchaseOrderPaperHeaderDataCriteriaPagination = new DataCriteriaPagination();
+        $purchaseOrderPaperHeaderDataCriteriaPagination->setSize(1000);
+        $purchaseOrderPaperHeaderDataCriteria->setPagination($purchaseOrderPaperHeaderDataCriteriaPagination);
+        $purchaseOrderPaperHeaderItems = $purchaseOrderPaperHeaderRepository->fetchObjects($purchaseOrderPaperHeaderDataCriteria, function($qb, $alias) use ($purchaseOrderPaperHeaders) {
+            $qb->leftJoin("{$alias}.purchaseOrderPaperDetails", 'd');
+            $qb->leftJoin("d.receiveDetails", 'dd');
+            $qb->leftJoin("dd.receiveHeader", 'dh');
+            $qb->leftJoin("dd.purchaseInvoiceDetails", 'sd');
+            $qb->leftJoin("sd.purchaseInvoiceHeader", 'sh');
+            $qb->leftJoin("sh.purchasePaymentDetails", 'pd');
+            $qb->leftJoin("pd.purchasePaymentHeader", 'ph');
+            $qb->andWhere("{$alias} IN (:purchaseOrderPaperHeaders)")->setParameter('purchaseOrderPaperHeaders', $purchaseOrderPaperHeaders);
+        });
+        $purchaseOrderPaperHeaderData = [];
+        foreach ($purchaseOrderPaperHeaderItems as $purchaseOrderPaperHeaderItem) {
+            $purchaseOrderPaperHeaderData[$purchaseOrderPaperHeaderItem->getId()] = $purchaseOrderPaperHeaderItem;
+        }
+
+        return [$purchaseOrderPaperHeaders, $purchaseOrderPaperHeaderData, $purchasePaperForm, $purchasePaperCount];
     }
 
     #[Route('/', name: 'app_index', methods: ['GET'])]
