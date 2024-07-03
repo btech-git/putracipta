@@ -19,11 +19,11 @@ class NumberToFormattedTransformer implements DataTransformerInterface
 
     public function transform($number)
     {
-        return number_format($number, $this->decimals, $this->decimalSeparator, $this->thousandsSeparator);
+        return $number == 0 ? '' : number_format((float) $number, $this->decimals, $this->decimalSeparator, $this->thousandsSeparator);
     }
 
     public function reverseTransform($formatted)
     {
-        return str_replace([$this->thousandsSeparator, $this->decimalSeparator], ['', '.'], $formatted);
+        return $formatted == '' ? 0 : str_replace([$this->thousandsSeparator, $this->decimalSeparator], ['', '.'], $formatted);
     }
 }
