@@ -43,9 +43,6 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
 
-    #[ORM\OneToMany(mappedBy: 'inventoryRequestHeader', targetEntity: InventoryReleaseHeader::class)]
-    private Collection $inventoryReleaseHeaders;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantity = '0.00';
 
@@ -71,7 +68,6 @@ class InventoryRequestHeader extends StockHeader
     {
         $this->inventoryRequestPaperDetails = new ArrayCollection();
         $this->inventoryRequestMaterialDetails = new ArrayCollection();
-        $this->inventoryReleaseHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -239,36 +235,6 @@ class InventoryRequestHeader extends StockHeader
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InventoryReleaseHeader>
-     */
-    public function getInventoryReleaseHeaders(): Collection
-    {
-        return $this->inventoryReleaseHeaders;
-    }
-
-    public function addInventoryReleaseHeader(InventoryReleaseHeader $inventoryReleaseHeader): self
-    {
-        if (!$this->inventoryReleaseHeaders->contains($inventoryReleaseHeader)) {
-            $this->inventoryReleaseHeaders->add($inventoryReleaseHeader);
-            $inventoryReleaseHeader->setInventoryRequestHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInventoryReleaseHeader(InventoryReleaseHeader $inventoryReleaseHeader): self
-    {
-        if ($this->inventoryReleaseHeaders->removeElement($inventoryReleaseHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($inventoryReleaseHeader->getInventoryRequestHeader() === $this) {
-                $inventoryReleaseHeader->setInventoryRequestHeader(null);
-            }
-        }
 
         return $this;
     }

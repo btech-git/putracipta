@@ -28,9 +28,6 @@ class InventoryReleaseHeader extends StockHeader
     #[ORM\Column(length: 60)]
     private ?string $partNumber = '';
 
-    #[ORM\ManyToOne(inversedBy: 'inventoryReleaseHeaders')]
-    private ?InventoryRequestHeader $inventoryRequestHeader = null;
-
     #[ORM\OneToMany(mappedBy: 'inventoryReleaseHeader', targetEntity: InventoryReleaseMaterialDetail::class)]
     private Collection $inventoryReleaseMaterialDetails;
 
@@ -49,8 +46,8 @@ class InventoryReleaseHeader extends StockHeader
     #[ORM\ManyToOne]
     private ?Division $division = null;
 
-    #[ORM\ManyToOne(inversedBy: 'inventoryReleaseHeaders')]
-    private ?MasterOrderHeader $masterOrderHeader = null;
+    #[ORM\Column(length: 100)]
+    private ?string $workOrderNumber = '';
 
     public function __construct()
     {
@@ -93,18 +90,6 @@ class InventoryReleaseHeader extends StockHeader
     public function setPartNumber(string $partNumber): self
     {
         $this->partNumber = $partNumber;
-
-        return $this;
-    }
-
-    public function getInventoryRequestHeader(): ?InventoryRequestHeader
-    {
-        return $this->inventoryRequestHeader;
-    }
-
-    public function setInventoryRequestHeader(?InventoryRequestHeader $inventoryRequestHeader): self
-    {
-        $this->inventoryRequestHeader = $inventoryRequestHeader;
 
         return $this;
     }
@@ -225,6 +210,18 @@ class InventoryReleaseHeader extends StockHeader
     public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
         $this->masterOrderHeader = $masterOrderHeader;
+
+        return $this;
+    }
+
+    public function getWorkOrderNumber(): ?string
+    {
+        return $this->workOrderNumber;
+    }
+
+    public function setWorkOrderNumber(string $workOrderNumber): self
+    {
+        $this->workOrderNumber = $workOrderNumber;
 
         return $this;
     }
