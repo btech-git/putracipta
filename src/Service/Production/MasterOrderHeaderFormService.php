@@ -194,7 +194,7 @@ class MasterOrderHeaderFormService
     {
         if ($transactionFile) {
             try {
-                $filename = $masterOrderHeader->getId() . '.' . $masterOrderHeader->getLayoutModelFileExtension();
+                $filename = $masterOrderHeader->getFileName();
                 $transactionFile->move($uploadDirectory, $filename);
             } catch (FileException $e) {
             }
