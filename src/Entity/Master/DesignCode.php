@@ -35,6 +35,7 @@ class DesignCode extends Master
     private ?string $variant = '';
 
     #[ORM\ManyToOne(inversedBy: 'designCodes')]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 60)]
