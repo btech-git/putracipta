@@ -1,0 +1,75 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, inventoryRequestMaterialDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="inventory-request-material-detail-table" data-controller="data-table">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 280px">
+                    Permintaan #
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'departmentName') }}>
+                    Material {{ grid.sort_char(form.sort.departmentName.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'workOrderNumber') }}>
+                    Quantity {{ grid.sort_char(form.sort.workOrderNumber.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'requestMode') }}>
+                    Satuan {{ grid.sort_char(form.sort.requestMode.vars.value) }}
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse') }}>
+                    Keterangan {{ grid.sort_char(form.sort['warehouse'].vars.value) }}
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'departmentName') }} value="{{ form.filter.departmentName.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'workOrderNumber') }} value="{{ form.filter.workOrderNumber.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'requestMode') }} value="{{ form.filter.requestMode.1.vars.value }}" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventoryRequestMaterialDetail in inventoryRequestMaterialDetails %}
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'inventoryRequestHeaderCodeNumber': inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber, 
+                    'inventoryRequestHeaderTransactionDate': inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '', 
+                    'materialCode': inventoryRequestMaterialDetail.material.code|default,
+                    'materialId': inventoryRequestMaterialDetail.material.id|default,
+                    'materialName': inventoryRequestMaterialDetail.material.name|default,
+                    'inventoryRequestMaterialDetailId': inventoryRequestMaterialDetail.id|default,
+                    'inventoryRequestMaterialDetailQuantity': inventoryRequestMaterialDetail.quantity|default|number_format(0),
+                    'inventoryRequestMaterialDetailMemo': inventoryRequestMaterialDetail.memo|default,
+                    'unitId': inventoryRequestMaterialDetail.unit.id,
+                    'unitName': inventoryRequestMaterialDetail.unit.name}|json_encode }}">
+                    <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.memo|default }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, inventoryRequestMaterialDetails) }}

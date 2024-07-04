@@ -8,23 +8,30 @@
     <table class="table table-bordered table-striped" id="dieline-millar-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th>
-                    Code Number
+                <th style="min-width: 270px" role="button" {{ grid.sort_link_item(form, 'code') }}>
+                    Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
-                <th>
-                    Jml Up Cetak
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
+                    Milar {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th>
-                    Layout Cetak
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'printingLayout') }}>
+                    Kris Cetak {{ grid.sort_char(form.sort.printingLayout.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    M<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />-
+                    R<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'version') }} value="{{ form.filter.version.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                </th>
+                <th>
+                    <input type="text" size="10" {{ grid.filter_link_item(form, 'printingLayout') }} value="{{ form.filter.printingLayout.1.vars.value }}" />
+                </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
@@ -37,7 +44,7 @@
                     'dielineMillarCodeNumber': dielineMillar.codeNumber, 
                     'dielineMillarNote': dielineMillar.note}|json_encode }}">
                     <td>{{ dielineMillar.codeNumber }}</td>
-                    <td>{{ dielineMillar.quantityUpPrinting }}</td>
+                    <td>{{ dielineMillar.name }}</td>
                     <td>{{ dielineMillar.printingLayout }}</td>
                     <td>{{ dielineMillar.note }}</td>
                 </tr>
