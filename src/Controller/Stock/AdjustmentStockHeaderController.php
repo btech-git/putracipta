@@ -76,6 +76,28 @@ class AdjustmentStockHeaderController extends AbstractController
         ]);
     }
 
+    #[Route('/new.{_format}', name: 'app_stock_adjustment_stock_header_new_finished_goods', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADJUSTMENT_ADD')]
+    public function newFinishedGoods(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
+    {
+        $adjustmentStockHeader = new AdjustmentStockHeader();
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
+        $form->handleRequest($request);
+        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
+
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
+
+            return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("stock/adjustment_stock_header/new_finished_goods.{$_format}.twig", [
+            'adjustmentStockHeader' => $adjustmentStockHeader,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_stock_adjustment_stock_header_show', methods: ['GET'])]
     #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function show(AdjustmentStockHeader $adjustmentStockHeader): Response
