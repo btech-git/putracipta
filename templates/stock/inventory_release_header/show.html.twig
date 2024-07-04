@@ -24,8 +24,8 @@
                 <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Request #</th>
-                <td>{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}</td>
+                <th>Gudang</th>
+                <td>{{ inventoryReleaseHeader.warehouse.name|default }}</td>
             </tr>
             <tr>
                 <th>Divisi</th>
@@ -33,14 +33,14 @@
             </tr>
             <tr>
                 <th>WO #</th>
-                <td>{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}</td>
+                <td>{{ inventoryReleaseHeader.workOrderNumber|default }}</td>
             </tr>
             <tr>
                 <th>Part #</th>
                 <td>{{ inventoryReleaseHeader.partNumber|default }}</td>
             </tr>
             <tr>
-                <th>Jenis</th>
+                <th>Jenis Pengeluaran</th>
                 <td>{{ inventoryReleaseHeader.releaseMode|default }}</td>
             </tr>
             <tr>
@@ -81,6 +81,8 @@
                 {% endif %} 
                 <th>Qty</th>
                 <th>Satuan</th>
+                <th>Permintaan #</th>
+                <th>Tanggal</th>
                 <th>Keterangan</th>
             </tr>
         </thead>
@@ -92,6 +94,16 @@
                         <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
                         <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
+                        <td>
+                            {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
+                                {{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber|default }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
+                                {{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate ? inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}
+                            {% endif %}
+                        </td>
                         <td>{{ inventoryReleasePaperDetail.memo|default }}</td>
                     </tr>
                 {% endfor %}
@@ -102,6 +114,16 @@
                         <td>{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
                         <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
                         <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
+                        <td>
+                            {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
+                                {{ inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber|default }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
+                                {{ inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}
+                            {% endif %}
+                        </td>
                         <td>{{ inventoryReleaseMaterialDetail.memo|default }}</td>
                     </tr>
                 {% endfor %}

@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward data-choice:select->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
 
@@ -16,67 +16,25 @@
                             'data-action': 'json-loader#load',
                         },
                     }) }}
-                    <div class="mb-3">
-                        <label class="form-label">Jenis Pengeluaran</label>
-                        {{ form_row(form.releaseMode, {
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'inventory-request-header-table:data-table:select@document->dom-element#bind',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderMode'}},
-                                ]|json_encode,
-                            },
-                        }) }}
-                    </div>
+                    {{ form_row(form.releaseMode, {
+                        'label': 'Jenis Pengeluaran',
+                        'attr': {
+                            'readonly': inventoryReleaseHeader.id is not null,
+                            'data-controller': 'dom-element data-choice',
+                            'data-action': 'change->dom-element#bind data-choice#select',
+                            'data-dom-element-bind-specifications-param': [
+                                {'destinationsTarget': "#detail-material-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value !== "material"'},
+                                {'destinationsTarget': "#detail-material-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "material"'},
+                                {'destinationsTarget': "#detail-paper-container", 'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value !== "paper"'},
+                                {'destinationsTarget': "#detail-paper-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.value === "paper"'},
+                            ]|json_encode,
+                        },
+                    }) }}
                 </div>
                 <div class="col">
-                    <div class="mb-3">
-                        <label for="{{ form.inventoryRequestHeader.vars.id }}-text" class="form-label">Request #</label>
-                        {{ form_row(form.inventoryRequestHeader, {
-                            'attr': {
-                                'data-controller': 'dom-element',
-                                'data-action': 'inventory-request-header-table:data-table:select@document->dom-element#bind',
-                                'data-dom-element-bind-specifications-param': [
-                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderId'}},
-                                ]|json_encode,
-                            },
-                        }) }}
-                        <input type="text" id="{{ form.inventoryRequestHeader.vars.id }}-text" class="form-control readonly-form-input {% if not form.inventoryRequestHeader.vars.valid %}is-invalid{% endif %}" value="{{ inventoryReleaseHeader.inventoryRequestHeader.codeNumber|default }}" readonly="readonly"
-                               {% if inventoryReleaseHeader.id == null %}data-bs-toggle="modal" data-bs-target="#inventory-request-header-dialog"{% endif %}
-                               data-controller="dom-element"
-                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderCodeNumber'}},
-                               ]|json_encode }}" />
-                        {{ form_errors(form.inventoryRequestHeader) }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">WO #</label>
-                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].masterOrderHeaderCodeNumber'}},
-                               ]|json_encode }}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Divisi</label>
-                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.division.name|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].divisionName'}},
-                               ]|json_encode }}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Part #</label>
-                        <input type="text" class="form-control" value="{{ inventoryReleaseHeader.partNumber|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].inventoryRequestHeaderPartNumber'}},
-                               ]|json_encode }}" />
-                    </div>
+                    {{ form_row(form.workOrderNumber, {'label': 'WO #'}) }}
+                    {{ form_row(form.division, {'label': 'Divisi'}) }}
+                    {{ form_row(form.partNumber, {'label': 'Part #'}) }}
                 </div>
             </div>
             <div class="row">
@@ -86,25 +44,17 @@
             </div>
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_MATERIAL', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-material-container"
-                  data-controller="dom-element"
-                  data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
-                  data-dom-element-bind-specifications-param="{{ [
-                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "material"'},
-                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "material"'},
-                  ]|json_encode }}">
+        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_MATERIAL', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-material-container">
             <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#inventory-request-material-detail-dialog">Add Permintaan Material</button>
             {{ include('stock/inventory_release_header/_details_material_form.html.twig') }}
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_PAPER', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-paper-container"
-                  data-controller="dom-element"
-                  data-action="inventory-request-header-table:data-table:select@document->dom-element#bind"
-                  data-dom-element-bind-specifications-param="{{ [
-                      {'action': 'addClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode !== "paper"'},
-                      {'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$event.detail[0].inventoryRequestHeaderMode === "paper"'},
-                  ]|json_encode }}">
+        <fieldset class="border border-secondary rounded mb-3 p-3 {% if inventoryReleaseHeader.releaseMode != constant('RELEASE_MODE_PAPER', inventoryReleaseHeader) %}d-none{% endif %}" id="detail-paper-container">
             <legend class="float-none w-auto text-dark px-1">Detail Kertas</legend>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#paper-dialog">Add Kertas</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#inventory-request-paper-detail-dialog">Add Permintaan Kertas</button>
             {{ include('stock/inventory_release_header/_details_paper_form.html.twig') }}
         </fieldset>
 
@@ -131,9 +81,30 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('inventory-request-header-dialog', 'Material Request List') }}
+    {{ dialog.start('material-dialog', 'Material List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_inventory_request_header__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('inventory-request-material-detail-dialog', 'Material Request List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_inventory_request_material_detail__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('paper-dialog', 'Kertas List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
+    {{ dialog.start('inventory-request-paper-detail-dialog', 'Paper Request List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_inventory_request_paper_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
