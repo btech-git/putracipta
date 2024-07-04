@@ -69,7 +69,7 @@ class Paper extends Master
 
     public function getPaperNameSizeCombination(): string
     {
-        return $this->name . ' ' . number_format((float) $this->weight, 0) . '-' . $this->length . '-' . $this->width;
+        return $this->name . ' ' . $this->weight . '-' . $this->length . '-' . $this->width;
     }
     
     public function getCodeNumber(): string
