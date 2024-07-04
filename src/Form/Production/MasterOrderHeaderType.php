@@ -165,7 +165,7 @@ class MasterOrderHeaderType extends AbstractType
                             'application/pdf',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
-                        'maxSizeMessage' => 'Please upload file size smaller than 5MB',
+                        'maxSizeMessage' => 'Please upload file size smaller than 10MB',
                     ])
                 ],
             ])
