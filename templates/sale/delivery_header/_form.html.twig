@@ -100,25 +100,16 @@
             </div>
         </fieldset>
 
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if deliveryHeader.isUsingOutsourceDelivery == true %}d-none{% endif %}" id="internal-delivery-container">
-            <legend class="float-none w-auto text-dark px-1">Pengiriman Internal</legend>
+        <fieldset class="border border-secondary rounded mb-3 p-3">
+            <legend class="float-none w-auto text-dark px-1">Kendaraan</legend>
             <div class="row">
-                <div class="col">
+                <div class="col {% if deliveryHeader.isUsingOutsourceDelivery == true %}d-none{% endif %}" id="internal-delivery-container">
                     {{ form_row(form.transportation, {'label': 'Kendaraan Perusahaan'}) }}
                 </div>
-                <div class="col">
-                    {{ form_row(form.employee, {'label': 'Sopir Perusahaan'}) }}
-                </div>
-            </div>
-        </fieldset>
-                
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if deliveryHeader.isUsingOutsourceDelivery == false %}d-none{% endif %}" id="external-delivery-container">
-            <legend class="float-none w-auto text-dark px-1">Pengiriman Ekspedisi</legend>
-            <div class="row">
-                <div class="col">
+                <div class="col {% if deliveryHeader.isUsingOutsourceDelivery == false %}d-none{% endif %}" id="external-delivery-container">
                     {{ form_row(form.vehicleName, {'label': 'Kendaraan Expedisi'}) }}
                 </div>
-                <div class="col">
+                <div class="col {% if deliveryHeader.isUsingOutsourceDelivery == false %}d-none{% endif %}" id="external-delivery-container">
                     {{ form_row(form.vehiclePlateNumber, {'label': 'Plat #'}) }}
                 </div>
                 <div class="col">
@@ -126,7 +117,7 @@
                 </div>
             </div>
         </fieldset>
-        
+                
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Details</legend>
             <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#sale-order-detail-and-master-order-product-detail-dialog">Add Detail</button>

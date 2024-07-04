@@ -90,10 +90,6 @@
                             <div class="cell label">Tanggal Kirim</div>
                             <div class="cell value">{{ deliveryHeader.transactionDate|default ? deliveryHeader.transactionDate|date('d M Y') }}</div>
                         </div>
-                        <div class="row">
-                            <div class="cell label">Catatan</div>
-                            <div class="cell value">{{ deliveryHeader.note|default }}</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -104,6 +100,7 @@
         <table class="detail">
             <thead>
                 <tr>
+                    <th class="center">No.</th>
                     <th class="center">Product Name</th>
                     <th class="center">Code No.</th>
                     <th class="center" style="max-width: 70px">WO no. / Tgl Prod</th>
@@ -137,11 +134,12 @@
                         {% set productIds = productIds|merge([detail.product.id]) %}
                     {% endif %}
                 {% endfor %}
-                
+                {% set number = 1 %}
                 {% for row in details|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
                             {% if deliveryDetail %}
+                                <td class="center">{{ number|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
                                 <td class="left">{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }} / {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') }}</td>
@@ -158,6 +156,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 {% if deliveryHeader.isUsingFscPaper %}
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
@@ -169,17 +168,29 @@
                                 <td>&nbsp;</td>
                             {% endif %}
                         </tr>
+                        {% set number = number + 1 %}
                     {% endfor %}
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan={% if deliveryHeader.isUsingFscPaper %}"6"{% else %} "5" {% endif %} class="label right">Total</td>
+                    <td colspan={% if deliveryHeader.isUsingFscPaper %}"7"{% else %}"6"{% endif %} class="label right">Total</td>
                     <td class="center">{{ deliveryHeader.totalQuantity|default|number_format(0) }}</td>
                     <td></td>
                 </tr>
             </tfoot>
         </table>
+        
+        <br />
+        
+        <div class="note">
+            <div class="table full">
+                <div class="row">
+                    <div class="cell label">Catatan</div>
+                    <div class="cell value">{{ deliveryHeader.note|default }}</div>
+                </div>
+            </div>
+        </div>
         
         <br />
         
