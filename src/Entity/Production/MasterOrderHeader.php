@@ -12,7 +12,6 @@ use App\Entity\Master\Warehouse;
 use App\Entity\ProductionHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Stock\InventoryProductReceiveHeader;
-use App\Entity\Stock\InventoryReleaseHeader;
 use App\Entity\Stock\InventoryRequestHeader;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -371,9 +370,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryRequestHeader::class)]
     private Collection $inventoryRequestHeaders;
 
-    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryReleaseHeader::class)]
-    private Collection $inventoryReleaseHeaders;
-
     #[ORM\Column(length: 200)]
     private ?string $saleOrderReferenceNumberList = '';
 
@@ -395,7 +391,6 @@ class MasterOrderHeader extends ProductionHeader
         $this->inventoryProductReceiveHeaders = new ArrayCollection();
         $this->masterOrderPrototypeDetails = new ArrayCollection();
         $this->inventoryRequestHeaders = new ArrayCollection();
-        $this->inventoryReleaseHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -687,6 +682,11 @@ class MasterOrderHeader extends ProductionHeader
         return $this->codeNumberOrdinal . '.' . $this->codeNumberYear;
     }
     
+    public function getFileName(): string
+    {
+        return sprintf('(%d)_%s_%s.%s', $this->id, $this->masterOrderProductList, $this->transactionDate->format('Y-m-d'), $this->layoutModelFileExtension);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -2180,36 +2180,6 @@ class MasterOrderHeader extends ProductionHeader
             // set the owning side to null (unless already changed)
             if ($inventoryRequestHeader->getMasterOrderHeader() === $this) {
                 $inventoryRequestHeader->setMasterOrderHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, InventoryReleaseHeader>
-     */
-    public function getInventoryReleaseHeaders(): Collection
-    {
-        return $this->inventoryReleaseHeaders;
-    }
-
-    public function addInventoryReleaseHeader(InventoryReleaseHeader $inventoryReleaseHeader): self
-    {
-        if (!$this->inventoryReleaseHeaders->contains($inventoryReleaseHeader)) {
-            $this->inventoryReleaseHeaders->add($inventoryReleaseHeader);
-            $inventoryReleaseHeader->setMasterOrderHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInventoryReleaseHeader(InventoryReleaseHeader $inventoryReleaseHeader): self
-    {
-        if ($this->inventoryReleaseHeaders->removeElement($inventoryReleaseHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($inventoryReleaseHeader->getMasterOrderHeader() === $this) {
-                $inventoryReleaseHeader->setMasterOrderHeader(null);
             }
         }
 
