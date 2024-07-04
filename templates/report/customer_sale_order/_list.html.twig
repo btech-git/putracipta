@@ -37,8 +37,6 @@
                     </div>
                 </div>
             </div>#}
-        </div>
-        <div class="row">
             <div class="col">
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Customer</label>
@@ -58,12 +56,12 @@
         </div>
     </div>
 
-    {#<div class="d-grid">
+    <div class="d-grid">
         <div class="row">
             <div class="col text-center">
                 <button type="submit" class="btn btn-primary btn-sm"
                         data-controller="redirection"
-                        data-redirection-url-value="{{ path('app_report_sale_order_header__list') }}"
+                        data-redirection-url-value="{{ path('app_report_customer_sale_order__list') }}"
                         data-redirection-form-target-value="form[name={{ form.vars.name }}]"
                         data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
                         data-action="redirection#redirect">
@@ -71,7 +69,7 @@
                 </button>
             </div>
         </div>
-    </div>#}
+    </div>
 
     {{ grid.info(form, count, customers) }}
 
@@ -81,7 +79,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Sales Order</div>
+        <div class="report-title">Laporan PO per Customer</div>
         <div>
             {% set startDate = form.vars.value.filter['saleOrderHeader:transactionDate'].1|default %}
             {% set endDate = form.vars.value.filter['saleOrderHeader:transactionDate'].2|default %}
