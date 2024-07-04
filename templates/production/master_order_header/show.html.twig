@@ -396,10 +396,9 @@
     
     <div class="text-center">
         {% if masterOrderHeader.layoutModelFileExtension == 'pdf' %}
-            <a target="_blank" href="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}">Layout PDF File</a>
+            <a target="_blank" href="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">Layout PDF File</a>
         {% elseif masterOrderHeader.layoutModelFileExtension == 'jpg' or masterOrderHeader.layoutModelFileExtension == 'jpeg' or masterOrderHeader.layoutModelFileExtension == 'png' %}
-            <img width="750px" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}" alt="Layout Model Image" />
+            <img width="750px" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}" alt="Layout Model Image" />
         {% endif %}
     </div>
-
 {% endblock %}
