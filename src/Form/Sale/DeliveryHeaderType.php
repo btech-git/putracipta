@@ -35,14 +35,14 @@ class DeliveryHeaderType extends AbstractType
                             ->andWhere("e.isInactive = false");
                 },
             ])
-            ->add('employee', null, [
-                'choice_label' => 'name',
-                'query_builder' => function($repository) {
-                    return $repository->createQueryBuilder('e')
-                        ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findTransportationRecord())
-                        ->andWhere("e.isInactive = false");
-                },
-            ])
+//            ->add('employee', null, [
+//                'choice_label' => 'name',
+//                'query_builder' => function($repository) {
+//                    return $repository->createQueryBuilder('e')
+//                        ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findTransportationRecord())
+//                        ->andWhere("e.isInactive = false");
+//                },
+//            ])
             ->add('transportation', null, [
                 'choice_label' => 'nameAndPlateNumber',
                 'query_builder' => function($repository) {
