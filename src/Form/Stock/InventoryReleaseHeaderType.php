@@ -2,13 +2,12 @@
 
 namespace App\Form\Stock;
 
-use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Stock\InventoryReleaseHeader;
 use App\Entity\Stock\InventoryReleaseMaterialDetail;
 use App\Entity\Stock\InventoryReleasePaperDetail;
-use App\Entity\Stock\InventoryRequestHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +19,8 @@ class InventoryReleaseHeaderType extends AbstractType
         $builder
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')
-            ->add('releaseMode', null, ['label' => false])
+            ->add('workOrderNumber')
+            ->add('partNumber')
             ->add('warehouse', null, [
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
@@ -28,7 +28,18 @@ class InventoryReleaseHeaderType extends AbstractType
                             ->andWhere("e.isInactive = false");
                 },
             ])
-            ->add('inventoryRequestHeader', EntityHiddenType::class, ['class' => InventoryRequestHeader::class])
+            ->add('releaseMode', ChoiceType::class, ['multiple' => false, 'expanded' => false, 'choices' => [
+                'Material' => InventoryReleaseHeader::RELEASE_MODE_MATERIAL,
+                'Kertas' => InventoryReleaseHeader::RELEASE_MODE_PAPER,
+            ]])
+            ->add('division', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.name', 'ASC');
+                },
+            ])
             ->add('inventoryReleaseMaterialDetails', CollectionType::class, [
                 'entry_type' => InventoryReleaseMaterialDetailType::class,
                 'allow_add' => true,

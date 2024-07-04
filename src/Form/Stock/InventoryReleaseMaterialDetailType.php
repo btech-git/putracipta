@@ -19,6 +19,7 @@ class InventoryReleaseMaterialDetailType extends AbstractType
             ->add('quantity', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('isCanceled')
+            ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
             ->add('inventoryRequestMaterialDetail', EntityHiddenType::class, ['class' => InventoryRequestMaterialDetail::class])
         ;

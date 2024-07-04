@@ -19,6 +19,7 @@ class InventoryReleasePaperDetailType extends AbstractType
             ->add('quantity', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('isCanceled')
+            ->add('unit', null, ['choice_label' => 'name'])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('inventoryRequestPaperDetail', EntityHiddenType::class, ['class' => InventoryRequestPaperDetail::class])
         ;
