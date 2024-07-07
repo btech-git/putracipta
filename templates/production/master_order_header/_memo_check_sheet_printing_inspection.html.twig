@@ -65,7 +65,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Bahan / Gram</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.name|default }} / {{ masterOrderHeader.paper.weight|default }}</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Ukuran Plano</div>
@@ -81,6 +81,10 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
+                        <div class="cell label">Tanggal MO</div>
+                        <div class="cell value">{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</div>
+                    </div>
+                    <div class="row">
                         <div class="cell label">Warna / Pantone</div>
                         <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
@@ -89,12 +93,12 @@
                         <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Tanggal MO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</div>
-                    </div>
-                    <div class="row">
                         <div class="cell label">Kebutuhan / Inseet</div>
                         <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Total Inseet</div>
+                        <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Up/s</div>

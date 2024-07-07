@@ -52,20 +52,12 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">Nama Order</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">Tanggal Order</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
-                    </div>
-                    <div class="row">
                         <div class="cell label">Kertas & Ukuran</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.name|default }} Gram</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Material</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper }} rim {{ masterOrderHeader.paperRequirement }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim / {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                     </div>
                 </div>
             </div>
@@ -87,6 +79,31 @@
             </div>
         </div>
     </div>
+
+    <br />
+
+    <table  class="detail">
+        <thead>
+            <tr>
+                <th>PO#</th>
+                <th>Tanggal PO</th>
+                <th>Kode</th>
+                <th>Nama Produk</th>
+                <th>Tanggal Kirim</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                <tr>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <br />
 

@@ -98,7 +98,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Material Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.name|default }} Gram</div>
                     </div>
                     {#<div class="row">
                         <div class="cell label">Jumlah Up Cetak</div>
@@ -114,6 +114,7 @@
             <thead>
                 <tr>
                     <th>PO#</th>
+                    <th>Tanggal</th>
                     <th>Kode</th>
                     <th>Nama Produk</th>
                     <th>Tanggal Kirim</th>
@@ -127,6 +128,7 @@
                 {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                     <tr>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
@@ -139,7 +141,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td style="text-align:right; font-weight: bold" colspan="4">TOTAL</td>
+                    <td style="text-align:right; font-weight: bold" colspan="5">TOTAL</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>

@@ -68,8 +68,8 @@
                         <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Ukuran Jadi</div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }}</div>
+                        <div class="cell label">Ukuran Kertas</div>
+                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|default|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|default|number_format(2) }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Ukuran Mountage/Kris</div>
@@ -159,7 +159,7 @@
                     <div class="row">
                         <div class="cell label">Model Layout </div>
                         <div style="min-width: 64px; min-height: 64px">
-                            <img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}">
+                            <img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">
                         </div>
                     </div>
                 </div>

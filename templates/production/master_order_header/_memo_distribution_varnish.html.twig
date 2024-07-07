@@ -69,11 +69,11 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Ukuran </div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|default|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|default|number_format(2) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Material</div>
@@ -97,7 +97,7 @@
                             <tfoot>
                                 <tr>
                                     <td>Minyak UV</td>
-                                    <td>&nbsp;  </td>
+                                    <td style="min-width: 30px">&nbsp;</td>
                                     <td>Liter</td>
                                 </tr>
                                 <tr>
@@ -109,6 +109,11 @@
                                     <td>WB</td>
                                     <td>&nbsp;</td>
                                     <td>Liter</td>
+                                </tr>
+                                <tr>
+                                    <td>Reject / setelan</td>
+                                    <td>&nbsp;</td>
+                                    <td>Lembar</td>
                                 </tr>
                                 <tr>
                                     <td>&nbsp;</td>
@@ -133,16 +138,20 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th>PO#</th>
+                                <th>Tanggal PO</th>
                                 <th>Kode</th>
                                 <th>Nama Produk</th>
+                                <th>Tanggal Kirim</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                                 <tr>
                                     <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -227,7 +236,7 @@
             </tr>
         </thead>
         <tfoot>
-            {% for row in 0..25 %}
+            {% for row in 0..45 %}
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>

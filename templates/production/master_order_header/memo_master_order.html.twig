@@ -61,7 +61,7 @@
                             <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Mesin Cetak:</div>
+                            <div class="cell label">Mesin Cetak</div>
                             <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
                         </div>
                         <div class="row">
@@ -78,7 +78,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Material Kertas</div>
-                            <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} Gram</div>
+                            <div class="cell value">{{ masterOrderHeader.paper.name|default }} Gram</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Jumlah Up Cetak</div>
@@ -139,9 +139,9 @@
                      
             <div class="table full">
                 <div class="row">
-                    <div class="cell label">Model Layout : </div>
+                    <div class="cell label">Model Layout </div>
                     <div style="min-width: 64px; min-height: 64px">
-                        <img id="upload" height="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}">
+                        <img id="upload" height="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">
                     </div>
                 </div>
             </div>
@@ -292,19 +292,35 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Khusus-1</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK1Weight|number_format(2) }} kg</div>
+                            <div class="cell value">
+                                {% if (masterOrderHeader.inkK1Percentage > 0) %}
+                                    {{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK1Weight|number_format(2) }} kg
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Khusus-2</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK2Weight|number_format(2) }} kg</div>
+                            <div class="cell value">
+                                {% if (masterOrderHeader.inkK2Percentage > 0) %}
+                                    {{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK2Weight|number_format(2) }} kg
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Khusus-3</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK3Weight|number_format(2) }} kg</div>
+                            <div class="cell value">
+                                {% if (masterOrderHeader.inkK3Percentage > 0) %}
+                                    {{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK3Weight|number_format(2) }} kg
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Khusus-4</div>
-                            <div class="cell value">{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK4Weight|number_format(2) }} kg</div>
+                            <div class="cell value">
+                                {% if (masterOrderHeader.inkK4Percentage > 0) %}
+                                    {{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK4Weight|number_format(2) }} kg
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Laminating</div>

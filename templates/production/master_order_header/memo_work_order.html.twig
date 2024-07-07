@@ -68,6 +68,14 @@
                             <div class="cell label">Tanggal Produksi</div>
                             <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                         </div>
+                        <div class="row">
+                            <div class="cell label">Kode Design</div>
+                            <div class="cell value">{{ masterOrderHeader.designCode.getCodeNumber|default }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Tanggal Kirim</div>
+                            <div class="cell value">__________________________</div>
+                        </div>
                     </div>
                 </div>
                 <div class="cell col">
@@ -86,7 +94,7 @@
                         </div>
                         <div class="row">
                             <div class="cell label">Insit</div>
-                            <div class="cell value">{{ masterOrderHeader.insitPrintingPercentage }}</div>
+                            <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|number_format(2) }} dreek</div>
                         </div>
                     </div>
                 </div>
@@ -152,19 +160,15 @@
                             </div>
                             <div class="row">
                                 <div class="cell label">Ukuran Plano </div>
-                                <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
-                            </div>
-                            <div class="row">
-                                <div class="cell label">Jumlah</div>
-                                <div class="cell value">_______________ plano</div>
+                                <div class="cell value">{{ masterOrderHeader.paperPlanoLength|number_format(0) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(0) }} cm</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Ukuran Potong</div>
-                                <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm </div>
+                                <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|number_format(0) }} x {{ masterOrderHeader.cuttingWidthSize1|number_format(0) }} cm </div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Jumlah</div>
-                                <div class="cell value">{{ masterOrderHeader.paperTotal }} dreek</div>
+                                <div class="cell value">{{ masterOrderHeader.paperTotal|number_format(0) }} dreek</div>
                             </div>
                         </div>
                     </div>
@@ -172,7 +176,7 @@
                         <div class="table full">
                             <div class="row">
                                 <div class="cell label">Bahan</div>
-                                <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }} gsm</div>
+                                <div class="cell value">{{ masterOrderHeader.paper.name|default }} gsm</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Bahan Packing</div>
@@ -180,11 +184,11 @@
                             </div>
                             <div class="row">
                                 <div class="cell label">Dus</div>
-                                <div class="cell value">{{ masterOrderHeader.packagingBoxQuantity }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight }} pcs</div>
+                                <div class="cell value">{{ masterOrderHeader.packagingBoxQuantity|number_format(0) }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight|number_format(2) }} pcs</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Kertas</div>
-                                <div class="cell value">{{ masterOrderHeader.packagingPaperQuantity }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight }} lbr</div>
+                                <div class="cell value">{{ masterOrderHeader.packagingPaperQuantity|number_format(0) }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight|number_format(2) }} lbr</div>
                             </div>
                         </div>
                     </div>
@@ -200,12 +204,12 @@
                     <div class="cell col">
                         <div class="table full">
                             <div class="row">
-                                <div class="cell label">1 Plano jadi :</div>
-                                <div class="cell value">{{ masterOrderHeader.paperRequirement|default }} dreek</div>
+                                <div class="cell label">Mountage Kertas :</div>
+                                <div class="cell value">{{ masterOrderHeader.paperMountage }} up</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Gambar : </div>
-                                <div><img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}"></div>
+                                <div><img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}"></div>
                             </div>
                         </div>
                     </div>

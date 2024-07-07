@@ -57,7 +57,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Kris Cetak</div>
@@ -65,11 +65,11 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Plano</div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|default|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|default|number_format(2) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Potong</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(2) }} cm</div>
                     </div>
                 </div>
             </div>
@@ -89,11 +89,11 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper }} rim {{ masterOrderHeader.paperRequirement }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(0) }} rim {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Up</div>
-                        <div class="cell value">{{ masterOrderHeader.paperMountage }}</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</div>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                         <div class="row">
                             <div class="cell label">Gambar : </div>
                             <div style="min-width: 64px; min-height: 64px">
-                                <img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.id ~ '.' ~ masterOrderHeader.layoutModelFileExtension) }}">
+                                <img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">
                             </div>
                         </div>
                     </div>
