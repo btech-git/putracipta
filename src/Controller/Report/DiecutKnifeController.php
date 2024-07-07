@@ -67,7 +67,7 @@ class DiecutKnifeController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'design code.xlsx';
+        $filename = 'pisau diecut.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);

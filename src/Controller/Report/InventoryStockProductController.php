@@ -37,6 +37,10 @@ class InventoryStockProductController extends AbstractController
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $warehouseConditionString = !empty($criteria->getFilter()['inventory:warehouse'][1]) ? 'AND IDENTITY(i.warehouse) = :warehouseId' : '';
             $qb->andWhere("{$alias}.isInactive = false");
+//            $qb->innerJoin("{$alias}.customer", 'c');
+//            if (!empty($criteria->getFilter()['customer:company'][1])) {
+//                $qb->setParameter('customer', $criteria->getFilter()['customer:company'][1]);
+//            }
             $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate BETWEEN :startDate AND :endDate {$warehouseConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['inventory:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['inventory:transactionDate'][2]);
