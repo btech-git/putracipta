@@ -4,8 +4,10 @@ namespace App\Grid\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
+use App\Common\Data\Operator\FilterContain;
 use App\Common\Data\Operator\FilterEqual;
 use App\Common\Data\Operator\FilterNotBetween;
+use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\FilterNotEqual;
 use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
@@ -27,7 +29,7 @@ class InventoryStockPaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['inventory:codeNumberOrdinal', 'inventory:codeNumberMonth', 'inventory:codeNumberYear', 'inventory:transactionDate', 'inventory:warehouse'],
+                'field_names' => ['code', 'name', 'inventory:codeNumberOrdinal', 'inventory:codeNumberMonth', 'inventory:codeNumberYear', 'inventory:transactionDate', 'inventory:warehouse'],
                 'field_label_list' => [
                     'inventory:codeNumberOrdinal' => 'Code Number',
                     'inventory:codeNumberMonth' => '',
@@ -41,6 +43,8 @@ class InventoryStockPaperGridType extends AbstractType
                     'inventory:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'inventory:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'inventory:warehouse' => [FilterEqual::class, FilterNotEqual::class],
+                    'code' => [FilterContain::class, FilterNotContain::class],
+                    'name' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'inventory:codeNumberOrdinal' => IntegerType::class,
@@ -55,7 +59,7 @@ class InventoryStockPaperGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['inventory:transactionDate', 'inventory:warehouse', 'inventory:codeNumberYear', 'inventory:codeNumberMonth', 'inventory:codeNumberOrdinal'],
+                'field_names' => ['code', 'name', 'inventory:transactionDate', 'inventory:warehouse', 'inventory:codeNumberYear', 'inventory:codeNumberMonth', 'inventory:codeNumberOrdinal'],
                 'field_label_list' => [
                     'inventory:codeNumberOrdinal' => '',
                     'inventory:codeNumberMonth' => '',
@@ -64,6 +68,8 @@ class InventoryStockPaperGridType extends AbstractType
                     'inventory:warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
+                    'code' => [SortAscending::class, SortDescending::class],
+                    'name' => [SortAscending::class, SortDescending::class],
                     'inventory:codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'inventory:codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'inventory:codeNumberYear' => [SortAscending::class, SortDescending::class],
