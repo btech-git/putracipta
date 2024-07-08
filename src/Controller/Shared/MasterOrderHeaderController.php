@@ -53,6 +53,7 @@ class MasterOrderHeaderController extends AbstractController
             $sub = $new(QualityControlSortingHeader::class, 'q');
             $sub->andWhere("IDENTITY(q.masterOrderHeader) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->andWhere("{$alias}.totalRemainingProduction > 0");
             $qb->andWhere("{$alias}.isCanceled = false");
             
         });
