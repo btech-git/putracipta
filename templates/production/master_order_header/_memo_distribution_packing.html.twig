@@ -129,6 +129,7 @@
         <thead class="table-secondary">
             <tr>
                 <th>PO#</th>
+                <th>Tanggal PO</th>
                 <th>Kode</th>
                 <th>Nama Produk</th>
                 <th>Tanggal Kirim</th>
@@ -141,6 +142,7 @@
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>

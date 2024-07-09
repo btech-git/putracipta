@@ -75,19 +75,29 @@
     <br />
 
     <table  class="detail">
-        <thead>
+        <thead class="table-secondary">
             <tr>
+                <th>PO#</th>
                 <th>Kode</th>
                 <th>Nama Produk</th>
                 <th>Tanggal Kirim</th>
+                <th>Qty Order</th>
+                <th>Stock</th>
+                <th>Kekurangan</th>
+                <th>Up Cetak</th>
             </tr>
         </thead>
         <tbody>
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
-                    <td>{{ masterOrderProductDetail.product.code|default }}</td>
-                    <td>{{ masterOrderProductDetail.product.name|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                    <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                    <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                    <td>{{ masterOrderProductDetail.quantityPrinting|default }}</td>
                 </tr>
             {% endfor %}
         </tbody>
