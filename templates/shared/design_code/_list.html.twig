@@ -14,10 +14,13 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th>
+                <th style="min-width: 250px">
                     Product
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'note') }}>
+                <th style="min-width: 150px">
+                    Tanggal Buat
+                </th>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
             </tr>
@@ -30,6 +33,7 @@
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
+                <th></th>
                 <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
@@ -112,6 +116,7 @@
                     <td>{{ designCode.codeNumber }}</td>
                     <td>{{ designCode.name }}</td>
                     <td>{{ designCode.designCodeProductList }}</td>
+                    <td>{{ designCode.createdTransactionDateTime ? designCode.createdTransactionDateTime|date('d M Y') : '' }}</td>
                     <td>{{ designCode.note }}</td>
                 </tr>
             {% else %}

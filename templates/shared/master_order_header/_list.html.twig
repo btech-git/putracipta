@@ -20,7 +20,9 @@
                 <th style="min-width: 150px" {{ grid.sort_link_item(form, 'saleOrderReferenceNumberList') }}>
                     PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumberList.vars.value) }}
                 </th>
-                <th style="min-width: 250px">Product</th>
+                <th style="min-width: 250px" {{ grid.sort_link_item(form, 'masterOrderProductList') }}>
+                    Product {{ grid.sort_char(form.sort.masterOrderProductList.vars.value) }}
+                </th>
                 <th style="min-width: 350px">Design Code</th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -45,7 +47,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumberList') }} value="{{ form.filter.saleOrderReferenceNumberList.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'masterOrderProductList') }} value="{{ form.filter.masterOrderProductList.1.vars.value }}" />
+                </th>
                 <th>
                     P<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'designCode:code') }} value="{{ form.filter['designCode:code'].1.vars.value }}" />-
                     V<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'designCode:variant') }} value="{{ form.filter['designCode:variant'].1.vars.value }}" />-
@@ -71,6 +75,7 @@
                     'productCode': masterOrderProductDetail.product.code|default,
                     'productName': masterOrderProductDetail.product.name|default,
                     'unitName': masterOrderProductDetail.product.unit.name|default,
+                    'masterOrderProductDetailQuantityShortage': masterOrderProductDetail.quantityShortage|number_format(0),
                     'masterOrderProductDetailRemainingProduction': masterOrderProductDetail.remainingProduction|number_format(0),
                     'masterOrderHeaderPackagingQuantity': masterOrderHeader.packagingPaperQuantity > 0 ? masterOrderHeader.packagingPaperQuantity|number_format(0) : masterOrderHeader.packagingBoxQuantity|number_format(0),
                     'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder|number_format(0)})|json_encode }}">
