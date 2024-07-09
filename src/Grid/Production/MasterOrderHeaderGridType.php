@@ -25,7 +25,7 @@ class MasterOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'saleOrderReferenceNumberList', 'designCode:code', 'designCode:variant', 'designCode:version', 'customer:company'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderProductList', 'saleOrderReferenceNumberList', 'designCode:code', 'designCode:variant', 'designCode:version', 'customer:company'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -47,6 +47,7 @@ class MasterOrderHeaderGridType extends AbstractType
                     'orderType' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderReferenceNumberList' => [FilterContain::class, FilterNotContain::class],
+                    'masterOrderProductList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -59,7 +60,7 @@ class MasterOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'saleOrderReferenceNumberList', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderProductList', 'saleOrderReferenceNumberList', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -77,6 +78,7 @@ class MasterOrderHeaderGridType extends AbstractType
                     'orderType' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'saleOrderReferenceNumberList' => [SortAscending::class, SortDescending::class],
+                    'masterOrderProductList' => [SortAscending::class, SortDescending::class],
                     'designCode:code' => [SortAscending::class, SortDescending::class],
                     'designCode:variant' => [SortAscending::class, SortDescending::class],
                     'designCode:version' => [SortAscending::class, SortDescending::class],
