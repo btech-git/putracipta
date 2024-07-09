@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\DesignCode;
@@ -41,7 +42,7 @@ class DesignCodeController extends AbstractController
         $criteria = new DataCriteria();
         $criteria->setSort([
             'createdTransactionDateTime' => SortDescending::class,
-            'name' => SortDescending::class,
+            'name' => SortAscending::class,
         ]);
         $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);
