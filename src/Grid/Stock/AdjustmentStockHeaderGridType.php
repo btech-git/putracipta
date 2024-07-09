@@ -27,7 +27,7 @@ class AdjustmentStockHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note', 'adjustmentStockItemList'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -42,6 +42,7 @@ class AdjustmentStockHeaderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
+                    'adjustmentStockItemList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -56,17 +57,18 @@ class AdjustmentStockHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'note', 'id'],
+                'field_names' => ['transactionDate', 'warehouse', 'note', 'id', 'adjustmentStockItemList'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
-                    'warehouse:name' => 'Gudang',
+                    'warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'warehouse:name' => [SortAscending::class, SortDescending::class],
+                    'warehouse' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'adjustmentStockItemList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
