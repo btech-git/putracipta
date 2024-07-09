@@ -80,19 +80,21 @@
         </thead>
         <tbody>
             {% for inventoryProductReceiveDetail in inventoryProductReceiveHeader.inventoryProductReceiveDetails %}
-                <tr>
-                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td>{{ inventoryProductReceiveDetail.product.code|default }}</td>
-                    <td>{{ inventoryProductReceiveDetail.product.name|default }}</td>
-                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(2) }}</td>
-                    <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.quantityProduction|default|number_format(2) }}</td>
-                    <td>{{ inventoryProductReceiveDetail.quantityBox|default|number_format(2) }}</td>
-                    <td>{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(2) }}</td>
-                    <td>{{ inventoryProductReceiveDetail.quantityTotalPieces|default|number_format(2) }}</td>
-                    <td>{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
-                    <td>{{ inventoryProductReceiveDetail.memo|default }}</td>
-                </tr>
+                {% if inventoryProductReceiveDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td>{{ inventoryProductReceiveDetail.product.code|default }}</td>
+                        <td>{{ inventoryProductReceiveDetail.product.name|default }}</td>
+                        <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                        <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(2) }}</td>
+                        <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.quantityProduction|default|number_format(2) }}</td>
+                        <td>{{ inventoryProductReceiveDetail.quantityBox|default|number_format(2) }}</td>
+                        <td>{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(2) }}</td>
+                        <td>{{ inventoryProductReceiveDetail.quantityTotalPieces|default|number_format(2) }}</td>
+                        <td>{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
+                        <td>{{ inventoryProductReceiveDetail.memo|default }}</td>
+                    </tr>
+                {% endif %} 
             {% endfor %}
         </tbody>
     </table>    

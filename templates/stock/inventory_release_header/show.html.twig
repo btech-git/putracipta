@@ -89,43 +89,47 @@
         <tbody>
             {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
                 {% for inventoryReleasePaperDetail in inventoryReleaseHeader.inventoryReleasePaperDetails %}
-                    <tr>
-                        <td>{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
-                        <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
-                        <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
-                        <td>
-                            {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
-                                {{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber|default }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
-                                {{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate ? inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}
-                            {% endif %}
-                        </td>
-                        <td>{{ inventoryReleasePaperDetail.memo|default }}</td>
-                    </tr>
+                    {% if inventoryReleasePaperDetail.isCanceled == false %}
+                        <tr>
+                            <td>{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
+                            <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
+                            <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
+                            <td>
+                                {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
+                                    {{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber|default }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
+                                    {{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate ? inventoryReleasePaperDetail.inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}
+                                {% endif %}
+                            </td>
+                            <td>{{ inventoryReleasePaperDetail.memo|default }}</td>
+                        </tr>
+                    {% endif %} 
                 {% endfor %}
             {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
                 {% for inventoryReleaseMaterialDetail in inventoryReleaseHeader.inventoryReleaseMaterialDetails %}
-                    <tr>
-                        <td>{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
-                        <td>{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
-                        <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
-                        <td>
-                            {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
-                                {{ inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber|default }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
-                                {{ inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}
-                            {% endif %}
-                        </td>
-                        <td>{{ inventoryReleaseMaterialDetail.memo|default }}</td>
-                    </tr>
+                    {% if inventoryReleaseMaterialDetail.isCanceled == false %}
+                        <tr>
+                            <td>{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
+                            <td>{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
+                            <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
+                            <td>
+                                {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
+                                    {{ inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber|default }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
+                                    {{ inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}
+                                {% endif %}
+                            </td>
+                            <td>{{ inventoryReleaseMaterialDetail.memo|default }}</td>
+                        </tr>
+                    {% endif %} 
                 {% endfor %}
             {% endif %} 
         </tbody>

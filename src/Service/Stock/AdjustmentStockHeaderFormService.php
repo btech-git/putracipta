@@ -114,16 +114,22 @@ class AdjustmentStockHeaderFormService
         }
         $adjustmentStockItemList = [];
         foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
-            $material = $adjustmentStockMaterialDetail->getMaterial();
-            $adjustmentStockItemList[] = $material->getName();
+            if ($adjustmentStockMaterialDetail->isIsCanceled() == false) {
+                $material = $adjustmentStockMaterialDetail->getMaterial();
+                $adjustmentStockItemList[] = $material->getName();
+            }
         }
         foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
-            $paper = $adjustmentStockPaperDetail->getPaper();
-            $adjustmentStockItemList[] = $paper->getName();
+            if ($adjustmentStockPaperDetail->isIsCanceled() == false) {
+                $paper = $adjustmentStockPaperDetail->getPaper();
+                $adjustmentStockItemList[] = $paper->getName();
+            }
         }
         foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
-            $product = $adjustmentStockProductDetail->getProduct();
-            $adjustmentStockItemList[] = $product->getCode();
+            if ($adjustmentStockProductDetail->isIsCanceled() == false) {
+                $product = $adjustmentStockProductDetail->getProduct();
+                $adjustmentStockItemList[] = $product->getCode();
+            }
         }
         $adjustmentStockItemUniqueList = array_unique(explode(', ', implode(', ', $adjustmentStockItemList)));
         $adjustmentStockHeader->setAdjustmentStockItemList(implode(', ', $adjustmentStockItemUniqueList));
