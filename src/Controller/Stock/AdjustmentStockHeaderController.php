@@ -33,11 +33,11 @@ class AdjustmentStockHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->request->get('adjustment_stock_header_grid')['filter']['warehouse:name']) && isset($request->request->get('adjustment_stock_header_grid')['sort']['warehouse:name'])) {
-                $qb->innerJoin("{$alias}.warehouse", 'w');
-                $add['filter']($qb, 'w', 'name', $request->request->get('adjustment_stock_header_grid')['filter']['warehouse:name']);
-                $add['sort']($qb, 'w', 'name', $request->request->get('adjustment_stock_header_grid')['sort']['warehouse:name']);
-            }
+//            if (isset($request->request->get('adjustment_stock_header_grid')['filter']['warehouse:name']) && isset($request->request->get('adjustment_stock_header_grid')['sort']['warehouse:name'])) {
+//                $qb->innerJoin("{$alias}.warehouse", 'w');
+//                $add['filter']($qb, 'w', 'name', $request->request->get('adjustment_stock_header_grid')['filter']['warehouse:name']);
+//                $add['sort']($qb, 'w', 'name', $request->request->get('adjustment_stock_header_grid')['sort']['warehouse:name']);
+//            }
         });
 
         return $this->renderForm("stock/adjustment_stock_header/_list.html.twig", [
@@ -109,24 +109,24 @@ class AdjustmentStockHeaderController extends AbstractController
 
     #[Route('/{id}/edit.{_format}', name: 'app_stock_adjustment_stock_header_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADJUSTMENT_EDIT')]
-//    public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
-//    {
-//        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
-//        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
-//        $form->handleRequest($request);
-//        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
-//
-//        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
-//            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
-//
-//            return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->renderForm("stock/adjustment_stock_header/edit.{$_format}.twig", [
-//            'adjustmentStockHeader' => $adjustmentStockHeader,
-//            'form' => $form,
-//        ]);
-//    }
+    public function edit(Request $request, AdjustmentStockHeader $adjustmentStockHeader, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
+    {
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
+        $form->handleRequest($request);
+        $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
+
+        if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
+            $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
+
+            return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm("stock/adjustment_stock_header/edit.{$_format}.twig", [
+            'adjustmentStockHeader' => $adjustmentStockHeader,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/{id}/delete', name: 'app_stock_adjustment_stock_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADJUSTMENT_EDIT')]
