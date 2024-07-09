@@ -24,7 +24,7 @@
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                     <td class="text-center" data-json-loader-target="placeholder"
-                        data-property-path="adjustmentStockMaterialDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default }}</td>
+                        data-property-path="adjustmentStockMaterialDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default|number_format(0) }}</td>
                     <td>
                         {{ form_row(detailForm.quantityAdjustment, {'label': false, 'attr': {
                             'size': 2,
@@ -36,7 +36,7 @@
                         }}) }}
                     </td>
                     <td class="text-center" data-json-loader-target="placeholder"
-                        data-property-path="adjustmentStockMaterialDetails.{{ detailForm.vars.name }}.quantityDifference">{{ detailForm.vars.value.quantityDifference|default }}</td>
+                        data-property-path="adjustmentStockMaterialDetails.{{ detailForm.vars.name }}.quantityDifference">{{ detailForm.vars.value.quantityDifference|default|number_format(0) }}</td>
                     <td data-item-field-name="unitName">{{ detailForm.vars.value.material.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
