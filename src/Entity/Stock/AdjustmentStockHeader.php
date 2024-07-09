@@ -39,6 +39,9 @@ class AdjustmentStockHeader extends StockHeader
     #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockProductDetail::class)]
     private Collection $adjustmentStockProductDetails;
 
+    #[ORM\Column(length: 200)]
+    private ?string $adjustmentStockItemList = '';
+
     public function __construct()
     {
         $this->adjustmentStockMaterialDetails = new ArrayCollection();
@@ -178,6 +181,18 @@ class AdjustmentStockHeader extends StockHeader
                 $adjustmentStockProductDetail->setAdjustmentStockHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdjustmentStockItemList(): ?string
+    {
+        return $this->adjustmentStockItemList;
+    }
+
+    public function setAdjustmentStockItemList(string $adjustmentStockItemList): self
+    {
+        $this->adjustmentStockItemList = $adjustmentStockItemList;
 
         return $this;
     }
