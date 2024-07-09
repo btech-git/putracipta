@@ -112,6 +112,21 @@ class AdjustmentStockHeaderFormService
                 }
             }
         }
+        $adjustmentStockItemList = [];
+        foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
+            $material = $adjustmentStockMaterialDetail->getMaterial();
+            $adjustmentStockItemList[] = $material->getName();
+        }
+        foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
+            $paper = $adjustmentStockPaperDetail->getPaper();
+            $adjustmentStockItemList[] = $paper->getName();
+        }
+        foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
+            $product = $adjustmentStockProductDetail->getProduct();
+            $adjustmentStockItemList[] = $product->getCode();
+        }
+        $adjustmentStockItemUniqueList = array_unique(explode(', ', implode(', ', $adjustmentStockItemList)));
+        $adjustmentStockHeader->setAdjustmentStockItemList(implode(', ', $adjustmentStockItemUniqueList));
     }
 
     public function save(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void
