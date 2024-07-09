@@ -92,10 +92,11 @@
             <tr>
                 <th class="text-start" style="width: 15%">Kode</th>
                 <th class="text-start">Nama Item</th>
+                <th class="text-start">Customer</th>
                 <th class="text-start" style="width: 15%">Stok Awal</th>
             </tr>
             <tr>
-                <th colspan="3">
+                <th colspan="4">
                     <table>
                         <tr>
                             <th class="text-start" style="width: 15%">Transaction #</th>
@@ -118,10 +119,11 @@
                 <tr>
                     <td class="text-start" style="width: 15%">{{ product.code|default }}</td>
                     <td class="text-start">{{ product.name|default }}</td>
+                    <td class="text-start">{{ product.customer.company|default }}</td>
                     <td class="text-start" style="width: 15%">{{ beginningStock|number_format(2) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <table>
                             {% for inventory in inventories[product.id] %}
                                 {% set currentStock = currentStock + inventory.quantityIn - inventory.quantityOut %}
