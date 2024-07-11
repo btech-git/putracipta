@@ -34,13 +34,13 @@ class InventoryStockProductController extends AbstractController
         $form = $this->createForm(InventoryStockProductGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
-            $warehouseConditionString = !empty($criteria->getFilter()['inventory:warehouse'][1]) ? 'AND IDENTITY(i.warehouse) = :warehouseId' : '';
+        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-//            $qb->innerJoin("{$alias}.customer", 'c');
-//            if (!empty($criteria->getFilter()['customer:company'][1])) {
-//                $qb->setParameter('customer', $criteria->getFilter()['customer:company'][1]);
-//            }
+            if (!empty($criteria->getFilter()['customer:company'][1])) {
+                $qb->innerJoin("{$alias}.customer", 'c');
+                $add['filter']($qb, 'c', 'company', $criteria->getFilter()['customer:company']);
+            }
+            $warehouseConditionString = !empty($criteria->getFilter()['inventory:warehouse'][1]) ? 'AND IDENTITY(i.warehouse) = :warehouseId' : '';
             $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate BETWEEN :startDate AND :endDate {$warehouseConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['inventory:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['inventory:transactionDate'][2]);
