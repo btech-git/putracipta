@@ -87,8 +87,13 @@
                         {{ saleInvoiceHeaderCount }}
                     {% endif %}
                 </td>
-                <td>Produk Baru</td>
+                <td>Formulir Produk Baru</td>
                 <td class="text-center font-weight-bold">
+                        {% if is_granted('ROLE_NEW_PRODUCT_VIEW') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_ADD') %}
+                        <a href="{{ path('app_production_product_prototype_head') }}">{{ productPrototypeCount }}</a>
+                    {% else %}
+                        {{ productPrototypeCount }}
+                    {% endif %}
                 </td>
                 <td></td>
                 <td></td>
