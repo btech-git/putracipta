@@ -185,17 +185,21 @@ class InventoryRepository extends ServiceEntityRepository
         return $beginningStockList;
     }
 
-    public function findProductInventories(array $products, $startDate, $endDate): array
+    public function findProductInventories(array $products, $startDate, $endDate, $warehouseId): array
     {
-        $dql = 'SELECT e
-                FROM ' . Inventory::class . ' e
-                WHERE e.product IN (:products) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate
-                ORDER BY e.product ASC, e.transactionDate ASC';
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT e
+                FROM " . Inventory::class . " e
+                WHERE e.product IN (:products) AND e.isReversed = false AND e.transactionDate BETWEEN :startDate AND :endDate {$warehouseConditionString}
+                ORDER BY e.product ASC, e.transactionDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('products', $products);
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
         $inventories = $query->getResult();
 
         return $inventories;
