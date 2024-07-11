@@ -82,7 +82,7 @@
         </thead>
         <tbody>
             {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
-                {% if purchaseRequestPaperDetail.isCanceled == false %}
+                {% if purchaseRequestPaperDetail.isCanceled == false and purchaseRequestPaperDetail.quantity > 0 %}
                     <tr>
                         <td>{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
                         <td>{{ purchaseRequestPaperDetail.paper.name|default }}</td>

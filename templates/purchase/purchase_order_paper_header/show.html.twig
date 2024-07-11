@@ -105,7 +105,7 @@
         </thead>
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
-                {% if purchaseOrderPaperDetail.isCanceled == false %}
+                {% if purchaseOrderPaperDetail.isCanceled == false and purchaseOrderPaperDetail.quantity > 0 %}
                     <tr>
                         <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                         <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>

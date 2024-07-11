@@ -82,7 +82,7 @@
         </thead>
         <tbody>
             {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
-                {% if purchaseRequestDetail.isCanceled == false %}
+                {% if purchaseRequestDetail.isCanceled == false and purchaseRequestDetail.quantity > 0 %}
                     <tr>
                         <td>{{ purchaseRequestDetail.material.code|default }}</td>
                         <td>{{ purchaseRequestDetail.material.name|default }}</td>

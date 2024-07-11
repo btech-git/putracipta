@@ -111,7 +111,7 @@
         </thead>
         <tbody>
             {% for purchaseInvoiceDetail in purchaseInvoiceHeader.purchaseInvoiceDetails %}
-                {% if purchaseInvoiceDetail.isCanceled == false %}
+                {% if purchaseInvoiceDetail.isCanceled == false and purchaseInvoiceDetail.quantity > 0 %}
                     <tr>
                         <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.codeNumber|default : purchaseInvoiceDetail.material.code|default }}</td>
                         <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.name|default : purchaseInvoiceDetail.material.name|default }}</td>

@@ -89,7 +89,7 @@
         </thead>
         <tbody>
             {% for purchasePaymentDetail in purchasePaymentHeader.purchasePaymentDetails %}
-                {% if purchasePaymentDetail.isCanceled == false %}
+                {% if purchasePaymentDetail.isCanceled == false and purchasePaymentDetail.amount > 0 %}
                     <tr>
                         <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
                         <td>{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('Y-m-d') : '' }}</td>

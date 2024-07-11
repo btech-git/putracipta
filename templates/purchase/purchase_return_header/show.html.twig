@@ -83,7 +83,7 @@
         </thead>
         <tbody>
             {% for purchaseReturnDetail in purchaseReturnHeader.purchaseReturnDetails %}
-                {% if purchaseReturnDetail.isCanceled == false %}
+                {% if purchaseReturnDetail.isCanceled == false and purchaseReturnDetail.quantity > 0 %}
                     <tr>
                         <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.codeNumber|default : purchaseReturnDetail.material.code|default }}</td>
                         <td>{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.name|default : purchaseReturnDetail.material.name|default }}</td>

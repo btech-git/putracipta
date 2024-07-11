@@ -103,7 +103,7 @@
         </thead>
         <tbody>
             {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
-                {% if purchaseOrderDetail.isCanceled == false %}
+                {% if purchaseOrderDetail.isCanceled == false and purchaseOrderDetail.quantity > 0 %}
                     <tr>
                         <td>{{ purchaseOrderDetail.material.code|default }}</td>
                         <td>{{ purchaseOrderDetail.material.name|default }}</td>

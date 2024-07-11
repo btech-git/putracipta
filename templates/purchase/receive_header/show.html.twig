@@ -88,7 +88,7 @@
         </thead>
         <tbody>
             {% for receiveDetail in receiveHeader.receiveDetails %}
-                {% if receiveDetail.isCanceled == false %}
+                {% if receiveDetail.isCanceled == false and receiveDetail.receivedQuantity > 0 %}
                     <tr>
                         <td>{{ receiveDetail.material is null ? receiveDetail.paper.codeNumber|default : receiveDetail.material.code|default }}</td>
                         <td>{{ receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default }}</td>
