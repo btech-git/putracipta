@@ -44,7 +44,7 @@ class InventoryStockProductGridType extends AbstractType
                     'inventory:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'inventory:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'inventory:warehouse' => [FilterEqual::class, FilterNotEqual::class],
-                    'supplier:company' => [FilterContain::class, FilterNotContain::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                 ],
