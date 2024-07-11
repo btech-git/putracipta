@@ -5,6 +5,7 @@ namespace App\Controller\Shared;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Entity\Production\QualityControlSortingHeader;
+use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Grid\Production\MasterOrderHeaderGridType;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -50,12 +51,18 @@ class MasterOrderHeaderController extends AbstractController
                 $add['sort']($qb, 's', 'version', $request->request->get('master_order_header_grid')['sort']['designCode:version']);
             }
             
-            $sub = $new(QualityControlSortingHeader::class, 'q');
-            $sub->andWhere("IDENTITY(q.masterOrderHeader) = {$alias}.id");
-            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
-            $qb->andWhere("{$alias}.totalRemainingProduction > 0");
+            if ($request->request->has('quality_control_sorting_header')) {
+                $sub = $new(QualityControlSortingHeader::class, 'q');
+                $sub->andWhere("IDENTITY(q.masterOrderHeader) = {$alias}.id");
+                $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            } elseif ($request->request->has('inventory_product_receive_header')) {
+                $qb->andWhere("{$alias}.totalRemainingProduction > 0");
+            } elseif ($request->request->has('inventory_request_header')) {
+                $sub = $new(InventoryRequestPaperDetail::class, 'i');
+                $sub->andWhere("IDENTITY(i.masterOrderHeader) = {$alias}.id");
+                $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));                
+            }
             $qb->andWhere("{$alias}.isCanceled = false");
-            
         });
 
         return $this->renderForm("shared/master_order_header/_list.html.twig", [
