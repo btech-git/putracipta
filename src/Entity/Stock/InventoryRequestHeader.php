@@ -4,7 +4,6 @@ namespace App\Entity\Stock;
 
 use App\Entity\Master\Division;
 use App\Entity\Master\Warehouse;
-use App\Entity\Production\MasterOrderHeader;
 use App\Entity\StockHeader;
 use App\Repository\Stock\InventoryRequestHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -54,9 +53,6 @@ class InventoryRequestHeader extends StockHeader
 
     #[ORM\ManyToOne]
     private ?Division $division = null;
-
-    #[ORM\ManyToOne(inversedBy: 'inventoryRequestHeaders')]
-    private ?MasterOrderHeader $masterOrderHeader = null;
 
     #[ORM\Column]
     private ?bool $isRead = false;
@@ -283,18 +279,6 @@ class InventoryRequestHeader extends StockHeader
     public function setDivision(?Division $division): self
     {
         $this->division = $division;
-
-        return $this;
-    }
-
-    public function getMasterOrderHeader(): ?MasterOrderHeader
-    {
-        return $this->masterOrderHeader;
-    }
-
-    public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
-    {
-        $this->masterOrderHeader = $masterOrderHeader;
 
         return $this;
     }

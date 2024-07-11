@@ -4,6 +4,7 @@ namespace App\Entity\Stock;
 
 use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\StockDetail;
 use App\Repository\Stock\InventoryRequestPaperDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -43,6 +44,9 @@ class InventoryRequestPaperDetail extends StockDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityRemaining = '0.00';
+
+    #[ORM\ManyToOne(inversedBy: 'inventoryRequestPaperDetails')]
+    private ?MasterOrderHeader $masterOrderHeader = null;
 
     public function __construct()
     {
@@ -175,6 +179,18 @@ class InventoryRequestPaperDetail extends StockDetail
     public function setQuantityRemaining(string $quantityRemaining): self
     {
         $this->quantityRemaining = $quantityRemaining;
+
+        return $this;
+    }
+
+    public function getMasterOrderHeader(): ?MasterOrderHeader
+    {
+        return $this->masterOrderHeader;
+    }
+
+    public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
+    {
+        $this->masterOrderHeader = $masterOrderHeader;
 
         return $this;
     }
