@@ -125,16 +125,18 @@
                         <table>
                             {% for inventory in inventories[material.id] %}
                                 {% set currentStock = currentStock + inventory.quantityIn - inventory.quantityOut %}
-                                <tr>
-                                    <td class="text-start" style="width: 15%">{{ inventory.codeNumber|default }}</td>
-                                    <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
-                                    <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
-                                    <td class="text-start">{{ inventory.transactionSubject|default }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(2) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(2) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(2) }}</td>
-                                    <td class="text-start" style="width: 8%">{{ inventory.material.unit.name|default }}</td>
-                                </tr>
+                                {% if (inventory.quantityIn > 0 or inventory.quantityOut > 0) %}
+                                    <tr>
+                                        <td class="text-start" style="width: 15%">{{ inventory.codeNumber|default }}</td>
+                                        <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
+                                        <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
+                                        <td class="text-start">{{ inventory.transactionSubject|default }}</td>
+                                        <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(2) }}</td>
+                                        <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(2) }}</td>
+                                        <td class="text-center" style="width: 8%">{{ currentStock|number_format(2) }}</td>
+                                        <td class="text-start" style="width: 8%">{{ inventory.material.unit.name|default }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </table>
                     </td>

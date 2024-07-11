@@ -52,6 +52,18 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Customer</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div>
 
     <div class="d-grid">
@@ -127,16 +139,18 @@
                         <table>
                             {% for inventory in inventories[product.id] %}
                                 {% set currentStock = currentStock + inventory.quantityIn - inventory.quantityOut %}
-                                <tr>
-                                    <td class="text-start" style="width: 15%">{{ inventory.codeNumber|default }}</td>
-                                    <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
-                                    <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
-                                    <td class="text-start">{{ inventory.transactionSubject|default }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(2) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(2) }}</td>
-                                    <td class="text-center" style="width: 8%">{{ currentStock|number_format(2) }}</td>
-                                    <td class="text-start" style="width: 8%">{{ inventory.product.unit.name|default }}</td>
-                                </tr>
+                                {% if (inventory.quantityIn > 0 or inventory.quantityOut > 0) %}
+                                    <tr>
+                                        <td class="text-start" style="width: 15%">{{ inventory.codeNumber|default }}</td>
+                                        <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>
+                                        <td class="text-start" style="width: 15%">{{ inventory.warehouse.name|default }}</td>
+                                        <td class="text-start">{{ inventory.transactionSubject|default }}</td>
+                                        <td class="text-center" style="width: 8%">{{ inventory.quantityIn|default|number_format(2) }}</td>
+                                        <td class="text-center" style="width: 8%">{{ inventory.quantityOut|default|number_format(2) }}</td>
+                                        <td class="text-center" style="width: 8%">{{ currentStock|number_format(2) }}</td>
+                                        <td class="text-start" style="width: 8%">{{ inventory.product.unit.name|default }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </table>
                     </td>
