@@ -57,6 +57,8 @@ class DiecutKnife extends Master
     private ?\DateTimeInterface $date = null;
 
     #[ORM\OneToMany(mappedBy: 'diecutKnife', targetEntity: DiecutKnifeDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $diecutKnifeDetails;
 
     public function __construct()
