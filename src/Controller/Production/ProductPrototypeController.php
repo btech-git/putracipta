@@ -4,6 +4,7 @@ namespace App\Controller\Production;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\ProductPrototype;
 use App\Form\Production\ProductPrototypeType;
@@ -70,6 +71,50 @@ class ProductPrototypeController extends AbstractController
         return $this->render("production/product_prototype/index.html.twig");
     }
 
+    #[Route('/_head', name: 'app_production_product_prototype__head', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
+    public function _head(Request $request, ProductPrototypeRepository $productPrototypeRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $productPrototypes) = $productPrototypeRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+            $qb->innerJoin("{$alias}.employee", 'm');
+            $qb->andWhere("m.user = :user");
+            $qb->setParameter('user', $this->getUser());
+        });
+
+        return $this->renderForm("production/product_prototype/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'productPrototypes' => $productPrototypes,
+        ]);
+    }
+
+    #[Route('/head', name: 'app_production_product_prototype_head', methods: ['GET'])]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
+    public function head(): Response
+    {
+        return $this->render("production/product_prototype/head.html.twig");
+    }
+
+    #[Route('/{id}/read', name: 'app_production_product_prototype_read', methods: ['POST'])]
+    #[Security("is_granted('ROLE_NEW_PRODUCT_ADD') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_VIEW')")]
+    public function read(Request $request, ProductPrototype $productPrototype, ProductPrototypeRepository $productPrototypeRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $productPrototype->getId(), $request->request->get('_token'))) {
+            $productPrototype->setIsRead(true);
+            $productPrototypeRepository->add($productPrototype, true);
+        }
+
+        return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new.{_format}', name: 'app_production_product_prototype_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_NEW_PRODUCT_ADD')]
     public function new(Request $request, ProductPrototypeFormService $productPrototypeFormService, $_format = 'html'): Response
