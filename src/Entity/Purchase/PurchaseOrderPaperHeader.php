@@ -110,10 +110,6 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     #[ORM\OneToMany(mappedBy: 'purchaseOrderPaperHeader', targetEntity: MasterOrderHeader::class)]
     private Collection $masterOrderHeaders;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    protected ?bool $isRead = false;
-
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
 

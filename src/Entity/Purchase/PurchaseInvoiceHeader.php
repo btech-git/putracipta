@@ -107,10 +107,6 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceHeaders')]
     private ?ReceiveHeader $receiveHeader = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    protected ?bool $isRead = false;
-
     public function __construct()
     {
         $this->purchaseInvoiceDetails = new ArrayCollection();

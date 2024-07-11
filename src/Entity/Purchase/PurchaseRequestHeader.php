@@ -58,17 +58,13 @@ class PurchaseRequestHeader extends PurchaseHeader
     private ?string $transactionStatus = self::TRANSACTION_STATUS_DRAFT;
 
     #[ORM\Column]
-    private ?bool $isViewed = false;
-
-    #[ORM\Column]
     private ?bool $isOnHold = false;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    protected ?bool $isRead = false;
 
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
+
+    #[ORM\Column]
+    private ?bool $isViewed = false;
 
     public function __construct()
     {
@@ -210,18 +206,6 @@ class PurchaseRequestHeader extends PurchaseHeader
         return $this;
     }
 
-    public function isIsViewed(): ?bool
-    {
-        return $this->isViewed;
-    }
-
-    public function setIsViewed(bool $isViewed): self
-    {
-        $this->isViewed = $isViewed;
-
-        return $this;
-    }
-
     public function isIsOnHold(): ?bool
     {
         return $this->isOnHold;
@@ -242,6 +226,18 @@ class PurchaseRequestHeader extends PurchaseHeader
     public function setRejectNote(string $rejectNote): self
     {
         $this->rejectNote = $rejectNote;
+
+        return $this;
+    }
+
+    public function isIsViewed(): ?bool
+    {
+        return $this->isViewed;
+    }
+
+    public function setIsViewed(bool $isViewed): self
+    {
+        $this->isViewed = $isViewed;
 
         return $this;
     }

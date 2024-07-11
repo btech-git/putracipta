@@ -107,10 +107,6 @@ class PurchaseOrderHeader extends PurchaseHeader
     #[ORM\Column]
     private ?bool $hasReturnTransaction = false;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    protected ?bool $isRead = false;
-
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
 
