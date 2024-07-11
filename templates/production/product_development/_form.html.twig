@@ -313,7 +313,7 @@
                     </tbody>
                 </table>
                         
-                <table class="table table-sm table-bordered {% if 'ps' not in productDevelopment.developmentTypeList %}d-none{% endif %}"
+                <table class="table table-sm table-bordered {% if 'ps' not in productDevelopment.developmentTypeList and 'pp' not in productDevelopment.developmentTypeList %}d-none{% endif %}"
                        data-controller="dom-element"
                        data-action="product-prototype-table:data-table:select@document->dom-element#bind"
                        data-dom-element-bind-specifications-param="{{ [

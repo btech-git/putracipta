@@ -21,6 +21,7 @@
     {{ encore_entry_link_tags('memo') }}
     <style>
         @media print {
+            {% if constant == 'printing_inspection' %}@page { size: landscape; }{% endif %}
             div.memo { page-break-after: always }
         }
 
