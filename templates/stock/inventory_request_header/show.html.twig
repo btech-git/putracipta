@@ -36,14 +36,6 @@
                 <td>{{ inventoryRequestHeader.division.name|default }}</td>
             </tr>
             <tr>
-                <th>Work Order Number</th>
-                <td>{{ inventoryRequestHeader.masterOrderHeader.codeNumber|default }}</td>
-            </tr>
-            <tr>
-                <th>Customer</th>
-                <td>{{ inventoryRequestHeader.masterOrderHeader.customer.company|default }}</td>
-            </tr>
-            <tr>
                 <th>Part Number</th>
                 <td>{{ inventoryRequestHeader.partNumber|default }}</td>
             </tr>
@@ -86,24 +78,30 @@
                 <th>Qty</th>
                 <th>Satuan</th>
                 <th>Keterangan</th>
+                {% if (inventoryRequestHeader.requestMode == 'paper') %}
+                    <th>MO #</th>
+                    <th>Customer</th>
+                {% endif %} 
             </tr>
         </thead>
         <tbody>
             {% if (inventoryRequestHeader.requestMode == 'paper') %}
                 {% for inventoryRequestPaperDetail in inventoryRequestHeader.inventoryRequestPaperDetails %}
-                    {% if inventoryRequestPaperDetail.isCanceled == false %}
+                    {% if inventoryRequestPaperDetail.isCanceled == false and inventoryRequestPaperDetail.quantity > 0 %}
                         <tr>
                             <td>{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
                             <td>{{ inventoryRequestPaperDetail.paper.name|default }}</td>
                             <td>{{ inventoryRequestPaperDetail.quantity|default|number_format(2) }}</td>
                             <td>{{ inventoryRequestPaperDetail.unit.name|default }}</td>
                             <td>{{ inventoryRequestPaperDetail.memo|default }}</td>
+                            <td>{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
+                            <td>{{ inventoryRequestPaperDetail.masterOrderHeader.customer.company|default }}</td>
                         </tr>
                     {% endif %} 
                 {% endfor %}
             {% elseif (inventoryRequestHeader.requestMode == 'material') %} 
                 {% for inventoryRequestMaterialDetail in inventoryRequestHeader.inventoryRequestMaterialDetails %}
-                    {% if inventoryRequestMaterialDetail.isCanceled == false %}
+                    {% if inventoryRequestMaterialDetail.isCanceled == false and inventoryRequestMaterialDetail.quantity > 0 %}
                         <tr>
                             <td>{{ inventoryRequestMaterialDetail.material.code|default }}</td>
                             <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>

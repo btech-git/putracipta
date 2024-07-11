@@ -71,13 +71,15 @@
             </thead>
             <tbody>
                 {% for stockTransferMaterialDetail in stockTransferHeader.stockTransferMaterialDetails %}
-                    <tr>
-                        <td>{{ stockTransferMaterialDetail.material.code|default }}</td>
-                        <td>{{ stockTransferMaterialDetail.material.name|default }}</td>
-                        <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ stockTransferMaterialDetail.material.unit.name|default }}</td>
-                        <td>{{ stockTransferMaterialDetail.memo|default }}</td>
-                    </tr>
+                    {% if stockTransferMaterialDetail.isCanceled == false and stockTransferMaterialDetail.quantity > 0 %}
+                        <tr>
+                            <td>{{ stockTransferMaterialDetail.material.code|default }}</td>
+                            <td>{{ stockTransferMaterialDetail.material.name|default }}</td>
+                            <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ stockTransferMaterialDetail.material.unit.name|default }}</td>
+                            <td>{{ stockTransferMaterialDetail.memo|default }}</td>
+                        </tr>
+                    {% endif %} 
                 {% endfor %}
             </tbody>
             <tfoot>
@@ -101,13 +103,15 @@
             </thead>
             <tbody>
                 {% for stockTransferPaperDetail in stockTransferHeader.stockTransferPaperDetails %}
-                    <tr>
-                        <td>{{ stockTransferPaperDetail.paper.code|default }}</td>
-                        <td>{{ stockTransferPaperDetail.paper.name|default }}</td>
-                        <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ stockTransferPaperDetail.paper.unit.name|default }}</td>
-                        <td>{{ stockTransferPaperDetail.memo|default }}</td>
-                    </tr>
+                    {% if stockTransferPaperDetail.isCanceled == false and stockTransferPaperDetail.quantity > 0 %}
+                        <tr>
+                            <td>{{ stockTransferPaperDetail.paper.code|default }}</td>
+                            <td>{{ stockTransferPaperDetail.paper.name|default }}</td>
+                            <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ stockTransferPaperDetail.paper.unit.name|default }}</td>
+                            <td>{{ stockTransferPaperDetail.memo|default }}</td>
+                        </tr>
+                    {% endif %} 
                 {% endfor %}
             </tbody>
             <tfoot>
@@ -131,13 +135,15 @@
             </thead>
             <tbody>
                 {% for stockTransferProductDetail in stockTransferHeader.stockTransferProductDetails %}
-                    <tr>
-                        <td>{{ stockTransferProductDetail.product.code|default }}</td>
-                        <td>{{ stockTransferProductDetail.product.name|default }}</td>
-                        <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(0) }}</td>
-                        <td>{{ stockTransferProductDetail.product.unit.name|default }}</td>
-                        <td>{{ stockTransferProductDetail.memo|default }}</td>
-                    </tr>
+                    {% if stockTransferProductDetail.isCanceled == false and stockTransferProductDetail.quantity > 0 %}
+                        <tr>
+                            <td>{{ stockTransferProductDetail.product.code|default }}</td>
+                            <td>{{ stockTransferProductDetail.product.name|default }}</td>
+                            <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ stockTransferProductDetail.product.unit.name|default }}</td>
+                            <td>{{ stockTransferProductDetail.memo|default }}</td>
+                        </tr>
+                    {% endif %} 
                 {% endfor %}
             </tbody>
             <tfoot>

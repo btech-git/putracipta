@@ -80,7 +80,7 @@
         </thead>
         <tbody>
             {% for inventoryProductReceiveDetail in inventoryProductReceiveHeader.inventoryProductReceiveDetails %}
-                {% if inventoryProductReceiveDetail.isCanceled == false %}
+                {% if inventoryProductReceiveDetail.isCanceled == false and inventoryProductReceiveDetail.quantityTotalPieces > 0 %}
                     <tr>
                         <td>{{ inventoryProductReceiveDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                         <td>{{ inventoryProductReceiveDetail.product.code|default }}</td>
