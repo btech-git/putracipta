@@ -12,7 +12,7 @@ use App\Entity\Master\Warehouse;
 use App\Entity\ProductionHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Stock\InventoryProductReceiveHeader;
-use App\Entity\Stock\InventoryRequestHeader;
+use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -367,14 +367,14 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(length: 100)]
     private ?string $transactionMode = self::TRANSACTION_MODE_SALE_ORDER;
 
-    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryRequestHeader::class)]
-    private Collection $inventoryRequestHeaders;
-
     #[ORM\Column(length: 200)]
     private ?string $saleOrderReferenceNumberList = '';
 
     #[ORM\Column(length: 200)]
     private ?string $masterOrderProductList = '';
+
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryRequestPaperDetail::class)]
+    private Collection $inventoryRequestPaperDetails;
 
     public function __construct()
     {
@@ -390,7 +390,7 @@ class MasterOrderHeader extends ProductionHeader
         $this->masterOrderCheckSheetDetails = new ArrayCollection();
         $this->inventoryProductReceiveHeaders = new ArrayCollection();
         $this->masterOrderPrototypeDetails = new ArrayCollection();
-        $this->inventoryRequestHeaders = new ArrayCollection();
+        $this->inventoryRequestPaperDetails = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -2156,36 +2156,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    /**
-     * @return Collection<int, InventoryRequestHeader>
-     */
-    public function getInventoryRequestHeaders(): Collection
-    {
-        return $this->inventoryRequestHeaders;
-    }
-
-    public function addInventoryRequestHeader(InventoryRequestHeader $inventoryRequestHeader): self
-    {
-        if (!$this->inventoryRequestHeaders->contains($inventoryRequestHeader)) {
-            $this->inventoryRequestHeaders->add($inventoryRequestHeader);
-            $inventoryRequestHeader->setMasterOrderHeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInventoryRequestHeader(InventoryRequestHeader $inventoryRequestHeader): self
-    {
-        if ($this->inventoryRequestHeaders->removeElement($inventoryRequestHeader)) {
-            // set the owning side to null (unless already changed)
-            if ($inventoryRequestHeader->getMasterOrderHeader() === $this) {
-                $inventoryRequestHeader->setMasterOrderHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSaleOrderReferenceNumberList(): ?string
     {
         return $this->saleOrderReferenceNumberList;
@@ -2206,6 +2176,36 @@ class MasterOrderHeader extends ProductionHeader
     public function setMasterOrderProductList(string $masterOrderProductList): self
     {
         $this->masterOrderProductList = $masterOrderProductList;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryRequestPaperDetail>
+     */
+    public function getInventoryRequestPaperDetails(): Collection
+    {
+        return $this->inventoryRequestPaperDetails;
+    }
+
+    public function addInventoryRequestPaperDetail(InventoryRequestPaperDetail $inventoryRequestPaperDetail): self
+    {
+        if (!$this->inventoryRequestPaperDetails->contains($inventoryRequestPaperDetail)) {
+            $this->inventoryRequestPaperDetails->add($inventoryRequestPaperDetail);
+            $inventoryRequestPaperDetail->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryRequestPaperDetail(InventoryRequestPaperDetail $inventoryRequestPaperDetail): self
+    {
+        if ($this->inventoryRequestPaperDetails->removeElement($inventoryRequestPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryRequestPaperDetail->getMasterOrderHeader() === $this) {
+                $inventoryRequestPaperDetail->setMasterOrderHeader(null);
+            }
+        }
 
         return $this;
     }

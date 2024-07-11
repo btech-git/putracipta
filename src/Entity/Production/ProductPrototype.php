@@ -103,6 +103,9 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(length: 200)]
     private ?string $prototypeProductList = null;
 
+    #[ORM\Column]
+    private ?bool $isRead = false;
+
     public function __construct()
     {
         $this->productDevelopments = new ArrayCollection();
@@ -362,6 +365,18 @@ class ProductPrototype extends ProductionHeader
     public function setPrototypeProductList(string $prototypeProductList): self
     {
         $this->prototypeProductList = $prototypeProductList;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }
