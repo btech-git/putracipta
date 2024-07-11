@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Criteria\DataCriteriaPagination;
 use App\Common\Data\Operator\SortDescending;
+use App\Entity\Production\ProductPrototype;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Purchase\PurchaseRequestHeader;
@@ -45,12 +46,12 @@ class DefaultController extends AbstractController
         });
         $purchaseRequestHeaderCountApproval = $purchaseRequestHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.isViewed = false");
+            $qb->andWhere("{$alias}.isRead = false");
             $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
         });
         $purchaseRequestPaperHeaderCountApproval = $purchaseRequestPaperHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.isViewed = false");
+            $qb->andWhere("{$alias}.isRead = false");
             $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
         });
         $purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
@@ -83,6 +84,14 @@ class DefaultController extends AbstractController
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isRead = false");
         });
+        $productPrototypeRepository = $entityManager->getRepository(ProductPrototype::class);
+        $productPrototypeCount = $productPrototypeRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isRead = false");
+            $qb->innerJoin("{$alias}.employee", 'm');
+            $qb->andWhere("m.user = :user");
+            $qb->setParameter('user', $this->getUser());
+        });
 
         list($saleOrderHeaders, $saleOrderHeaderData, $saleForm, $saleCount) = $this->getSaleOrderGridData($request, $saleOrderHeaderRepository);
         list($purchaseOrderHeaders, $purchaseOrderHeaderData, $purchaseForm, $purchaseCount) = $this->getPurchaseOrderGridData($request, $purchaseOrderHeaderRepository);
@@ -99,6 +108,7 @@ class DefaultController extends AbstractController
             'saleOrderHeaderCount' => $saleOrderHeaderCount,
             'saleInvoiceHeaderCount' => $saleInvoiceHeaderCount,
             'inventoryRequestHeaderCount' => $inventoryRequestHeaderCount,
+            'productPrototypeCount' => $productPrototypeCount,
             'saleOrderHeaders' => $saleOrderHeaders,
             'saleOrderHeaderData' => $saleOrderHeaderData,
             'saleForm' => $saleForm,
