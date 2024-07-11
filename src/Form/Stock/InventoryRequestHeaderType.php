@@ -2,9 +2,7 @@
 
 namespace App\Form\Stock;
 
-use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedDateType;
-use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Stock\InventoryRequestMaterialDetail;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Entity\Stock\InventoryRequestHeader;
@@ -35,7 +33,6 @@ class InventoryRequestHeaderType extends AbstractType
                             ->addOrderBy('e.name', 'ASC');
                 },
             ])
-            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
             ->add('pickupDate', FormattedDateType::class)
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')

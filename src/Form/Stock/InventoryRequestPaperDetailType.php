@@ -5,6 +5,7 @@ namespace App\Form\Stock;
 use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Paper;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,6 +20,7 @@ class InventoryRequestPaperDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
         ;
     }
 
