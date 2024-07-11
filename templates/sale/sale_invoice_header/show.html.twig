@@ -105,7 +105,7 @@
         </thead>
         <tbody>
             {% for saleInvoiceDetail in saleInvoiceHeader.saleInvoiceDetails %}
-                {% if saleInvoiceDetail.isCanceled == false %}
+                {% if saleInvoiceDetail.isCanceled == false and saleInvoiceDetail.quantity > 0 %}
                     <tr>
                         <td>{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                         <td>{{ saleInvoiceDetail.deliveryDetail.deliveryHeader.codeNumber|default }}</td>

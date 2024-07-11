@@ -107,7 +107,7 @@
         </thead>
         <tbody>
             {% for deliveryDetail in deliveryHeader.deliveryDetails %}
-                {% if deliveryDetail.isCanceled == false %}
+                {% if deliveryDetail.isCanceled == false and deliveryDetail.quantity > 0 %}
                     <tr>
                         <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                         <td>{{ deliveryDetail.product.code|default }}</td>

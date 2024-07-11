@@ -82,7 +82,7 @@
         </thead>
         <tbody>
             {% for saleReturnDetail in saleReturnHeader.saleReturnDetails %}
-                {% if saleReturnDetail.isCanceled == false %}
+                {% if saleReturnDetail.isCanceled == false and saleReturnDetail.quantity > 0 %}
                     <tr>
                         <td>{{ saleReturnDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                         <td>{{ saleReturnDetail.product.code|default }}</td>

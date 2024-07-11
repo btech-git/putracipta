@@ -128,7 +128,7 @@
         </thead>
         <tbody>
             {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
-                {% if saleOrderDetail.isCanceled == false %}
+                {% if saleOrderDetail.isCanceled == false and saleOrderDetail.quantity > 0 %}
                     <tr>
                         <td>{{ saleOrderDetail.linePo|default }}</td>
                         <td>{{ saleOrderDetail.product.code|default }}</td>
