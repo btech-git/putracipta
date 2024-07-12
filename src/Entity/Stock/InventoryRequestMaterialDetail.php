@@ -4,6 +4,7 @@ namespace App\Entity\Stock;
 
 use App\Entity\Master\Material;
 use App\Entity\Master\Unit;
+use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Entity\StockDetail;
 use App\Repository\Stock\InventoryRequestMaterialDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,9 +45,13 @@ class InventoryRequestMaterialDetail extends StockDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityRemaining = '0.00';
 
+    #[ORM\OneToMany(mappedBy: 'inventoryRequestMaterialDetail', targetEntity: PurchaseRequestDetail::class)]
+    private Collection $purchaseRequestDetails;
+
     public function __construct()
     {
         $this->inventoryReleaseMaterialDetails = new ArrayCollection();
+        $this->purchaseRequestDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -175,6 +180,36 @@ class InventoryRequestMaterialDetail extends StockDetail
     public function setQuantityRemaining(string $quantityRemaining): self
     {
         $this->quantityRemaining = $quantityRemaining;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseRequestDetail>
+     */
+    public function getPurchaseRequestDetails(): Collection
+    {
+        return $this->purchaseRequestDetails;
+    }
+
+    public function addPurchaseRequestDetail(PurchaseRequestDetail $purchaseRequestDetail): self
+    {
+        if (!$this->purchaseRequestDetails->contains($purchaseRequestDetail)) {
+            $this->purchaseRequestDetails->add($purchaseRequestDetail);
+            $purchaseRequestDetail->setInventoryRequestMaterialDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseRequestDetail(PurchaseRequestDetail $purchaseRequestDetail): self
+    {
+        if ($this->purchaseRequestDetails->removeElement($purchaseRequestDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseRequestDetail->getInventoryRequestMaterialDetail() === $this) {
+                $purchaseRequestDetail->setInventoryRequestMaterialDetail(null);
+            }
+        }
 
         return $this;
     }

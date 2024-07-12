@@ -5,6 +5,7 @@ namespace App\Entity\Stock;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\Production\MasterOrderHeader;
+use App\Entity\Purchase\PurchaseRequestPaperDetail;
 use App\Entity\StockDetail;
 use App\Repository\Stock\InventoryRequestPaperDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,9 +49,13 @@ class InventoryRequestPaperDetail extends StockDetail
     #[ORM\ManyToOne(inversedBy: 'inventoryRequestPaperDetails')]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
+    #[ORM\OneToMany(mappedBy: 'inventoryRequestPaperDetail', targetEntity: PurchaseRequestPaperDetail::class)]
+    private Collection $purchaseRequestPaperDetails;
+
     public function __construct()
     {
         $this->inventoryReleasePaperDetails = new ArrayCollection();
+        $this->purchaseRequestPaperDetails = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -191,6 +196,36 @@ class InventoryRequestPaperDetail extends StockDetail
     public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
         $this->masterOrderHeader = $masterOrderHeader;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseRequestPaperDetail>
+     */
+    public function getPurchaseRequestPaperDetails(): Collection
+    {
+        return $this->purchaseRequestPaperDetails;
+    }
+
+    public function addPurchaseRequestPaperDetail(PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
+    {
+        if (!$this->purchaseRequestPaperDetails->contains($purchaseRequestPaperDetail)) {
+            $this->purchaseRequestPaperDetails->add($purchaseRequestPaperDetail);
+            $purchaseRequestPaperDetail->setInventoryRequestPaperDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseRequestPaperDetail(PurchaseRequestPaperDetail $purchaseRequestPaperDetail): self
+    {
+        if ($this->purchaseRequestPaperDetails->removeElement($purchaseRequestPaperDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseRequestPaperDetail->getInventoryRequestPaperDetail() === $this) {
+                $purchaseRequestPaperDetail->setInventoryRequestPaperDetail(null);
+            }
+        }
 
         return $this;
     }

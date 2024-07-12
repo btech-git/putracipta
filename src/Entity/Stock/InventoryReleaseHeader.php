@@ -46,8 +46,8 @@ class InventoryReleaseHeader extends StockHeader
     #[ORM\ManyToOne]
     private ?Division $division = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $workOrderNumber = '';
+    #[ORM\ManyToOne(inversedBy: 'inventoryReleaseHeaders')]
+    private ?MasterOrderHeader $masterOrderHeader = null;
 
     public function __construct()
     {
@@ -210,18 +210,6 @@ class InventoryReleaseHeader extends StockHeader
     public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
         $this->masterOrderHeader = $masterOrderHeader;
-
-        return $this;
-    }
-
-    public function getWorkOrderNumber(): ?string
-    {
-        return $this->workOrderNumber;
-    }
-
-    public function setWorkOrderNumber(string $workOrderNumber): self
-    {
-        $this->workOrderNumber = $workOrderNumber;
 
         return $this;
     }

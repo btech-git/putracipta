@@ -43,6 +43,9 @@ class InventoryProductReceiveDetail extends StockDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityTotalPieces = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityPiecePerBox = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->inventoryProductReceiveHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -51,10 +54,7 @@ class InventoryProductReceiveDetail extends StockDetail
 
     public function getSyncQuantityTotalPieces()
     {
-        $masterOrderHeader = $this->getMasterOrderProductDetail()->getMasterOrderHeader();
-        $quantityBoxOrPacking = $masterOrderHeader->getPackagingPaperQuantity() === '0.00' ? $masterOrderHeader->getPackagingBoxQuantity() : $masterOrderHeader->getPackagingPaperQuantity();
-        
-        return $this->getQuantityBox() * $quantityBoxOrPacking + $this->getQuantityBoxExtraPieces();
+        return $this->quantityBox * $this->quantityPiecePerBox + $this->quantityBoxExtraPieces;
     }
     
     public function getId(): ?int
@@ -154,6 +154,18 @@ class InventoryProductReceiveDetail extends StockDetail
     public function setQuantityTotalPieces(string $quantityTotalPieces): self
     {
         $this->quantityTotalPieces = $quantityTotalPieces;
+
+        return $this;
+    }
+
+    public function getQuantityPiecePerBox(): ?string
+    {
+        return $this->quantityPiecePerBox;
+    }
+
+    public function setQuantityPiecePerBox(string $quantityPiecePerBox): self
+    {
+        $this->quantityPiecePerBox = $quantityPiecePerBox;
 
         return $this;
     }

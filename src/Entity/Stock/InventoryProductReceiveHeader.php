@@ -37,6 +37,9 @@ class InventoryProductReceiveHeader extends StockHeader
     #[ORM\Column(length: 200)]
     private ?string $productDetailLists = '';
 
+    #[ORM\Column(length: 200)]
+    private ?string $productCodeLists = null;
+
     public function __construct()
     {
         $this->inventoryProductReceiveDetails = new ArrayCollection();
@@ -137,6 +140,18 @@ class InventoryProductReceiveHeader extends StockHeader
     public function setProductDetailLists(string $productDetailLists): self
     {
         $this->productDetailLists = $productDetailLists;
+
+        return $this;
+    }
+
+    public function getProductCodeLists(): ?string
+    {
+        return $this->productCodeLists;
+    }
+
+    public function setProductCodeLists(string $productCodeLists): self
+    {
+        $this->productCodeLists = $productCodeLists;
 
         return $this;
     }
