@@ -2,7 +2,9 @@
 
 namespace App\Form\Stock;
 
+use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedDateType;
+use App\Entity\Production\MasterOrderHeader;
 use App\Entity\Stock\InventoryReleaseHeader;
 use App\Entity\Stock\InventoryReleaseMaterialDetail;
 use App\Entity\Stock\InventoryReleasePaperDetail;
@@ -19,7 +21,6 @@ class InventoryReleaseHeaderType extends AbstractType
         $builder
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')
-            ->add('workOrderNumber')
             ->add('partNumber')
             ->add('warehouse', null, [
                 'choice_label' => 'name',
@@ -40,6 +41,7 @@ class InventoryReleaseHeaderType extends AbstractType
                             ->addOrderBy('e.name', 'ASC');
                 },
             ])
+            ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
             ->add('inventoryReleaseMaterialDetails', CollectionType::class, [
                 'entry_type' => InventoryReleaseMaterialDetailType::class,
                 'allow_add' => true,

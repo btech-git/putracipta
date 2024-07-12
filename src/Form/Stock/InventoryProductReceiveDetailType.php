@@ -18,7 +18,7 @@ class InventoryProductReceiveDetailType extends AbstractType
         $builder
             ->add('quantityBox', FormattedNumberType::class, ['decimals' => 2])
             ->add('quantityBoxExtraPieces', FormattedNumberType::class, ['decimals' => 2])
-//            ->add('quantityTotalPieces', FormattedNumberType::class, ['decimals' => 2])
+            ->add('quantityPiecePerBox', FormattedNumberType::class, ['decimals' => 2])
             ->add('memo')
             ->add('isCanceled')
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
