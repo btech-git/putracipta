@@ -45,7 +45,7 @@
         </thead>
         <tbody>
             {% for diecutKnife in diecutKnives %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'diecutKnifeId': diecutKnife.id, 
                     'diecutKnifeCodeNumber': diecutKnife.codeNumber, 
                     'diecutKnifeNote': diecutKnife.note}|json_encode }}">
@@ -57,7 +57,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">No records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
