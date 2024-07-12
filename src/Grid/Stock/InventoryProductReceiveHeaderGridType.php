@@ -27,7 +27,7 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note', 'productDetailLists'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note', 'productDetailLists', 'productCodeLists'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -44,6 +44,7 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'productDetailLists' => [FilterContain::class, FilterNotContain::class],
+                    'productCodeLists' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -58,7 +59,7 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'productDetailLists', 'warehouse:name', 'note', 'id'],
+                'field_names' => ['transactionDate', 'productDetailLists', 'warehouse:name', 'note', 'productCodeLists', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
@@ -70,6 +71,7 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'productDetailLists' => [SortAscending::class, SortDescending::class],
+                    'productCodeLists' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
