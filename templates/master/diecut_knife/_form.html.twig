@@ -3,69 +3,69 @@
      data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id'}|json_encode }}">
 
     {{ form_start(form) }}
-        <div class="row">
-            <div class="col">
-                {{ form_row(form.customer, {
-                    'attr': {
-                        'readonly': diecutKnife.id is not null,
-                        'data-controller': 'dom-element data-choice',
-                        'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind change->data-choice#select',
-                        'data-dom-element-bind-action-param': '
-                            const customerId = $element.value;
-                        ',
-                    }
-                }) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.version) }}
-            </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.customer, {
+                'attr': {
+                    'readonly': diecutKnife.id is not null,
+                    'data-controller': 'dom-element data-choice',
+                    'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind change->data-choice#select',
+                    'data-dom-element-bind-action-param': '
+                        const customerId = $element.value;
+                    ',
+                }
+            }) }}
         </div>
-
-        <div class="row">
-            <div class="col">
-                {{ form_row(form.upPerSecondKnife) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.upPerSecondPrint) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.printingSize) }}
-            </div>
+        <div class="col">
+            {{ form_row(form.version) }}
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col">
-                {{ form_row(form.date) }}
-                {{ form_row(form.isInactive) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.location) }}
-            </div>
-            <div class="col">
-                {{ form_row(form.note) }}
-            </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.upPerSecondKnife) }}
         </div>
-  
-        <hr />
-
-        <fieldset class="border border-secondary rounded mb-3 p-3">
-            <legend class="float-none w-auto text-dark px-1">Products</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add</button>
-            {{ include('master/diecut_knife/_products_form.html.twig') }}
-        </fieldset>
-
-        <hr />
-
-        <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_master_diecut_knife__diecut_list') }}"
-             data-html-loader-auto-load-value="true"
-             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
+        <div class="col">
+            {{ form_row(form.upPerSecondPrint) }}
         </div>
+        <div class="col">
+            {{ form_row(form.printingSize) }}
+        </div>
+    </div>
 
-        <hr />
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.date) }}
+            {{ form_row(form.isInactive) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.location) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.note) }}
+        </div>
+    </div>
 
-        <div class="d-grid">
+    <hr />
+
+    <fieldset class="border border-secondary rounded mb-3 p-3">
+        <legend class="float-none w-auto text-dark px-1">Products</legend>
+        <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add</button>
+        {{ include('master/diecut_knife/_products_form.html.twig') }}
+    </fieldset>
+
+    <hr />
+
+    <legend class="float-none w-auto text-dark px-1">Pisau Diecut List</legend>
+    <div data-controller="html-loader"
+         data-html-loader-url-value="{{ path('app_master_diecut_knife__diecut_list') }}"
+         data-html-loader-auto-load-value="true"
+         data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
+    </div>
+
+    <hr />
+
+    <div class="d-grid">
         <div class="row">
             <div class="col text-center">
                 <a class="btn btn-danger" href="{{ path('app_master_diecut_knife_index') }}"

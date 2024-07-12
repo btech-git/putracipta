@@ -417,14 +417,16 @@
     {{ dialog.start('diecut-knife-dialog', 'Pisau Diecut List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_diecut_knife__list') }}"
-             data-html-loader-auto-load-value="true">
+             data-html-loader-auto-load-value="true"
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 
     {{ dialog.start('dieline-millar-dialog', 'Millar List') }}
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_dieline_millar__list') }}"
-             data-html-loader-auto-load-value="true">
+             data-html-loader-auto-load-value="true"
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 
