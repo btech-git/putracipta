@@ -27,4 +27,9 @@ class DivisionRepository extends ServiceEntityRepository
     {
         return $this->find(2);
     }
+    
+    public function findDevelopmentRecord()
+    {
+        return $this->find(4);
+    }
 }

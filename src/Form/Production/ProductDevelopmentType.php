@@ -7,6 +7,7 @@ use App\Common\Form\Type\FormattedDateType;
 use App\Entity\Production\ProductDevelopment;
 use App\Entity\Production\ProductDevelopmentDetail;
 use App\Entity\Production\ProductPrototype;
+use App\Repository\Master\DivisionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -16,6 +17,13 @@ use Symfony\Component\Validator\Constraints\File;
 
 class ProductDevelopmentType extends AbstractType
 {
+    private DivisionRepository $divisionRepository;
+
+    public function __construct(DivisionRepository $divisionRepository)
+    {
+        $this->divisionRepository = $divisionRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -43,7 +51,14 @@ class ProductDevelopmentType extends AbstractType
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('productPrototype', EntityHiddenType::class, ['class' => ProductPrototype::class])
-            ->add('employeeDesigner', null, ['choice_label' => 'name'])
+            ->add('employeeDesigner', null, [
+                'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                        ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findDevelopmentRecord())
+                        ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('productDevelopmentDetails', CollectionType::class, [
                 'entry_type' => ProductDevelopmentDetailType::class,
                 'allow_add' => true,

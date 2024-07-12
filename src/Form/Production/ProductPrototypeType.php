@@ -10,6 +10,7 @@ use App\Entity\Master\Paper;
 use App\Entity\Production\ProductPrototype;
 use App\Entity\Production\ProductPrototypeDetail;
 use App\Entity\Production\ProductPrototypePilotDetail;
+use App\Repository\Master\DivisionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -18,6 +19,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductPrototypeType extends AbstractType
 {
+    private DivisionRepository $divisionRepository;
+
+    public function __construct(DivisionRepository $divisionRepository)
+    {
+        $this->divisionRepository = $divisionRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -66,6 +74,11 @@ class ProductPrototypeType extends AbstractType
             ->add('note')
             ->add('employee', null, [
                 'choice_label' => 'name',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                        ->andWhere("e.division = :division")->setParameter('division', $this->divisionRepository->findDevelopmentRecord())
+                        ->andWhere("e.isInactive = false");
+                },
             ])
             ->add('customer', null, [
                 'choice_label' => 'company',
