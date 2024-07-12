@@ -12,6 +12,7 @@ use App\Entity\Master\Warehouse;
 use App\Entity\ProductionHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\Stock\InventoryProductReceiveHeader;
+use App\Entity\Stock\InventoryReleaseHeader;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Repository\Production\MasterOrderHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -376,6 +377,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryRequestPaperDetail::class)]
     private Collection $inventoryRequestPaperDetails;
 
+    #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: InventoryReleaseHeader::class)]
+    private Collection $inventoryReleaseHeaders;
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -391,6 +395,7 @@ class MasterOrderHeader extends ProductionHeader
         $this->inventoryProductReceiveHeaders = new ArrayCollection();
         $this->masterOrderPrototypeDetails = new ArrayCollection();
         $this->inventoryRequestPaperDetails = new ArrayCollection();
+        $this->inventoryReleaseHeaders = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -2204,6 +2209,36 @@ class MasterOrderHeader extends ProductionHeader
             // set the owning side to null (unless already changed)
             if ($inventoryRequestPaperDetail->getMasterOrderHeader() === $this) {
                 $inventoryRequestPaperDetail->setMasterOrderHeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InventoryReleaseHeader>
+     */
+    public function getInventoryReleaseHeaders(): Collection
+    {
+        return $this->inventoryReleaseHeaders;
+    }
+
+    public function addInventoryReleaseHeader(InventoryReleaseHeader $inventoryReleaseHeader): self
+    {
+        if (!$this->inventoryReleaseHeaders->contains($inventoryReleaseHeader)) {
+            $this->inventoryReleaseHeaders->add($inventoryReleaseHeader);
+            $inventoryReleaseHeader->setMasterOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInventoryReleaseHeader(InventoryReleaseHeader $inventoryReleaseHeader): self
+    {
+        if ($this->inventoryReleaseHeaders->removeElement($inventoryReleaseHeader)) {
+            // set the owning side to null (unless already changed)
+            if ($inventoryReleaseHeader->getMasterOrderHeader() === $this) {
+                $inventoryReleaseHeader->setMasterOrderHeader(null);
             }
         }
 
