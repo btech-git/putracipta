@@ -24,7 +24,8 @@
 
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <legend class="float-none w-auto text-dark px-1">Details</legend>
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Detail</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
+            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#inventory-request-material-detail-dialog">Add Permintaan</button>
             {{ include('purchase/purchase_request_header/_details_form.html.twig') }}
         </fieldset>
 
@@ -51,16 +52,16 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('warehouse-dialog', 'Warehouse List') }}
+    {{ dialog.start('material-dialog', 'Material List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_warehouse__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}
 
-    {{ dialog.start('material-dialog', 'Material List') }}
+    {{ dialog.start('inventory-request-material-detail-dialog', 'Permintaan Material List') }}
         <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
+             data-html-loader-url-value="{{ path('app_shared_inventory_request_material_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
     {{ dialog.end() }}

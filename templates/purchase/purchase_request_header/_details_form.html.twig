@@ -7,6 +7,7 @@
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Material Id</th>
+                <th class="d-none">Inventory Request Material Detail Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Material Name</th>
                 <th style="min-width: 100px">Qty</th>
@@ -16,10 +17,11 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem">
+        <tbody data-form-collection-target="items" data-action="material-table:data-table:select@document->form-collection#addCollectionItem inventory-request-material-detail-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
+                    <td class="d-none">{{ form_widget(detailForm.inventoryRequestMaterialDetail, {'attr': {'data-item-field-name': 'inventoryRequestMaterialDetailId'}}) }}</td>
                     <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                     <td>

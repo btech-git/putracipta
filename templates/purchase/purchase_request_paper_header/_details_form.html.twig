@@ -7,6 +7,7 @@
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Paper Id</th>
+                <th class="d-none">Inventory Request Paper Detail Id</th>
                 <th style="min-width: 150px">Kode</th>
                 <th style="min-width: 150px">Paper Name</th>
                 <th style="min-width: 50px">GSM</th>
@@ -17,10 +18,11 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="paper-table:data-table:select@document->form-collection#addCollectionItem">
+        <tbody data-form-collection-target="items" data-action="paper-table:data-table:select@document->form-collection#addCollectionItem inventory-request-paper-detail-table:data-table:select@document->form-collection#addCollectionItem">
             {% macro collection_item(detailForm) %}
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
+                    <td class="d-none">{{ form_widget(detailForm.inventoryRequestPaperDetail, {'attr': {'data-item-field-name': 'inventoryRequestPaperDetailId'}}) }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
                     <td data-item-field-name="paperWeight">{{ detailForm.vars.value.paper.weight|default }}</td>
