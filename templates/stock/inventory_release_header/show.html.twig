@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Inventory Release Header' %}
+{% block title 'Show Pengeluaran Material ke Produksi' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_inventory_release_header_index') }}">Manage</a>
@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <th>WO #</th>
-                <td>{{ inventoryReleaseHeader.workOrderNumber|default }}</td>
+                <td>{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Part #</th>

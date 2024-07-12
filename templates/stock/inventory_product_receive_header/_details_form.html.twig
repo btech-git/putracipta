@@ -38,12 +38,11 @@
                     <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td data-item-field-name="masterOrderProductDetailQuantityShortage" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
                     <td data-item-field-name="masterOrderProductDetailRemainingProduction" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.remainingProduction|default|number_format(0) }}</td>
-                    <td data-item-field-name="masterOrderHeaderPackagingQuantity" class="text-center">
-                        {% if (detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.packagingBoxQuantity|default > 0) %}
-                            {{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.packagingBoxQuantity|default|number_format(0) }}
-                        {% else %}
-                            {{ detailForm.vars.value.masterOrderProductDetail.masterOrderHeader.packagingPaperQuantity|default|number_format(0) }}
-                        {% endif %}
+                    <td class="text-center">
+                        {{ form_row(detailForm.quantityPiecePerBox, {'label': false, 'attr': {
+                            'data-action': 'change->json-loader#load',
+                            'data-item-field-name': 'masterOrderHeaderPackagingQuantity',
+                        }}) }}
                     </td>
                     <td>
                         {{ form_row(detailForm.quantityBox, {'label': false, 'attr': {

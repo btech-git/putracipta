@@ -19,7 +19,8 @@
                 </th>
                 <th style="min-width: 150px">Master Order #</th>
                 <th style="min-width: 250px">Customer</th>
-                <th style="min-width: 200px">Products</th>
+                <th style="min-width: 200px">Product Code</th>
+                <th style="min-width: 200px">Product Name</th>
                 <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -49,6 +50,9 @@
                 <th></th>
                 <th></th>
                 <th>
+                    <input type="text" {{ grid.filter_link_item(form, 'productCodeLists') }} value="{{ form.filter.productCodeLists.1.vars.value }}" />
+                </th>
+                <th>
                     <input type="text" {{ grid.filter_link_item(form, 'productDetailLists') }} value="{{ form.filter.productDetailLists.1.vars.value }}" />
                 </th>
                 <th></th>
@@ -62,6 +66,7 @@
                     <td>{{ inventoryProductReceiveHeader.warehouse.name|default }}</td>
                     <td>{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber|default }}</td>
                     <td>{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company|default }}</td>
+                    <td>{{ inventoryProductReceiveHeader.productCodeLists|default }}</td>
                     <td>{{ inventoryProductReceiveHeader.productDetailLists|default }}</td>
                     <td>
                         {% if is_granted('ROLE_FINISHED_GOODS_RECEIVE_VIEW') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_EDIT') or is_granted('ROLE_FINISHED_GOODS_RECEIVE_ADD') %}
@@ -74,7 +79,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">No records found</td>
+                    <td colspan="8">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>
