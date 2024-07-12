@@ -142,7 +142,10 @@
                                 <td class="center">{{ number|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
-                                <td class="left">{{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }} / {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') }}</td>
+                                <td class="left">
+                                    {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }} / 
+                                    {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d.m.Y') }}
+                                </td>
                                 {% if deliveryHeader.isUsingFscPaper %}
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
                                     <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
