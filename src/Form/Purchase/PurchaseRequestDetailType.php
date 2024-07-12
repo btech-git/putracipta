@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Material;
 use App\Entity\Purchase\PurchaseRequestDetail;
+use App\Entity\Stock\InventoryRequestMaterialDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +19,7 @@ class PurchaseRequestDetailType extends AbstractType
             ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
             ->add('unit', null, ['choice_label' => 'name'])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
+            ->add('inventoryRequestMaterialDetail', EntityHiddenType::class, ['class' => InventoryRequestMaterialDetail::class])
             ->add('usageDate', null, ['widget' => 'single_text'])
             ->add('memo')
             ->add('isCanceled')

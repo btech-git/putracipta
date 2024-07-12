@@ -6,6 +6,7 @@ use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Master\Paper;
 use App\Entity\Purchase\PurchaseRequestPaperDetail;
+use App\Entity\Stock\InventoryRequestPaperDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,6 +21,7 @@ class PurchaseRequestPaperDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
+            ->add('inventoryRequestPaperDetail', EntityHiddenType::class, array('class' => InventoryRequestPaperDetail::class))
             ->add('unit', null, ['choice_label' => 'name'])
         ;
     }

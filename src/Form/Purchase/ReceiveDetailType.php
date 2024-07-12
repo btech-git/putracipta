@@ -16,7 +16,7 @@ class ReceiveDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('receivedQuantity', FormattedNumberType::class, ['decimals' => 0])
+            ->add('receivedQuantity', FormattedNumberType::class, ['decimals' => 2])
             ->add('isCanceled')
             ->add('memo')
             ->add('purchaseOrderDetail', EntityHiddenType::class, ['class' => PurchaseOrderDetail::class])
