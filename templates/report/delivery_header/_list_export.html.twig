@@ -21,7 +21,6 @@
         <tr>
             <th style="text-align: center; width: 100pt"><strong>Pengiriman #</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Customer</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Gudang</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Kendaraan</strong></th>
@@ -31,12 +30,15 @@
         </tr>
         <tr>
             <th></th>
+            <th style="text-align: center"><strong>PO #</strong></th>
+            <th style="text-align: center"><strong>Tanggal PO</strong></th>
             <th style="text-align: center"><strong>Kode</strong></th>
             <th style="text-align: center"><strong>Nama Produk</strong></th>
             <th style="text-align: center"><strong>FSC Code</strong></th>
             <th style="text-align: center"><strong>Lot #</strong></th>
             <th style="text-align: center"><strong>Qty Order</strong></th>
             <th style="text-align: center"><strong>Qty Kirim</strong></th>
+            <th style="text-align: center"><strong>Qty OS</strong></th>
             <th style="text-align: center"><strong>Satuan</strong></th>
             <th style="text-align: center"><strong>Packing</strong></th>
         </tr>
@@ -49,7 +51,6 @@
             <tr>
                 <td style="text-align: left">{{ deliveryHeader.codeNumber|default }}</td>
                 <td style="text-align: left">{{ deliveryHeader.transactionDate|default ? deliveryHeader.transactionDate|date('j M Y') }}</td>
-                <td style="text-align: left">{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
                 <td style="text-align: left">{{ deliveryHeader.customer.company|default }}</td>
                 <td style="text-align: left">{{ deliveryHeader.warehouse.name|default }}</td>
                 <td style="text-align: left">{{ deliveryHeader.vehiclePlateNumber|default }}</td>
@@ -59,12 +60,15 @@
             {% for deliveryDetail in deliveryHeader.deliveryDetails %}
                 <tr>
                     <td style="text-align: left"></td>
+                    <td style="text-align: left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td style="text-align: left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|default ? deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('j M Y') }}</td>
                     <td style="text-align: left">{{ deliveryDetail.product.code|default }}</td>
                     <td style="text-align: left">{{ deliveryDetail.product.name|default }}</td>
                     <td style="text-align: left">{{ deliveryDetail.fscCode|default }}</td>
                     <td style="text-align: left">{{ deliveryDetail.lotNumber|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: center">{{ deliveryDetail.quantity|default }}</td>
+                    <td style="text-align: center">{{ deliveryDetail.remainingQuantity|default }}</td>
                     <td style="text-align: left">{{ deliveryDetail.unit.name|default }}</td>
                     <td style="text-align: left">{{ deliveryDetail.packaging|default }}</td>
                 </tr>

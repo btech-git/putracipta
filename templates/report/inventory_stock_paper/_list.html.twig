@@ -125,7 +125,7 @@
                         <table>
                             {% for inventory in inventories[paper.id] %}
                                 {% set currentStock = currentStock + inventory.quantityIn - inventory.quantityOut %}
-                                {% if (inventory.quantityIn > 0 or inventory.quantityOut > 0) %}
+                                {% if (inventory.quantityIn != 0 or inventory.quantityOut != 0) %}
                                     <tr>
                                         <td class="text-start" style="width: 15%">{{ inventory.codeNumber|default }}</td>
                                         <td class="text-start" style="width: 15%">{{ inventory.transactionDate|default ? inventory.transactionDate|date('j M Y') }}</td>

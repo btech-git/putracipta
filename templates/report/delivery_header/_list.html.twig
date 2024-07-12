@@ -101,7 +101,6 @@
             <tr>
                 <th class="text-start">Pengiriman #</th>
                 <th class="text-start">Tanggal</th>
-                <th class="text-start">PO #</th>
                 <th class="text-start">Customer</th>
                 <th class="text-start">Gudang</th>
                 <th class="text-start">Kendaraan</th>
@@ -109,16 +108,19 @@
                 <th class="text-start">Note</th>
             </tr>
             <tr>
-                <td colspan="8">
+                <td colspan="7">
                     <table>
                         <thead>
                             <tr>
+                                <th class="text-start">PO #</th>
+                                <th class="text-start">Tanggal PO</th>
                                 <th class="text-start">Kode</th>
                                 <th class="text-start">Nama Produk</th>
                                 <th class="text-start">FSC Code</th>
                                 <th class="text-start">Lot #</th>
                                 <th class="text-start">Qty Order</th>
                                 <th class="text-start">Qty Kirim</th>
+                                <th class="text-start">Qty OS</th>
                                 <th class="text-start">Satuan</th>
                                 <th class="text-start">Packing</th>
                             </tr>
@@ -132,7 +134,6 @@
                 <tr>
                     <td class="text-start">{{ deliveryHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ deliveryHeader.transactionDate|default ? deliveryHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
                     <td class="text-start">{{ deliveryHeader.customer.company|default }}</td>
                     <td class="text-start">{{ deliveryHeader.warehouse.name|default }}</td>
                     <td class="text-start">{{ deliveryHeader.vehiclePlateNumber|default }}</td>
@@ -140,17 +141,20 @@
                     <td class="text-start">{{ deliveryHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="8">
+                    <td colspan="7">
                         <table>
                             <tbody>
                                 {% for deliveryDetail in deliveryHeader.deliveryDetails %}
                                     <tr>
+                                        <td class="text-start">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                        <td class="text-start">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|default ? deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('j M Y') }}</td>
                                         <td class="text-start">{{ deliveryDetail.product.code|default }}</td>
                                         <td class="text-start">{{ deliveryDetail.product.name|default }}</td>
                                         <td class="text-start">{{ deliveryDetail.fscCode|default }}</td>
                                         <td class="text-start">{{ deliveryDetail.lotNumber|default }}</td>
                                         <td class="text-center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                                         <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
                                         <td class="text-start">{{ deliveryDetail.unit.name|default }}</td>
                                         <td class="text-start">{{ deliveryDetail.packaging|default }}</td>
                                     </tr>
@@ -158,9 +162,9 @@
                             </tbody>
                             <tfoot class="border-top-solid-normal">
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Total Quantity</strong></td>
+                                    <td class="text-end" colspan="7"><strong>Total Quantity</strong></td>
                                     <td class="text-center"><strong>{{ deliveryHeader.totalQuantity|default|number_format(0) }}</strong></td>
-                                    <td colspan="2">&nbsp;</td>
+                                    <td colspan="3">&nbsp;</td>
                                 </tr>
                             </tfoot>
                         </table>
