@@ -23,7 +23,7 @@ class DeliveryDetailGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'product:name', 'product:code', 'unit:name', 'saleOrderHeader:referenceNumber'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'quantity', 'product:name', 'product:code', 'unit:name', 'saleOrderHeader:referenceNumber'],
                 'field_label_list' => [
                     'unit:name' => 'Satuan',
                     'product:name' => 'Material',
@@ -35,6 +35,7 @@ class DeliveryDetailGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'quantity' => [FilterEqual::class, FilterNotEqual::class],
                     'unit:name' => [FilterContain::class, FilterNotContain::class],
                     'product:name' => [FilterContain::class, FilterNotContain::class],
                     'product:code' => [FilterContain::class, FilterNotContain::class],
@@ -42,7 +43,7 @@ class DeliveryDetailGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'product:name', 'product:code', 'unit:name', 'saleOrderHeader:referenceNumber'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'quantity', 'product:name', 'product:code', 'unit:name', 'saleOrderHeader:referenceNumber'],
                 'field_label_list' => [
                     'unit:name' => 'Satuan',
                     'product:name' => 'Material',
@@ -54,6 +55,7 @@ class DeliveryDetailGridType extends AbstractType
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
+                    'quantity' => [SortAscending::class, SortDescending::class],
                     'unit:name' => [SortAscending::class, SortDescending::class],
                     'product:name' => [SortAscending::class, SortDescending::class],
                     'product:code' => [SortAscending::class, SortDescending::class],
