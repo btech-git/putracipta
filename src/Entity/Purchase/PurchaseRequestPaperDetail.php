@@ -5,6 +5,7 @@ namespace App\Entity\Purchase;
 use App\Entity\Master\Paper;
 use App\Entity\Master\Unit;
 use App\Entity\PurchaseDetail;
+use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Repository\Purchase\PurchaseRequestPaperDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -54,6 +55,9 @@ class PurchaseRequestPaperDetail extends PurchaseDetail
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseRequestPaperDetails')]
+    private ?InventoryRequestPaperDetail $inventoryRequestPaperDetail = null;
 
     public function __construct()
     {
@@ -181,6 +185,18 @@ class PurchaseRequestPaperDetail extends PurchaseDetail
     public function setQuantity(string $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getInventoryRequestPaperDetail(): ?InventoryRequestPaperDetail
+    {
+        return $this->inventoryRequestPaperDetail;
+    }
+
+    public function setInventoryRequestPaperDetail(?InventoryRequestPaperDetail $inventoryRequestPaperDetail): self
+    {
+        $this->inventoryRequestPaperDetail = $inventoryRequestPaperDetail;
 
         return $this;
     }

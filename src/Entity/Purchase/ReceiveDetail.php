@@ -66,23 +66,23 @@ class ReceiveDetail extends PurchaseDetail
         $this->purchaseInvoiceDetails = new ArrayCollection();
     }
 
-    #[Assert\Callback]
-    public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
-    {
-        if ($this->receiveHeader->getId() === null) {
-            $detailObject = null;
-            if ($this->purchaseOrderDetail !== null && $this->purchaseOrderPaperDetail === null) {
-                $detailObject = $this->purchaseOrderDetail;
-            } else if ($this->purchaseOrderDetail === null && $this->purchaseOrderPaperDetail !== null) {
-                $detailObject = $this->purchaseOrderPaperDetail;
-            }
-            if ($detailObject !== null) {
-                if ($this->receivedQuantity > $detailObject->getRemainingReceive()) {
-                    $context->buildViolation('Quantity must be < remaining')->atPath('receivedQuantity')->addViolation();
-                }
-            }
-        }
-    }
+//    #[Assert\Callback]
+//    public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
+//    {
+//        if ($this->receiveHeader->getId() === null) {
+//            $detailObject = null;
+//            if ($this->purchaseOrderDetail !== null && $this->purchaseOrderPaperDetail === null) {
+//                $detailObject = $this->purchaseOrderDetail;
+//            } else if ($this->purchaseOrderDetail === null && $this->purchaseOrderPaperDetail !== null) {
+//                $detailObject = $this->purchaseOrderPaperDetail;
+//            }
+//            if ($detailObject !== null) {
+//                if ($this->receivedQuantity > $detailObject->getRemainingReceive()) {
+//                    $context->buildViolation('Quantity must be < remaining')->atPath('receivedQuantity')->addViolation();
+//                }
+//            }
+//        }
+//    }
 
     public function getSyncIsCanceled(): bool
     {

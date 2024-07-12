@@ -5,6 +5,7 @@ namespace App\Entity\Purchase;
 use App\Entity\Master\Material;
 use App\Entity\Master\Unit;
 use App\Entity\PurchaseDetail;
+use App\Entity\Stock\InventoryRequestMaterialDetail;
 use App\Repository\Purchase\PurchaseRequestDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -53,6 +54,9 @@ class PurchaseRequestDetail extends PurchaseDetail
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
+
+    #[ORM\ManyToOne(inversedBy: 'purchaseRequestDetails')]
+    private ?InventoryRequestMaterialDetail $inventoryRequestMaterialDetail = null;
 
     public function __construct()
     {
@@ -180,6 +184,18 @@ class PurchaseRequestDetail extends PurchaseDetail
     public function setQuantity(string $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getInventoryRequestMaterialDetail(): ?InventoryRequestMaterialDetail
+    {
+        return $this->inventoryRequestMaterialDetail;
+    }
+
+    public function setInventoryRequestMaterialDetail(?InventoryRequestMaterialDetail $inventoryRequestMaterialDetail): self
+    {
+        $this->inventoryRequestMaterialDetail = $inventoryRequestMaterialDetail;
 
         return $this;
     }
