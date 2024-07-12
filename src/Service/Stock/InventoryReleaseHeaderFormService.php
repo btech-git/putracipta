@@ -105,7 +105,6 @@ class InventoryReleaseHeaderFormService
                 foreach ($inventoryReleaseHeader->getInventoryReleasePaperDetails() as $inventoryReleasePaperDetail) {
                     $inventoryRequestPaperDetail = $inventoryReleasePaperDetail->getInventoryRequestPaperDetail();
                     $inventoryReleasePaperDetail->setIsCanceled($inventoryReleasePaperDetail->getSyncIsCanceled());
-//                    $inventoryReleasePaperDetail->setUnit($inventoryRequestPaperDetail->getUnit());
                     $paper = $inventoryReleasePaperDetail->getPaper();
                     $stockQuantity = isset($stockQuantityListIndexed[$paper->getId()]) ? $stockQuantityListIndexed[$paper->getId()] : 0;
                     $inventoryReleasePaperDetail->setQuantityCurrent($stockQuantity);

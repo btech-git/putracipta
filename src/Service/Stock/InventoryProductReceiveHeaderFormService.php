@@ -88,12 +88,17 @@ class InventoryProductReceiveHeaderFormService
             $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
         }
         
-        $productList = array();
+        $productNameList = array();
+        $productCodeList = array();
         foreach ($inventoryProductReceiveHeader->getInventoryProductReceiveDetails() as $inventoryProductReceiveDetail) {
-            $productList[] = $inventoryProductReceiveDetail->getProduct()->getName();
+            $product = $inventoryProductReceiveDetail->getProduct();
+            $productNameList[] = $product->getName();
+            $productCodeList[] = $product->getCode();
         }
-        $productUniqueList = array_unique(explode(', ', implode(', ', $productList)));
-        $inventoryProductReceiveHeader->setProductDetailLists(implode(', ', $productUniqueList));
+        $productNameUniqueList = array_unique(explode(', ', implode(', ', $productNameList)));
+        $inventoryProductReceiveHeader->setProductDetailLists(implode(', ', $productNameUniqueList));
+        $productCodeUniqueList = array_unique(explode(', ', implode(', ', $productCodeList)));
+        $inventoryProductReceiveHeader->setProductCodeLists(implode(', ', $productCodeUniqueList));
     }
 
     public function save(InventoryProductReceiveHeader $inventoryProductReceiveHeader, array $options = []): void
