@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Entity\Purchase\PurchaseRequestDetail;
 use App\Grid\Shared\InventoryRequestMaterialDetailGridType;
 use App\Repository\Stock\InventoryRequestMaterialDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,7 +25,13 @@ class InventoryRequestMaterialDetailController extends AbstractController
 
         list($count, $inventoryRequestMaterialDetails) = $inventoryRequestMaterialDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.quantityRemaining > 0");
+            if ($request->request->has('purchase_request_header')) {
+                $sub = $new(PurchaseRequestDetail::class, 'q');
+                $sub->andWhere("IDENTITY(q.inventoryRequestMaterialDetail) = {$alias}.id");
+                $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            } else if ($request->request->has('inventory_release_header')) {
+                $qb->andWhere("{$alias}.quantityRemaining > 0");                
+            }
         });
 
         return $this->renderForm("shared/inventory_request_material_detail/_list.html.twig", [

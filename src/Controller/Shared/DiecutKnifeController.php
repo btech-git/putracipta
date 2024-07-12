@@ -30,6 +30,8 @@ class DiecutKnifeController extends AbstractController
             $customerId = '';
             if (isset($request->request->get('master_order_header')['customer'])) {
                 $customerId = $request->request->get('master_order_header')['customer'];
+            } else if (isset($request->request->get('design_code')['customer'])) {
+                $customerId = $request->request->get('design_code')['customer'];
             }
             if (!empty($customerId)) {
                 $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");

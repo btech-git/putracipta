@@ -5,6 +5,7 @@ namespace App\Controller\Shared;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Entity\Production\QualityControlSortingHeader;
+use App\Entity\Stock\InventoryReleaseHeader;
 use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Grid\Production\MasterOrderHeaderGridType;
 use App\Repository\Production\MasterOrderHeaderRepository;
@@ -59,6 +60,10 @@ class MasterOrderHeaderController extends AbstractController
                 $qb->andWhere("{$alias}.totalRemainingProduction > 0");
             } elseif ($request->request->has('inventory_request_header')) {
                 $sub = $new(InventoryRequestPaperDetail::class, 'i');
+                $sub->andWhere("IDENTITY(i.masterOrderHeader) = {$alias}.id");
+                $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));                
+            } elseif ($request->request->has('inventory_release_header')) {
+                $sub = $new(InventoryReleaseHeader::class, 'i');
                 $sub->andWhere("IDENTITY(i.masterOrderHeader) = {$alias}.id");
                 $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));                
             }
