@@ -19,10 +19,10 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/report/inventory_stock_product')]
-class InventoryStockProductController extends AbstractController
+#[Route('/report/inventory_stock_summary_product')]
+class InventoryStockSummaryProductController extends AbstractController
 {
-    #[Route('/_list', name: 'app_report_inventory_stock_product__list', methods: ['GET', 'POST'])]
+    #[Route('/_list', name: 'app_report_inventory_stock_summary_product__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INVENTORY_FINISHED_GOODS_REPORT')]
     public function _list(Request $request, ProductRepository $productRepository, InventoryRepository $inventoryRepository): Response
     {
@@ -41,71 +41,68 @@ class InventoryStockProductController extends AbstractController
                 $add['filter']($qb, 'c', 'company', $criteria->getFilter()['customer:company']);
             }
             $warehouseConditionString = !empty($criteria->getFilter()['inventory:warehouse'][1]) ? 'AND IDENTITY(i.warehouse) = :warehouseId' : '';
-            $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate BETWEEN :startDate AND :endDate {$warehouseConditionString})");
-            $qb->setParameter('startDate', $criteria->getFilter()['inventory:transactionDate'][1]);
-            $qb->setParameter('endDate', $criteria->getFilter()['inventory:transactionDate'][2]);
+            $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate <= :endDate {$warehouseConditionString})");
+            $qb->setParameter('endDate', $criteria->getFilter()['inventory:transactionDate'][1]);
             if (!empty($criteria->getFilter()['inventory:warehouse'][1])) {
                 $qb->setParameter('warehouseId', $criteria->getFilter()['inventory:warehouse'][1]);
             }
             $qb->addOrderBy("{$alias}.id", 'ASC');
         });
-        $beginningStockList = $this->getBeginningStockList($inventoryRepository, $criteria, $products);
-        $inventories = $this->getInventories($inventoryRepository, $criteria, $products);
+        $endingStockList = $this->getEndingStockList($inventoryRepository, $criteria, $products);
+//        $inventories = $this->getInventories($inventoryRepository, $criteria, $products);
 
         if ($request->request->has('export')) {
-            return $this->export($form, $products, $beginningStockList, $inventories);
+            return $this->export($form, $products, $endingStockList);
         } else {
-            return $this->renderForm("report/inventory_stock_product/_list.html.twig", [
+            return $this->renderForm("report/inventory_stock_summary_product/_list.html.twig", [
                 'form' => $form,
                 'count' => $count,
                 'products' => $products,
-                'beginningStockList' => $beginningStockList,
-                'inventories' => $inventories,
+                'endingStockList' => $endingStockList,
             ]);
         }
     }
 
-    #[Route('/', name: 'app_report_inventory_stock_product_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_report_inventory_stock_summary_product_index', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INVENTORY_FINISHED_GOODS_REPORT')]
     public function index(): Response
     {
-        return $this->render("report/inventory_stock_product/index.html.twig");
+        return $this->render("report/inventory_stock_summary_product/index.html.twig");
     }
 
-    private function getBeginningStockList(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
+    private function getEndingStockList(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
     {
         $warehouseId = isset($criteria->getFilter()['inventory:warehouse'][1]) ? $criteria->getFilter()['inventory:warehouse'][1] : '';
-        $startDate = $criteria->getFilter()['inventory:transactionDate'][1];
-        $productBeginningStockList = $inventoryRepository->getProductBeginningStockList($products, $startDate, $warehouseId);
-        $beginningStockList = [];
-        foreach ($productBeginningStockList as $productBeginningStockItem) {
-            $beginningStockList[$productBeginningStockItem['productId']] = $productBeginningStockItem['beginningStock'];
+        $endDate = $criteria->getFilter()['inventory:transactionDate'][1];
+        $productEndingStockList = $inventoryRepository->getProductEndingStockList($products, $endDate, $warehouseId);
+        $endingStockList = [];
+        foreach ($productEndingStockList as $productEndingStockListingStockItem) {
+            $endingStockList[$productEndingStockListingStockItem['productId']] = $productEndingStockListingStockItem['endingStock'];
         }
 
-        return $beginningStockList;
+        return $endingStockList;
     }
 
-    private function getInventories(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
-    {
-        $warehouseId = isset($criteria->getFilter()['inventory:warehouse'][1]) ? $criteria->getFilter()['inventory:warehouse'][1] : '';
-        $startDate = $criteria->getFilter()['inventory:transactionDate'][1];
-        $endDate = $criteria->getFilter()['inventory:transactionDate'][2];
-        $productInventories = $inventoryRepository->findProductInventories($products, $startDate, $endDate, $warehouseId);
-        $inventories = [];
-        foreach ($productInventories as $productInventory) {
-            $inventories[$productInventory->getProduct()->getId()][] = $productInventory;
-        }
+//    private function getInventories(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
+//    {
+//        $warehouseId = isset($criteria->getFilter()['inventory:warehouse'][1]) ? $criteria->getFilter()['inventory:warehouse'][1] : '';
+//        $startDate = $criteria->getFilter()['inventory:transactionDate'][1];
+//        $endDate = $criteria->getFilter()['inventory:transactionDate'][2];
+//        $productInventories = $inventoryRepository->findProductInventories($products, $startDate, $endDate, $warehouseId);
+//        $inventories = [];
+//        foreach ($productInventories as $productInventory) {
+//            $inventories[$productInventory->getProduct()->getId()][] = $productInventory;
+//        }
+//
+//        return $inventories;
+//    }
 
-        return $inventories;
-    }
-
-    public function export(FormInterface $form, array $products, array $beginningStockList, array $inventories): Response
+    public function export(FormInterface $form, array $products, array $endingStockList): Response
     {
-        $htmlString = $this->renderView("report/inventory_stock_product/_list_export.html.twig", [
+        $htmlString = $this->renderView("report/inventory_stock_summary_product/_list_export.html.twig", [
             'form' => $form->createView(),
             'products' => $products,
-            'beginningStockList' => $beginningStockList,
-            'inventories' => $inventories,
+            'endingStockList' => $endingStockList,
         ]);
 
         $reader = new Html();
@@ -116,7 +113,7 @@ class InventoryStockProductController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'mutasi stok finished goods.xlsx';
+        $filename = 'stok finished goods.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);
