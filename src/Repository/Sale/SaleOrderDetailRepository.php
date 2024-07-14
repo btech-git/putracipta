@@ -37,7 +37,7 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
     {
         $dql = "SELECT e
                 FROM " . SaleOrderDetail::class . " e
-                INNER JOIN " . SaleOrderHeader::class . " s ON s.id = e.saleOrderHeader
+                INNER JOIN " . SaleOrderHeader::class . " s
                 WHERE e.product IN (:products) AND s.transactionDate BETWEEN :startDate AND :endDate
                 ORDER BY e.product ASC, s.transactionDate ASC";
 
