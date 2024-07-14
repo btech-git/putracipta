@@ -32,7 +32,7 @@ class UserMenuConfig
                 'MENU_REPORT_WAREHOUSE_FINISHED_GOODS', 'MENU_REPORT_FINANCE'
             ],
             'MENU_REPORT_PURCHASE' => ['MENU_REPORT_PURCHASE_ORDER_MATERIAL', 'MENU_REPORT_PURCHASE_ORDER_PAPER'],
-            'MENU_REPORT_SALE' => ['MENU_REPORT_SALE_ORDER', 'MENU_REPORT_SALE_ORDER_DETAIL', 'MENU_REPORT_SALE_ORDER_SUMMARY', 'MENU_REPORT_SALE_ORDER_CUSTOMER'],
+            'MENU_REPORT_SALE' => ['MENU_REPORT_SALE_ORDER', 'MENU_REPORT_SALE_ORDER_DETAIL', 'MENU_REPORT_SALE_ORDER_SUMMARY', 'MENU_REPORT_SALE_ORDER_CUSTOMER', 'MENU_REPORT_SALE_ORDER_PRODUCT'],
             'MENU_REPORT_WAREHOUSE_MATERIAL' => [
                 'MENU_REPORT_PURCHASE_REQUEST_MATERIAL', 'MENU_REPORT_PURCHASE_REQUEST_PAPER', 'MENU_REPORT_PURCHASE_RECEIVE', 'MENU_REPORT_PURCHASE_RETURN', 'MENU_REPORT_ADJUSTMENT_STOCK', 
                 'MENU_REPORT_MATERIAL_RELEASE', 'MENU_REPORT_STOCK_TRANSFER', 'MENU_REPORT_INVENTORY_STOCK_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_PAPER'
@@ -111,6 +111,7 @@ class UserMenuConfig
             'MENU_REPORT_SALE_ORDER_DETAIL' => ['route' => 'app_report_sale_order_detail_index', 'pattern' => '/^app_report_sale_order_detail_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
             'MENU_REPORT_SALE_ORDER_SUMMARY' => ['route' => 'app_report_sale_order_summary_index', 'pattern' => '/^app_report_sale_order_summary_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
             'MENU_REPORT_SALE_ORDER_CUSTOMER' => ['route' => 'app_report_customer_sale_order_index', 'pattern' => '/^app_report_customer_sale_order_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
+            'MENU_REPORT_SALE_ORDER_PRODUCT' => ['route' => 'app_report_product_sale_order_index', 'pattern' => '/^app_report_product_sale_order_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
             'MENU_REPORT_SALE_INVOICE' => ['route' => 'app_report_sale_invoice_header_index', 'pattern' => '/^app_report_sale_invoice_header_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
             'MENU_REPORT_SALE_PAYMENT' => ['route' => 'app_report_sale_payment_header_index', 'pattern' => '/^app_report_sale_payment_header_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
             'MENU_REPORT_PURCHASE_RECEIVE' => ['route' => 'app_report_receive_header_index', 'pattern' => '/^app_report_receive_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
