@@ -185,6 +185,25 @@ class InventoryRepository extends ServiceEntityRepository
         return $beginningStockList;
     }
 
+    public function getProductEndingStockList(array $products, $endDate, $warehouseId): array
+    {
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT IDENTITY(e.product) AS productId, SUM(e.quantityIn - e.quantityOut) AS endingStock
+                FROM " . Inventory::class . " e
+                WHERE e.product IN (:products) AND e.isReversed = false AND e.transactionDate <= :endDate {$warehouseConditionString}
+                GROUP BY e.product";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('products', $products);
+        $query->setParameter('endDate', $endDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
+        $endingStockList = $query->getScalarResult();
+
+        return $endingStockList;
+    }
+
     public function findProductInventories(array $products, $startDate, $endDate, $warehouseId): array
     {
         $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
