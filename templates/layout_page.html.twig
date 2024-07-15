@@ -84,6 +84,11 @@
                             'MENU_DEPOSIT': 'Penerimaan kas / bank', 
                             'MENU_EXPENSE': 'Pengeluaran kas / bank'
                         }) }}
+                        {{ menu.render_2('MENU_REPORT_PURCHASE', {
+                            'MENU_REPORT_PURCHASE': 'REPORT PEMBELIAN', 
+                            'MENU_REPORT_PURCHASE_ORDER_MATERIAL': 'Pembelian Material',
+                            'MENU_REPORT_PURCHASE_ORDER_PAPER': 'Pembelian Kertas'
+                        }) }}
                         {{ menu.render_2('MENU_REPORT_SALE', {
                             'MENU_REPORT_SALE': 'REPORT PENJUALAN', 
                             'MENU_REPORT_SALE_ORDER': 'PO Customer', 
@@ -91,22 +96,6 @@
                             'MENU_REPORT_SALE_ORDER_SUMMARY': 'PO Rekap', 
                             'MENU_REPORT_SALE_ORDER_CUSTOMER': 'PO per Customer', 
                             'MENU_REPORT_SALE_ORDER_PRODUCT': 'PO per Produk'
-                        }) }}
-                        {{ menu.render_2('MENU_REPORT_PURCHASE', {
-                            'MENU_REPORT_PURCHASE': 'REPORT PEMBELIAN', 
-                            'MENU_REPORT_PURCHASE_ORDER_MATERIAL': 'Pembelian Material',
-                            'MENU_REPORT_PURCHASE_ORDER_PAPER': 'Pembelian Kertas'
-                        }) }}
-                        {{ menu.render_2('MENU_REPORT_PRODUCTION', {
-                            'MENU_REPORT_PRODUCTION': 'REPORT PRODUKSI', 
-                            'MENU_REPORT_NEW_PRODUCT': 'Formulir Produk Baru',
-                            'MENU_REPORT_DEVELOPMENT_PRODUCT': 'Development Produk',
-                            'MENU_REPORT_MASTER_ORDER': 'Master Order',
-                            'MENU_REPORT_QUALITY_CONTROL_SORTING': 'QC Sortir',
-                            'MENU_REPORT_MATERIAL_REQUEST': 'Permintaan Produksi',
-                            'MENU_REPORT_DESIGN_CODE': 'Design Code',
-                            'MENU_REPORT_DIECUT_KNIFE': 'Pisau Diecut',
-                            'MENU_REPORT_DIELINE_MILLAR': 'Millar'
                         }) }}
                         {{ menu.render_2('MENU_REPORT_WAREHOUSE_MATERIAL', {
                             'MENU_REPORT_WAREHOUSE_MATERIAL': 'REPORT GUDANG MATERIAL', 
@@ -128,6 +117,17 @@
                             'MENU_REPORT_SALE_RETURN': 'Retur Penjualan',
                             'MENU_REPORT_PRODUCTION_RECEIVE': 'Penerimaan Produksi', 
                             'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS': 'Mutasi Stok FG', 
+                        }) }}
+                        {{ menu.render_2('MENU_REPORT_PRODUCTION', {
+                            'MENU_REPORT_PRODUCTION': 'REPORT PRODUKSI', 
+                            'MENU_REPORT_NEW_PRODUCT': 'Formulir Produk Baru',
+                            'MENU_REPORT_DEVELOPMENT_PRODUCT': 'Development Produk',
+                            'MENU_REPORT_MASTER_ORDER': 'Master Order',
+                            'MENU_REPORT_QUALITY_CONTROL_SORTING': 'QC Sortir',
+                            'MENU_REPORT_MATERIAL_REQUEST': 'Permintaan Produksi',
+                            'MENU_REPORT_DESIGN_CODE': 'Design Code',
+                            'MENU_REPORT_DIECUT_KNIFE': 'Pisau Diecut',
+                            'MENU_REPORT_DIELINE_MILLAR': 'Millar'
                         }) }}
                         {{ menu.render_2('MENU_REPORT_FINANCE', {
                             'MENU_REPORT_FINANCE': 'REPORT KEUANGAN', 
