@@ -3,9 +3,10 @@
 {% block title 'Manage Purchase Order Kertas' %}
 
 {% block toolbar %}
-    {% if is_granted('ROLE_PURCHASE_INVOICE_ADD') %}
+    {% if is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') %}
         <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_new') }}">Add</a>
     {% endif %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_index_outstanding_purchase_request_paper') }}">Outstanding Request</a>
 {% endblock %}
 
 {% block content %}

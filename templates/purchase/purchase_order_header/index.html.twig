@@ -6,6 +6,7 @@
     {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') %}
         <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_header_new') }}">Add</a>
     {% endif %}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_order_header_index_outstanding_purchase_request') }}">Outstanding Request</a>
 {% endblock %}
 
 {% block content %}
