@@ -112,7 +112,7 @@ class InventoryStockMaterialController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'stok material.xlsx';
+        $filename = 'mutasi stok material.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);

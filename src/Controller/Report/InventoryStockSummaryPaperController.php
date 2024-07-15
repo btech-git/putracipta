@@ -5,8 +5,8 @@ namespace App\Controller\Report;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
 use App\Entity\Stock\Inventory;
-use App\Grid\Report\InventoryStockProductGridType;
-use App\Repository\Master\ProductRepository;
+use App\Grid\Report\InventoryStockPaperGridType;
+use App\Repository\Master\PaperRepository;
 use App\Repository\Stock\InventoryRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
@@ -19,74 +19,70 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/report/inventory_stock_summary_product')]
-class InventoryStockSummaryProductController extends AbstractController
+#[Route('/report/inventory_stock_summary_paper')]
+class InventoryStockSummaryPaperController extends AbstractController
 {
-    #[Route('/_list', name: 'app_report_inventory_stock_summary_product__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_INVENTORY_FINISHED_GOODS_REPORT')]
-    public function _list(Request $request, ProductRepository $productRepository, InventoryRepository $inventoryRepository): Response
+    #[Route('/_list', name: 'app_report_inventory_stock_summary_paper__list', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INVENTORY_MATERIAL_REPORT')]
+    public function _list(Request $request, PaperRepository $paperRepository, InventoryRepository $inventoryRepository): Response
     {
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
             'inventory:transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
         ]);
-        $form = $this->createForm(InventoryStockProductGridType::class, $criteria);
+        $form = $this->createForm(InventoryStockPaperGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias, $add) use ($criteria) {
-            $qb->andWhere("{$alias}.isInactive = false");
-            if (!empty($criteria->getFilter()['customer:company'][1])) {
-                $qb->innerJoin("{$alias}.customer", 'c');
-                $add['filter']($qb, 'c', 'company', $criteria->getFilter()['customer:company']);
-            }
+        list($count, $papers) = $paperRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $warehouseConditionString = !empty($criteria->getFilter()['inventory:warehouse'][1]) ? 'AND IDENTITY(i.warehouse) = :warehouseId' : '';
-            $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.product AND i.isReversed = false AND i.transactionDate <= :endDate {$warehouseConditionString})");
+            $qb->andWhere("{$alias}.isInactive = false");
+            $qb->andWhere("EXISTS (SELECT i.id FROM " . Inventory::class . " i WHERE {$alias} = i.paper AND i.isReversed = false AND i.transactionDate <= :endDate {$warehouseConditionString})");
             $qb->setParameter('endDate', $criteria->getFilter()['inventory:transactionDate'][1]);
             if (!empty($criteria->getFilter()['inventory:warehouse'][1])) {
                 $qb->setParameter('warehouseId', $criteria->getFilter()['inventory:warehouse'][1]);
             }
             $qb->addOrderBy("{$alias}.id", 'ASC');
         });
-        $endingStockList = $this->getEndingStockList($inventoryRepository, $criteria, $products);
+        $endingStockList = $this->getEndingStockList($inventoryRepository, $criteria, $papers);
 
         if ($request->request->has('export')) {
-            return $this->export($form, $products, $endingStockList);
+            return $this->export($form, $papers, $endingStockList);
         } else {
-            return $this->renderForm("report/inventory_stock_summary_product/_list.html.twig", [
+            return $this->renderForm("report/inventory_stock_summary_paper/_list.html.twig", [
                 'form' => $form,
                 'count' => $count,
-                'products' => $products,
+                'papers' => $papers,
                 'endingStockList' => $endingStockList,
             ]);
         }
     }
 
-    #[Route('/', name: 'app_report_inventory_stock_summary_product_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_INVENTORY_FINISHED_GOODS_REPORT')]
+    #[Route('/', name: 'app_report_inventory_stock_summary_paper_index', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INVENTORY_MATERIAL_REPORT')]
     public function index(): Response
     {
-        return $this->render("report/inventory_stock_summary_product/index.html.twig");
+        return $this->render("report/inventory_stock_summary_paper/index.html.twig");
     }
 
-    private function getEndingStockList(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $products): array
+    private function getEndingStockList(InventoryRepository $inventoryRepository, DataCriteria $criteria, array $papers): array
     {
         $warehouseId = isset($criteria->getFilter()['inventory:warehouse'][1]) ? $criteria->getFilter()['inventory:warehouse'][1] : '';
         $endDate = $criteria->getFilter()['inventory:transactionDate'][1];
-        $productEndingStockList = $inventoryRepository->getProductEndingStockList($products, $endDate, $warehouseId);
+        $paperEndingStockList = $inventoryRepository->getPaperEndingStockList($papers, $endDate, $warehouseId);
         $endingStockList = [];
-        foreach ($productEndingStockList as $productEndingStockListingStockItem) {
-            $endingStockList[$productEndingStockListingStockItem['productId']] = $productEndingStockListingStockItem['endingStock'];
+        foreach ($paperEndingStockList as $paperEndingStockListingStockItem) {
+            $endingStockList[$paperEndingStockListingStockItem['paperId']] = $paperEndingStockListingStockItem['endingStock'];
         }
 
         return $endingStockList;
     }
 
-    public function export(FormInterface $form, array $products, array $endingStockList): Response
+    public function export(FormInterface $form, array $papers, array $endingStockList): Response
     {
-        $htmlString = $this->renderView("report/inventory_stock_summary_product/_list_export.html.twig", [
+        $htmlString = $this->renderView("report/inventory_stock_summary_paper/_list_export.html.twig", [
             'form' => $form->createView(),
-            'products' => $products,
+            'papers' => $papers,
             'endingStockList' => $endingStockList,
         ]);
 
@@ -98,7 +94,7 @@ class InventoryStockSummaryProductController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'stok finished goods.xlsx';
+        $filename = 'stok kertas.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);
