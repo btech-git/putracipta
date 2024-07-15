@@ -12,6 +12,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\SaleHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -47,10 +48,23 @@ class SaleOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'transactionStatus' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'transactionStatus' => ['choices' => [
+                        'Approved' => SaleOrderHeader::TRANSACTION_STATUS_APPROVE, 
+                        'Completed' => SaleOrderHeader::TRANSACTION_STATUS_DONE,
+                        'Draft' => SaleOrderHeader::TRANSACTION_STATUS_DRAFT,
+                        'Delivered' => SaleOrderHeader::TRANSACTION_STATUS_FULL_DELIVERY,
+                        'On hold' => SaleOrderHeader::TRANSACTION_STATUS_HOLD,
+                        'Partial delivery' => SaleOrderHeader::TRANSACTION_STATUS_PARTIAL_DELIVERY,
+                        'Rejected' => SaleOrderHeader::TRANSACTION_STATUS_REJECT,
+                        'Released' => SaleOrderHeader::TRANSACTION_STATUS_RELEASE,
+                        'Internal' => SaleOrderHeader::TRANSACTION_TYPE_INTERNAL,
+                        'On production' => SaleOrderHeader::TRANSACTION_TYPE_PRODUCTION
+                    ]],
                 ],
             ])
             ->add('sort', SortType::class, [
