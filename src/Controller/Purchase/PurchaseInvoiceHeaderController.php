@@ -10,6 +10,7 @@ use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Form\Purchase\PurchaseInvoiceHeaderType;
 use App\Grid\Purchase\PurchaseInvoiceHeaderGridType;
 use App\Repository\Purchase\PurchaseInvoiceHeaderRepository;
+use App\Repository\Purchase\ReceiveHeaderRepository;
 use App\Service\Purchase\PurchaseInvoiceHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -52,6 +53,37 @@ class PurchaseInvoiceHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("purchase/purchase_invoice_header/index.html.twig");
+    }
+
+    #[Route('/_list_outstanding_receive_header', name: 'app_purchase_purchase_invoice_header__list_outstanding_receive_header', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
+    public function _listOutstandingReceiveHeader(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $sub = $new(PurchaseInvoiceHeader::class, 's');
+            $sub->andWhere("IDENTITY(s.receiveHeader) = {$alias}.id");
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->andWhere("{$alias}.isCanceled = false");
+        });
+
+        return $this->renderForm("purchase/purchase_invoice_header/_list_outstanding_receive_header.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'receiveHeaders' => $receiveHeaders,
+        ]);
+    }
+
+    #[Route('/index_outstanding_receive_header', name: 'app_purchase_purchase_invoice_header_index_outstanding_receive_header', methods: ['GET'])]
+    #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
+    public function indexOutstandingReceiveHeader(): Response
+    {
+        return $this->render("purchase/purchase_invoice_header/index_outstanding_receive_header.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_invoice_header__head', methods: ['GET', 'POST'])]

@@ -12,6 +12,7 @@ use App\Form\Purchase\PurchaseOrderPaperHeaderType;
 use App\Grid\Purchase\PurchaseOrderPaperHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
+use App\Repository\Purchase\PurchaseRequestPaperDetailRepository;
 use App\Service\Purchase\PurchaseOrderPaperHeaderFormService;
 use App\Util\PdfGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,6 +57,39 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("purchase/purchase_order_paper_header/index.html.twig");
+    }
+
+    #[Route('/_list_outstanding_purchase_request_paper', name: 'app_purchase_purchase_order_paper_header__list_outstanding_purchase_request_paper', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function _listOutstandingPurchaseRequestPaper(Request $request, PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseRequestPaperDetails) = $purchaseRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $sub = $new(PurchaseOrderPaperDetail::class, 'p');
+            $sub->andWhere("IDENTITY(p.purchaseRequestPaperDetail) = {$alias}.id");
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->join("{$alias}.purchaseRequestPaperHeader", 'h');
+            $qb->andWhere("h.transactionStatus = 'Approve'");
+        });
+
+        return $this->renderForm("purchase/purchase_order_paper_header/_list_outstanding_purchase_request_paper.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseRequestPaperDetails' => $purchaseRequestPaperDetails,
+        ]);
+    }
+
+    #[Route('/index_outstanding_purchase_request_paper', name: 'app_purchase_purchase_order_paper_header_index_outstanding_purchase_request_paper', methods: ['GET'])]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_PAPER_ADD') or is_granted('ROLE_PURCHASE_ORDER_PAPER_EDIT') or is_granted('ROLE_PURCHASE_ORDER_PAPER_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function indexOutstandingPurchaseRequest(): Response
+    {
+        return $this->render("purchase/purchase_order_paper_header/index_outstanding_purchase_request_paper.html.twig");
     }
 
     #[Route('/_head', name: 'app_purchase_purchase_order_paper_header__head', methods: ['GET', 'POST'])]

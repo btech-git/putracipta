@@ -12,6 +12,7 @@ use App\Form\Purchase\PurchaseOrderHeaderType;
 use App\Grid\Purchase\PurchaseOrderHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
+use App\Repository\Purchase\PurchaseRequestDetailRepository;
 use App\Service\Purchase\PurchaseOrderHeaderFormService;
 use App\Util\PdfGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,6 +59,39 @@ class PurchaseOrderHeaderController extends AbstractController
         return $this->render("purchase/purchase_order_header/index.html.twig");
     }
     
+    #[Route('/_list_outstanding_purchase_request', name: 'app_purchase_purchase_order_header__list_outstanding_purchase_request', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function _listOutstandingPurchaseRequest(Request $request, PurchaseRequestDetailRepository $purchaseRequestDetailRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $purchaseRequestDetails) = $purchaseRequestDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $sub = $new(PurchaseOrderDetail::class, 'p');
+            $sub->andWhere("IDENTITY(p.purchaseRequestDetail) = {$alias}.id");
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->join("{$alias}.purchaseRequestHeader", 'h');
+            $qb->andWhere("h.transactionStatus = 'Approve'");
+        });
+
+        return $this->renderForm("purchase/purchase_order_header/_list_outstanding_purchase_request.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'purchaseRequestDetails' => $purchaseRequestDetails,
+        ]);
+    }
+
+    #[Route('/index_outstanding_purchase_request', name: 'app_purchase_purchase_order_header_index_outstanding_purchase_request', methods: ['GET'])]
+    #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function indexOutstandingPurchaseRequest(): Response
+    {
+        return $this->render("purchase/purchase_order_header/index_outstanding_purchase_request.html.twig");
+    }
+
     #[Route('/_head', name: 'app_purchase_purchase_order_header__head', methods: ['GET', 'POST'])]
     #[Security("is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') or is_granted('ROLE_PURCHASE_ORDER_MATERIAL_VIEW') or is_granted('ROLE_APPROVAL')")]
     public function _head(Request $request, PurchaseOrderHeaderRepository $purchaseOrderHeaderRepository): Response
