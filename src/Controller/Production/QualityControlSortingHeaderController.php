@@ -33,10 +33,20 @@ class QualityControlSortingHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $qualityControlSortingHeaders) = $qualityControlSortingHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
             if (isset($request->request->get('quality_control_sorting_header_grid')['filter']['customer:company']) && isset($request->request->get('quality_control_sorting_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->request->get('quality_control_sorting_header_grid')['filter']['customer:company']);
                 $add['sort']($qb, 's', 'company', $request->request->get('quality_control_sorting_header_grid')['sort']['customer:company']);
+            }
+            if (isset($request->request->get('quality_control_sorting_header_grid')['filter']['masterOrderHeader:codeNumberOrdinal'])) {
+                $add['filter']($qb, 'm', 'codeNumberOrdinal', $request->request->get('quality_control_sorting_header_grid')['filter']['masterOrderHeader:codeNumberOrdinal']);
+            }
+            if (isset($request->request->get('quality_control_sorting_header_grid')['filter']['masterOrderHeader:codeNumberMonth'])) {
+                $add['filter']($qb, 'm', 'codeNumberMonth', $request->request->get('quality_control_sorting_header_grid')['filter']['masterOrderHeader:codeNumberMonth']);
+            }
+            if (isset($request->request->get('quality_control_sorting_header_grid')['filter']['masterOrderHeader:codeNumberYear'])) {
+                $add['filter']($qb, 'm', 'codeNumberYear', $request->request->get('quality_control_sorting_header_grid')['filter']['masterOrderHeader:codeNumberYear']);
             }
         });
 
