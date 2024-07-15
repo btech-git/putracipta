@@ -6,10 +6,12 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Sale\SaleInvoiceDetail;
 use App\Entity\Sale\SaleInvoiceHeader;
 use App\Form\Sale\SaleInvoiceHeaderType;
 use App\Grid\Sale\SaleInvoiceHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
+use App\Repository\Sale\DeliveryDetailRepository;
 use App\Repository\Sale\SaleInvoiceHeaderRepository;
 use App\Service\Sale\SaleInvoiceHeaderFormService;
 use App\Util\PdfGenerator;
@@ -54,6 +56,37 @@ class SaleInvoiceHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("sale/sale_invoice_header/index.html.twig");
+    }
+
+    #[Route('/_list_outstanding_delivery_header', name: 'app_sale_sale_invoice_header__list_outstanding_delivery_header', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
+    public function _listOutstandingDeliveryHeader(Request $request, DeliveryDetailRepository $deliveryDetailRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $deliveryDetails) = $deliveryDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $sub = $new(SaleInvoiceDetail::class, 's');
+            $sub->andWhere("IDENTITY(s.deliveryDetail) = {$alias}.id");
+            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->andWhere("{$alias}.isCanceled = false");
+        });
+
+        return $this->renderForm("sale/sale_invoice_header/_list_outstanding_delivery_header.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'deliveryDetails' => $deliveryDetails,
+        ]);
+    }
+
+    #[Route('/index_outstanding_delivery_header', name: 'app_sale_sale_invoice_header_index_outstanding_delivery_header', methods: ['GET'])]
+    #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
+    public function indexOutstandingDeliveryHeader(): Response
+    {
+        return $this->render("sale/sale_invoice_header/index_outstanding_delivery_header.html.twig");
     }
 
     #[Route('/_head', name: 'app_sale_sale_invoice_header__head', methods: ['GET', 'POST'])]
