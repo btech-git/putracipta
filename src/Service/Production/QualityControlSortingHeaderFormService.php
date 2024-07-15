@@ -64,6 +64,7 @@ class QualityControlSortingHeaderFormService
             $qualityControlSortingDetail->setTotalQuantitySorting($qualityControlSortingDetail->getSyncTotalQuantitySorting());
             $qualityControlSortingDetail->setTotalQuantityReject($qualityControlSortingDetail->getSyncTotalQuantityReject());
             $qualityControlSortingDetail->setQuantityRemaining($qualityControlSortingDetail->getSyncQuantityRemaining());
+            $qualityControlSortingDetail->setRejectPercentage($qualityControlSortingDetail->getSyncRejectPercentage());
         }
     }
 
