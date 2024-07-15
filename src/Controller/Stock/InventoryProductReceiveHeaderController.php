@@ -44,7 +44,22 @@ class InventoryProductReceiveHeaderController extends AbstractController
         $form = $this->createForm(InventoryProductReceiveHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $inventoryProductReceiveHeaders) = $inventoryProductReceiveHeaderRepository->fetchData($criteria);
+        list($count, $inventoryProductReceiveHeaders) = $inventoryProductReceiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
+            $qb->innerJoin("m.customer", 's');
+            if (isset($request->request->get('inventory_product_receive_header_grid')['filter']['customer:company'])) {
+                $add['filter']($qb, 's', 'company', $request->request->get('inventory_product_receive_header_grid')['filter']['customer:company']);
+            }
+            if (isset($request->request->get('inventory_product_receive_header_grid')['filter']['masterOrderHeader:codeNumberOrdinal'])) {
+                $add['filter']($qb, 'm', 'codeNumberOrdinal', $request->request->get('inventory_product_receive_header_grid')['filter']['masterOrderHeader:codeNumberOrdinal']);
+            }
+            if (isset($request->request->get('inventory_product_receive_header_grid')['filter']['masterOrderHeader:codeNumberMonth'])) {
+                $add['filter']($qb, 'm', 'codeNumberMonth', $request->request->get('inventory_product_receive_header_grid')['filter']['masterOrderHeader:codeNumberMonth']);
+            }
+            if (isset($request->request->get('inventory_product_receive_header_grid')['filter']['masterOrderHeader:codeNumberYear'])) {
+                $add['filter']($qb, 'm', 'codeNumberYear', $request->request->get('inventory_product_receive_header_grid')['filter']['masterOrderHeader:codeNumberYear']);
+            }
+        });
 
         return $this->renderForm("stock/inventory_product_receive_header/_list.html.twig", [
             'form' => $form,
