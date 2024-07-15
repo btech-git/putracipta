@@ -25,11 +25,14 @@ class QualityControlSortingHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'employeeInCharge'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderHeader:codeNumberOrdinal', 'masterOrderHeader:codeNumberMonth', 'masterOrderHeader:codeNumberYear', 'customer:company', 'employeeInCharge'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
+                    'masterOrderHeader:codeNumberOrdinal' => 'Master Order Number',
+                    'masterOrderHeader:codeNumberMonth' => '',
+                    'masterOrderHeader:codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                     'employeeInCharge' => 'PIC',
@@ -40,15 +43,22 @@ class QualityControlSortingHeaderGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'masterOrderHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
+                    'masterOrderHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
+                    'masterOrderHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'masterOrderHeader:codeNumberOrdinal' => IntegerType::class,
+                    'masterOrderHeader:codeNumberMonth' => ChoiceType::class,
+                    'masterOrderHeader:codeNumberYear' => IntegerType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
+                    'masterOrderHeader:codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
