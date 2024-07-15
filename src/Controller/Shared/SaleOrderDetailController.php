@@ -4,6 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Grid\Shared\SaleOrderDetailGridType;
+use App\Repository\Master\WarehouseRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\InventoryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,7 +18,7 @@ class SaleOrderDetailController extends AbstractController
 {
     #[Route('/_list', name: 'app_shared_sale_order_detail__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository): Response
+    public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
         $form = $this->createForm(SaleOrderDetailGridType::class, $criteria);
@@ -73,14 +74,15 @@ class SaleOrderDetailController extends AbstractController
             'form' => $form,
             'count' => $count,
             'saleOrderDetails' => $saleOrderDetails,
-            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository),
+            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository, $warehouseRepository),
         ]);
     }
     
-    public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository): array
+    public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): array
     {
         $products = array_map(fn($saleOrderDetail) => $saleOrderDetail->getProduct(), $saleOrderDetails);
-        $stockQuantityList = $inventoryRepository->getAllWarehouseProductStockQuantityList($products);
+        $warehouse = $warehouseRepository->findFinishedGoodsRecord();
+        $stockQuantityList = $inventoryRepository->getProductStockQuantityList($warehouse, $products);
         $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
         
         return $stockQuantityListIndexed;
