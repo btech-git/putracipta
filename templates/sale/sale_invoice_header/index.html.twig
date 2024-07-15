@@ -5,6 +5,7 @@
 {% block toolbar %}
     {% if is_granted('ROLE_SALE_INVOICE_ADD') %}
         <a class="btn btn-success btn-sm" href="{{ path('app_sale_sale_invoice_header_new') }}">Add</a>
+    <a class="btn btn-primary btn-sm" href="{{ path('app_sale_sale_invoice_header_index_outstanding_delivery_header') }}">Outstanding Delivery</a>
     {% endif %}
 {% endblock %}
 
