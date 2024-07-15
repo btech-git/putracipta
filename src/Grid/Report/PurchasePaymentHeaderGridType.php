@@ -14,7 +14,9 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Master\Supplier;
 use App\Entity\PurchaseHeader;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -27,50 +29,52 @@ class PurchasePaymentHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'supplierInvoiceCodeNumbers'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier', 'referenceNumber'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
-                    'supplierInvoiceCodeNumbers' => 'Supplier Invoice #',
-                    'supplier:company' => 'Supplier',
+                    'referenceNumber' => 'Giro/Cek #',
+                    'supplier' => 'Supplier',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'supplierInvoiceCodeNumbers' => [FilterContain::class, FilterNotContain::class],
-                    'supplier:company' => [FilterContain::class, FilterNotContain::class],
+                    'referenceNumber' => [FilterContain::class, FilterNotContain::class],
+                    'supplier' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'supplier' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'supplier' => ['class' => Supplier::class, 'choice_label' => 'company'],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'supplier:company', 'supplierInvoiceCodeNumbers', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => ['transactionDate', 'supplier', 'referenceNumber', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
-                    'supplierInvoiceCodeNumbers' => 'Supplier Invoice #',
-                    'supplier:company' => 'Supplier',
+                    'referenceNumber' => 'Giro/Cek #',
+                    'supplier' => 'Supplier',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'supplier:company' => [SortAscending::class, SortDescending::class],
-                    'supplierInvoiceCodeNumbers' => [SortAscending::class, SortDescending::class],
+                    'supplier' => [SortAscending::class, SortDescending::class],
+                    'referenceNumber' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
