@@ -17,4 +17,9 @@ class WarehouseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Warehouse::class);
     }
+    
+    public function findFinishedGoodsRecord()
+    {
+        return $this->find(2);
+    }
 }
