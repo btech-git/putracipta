@@ -66,7 +66,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td style="text-align: center">{{ constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentTypeList ? 'V' : '' }}</td>
+                                            <td style="text-align: center; width: 10%">{{ constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentTypeList ? 'V' : '' }}</td>
                                             <td>EP (Engineering Piloting)</td>
                                         </tr>
                                         <tr>
@@ -332,7 +332,7 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Keterangan</div>
-                            <div class="cell value">{{ productPrototype.note|default }}</div>
+                            <div class="cell value">{{ productPrototype.note|default|nl2br }}</div>
                         </div>
                     </div>
                 </div>
