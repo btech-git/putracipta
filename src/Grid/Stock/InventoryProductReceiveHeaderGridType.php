@@ -13,6 +13,7 @@ use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
 use App\Entity\Master\Warehouse;
+use App\Entity\ProductionHeader;
 use App\Entity\StockHeader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,11 +28,15 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'note', 'productDetailLists', 'productCodeLists'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderHeader:codeNumberOrdinal', 'masterOrderHeader:codeNumberMonth', 'masterOrderHeader:codeNumberYear', 'customer:company', 'warehouse', 'productDetailLists', 'productCodeLists'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
+                    'masterOrderHeader:codeNumberOrdinal' => 'Master Order Number',
+                    'masterOrderHeader:codeNumberMonth' => '',
+                    'masterOrderHeader:codeNumberYear' => '',
+                    'customer:company' => 'Customer',
                     'transactionDate' => 'Tanggal',
                     'warehouse' => 'Gudang',
                     'productDetailLists' => 'Products',
@@ -41,7 +46,10 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
+                    'masterOrderHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
+                    'masterOrderHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
+                    'masterOrderHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
+                    'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'productDetailLists' => [FilterContain::class, FilterNotContain::class],
                     'productCodeLists' => [FilterContain::class, FilterNotContain::class],
@@ -50,25 +58,29 @@ class InventoryProductReceiveHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'masterOrderHeader:codeNumberOrdinal' => IntegerType::class,
+                    'masterOrderHeader:codeNumberMonth' => ChoiceType::class,
+                    'masterOrderHeader:codeNumberYear' => IntegerType::class,
                     'warehouse' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
+                    'masterOrderHeader:codeNumberMonth' => ['choices' => array_flip(ProductionHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'productDetailLists', 'warehouse:name', 'note', 'productCodeLists', 'id'],
+                'field_names' => ['transactionDate', 'productDetailLists', 'warehouse', 'note', 'productCodeLists', 'id'],
                 'field_label_list' => [
                     'id' => 'Code Number',
                     'transactionDate' => 'Tanggal',
-                    'warehouse:name' => 'Gudang',
+                    'warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
                     'id' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'warehouse:name' => [SortAscending::class, SortDescending::class],
+                    'warehouse' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'productDetailLists' => [SortAscending::class, SortDescending::class],
                     'productCodeLists' => [SortAscending::class, SortDescending::class],
