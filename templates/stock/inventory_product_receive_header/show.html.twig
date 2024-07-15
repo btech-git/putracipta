@@ -17,7 +17,7 @@
         <tbody>
             <tr>
                 <th>Penerimaan #</th>
-                <td>{{ inventoryProductReceiveHeader.getCodeNumber }}</td>
+                <td>{{ inventoryProductReceiveHeader.getCodeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
@@ -25,19 +25,19 @@
             </tr>
             <tr>
                 <th>MO #</th>
-                <td>{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber }}</td>
+                <td>{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Customer</th>
-                <td>{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company }}</td>
+                <td>{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company|default }}</td>
             </tr>
             <tr>
                 <th>Gudang</th>
-                <td>{{ inventoryProductReceiveHeader.warehouse.name }}</td>
+                <td>{{ inventoryProductReceiveHeader.warehouse.name|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ inventoryProductReceiveHeader.note }}</td>
+                <td>{{ inventoryProductReceiveHeader.note|default }}</td>
             </tr>
             <tr>
                 <th>User Created</th>
