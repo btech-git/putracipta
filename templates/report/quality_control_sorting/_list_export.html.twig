@@ -16,17 +16,18 @@
             </th>
         </tr>
         <tr>
-            <th colspan="7"></th>
+            <th colspan="20"></th>
         </tr>
         <tr>
-            <th style="text-align: center; width: 100pt"><strong>Form #</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Customer</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>WO #</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>PIC</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Note</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Item Code</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Item Name</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>QC #</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>Tanggal QC</strong></th>
+            <th style="text-align: center; width: 250pt"><strong>Customer</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>WO #</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>Tanggal WO</strong></th>
+            <th style="text-align: center; width: 250pt"><strong>PIC</strong></th>
+            <th style="text-align: center; width: 250pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>Item Code</strong></th>
+            <th style="text-align: center; width: 250pt"><strong>Item Name</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Qty Order</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Qty Bagus</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Qty Reject Cetak</strong></th>
@@ -38,7 +39,9 @@
             <th style="text-align: center; width: 100pt"><strong>Qty Reject Lain2</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Total Sortir</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Total Reject</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Reject %</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Sisa</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Memo</strong></th>
         </tr>
         <tr>
             <th colspan="20"></th>
@@ -52,6 +55,7 @@
                     <td style="text-align: left">{{ qualityControlSorting.transactionDate|default ? qualityControlSorting.transactionDate|date('j M Y') }}</td>
                     <td style="text-align: left">{{ qualityControlSorting.customer.company|default }}</td>
                     <td style="text-align: left">{{ qualityControlSorting.masterOrderHeader.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ qualityControlSorting.masterOrderHeader.transactionDate|default ? qualityControlSorting.masterOrderHeader.transactionDate|date('j M Y') }}</td>
                     <td style="text-align: left">{{ qualityControlSorting.employeeInCharge|default }}</td>
                     <td style="text-align: left">{{ qualityControlSorting.note|default }}</td>
                     <td style="text-align: left">{{ qualityControlSortingDetail.product.code|default }}</td>
@@ -67,7 +71,9 @@
                     <td style="text-align: center">{{ qualityControlSortingDetail.quantityRejectOthers|default }}</td>
                     <td style="text-align: center">{{ qualityControlSortingDetail.totalQuantitySorting|default }}</td>
                     <td style="text-align: center">{{ qualityControlSortingDetail.totalQuantityReject|default }}</td>
+                    <td style="text-align: center">{{ qualityControlSortingDetail.rejectPercentage|default }}</td>
                     <td style="text-align: center">{{ qualityControlSortingDetail.quantityRemaining|default }}</td>
+                    <td style="text-align: center">{{ qualityControlSortingDetail.memo|default }}</td>
                 </tr>
             {% endfor %}
         {% endfor %}

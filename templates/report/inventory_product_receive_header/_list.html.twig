@@ -95,8 +95,8 @@
                 <tr>
                     <td class="text-start">{{ inventoryProductReceiveHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.transactionDate|default ? inventoryProductReceiveHeader.transactionDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ inventoryProductReceiveHeader.masterOrderHeader.saleOrderReferenceNumberList|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryProductReceiveHeader.masterOrderHeader.saleOrderHeader.referenceNumber|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.warehouse.name|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.note|default }}</td>
                 </tr>

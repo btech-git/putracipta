@@ -1,13 +1,13 @@
 <table>
     <thead>
         <tr>
-            <th style="text-align: center" colspan="11"><strong>PT. Putracipta Karindomas</strong></th>
+            <th style="text-align: center" colspan="4"><strong>PT. Putracipta Karindomas</strong></th>
         </tr>
         <tr>
-            <th style="text-align: center" colspan="11"><strong>Laporan Stok Gudang Finished Goods</strong></th>
+            <th style="text-align: center" colspan="4"><strong>Laporan Stok Gudang Finished Goods</strong></th>
         </tr>
         <tr>
-            <th style="text-align: center" colspan="11">
+            <th style="text-align: center" colspan="4">
                 <strong>
                     {% set endDate = form.vars.value.filter['inventory:transactionDate'].1|default %}
                     {{ endDate ? endDate|date('j F Y') }}
@@ -15,7 +15,7 @@
             </th>
         </tr>
         <tr>
-            <th colspan="7"></th>
+            <th colspan="4"></th>
         </tr>
         <tr>
             <th style="text-align: center; width: 100pt"><strong>Kode</strong></th>
@@ -24,7 +24,7 @@
             <th style="text-align: center; width: 100pt"><strong>Stok</strong></th>
         </tr>
         <tr>
-            <th colspan="11"></th>
+            <th colspan="4"></th>
         </tr>
     </thead>
     <tbody>
@@ -37,10 +37,10 @@
                     <td style="text-align: left">{{ product.customer.company|default }}</td>
                     <td style="text-align: center">{{ endingStock|default }}</td>
                 </tr>
+                <tr>
+                    <th colspan="4"></th>
+                </tr>
             {% endif %}
-            <tr>
-                <th colspan="4"></th>
-            </tr>
         {% endfor %}
     </tbody>
 </table>

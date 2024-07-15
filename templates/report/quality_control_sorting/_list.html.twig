@@ -80,7 +80,6 @@
                 <th class="text-start">Tanggal</th>
                 <th class="text-start">Customer</th>
                 <th class="text-start">WO #</th>
-                <th class="text-start">PIC</th>
                 <th class="text-start">Item Code</th>
                 <th class="text-start">Item Name</th>
                 <th class="text-start">Qty Order</th>
@@ -94,7 +93,7 @@
                 <th class="text-start">Qty Reject Lain2</th>
                 <th class="text-start">Total Sortir</th>
                 <th class="text-start">Total Reject</th>
-                <th class="text-start">Sisa</th>
+                <th class="text-start">OS PO</th>
             </tr>
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
@@ -105,7 +104,6 @@
                         <td class="text-start">{{ qualityControlSorting.transactionDate|default ? qualityControlSorting.transactionDate|date('j M Y') }}</td>
                         <td class="text-start">{{ qualityControlSorting.customer.company|default }}</td>
                         <td class="text-start">{{ qualityControlSorting.masterOrderHeader.codeNumber|default }}</td>
-                        <td class="text-start">{{ qualityControlSorting.employeeInCharge|default }}</td>
                         <td class="text-start">{{ qualityControlSortingDetail.product.code|default }}</td>
                         <td class="text-start">{{ qualityControlSortingDetail.product.name|default }}</td>
                         <td class="text-center">{{ qualityControlSortingDetail.quantityOrder|default|number_format(2) }}</td>

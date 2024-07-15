@@ -22,6 +22,19 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Customer</label>
+                    <div class="col-sm-10 w-75">
+                        <select class="form-select" {{ grid.filter_link_item(form, 'customer') }}>
+                            <option value="" {% if form.filter.customer.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                            {% for choice in form.filter.customer.1.vars.choices %}
+                                <option value="{{ choice.value }}" {% if form.filter.customer.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {#<div class="col">
+                <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Code Number</label>
                     <div class="col-sm-10 w-75">
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
@@ -36,22 +49,22 @@
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                     </div>
                 </div>
-            </div>
+            </div>#}
         </div>
         <div class="row">
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Customer</label>
+                    <label class="col-sm-2 col-form-label w-25">PO #</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Status</label>
+                    <label class="col-sm-2 col-form-label w-25">F. Pajak</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'invoiceTaxCodeNumber') }} value="{{ form.filter.invoiceTaxCodeNumber.1.vars.value }}" />
                     </div>
                 </div>
             </div>
