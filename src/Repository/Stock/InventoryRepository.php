@@ -111,6 +111,25 @@ class InventoryRepository extends ServiceEntityRepository
         return $beginningStockList;
     }
 
+    public function getMaterialEndingStockList(array $materials, $endDate, $warehouseId): array
+    {
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT IDENTITY(e.material) AS materialId, SUM(e.quantityIn - e.quantityOut) AS endingStock
+                FROM " . Inventory::class . " e
+                WHERE e.material IN (:materials) AND e.isReversed = false AND e.transactionDate <= :endDate {$warehouseConditionString}
+                GROUP BY e.material";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('materials', $materials);
+        $query->setParameter('endDate', $endDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
+        $endingStockList = $query->getScalarResult();
+
+        return $endingStockList;
+    }
+
     public function findMaterialInventories(array $materials, $startDate, $endDate, $warehouseId): array
     {
         $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
@@ -148,6 +167,25 @@ class InventoryRepository extends ServiceEntityRepository
         $beginningStockList = $query->getScalarResult();
 
         return $beginningStockList;
+    }
+
+    public function getPaperEndingStockList(array $papers, $endDate, $warehouseId): array
+    {
+        $warehouseConditionString = !empty($warehouseId) ? 'AND IDENTITY(e.warehouse) = :warehouseId' : '';
+        $dql = "SELECT IDENTITY(e.paper) AS paperId, SUM(e.quantityIn - e.quantityOut) AS endingStock
+                FROM " . Inventory::class . " e
+                WHERE e.paper IN (:papers) AND e.isReversed = false AND e.transactionDate <= :endDate {$warehouseConditionString}
+                GROUP BY e.paper";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('papers', $papers);
+        $query->setParameter('endDate', $endDate);
+        if (!empty($warehouseId)) {
+            $query->setParameter('warehouseId', $warehouseId);
+        }
+        $endingStockList = $query->getScalarResult();
+
+        return $endingStockList;
     }
 
     public function findPaperInventories(array $papers, $startDate, $endDate): array
