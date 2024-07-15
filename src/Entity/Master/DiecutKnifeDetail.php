@@ -16,9 +16,11 @@ class DiecutKnifeDetail extends Master
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'diecutKnifeDetails')]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'diecutKnifeDetails')]
+    #[Assert\NotNull]
     private ?DiecutKnife $diecutKnife = null;
 
     public function getId(): ?int

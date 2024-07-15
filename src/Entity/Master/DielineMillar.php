@@ -51,6 +51,8 @@ class DielineMillar extends Master
     private Collection $designCodes;
 
     #[ORM\OneToMany(mappedBy: 'dielineMillar', targetEntity: DielineMillarDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $dielineMillarDetails;
 
     public function __construct()

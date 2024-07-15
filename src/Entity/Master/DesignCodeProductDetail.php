@@ -19,9 +19,11 @@ class DesignCodeProductDetail extends Master
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'designCodeProductDetails')]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'designCodeProductDetails')]
+    #[Assert\NotNull]
     private ?DesignCode $designCode = null;
 
     #[ORM\OneToMany(mappedBy: 'designCodeProductDetail', targetEntity: ProductPrototypeDetail::class)]

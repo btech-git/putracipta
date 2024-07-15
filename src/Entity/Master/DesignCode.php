@@ -159,6 +159,8 @@ class DesignCode extends Master
     private ?string $glossiness = '0.00';
 
     #[ORM\OneToMany(mappedBy: 'designCode', targetEntity: DesignCodeProductDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $designCodeProductDetails;
 
     #[ORM\ManyToOne(inversedBy: 'designCodes')]

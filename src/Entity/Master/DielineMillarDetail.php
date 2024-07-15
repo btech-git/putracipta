@@ -16,9 +16,11 @@ class DielineMillarDetail extends Master
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'dielineMillarDetails')]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'dielineMillarDetails')]
+    #[Assert\NotNull]
     private ?DielineMillar $dielineMillar = null;
 
     public function getId(): ?int
