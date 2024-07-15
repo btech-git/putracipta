@@ -11,14 +11,14 @@
                 <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, 'id') }}>
                     Penerimaan # {{ grid.sort_char(form.sort.id.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
-                    Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'warehouse') }}>
+                    Gudang {{ grid.sort_char(form.sort['warehouse'].vars.value) }}
                 </th>
-                <th style="min-width: 150px">Master Order #</th>
-                <th style="min-width: 250px">Customer</th>
+                <th style="min-width: 280px">Master Order #</th>
+                <th style="min-width: 350px">Customer</th>
                 <th style="min-width: 200px">Product Code</th>
                 <th style="min-width: 200px">Product Name</th>
                 <th style="min-width: 90px"></th>
@@ -47,8 +47,21 @@
                         {% endfor %}
                     </select>
                 </th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberOrdinal') }} value="{{ form.filter['masterOrderHeader:codeNumberOrdinal'].1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Production\\MasterOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\ProductionHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter['masterOrderHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberYear') }} value="{{ form.filter['masterOrderHeader:codeNumberYear'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                </th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'productCodeLists') }} value="{{ form.filter.productCodeLists.1.vars.value }}" />
                 </th>
