@@ -65,6 +65,9 @@ class QualityControlSortingDetail extends ProductionDetail
     #[ORM\ManyToOne(inversedBy: 'qualityControlSortingDetails')]
     private ?QualityControlSortingHeader $qualityControlSortingHeader = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $rejectPercentage = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->qualityControlSortingHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -83,7 +86,12 @@ class QualityControlSortingDetail extends ProductionDetail
     
     public function getSyncQuantityRemaining(): string
     {
-        return $this->quantityOrder - $this->totalQuantitySorting;
+        return $this->totalQuantitySorting - $this->quantityOrder;
+    }
+    
+    public function getSyncRejectPercentage(): string
+    {
+        return $this->totalQuantityReject / $this->totalQuantitySorting * 100;
     }
     
     public function getId(): ?int
@@ -279,6 +287,18 @@ class QualityControlSortingDetail extends ProductionDetail
     public function setQualityControlSortingHeader(?QualityControlSortingHeader $qualityControlSortingHeader): self
     {
         $this->qualityControlSortingHeader = $qualityControlSortingHeader;
+
+        return $this;
+    }
+
+    public function getRejectPercentage(): ?string
+    {
+        return $this->rejectPercentage;
+    }
+
+    public function setRejectPercentage(string $rejectPercentage): self
+    {
+        $this->rejectPercentage = $rejectPercentage;
 
         return $this;
     }
