@@ -28,7 +28,7 @@ class AdjustmentStockHeader extends StockHeader
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $adjustmentMode = self::ADJUSTMENT_MODE_MATERIAL;
+    private ?string $adjustmentMode = '';
 
     #[ORM\OneToMany(mappedBy: 'adjustmentStockHeader', targetEntity: AdjustmentStockMaterialDetail::class)]
     private Collection $adjustmentStockMaterialDetails;
