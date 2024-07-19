@@ -82,9 +82,9 @@ class ReceiveHeader extends PurchaseHeader
         return self::CODE_NUMBER_CONSTANT;
     }
 
-    public function getSyncTotalQuantity(): int
+    public function getSyncTotalQuantity(): string
     {
-        $totalQuantity = 0;
+        $totalQuantity = '0.00';
         foreach ($this->receiveDetails as $receiveDetail) {
             if (!$receiveDetail->isIsCanceled()) {
                 $totalQuantity += $receiveDetail->getReceivedQuantity();
