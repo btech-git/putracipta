@@ -59,8 +59,8 @@ class AdjustmentStockHeaderController extends AbstractController
     public function new(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
-        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'isFinishedGoods' => false]);
+        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader, ['isFinishedGoods' => false]);
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
@@ -73,16 +73,17 @@ class AdjustmentStockHeaderController extends AbstractController
         return $this->renderForm("stock/adjustment_stock_header/new.{$_format}.twig", [
             'adjustmentStockHeader' => $adjustmentStockHeader,
             'form' => $form,
+            'isFinishedGoods' => false,
         ]);
     }
 
-    #[Route('/new.{_format}', name: 'app_stock_adjustment_stock_header_new_finished_goods', methods: ['GET', 'POST'])]
+    #[Route('/new_finished_goods.{_format}', name: 'app_stock_adjustment_stock_header_new_finished_goods', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADJUSTMENT_ADD')]
     public function newFinishedGoods(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
-        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'isFinishedGoods' => true]);
+        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader, ['isFinishedGoods' => true]);
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
@@ -95,6 +96,7 @@ class AdjustmentStockHeaderController extends AbstractController
         return $this->renderForm("stock/adjustment_stock_header/new_finished_goods.{$_format}.twig", [
             'adjustmentStockHeader' => $adjustmentStockHeader,
             'form' => $form,
+            'isFinishedGoods' => true,
         ]);
     }
 
