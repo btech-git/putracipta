@@ -41,9 +41,11 @@ class DiecutKnifeFormService
     public function finalize(DiecutKnife $diecutKnife, array $options = []): void
     {
         $diecutKnifeDetails = $diecutKnife->getDiecutKnifeDetails();
-        $product = $diecutKnifeDetails[0]->getProduct();
-        $diecutKnife->setCode($product->getCode());
-        $diecutKnife->setName($product->getName());
+        if ($diecutKnifeDetails[0] !== null) {
+            $product = $diecutKnifeDetails[0]->getProduct();
+            $diecutKnife->setCode($product->getCode());
+            $diecutKnife->setName($product->getName());
+        }
     }
 
     public function save(DiecutKnife $diecutKnife, array $options = []): void
