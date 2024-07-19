@@ -176,7 +176,7 @@ class MasterOrderHeaderController extends AbstractController
         $pdfGenerator->generate($htmlView, $fileName, [
             fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrderHeader->getId() . '.' . $masterOrderHeader->getLayoutModelFileExtension() . '">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrderHeader->getFileName() . '">', $html),
         ]);
     }
     
@@ -193,7 +193,7 @@ class MasterOrderHeaderController extends AbstractController
         $pdfGenerator->generate($htmlView, $fileName, [
             fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img id="logo"(.+)src=".+">/', '<img id="logo"\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
-            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrderHeader->getId() . '.' . $masterOrderHeader->getLayoutModelFileExtension() . '">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="upload"(.+)src=".+">/', '<img id="upload"\1src="' . $chrootDir . 'uploads/master-order/' . $masterOrderHeader->getFileName() . '">', $html),
         ]);
     }
     
