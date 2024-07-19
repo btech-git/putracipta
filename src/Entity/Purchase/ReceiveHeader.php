@@ -23,10 +23,6 @@ class ReceiveHeader extends PurchaseHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalQuantity = 0;
-
     #[ORM\Column(length: 60)]
     #[Assert\NotBlank]
     private ?string $supplierDeliveryCodeNumber = '';
@@ -70,6 +66,9 @@ class ReceiveHeader extends PurchaseHeader
     #[ORM\OneToMany(mappedBy: 'receiveHeader', targetEntity: PurchaseReturnHeader::class)]
     private Collection $purchaseReturnHeaders;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = null;
+
     public function __construct()
     {
         $this->receiveDetails = new ArrayCollection();
@@ -96,18 +95,6 @@ class ReceiveHeader extends PurchaseHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getSupplierDeliveryCodeNumber(): ?string
@@ -304,6 +291,18 @@ class ReceiveHeader extends PurchaseHeader
                 $purchaseReturnHeader->setReceiveHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }
