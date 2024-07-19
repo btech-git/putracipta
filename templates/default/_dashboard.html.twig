@@ -114,12 +114,15 @@
     <h6>Sales Transactions</h6>
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="table-primary">
-                <th style="min-width: 280px">
-                    SO #
+            <tr class="table-primary" {{ grid.sort_link(saleForm) }}>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(saleForm, 'referenceNumber') }}>
+                    PO # {{ grid.sort_char(saleForm.sort.referenceNumber.vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Customer
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(saleForm, 'transactionDate') }}>
+                    Tanggal PO {{ grid.sort_char(saleForm.sort.transactionDate.vars.value) }}
+                </th>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(saleForm, 'customer:company') }}>
+                    Customer {{ grid.sort_char(saleForm.sort['customer:company'].vars.value) }}
                 </th>
                 <th style="min-width: 450px">
                     Product
@@ -137,6 +140,22 @@
                     Pelunasan #
                 </th>
             </tr>
+            <tr class="table-light" {{ grid.filter_link(saleForm) }}>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(saleForm, 'referenceNumber') }} value="{{ saleForm.filter.referenceNumber.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(saleForm, 'transactionDate') }} value="{{ saleForm.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(saleForm, 'customer:company') }} value="{{ saleForm.filter['customer:company'].1.vars.value }}" />
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             {% for saleOrderHeader in saleOrderHeaders %}
@@ -150,6 +169,7 @@
                     <td>
                         <a target="_blank" href="{{ path('app_sale_sale_order_header_show', {'id': currentSaleOrderHeader.id}) }}">{{ currentSaleOrderHeader.referenceNumber|default }}</a>
                     </td>
+                    <td>{{ currentSaleOrderHeader.transactionDate ? currentSaleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ currentSaleOrderHeader.customer.company }}</td>
                     <td>{{ saleOrderDetails|map(saleOrderDetail => saleOrderDetail.product.code)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
                     <td>
@@ -199,11 +219,14 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary">
-                <th style="min-width: 280px">
-                    PO #
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(purchaseForm, ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear']) }}>
+                    PO # {{ grid.sort_char(purchaseForm.sort.codeNumberOrdinal.vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Supplier
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(purchaseForm, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(purchaseForm.sort.transactionDate.vars.value) }}
+                </th>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(purchaseForm, 'supplier:company') }}>
+                    Supplier {{ grid.sort_char(purchaseForm.sort['supplier:company'].vars.value) }}
                 </th>
                 <th style="min-width: 280px">
                     Material
@@ -218,6 +241,30 @@
                     Pelunasan #
                 </th>
             </tr>
+            <tr class="table-light" {{ grid.filter_link(purchaseForm) }}>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(purchaseForm, 'codeNumberOrdinal') }} value="{{ purchaseForm.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(purchaseForm, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if purchaseForm.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(purchaseForm, 'codeNumberYear') }} value="{{ purchaseForm.filter.codeNumberYear.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(purchaseForm, 'transactionDate') }} value="{{ purchaseForm.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(purchaseForm, 'supplier:company') }} value="{{ purchaseForm.filter['supplier:company'].1.vars.value }}" />
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             {% for purchaseOrderHeader in purchaseOrderHeaders %}
@@ -230,6 +277,7 @@
                     <td>
                         <a target="_blank" href="{{ path('app_purchase_purchase_order_header_show', {'id': currentPurchaseOrderHeader.id}) }}">{{ currentPurchaseOrderHeader.codeNumber|default }}</a>
                     </td>
+                    <td>{{ currentPurchaseOrderHeader.transactionDate ? currentPurchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ currentPurchaseOrderHeader.supplier.company }}</td>
                     <td>{{ purchaseOrderDetails|map(purchaseOrderDetail => purchaseOrderDetail.material.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
                     <td>
@@ -273,11 +321,14 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary">
-                <th style="min-width: 280px">
-                    PO Kertas #
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(purchasePaperForm, ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear']) }}>
+                    PO Kertas # {{ grid.sort_char(purchasePaperForm.sort.codeNumberOrdinal.vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Supplier
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(purchasePaperForm, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(purchasePaperForm.sort.transactionDate.vars.value) }}
+                </th>
+                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(purchasePaperForm, 'supplier:company') }}>
+                    Supplier {{ grid.sort_char(purchasePaperForm.sort['supplier:company'].vars.value) }}
                 </th>
                 <th style="min-width: 280px">
                     Kertas
@@ -292,6 +343,29 @@
                     Pelunasan #
                 </th>
             </tr>
+            <tr class="table-light" {{ grid.filter_link(purchasePaperForm) }}>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(purchasePaperForm, 'codeNumberOrdinal') }} value="{{ purchasePaperForm.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderPaperHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(purchasePaperForm, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if purchasePaperForm.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(purchasePaperForm, 'codeNumberYear') }} value="{{ purchasePaperForm.filter.codeNumberYear.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(purchasePaperForm, 'transactionDate') }} value="{{ purchasePaperForm.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(purchasePaperForm, 'supplier:company') }} value="{{ purchasePaperForm.filter['supplier:company'].1.vars.value }}" />
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             {% for purchaseOrderPaperHeader in purchaseOrderPaperHeaders %}
@@ -304,6 +378,7 @@
                     <td>
                         <a target="_blank" href="{{ path('app_purchase_purchase_order_paper_header_show', {'id': currentPurchaseOrderPaperHeader.id}) }}">{{ currentPurchaseOrderPaperHeader.codeNumber|default }}</a>
                     </td>
+                    <td>{{ currentPurchaseOrderPaperHeader.transactionDate ? currentPurchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ currentPurchaseOrderPaperHeader.supplier.company }}</td>
                     <td>{{ purchaseOrderPaperDetails|map(purchaseOrderPaperDetail => purchaseOrderPaperDetail.paper.name)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
                     <td>
