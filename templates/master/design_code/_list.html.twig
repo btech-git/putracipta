@@ -23,6 +23,7 @@
                 <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
+                <th style="min-width: 150px">Tanggal Buat</th>
                 <th style="min-width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -49,6 +50,7 @@
                     </select>
                 </th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -58,7 +60,8 @@
                     <td>{{ designCode.name }}</td>
                     <td>{{ designCode.customer.company|default }}</td>
                     <td>{{ designCode.note }}</td>
-                    <td>{{ designCode.isInactive ? 'InActive' : 'Active' }}</td>
+                    <td>{{ designCode.status }}</td>
+                    <td>{{ designCode.createdTransactionDateTime ? designCode.createdTransactionDateTime|date('d M Y') : '' }}</td>
                     <td>
                         {% if is_granted('ROLE_DESIGN_CODE_VIEW') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_design_code_show', {'id': designCode.id}) }}"><i class="bi-search"></i></a>
