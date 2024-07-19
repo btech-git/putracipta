@@ -59,8 +59,10 @@ class AdjustmentStockHeaderController extends AbstractController
     public function new(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'isFinishedGoods' => false]);
-        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader, ['isFinishedGoods' => false]);
+//        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'isFinishedGoods' => false]);
+//        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader, ['isFinishedGoods' => false]);
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader);
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 

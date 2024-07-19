@@ -43,7 +43,7 @@
             </div>
         </fieldset>
 
-        {% if not isFinishedGoods %}
+        {#{% if not isFinishedGoods %}#}
             <fieldset class="border border-secondary rounded mb-3 p-3 {% if adjustmentStockHeader.adjustmentMode != constant('ADJUSTMENT_MODE_MATERIAL', adjustmentStockHeader) %}d-none{% endif %}" id="detail-material-container">
                 <legend class="float-none w-auto text-dark px-1">Detail Materials</legend>
                 <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#material-dialog">Add Material</button>
@@ -55,13 +55,13 @@
                 <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#paper-dialog">Add Kertas</button>
                 {{ include('stock/adjustment_stock_header/_details_paper_form.html.twig') }}
             </fieldset>
-        {% else %}
+        {#{% else %}#}
             <fieldset class="border border-secondary rounded mb-3 p-3 {% if adjustmentStockHeader.adjustmentMode != constant('ADJUSTMENT_MODE_PRODUCT', adjustmentStockHeader) %}d-none{% endif %}" id="detail-product-container">
                 <legend class="float-none w-auto text-dark px-1">Detail Products</legend>
                 <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Product</button>
                 {{ include('stock/adjustment_stock_header/_details_product_form.html.twig') }}
             </fieldset>
-        {% endif %}
+        {#{% endif %}#}
 
         <div class="d-grid">
             <div class="row">
