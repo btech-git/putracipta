@@ -25,6 +25,7 @@ class AdjustmentStockHeader extends StockHeader
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(length: 20)]

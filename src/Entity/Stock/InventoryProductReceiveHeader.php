@@ -26,6 +26,7 @@ class InventoryProductReceiveHeader extends StockHeader
     private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\OneToMany(mappedBy: 'inventoryProductReceiveHeader', targetEntity: InventoryProductReceiveDetail::class)]

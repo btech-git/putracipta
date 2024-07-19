@@ -28,6 +28,7 @@ class StockTransferHeader extends StockHeader
     private ?Warehouse $warehouseFrom = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouseTo = null;
 
     #[ORM\Column(length: 20)]

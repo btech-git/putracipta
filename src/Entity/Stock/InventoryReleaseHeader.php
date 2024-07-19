@@ -38,12 +38,14 @@ class InventoryReleaseHeader extends StockHeader
     private ?string $releaseMode = self::RELEASE_MODE_MATERIAL;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantity = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Division $division = null;
 
     #[ORM\ManyToOne(inversedBy: 'inventoryReleaseHeaders')]

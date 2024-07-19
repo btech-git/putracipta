@@ -40,6 +40,7 @@ class InventoryRequestHeader extends StockHeader
     private ?string $requestMode = self::REQUEST_MODE_MATERIAL;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
