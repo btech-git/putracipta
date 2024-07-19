@@ -133,7 +133,16 @@ class DefaultController extends AbstractController
         $saleForm = $this->createForm(DashboardSaleOrderGridType::class, $saleOrderHeaderCriteria);
         $saleForm->handleRequest($request);
 
-        list($saleCount, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($saleOrderHeaderCriteria);
+        list($saleCount, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($saleOrderHeaderCriteria, function($qb, $alias, $add) use ($saleOrderHeaderCriteria) {
+            
+            $qb->innerJoin("{$alias}.customer", 'c');
+            if (!empty($saleOrderHeaderCriteria->getFilter()['customer:company'][1])) {
+                $add['filter']($qb, 'c', 'company', $saleOrderHeaderCriteria->getFilter()['customer:company']);
+            }
+            if (!empty($saleOrderHeaderCriteria->getSort()['customer:company'])) {
+                $add['sort']($qb, 'c', 'company', $saleOrderHeaderCriteria->getSort()['customer:company']);
+            }
+        });
 
         $saleOrderHeaderDataCriteria = new DataCriteria();
         $saleOrderHeaderDataCriteriaPagination = new DataCriteriaPagination();
@@ -168,7 +177,16 @@ class DefaultController extends AbstractController
         $purchaseForm = $this->createForm(DashboardPurchaseOrderGridType::class, $purchaseOrderHeaderCriteria);
         $purchaseForm->handleRequest($request);
 
-        list($purchaseCount, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($purchaseOrderHeaderCriteria);
+        list($purchaseCount, $purchaseOrderHeaders) = $purchaseOrderHeaderRepository->fetchData($purchaseOrderHeaderCriteria, function($qb, $alias, $add) use ($purchaseOrderHeaderCriteria) {
+            
+            $qb->innerJoin("{$alias}.supplier", 'c');
+            if (!empty($purchaseOrderHeaderCriteria->getFilter()['supplier:company'][1])) {
+                $add['filter']($qb, 'c', 'company', $purchaseOrderHeaderCriteria->getFilter()['supplier:company']);
+            }
+            if (!empty($purchaseOrderHeaderCriteria->getSort()['supplier:company'])) {
+                $add['sort']($qb, 'c', 'company', $purchaseOrderHeaderCriteria->getSort()['supplier:company']);
+            }
+        });
 
         $purchaseOrderHeaderDataCriteria = new DataCriteria();
         $purchaseOrderHeaderDataCriteriaPagination = new DataCriteriaPagination();
@@ -201,7 +219,16 @@ class DefaultController extends AbstractController
         $purchasePaperForm = $this->createForm(DashboardPurchaseOrderPaperGridType::class, $purchaseOrderPaperHeaderCriteria);
         $purchasePaperForm->handleRequest($request);
 
-        list($purchasePaperCount, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($purchaseOrderPaperHeaderCriteria);
+        list($purchasePaperCount, $purchaseOrderPaperHeaders) = $purchaseOrderPaperHeaderRepository->fetchData($purchaseOrderPaperHeaderCriteria, function($qb, $alias, $add) use ($purchaseOrderPaperHeaderCriteria) {
+            
+            $qb->innerJoin("{$alias}.supplier", 'c');
+            if (!empty($purchaseOrderPaperHeaderCriteria->getFilter()['supplier:company'][1])) {
+                $add['filter']($qb, 'c', 'company', $purchaseOrderPaperHeaderCriteria->getFilter()['supplier:company']);
+            }
+            if (!empty($purchaseOrderPaperHeaderCriteria->getSort()['supplier:company'])) {
+                $add['sort']($qb, 'c', 'company', $purchaseOrderPaperHeaderCriteria->getSort()['supplier:company']);
+            }
+        });
 
         $purchaseOrderPaperHeaderDataCriteria = new DataCriteria();
         $purchaseOrderPaperHeaderDataCriteriaPagination = new DataCriteriaPagination();
