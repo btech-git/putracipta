@@ -19,6 +19,7 @@
             <th colspan="7"></th>
         </tr>
         <tr>
+            <th style="text-align: center; width: 50pt"><strong>No</strong></th>
             <th style="text-align: center; width: 200pt"><strong>Customer</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
             <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
@@ -26,26 +27,26 @@
             <th style="text-align: center; width: 100pt"><strong>Ppn</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Total</strong></th>
         </tr>
-        <tr>
-            <th colspan="7"></th>
-        </tr>
     </thead>
     <tbody>
         {% set totalAmount = 0 %}
         {% set totalTax = 0 %}
         {% set grandTotal = 0 %}
+        {% set runningNumber = 1 %}
         {% for saleOrderHeader in saleOrderHeaders %}
-                <tr>
-                    <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.transactionDate|default ? saleOrderHeader.transactionDate|date('j F Y') }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
-                    <td style="text-align: right">{{ saleOrderHeader.subTotal|default }}</td>
-                    <td style="text-align: right">{{ saleOrderHeader.taxNominal|default }}</td>
-                    <td style="text-align: right">{{ saleOrderHeader.grandTotal|default }}</td>
-                </tr>
-                {% set totalAmount = totalAmount + saleOrderHeader.subTotal|default %}
-                {% set totalTax = totalTax + saleOrderHeader.taxNominal|default %}
-                {% set grandTotal = grandTotal + saleOrderHeader.grandTotal|default %}
+            <tr>
+                <td style="text-align: center">{{ runningNumber|default }}</td>
+                <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
+                <td style="text-align: left">{{ saleOrderHeader.transactionDate|default ? saleOrderHeader.transactionDate|date('j F Y') }}</td>
+                <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
+                <td style="text-align: right">{{ saleOrderHeader.subTotal|default }}</td>
+                <td style="text-align: right">{{ saleOrderHeader.taxNominal|default }}</td>
+                <td style="text-align: right">{{ saleOrderHeader.grandTotal|default }}</td>
+            </tr>
+            {% set totalAmount = totalAmount + saleOrderHeader.subTotal|default %}
+            {% set totalTax = totalTax + saleOrderHeader.taxNominal|default %}
+            {% set grandTotal = grandTotal + saleOrderHeader.grandTotal|default %}
+            {% set runningNumber = runningNumber + 1 %}
         {% endfor %}
     </tbody>
     <tfoot>
