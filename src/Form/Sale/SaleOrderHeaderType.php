@@ -30,6 +30,7 @@ class SaleOrderHeaderType extends AbstractType
     {
         $builder
             ->add('transactionDate', FormattedDateType::class)
+            ->add('orderReceiveDate', FormattedDateType::class)
             ->add('note')
             ->add('referenceNumber')
             ->add('discountValueType', ChoiceType::class, ['choices' => [
