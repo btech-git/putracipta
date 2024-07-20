@@ -17,11 +17,13 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
-                <th style="min-width: 90px">Kertas</th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'purchaseRequestPaperList') }}>
+                    Kertas {{ grid.sort_char(form.sort['purchaseRequestPaperList'].vars.value) }}
+                </th>
                 <th style="min-width: 300px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
+                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'transactionStatus') }}>
                     Status {{ grid.sort_char(form.sort.transactionStatus.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
@@ -50,7 +52,9 @@
                         {% endfor %}
                     </select>
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'purchaseRequestPaperList') }} value="{{ form.filter.purchaseRequestPaperList.1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>

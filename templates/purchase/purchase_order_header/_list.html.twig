@@ -17,6 +17,9 @@
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
                 </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'purchaseOrderMaterialList') }}>
+                    Material {{ grid.sort_char(form.sort['purchaseOrderMaterialList'].vars.value) }}
+                </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -45,6 +48,9 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'purchaseOrderMaterialList') }} value="{{ form.filter.purchaseOrderMaterialList.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th>
@@ -59,6 +65,7 @@
                     <td>{{ purchaseOrderHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderHeader.transactionDate ? purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderHeader.supplier.company|default }}</td>
+                    <td>{{ purchaseOrderHeader.purchaseOrderMaterialList }}</td>
                     <td>{{ purchaseOrderHeader.note }}</td>
                     <td>{{ purchaseOrderHeader.transactionStatus }}</td>
                     <td>
