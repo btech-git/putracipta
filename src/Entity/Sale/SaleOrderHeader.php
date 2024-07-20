@@ -137,6 +137,9 @@ class SaleOrderHeader extends SaleHeader
     #[ORM\Column(length: 60)]
     private ?string $transactionType = self::TRANSACTION_TYPE_PRODUCTION;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $orderReceiveDate = null;
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -520,6 +523,18 @@ class SaleOrderHeader extends SaleHeader
     public function setTransactionType(string $transactionType): self
     {
         $this->transactionType = $transactionType;
+
+        return $this;
+    }
+
+    public function getOrderReceiveDate(): ?\DateTimeInterface
+    {
+        return $this->orderReceiveDate;
+    }
+
+    public function setOrderReceiveDate(?\DateTimeInterface $orderReceiveDate): self
+    {
+        $this->orderReceiveDate = $orderReceiveDate;
 
         return $this;
     }
