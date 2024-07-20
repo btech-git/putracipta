@@ -59,14 +59,14 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     #[ORM\Column]
     private ?bool $isOnHold = false;
 
-    #[ORM\Column(length: 255)]
-    private ?string $purchaseRequestPaperList = '';
-
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
 
     #[ORM\Column]
     private ?bool $isViewed = false;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $purchaseRequestPaperList = null;
 
     public function __construct()
     {
@@ -220,18 +220,6 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
         return $this;
     }
 
-    public function getPurchaseRequestPaperList(): ?string
-    {
-        return $this->purchaseRequestPaperList;
-    }
-
-    public function setPurchaseRequestPaperList(string $purchaseRequestPaperList): self
-    {
-        $this->purchaseRequestPaperList = $purchaseRequestPaperList;
-
-        return $this;
-    }
-
     public function getRejectNote(): ?string
     {
         return $this->rejectNote;
@@ -252,6 +240,18 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     public function setIsViewed(bool $isViewed): self
     {
         $this->isViewed = $isViewed;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestPaperList(): ?string
+    {
+        return $this->purchaseRequestPaperList;
+    }
+
+    public function setPurchaseRequestPaperList(string $purchaseRequestPaperList): self
+    {
+        $this->purchaseRequestPaperList = $purchaseRequestPaperList;
 
         return $this;
     }

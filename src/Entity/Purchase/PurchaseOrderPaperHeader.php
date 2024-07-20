@@ -114,8 +114,8 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
 
-    #[ORM\Column(length: 200)]
-    private ?string $purchaseOrderPaperList = '';
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $purchaseOrderPaperList = null;
 
     public function __construct()
     {

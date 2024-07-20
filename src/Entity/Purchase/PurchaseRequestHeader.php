@@ -66,8 +66,8 @@ class PurchaseRequestHeader extends PurchaseHeader
     #[ORM\Column]
     private ?bool $isViewed = false;
 
-    #[ORM\Column(length: 200)]
-    private ?string $purchaseRequestMaterialList = '';
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $purchaseRequestMaterialList = null;
 
     public function __construct()
     {
