@@ -81,6 +81,7 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     private ?\DateTimeInterface $rejectedTransactionDateTime = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne]
@@ -112,6 +113,9 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
 
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
+
+    #[ORM\Column(length: 200)]
+    private ?string $purchaseOrderPaperList = '';
 
     public function __construct()
     {
@@ -476,6 +480,18 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     public function setRejectNote(string $rejectNote): self
     {
         $this->rejectNote = $rejectNote;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderPaperList(): ?string
+    {
+        return $this->purchaseOrderPaperList;
+    }
+
+    public function setPurchaseOrderPaperList(string $purchaseOrderPaperList): self
+    {
+        $this->purchaseOrderPaperList = $purchaseOrderPaperList;
 
         return $this;
     }

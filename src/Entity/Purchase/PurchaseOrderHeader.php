@@ -110,6 +110,9 @@ class PurchaseOrderHeader extends PurchaseHeader
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';
 
+    #[ORM\Column(length: 200)]
+    private ?string $purchaseOrderMaterialList = '';
+
     public function __construct()
     {
         $this->purchaseOrderDetails = new ArrayCollection();
@@ -454,6 +457,18 @@ class PurchaseOrderHeader extends PurchaseHeader
     public function setRejectNote(string $rejectNote): self
     {
         $this->rejectNote = $rejectNote;
+
+        return $this;
+    }
+
+    public function getPurchaseOrderMaterialList(): ?string
+    {
+        return $this->purchaseOrderMaterialList;
+    }
+
+    public function setPurchaseOrderMaterialList(string $purchaseOrderMaterialList): self
+    {
+        $this->purchaseOrderMaterialList = $purchaseOrderMaterialList;
 
         return $this;
     }

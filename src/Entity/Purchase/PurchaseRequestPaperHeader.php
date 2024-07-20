@@ -60,7 +60,7 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     private ?bool $isOnHold = false;
 
     #[ORM\Column(length: 255)]
-    private ?string $purchaseRequestPaperList = null;
+    private ?string $purchaseRequestPaperList = '';
 
     #[ORM\Column(length: 100)]
     private ?string $rejectNote = '';

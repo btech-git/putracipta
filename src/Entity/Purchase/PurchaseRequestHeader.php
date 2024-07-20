@@ -66,6 +66,9 @@ class PurchaseRequestHeader extends PurchaseHeader
     #[ORM\Column]
     private ?bool $isViewed = false;
 
+    #[ORM\Column(length: 200)]
+    private ?string $purchaseRequestMaterialList = '';
+
     public function __construct()
     {
         $this->purchaseRequestDetails = new ArrayCollection();
@@ -238,6 +241,18 @@ class PurchaseRequestHeader extends PurchaseHeader
     public function setIsViewed(bool $isViewed): self
     {
         $this->isViewed = $isViewed;
+
+        return $this;
+    }
+
+    public function getPurchaseRequestMaterialList(): ?string
+    {
+        return $this->purchaseRequestMaterialList;
+    }
+
+    public function setPurchaseRequestMaterialList(string $purchaseRequestMaterialList): self
+    {
+        $this->purchaseRequestMaterialList = $purchaseRequestMaterialList;
 
         return $this;
     }
