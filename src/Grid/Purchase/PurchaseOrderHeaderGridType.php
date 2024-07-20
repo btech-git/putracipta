@@ -25,7 +25,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'note', 'transactionStatus'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'purchaseOrderMaterialList', 'supplier:company', 'note', 'transactionStatus'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -41,6 +41,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                    'purchaseOrderMaterialList' => [FilterContain::class, FilterNotContain::class],
                     'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
@@ -54,7 +55,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'supplier:company', 'note', 'transactionStatus', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => ['transactionDate', 'supplier:company', 'note', 'transactionStatus', 'purchaseOrderMaterialList', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -69,6 +70,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderMaterialList' => [SortAscending::class, SortDescending::class],
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])
