@@ -14,7 +14,9 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Master\Customer;
 use App\Entity\SaleHeader;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -40,7 +42,7 @@ class CustomerSaleOrderGridType extends AbstractType
                     'saleOrderHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'company' => [FilterContain::class, FilterNotContain::class],
+                    'company' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
@@ -49,10 +51,12 @@ class CustomerSaleOrderGridType extends AbstractType
                     'saleOrderHeader:codeNumberOrdinal' => IntegerType::class,
                     'saleOrderHeader:codeNumberMonth' => ChoiceType::class,
                     'saleOrderHeader:codeNumberYear' => IntegerType::class,
+                    'company' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'saleOrderHeader:codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'saleOrderHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'company' => ['class' => Customer::class, 'choice_label' => 'company'],
                 ],
             ])
             ->add('sort', SortType::class, [
