@@ -11,6 +11,7 @@
                 <div class="col">
                     {{ form_row(form.transactionType, {'label': 'Jenis Order'}) }}
                     {{ form_row(form.transactionDate, {'label': 'Tanggal SO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+                    {{ form_row(form.orderReceiveDate, {'label': 'Tanggal Terima PO', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
                     {{ form_row(form.referenceNumber, {'label': 'Customer PO #'}) }}
                     {{ form_row(form.employee, {'label': 'Marketing'}) }}
                     {{ form_row(form.transactionFile, {
