@@ -65,6 +65,16 @@ class PurchaseRequestHeaderFormService
             $purchaseRequestDetail->setTransactionStatus(PurchaseRequestDetail::TRANSACTION_STATUS_OPEN);
         }
         $purchaseRequestHeader->setTotalQuantity($purchaseRequestHeader->getSyncTotalQuantity());
+        
+        $purchaseRequestMaterialList = [];
+        foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
+            if ($purchaseRequestDetail->isIsCanceled() == false) {
+                $material = $purchaseRequestDetail->getMaterial();
+                $purchaseRequestMaterialList[] = $material->getName();
+            }
+        }
+        $purchaseRequestMaterialUniqueList = array_unique(explode(', ', implode(', ', $purchaseRequestMaterialList)));
+        $purchaseRequestHeader->setPurchaseRequestMaterialList(implode(', ', $purchaseRequestMaterialUniqueList));
     }
 
     public function save(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void

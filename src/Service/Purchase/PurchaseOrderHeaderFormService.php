@@ -14,7 +14,6 @@ use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\PurchaseOrderHeaderFormSupport;
 use App\Sync\Purchase\PurchaseOrderHeaderFormSync;
-use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -111,6 +110,16 @@ class PurchaseOrderHeaderFormService
         $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
         $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
         $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());
+        
+        $purchaseOrderMaterialList = [];
+        foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+            if ($purchaseOrderDetail->isIsCanceled() == false) {
+                $material = $purchaseOrderDetail->getMaterial();
+                $purchaseOrderMaterialList[] = $material->getName();
+            }
+        }
+        $purchaseOrderMaterialUniqueList = array_unique(explode(', ', implode(', ', $purchaseOrderMaterialList)));
+        $purchaseOrderHeader->setPurchaseOrderMaterialList(implode(', ', $purchaseOrderMaterialUniqueList));
     }
 
     public function save(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void

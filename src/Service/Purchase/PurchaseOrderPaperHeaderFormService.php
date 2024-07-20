@@ -103,6 +103,16 @@ class PurchaseOrderPaperHeaderFormService
         $purchaseOrderPaperHeader->setTaxNominal($purchaseOrderPaperHeader->getSyncTaxNominal());
         $purchaseOrderPaperHeader->setGrandTotal($purchaseOrderPaperHeader->getSyncGrandTotal());
         $purchaseOrderPaperHeader->setTotalRemainingReceive($purchaseOrderPaperHeader->getSyncTotalRemainingReceive());
+        
+        $purchaseOrderPaperList = [];
+        foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
+            if ($purchaseOrderPaperDetail->isIsCanceled() == false) {
+                $paper = $purchaseOrderPaperDetail->getPaper();
+                $purchaseOrderPaperList[] = $paper->getName();
+            }
+        }
+        $purchaseOrderPaperUniqueList = array_unique(explode(', ', implode(', ', $purchaseOrderPaperList)));
+        $purchaseOrderPaperHeader->setPurchaseOrderPaperList(implode(', ', $purchaseOrderPaperUniqueList));
     }
 
     public function save(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
