@@ -88,10 +88,6 @@
                         <div class="cell value">{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Duplicate</div>
-                        <div class="cell value"></div>
-                    </div>
-                    <div class="row">
                         <div class="cell label">Jumlah Dreek</div>
                         <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }}</div>
                     </div>
@@ -103,10 +99,6 @@
                         <div class="cell label">Status Cetakan</div>
                         <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</div>
                     </div>
-                    {#<div class="row">
-                        <div class="cell label">Up/s (Mata)</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPrinting }} & {{ masterOrderHeader.quantityPrinting2 }} Up/s</div>
-                    </div>#}
                 </div>
             </div>
         </div>
@@ -158,7 +150,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Model Layout </div>
-                        <div style="min-width: 64px; min-height: 64px">
+                        <div style="min-width: 100px; min-height: 100px">
                             <img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">
                         </div>
                     </div>
@@ -174,16 +166,16 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Plate :</div>
-                            <div class="cell value">Baru :____________ Lbr</div>
+                            <div class="cell label">Plate </div>
+                            <div class="cell value">Baru ____________ Lbr</div>
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">Lama :____________ Lbr</div>
+                            <div class="cell value">Lama ____________ Lbr</div>
                         </div>
                         <div class="row">
                             <div class="cell label"></div>
-                            <div class="cell value">Bekas :____________ Lbr</div>
+                            <div class="cell value">Bekas ____________ Lbr</div>
                         </div>
                     </div>
                 </div>
@@ -373,23 +365,23 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">Penjelasan Tambahan:</div>
+                        <div class="cell label">Penjelasan Tambahan</div>
                         <div class="cell value">___________________________________________</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Plate diserahkan kepada:</div>
+                        <div class="cell label">Plate diserahkan kepada</div>
                         <div class="cell value">___________________________________________</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Tanggal Pengembalian WO#:</div>
+                        <div class="cell label">Tanggal Pengembalian WO#</div>
                         <div class="cell value">___________________________________________</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">WO# Dikembalikan oleh:</div>
+                        <div class="cell label">WO# Dikembalikan oleh</div>
                         <div class="cell value">___________________________________________</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Note: </div>
+                        <div class="cell label">Note</div>
                         <div class="cell value">Setiap cetakan diberi nama produk dan spesifikasinya dan juga tanggal waktu plate dan no. WO</div>
                     </div>
                 </div>
