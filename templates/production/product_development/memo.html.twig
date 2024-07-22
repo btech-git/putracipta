@@ -98,7 +98,7 @@
                 <div class="row">
                     <div class="cell label">Model Layout : </div>
                     <div style="min-width: 64px; min-height: 64px">
-                        <img id="upload" height="128px" alt="Layout Model Image" src="{{ asset('uploads/product-development/' ~ productDevelopment.id ~ '.' ~ productDevelopment.transactionFileExtension) }}">
+                        <img id="upload" height="128px" alt="Layout Model Image" src="{{ asset('uploads/product-development/' ~ productDevelopment.fileName) }}">
                     </div>
                 </div>
             </div>
@@ -125,39 +125,39 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">1.</td>
-                                    <td>Terima file artwork & sample</td>
+                                    <td>Spesifikasi produk</td>
                                     <td>{{ productDevelopment.epArtworkFileDate ? productDevelopment.epArtworkFileDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">2.</td>
-                                    <td>Konfirmasi hasil review file ke customer</td>
+                                    <td>Acuan cetak (drawdown + kromalin)</td>
                                     <td>{{ productDevelopment.epCustomerReviewDate ? productDevelopment.epCustomerReviewDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">3.</td>
-                                    <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                                    <td>File untuk pembuatan plat</td>
                                     <td>{{ productDevelopment.epSubconDiecutDate ? productDevelopment.epSubconDiecutDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">4.</td>
-                                    <td>Pembuatan film dieline (kirim file)</td>
+                                    <td>Film milar</td>
                                     <td>{{ productDevelopment.epDielineDevelopmentDate ? productDevelopment.epDielineDevelopmentDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">5.</td>
-                                    <td>Penyerahan gambar / sample ke produksi</td>
+                                    <td>Pisau</td>
                                     <td>{{ productDevelopment.epImageDeliveryProductionDate ? productDevelopment.epImageDeliveryProductionDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">6.</td>
-                                    <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                                    <td>Contoh text</td>
                                     <td>{{ productDevelopment.epDiecutDeliveryProductionDate ? productDevelopment.epDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
                                 </tr>
-                                <tr>
+                                {#<tr>
                                     <td style="width: 5%; text-align: center">7.</td>
                                     <td>Penyerahan gambar / film dieline ke produksi</td>
                                     <td>{{ productDevelopment.epDielineDeliveryProductionDate ? productDevelopment.epDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
-                                </tr>
+                                </tr>#}
                             </tbody>
                         </table>
                                 
@@ -224,39 +224,39 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">1.</td>
-                                    <td>Terima file artwork & sample</td>
+                                    <td>Spesifikasi produk</td>
                                     <td>{{ productDevelopment.psArtworkFileDate ? productDevelopment.psArtworkFileDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">2.</td>
-                                    <td>Konfirmasi hasil review file ke customer</td>
+                                    <td>Acuan cetak (drawdown + kromalin)</td>
                                     <td>{{ productDevelopment.psCustomerReviewDate ? productDevelopment.psCustomerReviewDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">3.</td>
-                                    <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                                    <td>File untuk pembuatan plat</td>
                                     <td>{{ productDevelopment.psSubconDiecutDate ? productDevelopment.psSubconDiecutDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">4.</td>
-                                    <td>Pembuatan film dieline (kirim file)</td>
+                                    <td>Film milar</td>
                                     <td>{{ productDevelopment.psDielineDevelopmentDate ? productDevelopment.psDielineDevelopmentDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">5.</td>
-                                    <td>Penyerahan gambar / sample ke produksi</td>
+                                    <td>Pisau</td>
                                     <td>{{ productDevelopment.psImageDeliveryProductionDate ? productDevelopment.psImageDeliveryProductionDate|date('d M Y') : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; text-align: center">6.</td>
-                                    <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                                    <td>Contoh text</td>
                                     <td>{{ productDevelopment.psDiecutDeliveryProductionDate ? productDevelopment.psDiecutDeliveryProductionDate|date('d M Y') : '' }}</td>
                                 </tr>
-                                <tr>
+                                {#<tr>
                                     <td style="width: 5%; text-align: center">7.</td>
                                     <td>Penyerahan gambar / film dieline ke produksi</td>
                                     <td>{{ productDevelopment.psDielineDeliveryProductionDate ? productDevelopment.psDielineDeliveryProductionDate|date('d M Y') : '' }}</td>
-                                </tr>
+                                </tr>#}
                             </tbody>
                         </table>
                     </div>

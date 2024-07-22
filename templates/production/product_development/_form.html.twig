@@ -107,7 +107,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">1.</td>
-                            <td>Terima file artwork & sample</td>
+                            <td>Spesifikasi produk</td>
                             <td>{{ form_row(form.epArtworkFileDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -120,7 +120,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">2.</td>
-                            <td>Konfirmasi hasil review file ke customer</td>
+                            <td>Acuan cetak (drawdown + kromalin)</td>
                             <td>{{ form_row(form.epCustomerReviewDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -133,7 +133,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">3.</td>
-                            <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                            <td>File untuk pembuatan plat</td>
                             <td>{{ form_row(form.epSubconDiecutDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -146,7 +146,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">4.</td>
-                            <td>Pembuatan film dieline (kirim file)</td>
+                            <td>Film milar</td>
                             <td>{{ form_row(form.epDielineDevelopmentDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -159,7 +159,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">5.</td>
-                            <td>Penyerahan gambar / sample ke produksi</td>
+                            <td>Pisau</td>
                             <td>{{ form_row(form.epImageDeliveryProductionDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -172,7 +172,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">6.</td>
-                            <td>Penyerahan pisau diecut ke produksi (1 up)</td>
+                            <td>Contoh text</td>
                             <td>{{ form_row(form.epDiecutDeliveryProductionDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -183,7 +183,7 @@
                                 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode
                             }}) }}</td>
                         </tr>
-                        <tr>
+                        {#<tr>
                             <td class="text-center">7.</td>
                             <td>Penyerahan gambar / film dieline ke produksi</td>
                             <td>{{ form_row(form.epDielineDeliveryProductionDate, {'label': false, 'attr': {
@@ -195,7 +195,7 @@
                                 ]|json_encode,
                                 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode
                             }}) }}</td>
-                        </tr>
+                        </tr>#}
                     </tbody>
                 </table>
                         
@@ -335,7 +335,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">1.</td>
-                            <td>Terima file artwork & sample</td>
+                            <td>Spesifikasi produk</td>
                             <td>{{ form_row(form.psArtworkFileDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -348,7 +348,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">2.</td>
-                            <td>Konfirmasi hasil review file ke customer</td>
+                            <td>Acuan cetak (drawdown + kromalin)</td>
                             <td>{{ form_row(form.psCustomerReviewDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -361,7 +361,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">3.</td>
-                            <td>Pembuatan pisau diecut ke subcon. (kirim file)</td>
+                            <td>File untuk pembuatan plat</td>
                             <td>{{ form_row(form.psSubconDiecutDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -374,7 +374,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">4.</td>
-                            <td>Pembuatan film dieline (kirim file)</td>
+                            <td>Film milar</td>
                             <td>{{ form_row(form.psDielineDevelopmentDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -387,7 +387,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">5.</td>
-                            <td>Penyerahan gambar / sample ke produksi</td>
+                            <td>Pisau</td>
                             <td>{{ form_row(form.psImageDeliveryProductionDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -400,7 +400,7 @@
                         </tr>
                         <tr>
                             <td class="text-center">6.</td>
-                            <td>Penyerahan pisau diecut ke produksi</td>
+                            <td>Contoh text</td>
                             <td>{{ form_row(form.psDiecutDeliveryProductionDate, {'label': false, 'attr': {
                                 'class': 'readonly-form-input',
                                 'data-controller': 'flatpickr-element dom-element',
@@ -411,7 +411,7 @@
                                 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode
                             }}) }}</td>
                         </tr>
-                        <tr>
+                        {#<tr>
                             <td class="text-center">7.</td>
                             <td>Penyerahan gambar / film dieline ke produksi</td>
                             <td>{{ form_row(form.psDielineDeliveryProductionDate, {'label': false, 'attr': {
@@ -423,7 +423,7 @@
                                 ]|json_encode,
                                 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode
                             }}) }}</td>
-                        </tr>
+                        </tr>#}
                     </tbody>
                 </table>
             </div>
