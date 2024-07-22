@@ -54,7 +54,7 @@ class SaleOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'customer' => [FilterEqual::class, FilterNotEqual::class],
-                    'employee' => [FilterContain::class, FilterNotContain::class],
+                    'employee' => [FilterEqual::class, FilterNotEqual::class],
                     'referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
