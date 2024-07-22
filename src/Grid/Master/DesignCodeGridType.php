@@ -23,7 +23,7 @@ class DesignCodeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => [ 'code', 'variant', 'version', 'name', 'customer:company', 'note', 'isInactive'],
+                'field_names' => [ 'code', 'variant', 'version', 'name', 'customer:company', 'note', 'status'],
                 'field_label_list' => [
                     'code' => 'Code',
                     'variant' => '',
@@ -31,7 +31,7 @@ class DesignCodeGridType extends AbstractType
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
-                    'isInactive' => [FilterEqual::class, FilterNotEqual::class],
+                    'status' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'variant' => [FilterContain::class, FilterNotContain::class],
@@ -40,14 +40,14 @@ class DesignCodeGridType extends AbstractType
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
-                    'isInactive' => ChoiceType::class,
+                    'status' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
-                    'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
+                    'status' => ['choices' => ['FA' => 'fa', 'NA' => 'na']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['name', 'code', 'variant', 'version', 'customer:company', 'note', 'isInactive'],
+                'field_names' => ['name', 'code', 'variant', 'version', 'customer:company', 'note', 'status'],
                 'field_label_list' => [
                     'code' => '',
                     'variant' => '',
@@ -59,7 +59,7 @@ class DesignCodeGridType extends AbstractType
                     'code' => [SortAscending::class, SortDescending::class],
                     'variant' => [SortAscending::class, SortDescending::class],
                     'version' => [SortAscending::class, SortDescending::class],
-                    'isInactive' => [SortAscending::class, SortDescending::class],
+                    'status' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                 ],
