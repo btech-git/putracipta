@@ -92,10 +92,6 @@
                             <div class="cell label">Warna</div>
                             <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                         </div>
-                        <div class="row">
-                            <div class="cell label">Insit</div>
-                            <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|number_format(2) }} dreek</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -155,6 +151,10 @@
                     <div class="cell col">
                         <div class="table full">
                             <div class="row">
+                                <div class="cell label">Bahan</div>
+                                <div class="cell value">{{ masterOrderHeader.paper.name|default }} gsm</div>
+                            </div>
+                            <div class="row">
                                 <div class="cell label">Kris Cetak</div>
                                 <div class="cell value">{{ masterOrderHeader.mountageSize }} cm</div>
                             </div>
@@ -170,14 +170,6 @@
                                 <div class="cell label">Jumlah</div>
                                 <div class="cell value">{{ masterOrderHeader.paperTotal|number_format(0) }} dreek</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="cell col">
-                        <div class="table full">
-                            <div class="row">
-                                <div class="cell label">Bahan</div>
-                                <div class="cell value">{{ masterOrderHeader.paper.name|default }} gsm</div>
-                            </div>
                             <div class="row">
                                 <div class="cell label">Bahan Packing</div>
                                 <div class="cell value"></div>
@@ -185,6 +177,34 @@
                             <div class="row">
                                 <div class="cell label">Dus</div>
                                 <div class="cell value">{{ masterOrderHeader.packagingBoxQuantity|number_format(0) }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight|number_format(2) }} pcs</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell col">
+                        <div class="table full">
+                            <div class="row">
+                                <div class="cell label">Insit</div>
+                                <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|number_format(2) }} dreek</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell label">Ukuran Plano</div>
+                                <div class="cell value">{{ masterOrderHeader.paperPlanoLength|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(2) }} cm</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell label">Quantity Kertas</div>
+                                <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(0) }} Rim</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell label">Kebutuhan</div>
+                                <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell label">Total Kertas</div>
+                                <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell label">&nbsp;</div>
+                                <div class="cell value">&nbsp;</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Kertas</div>
@@ -204,40 +224,13 @@
                     <div class="cell col">
                         <div class="table full">
                             <div class="row">
-                                <div class="cell label">Mountage Kertas :</div>
+                                <div class="cell label">Mountage Kertas</div>
                                 <div class="cell value">{{ masterOrderHeader.paperMountage }} up</div>
                             </div>
                             <div class="row">
-                                <div class="cell label">Gambar : </div>
+                                <div class="cell label">Gambar</div>
                                 <div><img id="upload" width="256px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}"></div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="cell col">
-                        <div class="table full">
-                                <div class="row">
-                                    <table  class="detail">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="3">Urutan Proses</th>
-                                            </tr>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Proses</th>
-                                                <th>Subcon</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
-                                                <tr>
-                                                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
-                                                    <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
-                                                    <td style="text-align: center">{{ masterOrderProcessDetail.isSubcon ? 'Yes' : 'No' }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
                         </div>
                     </div>
                 </div>
@@ -253,7 +246,7 @@
                             <div class="cell value">{{ masterOrderHeader.note|default }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Note :</div>
+                            <div class="cell label">Note</div>
                             <div class="cell value"># Coret yang tidak perlu</div>
                         </div>
                         <div class="row">
@@ -273,11 +266,7 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Stock :</div>
-                            <div class="cell value">{{ masterOrderHeader.totalQuantityStock|default }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="cell label">Dikeluarkan tanggal :</div>
+                            <div class="cell label">Dikeluarkan tanggal</div>
                             <div class="cell value">________________</div>
                         </div>
                         <div class="table full">
@@ -293,6 +282,39 @@
                                 <div>PPIC</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        
+        <div class="note">
+            <div class="table full">
+                <div class="cell col">
+                    <div class="table full">
+                            <div class="row">
+                                <table  class="detail">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3">Urutan Proses</th>
+                                        </tr>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Proses</th>
+                                            <th>Paraf</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
+                                            <tr>
+                                                <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                                                <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
+                                                <td style="text-align: center">{{ masterOrderProcessDetail.isSubcon ? 'Yes' : '' }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
                 </div>
             </div>

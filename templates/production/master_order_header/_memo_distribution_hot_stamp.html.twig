@@ -69,15 +69,15 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.name|default }} Gram</div>
+                        <div class="cell value">{{ masterOrderHeader.paper.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Ukuran</div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(2) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Material</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper }} rim {{ masterOrderHeader.paperRequirement }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPaper|number_format(2) }} rim {{ masterOrderHeader.paperRequirement|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah lembar yang diterima</div>

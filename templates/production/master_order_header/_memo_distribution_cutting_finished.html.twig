@@ -65,11 +65,11 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Plano</div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength }} x {{ masterOrderHeader.paperPlanoWidth }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|number_format(1) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(1) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Potong</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1 }} x {{ masterOrderHeader.cuttingWidthSize1 }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize1|number_format(1) }} cm</div>
                     </div>
                 </div>
             </div>
@@ -89,11 +89,11 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper }} rim {{ masterOrderHeader.paperRequirement }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim {{ masterOrderHeader.paperRequirement|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Up</div>
-                        <div class="cell value">{{ masterOrderHeader.paperMountage }}</div>
+                        <div class="cell value">{{ masterOrderHeader.paperMountage|number_format(0) }}</div>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Gambar : </div>
+                            <div class="cell label">Gambar </div>
                             <div style="min-width: 64px; min-height: 64px">
                                 <img id="upload" width="128px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">
                             </div>
