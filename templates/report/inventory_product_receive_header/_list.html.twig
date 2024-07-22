@@ -38,6 +38,18 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Customer</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
     </div>
 
     {{ grid.info(form, count, inventoryProductReceiveHeaders) }}
@@ -69,6 +81,7 @@
                 <th class="text-start">Tanggal</th>
                 <th class="text-start">Order #</th>
                 <th class="text-start">MO #</th>
+                <th class="text-start">Customer</th>
                 <th class="text-start">Gudang</th>
                 <th class="text-start">Note</th>
             </tr>
@@ -97,6 +110,7 @@
                     <td class="text-start">{{ inventoryProductReceiveHeader.transactionDate|default ? inventoryProductReceiveHeader.transactionDate|date('j M Y') }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.masterOrderHeader.saleOrderReferenceNumberList|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.masterOrderHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ inventoryProductReceiveHeader.masterOrderHeader.customer.company|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.warehouse.name|default }}</td>
                     <td class="text-start">{{ inventoryProductReceiveHeader.note|default }}</td>
                 </tr>
