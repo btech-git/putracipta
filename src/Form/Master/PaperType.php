@@ -17,7 +17,14 @@ class PaperType extends AbstractType
             ->add('length', null, ['label' => 'Panjang (cm)'])
             ->add('width', null, ['label' => 'Lebar (cm)'])
             ->add('weight', null, ['label' => 'Berat (GSM)'])
-            ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('note')
             ->add('isInactive', null, ['label' => 'Inactive'])
             ->add('pricingMode', ChoiceType::class, ['label' => 'Metode Input Harga', 'choices' => [

@@ -27,7 +27,14 @@ class MaterialType extends AbstractType
             ->add('variant', null, ['label' => 'Varian'])
             ->add('density')
             ->add('viscosity', null, ['label' => 'Viskositas'])
-            ->add('unit', null, ['choice_label' => 'name', 'label' => 'Satuan'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('note')
             ->add('isInactive')
         ;
