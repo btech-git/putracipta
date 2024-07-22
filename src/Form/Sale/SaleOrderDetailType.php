@@ -19,7 +19,14 @@ class SaleOrderDetailType extends AbstractType
             ->add('unitPrice', FormattedNumberType::class, ['decimals' => 2])
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
-            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('isTransactionClosed')
             ->add('isCanceled')
         ;
