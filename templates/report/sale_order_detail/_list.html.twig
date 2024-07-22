@@ -95,7 +95,6 @@
     <table class="report-data">
         <thead class="border-top-solid-bold border-bottom-solid-bold">
             <tr>
-                <th class="text-start">Kode</th>
                 <th class="text-start">Nama Produk</th>
                 <th class="text-start">PO #</th>
                 <th class="text-start">Tanggal</th>
@@ -111,7 +110,6 @@
             {% for saleOrderHeader in saleOrderHeaders %}
                 {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
                     <tr>
-                        <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
                         <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
                         <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
                         <td class="text-start">{{ saleOrderHeader.transactionDate|default ? saleOrderHeader.transactionDate|date('j M Y') }}</td>
@@ -127,7 +125,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8" class="text-end font-weight-bold">Total</td>
+                <td colspan="7" class="text-end font-weight-bold">Total</td>
                 <td class="text-end font-weight-bold">{{ grandTotal|default|number_format(2) }}</td>
             </tr>
         </tfoot>

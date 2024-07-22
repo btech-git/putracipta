@@ -92,13 +92,12 @@
     <table class="report-data">
         <thead class="border-top-solid-bold border-bottom-solid-bold">
             <tr>
-                <th class="text-start">Kode</th>
                 <th class="text-start">Nama Produk</th>
                 <th class="text-start">Customer</th>
                 <th class="text-start">Note</th>
             </tr>
             <tr>
-                <td colspan="4">
+                <td colspan="3">
                     <table>
                         <thead>
                             <tr>
@@ -117,13 +116,12 @@
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for product in products %}
                 <tr>
-                    <td class="text-start">{{ product.code|default }}</td>
                     <td class="text-start">{{ product.name|default }}</td>
                     <td class="text-start">{{ product.customer.company|default }}</td>
                     <td class="text-start">{{ product.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="4">
+                    <td colspan="3">
                         <table>
                             <tbody>
                                 {% set totalSum = '0.00' %}

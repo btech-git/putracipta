@@ -29,7 +29,6 @@
         </tr>
         <tr>
             <th style="text-align: center"></th>
-            <th style="text-align: center"><strong>Kode</strong></th>
             <th style="text-align: center"><strong>Nama Produk</strong></th>
             <th style="text-align: center"><strong>Qty</strong></th>
             <th style="text-align: center"><strong>Satuan</strong></th>
@@ -54,7 +53,6 @@
             {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
                 <tr>
                     <td style="text-align: left"></td>
-                    <td style="text-align: left">{{ saleOrderDetail.product.code|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.unit.name|default }}</td>
@@ -63,19 +61,19 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td style="text-align: right" colspan="6"><strong>Sub Total</strong></td>
+                <td style="text-align: right" colspan="5"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.subTotal|default }}</strong></td>
             </tr>
             <tr>
-                <td style="text-align: right" colspan="6"><strong>Diskon {{ saleOrderHeader.discountValue|default }}%</strong></td>
+                <td style="text-align: right" colspan="5"><strong>Diskon {{ saleOrderHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.discountNominal|default }}</strong></td>
             </tr>
             <tr>
-                <td style="text-align: right" colspan="6"><strong>PPn {{ saleOrderHeader.taxPercentage|default }}%</strong></td>
+                <td style="text-align: right" colspan="5"><strong>PPn {{ saleOrderHeader.taxPercentage|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.taxNominal|default }}</strong></td>
             </tr>
             <tr>
-                <td style="text-align: right" colspan="6"><strong>Grand Total</strong></td>
+                <td style="text-align: right" colspan="5"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ saleOrderHeader.grandTotal|default }}</strong></td>
             </tr>
             <tr>
