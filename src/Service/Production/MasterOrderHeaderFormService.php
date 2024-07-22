@@ -152,14 +152,18 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setSaleOrderReferenceNumberList(implode(', ', $saleOrderReferenceNumberUniqueList));
         
         $masterOrderProductList = [];
+        $masterOrderProductNameList = [];
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             if ($masterOrderProductDetail->isIsCanceled() == false) {
                 $product = $masterOrderProductDetail->getProduct();
                 $masterOrderProductList[] = $product->getCode();
+                $masterOrderProductNameList[] = $product->getName();
             }
         }
         $masterOrderProductUniqueList = array_unique(explode(', ', implode(', ', $masterOrderProductList)));
         $masterOrderHeader->setMasterOrderProductList(implode(', ', $masterOrderProductUniqueList));
+        $masterOrderProductNameUniqueList = array_unique(explode(', ', implode(', ', $masterOrderProductNameList)));
+        $masterOrderHeader->setMasterOrderProductNameList(implode(', ', $masterOrderProductNameUniqueList));
     }
 
     public function save(MasterOrderHeader $masterOrderHeader, array $options = []): void
