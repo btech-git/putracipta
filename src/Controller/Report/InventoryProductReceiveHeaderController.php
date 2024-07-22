@@ -27,7 +27,14 @@ class InventoryProductReceiveHeaderController extends AbstractController
         $form = $this->createForm(InventoryProductReceiveHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $inventoryProductReceiveHeaders) = $inventoryProductReceiveHeaderRepository->fetchData($criteria);
+        list($count, $inventoryProductReceiveHeaders) = $inventoryProductReceiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($criteria) {
+            if (!empty($criteria->getFilter()['customer:company'][1])) {
+                $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
+                $qb->innerJoin("m.customer", 'c');
+                $add['filter']($qb, 'c', 'company', $criteria->getFilter()['customer:company']);
+            }
+            
+        });
 
         return $this->renderForm("report/inventory_product_receive_header/_list.html.twig", [
             'form' => $form,
