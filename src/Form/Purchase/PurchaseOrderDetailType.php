@@ -21,7 +21,14 @@ class PurchaseOrderDetailType extends AbstractType
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
             ->add('purchaseRequestDetail', EntityHiddenType::class, array('class' => PurchaseRequestDetail::class))
-            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('isTransactionClosed')
             ->add('isCanceled')
         ;

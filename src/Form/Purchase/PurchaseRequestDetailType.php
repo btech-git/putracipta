@@ -17,7 +17,14 @@ class PurchaseRequestDetailType extends AbstractType
     {
         $builder
             ->add('quantity', FormattedNumberType::class, ['decimals' => 0])
-            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('material', EntityHiddenType::class, ['class' => Material::class])
             ->add('inventoryRequestMaterialDetail', EntityHiddenType::class, ['class' => InventoryRequestMaterialDetail::class])
             ->add('usageDate', null, ['widget' => 'single_text'])

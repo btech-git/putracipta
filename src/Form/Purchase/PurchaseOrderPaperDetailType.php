@@ -24,7 +24,14 @@ class PurchaseOrderPaperDetailType extends AbstractType
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('purchaseRequestPaperDetail', EntityHiddenType::class, array('class' => PurchaseRequestPaperDetail::class))
-            ->add('unit', null, ['choice_label' => 'name'])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
             ->add('isTransactionClosed')
             ->add('isCanceled')
         ;
