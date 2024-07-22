@@ -103,16 +103,14 @@
                     <th class="center">No.</th>
                     <th class="center">Product Name</th>
                     <th class="center">Code No.</th>
-                    <th class="center" style="max-width: 70px">WO no. / Tgl Prod</th>
+                    <th class="center" style="min-width: 70px">Lot no.</th>
+                    <th class="center" style="max-width: 90px">WO no. / Tgl Prod</th>
                     {% if deliveryHeader.isUsingFscPaper %}
                         <th class="center" style="max-width: 70px">FSC Code</th>
-                        <th class="center" style="min-width: 120px">Lot no.</th>
-                    {% else %}
-                        <th class="center">Line PO</th>
                     {% endif %}
                     <th class="center">Customer PO</th>
                     <th class="center" style="max-width: 70px">Qty (pcs)</th>
-                    <th class="center" style="min-width: 120px">Kemasan</th>
+                    <th class="center" style="min-width: 120px">Packing</th>
                 </tr>
             </thead>
             <tbody>
@@ -142,15 +140,13 @@
                                 <td class="center">{{ number|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.name|default }}</td>
                                 <td class="left">{{ deliveryDetail.product.code|default }}</td>
+                                <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
                                 <td class="left">
-                                    {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumber|default }} / 
+                                    {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }} / 
                                     {{ deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|default ? deliveryDetail.masterOrderProductDetail.masterOrderHeader.transactionDate|date('d.m.Y') }}
                                 </td>
                                 {% if deliveryHeader.isUsingFscPaper %}
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
-                                    <td class="center">{{ deliveryDetail.lotNumber|default }}</td>
-                                {% else %}
-                                    <td class="center">{{ deliveryDetail.linePo|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 <td class="center">{{ quantitySums[deliveryDetail.product.id ~ '_']|default|number_format(0) }}</td>
@@ -160,10 +156,8 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 {% if deliveryHeader.isUsingFscPaper %}
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                {% else %}
                                     <td>&nbsp;</td>
                                 {% endif %}
                                 <td>&nbsp;</td>
