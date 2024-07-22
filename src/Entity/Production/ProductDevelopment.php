@@ -181,7 +181,7 @@ class ProductDevelopment extends ProductionHeader
 
     public function getFileName(): string
     {
-        return sprintf('(%d)_%s_%s.%s', $this->id, $this->developmentProductList, $this->transactionDate->format('Y-m-d'), $this->transactionFileExtension);
+        return sprintf('RNP_%d_%s_%s.%s', $this->id, $this->developmentProductList, $this->transactionDate->format('Y-m-d'), $this->transactionFileExtension);
     }
 
     public function getId(): ?int
