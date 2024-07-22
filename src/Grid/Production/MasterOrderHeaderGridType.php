@@ -25,7 +25,7 @@ class MasterOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderProductList', 'saleOrderReferenceNumberList', 'designCode:code', 'designCode:variant', 'designCode:version', 'customer:company'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderProductNameList', 'masterOrderProductList', 'saleOrderReferenceNumberList', 'designCode:code', 'designCode:variant', 'designCode:version', 'customer:company'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -35,7 +35,6 @@ class MasterOrderHeaderGridType extends AbstractType
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
-                    'isCanceled' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
@@ -44,10 +43,9 @@ class MasterOrderHeaderGridType extends AbstractType
                     'designCode:code' => [FilterContain::class, FilterNotContain::class],
                     'designCode:variant' => [FilterContain::class, FilterNotContain::class],
                     'designCode:version' => [FilterContain::class, FilterNotContain::class],
-                    'orderType' => [FilterEqual::class, FilterNotEqual::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderReferenceNumberList' => [FilterContain::class, FilterNotContain::class],
                     'masterOrderProductList' => [FilterContain::class, FilterNotContain::class],
+                    'masterOrderProductNameList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -60,7 +58,7 @@ class MasterOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderProductList', 'saleOrderReferenceNumberList', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'masterOrderProductNameList', 'masterOrderProductList', 'saleOrderReferenceNumberList', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -75,13 +73,12 @@ class MasterOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
-                    'orderType' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
                     'saleOrderReferenceNumberList' => [SortAscending::class, SortDescending::class],
                     'masterOrderProductList' => [SortAscending::class, SortDescending::class],
                     'designCode:code' => [SortAscending::class, SortDescending::class],
                     'designCode:variant' => [SortAscending::class, SortDescending::class],
                     'designCode:version' => [SortAscending::class, SortDescending::class],
+                    'masterOrderProductNameList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
