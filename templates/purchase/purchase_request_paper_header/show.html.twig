@@ -121,6 +121,7 @@
                     <tr class="bg-warning">
                         <th>PO Kertas #</th>
                         <th>Tanggal</th>
+                        <th>Note</th>
                         <th>Kertas</th>
                         <th>Quantity</th>
                         <th>Satuan</th>
@@ -132,6 +133,7 @@
                             <tr>
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.note|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
