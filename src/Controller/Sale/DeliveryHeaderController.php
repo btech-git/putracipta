@@ -4,12 +4,11 @@ namespace App\Controller\Sale;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
-use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\DeliveryHeader;
-//use App\Entity\Sale\SaleOrderDetail;
 use App\Form\Sale\DeliveryHeaderType;
 use App\Grid\Sale\DeliveryHeaderGridType;
+use App\Grid\Sale\OutstandingSaleOrderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
@@ -68,12 +67,34 @@ class DeliveryHeaderController extends AbstractController
     public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
-                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
-                ->getForm();
+        $form = $this->createForm(OutstandingSaleOrderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->innerJoin("{$alias}.saleOrderHeader", 'h');
+            $qb->innerJoin("{$alias}.product", 'p');
+            if (isset($request->request->get('outstanding_sale_order_grid')['filter']['customer:company']) && isset($request->request->get('outstanding_sale_order_grid')['sort']['customer:company'])) {
+                $qb->innerJoin("h.customer", 's');
+                $add['filter']($qb, 's', 'company', $request->request->get('outstanding_sale_order_grid')['filter']['customer:company']);
+                $add['sort']($qb, 's', 'company', $request->request->get('outstanding_sale_order_grid')['sort']['customer:company']);
+            }
+            if (isset($request->request->get('outstanding_sale_order_grid')['filter']['saleOrderHeader:transactionDate']) && isset($request->request->get('outstanding_sale_order_grid')['sort']['saleOrderHeader:transactionDate'])) {
+                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('outstanding_sale_order_grid')['filter']['saleOrderHeader:transactionDate']);
+                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('outstanding_sale_order_grid')['sort']['saleOrderHeader:transactionDate']);
+            }
+            if (isset($request->request->get('outstanding_sale_order_grid')['filter']['saleOrderHeader:referenceNumber']) && isset($request->request->get('outstanding_sale_order_grid')['sort']['saleOrderHeader:referenceNumber'])) {
+                $add['filter']($qb, 'h', 'referenceNumber', $request->request->get('outstanding_sale_order_grid')['filter']['saleOrderHeader:referenceNumber']);
+                $add['sort']($qb, 'h', 'referenceNumber', $request->request->get('outstanding_sale_order_grid')['sort']['saleOrderHeader:referenceNumber']);
+            }
+            if (isset($request->request->get('outstanding_sale_order_grid')['filter']['product:code']) && isset($request->request->get('outstanding_sale_order_grid')['sort']['product:code'])) {
+                $add['filter']($qb, 'p', 'code', $request->request->get('outstanding_sale_order_grid')['filter']['product:code']);
+                $add['sort']($qb, 'p', 'code', $request->request->get('outstanding_sale_order_grid')['sort']['product:code']);
+            }
+            if (isset($request->request->get('outstanding_sale_order_grid')['filter']['product:name']) && isset($request->request->get('outstanding_sale_order_grid')['sort']['product:name'])) {
+                $add['filter']($qb, 'p', 'name', $request->request->get('outstanding_sale_order_grid')['filter']['product:name']);
+                $add['sort']($qb, 'p', 'name', $request->request->get('outstanding_sale_order_grid')['sort']['product:name']);
+            }
+            
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.remainingDelivery > 0 AND {$alias}.isTransactionClosed = 0");
         });
