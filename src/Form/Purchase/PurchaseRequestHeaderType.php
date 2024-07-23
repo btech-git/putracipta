@@ -29,7 +29,8 @@ class PurchaseRequestHeaderType extends AbstractType
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
-                            ->andWhere("e.isInactive = false");
+                            ->andWhere("e.isInactive = false")
+                            ->addOrderBy('e.name', 'ASC');
                 },
             ])
         ;
