@@ -18,7 +18,7 @@
                     Description {{ grid.sort_char(form.sort.description.vars.value) }}
                 </th>
                 <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -49,7 +49,7 @@
                     <td>{{ warehouse.code }}</td>
                     <td>{{ warehouse.name }}</td>
                     <td>{{ warehouse.description }}</td>
-                    <td>{{ warehouse.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ warehouse.isInactive ? 'Inactive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_WAREHOUSE_VIEW') or is_granted('ROLE_WAREHOUSE_EDIT') or is_granted('ROLE_WAREHOUSE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_warehouse_show', {'id': warehouse.id}) }}"><i class="bi-search"></i></a>

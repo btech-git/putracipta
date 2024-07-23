@@ -15,16 +15,16 @@
                     Plate Number {{ grid.sort_char(form.sort.plateNumber.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'plateNumber') }} value="{{ form.filter.plateNumber.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'plateNumber') }} value="{{ form.filter.plateNumber.1.vars.value }}" />
                 </th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
@@ -42,7 +42,7 @@
                 <tr>
                     <td>{{ transportation.name }}</td>
                     <td>{{ transportation.plateNumber }}</td>
-                    <td>{{ transportation.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ transportation.isInactive ? 'Inactive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_TRANSPORTATION_VIEW') or is_granted('ROLE_TRANSPORTATION_EDIT') or is_granted('ROLE_TRANSPORTATION_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_transportation_show', {'id': transportation.id}) }}"><i class="bi-search"></i></a>
