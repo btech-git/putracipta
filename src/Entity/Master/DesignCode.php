@@ -182,7 +182,7 @@ class DesignCode extends Master
     private ?string $emboss = '';
 
     #[ORM\Column(length: 200)]
-    private ?string $designCodeProductList = null;
+    private ?string $designCodeProductList = '';
 
     public function __construct()
     {
