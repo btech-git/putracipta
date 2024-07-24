@@ -22,12 +22,13 @@ class OutstandingSaleOrderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'product:code', 'product:name'],
+                'field_names' => ['deliveryDate', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'product:code', 'product:name'],
                 'field_label_list' => [
                     'saleOrderHeader:transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
+                    'deliveryDate' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
@@ -35,16 +36,18 @@ class OutstandingSaleOrderGridType extends AbstractType
                     'product:name' => [FilterContain::class, FilterContain::class],
                 ],
                 'field_value_options_list' => [
-                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'deliveryDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'saleOrderHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'product:code', 'product:name'],
+                'field_names' => ['deliveryDate', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'product:code', 'product:name'],
                 'field_label_list' => [
-                    'transactionDate' => 'Tanggal',
+                    'saleOrderHeader:transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
+                    'deliveryDate' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:transactionDate' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:referenceNumber' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],

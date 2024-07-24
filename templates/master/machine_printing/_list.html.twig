@@ -18,19 +18,19 @@
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
                 <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'type') }} value="{{ form.filter.type.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'type') }} value="{{ form.filter.type.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
@@ -49,7 +49,7 @@
                     <td>{{ machinePrinting.name }}</td>
                     <td>{{ machinePrinting.type }}</td>
                     <td>{{ machinePrinting.note }}</td>
-                    <td>{{ machinePrinting.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ machinePrinting.isInactive ? 'Inactive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_PRINTING_MACHINE_VIEW') or is_granted('ROLE_PRINTING_MACHINE_EDIT') or is_granted('ROLE_PRINTING_MACHINE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_machine_printing_show', {'id': machinePrinting.id}) }}"><i class="bi-search"></i></a>

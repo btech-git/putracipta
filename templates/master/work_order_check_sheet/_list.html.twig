@@ -8,20 +8,25 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Is Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
-                </th>
                 <th role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
+                </th>
+                <th role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'isInactive') }} value="{{ form.filter.isInactive.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
+                        <option value="" {% if form.filter.isInactive.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.isInactive.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.isInactive.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
                 </th>
                 <th></th>
             </tr>
@@ -29,8 +34,8 @@
         <tbody>
             {% for workOrderCheckSheet in workOrderCheckSheets %}
                 <tr>
-                    <td>{{ workOrderCheckSheet.isInactive ? 'Yes' : 'No' }}</td>
                     <td>{{ workOrderCheckSheet.name }}</td>
+                    <td>{{ workOrderCheckSheet.isInactive ? 'Inactive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_CHECK_SHEET_VIEW') or is_granted('ROLE_CHECK_SHEET_EDIT') or is_granted('ROLE_CHECK_SHEET_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_work_order_check_sheet_show', {'id': workOrderCheckSheet.id}) }}"><i class="bi-search"></i></a>

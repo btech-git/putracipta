@@ -48,7 +48,15 @@ class MaterialGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'materialSubCategory:materialCategory' => ['class' => MaterialCategory::class, 'choice_label' => 'name'],
-                    'materialSubCategory' => ['class' => MaterialSubCategory::class, 'choice_label' => 'name'],
+                    'materialSubCategory' => [
+                        'class' => MaterialSubCategory::class, 
+                        'choice_label' => 'name',
+                        'query_builder' => function($repository) {
+                            return $repository->createQueryBuilder('e')
+                                    ->andWhere("IDENTITY(e.materialCategory) <> 1")
+                                    ->addOrderBy('e.name', 'ASC');
+                        },
+                    ],
                     'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
                 ],
             ])

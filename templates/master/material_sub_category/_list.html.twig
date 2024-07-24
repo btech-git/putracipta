@@ -18,7 +18,7 @@
                     Category {{ grid.sort_char(form.sort['materialCategory:name'].vars.value) }}
                 </th>
                 <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
-                    Inactive {{ grid.sort_char(form.sort.isInactive.vars.value) }}
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -54,7 +54,7 @@
                     <td>{{ materialSubCategory.code }}</td>
                     <td>{{ materialSubCategory.name }}</td>
                     <td>{{ materialSubCategory.materialCategory.name|default }}</td>
-                    <td>{{ materialSubCategory.isInactive ? 'Yes' : 'No' }}</td>
+                    <td>{{ materialSubCategory.isInactive ? 'Inactive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_MATERIAL_SUB_CATEGORY_EDIT') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_master_material_sub_category_show', {'id': materialSubCategory.id}) }}"><i class="bi-search"></i></a>

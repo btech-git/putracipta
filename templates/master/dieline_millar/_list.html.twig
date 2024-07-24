@@ -23,10 +23,10 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
+                <th style="min-width: 150px">Tanggal Buat</th>
                 <th style="min-width: 90px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
-                <th style="min-width: 150px">Tanggal Buat</th>
                 <th style="min-width: 150px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -38,14 +38,15 @@
                     R<input style="width: 100px" type="text" {{ grid.filter_link_item(form, 'version') }} value="{{ form.filter.version.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" size="10" {{ grid.filter_link_item(form, 'printingLayout') }} value="{{ form.filter.printingLayout.1.vars.value }}" />
+                    <input class="form-control" type="text" size="10" {{ grid.filter_link_item(form, 'printingLayout') }} value="{{ form.filter.printingLayout.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
+                <th></th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
                         <option value="" {% if form.filter.isInactive.1.vars.value == '' %}selected="selected"{% endif %}></option>
@@ -54,7 +55,6 @@
                         {% endfor %}
                     </select>
                 </th>
-                <th></th>
                 <th></th>
             </tr>
         </thead>

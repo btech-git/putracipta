@@ -26,7 +26,17 @@
                 <th style="min-width: 90px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Stock\\InventoryRequestHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\StockHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
@@ -39,7 +49,12 @@
                     </select>
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'requestMode') }} value="{{ form.filter.requestMode.1.vars.value }}" />
+                    <select class="form-select" {{ grid.filter_link_item(form, 'requestMode') }}>
+                        <option value="" {% if form.filter.requestMode.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.requestMode.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.requestMode.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
                 </th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>

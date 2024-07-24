@@ -15,6 +15,7 @@ use App\Common\Form\Type\SortType;
 use App\Entity\Master\Division;
 use App\Entity\Master\Warehouse;
 use App\Entity\StockHeader;
+use App\Entity\Stock\InventoryRequestHeader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -53,12 +54,17 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'codeNumberYear' => IntegerType::class,
                     'warehouse' => EntityType::class,
                     'division' => EntityType::class,
+                    'requestMode' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
                     'division' => ['class' => Division::class, 'choice_label' => 'name'],
+                    'requestMode' => ['choices' => [
+                        'Material' => InventoryRequestHeader::REQUEST_MODE_MATERIAL, 
+                        'Kertas' => InventoryRequestHeader::REQUEST_MODE_PAPER
+                    ]],
                 ],
             ])
             ->add('sort', SortType::class, [

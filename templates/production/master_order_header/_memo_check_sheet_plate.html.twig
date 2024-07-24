@@ -1,24 +1,24 @@
 <div class="memo">
     <div class="header" style="font-size: 10px; text-align: left">
         <div class="table full">
-            <div class="cell col">
+            {#<div class="cell col">
                 <div class="table full">
                     <div class="row">
                         <div class="cell label"><img id="logo" alt="logo" max-height="300px" src="{{ asset('images/Logo.jpg') }}"></div>
                     </div>
                 </div>
-            </div>
+            </div>#}
             <div class="cell col">
                 <div class="table full">
-                    <div class="row">
+                    {#<div class="row">
                         <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
-                    </div>
+                    </div>#}
                     <div class="row">
                         <div class="cell label" style="font-size: 18px; text-align: center">FORM PLATE</div>
                     </div>
                 </div>
             </div>
-            <div class="cell col">
+            {#<div class="cell col">
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No Dokumen</div>
@@ -41,7 +41,7 @@
                         <div class="cell label">1 dari 1</div>
                     </div>
                 </div>
-            </div>
+            </div>#}
         </div>
     </div>
 
@@ -81,10 +81,8 @@
     <table  class="detail">
         <thead class="table-secondary">
             <tr>
-                <th>PO#</th>
                 <th>Kode</th>
                 <th>Nama Produk</th>
-                <th>Tanggal Kirim</th>
                 <th>Qty Order</th>
                 <th>Stock</th>
                 <th>Kekurangan</th>
@@ -94,14 +92,12 @@
         <tbody>
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
-                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
-                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                    <td>{{ masterOrderProductDetail.quantityPrinting|default }}</td>
+                    <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default }}</td>
                 </tr>
             {% endfor %}
         </tbody>
