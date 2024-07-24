@@ -94,10 +94,6 @@ class SaleOrderHeader extends SaleHeader
     #[Assert\NotNull]
     private ?string $transactionFileExtension = '';
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalQuantity = 0;
-
     #[ORM\ManyToOne]
     private ?Employee $employee = null;
 
@@ -139,6 +135,9 @@ class SaleOrderHeader extends SaleHeader
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $orderReceiveDate = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
 
     public function __construct()
     {
@@ -383,18 +382,6 @@ class SaleOrderHeader extends SaleHeader
         return $this;
     }
 
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
-    }
-
     public function getEmployee(): ?Employee
     {
         return $this->employee;
@@ -535,6 +522,18 @@ class SaleOrderHeader extends SaleHeader
     public function setOrderReceiveDate(?\DateTimeInterface $orderReceiveDate): self
     {
         $this->orderReceiveDate = $orderReceiveDate;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

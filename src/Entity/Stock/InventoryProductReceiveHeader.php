@@ -8,6 +8,7 @@ use App\Entity\Production\MasterOrderHeader;
 use App\Repository\Stock\InventoryProductReceiveHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InventoryProductReceiveHeaderRepository::class)]
@@ -20,9 +21,6 @@ class InventoryProductReceiveHeader extends StockHeader
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column]
-    private ?int $totalQuantity = 0;
 
     #[ORM\ManyToOne]
     #[Assert\NotNull]
@@ -39,6 +37,9 @@ class InventoryProductReceiveHeader extends StockHeader
 
     #[ORM\Column(length: 200)]
     private ?string $productCodeLists = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
 
     public function __construct()
     {
@@ -64,18 +65,6 @@ class InventoryProductReceiveHeader extends StockHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getWarehouse(): ?Warehouse
@@ -152,6 +141,18 @@ class InventoryProductReceiveHeader extends StockHeader
     public function setProductCodeLists(string $productCodeLists): self
     {
         $this->productCodeLists = $productCodeLists;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

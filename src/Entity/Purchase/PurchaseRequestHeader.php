@@ -28,10 +28,6 @@ class PurchaseRequestHeader extends PurchaseHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalQuantity = 0;
-
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
@@ -69,6 +65,9 @@ class PurchaseRequestHeader extends PurchaseHeader
     #[ORM\Column(type: Types::TEXT)]
     private ?string $purchaseRequestMaterialList = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
+
     public function __construct()
     {
         $this->purchaseRequestDetails = new ArrayCollection();
@@ -93,18 +92,6 @@ class PurchaseRequestHeader extends PurchaseHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getWarehouse(): ?Warehouse
@@ -253,6 +240,18 @@ class PurchaseRequestHeader extends PurchaseHeader
     public function setPurchaseRequestMaterialList(string $purchaseRequestMaterialList): self
     {
         $this->purchaseRequestMaterialList = $purchaseRequestMaterialList;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

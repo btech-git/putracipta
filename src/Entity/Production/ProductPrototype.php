@@ -63,10 +63,6 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(length: 60)]
     private ?string $color = '';
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $quantityBlade = 0;
-
     #[ORM\Column(type: Types::ARRAY)]
     private array $dataSource = [];
 
@@ -105,6 +101,9 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\Column]
     private ?bool $isRead = false;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityBlade = '0.00';
 
     public function __construct()
     {
@@ -155,18 +154,6 @@ class ProductPrototype extends ProductionHeader
     public function setColor(string $color): self
     {
         $this->color = $color;
-
-        return $this;
-    }
-
-    public function getQuantityBlade(): ?int
-    {
-        return $this->quantityBlade;
-    }
-
-    public function setQuantityBlade(int $quantityBlade): self
-    {
-        $this->quantityBlade = $quantityBlade;
 
         return $this;
     }
@@ -377,6 +364,18 @@ class ProductPrototype extends ProductionHeader
     public function setIsRead(bool $isRead): self
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function getQuantityBlade(): ?string
+    {
+        return $this->quantityBlade;
+    }
+
+    public function setQuantityBlade(string $quantityBlade): self
+    {
+        $this->quantityBlade = $quantityBlade;
 
         return $this;
     }

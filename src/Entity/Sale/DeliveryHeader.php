@@ -25,9 +25,6 @@ class DeliveryHeader extends SaleHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $totalQuantity = 0;
-
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Customer $customer = null;
@@ -77,6 +74,9 @@ class DeliveryHeader extends SaleHeader
     #[ORM\Column]
     private ?bool $isUsingOutsourceDelivery = false;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -107,18 +107,6 @@ class DeliveryHeader extends SaleHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getCustomer(): ?Customer
@@ -333,6 +321,18 @@ class DeliveryHeader extends SaleHeader
     public function setIsUsingOutsourceDelivery(bool $isUsingOutsourceDelivery): self
     {
         $this->isUsingOutsourceDelivery = $isUsingOutsourceDelivery;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

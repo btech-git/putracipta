@@ -5,6 +5,7 @@ namespace App\Entity\Production;
 use App\Entity\Master\Product;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\MasterOrderPrototypeDetailRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MasterOrderPrototypeDetailRepository::class)]
@@ -25,14 +26,14 @@ class MasterOrderPrototypeDetail extends ProductionDetail
     #[ORM\ManyToOne(inversedBy: 'masterOrderPrototypeDetails')]
     private ?ProductPrototypeDetail $productPrototypeDetail = null;
 
-    #[ORM\Column]
-    private ?int $quantityOrder = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityOrder = '0.00';
 
-    #[ORM\Column]
-    private ?int $quantityStock = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityStock = '0.00';
 
-    #[ORM\Column]
-    private ?int $quantityShortage = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityShortage = '0.00';
 
     public function getSyncIsCanceled(): bool
     {
@@ -86,36 +87,36 @@ class MasterOrderPrototypeDetail extends ProductionDetail
         return $this;
     }
 
-    public function getQuantityOrder(): ?int
+    public function getQuantityOrder(): ?string
     {
         return $this->quantityOrder;
     }
 
-    public function setQuantityOrder(int $quantityOrder): self
+    public function setQuantityOrder(string $quantityOrder): self
     {
         $this->quantityOrder = $quantityOrder;
 
         return $this;
     }
 
-    public function getQuantityStock(): ?int
+    public function getQuantityStock(): ?string
     {
         return $this->quantityStock;
     }
 
-    public function setQuantityStock(int $quantityStock): self
+    public function setQuantityStock(string $quantityStock): self
     {
         $this->quantityStock = $quantityStock;
 
         return $this;
     }
 
-    public function getQuantityShortage(): ?int
+    public function getQuantityShortage(): ?string
     {
         return $this->quantityShortage;
     }
 
-    public function setQuantityShortage(int $quantityShortage): self
+    public function setQuantityShortage(string $quantityShortage): self
     {
         $this->quantityShortage = $quantityShortage;
 

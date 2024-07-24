@@ -33,12 +33,6 @@ class Inventory
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = '';
 
-    #[ORM\Column]
-    private ?int $quantityIn = 0;
-
-    #[ORM\Column]
-    private ?int $quantityOut = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $purchasePrice = '0.00';
 
@@ -71,6 +65,12 @@ class Inventory
 
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityIn = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityOut = '0.00';
 
     public function getCodeNumber(): string
     {
@@ -128,30 +128,6 @@ class Inventory
     public function setNote(string $note): self
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function getQuantityIn(): ?int
-    {
-        return $this->quantityIn;
-    }
-
-    public function setQuantityIn(int $quantityIn): self
-    {
-        $this->quantityIn = $quantityIn;
-
-        return $this;
-    }
-
-    public function getQuantityOut(): ?int
-    {
-        return $this->quantityOut;
-    }
-
-    public function setQuantityOut(int $quantityOut): self
-    {
-        $this->quantityOut = $quantityOut;
 
         return $this;
     }
@@ -284,6 +260,30 @@ class Inventory
     public function setWarehouse(?Warehouse $warehouse): self
     {
         $this->warehouse = $warehouse;
+
+        return $this;
+    }
+
+    public function getQuantityIn(): ?string
+    {
+        return $this->quantityIn;
+    }
+
+    public function setQuantityIn(string $quantityIn): self
+    {
+        $this->quantityIn = $quantityIn;
+
+        return $this;
+    }
+
+    public function getQuantityOut(): ?string
+    {
+        return $this->quantityOut;
+    }
+
+    public function setQuantityOut(string $quantityOut): self
+    {
+        $this->quantityOut = $quantityOut;
 
         return $this;
     }

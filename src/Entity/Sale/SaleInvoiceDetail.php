@@ -19,9 +19,6 @@ class SaleInvoiceDetail extends SaleDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $quantity = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     private ?string $unitPrice = '0.00';
 
@@ -42,6 +39,9 @@ class SaleInvoiceDetail extends SaleDetail
     #[ORM\ManyToOne(inversedBy: 'saleInvoiceDetails')]
     private ?DeliveryDetail $deliveryDetail = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantity = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->saleInvoiceHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -56,18 +56,6 @@ class SaleInvoiceDetail extends SaleDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getUnitPrice(): ?string
@@ -138,6 +126,18 @@ class SaleInvoiceDetail extends SaleDetail
     public function setDeliveryDetail(?DeliveryDetail $deliveryDetail): self
     {
         $this->deliveryDetail = $deliveryDetail;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

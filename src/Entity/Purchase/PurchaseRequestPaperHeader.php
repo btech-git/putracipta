@@ -28,9 +28,6 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $totalQuantity = 0;
-
     #[ORM\ManyToOne]
     #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
@@ -68,6 +65,9 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     #[ORM\Column(type: Types::TEXT)]
     private ?string $purchaseRequestPaperList = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantity = '0.00';
+
     public function __construct()
     {
         $this->purchaseRequestPaperDetails = new ArrayCollection();
@@ -92,18 +92,6 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTotalQuantity(): ?int
-    {
-        return $this->totalQuantity;
-    }
-
-    public function setTotalQuantity(int $totalQuantity): self
-    {
-        $this->totalQuantity = $totalQuantity;
-
-        return $this;
     }
 
     public function getWarehouse(): ?Warehouse
@@ -252,6 +240,18 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     public function setPurchaseRequestPaperList(string $purchaseRequestPaperList): self
     {
         $this->purchaseRequestPaperList = $purchaseRequestPaperList;
+
+        return $this;
+    }
+
+    public function getTotalQuantity(): ?string
+    {
+        return $this->totalQuantity;
+    }
+
+    public function setTotalQuantity(string $totalQuantity): self
+    {
+        $this->totalQuantity = $totalQuantity;
 
         return $this;
     }

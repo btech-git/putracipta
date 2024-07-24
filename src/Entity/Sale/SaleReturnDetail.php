@@ -19,10 +19,6 @@ class SaleReturnDetail extends SaleDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $quantity = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     private ?string $unitPrice = '0.00';
@@ -39,6 +35,9 @@ class SaleReturnDetail extends SaleDetail
     #[ORM\ManyToOne(inversedBy: 'saleReturnDetails')]
     private ?SaleReturnHeader $saleReturnHeader = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantity = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->saleReturnHeader->isIsCanceled() ? true : $this->isCanceled;
@@ -53,18 +52,6 @@ class SaleReturnDetail extends SaleDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getUnitPrice(): ?string
@@ -123,6 +110,18 @@ class SaleReturnDetail extends SaleDetail
     public function setSaleReturnHeader(?SaleReturnHeader $saleReturnHeader): self
     {
         $this->saleReturnHeader = $saleReturnHeader;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

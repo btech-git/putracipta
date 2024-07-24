@@ -10,6 +10,7 @@ use App\Entity\Stock\InventoryProductReceiveDetail;
 use App\Repository\Production\MasterOrderProductDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MasterOrderProductDetailRepository::class)]
@@ -24,15 +25,6 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
-    #[ORM\Column]
-    private ?int $quantityOrder = 0;
-
-    #[ORM\Column]
-    private ?int $quantityStock = 0;
-
-    #[ORM\Column]
-    private ?int $quantityShortage = 0;
-
     #[ORM\ManyToOne(inversedBy: 'masterOrderProductDetails')]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
@@ -45,23 +37,32 @@ class MasterOrderProductDetail extends ProductionDetail
     #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: DeliveryDetail::class)]
     private Collection $deliveryDetails;
 
-    #[ORM\Column]
-    private ?int $quantityProduction = 0;
-
-    #[ORM\Column]
-    private ?int $remainingProduction = 0;
-
-    #[ORM\Column]
-    private ?int $quantityDelivery = 0;
-
-    #[ORM\Column]
-    private ?int $remainingStockDelivery = 0;
-
-    #[ORM\Column]
-    private ?int $quantityPrinting = 0;
-
     #[ORM\OneToMany(mappedBy: 'masterOrderProductDetail', targetEntity: QualityControlSortingDetail::class)]
     private Collection $qualityControlSortingDetails;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityOrder = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityStock = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityShortage = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityProduction = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $remainingProduction = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityDelivery = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $remainingStockDelivery = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityPrinting = '0.00';
 
     public function __construct()
     {
@@ -109,42 +110,6 @@ class MasterOrderProductDetail extends ProductionDetail
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
-        return $this;
-    }
-
-    public function getQuantityOrder(): ?int
-    {
-        return $this->quantityOrder;
-    }
-
-    public function setQuantityOrder(int $quantityOrder): self
-    {
-        $this->quantityOrder = $quantityOrder;
-
-        return $this;
-    }
-
-    public function getQuantityStock(): ?int
-    {
-        return $this->quantityStock;
-    }
-
-    public function setQuantityStock(int $quantityStock): self
-    {
-        $this->quantityStock = $quantityStock;
-
-        return $this;
-    }
-
-    public function getQuantityShortage(): ?int
-    {
-        return $this->quantityShortage;
-    }
-
-    public function setQuantityShortage(int $quantityShortage): self
-    {
-        $this->quantityShortage = $quantityShortage;
 
         return $this;
     }
@@ -233,66 +198,6 @@ class MasterOrderProductDetail extends ProductionDetail
         return $this;
     }
 
-    public function getQuantityProduction(): ?int
-    {
-        return $this->quantityProduction;
-    }
-
-    public function setQuantityProduction(int $quantityProduction): self
-    {
-        $this->quantityProduction = $quantityProduction;
-
-        return $this;
-    }
-
-    public function getRemainingProduction(): ?int
-    {
-        return $this->remainingProduction;
-    }
-
-    public function setRemainingProduction(int $remainingProduction): self
-    {
-        $this->remainingProduction = $remainingProduction;
-
-        return $this;
-    }
-
-    public function getQuantityDelivery(): ?int
-    {
-        return $this->quantityDelivery;
-    }
-
-    public function setQuantityDelivery(int $quantityDelivery): self
-    {
-        $this->quantityDelivery = $quantityDelivery;
-
-        return $this;
-    }
-
-    public function getRemainingStockDelivery(): ?int
-    {
-        return $this->remainingStockDelivery;
-    }
-
-    public function setRemainingStockDelivery(int $remainingStockDelivery): self
-    {
-        $this->remainingStockDelivery = $remainingStockDelivery;
-
-        return $this;
-    }
-
-    public function getQuantityPrinting(): ?int
-    {
-        return $this->quantityPrinting;
-    }
-
-    public function setQuantityPrinting(int $quantityPrinting): self
-    {
-        $this->quantityPrinting = $quantityPrinting;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, QualityControlSortingDetail>
      */
@@ -319,6 +224,102 @@ class MasterOrderProductDetail extends ProductionDetail
                 $qualityControlSortingDetail->setMasterOrderProductDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantityOrder(): ?string
+    {
+        return $this->quantityOrder;
+    }
+
+    public function setQuantityOrder(string $quantityOrder): self
+    {
+        $this->quantityOrder = $quantityOrder;
+
+        return $this;
+    }
+
+    public function getQuantityStock(): ?string
+    {
+        return $this->quantityStock;
+    }
+
+    public function setQuantityStock(string $quantityStock): self
+    {
+        $this->quantityStock = $quantityStock;
+
+        return $this;
+    }
+
+    public function getQuantityShortage(): ?string
+    {
+        return $this->quantityShortage;
+    }
+
+    public function setQuantityShortage(string $quantityShortage): self
+    {
+        $this->quantityShortage = $quantityShortage;
+
+        return $this;
+    }
+
+    public function getQuantityProduction(): ?string
+    {
+        return $this->quantityProduction;
+    }
+
+    public function setQuantityProduction(string $quantityProduction): self
+    {
+        $this->quantityProduction = $quantityProduction;
+
+        return $this;
+    }
+
+    public function getRemainingProduction(): ?string
+    {
+        return $this->remainingProduction;
+    }
+
+    public function setRemainingProduction(string $remainingProduction): self
+    {
+        $this->remainingProduction = $remainingProduction;
+
+        return $this;
+    }
+
+    public function getQuantityDelivery(): ?string
+    {
+        return $this->quantityDelivery;
+    }
+
+    public function setQuantityDelivery(string $quantityDelivery): self
+    {
+        $this->quantityDelivery = $quantityDelivery;
+
+        return $this;
+    }
+
+    public function getRemainingStockDelivery(): ?string
+    {
+        return $this->remainingStockDelivery;
+    }
+
+    public function setRemainingStockDelivery(string $remainingStockDelivery): self
+    {
+        $this->remainingStockDelivery = $remainingStockDelivery;
+
+        return $this;
+    }
+
+    public function getQuantityPrinting(): ?string
+    {
+        return $this->quantityPrinting;
+    }
+
+    public function setQuantityPrinting(string $quantityPrinting): self
+    {
+        $this->quantityPrinting = $quantityPrinting;
 
         return $this;
     }

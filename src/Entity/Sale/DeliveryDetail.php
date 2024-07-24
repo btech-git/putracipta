@@ -9,6 +9,7 @@ use App\Entity\SaleDetail;
 use App\Repository\Sale\DeliveryDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -27,10 +28,6 @@ class DeliveryDetail extends SaleDetail
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $deliveredQuantity = 0;
 
     #[ORM\Column(length: 20)]
     #[Assert\NotNull]
@@ -65,14 +62,6 @@ class DeliveryDetail extends SaleDetail
     #[Assert\NotNull]
     private ?string $linePO = '';
 
-    #[ORM\Column]
-    private ?int $remainingQuantity = 0;
-
-    #[ORM\Column]
-    #[Assert\GreaterThan(0)]
-//    #[Assert\Expression("this.getQuantityCurrent() >= value")]
-    private ?int $quantity = 0;
-
     #[ORM\OneToMany(mappedBy: 'deliveryDetail', targetEntity: SaleInvoiceDetail::class)]
     private Collection $saleInvoiceDetails;
 
@@ -80,8 +69,17 @@ class DeliveryDetail extends SaleDetail
     #[Assert\NotNull]
     private ?MasterOrderProductDetail $masterOrderProductDetail = null;
 
-    #[ORM\Column]
-    private ?int $quantityCurrent = 0;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $deliveredQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $remainingQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityCurrent = '0.00';
 
     public function __construct()
     {
@@ -124,18 +122,6 @@ class DeliveryDetail extends SaleDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDeliveredQuantity(): ?int
-    {
-        return $this->deliveredQuantity;
-    }
-
-    public function setDeliveredQuantity(int $deliveredQuantity): self
-    {
-        $this->deliveredQuantity = $deliveredQuantity;
-
-        return $this;
     }
 
     public function getLotNumber(): ?string
@@ -264,30 +250,6 @@ class DeliveryDetail extends SaleDetail
         return $this;
     }
 
-    public function getRemainingQuantity(): ?int
-    {
-        return $this->remainingQuantity;
-    }
-
-    public function setRemainingQuantity(int $remainingQuantity): self
-    {
-        $this->remainingQuantity = $remainingQuantity;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, SaleInvoiceDetail>
      */
@@ -330,12 +292,48 @@ class DeliveryDetail extends SaleDetail
         return $this;
     }
 
-    public function getQuantityCurrent(): ?int
+    public function getDeliveredQuantity(): ?string
+    {
+        return $this->deliveredQuantity;
+    }
+
+    public function setDeliveredQuantity(string $deliveredQuantity): self
+    {
+        $this->deliveredQuantity = $deliveredQuantity;
+
+        return $this;
+    }
+
+    public function getRemainingQuantity(): ?string
+    {
+        return $this->remainingQuantity;
+    }
+
+    public function setRemainingQuantity(string $remainingQuantity): self
+    {
+        $this->remainingQuantity = $remainingQuantity;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getQuantityCurrent(): ?string
     {
         return $this->quantityCurrent;
     }
 
-    public function setQuantityCurrent(int $quantityCurrent): self
+    public function setQuantityCurrent(string $quantityCurrent): self
     {
         $this->quantityCurrent = $quantityCurrent;
 

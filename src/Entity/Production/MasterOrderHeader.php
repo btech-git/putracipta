@@ -58,9 +58,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\ManyToOne]
     private ?Paper $paper = null;
 
-    #[ORM\Column]
-    private ?int $quantityPrinting = 0;
-
     #[ORM\Column(length: 60)]
     private ?string $dieCutBlade = '';
 
@@ -223,9 +220,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(length: 60)]
     private ?string $pantone = '';
 
-    #[ORM\Column]
-    private ?int $quantityPrinting2 = 0;
-
     #[ORM\Column(length: 60)]
     private ?string $inkK1Color = '';
 
@@ -244,29 +238,14 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
     private ?string $insitSortingPercentage = '0.000';
 
-    #[ORM\Column]
-    private ?int $insitSortingQuantity = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 3)]
     private ?string $insitPrintingPercentage = '0.000';
-
-    #[ORM\Column]
-    private ?int $insitPrintingQuantity = 0;
 
     #[ORM\ManyToOne]
     private ?MachinePrinting $machinePrinting = null;
 
     #[ORM\Column(length: 60)]
     private ?string $orderType = '';
-
-    #[ORM\Column]
-    private ?int $totalQuantityOrder = 0;
-
-    #[ORM\Column]
-    private ?int $totalQuantityStock = 0;
-
-    #[ORM\Column]
-    private ?int $totalQuantityShortage = 0;
 
     #[ORM\Column(length: 60)]
     private ?string $hotStamping = '';
@@ -351,15 +330,6 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\ManyToOne]
     private ?Warehouse $warehouse = null;
 
-    #[ORM\Column]
-    private ?int $totalQuantityProduction = 0;
-
-    #[ORM\Column]
-    private ?int $totalRemainingProduction = 0;
-
-    #[ORM\Column]
-    private ?int $quantityStockPaper = 0;
-
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderPrototypeDetail::class)]
     #[Assert\Valid]
     #[Assert\Count(min: 0)]
@@ -382,6 +352,36 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $masterOrderProductNameList = '';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityPrinting = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityPrinting2 = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $insitSortingQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $insitPrintingQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityOrder = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityStock = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityShortage = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityProduction = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalRemainingProduction = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityStockPaper = '0.00';
 
     public function __construct()
     {
@@ -744,18 +744,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setPaper(?Paper $paper): self
     {
         $this->paper = $paper;
-
-        return $this;
-    }
-
-    public function getQuantityPrinting(): ?int
-    {
-        return $this->quantityPrinting;
-    }
-
-    public function setQuantityPrinting(int $quantityPrinting): self
-    {
-        $this->quantityPrinting = $quantityPrinting;
 
         return $this;
     }
@@ -1408,18 +1396,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getQuantityPrinting2(): ?int
-    {
-        return $this->quantityPrinting2;
-    }
-
-    public function setQuantityPrinting2(int $quantityPrinting2): self
-    {
-        $this->quantityPrinting2 = $quantityPrinting2;
-
-        return $this;
-    }
-
     public function getInkK1Color(): ?string
     {
         return $this->inkK1Color;
@@ -1492,18 +1468,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getInsitSortingQuantity(): ?int
-    {
-        return $this->insitSortingQuantity;
-    }
-
-    public function setInsitSortingQuantity(int $insitSortingQuantity): self
-    {
-        $this->insitSortingQuantity = $insitSortingQuantity;
-
-        return $this;
-    }
-
     public function getInsitPrintingPercentage(): ?string
     {
         return $this->insitPrintingPercentage;
@@ -1512,18 +1476,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setInsitPrintingPercentage(string $insitPrintingPercentage): self
     {
         $this->insitPrintingPercentage = $insitPrintingPercentage;
-
-        return $this;
-    }
-
-    public function getInsitPrintingQuantity(): ?int
-    {
-        return $this->insitPrintingQuantity;
-    }
-
-    public function setInsitPrintingQuantity(int $insitPrintingQuantity): self
-    {
-        $this->insitPrintingQuantity = $insitPrintingQuantity;
 
         return $this;
     }
@@ -1548,42 +1500,6 @@ class MasterOrderHeader extends ProductionHeader
     public function setOrderType(string $orderType): self
     {
         $this->orderType = $orderType;
-
-        return $this;
-    }
-
-    public function getTotalQuantityOrder(): ?int
-    {
-        return $this->totalQuantityOrder;
-    }
-
-    public function setTotalQuantityOrder(int $totalQuantityOrder): self
-    {
-        $this->totalQuantityOrder = $totalQuantityOrder;
-
-        return $this;
-    }
-
-    public function getTotalQuantityStock(): ?int
-    {
-        return $this->totalQuantityStock;
-    }
-
-    public function setTotalQuantityStock(int $totalQuantityStock): self
-    {
-        $this->totalQuantityStock = $totalQuantityStock;
-
-        return $this;
-    }
-
-    public function getTotalQuantityShortage(): ?int
-    {
-        return $this->totalQuantityShortage;
-    }
-
-    public function setTotalQuantityShortage(int $totalQuantityShortage): self
-    {
-        $this->totalQuantityShortage = $totalQuantityShortage;
 
         return $this;
     }
@@ -2086,42 +2002,6 @@ class MasterOrderHeader extends ProductionHeader
         return $this;
     }
 
-    public function getTotalQuantityProduction(): ?int
-    {
-        return $this->totalQuantityProduction;
-    }
-
-    public function setTotalQuantityProduction(int $totalQuantityProduction): self
-    {
-        $this->totalQuantityProduction = $totalQuantityProduction;
-
-        return $this;
-    }
-
-    public function getTotalRemainingProduction(): ?int
-    {
-        return $this->totalRemainingProduction;
-    }
-
-    public function setTotalRemainingProduction(int $totalRemainingProduction): self
-    {
-        $this->totalRemainingProduction = $totalRemainingProduction;
-
-        return $this;
-    }
-
-    public function getQuantityStockPaper(): ?int
-    {
-        return $this->quantityStockPaper;
-    }
-
-    public function setQuantityStockPaper(int $quantityStockPaper): self
-    {
-        $this->quantityStockPaper = $quantityStockPaper;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, MasterOrderPrototypeDetail>
      */
@@ -2256,6 +2136,126 @@ class MasterOrderHeader extends ProductionHeader
     public function setMasterOrderProductNameList(string $masterOrderProductNameList): self
     {
         $this->masterOrderProductNameList = $masterOrderProductNameList;
+
+        return $this;
+    }
+
+    public function getQuantityPrinting(): ?string
+    {
+        return $this->quantityPrinting;
+    }
+
+    public function setQuantityPrinting(string $quantityPrinting): self
+    {
+        $this->quantityPrinting = $quantityPrinting;
+
+        return $this;
+    }
+
+    public function getQuantityPrinting2(): ?string
+    {
+        return $this->quantityPrinting2;
+    }
+
+    public function setQuantityPrinting2(string $quantityPrinting2): self
+    {
+        $this->quantityPrinting2 = $quantityPrinting2;
+
+        return $this;
+    }
+
+    public function getInsitSortingQuantity(): ?string
+    {
+        return $this->insitSortingQuantity;
+    }
+
+    public function setInsitSortingQuantity(string $insitSortingQuantity): self
+    {
+        $this->insitSortingQuantity = $insitSortingQuantity;
+
+        return $this;
+    }
+
+    public function getInsitPrintingQuantity(): ?string
+    {
+        return $this->insitPrintingQuantity;
+    }
+
+    public function setInsitPrintingQuantity(string $insitPrintingQuantity): self
+    {
+        $this->insitPrintingQuantity = $insitPrintingQuantity;
+
+        return $this;
+    }
+
+    public function getTotalQuantityOrder(): ?string
+    {
+        return $this->totalQuantityOrder;
+    }
+
+    public function setTotalQuantityOrder(string $totalQuantityOrder): self
+    {
+        $this->totalQuantityOrder = $totalQuantityOrder;
+
+        return $this;
+    }
+
+    public function getTotalQuantityStock(): ?string
+    {
+        return $this->totalQuantityStock;
+    }
+
+    public function setTotalQuantityStock(string $totalQuantityStock): self
+    {
+        $this->totalQuantityStock = $totalQuantityStock;
+
+        return $this;
+    }
+
+    public function getTotalQuantityShortage(): ?string
+    {
+        return $this->totalQuantityShortage;
+    }
+
+    public function setTotalQuantityShortage(string $totalQuantityShortage): self
+    {
+        $this->totalQuantityShortage = $totalQuantityShortage;
+
+        return $this;
+    }
+
+    public function getTotalQuantityProduction(): ?string
+    {
+        return $this->totalQuantityProduction;
+    }
+
+    public function setTotalQuantityProduction(string $totalQuantityProduction): self
+    {
+        $this->totalQuantityProduction = $totalQuantityProduction;
+
+        return $this;
+    }
+
+    public function getTotalRemainingProduction(): ?string
+    {
+        return $this->totalRemainingProduction;
+    }
+
+    public function setTotalRemainingProduction(string $totalRemainingProduction): self
+    {
+        $this->totalRemainingProduction = $totalRemainingProduction;
+
+        return $this;
+    }
+
+    public function getQuantityStockPaper(): ?string
+    {
+        return $this->quantityStockPaper;
+    }
+
+    public function setQuantityStockPaper(string $quantityStockPaper): self
+    {
+        $this->quantityStockPaper = $quantityStockPaper;
 
         return $this;
     }

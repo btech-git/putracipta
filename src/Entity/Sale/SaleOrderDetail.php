@@ -23,11 +23,6 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\GreaterThan(0)]
-    private ?int $quantity = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotBlank]
 //    #[Assert\GreaterThan(0)]
@@ -77,20 +72,25 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: InventoryProductReceiveDetail::class)]
     private Collection $inventoryProductReceiveDetails;
 
-    #[ORM\Column]
-    private ?int $quantityStock = 0;
-
-    #[ORM\Column]
-    private ?int $quantityProduction = 0;
-
-    #[ORM\Column]
-    private ?int $quantityProductionRemaining = 0;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $minimumToleranceQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $maximumToleranceQuantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotNull]
+    #[Assert\GreaterThan(0)]
+    private ?string $quantity = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityStock = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityProduction = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityProductionRemaining = '0.00';
 
     public function __construct()
     {
@@ -158,18 +158,6 @@ class SaleOrderDetail extends SaleDetail
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getUnitPrice(): ?string
@@ -394,42 +382,6 @@ class SaleOrderDetail extends SaleDetail
         return $this;
     }
 
-    public function getQuantityStock(): ?int
-    {
-        return $this->quantityStock;
-    }
-
-    public function setQuantityStock(int $quantityStock): self
-    {
-        $this->quantityStock = $quantityStock;
-
-        return $this;
-    }
-
-    public function getQuantityProduction(): ?int
-    {
-        return $this->quantityProduction;
-    }
-
-    public function setQuantityProduction(int $quantityProduction): self
-    {
-        $this->quantityProduction = $quantityProduction;
-
-        return $this;
-    }
-
-    public function getQuantityProductionRemaining(): ?int
-    {
-        return $this->quantityProductionRemaining;
-    }
-
-    public function setQuantityProductionRemaining(int $quantityProductionRemaining): self
-    {
-        $this->quantityProductionRemaining = $quantityProductionRemaining;
-
-        return $this;
-    }
-
     public function getMinimumToleranceQuantity(): ?string
     {
         return $this->minimumToleranceQuantity;
@@ -450,6 +402,54 @@ class SaleOrderDetail extends SaleDetail
     public function setMaximumToleranceQuantity(string $maximumToleranceQuantity): self
     {
         $this->maximumToleranceQuantity = $maximumToleranceQuantity;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getQuantityStock(): ?string
+    {
+        return $this->quantityStock;
+    }
+
+    public function setQuantityStock(string $quantityStock): self
+    {
+        $this->quantityStock = $quantityStock;
+
+        return $this;
+    }
+
+    public function getQuantityProduction(): ?string
+    {
+        return $this->quantityProduction;
+    }
+
+    public function setQuantityProduction(string $quantityProduction): self
+    {
+        $this->quantityProduction = $quantityProduction;
+
+        return $this;
+    }
+
+    public function getQuantityProductionRemaining(): ?string
+    {
+        return $this->quantityProductionRemaining;
+    }
+
+    public function setQuantityProductionRemaining(string $quantityProductionRemaining): self
+    {
+        $this->quantityProductionRemaining = $quantityProductionRemaining;
 
         return $this;
     }
