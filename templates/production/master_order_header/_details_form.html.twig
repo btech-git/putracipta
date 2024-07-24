@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-bordered"
+    <table class="table table-bordered" id="sale-order-detail-form-collection"
        data-controller="form-collection"
        data-form-collection-start-index-value="{{ form.masterOrderProductDetails|length > 0 ? form.masterOrderProductDetails|last.vars.name + 1 : 0 }}"
        data-form-collection-prototype-value="{{ _self.collection_item(form.masterOrderProductDetails.vars.prototype, form)|e('html_attr') }}"
