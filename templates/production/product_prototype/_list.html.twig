@@ -20,8 +20,8 @@
                 <th style="min-width: 150px">
                     Material
                 </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
-                    Note {{ grid.sort_char(form.sort.note.vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'prototypeProductList') }}>
+                    Product {{ grid.sort_char(form.sort.prototypeProductList.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -46,7 +46,7 @@
                 </th>
                 <th></th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'prototypeProductList') }} value="{{ form.filter.prototypeProductList.1.vars.value }}" />
                 </th>
                 <th></th>
             </tr>
@@ -64,7 +64,7 @@
                             {{ productPrototype.paper.codeNumber|default }}
                         {% endif %}
                     </td>
-                    <td>{{ productPrototype.note }}</td>
+                    <td>{{ productPrototype.prototypeProductList }}</td>
                     <td>
                         {% if is_granted('ROLE_NEW_PRODUCT_VIEW') or is_granted('ROLE_NEW_PRODUCT_EDIT') or is_granted('ROLE_NEW_PRODUCT_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_production_product_prototype_show', {'id': productPrototype.id}) }}"><i class="bi-search"></i></a>
