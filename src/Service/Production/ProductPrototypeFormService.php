@@ -65,7 +65,7 @@ class ProductPrototypeFormService
         $prototypeProductList = [];
         foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
             $product = $productPrototypeDetail->getProduct();
-            $prototypeProductList[] = $product->getCode();
+            $prototypeProductList[] = $product->getName();
         }
         foreach ($productPrototype->getProductPrototypePilotDetails() as $productPrototypePilotDetail) {
             $prototypeProductList[] = $productPrototypePilotDetail->getProductName();
