@@ -17,6 +17,9 @@
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(form.sort['supplier:company'].vars.value) }}
                 </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'purchaseOrderPaperList') }}>
+                    Kertas {{ grid.sort_char(form.sort['purchaseOrderPaperList'].vars.value) }}
+                </th>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
@@ -40,6 +43,9 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'purchaseOrderPaperList') }} value="{{ form.filter.purchaseOrderPaperList.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
                 </th>
             </tr>
@@ -61,6 +67,7 @@
                     <td>{{ purchaseOrderPaperHeader.codeNumber }}</td>
                     <td>{{ purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
+                    <td>{{ purchaseOrderPaperHeader.purchaseOrderPaperList }}</td>
                     <td>{{ purchaseOrderPaperHeader.note }}</td>
                 </tr>
             {% else %}
