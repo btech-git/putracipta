@@ -97,7 +97,7 @@ class ProductPrototype extends ProductionHeader
     private ?string $materialName = '';
 
     #[ORM\Column(length: 200)]
-    private ?string $prototypeProductList = null;
+    private ?string $prototypeProductList = '';
 
     #[ORM\Column]
     private ?bool $isRead = false;
