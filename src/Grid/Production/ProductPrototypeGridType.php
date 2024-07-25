@@ -25,7 +25,7 @@ class ProductPrototypeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'prototypeProductList', 'customer:company', 'designCode:code', 'designCode:variant', 'designCode:version', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -46,7 +46,7 @@ class ProductPrototypeGridType extends AbstractType
                     'designCode:code' => [FilterContain::class, FilterNotContain::class],
                     'designCode:variant' => [FilterContain::class, FilterNotContain::class],
                     'designCode:version' => [FilterContain::class, FilterNotContain::class],
-//                    'paper:name' => [FilterContain::class, FilterNotContain::class],
+                    'prototypeProductList' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
@@ -60,7 +60,7 @@ class ProductPrototypeGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['customer:company', 'designCode:code', 'transactionDate', 'note', 'id'],
+                'field_names' => ['customer:company', 'designCode:code', 'prototypeProductList', 'transactionDate', 'note', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -74,7 +74,7 @@ class ProductPrototypeGridType extends AbstractType
                     'id' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'designCode:code' => [SortAscending::class, SortDescending::class],
-//                    'paper:name' => [SortAscending::class, SortDescending::class],
+                    'prototypeProductList' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                 ],
