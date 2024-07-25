@@ -5,7 +5,6 @@ namespace App\Entity\Master;
 use App\Entity\Master;
 use App\Repository\Master\PaymentTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaymentTypeRepository::class)]
 #[ORM\Table(name: 'master_payment_type')]

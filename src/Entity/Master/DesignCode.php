@@ -10,9 +10,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: DesignCodeRepository::class)]
 #[ORM\Table(name: 'master_design_code')]
+#[UniqueEntity(['code', 'variant', 'version'])]
 class DesignCode extends Master
 {
     public const STATUS_FA = 'fa';
