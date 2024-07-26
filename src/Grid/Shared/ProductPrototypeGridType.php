@@ -25,7 +25,7 @@ class ProductPrototypeGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'designCode:codeNumber', 'customer:company', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'prototypeProductList', 'prototypeProductCodeList', 'designCode:codeNumber', 'customer:company', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -42,6 +42,8 @@ class ProductPrototypeGridType extends AbstractType
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'designCode:codeNumber' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                    'prototypeProductList' => [FilterContain::class, FilterNotContain::class],
+                    'prototypeProductCodeList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -54,7 +56,7 @@ class ProductPrototypeGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['designCode:codeNumber', 'customer:company', 'transactionDate', 'note', 'id'],
+                'field_names' => ['designCode:codeNumber', 'customer:company', 'transactionDate', 'prototypeProductList', 'prototypeProductCodeList', 'note', 'id'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -69,6 +71,8 @@ class ProductPrototypeGridType extends AbstractType
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
+                    'prototypeProductList' => [SortAscending::class, SortDescending::class],
+                    'prototypeProductCodeList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

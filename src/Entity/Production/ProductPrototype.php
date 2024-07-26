@@ -105,6 +105,9 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityBlade = '0.00';
 
+    #[ORM\Column(length: 200)]
+    private ?string $prototypeProductCodeList = '';
+
     public function __construct()
     {
         $this->productDevelopments = new ArrayCollection();
@@ -376,6 +379,18 @@ class ProductPrototype extends ProductionHeader
     public function setQuantityBlade(string $quantityBlade): self
     {
         $this->quantityBlade = $quantityBlade;
+
+        return $this;
+    }
+
+    public function getPrototypeProductCodeList(): ?string
+    {
+        return $this->prototypeProductCodeList;
+    }
+
+    public function setPrototypeProductCodeList(string $prototypeProductCodeList): self
+    {
+        $this->prototypeProductCodeList = $prototypeProductCodeList;
 
         return $this;
     }

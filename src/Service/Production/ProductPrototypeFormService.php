@@ -63,15 +63,19 @@ class ProductPrototypeFormService
         }
         
         $prototypeProductList = [];
+        $prototypeProductCodeList = [];
         foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
             $product = $productPrototypeDetail->getProduct();
             $prototypeProductList[] = $product->getName();
+            $prototypeProductCodeList[] = $product->getCode();
         }
         foreach ($productPrototype->getProductPrototypePilotDetails() as $productPrototypePilotDetail) {
             $prototypeProductList[] = $productPrototypePilotDetail->getProductName();
         }
         $prototypeProductUniqueList = array_unique(explode(', ', implode(', ', $prototypeProductList)));
         $productPrototype->setPrototypeProductList(implode(', ', $prototypeProductUniqueList));
+        $prototypeProductCodeUniqueList = array_unique(explode(', ', implode(', ', $prototypeProductCodeList)));
+        $productPrototype->setPrototypeProductCodeList(implode(', ', $prototypeProductCodeUniqueList));
     }
 
     public function save(ProductPrototype $productPrototype, array $options = []): void

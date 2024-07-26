@@ -17,11 +17,14 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 150px">
-                    Proses
+                <th style="min-width: 150px" role="button"{{ grid.sort_link_item(form, 'prototypeProductCodeList') }}>
+                    Product Code {{ grid.sort_char(form.sort.prototypeProductCodeList.vars.value) }}
+                </th>
+                <th style="min-width: 250px" role="button"{{ grid.sort_link_item(form, 'prototypeProductList') }}>
+                    Product Name {{ grid.sort_char(form.sort.prototypeProductList.vars.value) }}
                 </th>
                 <th style="min-width: 150px">
-                    Product
+                    Proses
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'note') }}>
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
@@ -46,7 +49,12 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'prototypeProductCodeList') }} value="{{ form.filter.prototypeProductCodeList.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'prototypeProductList') }} value="{{ form.filter.prototypeProductList.1.vars.value }}" />
+                </th>
                 <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
@@ -68,8 +76,9 @@
                     <td>{{ productPrototype.codeNumber }}</td>
                     <td>{{ productPrototype.transactionDate ? productPrototype.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ productPrototype.customer.company|default }}</td>
-                    <td>{{ productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '' }}</td>
+                    <td>{{ productPrototype.prototypeProductCodeList|default }}</td>
                     <td>{{ productPrototype.prototypeProductList|default }}</td>
+                    <td>{{ productPrototype.developmentTypeList ? productPrototype.developmentTypeList|join(', ') : '' }}</td>
                     <td>{{ productPrototype.note }}</td>
                 </tr>
             {% else %}
