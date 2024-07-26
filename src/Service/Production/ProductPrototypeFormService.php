@@ -62,6 +62,10 @@ class ProductPrototypeFormService
             $productPrototype->setCodeNumberToNext($currentProductPrototype->getCodeNumber(), $year, $month);
         }
         
+        if ($productPrototype->getPaper() !== null) {
+            $productPrototype->setMaterialName($productPrototype->getPaper()->getName());
+        }
+        
         $prototypeProductList = [];
         $prototypeProductCodeList = [];
         foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {

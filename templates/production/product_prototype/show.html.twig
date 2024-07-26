@@ -85,13 +85,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th>Material Kertas</th>
-                <td>{{ productPrototype.paper.codeNumber|default }}</td>
-            </tr>
+            {% if productPrototype.paper is not null %}
+                <tr>
+                    <th>Material Kertas</th>
+                    <td>{{ productPrototype.paper.codeNumber|default }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th>Material Name</th>
-                <td>{{ productPrototype.paper.name|default }}</td>
+                <td>{{ productPrototype.materialName|default }}</td>
             </tr>
             <tr>
                 <th>Warna (TC/Pantone)</th>
