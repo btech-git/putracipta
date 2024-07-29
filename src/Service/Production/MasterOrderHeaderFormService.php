@@ -89,6 +89,7 @@ class MasterOrderHeaderFormService
                 $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
                 $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
                 $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
+                $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
                 $saleOrderDetail->setQuantityProduction($masterOrderProductDetail->getQuantityOrder());
             }
         }
