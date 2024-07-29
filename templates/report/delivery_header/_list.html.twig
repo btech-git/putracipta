@@ -121,6 +121,7 @@
                                 <th class="text-start">Qty Order</th>
                                 <th class="text-start">Qty Kirim</th>
                                 <th class="text-start">Qty OS</th>
+                                <th class="text-start">Qty Stok</th>
                                 <th class="text-start">Satuan</th>
                                 <th class="text-start">Packing</th>
                             </tr>
@@ -155,6 +156,7 @@
                                         <td class="text-center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                                         <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                                         <td class="text-center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
+                                        <td class="text-center">{{ deliveryDetail.quantityCurrent|default|number_format(0) }}</td>
                                         <td class="text-start">{{ deliveryDetail.unit.name|default }}</td>
                                         <td class="text-start">{{ deliveryDetail.packaging|default }}</td>
                                     </tr>
@@ -164,7 +166,7 @@
                                 <tr>
                                     <td class="text-end" colspan="7"><strong>Total Quantity</strong></td>
                                     <td class="text-center"><strong>{{ deliveryHeader.totalQuantity|default|number_format(0) }}</strong></td>
-                                    <td colspan="3">&nbsp;</td>
+                                    <td colspan="4">&nbsp;</td>
                                 </tr>
                             </tfoot>
                         </table>
