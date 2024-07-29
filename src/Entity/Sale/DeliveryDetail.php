@@ -81,6 +81,9 @@ class DeliveryDetail extends SaleDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityCurrent = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityStockInventory = '0.00';
+
     public function __construct()
     {
         $this->saleReturnDetails = new ArrayCollection();
@@ -336,6 +339,18 @@ class DeliveryDetail extends SaleDetail
     public function setQuantityCurrent(string $quantityCurrent): self
     {
         $this->quantityCurrent = $quantityCurrent;
+
+        return $this;
+    }
+
+    public function getQuantityStockInventory(): ?string
+    {
+        return $this->quantityStockInventory;
+    }
+
+    public function setQuantityStockInventory(string $quantityStockInventory): self
+    {
+        $this->quantityStockInventory = $quantityStockInventory;
 
         return $this;
     }
