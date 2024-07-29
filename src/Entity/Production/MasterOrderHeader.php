@@ -474,9 +474,9 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncQuantityPaper(): string
     {
-        $totalQuantityShortage = $this->totalQuantityShortage === 0 ? 1 : $this->totalQuantityShortage;
-        $quantityPrinting = $this->quantityPrinting === 0 ? 1 : $this->quantityPrinting;
-        $paperMountage = empty($this->paperMountage) ? 1 : $this->paperMountage;
+        $totalQuantityShortage = $this->totalQuantityShortage == 0 ? 1 : $this->totalQuantityShortage;
+        $quantityPrinting = $this->quantityPrinting == 0 ? 1 : $this->quantityPrinting;
+        $paperMountage = $this->paperMountage == 0 ? 1 : $this->paperMountage;
         $quantity = (1 + ($this->insitPrintingPercentage/100) + ($this->insitSortingPercentage/100)) * ($totalQuantityShortage / $quantityPrinting) / $paperMountage / 500;
         
         return $quantity;
@@ -491,13 +491,13 @@ class MasterOrderHeader extends ProductionHeader
     
     public function getSyncInsitPrintingQuantity() 
     {
-        $quantityPrinting = $this->quantityPrinting === 0 ? 1 : $this->quantityPrinting;
+        $quantityPrinting = $this->quantityPrinting == 0 ? 1 : $this->quantityPrinting;
         return ($this->insitPrintingPercentage/100) * $this->totalQuantityShortage / $quantityPrinting;
     }
     
     public function getSyncInsitSortingQuantity() 
     {
-        $quantityPrinting = $this->quantityPrinting === 0 ? 1 : $this->quantityPrinting;
+        $quantityPrinting = $this->quantityPrinting == 0 ? 1 : $this->quantityPrinting;
         return ($this->insitSortingPercentage/100) * $this->totalQuantityShortage / $quantityPrinting;
     }
     
