@@ -84,12 +84,26 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Toleransi Quantity Kirim (%)</label>
-                        <input type="text" class="form-control" value="{{ deliveryHeader.customer.quantityTolerancePercentage|default }}" readonly="readonly"
-                               data-controller="dom-element"
-                               data-action="customer-table:data-table:select@document->dom-element#bind"
-                               data-dom-element-bind-specifications-param="{{ [
-                                   {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.minimumTolerancePercentage'}},
-                               ]|json_encode }}" />
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">-</span>
+                                    <input type="text" class="form-control" value="{{ deliveryHeader.customer.minimumTolerancePercentage|default }}" readonly="readonly"
+                                           data-controller="dom-element"
+                                           data-action="customer-table:data-table:select@document->dom-element#bind"
+                                           data-dom-element-bind-specifications-param="{{ [
+                                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.minimumTolerancePercentage'}},
+                                           ]|json_encode }}" />
+                                    <span class="input-group-text">+</span>
+                                    <input type="text" class="form-control" value="{{ deliveryHeader.customer.maximumTolerancePercentage|default }}" readonly="readonly"
+                                           data-controller="dom-element"
+                                           data-action="customer-table:data-table:select@document->dom-element#bind"
+                                           data-dom-element-bind-specifications-param="{{ [
+                                               {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.maximumTolerancePercentage'}},
+                                           ]|json_encode }}" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

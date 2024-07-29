@@ -8,16 +8,17 @@
             <tr>
                 <th class="d-none">Sale Order Detail Id</th>
                 <th class="d-none">Master Order Product Detail Id</th>
-                <th style="min-width: 250px">Kode</th>
-                <th style="min-width: 250px">Nama Barang</th>
+                <th style="min-width: 150px">Kode</th>
+                <th style="min-width: 350px">Nama Barang</th>
                 <th style="min-width: 150px">FSC Code</th>
-                <th style="min-width: 80px">WO #</th>
+                <th style="min-width: 150px">WO #</th>
                 <th style="min-width: 100px">Lot #</th>
                 <th style="min-width: 200px">PO #</th>
                 <th style="min-width: 80px">Line PO</th>
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 50px">OS PO</th>
-                <th style="min-width: 100px">Qty Stok</th>
+                <th style="min-width: 100px">Qty MO</th>
+                <th style="min-width: 120px">Stok Gudang</th>
                 <th style="min-width: 150px">Qty Kirim</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 250px">Kemasan</th>
@@ -68,6 +69,9 @@
                     <td class="text-center" data-item-field-name="masterOrderProductDetailRemainingStockDelivery">
                         {{ detailForm.vars.value.quantityCurrent|default|number_format(0) }}
                     </td>
+                    <td class="text-center" data-item-field-name="inventoryStockQuantity">
+                        {{ detailForm.vars.value.quantityStockInventory|default|number_format(0) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
                             'size': 3,
@@ -106,7 +110,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="text-end" colspan="10">Total Quantity</td>
+                <td class="text-end" colspan="11">Total Quantity</td>
                 <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantity">
                     {{ deliveryHeader.totalQuantity|default|number_format(0) }}
