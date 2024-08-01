@@ -57,9 +57,9 @@ class AdjustmentStockHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-//        if ($options['isFinishedGoods']) {
-//            $adjustmentStockHeader->setAdjustmentMode(AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT);
-//        }
+        if ($options['isFinishedGoods']) {
+            $adjustmentStockHeader->setAdjustmentMode(AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT);
+        }
         if (empty($adjustmentStockHeader->getId())) {
             $adjustmentStockHeader->setCreatedTransactionDateTime($datetime);
             $adjustmentStockHeader->setCreatedTransactionUser($user);
