@@ -17,10 +17,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/stock/adjustment_stock_header')]
-class AdjustmentStockHeaderController extends AbstractController
+#[Route('/stock/adjustment_stock_finished_goods_header')]
+class AdjustmentStockFinishedGoodsHeaderController extends AbstractController
 {
-    #[Route('/_list', name: 'app_stock_adjustment_stock_header__list', methods: ['GET', 'POST'])]
+    #[Route('/_list', name: 'app_stock_adjustment_stock_finished_goods_header__list', methods: ['GET', 'POST'])]
     #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function _list(Request $request, AdjustmentStockHeaderRepository $adjustmentStockHeaderRepository): Response
     {
@@ -34,51 +34,51 @@ class AdjustmentStockHeaderController extends AbstractController
 
         list($count, $adjustmentStockHeaders) = $adjustmentStockHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.adjustmentMode IN ('material', 'paper')");
+            $qb->andWhere("{$alias}.adjustmentMode IN ('product')");
         });
 
-        return $this->renderForm("stock/adjustment_stock_header/_list.html.twig", [
+        return $this->renderForm("stock/adjustment_stock_finished_goods_header/_list.html.twig", [
             'form' => $form,
             'count' => $count,
             'adjustmentStockHeaders' => $adjustmentStockHeaders,
         ]);
     }
 
-    #[Route('/', name: 'app_stock_adjustment_stock_header_index', methods: ['GET'])]
+    #[Route('/', name: 'app_stock_adjustment_stock_finished_goods_header_index', methods: ['GET'])]
     #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function index(): Response
     {
-        return $this->render("stock/adjustment_stock_header/index.html.twig");
+        return $this->render("stock/adjustment_stock_finished_goods_header/index.html.twig");
     }
 
-    #[Route('/new.{_format}', name: 'app_stock_adjustment_stock_header_new', methods: ['GET', 'POST'])]
+    #[Route('/new.{_format}', name: 'app_stock_adjustment_stock_finished_goods_header_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADJUSTMENT_ADD')]
     public function new(Request $request, AdjustmentStockHeaderFormService $adjustmentStockHeaderFormService, $_format = 'html'): Response
     {
         $adjustmentStockHeader = new AdjustmentStockHeader();
-        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'isFinishedGoods' => false]);
-        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader, ['isFinishedGoods' => false]);
+        $adjustmentStockHeaderFormService->initialize($adjustmentStockHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'isFinishedGoods' => true]);
+        $form = $this->createForm(AdjustmentStockHeaderType::class, $adjustmentStockHeader, ['isFinishedGoods' => true]);
         $form->handleRequest($request);
         $adjustmentStockHeaderFormService->finalize($adjustmentStockHeader);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $adjustmentStockHeaderFormService->save($adjustmentStockHeader);
 
-            return $this->redirectToRoute('app_stock_adjustment_stock_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_stock_adjustment_stock_finished_goods_header_show', ['id' => $adjustmentStockHeader->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm("stock/adjustment_stock_header/new.{$_format}.twig", [
+        return $this->renderForm("stock/adjustment_stock_finished_goods_header/new.{$_format}.twig", [
             'adjustmentStockHeader' => $adjustmentStockHeader,
             'form' => $form,
-            'isFinishedGoods' => false,
+            'isFinishedGoods' => true,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_stock_adjustment_stock_header_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_stock_adjustment_stock_finished_goods_header_show', methods: ['GET'])]
     #[Security("is_granted('ROLE_ADJUSTMENT_ADD') or is_granted('ROLE_ADJUSTMENT_EDIT') or is_granted('ROLE_ADJUSTMENT_VIEW')")]
     public function show(AdjustmentStockHeader $adjustmentStockHeader): Response
     {
-        return $this->render('stock/adjustment_stock_header/show.html.twig', [
+        return $this->render('stock/adjustment_stock_finished_goods_header/show.html.twig', [
             'adjustmentStockHeader' => $adjustmentStockHeader,
         ]);
     }
