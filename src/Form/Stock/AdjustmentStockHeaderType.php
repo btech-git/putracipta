@@ -17,9 +17,9 @@ class AdjustmentStockHeaderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-//        $adjustmentModeChoices = $options['isFinishedGoods'] ? [
-            $adjustmentModeChoices = ['Finished Goods' => AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT,
-//        ] : [
+        $adjustmentModeChoices = $options['isFinishedGoods'] ? [
+            'Finished Goods' => AdjustmentStockHeader::ADJUSTMENT_MODE_PRODUCT,
+        ] : [
             'Material' => AdjustmentStockHeader::ADJUSTMENT_MODE_MATERIAL,
             'Kertas' => AdjustmentStockHeader::ADJUSTMENT_MODE_PAPER,
         ];
@@ -35,7 +35,7 @@ class AdjustmentStockHeaderType extends AbstractType
                             ->addOrderBy('e.name', 'ASC');
                 },
             ]);
-//        if ($options['isFinishedGoods']) {
+        if ($options['isFinishedGoods']) {
             $builder->add('adjustmentStockProductDetails', CollectionType::class, [
                 'entry_type' => AdjustmentStockProductDetailType::class,
                 'allow_add' => true,
@@ -44,7 +44,7 @@ class AdjustmentStockHeaderType extends AbstractType
                 'prototype_data' => new AdjustmentStockProductDetail(),
                 'label' => false,
             ]);
-//        } else {
+        } else {
             $builder
                 ->add('adjustmentStockMaterialDetails', CollectionType::class, [
                     'entry_type' => AdjustmentStockMaterialDetailType::class,
@@ -62,12 +62,12 @@ class AdjustmentStockHeaderType extends AbstractType
                     'prototype_data' => new AdjustmentStockPaperDetail(),
                     'label' => false,
                 ]);
-//        }
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-//        $resolver->setRequired(['isFinishedGoods']);
+        $resolver->setRequired(['isFinishedGoods']);
         $resolver->setDefaults([
             'data_class' => AdjustmentStockHeader::class,
         ]);
