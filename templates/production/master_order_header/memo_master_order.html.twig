@@ -221,7 +221,7 @@
                         <div class="table full">
                             <div class="row">
                                 <div class="cell label">Quantity Kertas</div>
-                                <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(0) }} Rim</div>
+                                <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} Rim</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Mountage Kertas</div>
@@ -229,11 +229,11 @@
                             </div>
                             <div class="row">
                                 <div class="cell label">Kebutuhan</div>
-                                <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
+                                <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(2) }} dreek</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Total Kertas</div>
-                                <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
+                                <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(2) }} dreek</div>
                             </div>
                             <div class="row">
                                 <div class="cell label">Uk Kertas</div>

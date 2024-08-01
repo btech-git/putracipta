@@ -61,7 +61,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Material</div>
@@ -69,15 +69,11 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Potong 1</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(2) }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(1) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Potong 2</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize2|default|number_format(2) }} cm</div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">Ukuran Jadi </div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|default|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|default|number_format(2) }} cm</div>
+                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize2|default|number_format(1) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Warna/Pantone</div>
@@ -97,19 +93,19 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Total Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(2) }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kebutuhan</div>
-                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(2) }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Insit</div>
-                        <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Layout</div>
-                        <div class="cell value"></div>
+                        <div class="cell value">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Finishing</div>
@@ -129,6 +125,7 @@
                 <th>Tanggal PO</th>
                 <th>Kode</th>
                 <th>Nama Produk</th>
+                <th>Ukuran Jadi</th>
                 <th>Tanggal Kirim</th>
                 <th>Qty Order</th>
                 <th>Stock</th>
@@ -142,6 +139,11 @@
                     <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                    <td>
+                        {{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(2) }} x 
+                        {{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(2) }} x 
+                        {{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(2) }}
+                    </td>
                     <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
@@ -151,7 +153,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td style="text-align:right; font-weight: bold" colspan="4">TOTAL</td>
+                <td style="text-align:right; font-weight: bold" colspan="6">TOTAL</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
@@ -268,19 +270,23 @@
     <table class="detail">
         <thead class="table-secondary">
             <tr>
-                <th class="text-center">Shift #</th>
-                <th class="text-center">Tanggal</th>
-                <th class="text-center">Warna</th>
-                <th class="text-center">Jam Mulai</th>
-                <th class="text-center">Jam Selesai</th>
-                <th class="text-center">Hasil Mulai</th>
-                <th class="text-center">Hasil Selesai</th>
-                <th class="text-center">Keterangan Setting / Produksi / Downtime</th>
-                <th class="text-center">Operator / Kenek</th>
+                <th class="text-center" rowspan="2">Shift #</th>
+                <th class="text-center" rowspan="2">Tanggal</th>
+                <th class="text-center" rowspan="2">Warna</th>
+                <th class="text-center" colspan="2">Jam</th>
+                <th class="text-center" colspan="2">Hasil</th>
+                <th class="text-center" rowspan="2">Keterangan Setting / Produksi / Downtime</th>
+                <th class="text-center" rowspan="2">Operator / Kenek</th>
+            </tr>
+            <tr>
+                <th class="text-center">Mulai</th>
+                <th class="text-center">Selesai</th>
+                <th class="text-center">Mulai</th>
+                <th class="text-center">Selesai</th>                
             </tr>
         </thead>
         <tfoot>
-            {% for row in 0..30 %}
+            {% for row in 0..70 %}
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>

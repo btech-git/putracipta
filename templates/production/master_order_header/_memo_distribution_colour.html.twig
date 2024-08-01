@@ -64,10 +64,6 @@
                         <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Ukuran Jadi</div>
-                        <div class="cell value">{{ masterOrderHeader.dimensionLength }} x {{ masterOrderHeader.dimensionWidth }} x {{ masterOrderHeader.dimensionHeight }} mm</div>
-                    </div>
-                    <div class="row">
                         <div class="cell label">Warna / Pantone</div>
                         <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
@@ -113,6 +109,7 @@
                     <th>Tanggal</th>
                     <th>Kode</th>
                     <th>Nama Produk</th>
+                    <th>Ukuran Jadi</th>
                     <th>Tanggal Kirim</th>
                     <th>Qty Order</th>
                     <th>Stock</th>
@@ -127,6 +124,11 @@
                         <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate ? masterOrderProductDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                        <td>
+                            {{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(2) }} x 
+                            {{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(2) }} x 
+                            {{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(2) }}
+                        </td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
@@ -137,7 +139,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td style="text-align:right; font-weight: bold" colspan="5">TOTAL</td>
+                    <td style="text-align:right; font-weight: bold" colspan="6">TOTAL</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
@@ -168,7 +170,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Insit Cetak</div>
-                        <div class="cell value">{{ masterOrderHeader.printingInsit|default|number_format(2) }} dreek</div>
+                        <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default|number_format(2) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Total Kertas</div>
@@ -194,71 +196,76 @@
 
         <h4><u>Estimasi Tinta / Chemical</u></h4>
         <div class="table full">
-            <div class="cell col">
-                <div class="table full">
-                    <div class="row">
-                        <div class="cell label">Cyan</div>
-                        <div class="cell value">{{ masterOrderHeader.inkCyanPercentage|number_format(2) }}% = {{ masterOrderHeader.inkCyanWeight|number_format(2) }} kg _______________</div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">Magenta</div>
-                        <div class="cell value">{{ masterOrderHeader.inkMagentaPercentage|number_format(2) }}% = {{ masterOrderHeader.inkMagentaWeight|number_format(2) }} kg _______________</div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">Yellow</div>
-                        <div class="cell value">{{ masterOrderHeader.inkYellowPercentage|number_format(2) }}% = {{ masterOrderHeader.inkYellowWeight|number_format(2) }} kg _______________</div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">Black</div>
-                        <div class="cell value">{{ masterOrderHeader.inkBlackPercentage|number_format(2) }}% = {{ masterOrderHeader.inkBlackWeight|number_format(2) }} kg _______________</div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">OPV/WB/UV</div>
-                        <div class="cell value">{{ masterOrderHeader.inkOpvPercentage|number_format(2) }}% = {{ masterOrderHeader.inkOpvWeight|number_format(2) }} kg _______________</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cell col">
-                <div class="table full">
-                    <div class="row">
-                        <div class="cell label">K-1</div>
-                        <div class="cell value">
+            <table class="detail">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Estimasi</th>
+                        <th>Realisasi</th>
+                        <th>&nbsp;</th>
+                        <th>Estimasi</th>
+                        <th>Realisasi</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td class="w-25" style="font-weight: bold">Cyan</td>
+                        <td>{{ masterOrderHeader.inkCyanPercentage|number_format(2) }}% = {{ masterOrderHeader.inkCyanWeight|number_format(2) }} kg</td>
+                        <td class="w-25">&nbsp;</td>
+                        <td class="w-25" style="font-weight: bold">K-1</td>
+                        <td>
                             {% if (masterOrderHeader.inkK1Percentage > 0) %}
                                 {{ masterOrderHeader.inkK1Color }} : {{ masterOrderHeader.inkK1Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK1Weight|number_format(2) }} kg _______________
                             {% endif %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">K-2</div>
-                        <div class="cell value">
+                        </td>
+                        <td class="w-25">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">Magenta</td>
+                        <td>{{ masterOrderHeader.inkMagentaPercentage|number_format(2) }}% = {{ masterOrderHeader.inkMagentaWeight|number_format(2) }} kg</td>
+                        <td class="w-25">&nbsp;</td>
+                        <td style="font-weight: bold">K-2</td>
+                        <td>
                             {% if (masterOrderHeader.inkK2Percentage > 0) %}
                                 {{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK2Weight|number_format(2) }} kg _______________
                             {% endif %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">K-3</div>
-                        <div class="cell value">
+                        </td>
+                        <td class="w-25">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">Yellow</td>
+                        <td>{{ masterOrderHeader.inkYellowPercentage|number_format(2) }}% = {{ masterOrderHeader.inkYellowWeight|number_format(2) }} kg</td>
+                        <td class="w-25">&nbsp;</td>
+                        <td style="font-weight: bold">K-3</td>
+                        <td>
                             {% if (masterOrderHeader.inkK3Percentage > 0) %}
                                 {{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK3Weight|number_format(2) }} kg _______________
                             {% endif %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">K-4</div>
-                        <div class="cell value">
+                        </td>
+                        <td class="w-25">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">Black</td>
+                        <td>{{ masterOrderHeader.inkBlackPercentage|number_format(2) }}% = {{ masterOrderHeader.inkBlackWeight|number_format(2) }} kg</td>
+                        <td class="w-25">&nbsp;</td>
+                        <td style="font-weight: bold">K-4</td>
+                        <td>
                             {% if (masterOrderHeader.inkK4Percentage > 0) %}
                                 {{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage|number_format(2) }}% = {{ masterOrderHeader.inkK4Weight|number_format(2) }} kg _______________
                             {% endif %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cell label">Laminating</div>
-                        <div class="cell value">{{ masterOrderHeader.inkLaminatingSize|number_format(2) }} cm = {{ masterOrderHeader.inkLaminatingQuantity|number_format(2) }} roll _______________</div>
-                    </div>
-                </div>
-            </div>
+                        </td>
+                        <td class="w-25">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">OPV/WB/UV</td>
+                        <td>{{ masterOrderHeader.inkOpvPercentage|number_format(2) }}% = {{ masterOrderHeader.inkOpvWeight|number_format(2) }} kg</td>
+                        <td class="w-25">&nbsp;</td>
+                        <td style="font-weight: bold">Laminating</td>
+                        <td>{{ masterOrderHeader.inkLaminatingSize|number_format(2) }} cm = {{ masterOrderHeader.inkLaminatingQuantity|number_format(2) }} roll</td>
+                        <td class="w-25">&nbsp;</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
 
         <br />
