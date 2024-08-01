@@ -25,6 +25,9 @@ class MaterialCategory extends Master
     #[Assert\NotNull]
     private ?bool $isPaper = false;
 
+    #[ORM\Column(length: 20)]
+    private ?string $code = '';
+
     public function __construct()
     {
         $this->materialSubCategories = new ArrayCollection();
@@ -73,6 +76,18 @@ class MaterialCategory extends Master
     public function setIsPaper(bool $isPaper): self
     {
         $this->isPaper = $isPaper;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

@@ -29,7 +29,7 @@ class MaterialSubCategory extends Master
     private Collection $papers;
 
     #[ORM\Column(length: 20)]
-    private ?string $code = null;
+    private ?string $code = '';
 
     public function __construct()
     {
