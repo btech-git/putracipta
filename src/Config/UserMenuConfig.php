@@ -24,7 +24,7 @@ class UserMenuConfig
                 'MENU_PURCHASE_REQUEST_MATERIAL', 'MENU_PURCHASE_REQUEST_PAPER', 'MENU_PURCHASE_RECEIVE', 'MENU_PURCHASE_RETURN', 'MENU_ADJUSTMENT_STOCK', 
                 'MENU_MATERIAL_RELEASE', 'MENU_STOCK_TRANSFER'
             ],
-            'MENU_WAREHOUSE_FINISHED_GOODS' => ['MENU_SALE_DELIVERY', 'MENU_SALE_RETURN', 'MENU_PRODUCTION_RECEIVE'],
+            'MENU_WAREHOUSE_FINISHED_GOODS' => ['MENU_SALE_DELIVERY', 'MENU_SALE_RETURN', 'MENU_PRODUCTION_RECEIVE', 'MENU_ADJUSTMENT_STOCK_FINISHED_GOODS'],
             'MENU_PRODUCTION' => ['MENU_PRODUCT_PROTOTYPE', 'MENU_DEVELOPMENT_PRODUCT', 'MENU_MASTER_ORDER', 'MENU_MATERIAL_REQUEST', 'MENU_QUALITY_CONTROL_SORTING'],
             'MENU_FINANCE' => ['MENU_DEPOSIT', 'MENU_EXPENSE'],
             'MENU_REPORT' => [
@@ -93,6 +93,7 @@ class UserMenuConfig
             'MENU_PURCHASE_RECEIVE' => ['route' => 'app_purchase_receive_header_index', 'pattern' => '/^app_purchase_receive_header_.+$/', 'roles' => ['ROLE_RECEIVE_ADD', 'ROLE_RECEIVE_EDIT', 'ROLE_RECEIVE_VIEW']],
             'MENU_PURCHASE_RETURN' => ['route' => 'app_purchase_purchase_return_header_index', 'pattern' => '/^app_purchase_purchase_return_header_.+$/', 'roles' => ['ROLE_PURCHASE_RETURN_ADD', 'ROLE_PURCHASE_RETURN_EDIT', 'ROLE_PURCHASE_RETURN_VIEW']],
             'MENU_ADJUSTMENT_STOCK' => ['route' => 'app_stock_adjustment_stock_header_index', 'pattern' => '/^app_stock_adjustment_stock_header_.+$/', 'roles' => ['ROLE_ADJUSTMENT_ADD', 'ROLE_ADJUSTMENT_EDIT', 'ROLE_ADJUSTMENT_VIEW']],
+            'MENU_ADJUSTMENT_STOCK_FINISHED_GOODS' => ['route' => 'app_stock_adjustment_stock_finished_goods_header_index', 'pattern' => '/^app_stock_adjustment_stock_finished_goods_header_.+$/', 'roles' => ['ROLE_ADJUSTMENT_ADD', 'ROLE_ADJUSTMENT_EDIT', 'ROLE_ADJUSTMENT_VIEW']],
             'MENU_MATERIAL_REQUEST' => ['route' => 'app_stock_inventory_request_header_index', 'pattern' => '/^app_stock_inventory_request_header_.+$/', 'roles' => ['ROLE_MATERIAL_REQUEST_ADD', 'ROLE_MATERIAL_REQUEST_EDIT', 'ROLE_MATERIAL_REQUEST_VIEW']],
             'MENU_MATERIAL_RELEASE' => ['route' => 'app_stock_inventory_release_header_index', 'pattern' => '/^app_stock_inventory_release_header_.+$/', 'roles' => ['ROLE_MATERIAL_RELEASE_ADD', 'ROLE_MATERIAL_RELEASE_EDIT', 'ROLE_MATERIAL_RELEASE_VIEW']],
             'MENU_STOCK_TRANSFER' => ['route' => 'app_stock_stock_transfer_header_index', 'pattern' => '/^app_stock_stock_transfer_header_.+$/', 'roles' => ['ROLE_TRANSFER_ADD', 'ROLE_TRANSFER_EDIT', 'ROLE_TRANSFER_VIEW']],
