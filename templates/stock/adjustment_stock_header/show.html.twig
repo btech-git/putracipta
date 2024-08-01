@@ -1,12 +1,9 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Penyesuaian Stok' %}
+{% block title 'Show Penyesuaian Stok Material' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_adjustment_stock_header_index') }}">Manage</a>
-    {#{% if is_granted('ROLE_ADJUSTMENT_EDIT') %}
-        <a class="btn btn-warning btn-sm" href="{{ path('app_stock_adjustment_stock_header_edit', {'id': adjustmentStockHeader.id}) }}">Edit</a>
-    {% endif %}#}
     {% if is_granted('ROLE_ADJUSTMENT_ADD') %}
         <a class="btn btn-success btn-sm" href="{{ path('app_stock_adjustment_stock_header_new') }}">Add</a>
     {% endif %}
@@ -66,8 +63,6 @@
                     <th>Nama Kertas</th>
                 {% elseif (adjustmentStockHeader.adjustmentMode == 'material') %} 
                     <th>Nama Item</th>
-                {% elseif (adjustmentStockHeader.adjustmentMode == 'product') %} 
-                    <th>Nama Produk</th>
                 {% endif %} 
                 <th>Qty Stok</th>
                 <th>Qty Penyesuaian</th>
@@ -81,7 +76,7 @@
                 {% for adjustmentStockPaperDetail in adjustmentStockHeader.adjustmentStockPaperDetails %}
                     {% if adjustmentStockPaperDetail.isCanceled == false %}
                         <tr>
-                            <td>{{ adjustmentStockPaperDetail.paper.code|default }}</td>
+                            <td>{{ adjustmentStockPaperDetail.paper.codeNumber|default }}</td>
                             <td>{{ adjustmentStockPaperDetail.paper.name|default }}</td>
                             <td>{{ adjustmentStockPaperDetail.quantityCurrent|default|number_format(2) }}</td>
                             <td>{{ adjustmentStockPaperDetail.quantityAdjustment|default|number_format(2) }}</td>
@@ -102,20 +97,6 @@
                             <td>{{ adjustmentStockMaterialDetail.quantityDifference|default|number_format(2) }}</td>
                             <td>{{ adjustmentStockMaterialDetail.material.unit.name|default }}</td>
                             <td>{{ adjustmentStockMaterialDetail.memo|default }}</td>
-                        </tr>
-                    {% endif %} 
-                {% endfor %}
-            {% elseif (adjustmentStockHeader.adjustmentMode == 'product') %} 
-                {% for adjustmentStockProductDetail in adjustmentStockHeader.adjustmentStockProductDetails %}
-                    {% if adjustmentStockProductDetail.isCanceled == false %}
-                        <tr>
-                            <td>{{ adjustmentStockProductDetail.product.code|default }}</td>
-                            <td>{{ adjustmentStockProductDetail.product.name|default }}</td>
-                            <td>{{ adjustmentStockProductDetail.quantityCurrent|default|number_format(2) }}</td>
-                            <td>{{ adjustmentStockProductDetail.quantityAdjustment|default|number_format(2) }}</td>
-                            <td>{{ adjustmentStockProductDetail.quantityDifference|default|number_format(2) }}</td>
-                            <td>{{ adjustmentStockProductDetail.product.unit.name|default }}</td>
-                            <td>{{ adjustmentStockProductDetail.memo|default }}</td>
                         </tr>
                     {% endif %} 
                 {% endfor %}
