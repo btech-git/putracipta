@@ -19,7 +19,7 @@ class MaterialSubCategoryType extends AbstractType
                             ->andWhere("e.isInactive = false");
                 },
             ])
-            ->add('code')
+            ->add('code', null, ['attr' => ['class' => 'text-uppercase']])
             ->add('name')
             ->add('isInactive')
         ;
