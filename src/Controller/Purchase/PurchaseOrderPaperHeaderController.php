@@ -333,6 +333,7 @@ class PurchaseOrderPaperHeaderController extends AbstractController
         $pdfGenerator->generate($htmlView, $fileName, [
             fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
+            fn($html, $chrootDir) => preg_replace('/<img id="signature"(.+)src=".+">/', '<img id="signature"\1src="' . $chrootDir . 'images/purchasing.jpg">', $html),
         ]);
     }
 }
