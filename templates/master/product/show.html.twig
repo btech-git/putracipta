@@ -85,14 +85,16 @@
         </thead>
         <tbody>
             {% for designCodeProductDetail in product.designCodeProductDetails %}
-                <tr>
-                    <td>
-                        <a target="_blank" href="{{ path('app_master_design_code_show', {'id': designCodeProductDetail.designCode.id}) }}">{{ designCodeProductDetail.designCode.codeNumber|default }}</a>
-                    </td>
-                    <td>{{ designCodeProductDetail.designCode.name|default }}</td>
-                    <td>{{ designCodeProductDetail.designCode.color|default }}</td>
-                    <td>{{ designCodeProductDetail.designCode.pantone|default }}</td>
-                </tr>
+                {% if (designCodeProductDetail.isInactive == false and designCodeProductDetail.designCode.status == 'fa') %}
+                    <tr>
+                        <td>
+                            <a target="_blank" href="{{ path('app_master_design_code_show', {'id': designCodeProductDetail.designCode.id}) }}">{{ designCodeProductDetail.designCode.codeNumber|default }}</a>
+                        </td>
+                        <td>{{ designCodeProductDetail.designCode.name|default }}</td>
+                        <td>{{ designCodeProductDetail.designCode.color|default }}</td>
+                        <td>{{ designCodeProductDetail.designCode.pantone|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

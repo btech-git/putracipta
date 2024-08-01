@@ -16,8 +16,16 @@
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
+                <th>Code</th>
+                <td>{{ materialCategory.code }}</td>
+            </tr>
+            <tr>
                 <th>Name</th>
                 <td>{{ materialCategory.name }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ material.isInactive ? 'Inactive' : 'Active' }}</td>
             </tr>
         </tbody>
     </table>
