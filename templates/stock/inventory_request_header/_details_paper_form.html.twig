@@ -35,7 +35,7 @@
                             ]|json_encode,
                         }}) }}
                     </td>
-                    <td data-item-field-name="unitName">{{ detailForm.vars.value.paper.unit.name|default }}</td>
+                    <td data-item-field-name="paperUnitName">{{ detailForm.vars.value.paper.unit.name|default }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td data-item-field-name="masterOrderHeaderCodeNumber">{{ detailForm.vars.value.masterOrderHeader.codeNumber|default }}</td>
                     <td data-item-field-name="customerCompany">{{ detailForm.vars.value.masterOrderHeader.customer.company|default }}</td>
