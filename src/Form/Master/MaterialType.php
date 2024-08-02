@@ -21,7 +21,7 @@ class MaterialType extends AbstractType
                             ->addOrderBy('e.name', 'ASC');
                 },
             ])
-            ->add('code', null, ['attr' => ['class' => 'text-uppercase']])
+            ->add('code')
             ->add('name')
             ->add('thickness', null, ['label' => 'Ketebalan'])
             ->add('variant', null, ['label' => 'Varian'])
