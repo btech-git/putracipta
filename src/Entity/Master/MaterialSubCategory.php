@@ -7,10 +7,12 @@ use App\Repository\Master\MaterialSubCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialSubCategoryRepository::class)]
 #[ORM\Table(name: 'master_material_sub_category')]
+#[UniqueEntity(['name'])]
 class MaterialSubCategory extends Master
 {
     #[ORM\Id]
