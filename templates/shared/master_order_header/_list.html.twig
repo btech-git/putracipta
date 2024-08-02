@@ -76,6 +76,7 @@
                     'paperId': masterOrderHeader.paper.id|default, 
                     'paperCode': masterOrderHeader.paper.codeNumber|default, 
                     'paperName': masterOrderHeader.paper.name|default, 
+                    'paperUnitName': masterOrderHeader.paper.unit.name|default,
                     'masterOrderProductDetailId': masterOrderProductDetail.id|default,
                     'saleOrderDetailQuantity': masterOrderProductDetail.saleOrderDetail.quantity|number_format(0)|default,
                     'saleOrderHeaderReferenceNumber': masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default,
