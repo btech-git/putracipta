@@ -23,7 +23,15 @@
     <div class="mb-3">
         <div class="row">
             <div class="col">
-                {{ form_row(form.code) }}
+                {{ form_row(form.code, {
+                    'attr': {
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value.toUpperCase()'}},
+                        ]|json_encode,
+                    },
+                }) }}
             </div>
             <div class="col">
                 {{ form_row(form.name) }}

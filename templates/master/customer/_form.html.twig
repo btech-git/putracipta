@@ -7,7 +7,16 @@
         <legend class="float-none w-auto text-dark px-1">MARKETING</legend>
         <div class="row">
             <div class="col">
-                {{ form_row(form.code, {'attr': {'readonly': isMarketingInputDisabled}}) }}
+                {{ form_row(form.code, {
+                    'attr': {
+                        'readonly': isMarketingInputDisabled,
+                        'data-controller': 'dom-element',
+                        'data-action': 'dom-element#bind',
+                        'data-dom-element-bind-specifications-param': [
+                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$element.value.toUpperCase()'}},
+                        ]|json_encode,
+                    },
+                }) }}
                 {{ form_row(form.company, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 {{ form_row(form.phone, {'attr': {'readonly': isMarketingInputDisabled}}) }}
                 {{ form_row(form.email, {'attr': {'readonly': isMarketingInputDisabled}}) }}
