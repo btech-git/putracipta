@@ -28,7 +28,7 @@ class DesignCodeController extends AbstractController
     #[Security("is_granted('ROLE_DESIGN_CODE_ADD') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_VIEW')")]
     public function _designCodeList(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
-        $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->request->get('design_code')['customer']], ['id' => 'DESC'], 5, 0);
+        $lastDesignCodes = $designCodeRepository->findBy(['customer' => $request->request->get('design_code')['customer'], 'status' => 'fa', 'isInactive' => false], ['id' => 'DESC'], 5, 0);
 
         return $this->render("master/design_code/_design_code_list.html.twig", [
             'lastDesignCodes' => $lastDesignCodes,
