@@ -53,6 +53,12 @@ class Material extends Master
     {
         return $this->id;
     }
+    
+    public function getCodeNumber(): ?string 
+    {
+        $materialSubCategory = $this->materialSubCategory;
+        return sprintf('%s-%s-%03d', $materialSubCategory->getMaterialCategory()->getCode(), $materialSubCategory->getCode(), $this->id);
+    }
 
     public function getCode(): ?string
     {

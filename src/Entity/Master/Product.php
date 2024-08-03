@@ -71,6 +71,12 @@ class Product extends Master
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: DielineMillarDetail::class)]
     private Collection $dielineMillarDetails;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $createdTransactionDateTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $modifiedTransactionDateTime = null;
+
     public function __construct()
     {
         $this->designCodeProductDetails = new ArrayCollection();
@@ -317,6 +323,30 @@ class Product extends Master
                 $dielineMillarDetail->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->createdTransactionDateTime;
+    }
+
+    public function setCreatedTransactionDateTime(?\DateTimeInterface $createdTransactionDateTime): self
+    {
+        $this->createdTransactionDateTime = $createdTransactionDateTime;
+
+        return $this;
+    }
+
+    public function getModifiedTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->modifiedTransactionDateTime;
+    }
+
+    public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
+    {
+        $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
 
         return $this;
     }
