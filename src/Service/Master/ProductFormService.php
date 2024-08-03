@@ -25,6 +25,19 @@ class ProductFormService
         $this->productRepository = $entityManager->getRepository(Product::class);
     }
 
+    public function initialize(Product $product, array $options = []): void
+    {
+        list($datetime, $user) = [$options['datetime'], $options['user']];
+
+        if (empty($product->getId())) {
+            $product->setCreatedTransactionDateTime($datetime);
+            $product->setCreatedTransactionUser($user);
+        } else {
+            $product->setModifiedTransactionDateTime($datetime);
+            $product->setModifiedTransactionUser($user);
+        }
+    }
+
     public function finalize(Product $product, array $options = []): void
     {
         if ($options['transactionFile']) {
