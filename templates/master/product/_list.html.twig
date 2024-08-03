@@ -14,8 +14,11 @@
                 <th style="min-width: 400px" role="button" {{ grid.sort_link_item(form, 'name') }}>
                     Name {{ grid.sort_char(form.sort.name.vars.value) }}
                 </th>
-                <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
+                </th>
+                <th style="min-width: 100px">
+                    Tanggal Buat
                 </th>
                 <th style="min-width: 50px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
                     Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
@@ -32,6 +35,7 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
+                <th></th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
                         <option value="" {% if form.filter.isInactive.1.vars.value == '' %}selected="selected"{% endif %}></option>
@@ -49,6 +53,7 @@
                     <td>{{ product.code }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.customer.company|default }}</td>
+                    <td>{{ product.createdTransactionDateTime ? product.createdTransactionDateTime|date('d M Y') : '' }}</td>
                     <td>{{ product.isInactive ? 'InActive' : 'Active' }}</td>
                     <td>
                         {% if is_granted('ROLE_PRODUCT_VIEW') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_ADD') %}
