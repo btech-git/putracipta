@@ -3,7 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Common\Data\Operator\SortAscending;
+use App\Common\Data\Operator\SortDescending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Product;
 use App\Form\Master\ProductType;
@@ -26,7 +26,8 @@ class ProductController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'name' => SortAscending::class,
+            'createdTransactionDateTime' => SortDescending::class,
+            'id' => SortDescending::class,
         ]);
         $form = $this->createForm(ProductGridType::class, $criteria);
         $form->handleRequest($request);
@@ -58,6 +59,7 @@ class ProductController extends AbstractController
     public function new(Request $request, ProductFormService $productFormService): Response
     {
         $product = new Product();
+        $productFormService->initialize($product, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
         $productFormService->finalize($product, ['transactionFile' => $form->get('transactionFile')->getData()]);
