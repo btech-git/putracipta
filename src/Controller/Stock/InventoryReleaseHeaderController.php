@@ -8,7 +8,9 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryReleaseHeader;
 use App\Form\Stock\InventoryReleaseHeaderType;
 use App\Grid\Stock\InventoryReleaseHeaderGridType;
+use App\Grid\Stock\OutstandingInventoryRequestGridType;
 use App\Repository\Stock\InventoryReleaseHeaderRepository;
+use App\Repository\Stock\InventoryRequestHeaderRepository;
 use App\Service\Stock\InventoryReleaseHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -48,39 +50,31 @@ class InventoryReleaseHeaderController extends AbstractController
         return $this->render("stock/inventory_release_header/index.html.twig");
     }
 
-    #[Route('/_list_outstanding', name: 'app_stock_inventory_release_header__list_outstanding', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
-    public function _listOutstanding(Request $request, InventoryRequestMaterialDetailRepository $inventoryRequestMaterialDetailRepository, InventoryRequestPaperDetailRepository $inventoryRequestPaperDetailRepository): Response
+    #[Route('/_list_outstanding_inventory_request', name: 'app_stock_inventory_release_header__list_outstanding_inventory_request', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
+    public function _listOutstandingInventoryRequest(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
-                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
-                ->getForm();
+        $form = $this->createForm(OutstandingInventoryRequestGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $inventoryRequestMaterialDetails) = $inventoryRequestMaterialDetailRepository->fetchData($criteria, function($qb, $alias) {
+        list($count, $inventoryRequestHeaders) = $inventoryRequestHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.quantityRemaining > 0");
+            $qb->andWhere("{$alias}.totalQuantityRemaining > 0");
         });
 
-        list($count, $inventoryRequestPaperDetails) = $inventoryRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias) {
-            $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.quantityRemaining > 0");
-        });
-
-        return $this->renderForm("sale/delivery_header/_list_outstanding_sale_order.html.twig", [
+        return $this->renderForm("stock/inventory_release_header/_list_outstanding_inventory_request.html.twig", [
             'form' => $form,
             'count' => $count,
-            'inventoryRequestMaterialDetails' => $inventoryRequestMaterialDetails,
-            'inventoryRequestPaperDetails' => $inventoryRequestPaperDetails,
+            'inventoryRequestHeaders' => $inventoryRequestHeaders,
         ]);
     }
 
-    #[Route('/index_outstanding', name: 'app_stock_inventory_release_header_index_outstanding', methods: ['GET'])]
-    #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT' or is_granted('ROLE_MATERIAL_RELEASE_VIEW'))")]
-    public function indexOutstanding(): Response
+    #[Route('/index_outstanding_inventory_request', name: 'app_stock_inventory_release_header_index_outstanding_inventory_request', methods: ['GET'])]
+    #[Security("is_granted('ROLE_MATERIAL_RELEASE_ADD') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_VIEW')")]
+    public function indexOutstandingInventoryRequest(): Response
     {
-        return $this->render("stock/inventory_release_header/index_outstanding.html.twig");
+        return $this->render("stock/inventory_release_header/index_outstanding_inventory_request.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_stock_inventory_release_header_new', methods: ['GET', 'POST'])]
