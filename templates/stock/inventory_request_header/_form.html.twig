@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col">
                     {{ form_row(form.transactionDate, {'label': 'Tanggal Request', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
-                    {{ form_row(form.pickupDate, {'label': 'Tanggal Pickup', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+                    {{ form_row(form.pickupDate, {'label': 'Tanggal Pakai', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
                     {{ form_row(form.requestMode, {
                         'label': 'Jenis',
                         'attr': {
