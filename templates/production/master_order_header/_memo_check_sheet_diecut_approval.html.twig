@@ -53,15 +53,15 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No MO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal WO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal Pengerjaan</div>
-                        <div class="cell value">______________________________</div>
+                        <div class="cell value">: ________________________</div>
                     </div>
                 </div>
             </div>
@@ -69,11 +69,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Kode Design</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Quantity</div>
-                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(2) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperRequirement|default|number_format(2) }} dreek</div>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                    <td>{{ masterOrderProductDetail.quantityPrinting|default }}</td>
+                    <td>{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -187,20 +187,16 @@
 
     <div class="note" style="border: 1px solid; height: 60px">
         <div class="table full">
-            <div class="cell col">
-                <div class="table full">
-                    <div class="row">
-                        <div class="cell label">Catatan</div>
-                        <div class="cell value text-left">____________________________________________________</div>
-                    </div>
-                    
-                    <br />
-                    
-                    <div class="row">
-                        <div class="cell label">Rekomendasi</div>
-                        <div class="cell value">____________________________________________________</div>
-                    </div>
-                </div>
+            <div class="row">
+                <div class="cell label">Catatan</div>
+                <div class="cell value">: __________________________________________________________________________</div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="cell label">Rekomendasi</div>
+                <div class="cell value">: __________________________________________________________________________</div>
             </div>
         </div>
     </div>

@@ -98,6 +98,25 @@
                     </div>
                 </div>
             </div>
+                    
+            <div class="cell col">
+                <table class="detail" style="width: 95%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Proses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
+                            <tr>
+                                <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                                <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -131,27 +150,6 @@
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
                                     <td>{{ masterOrderProductDetail.quantityPrinting|default }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="cell col">
-                    <table class="detail" style="width: 95%">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Proses</th>
-                            </tr>
-                            <tr>
-                                <th>No</th>
-                                <th>Proses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
-                                <tr>
-                                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
-                                    <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

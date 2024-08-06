@@ -14,7 +14,10 @@
                         <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
                     </div>
                     <div class="row">
-                        <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER VARNISH UV/WB/LAM/SCR</div>
+                        <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER COATING</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label" style="font-size: 18px; text-align: center">(UV/WB/OPV/LAM/SCR/CAL)</div>
                     </div>
                 </div>
             </div>
@@ -58,6 +61,10 @@
                     <div class="row">
                         <div class="cell label">Tanggal WO</div>
                         <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Mesin Coating</div>
+                        <div class="cell value"> _____________________ </div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jenis Varnish</div>
@@ -190,12 +197,15 @@
                 <th colspan="6">Lama Setting</th>
             </tr>
             <tr>
-                <th class="text-center">Shift #</th>
-                <th class="text-center">Tanggal</th>
-                <th class="text-center">Jam Mulai</th>
-                <th class="text-center">Jam Selesai</th>
-                <th class="text-center">Operator / Kenek</th>
-                <th class="text-center">Keterangan Setting / Downtime</th>
+                <th class="text-center" rowspan="2">Shift #</th>
+                <th class="text-center" rowspan="2">Tanggal</th>
+                <th class="text-center" colspan="2">Jam</th>
+                <th class="text-center" rowspan="2">Operator / Kenek</th>
+                <th class="text-center" rowspan="2">Keterangan Setting / Downtime</th>
+            </tr>
+            <tr>
+                <th class="text-center">Mulai</th>
+                <th class="text-center">Selesai</th>
             </tr>
         </thead>
         <tfoot>
@@ -236,7 +246,7 @@
             </tr>
         </thead>
         <tfoot>
-            {% for row in 0..45 %}
+            {% for row in 0..35 %}
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>

@@ -14,7 +14,7 @@
                         <div class="cell label" style="font-size: 14px; text-align: center">FORMULIR</div>
                     </div>
                     <div class="row">
-                        <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER POTONG BAHAN</div>
+                        <div class="cell label" style="font-size: 18px; text-align: center">WORK ORDER POTONG BAHAN/JADI</div>
                     </div>
                 </div>
             </div>
@@ -124,6 +124,9 @@
     <table class="detail">
         <thead class="table-secondary">
             <tr>
+                <th colspan="10">POTONG BAHAN</th>
+            </tr>
+            <tr>
                 <th class="text-center" style="width: 10%" rowspan="2">Shift #</th>
                 <th class="text-center" style="width: 10%" rowspan="2">Tanggal Potong</th>
                 <th class="text-center" style="width: 8%" colspan="2">Jam</th>
@@ -138,7 +141,44 @@
             </tr>
         </thead>
         <tfoot>
-            {% for row in 0..15 %}
+            {% for row in 0..10 %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            {% endfor %}
+        </tfoot>
+    </table>
+
+    <br />
+
+    <table class="detail">
+        <thead class="table-secondary">
+            <tr>
+                <th colspan="10">POTONG JADI</th>
+            </tr>
+            <tr>
+                <th class="text-center" style="width: 10%" rowspan="2">Shift #</th>
+                <th class="text-center" style="width: 10%" rowspan="2">Tanggal Potong</th>
+                <th class="text-center" style="width: 8%" colspan="2">Jam</th>
+                <th class="text-center" style="width: 8%" rowspan="2">Qty Rim</th>
+                <th class="text-center" style="width: 8%" rowspan="2">Qty Dreek</th>
+                <th class="text-center" rowspan="2">Keterangan</th>
+                <th style="width: 15%" rowspan="2"></th>
+            </tr>
+            <tr>
+                <th>Mulai</th>
+                <th>Selesai</th>
+            </tr>
+        </thead>
+        <tfoot>
+            {% for row in 0..10 %}
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
