@@ -37,7 +37,7 @@
                     <td data-item-field-name="saleOrderDetailDeliveryDate">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.deliveryDate|default ? detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td data-item-field-name="masterOrderProductDetailQuantityShortage" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                    <td data-item-field-name="masterOrderProductDetailRemainingProduction" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.remainingProduction|default|number_format(0) }}</td>
+                    <td data-item-field-name="masterOrderProductDetailRemainingReceive" class="text-center">{{ detailForm.vars.value.masterOrderProductDetail.remainingInventoryReceive|default|number_format(0) }}</td>
                     <td class="text-center">
                         {{ form_row(detailForm.quantityPiecePerBox, {'label': false, 'attr': {
                             'data-action': 'change->json-loader#load',

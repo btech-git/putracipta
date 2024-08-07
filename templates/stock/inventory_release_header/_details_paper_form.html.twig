@@ -10,6 +10,7 @@
                 <th class="d-none">Paper Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Kertas</th>
+                <th style="min-width: 150px">WO #</th>
                 <th style="min-width: 50px">Qty Request</th>
                 <th style="min-width: 50px">Qty Stok</th>
                 <th style="min-width: 50px">Qty</th>
@@ -25,6 +26,7 @@
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
+                    <td data-item-field-name="masterOrderCodeNumber">{{ detailForm.vars.value.paper.name|default }}</td>
                     <td class="text-center" data-item-field-name="inventoryRequestPaperDetailQuantity">{{ detailForm.vars.value.inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
                     <td class="text-center" data-json-loader-target="placeholder"
                         data-property-path="inventoryReleasePaperDetails.{{ detailForm.vars.name }}.quantityCurrent">{{ detailForm.vars.value.quantityCurrent|default|number_format(2) }}</td>
