@@ -28,18 +28,6 @@ class SaleOrderDetail extends SaleDetail
 //    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalDelivery = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalReturn = 0;
-
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $remainingDelivery = 0;
-
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
@@ -92,6 +80,15 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityProductionRemaining = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityDelivery = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityReturn = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $remainingQuantityDelivery = '0.00';
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -105,12 +102,23 @@ class SaleOrderDetail extends SaleDetail
         return $isCanceled;
     }
 
-    public function getSyncRemainingDelivery(): int
+    public function getSyncRemainingDelivery(): string
     {
-        return $this->quantity - $this->totalDelivery + $this->totalReturn;
+        return $this->quantity - $this->totalQuantityDelivery + $this->totalQuantityReturn;
     }
     
-    public function getSyncRemainingProduction(): int
+    public function getSyncQuantityProduction(): string 
+    {
+        $total = '0.00';
+        
+        foreach ($this->getMasterOrderProductDetails() as $masterOrderProductDetail) {
+            $total += $masterOrderProductDetail->isIsCanceled() === false ? $masterOrderProductDetail->getQuantityProduction() : '0.00';
+        }
+        
+        return $total;
+    }
+    
+    public function getSyncRemainingProduction(): string
     {
         return $this->quantity - $this->quantityProduction;
     }
@@ -120,7 +128,7 @@ class SaleOrderDetail extends SaleDetail
         return $this->saleOrderHeader->getTaxMode() === $this->saleOrderHeader::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100), 2) : $this->unitPrice;
     }
 
-    public function getSyncTotalQuantityReturn(): int
+    public function getSyncTotalQuantityReturn(): string
     {
         $total = 0;
         
@@ -133,14 +141,14 @@ class SaleOrderDetail extends SaleDetail
         return $total;
     }
 
-    public function getSyncMinimumToleranceQuantity(): int
+    public function getSyncMinimumToleranceQuantity(): string
     {
         $customer = $this->saleOrderHeader->getCustomer();
         
         return round($this->quantity * $customer->getMinimumTolerancePercentage() / 100);
     }
 
-    public function getSyncMaximumToleranceQuantity(): int
+    public function getSyncMaximumToleranceQuantity(): string
     {
         $customer = $this->saleOrderHeader->getCustomer();
         
@@ -168,42 +176,6 @@ class SaleOrderDetail extends SaleDetail
     public function setUnitPrice(string $unitPrice): self
     {
         $this->unitPrice = $unitPrice;
-
-        return $this;
-    }
-
-    public function getTotalDelivery(): ?int
-    {
-        return $this->totalDelivery;
-    }
-
-    public function setTotalDelivery(int $totalDelivery): self
-    {
-        $this->totalDelivery = $totalDelivery;
-
-        return $this;
-    }
-
-    public function getTotalReturn(): ?int
-    {
-        return $this->totalReturn;
-    }
-
-    public function setTotalReturn(int $totalReturn): self
-    {
-        $this->totalReturn = $totalReturn;
-
-        return $this;
-    }
-
-    public function getRemainingDelivery(): ?int
-    {
-        return $this->remainingDelivery;
-    }
-
-    public function setRemainingDelivery(int $remainingDelivery): self
-    {
-        $this->remainingDelivery = $remainingDelivery;
 
         return $this;
     }
@@ -450,6 +422,42 @@ class SaleOrderDetail extends SaleDetail
     public function setQuantityProductionRemaining(string $quantityProductionRemaining): self
     {
         $this->quantityProductionRemaining = $quantityProductionRemaining;
+
+        return $this;
+    }
+
+    public function getTotalQuantityDelivery(): ?string
+    {
+        return $this->totalQuantityDelivery;
+    }
+
+    public function setTotalQuantityDelivery(string $totalQuantityDelivery): self
+    {
+        $this->totalQuantityDelivery = $totalQuantityDelivery;
+
+        return $this;
+    }
+
+    public function getTotalQuantityReturn(): ?string
+    {
+        return $this->totalQuantityReturn;
+    }
+
+    public function setTotalQuantityReturn(string $totalQuantityReturn): self
+    {
+        $this->totalQuantityReturn = $totalQuantityReturn;
+
+        return $this;
+    }
+
+    public function getRemainingQuantityDelivery(): ?string
+    {
+        return $this->remainingQuantityDelivery;
+    }
+
+    public function setRemainingQuantityDelivery(string $remainingQuantityDelivery): self
+    {
+        $this->remainingQuantityDelivery = $remainingQuantityDelivery;
 
         return $this;
     }

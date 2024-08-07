@@ -86,10 +86,6 @@ class SaleOrderHeader extends SaleHeader
     #[Assert\Valid]
     private Collection $saleOrderDetails;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
-    private ?int $totalRemainingDelivery = 0;
-
     #[ORM\Column(length: 20)]
     #[Assert\NotNull]
     private ?string $transactionFileExtension = '';
@@ -139,6 +135,9 @@ class SaleOrderHeader extends SaleHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantity = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalRemainingDelivery = '0.00';
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -187,7 +186,7 @@ class SaleOrderHeader extends SaleHeader
         $total = 0;
         foreach ($this->saleOrderDetails as $saleOrderDetail) {
             if (!$saleOrderDetail->isIsCanceled()) {
-                $total += $saleOrderDetail->getRemainingDelivery();
+                $total += $saleOrderDetail->getRemainingQuantityDelivery();
             }
         }
         return $total;
@@ -358,18 +357,6 @@ class SaleOrderHeader extends SaleHeader
         return $this;
     }
 
-    public function getTotalRemainingDelivery(): ?int
-    {
-        return $this->totalRemainingDelivery;
-    }
-
-    public function setTotalRemainingDelivery(int $totalRemainingDelivery): self
-    {
-        $this->totalRemainingDelivery = $totalRemainingDelivery;
-
-        return $this;
-    }
-
     public function getTransactionFileExtension(): ?string
     {
         return $this->transactionFileExtension;
@@ -534,6 +521,18 @@ class SaleOrderHeader extends SaleHeader
     public function setTotalQuantity(string $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getTotalRemainingDelivery(): ?string
+    {
+        return $this->totalRemainingDelivery;
+    }
+
+    public function setTotalRemainingDelivery(string $totalRemainingDelivery): self
+    {
+        $this->totalRemainingDelivery = $totalRemainingDelivery;
 
         return $this;
     }
