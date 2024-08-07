@@ -77,15 +77,15 @@ class InventoryProductReceiveHeaderFormService
             if ($inventoryProductReceiveDetail->isIsCanceled() === false) {
                 $totalProduction += $inventoryProductReceiveDetail->getQuantityTotalPieces();
             }
-            $masterOrderProductDetail->setQuantityProduction($totalProduction);
-            $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
+            $masterOrderProductDetail->setQuantityInventoryReceive($totalProduction);
+            $masterOrderProductDetail->setRemainingInventoryReceive($masterOrderProductDetail->getSyncRemainingInventoryReceive());
             $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
             
         }
         $inventoryProductReceiveHeader->setTotalQuantity($inventoryProductReceiveHeader->getSyncTotalQuantity());
         $masterOrderHeader = $inventoryProductReceiveHeader->getMasterOrderHeader();
         if ($masterOrderHeader !== null) {
-            $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
+            $masterOrderHeader->setTotalRemainingInventoryReceive($masterOrderHeader->getSyncTotalRemainingInventoryReceive());
         }
         
         $productNameList = array();
