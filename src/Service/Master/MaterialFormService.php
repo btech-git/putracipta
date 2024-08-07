@@ -25,6 +25,16 @@ class MaterialFormService
         $this->materialRepository = $entityManager->getRepository(Material::class);
     }
 
+    public function finalize(Material $material, array $options = []): void
+    {
+//        if ($material->getId() === null) {
+            $materialSubCategory = $material->getMaterialSubCategory();
+            $lastMaterial = $this->materialRepository->findRecentBy($materialSubCategory);
+            $currentMaterial = ($lastMaterial === null) ? $material : $lastMaterial;
+            $material->setCodeOrdinalToNext($currentMaterial->getCodeOrdinal());
+//        }
+    }
+    
     public function save(Material $material, array $options = []): void
     {
         $idempotent = IdempotentUtility::create(Idempotent::class, $this->requestStack->getCurrentRequest());
