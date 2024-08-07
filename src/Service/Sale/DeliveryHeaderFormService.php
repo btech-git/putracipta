@@ -96,12 +96,12 @@ class DeliveryHeaderFormService
             if ($deliveryDetail->isIsCanceled() === false) {
                 $totalDelivery += $deliveryDetail->getQuantity();
             }
-            $saleOrderDetail->setTotalDelivery($totalDelivery);
-            $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
+            $saleOrderDetail->setTotalQuantityDelivery($totalDelivery);
+            $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
             
 //            if ($deliveryHeader->getId() === null) {
-                $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalDelivery());
-                $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingDelivery());
+                $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalQuantityDelivery());
+                $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingQuantityDelivery());
 //            }
         }
         

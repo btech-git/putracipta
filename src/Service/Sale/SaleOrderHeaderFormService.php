@@ -67,19 +67,19 @@ class SaleOrderHeaderFormService
         $customer = $saleOrderHeader->getCustomer();
         foreach ($saleOrderHeader->getSaleOrderDetails() as $i => $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
-            $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
+            $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
             $saleOrderDetail->setUnitPriceBeforeTax($saleOrderDetail->getSyncUnitPriceBeforeTax());
             $saleOrderDetail->setLinePo($i + 1);
             $saleOrderDetail->setQuantityProductionRemaining($saleOrderDetail->getSyncRemainingProduction());
             $saleOrderDetail->setMinimumToleranceQuantity($saleOrderDetail->getSyncMinimumToleranceQuantity());
             $saleOrderDetail->setMaximumToleranceQuantity($saleOrderDetail->getSyncMaximumToleranceQuantity());
             
-            if ($saleOrderDetail->getRemainingDelivery() <= 0) {
+            if ($saleOrderDetail->getRemainingQuantityDelivery() <= 0) {
                 $saleOrderDetail->setIsTransactionClosed(true);
             }
             
             if ($saleOrderDetail->isIsTransactionClosed() === true or $saleOrderDetail->isIsCanceled() === true) {
-                $saleOrderDetail->setRemainingDelivery(0);
+                $saleOrderDetail->setRemainingQuantityDelivery(0);
             }
         }
         
