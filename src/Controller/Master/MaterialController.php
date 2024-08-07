@@ -66,6 +66,7 @@ class MaterialController extends AbstractController
         $material = new Material();
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
+        $materialFormService->finalize($material);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $materialFormService->save($material);
@@ -94,6 +95,7 @@ class MaterialController extends AbstractController
     {
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
+        $materialFormService->finalize($material);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $materialFormService->save($material);
