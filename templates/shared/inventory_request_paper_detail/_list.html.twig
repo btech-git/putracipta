@@ -54,6 +54,7 @@
                     'paperWeight': inventoryRequestPaperDetail.paper.weight|default,
                     'inventoryRequestPaperDetailId': inventoryRequestPaperDetail.id|default,
                     'inventoryRequestPaperDetailQuantity': inventoryRequestPaperDetail.quantity|default|number_format(0),
+                    'masterOrderCodeNumber': inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default,
                     'inventoryRequestPaperDetailMemo': inventoryRequestPaperDetail.memo|default,
                     'unitId': inventoryRequestPaperDetail.unit.id,
                     'unitName': inventoryRequestPaperDetail.unit.name}|json_encode }}">

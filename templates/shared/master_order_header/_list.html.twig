@@ -86,7 +86,7 @@
                     'productName': masterOrderProductDetail.product.name|default,
                     'unitName': masterOrderProductDetail.product.unit.name|default,
                     'masterOrderProductDetailQuantityShortage': masterOrderProductDetail.quantityShortage|number_format(0),
-                    'masterOrderProductDetailRemainingProduction': masterOrderProductDetail.remainingProduction|number_format(0),
+                    'masterOrderProductDetailRemainingReceive': masterOrderProductDetail.remainingInventoryReceive|number_format(0),
                     'masterOrderHeaderPackagingQuantity': masterOrderHeader.packagingPaperQuantity > 0 ? masterOrderHeader.packagingPaperQuantity|number_format(0) : masterOrderHeader.packagingBoxQuantity|number_format(0),
                     'masterOrderHeaderQuantityOrder': masterOrderHeader.totalQuantityOrder|number_format(0)})|json_encode }}">
                     <td>{{ masterOrderHeader.codeNumber|default }}</td>
