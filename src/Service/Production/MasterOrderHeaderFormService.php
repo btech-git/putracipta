@@ -84,13 +84,14 @@ class MasterOrderHeaderFormService
         
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             $saleOrderDetail = $masterOrderProductDetail->getSaleOrderDetail();
+            $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
+            $masterOrderProductDetail->setRemainingInventoryReceive($masterOrderProductDetail->getSyncRemainingInventoryReceive());
+            $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
             if (!empty($saleOrderDetail)) {
                 $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
                 $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
-                $masterOrderProductDetail->setQuantityShortage($masterOrderProductDetail->getSyncQuantityShortage());
-                $masterOrderProductDetail->setRemainingProduction($masterOrderProductDetail->getSyncRemainingProduction());
-                $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
-                $saleOrderDetail->setQuantityProduction($masterOrderProductDetail->getQuantityOrder());
+                $saleOrderDetail->setQuantityProduction($saleOrderDetail->getSyncQuantityProduction());
+                $saleOrderDetail->setQuantityProductionRemaining($saleOrderDetail->getSyncRemainingProduction());
             }
         }
         
@@ -102,7 +103,7 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setTotalQuantityStock($masterOrderHeader->getSyncTotalQuantityStock());
         $masterOrderHeader->setTotalQuantityShortage($masterOrderHeader->getSyncTotalQuantityShortage());
         $masterOrderHeader->setTotalQuantityProduction($masterOrderHeader->getSyncTotalQuantityProduction());
-        $masterOrderHeader->setTotalRemainingProduction($masterOrderHeader->getSyncTotalRemainingProduction());
+        $masterOrderHeader->setTotalRemainingInventoryReceive($masterOrderHeader->getSyncTotalRemainingInventoryReceive());
         
         $product = $masterOrderHeader->getPaper();
         if (!empty($product)) {
