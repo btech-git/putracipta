@@ -53,19 +53,19 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No MO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal WO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah terima dari sortir</div>
-                        <div class="cell value"> _____________________ </div>
+                        <div class="cell value">: _____________________ </div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal terima</div>
-                        <div class="cell value"> ______________ </div>
+                        <div class="cell value">: _____________________ </div>
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Catatan</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell value">: _________________________________________________</div>
                     </div>
                 </div>
             </div>
@@ -216,7 +216,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Tanggal Pengembalian WO#</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell value">: _________________________________________________</div>
                     </div>
                 </div>
             </div>

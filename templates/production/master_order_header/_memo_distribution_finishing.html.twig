@@ -53,15 +53,15 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No MO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal WO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Cetak di Mesin</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.machinePrinting.name|default }}</div>
                     </div>
                 </div>
             </div>
@@ -166,7 +166,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Tanggal Pengembalian WO#</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell value">: ________________________________________</div>
                     </div>
                 </div>
             </div>

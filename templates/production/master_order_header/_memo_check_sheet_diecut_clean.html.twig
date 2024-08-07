@@ -53,19 +53,19 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Mesin</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.machinePrinting.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">No WO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Customer</div>
-                        <div class="cell value">{{ masterOrderHeader.customer.company|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.customer.company|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah</div>
-                        <div class="cell value">{{ masterOrderHeader.paperRequirement|number_format(2) }} dreek  -  {{ masterOrderHeader.totalQuantityShortage|number_format(0) }} pcs</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperRequirement|number_format(2) }} dreek  -  {{ masterOrderHeader.totalQuantityShortage|number_format(0) }} pcs</div>
                     </div>
                 </div>
             </div>
@@ -234,7 +234,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label" style="width: 10%">Note</div>
-                        <div class="cell value">Line Clearance Checklist ini dilakukan setiap pergantian jenis produk yang akan dikerjakan.</div>
+                        <div class="cell value">: Line Clearance Checklist ini dilakukan setiap pergantian jenis produk yang akan dikerjakan.</div>
                     </div>
                 </div>
             </div>

@@ -19,6 +19,7 @@
                 <th style="min-width: 150px">Tanggal Kirim</th>
                 <th style="min-width: 100px">Up Cetak</th>
                 <th style="min-width: 100px">Qty Order</th>
+                <th style="min-width: 100px">Qty Produksi</th>
                 <th style="min-width: 150px">Stock</th>
                 <th style="min-width: 100px">Kekurangan</th>
                 <th style="min-width: 0"></th>
@@ -30,17 +31,6 @@
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>
                     <td class="d-none" data-item-field-name="productId">{{ detailForm.vars.value.saleOrderDetail.product.id|default }}</td>
                     <td data-item-field-name="saleOrderHeaderReferenceNumber">{{ detailForm.vars.value.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    {#<td data-item-field-name="designCode">
-                        {{ form_row(detailForm.designCode, {'label': false, 'attr': {
-                            'data-item-field-action': '
-                                const productId = $row.querySelector("[data-item-field-name=productId]").textContent;
-                                const choiceElements = $element.querySelectorAll("option[data-product]:not([data-product=\'" + productId + "\'])");
-                                for (const choiceElement of choiceElements) {
-                                    choiceElement.classList.add("d-none");
-                                }
-                            ',
-                        }}) }}
-                    </td>#}
                     <td data-item-field-name="productCode">{{ detailForm.vars.value.saleOrderDetail.product.code|default }}</td>
                     <td data-item-field-name="productName" class="font-size-1">{{ detailForm.vars.value.saleOrderDetail.product.name|default }}</td>
                     <td class="text-center" data-item-field-name="productLength">{{ detailForm.vars.value.saleOrderDetail.product.length|default|number_format(0) }}</td>
@@ -51,6 +41,12 @@
                     <td data-item-field-name="saleOrderDetailDeliveryDate">{{ detailForm.vars.value.saleOrderDetail.deliveryDate|default ? detailForm.vars.value.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td class="text-center">{{ form_row(detailForm.quantityPrinting, {'label': false}) }}</td>
                     <td data-item-field-name="saleOrderDetailQuantity" class="text-center">{{ detailForm.vars.value.quantityOrder|default|number_format(0) }}</td>
+                    <td class="text-center">
+                        {{ form_row(detailForm.quantityProduction, {'label': false, 'attr': {
+                            'data-action': 'change->json-loader#load',
+                            'data-item-field-name': 'saleOrderDetailQuantity',
+                        }}) }}
+                    </td>
                     <td class="text-center">
                         {{ form_row(detailForm.quantityStock, {'label': false, 'attr': {
                             'data-action': 'change->json-loader#load',
@@ -89,6 +85,10 @@
                 <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantityOrder">
                     {{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}
+                </td>
+                <td class="text-center" data-json-loader-target="placeholder"
+                    data-property-path="totalQuantityProduction">
+                    {{ masterOrderHeader.totalQuantityProduction|default|number_format(0) }}
                 </td>
                 <td class="text-center" data-json-loader-target="placeholder"
                     data-property-path="totalQuantityStock">

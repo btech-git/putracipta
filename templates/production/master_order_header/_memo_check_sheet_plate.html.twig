@@ -53,31 +53,31 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Tanggal Produksi</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">No WO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Design Code</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kode Produk</div>
-                        <div class="cell value">{{ masterOrderHeader.masterOrderProductList|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.masterOrderProductList|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Nama Produk</div>
-                        <div class="cell value">{{ masterOrderHeader.masterOrderProductNameList|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.masterOrderProductNameList|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Quantity Dreek</div>
-                        <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} Dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperTotal|default|number_format(0) }} Dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Plat</div>
-                        <div class="cell value">_____________ Lembar</div>
+                        <div class="cell value">: _____________ Lembar</div>
                     </div>
                 </div>
             </div>

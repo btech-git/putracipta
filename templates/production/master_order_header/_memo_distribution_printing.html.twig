@@ -53,31 +53,31 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Mesin Cetak</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.machinePrinting.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kode Design</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim</div>
+                        <div class="cell value">: {{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Material</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.paper.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Potong 1</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(1) }} cm</div>
+                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize1|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(1) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk. Potong 2</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize2|default|number_format(1) }} cm</div>
+                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize2|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize2|default|number_format(1) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Warna/Pantone</div>
-                        <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
                 </div>
             </div>
@@ -85,31 +85,31 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No WO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal Produksi</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Total Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kebutuhan</div>
-                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Insit</div>
-                        <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default|default|number_format(0) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.insitPrintingQuantity|default|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Layout</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Finishing</div>
-                        <div class="cell value">{{ masterOrderHeader.finishing|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.finishing|default }}</div>
                     </div>
                 </div>
             </div>
@@ -229,35 +229,35 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label">Kualitas hasil cetak</div>
-                            <div class="cell value"> Sesuai Standar / Tidak </div>
+                            <div class="cell value">: Sesuai Standar / Tidak </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Catatan</div>
-                            <div class="cell value"> Tarikan hanya 1,3 cm </div>
+                            <div class="cell value">: Tarikan hanya 1,3 cm </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Speed/jam</div>
-                            <div class="cell value"> ___________________________ lembar / jam</div>
+                            <div class="cell value">: _____________________________ lembar / jam</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Air</div>
-                            <div class="cell value"> _____________________________ </div>
+                            <div class="cell value">: _____________________________ </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Alkohol</div>
-                            <div class="cell value"> _____________________________ </div>
+                            <div class="cell value">: _____________________________ </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Fountain</div>
-                            <div class="cell value"> ______________________________ </div>
+                            <div class="cell value">: _____________________________ </div>
                         </div>
                         <div class="row">
                             <div class="cell label">WB</div>
-                            <div class="cell value"> _____________________________ </div>
+                            <div class="cell value">: _____________________________ </div>
                         </div>
                         <div class="row">
                             <div class="cell label">Note</div>
-                            <div class="cell value"> _______________________________ </div>
+                            <div class="cell value">: _____________________________ </div>
                         </div>
                     </div>
                 </div>
@@ -309,16 +309,16 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">Tanggal Pengembalian WO#</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell">Tanggal Pengembalian WO#</div>
+                        <div class="cell">: _______________________</div>
                     </div>
                 </div>
             </div>
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">WO# dikembalikan oleh</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell">WO# dikembalikan oleh</div>
+                        <div class="cell">: _______________________</div>
                     </div>
                 </div>
             </div>

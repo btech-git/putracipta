@@ -53,13 +53,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Customer</div>
-                        <div class="cell label">:</div>
-                        <div class="cell value">{{ masterOrderHeader.customer.company|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.customer.company|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kode Design</div>
-                        <div class="cell label">:</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                 </div>
             </div>
@@ -67,13 +65,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No MO</div>
-                        <div class="cell label">:</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal WO</div>
-                        <div class="cell label">:</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                 </div>
             </div>

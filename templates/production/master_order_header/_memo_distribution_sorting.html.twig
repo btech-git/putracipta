@@ -53,19 +53,19 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No MO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal WO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Customer</div>
-                        <div class="cell value">{{ masterOrderHeader.customer.company|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.customer.company|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Up/s</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPrinting }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.quantityPrinting }}</div>
                     </div>
                 </div>
             </div>
@@ -73,15 +73,15 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Cetak di Mesin</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.machinePrinting.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Hasil Cetakan</div>
-                        <div class="cell value"> _____________________ dreek</div>
+                        <div class="cell value">: _____________________ dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label"></div>
-                        <div class="cell value"> _______________________ pcs</div>
+                        <div class="cell value">: _______________________ pcs</div>
                     </div>
                 </div>
             </div>
@@ -369,11 +369,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">% Acceptable = Acceptable / Total Sortir * 100</div>
-                        <div class="cell value"> ______ / _______ * 100 = ________</div>
+                        <div class="cell value">: ______ / _______ * 100 = ________</div>
                     </div>
                     <div class="row">
                         <div class="cell label">% Reject = Reject / Total Sortir * 100</div>
-                        <div class="cell value"> ______ / _______ * 100 = ________</div>
+                        <div class="cell value">: ______ / _______ * 100 = ________</div>
                     </div>
                 </div>
             </div>
@@ -388,7 +388,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Tanggal Pengembalian WO#</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell value">: _______________________</div>
                     </div>
                 </div>
             </div>
@@ -396,7 +396,7 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Dikembalikan oleh</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell value">: _______________________</div>
                     </div>
                 </div>
             </div>

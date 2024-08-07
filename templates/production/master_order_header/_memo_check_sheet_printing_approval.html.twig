@@ -53,27 +53,27 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No WO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal Produksi</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Mesin</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.machinePrinting.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kode Design</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Warna / Pantone</div>
-                        <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal Pengerjaan</div>
-                        <div class="cell value"></div>
+                        <div class="cell value">: ____________________________________________</div>
                     </div>
                 </div>
             </div>
@@ -222,11 +222,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label" style="width: 10%">Catatan</div>
-                        <div class="cell value"></div>
+                        <div class="cell value">:  _____________________________________________________________</div>
                     </div>
                     <div class="row">
                         <div class="cell label" style="width: 10%">Rekomendasi</div>
-                        <div class="cell value"></div>
+                        <div class="cell value">:  _____________________________________________________________</div>
                     </div>
                 </div>
             </div>

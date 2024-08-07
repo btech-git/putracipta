@@ -53,11 +53,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Kertas & Ukuran</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.paper.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Material</div>
-                        <div class="cell value">{{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim / {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim / {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
                     </div>
                 </div>
             </div>
@@ -65,15 +65,15 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">MO #</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal MO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kode Pisau</div>
-                        <div class="cell value">{{ masterOrderHeader.diecutKnife.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.diecutKnife.codeNumber|default }}</div>
                     </div>
                 </div>
             </div>
@@ -159,24 +159,24 @@
                 <div class="cell col-6 col-md-6">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Pemakaian Chito</div>
-                            <div class="cell value"></div>
+                            <div class="cell">Pemakaian Chito</div>
+                            <div class="cell"></div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Chito No __________ </div>
-                            <div class="cell value"> _______________________________ Btg</div>
+                            <div class="cell">Chito No __________ </div>
+                            <div class="cell">: _______________________ Btg</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Chito No __________ </div>
-                            <div class="cell value"> _______________________________ Btg</div>
+                            <div class="cell">Chito No __________ </div>
+                            <div class="cell">: _______________________ Btg</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Chito No __________ </div>
-                            <div class="cell value"> _______________________________ Btg</div>
+                            <div class="cell">Chito No __________ </div>
+                            <div class="cell">: _______________________ Btg</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">Reject / Setelan</div>
-                            <div class="cell value"> _______________________________ Lembar</div>
+                            <div class="cell">Reject / Setelan</div>
+                            <div class="cell">: _______________________ Lembar</div>
                         </div>
                     </div>
                 </div>
@@ -225,8 +225,8 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">Catatan</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell">Catatan</div>
+                        <div class="cell">: _____________________________________________________________________</div>
                     </div>
                 </div>
             </div>
@@ -240,16 +240,16 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">Tanggal Pengembalian WO#</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell">Tanggal Pengembalian WO#</div>
+                        <div class="cell">: _______________________</div>
                     </div>
                 </div>
             </div>
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                        <div class="cell label">WO# dikembalikan oleh</div>
-                        <div class="cell value">_______________________</div>
+                        <div class="cell">WO# dikembalikan oleh</div>
+                        <div class="cell">: _______________________</div>
                     </div>
                 </div>
             </div>

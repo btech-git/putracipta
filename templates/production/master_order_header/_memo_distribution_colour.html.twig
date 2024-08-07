@@ -53,23 +53,23 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Mesin Cetak</div>
-                        <div class="cell value">{{ masterOrderHeader.machinePrinting.name|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.machinePrinting.name|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Nama Customer</div>
-                        <div class="cell value">{{ masterOrderHeader.customer.company|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.customer.company|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kode Design</div>
-                        <div class="cell value">{{ masterOrderHeader.designCode.codeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.designCode.codeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Warna / Pantone</div>
-                        <div class="cell value">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Finishing</div>
-                        <div class="cell value">{{ masterOrderHeader.finishing|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.finishing|default }}</div>
                     </div>
                 </div>
             </div>
@@ -78,23 +78,23 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">No MO</div>
-                        <div class="cell value">{{ masterOrderHeader.getCodeNumber|default }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal MO</div>
-                        <div class="cell value">{{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.transactionDate ? masterOrderHeader.transactionDate|date('d M Y') : '' }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Status Cetakan</div>
-                        <div class="cell value">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Ukuran Mountage/Kris</div>
-                        <div class="cell value">{{ masterOrderHeader.mountageSize }} cm</div>
+                        <div class="cell value">: {{ masterOrderHeader.mountageSize }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Material Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paper.name|default }} Gram</div>
+                        <div class="cell value">: {{ masterOrderHeader.paper.name|default }} Gram</div>
                     </div>
                 </div>
             </div>
@@ -154,27 +154,27 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Uk Plano Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paperPlanoLength|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(2) }} cm</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperPlanoLength|number_format(2) }} x {{ masterOrderHeader.paperPlanoWidth|number_format(2) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk Potong 1</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize1|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|number_format(2) }} cm</div>
+                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize1|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|number_format(2) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Uk Potong 2</div>
-                        <div class="cell value">{{ masterOrderHeader.cuttingLengthSize2|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize2|number_format(2) }} cm</div>
+                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize2|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize2|number_format(2) }} cm</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kebutuhan</div>
-                        <div class="cell value">{{ masterOrderHeader.paperRequirement|default|number_format(2) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperRequirement|default|number_format(2) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Insit Cetak</div>
-                        <div class="cell value">{{ masterOrderHeader.insitPrintingQuantity|default|number_format(2) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.insitPrintingQuantity|default|number_format(2) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Total Kertas</div>
-                        <div class="cell value">{{ masterOrderHeader.paperTotal|default|number_format(2) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.paperTotal|default|number_format(2) }} dreek</div>
                     </div>
                 </div>
             </div>
@@ -184,11 +184,11 @@
                 <div class="table full">
                     <div class="row">
                         <div class="cell label">Kertas Bekas</div>
-                        <div class="cell value">_______________________ dreek</div>
+                        <div class="cell value">: _______________________ dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Kertas Baru</div>
-                        <div class="cell value">_______________________ dreek</div>
+                        <div class="cell value">: _______________________ dreek</div>
                     </div>
                 </div>
             </div>
