@@ -17,4 +17,16 @@ class MaterialRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Material::class);
     }
+
+    public function findRecentBy($materialSubCategory)
+    {
+        $dql = 'SELECT e FROM ' . Material::class . ' e WHERE e.materialSubCategory = :materialSubCategory ORDER BY e.codeOrdinal DESC';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('materialSubCategory', $materialSubCategory);
+        $query->setMaxResults(1);
+        $lastMaterial = $query->getOneOrNullResult();
+
+        return $lastMaterial;
+    }
 }
