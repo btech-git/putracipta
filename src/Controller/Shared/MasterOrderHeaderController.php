@@ -57,7 +57,7 @@ class MasterOrderHeaderController extends AbstractController
                 $sub->andWhere("IDENTITY(q.masterOrderHeader) = {$alias}.id");
                 $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
             } elseif ($request->request->has('inventory_product_receive_header')) {
-                $qb->andWhere("{$alias}.totalRemainingProduction > 0");
+                $qb->andWhere("{$alias}.totalRemainingInventoryReceive > 0");
             } elseif ($request->request->has('inventory_request_header')) {
                 $sub = $new(InventoryRequestPaperDetail::class, 'i');
                 $sub->andWhere("IDENTITY(i.masterOrderHeader) = {$alias}.id");
