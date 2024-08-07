@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialRepository::class)]
 #[ORM\Table(name: 'master_material')]
-#[UniqueEntity(['code', 'name'])]
+//#[UniqueEntity(['code', 'name'])]
 class Material extends Master
 {
     #[ORM\Id]
@@ -49,6 +49,9 @@ class Material extends Master
     #[ORM\Column(length: 60)]
     private ?string $viscosity = '';
 
+    #[ORM\Column]
+    private ?int $codeOrdinal = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -58,6 +61,13 @@ class Material extends Master
     {
         $materialSubCategory = $this->materialSubCategory;
         return sprintf('%s-%s-%03d', $materialSubCategory->getMaterialCategory()->getCode(), $materialSubCategory->getCode(), $this->id);
+    }
+
+    public function setCodeOrdinalToNext($ordinal): self
+    {
+        $this->codeOrdinal = $ordinal + 1;
+
+        return $this;
     }
 
     public function getCode(): ?string
@@ -152,6 +162,18 @@ class Material extends Master
     public function setViscosity(string $viscosity): self
     {
         $this->viscosity = $viscosity;
+
+        return $this;
+    }
+
+    public function getCodeOrdinal(): ?int
+    {
+        return $this->codeOrdinal;
+    }
+
+    public function setCodeOrdinal(int $codeOrdinal): self
+    {
+        $this->codeOrdinal = $codeOrdinal;
 
         return $this;
     }
