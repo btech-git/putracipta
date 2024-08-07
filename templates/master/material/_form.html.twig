@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col">
+        <div class="col d-none">
             {{ form_row(form.code, {
                 'attr': {
                     'data-controller': 'dom-element',
@@ -12,10 +12,33 @@
             }) }}
         </div>
         <div class="col">
-            {{ form_row(form.name) }}
+            {{ form_row(form.materialCategory, {
+                'attr': {
+                    'data-controller': 'dom-element',
+                    'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind',
+                    'data-dom-element-bind-action-param': '
+                        if ($event.type === "change") {
+                            const materialSubCategoryChoiceElement = document.querySelector("select#' ~ form.materialSubCategory.vars.id ~ '");
+                            materialSubCategoryChoiceElement.value = "";
+                        }
+                        const materialCategoryId = $element.value;
+                        const materialSubCategoryChoiceElements = document.querySelectorAll("select#' ~ form.materialSubCategory.vars.id ~ ' > option[data-material-category]");
+                        for (const materialSubCategoryChoiceElement of materialSubCategoryChoiceElements) {
+                            if (materialCategoryId === materialSubCategoryChoiceElement.getAttribute("data-material-category")) {
+                                materialSubCategoryChoiceElement.classList.remove("d-none");
+                            } else {
+                                materialSubCategoryChoiceElement.classList.add("d-none");
+                            }
+                        }
+                    ',
+                },
+            }) }}
         </div>
         <div class="col">
             {{ form_row(form.materialSubCategory) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.name) }}
         </div>
     </div>
         
