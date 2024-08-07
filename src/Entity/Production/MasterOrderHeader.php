@@ -383,6 +383,9 @@ class MasterOrderHeader extends ProductionHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityStockPaper = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalRemainingInventoryReceive = '0.00';
+
     public function __construct()
     {
         $this->workOrderColorMixings = new ArrayCollection();
@@ -405,20 +408,6 @@ class MasterOrderHeader extends ProductionHeader
     {
         return self::CODE_NUMBER_CONSTANT;
     }
-    
-//    public function getQuantityPrintingAverage() 
-//    {
-//        $total = 0;
-//        $detailsCount = count($this->masterOrderProductDetails) > 0 ? count($this->masterOrderProductDetails) : 1;
-//        
-//        foreach ($this->masterOrderProductDetails as $detail) {
-//            $quantityPrinting = empty($detail->getQuantityPrinting()) ? 1 : $detail->getQuantityPrinting();
-//            $total += $quantityPrinting;
-//        }
-//        
-//        return $total / $detailsCount;
-//        
-//    }
     
     public function getSyncTotalQuantityOrder() 
     {
@@ -469,6 +458,18 @@ class MasterOrderHeader extends ProductionHeader
         foreach ($this->masterOrderProductDetails as $detail) {
             $totalQuantity += $detail->getRemainingProduction();
         }
+        
+        return $totalQuantity;
+    }
+    
+    public function getSyncTotalRemainingInventoryReceive() 
+    {
+        $totalQuantity = 0;
+        
+        foreach ($this->masterOrderProductDetails as $detail) {
+            $totalQuantity += $detail->getRemainingInventoryReceive();
+        }
+        
         return $totalQuantity;
     }
     
@@ -693,6 +694,11 @@ class MasterOrderHeader extends ProductionHeader
     public function getFileName(): string
     {
         return sprintf('(%d)_%s_%s.%s', $this->id, $this->masterOrderProductList, $this->transactionDate->format('Y-m-d'), $this->layoutModelFileExtension);
+    }
+    
+    public function getQuantityPlano() 
+    {
+        return $this->paperTotal / $this->paperMountage;
     }
 
     public function getId(): ?int
@@ -2256,6 +2262,18 @@ class MasterOrderHeader extends ProductionHeader
     public function setQuantityStockPaper(string $quantityStockPaper): self
     {
         $this->quantityStockPaper = $quantityStockPaper;
+
+        return $this;
+    }
+
+    public function getTotalRemainingInventoryReceive(): ?string
+    {
+        return $this->totalRemainingInventoryReceive;
+    }
+
+    public function setTotalRemainingInventoryReceive(string $totalRemainingInventoryReceive): self
+    {
+        $this->totalRemainingInventoryReceive = $totalRemainingInventoryReceive;
 
         return $this;
     }

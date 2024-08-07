@@ -53,9 +53,6 @@ class MasterOrderProductDetail extends ProductionDetail
     private ?string $quantityProduction = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $remainingProduction = '0.00';
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityDelivery = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
@@ -63,6 +60,12 @@ class MasterOrderProductDetail extends ProductionDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityPrinting = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $quantityInventoryReceive = '0.00';
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $remainingInventoryReceive = '0.00';
 
     public function __construct()
     {
@@ -79,17 +82,17 @@ class MasterOrderProductDetail extends ProductionDetail
 
     public function getSyncQuantityShortage() 
     {
-        return $this->quantityOrder - $this->quantityStock;
+        return $this->quantityProduction - $this->quantityStock;
     }
     
-    public function getSyncRemainingProduction() 
+    public function getSyncRemainingInventoryReceive() 
     {
-        return $this->quantityShortage - $this->quantityProduction;
+        return $this->quantityShortage - $this->quantityInventoryReceive;
     }
     
     public function getSyncRemainingStockDelivery() 
     {
-        return $this->quantityProduction - $this->quantityDelivery;
+        return $this->quantityInventoryReceive - $this->quantityDelivery;
     }
     
     public function getDeliveryLotNumber()
@@ -276,18 +279,6 @@ class MasterOrderProductDetail extends ProductionDetail
         return $this;
     }
 
-    public function getRemainingProduction(): ?string
-    {
-        return $this->remainingProduction;
-    }
-
-    public function setRemainingProduction(string $remainingProduction): self
-    {
-        $this->remainingProduction = $remainingProduction;
-
-        return $this;
-    }
-
     public function getQuantityDelivery(): ?string
     {
         return $this->quantityDelivery;
@@ -320,6 +311,30 @@ class MasterOrderProductDetail extends ProductionDetail
     public function setQuantityPrinting(string $quantityPrinting): self
     {
         $this->quantityPrinting = $quantityPrinting;
+
+        return $this;
+    }
+
+    public function getQuantityInventoryReceive(): ?string
+    {
+        return $this->quantityInventoryReceive;
+    }
+
+    public function setQuantityInventoryReceive(string $quantityInventoryReceive): self
+    {
+        $this->quantityInventoryReceive = $quantityInventoryReceive;
+
+        return $this;
+    }
+
+    public function getRemainingInventoryReceive(): ?string
+    {
+        return $this->remainingInventoryReceive;
+    }
+
+    public function setRemainingInventoryReceive(string $remainingInventoryReceive): self
+    {
+        $this->remainingInventoryReceive = $remainingInventoryReceive;
 
         return $this;
     }
