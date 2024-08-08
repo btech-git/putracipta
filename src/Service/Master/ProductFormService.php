@@ -31,10 +31,8 @@ class ProductFormService
 
         if (empty($product->getId())) {
             $product->setCreatedTransactionDateTime($datetime);
-            $product->setCreatedTransactionUser($user);
         } else {
             $product->setModifiedTransactionDateTime($datetime);
-            $product->setModifiedTransactionUser($user);
         }
     }
 
