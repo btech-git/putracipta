@@ -123,7 +123,7 @@ class DeliveryHeaderFormService
             
             $totalRemainingDelivery = 0;
             foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
-                $totalRemainingDelivery += $saleOrderDetail->getRemainingDelivery();
+                $totalRemainingDelivery += $saleOrderDetail->getRemainingQuantityDelivery();
             }
             $saleOrderHeader->setTotalRemainingDelivery($totalRemainingDelivery);
             
