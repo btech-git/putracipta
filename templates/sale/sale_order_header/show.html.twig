@@ -280,13 +280,15 @@
         {% endif %}
     {% endif %}
     
-    <div class="text-center">
-        {% if saleOrderHeader.transactionFileExtension == 'pdf' %}
-            <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order PDF File</a>
-        {% elseif saleOrderHeader.transactionFileExtension == 'jpg' or saleOrderHeader.transactionFileExtension == 'jpeg' or saleOrderHeader.transactionFileExtension == 'png' %}
-            <img width="512px" height="512px" src="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}" alt="Sale Order Image" />
-        {% elseif saleOrderHeader.transactionFileExtension == 'xls' or saleOrderHeader.transactionFileExtension == 'xlsx' %}
-            <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order Excel File</a>
-        {% endif %}
-    </div>
+    {% if (is_granted('ROLE_MARKETING')) %}
+        <div class="text-center">
+            {% if saleOrderHeader.transactionFileExtension == 'pdf' %}
+                <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order PDF File</a>
+            {% elseif saleOrderHeader.transactionFileExtension == 'jpg' or saleOrderHeader.transactionFileExtension == 'jpeg' or saleOrderHeader.transactionFileExtension == 'png' %}
+                <img width="512px" height="512px" src="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}" alt="Sale Order Image" />
+            {% elseif saleOrderHeader.transactionFileExtension == 'xls' or saleOrderHeader.transactionFileExtension == 'xlsx' %}
+                <a target="_blank" href="{{ asset('uploads/sale-order/' ~ saleOrderHeader.id ~ '.' ~ saleOrderHeader.transactionFileExtension) }}">Sale Order Excel File</a>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
