@@ -95,9 +95,11 @@
                 <th>Tanggal Kirim</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
-                <th>Harga</th>
-                <th>DPP</th>
-                <th>Total</th>
+                {% if (is_granted('ROLE_MARKETING')) %}
+                    <th>Harga</th>
+                    <th>DPP</th>
+                    <th>Total</th>
+                {% endif %}
                 <th>Status</th>
             </tr>
         </thead>
@@ -110,46 +112,50 @@
                         <td>{{ purchaseOrderDetail.deliveryDate ? purchaseOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                         <td style="text-align: right">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
                         <td>{{ purchaseOrderDetail.unit.name|default }}</td>
-                        <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
+                        {% if (is_granted('ROLE_MARKETING')) %}
+                            <td style="text-align: right">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
+                        {% endif %}
                         <td>{{ purchaseOrderDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="7" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="7" style="text-align: right">
-                    <strong>
-                        {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
-                            Non PPn 0%
-                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
-                            Exclude PPn {{ purchaseOrderHeader.taxPercentage }}%
-                        {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
-                            Include PPn {{ purchaseOrderHeader.taxPercentage }}%
-                        {% endif %}
-                    </strong>
-                </td>
-                <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-        </tfoot>
+        {% if (is_granted('ROLE_MARKETING')) %}
+            <tfoot>
+                <tr>
+                    <td colspan="7" style="text-align: right"><strong>Sub Total</strong></td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="text-align: right"><strong>Disc {{ purchaseOrderHeader.discountValue|default }}%</strong></td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="text-align: right">
+                        <strong>
+                            {% if purchaseOrderHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderHeader) %}
+                                Non PPn 0%
+                            {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderHeader) %}
+                                Exclude PPn {{ purchaseOrderHeader.taxPercentage }}%
+                            {% elseif purchaseOrderHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderHeader) %}
+                                Include PPn {{ purchaseOrderHeader.taxPercentage }}%
+                            {% endif %}
+                        </strong>
+                    </td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="text-align: right"><strong>Grand Total</strong></td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        {% endif %}
     </table>
     
     <ul class="nav nav-tabs" id="receive-purchase-return-tab" role="tablist">
@@ -234,5 +240,7 @@
         {% endif %}
     {% endif %}
     
-    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
+    {% if (is_granted('ROLE_MARKETING')) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_header_memo', {'id': purchaseOrderHeader.id}) }}">Print PO</a></div>
+    {% endif %}
 {% endblock %}

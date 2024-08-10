@@ -94,12 +94,14 @@
                 <th>Tanggal Kirim</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
-                <th>APKI</th>
-                <th>H. Asosiasi</th>
-                <th>H. KG</th>
-                <th>H. Satuan</th>
-                <th>DPP</th>
-                <th>Total</th>
+                {% if (is_granted('ROLE_MARKETING')) %}
+                    <th>APKI</th>
+                    <th>H. Asosiasi</th>
+                    <th>H. KG</th>
+                    <th>H. Satuan</th>
+                    <th>DPP</th>
+                    <th>Total</th>
+                {% endif %}
                 <th>Status</th>
             </tr>
         </thead>
@@ -112,49 +114,53 @@
                         <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
                         <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                         <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
-                        <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
-                        <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                        {% if (is_granted('ROLE_MARKETING')) %}
+                            <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
+                            <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                        {% endif %}
                         <td>{{ purchaseOrderPaperDetail.isTransactionClosed ? 'Closed' : 'Open' }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="10" style="text-align: right"><strong>Sub Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="10" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="10" style="text-align: right">
-                    <strong>
-                        {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
-                            Non PPn 0%
-                        {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderPaperHeader) %}
-                            Exclude PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
-                        {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderPaperHeader) %}
-                            Include PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
-                        {% endif %}
-                    </strong>
-                </td>
-                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="10" style="text-align: right"><strong>Grand Total</strong></td>
-                <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
-                <td></td>
-            </tr>
-        </tfoot>
+        {% if (is_granted('ROLE_MARKETING')) %}
+            <tfoot>
+                <tr>
+                    <td colspan="10" style="text-align: right"><strong>Sub Total</strong></td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="text-align: right">
+                        <strong>
+                            {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
+                                Non PPn 0%
+                            {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', purchaseOrderPaperHeader) %}
+                                Exclude PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
+                            {% elseif purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_TAX_INCLUSION', purchaseOrderPaperHeader) %}
+                                Include PPn {{ purchaseOrderPaperHeader.taxPercentage }}%
+                            {% endif %}
+                        </strong>
+                    </td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="text-align: right"><strong>Grand Total</strong></td>
+                    <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        {% endif %}
     </table>
 
     <ul class="nav nav-tabs" id="receive-purchase-return-tab" role="tablist">
@@ -242,5 +248,7 @@
         {% endif %}
     {% endif %}
     
-    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
+    {% if (is_granted('ROLE_MARKETING')) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
+    {% endif %}
 {% endblock %}
