@@ -124,9 +124,9 @@
         <tfoot>
             <tr>
                 <td colspan="3" class="text-end font-weight-bold">Total</td>
-                <td class="text-end font-weight-bold">{{ totalAmount|default|number_format(2) }}</td>
-                <td class="text-end font-weight-bold">{{ totalTax|default|number_format(2) }}</td>
-                <td class="text-end font-weight-bold">{{ grandTotal|default|number_format(2) }}</td>
+                <td class="text-end font-weight-bold">{{ totalAmount|default|number_format(0) }}</td>
+                <td class="text-end font-weight-bold">{{ totalTax|default|number_format(0) }}</td>
+                <td class="text-end font-weight-bold">{{ grandTotal|default|number_format(0 }}</td>
             </tr>
         </tfoot>
     </table>

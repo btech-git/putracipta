@@ -38,7 +38,7 @@
                 <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
                 <td style="text-align: right">{{ saleOrderHeader.subTotal|default }}</td>
                 <td style="text-align: right">{{ saleOrderHeader.taxNominal|default }}</td>
-                <td style="text-align: right">{{ saleOrderHeader.grandTotal|default }}</td>
+                <td style="text-align: right">{{ saleOrderHeader.grandTotal|default|round(0) }}</td>
             </tr>
             {% set totalAmount = totalAmount + saleOrderHeader.subTotal|default %}
             {% set totalTax = totalTax + saleOrderHeader.taxNominal|default %}
@@ -49,9 +49,9 @@
     <tfoot>
         <tr>
             <td colspan="3" style="text-align: right; font-weight: bold">Total</td>
-            <td style="text-align: right; font-weight: bold">{{ totalAmount|default }}</td>
-            <td style="text-align: right; font-weight: bold">{{ totalTax|default }}</td>
-            <td style="text-align: right; font-weight: bold">{{ grandTotal|default }}</td>
+            <td style="text-align: right; font-weight: bold">{{ totalAmount|default|round(0) }}</td>
+            <td style="text-align: right; font-weight: bold">{{ totalTax|default|round(0) }}</td>
+            <td style="text-align: right; font-weight: bold">{{ grandTotal|default|round(0) }}</td>
         </tr>
     </tfoot>
 </table>

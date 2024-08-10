@@ -165,19 +165,19 @@
                             <tfoot class="border-top-solid-normal">
                                 <tr>
                                     <td class="text-end" colspan="5"><strong>Sub Total</strong></td>
-                                    <td class="text-end"><strong>{{ saleInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
+                                    <td class="text-end"><strong>{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="5"><strong>Diskon {{ saleInvoiceHeader.discountValue|default|number_format(2) }}%</strong></td>
-                                    <td class="text-end"><strong>{{ saleInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
+                                    <td class="text-end"><strong>{{ saleInvoiceHeader.discountNominal|default|number_format(0) }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="5"><strong>PPn {{ saleInvoiceHeader.taxPercentage|default }}%</strong></td>
-                                    <td class="text-end"><strong>{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
+                                    <td class="text-end"><strong>{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="5"><strong>Grand Total</strong></td>
-                                    <td class="text-end"><strong>{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
+                                    <td class="text-end"><strong>{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
