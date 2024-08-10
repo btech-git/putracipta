@@ -178,8 +178,15 @@
             <tr>
                 <th class='text-center bg-info'>Code</th>
                 <th class='text-center bg-info'>Name</th>
-                <th class='text-center bg-info'>Warna</th>
-                <th class='text-center bg-info'>Pantone</th>
+                <th class='text-center bg-info'>Jml Warna</th>
+                <th class='text-center bg-info'>C</th>
+                <th class='text-center bg-info'>M</th>
+                <th class='text-center bg-info'>Y</th>
+                <th class='text-center bg-info'>K</th>
+                <th class='text-center bg-info'>K-1</th>
+                <th class='text-center bg-info'>K-2</th>
+                <th class='text-center bg-info'>K-3</th>
+                <th class='text-center bg-info'>K-4</th>
             </tr>
         </thead>
         <tbody>
@@ -188,7 +195,14 @@
                     <td>{{ designCode.codeNumber }}</td>
                     <td>{{ designCode.name }}</td>
                     <td>{{ designCode.color }}</td>
-                    <td>{{ designCode.pantone }}</td>
+                    <td>{{ designCode.inkCyanPercentage|number_format(2) }}</td>
+                    <td>{{ designCode.inkMagentaPercentage|number_format(2) }}</td>
+                    <td>{{ designCode.inkYellowPercentage|number_format(2) }}</td>
+                    <td>{{ designCode.inkBlackPercentage|number_format(2) }}</td>
+                    <td>{{ designCode.colorSpecial1 }}</td>
+                    <td>{{ designCode.colorSpecial2 }}</td>
+                    <td>{{ designCode.colorSpecial3 }}</td>
+                    <td>{{ designCode.colorSpecial4 }}</td>
                 </tr>
             {% endfor %}
         </tbody>
