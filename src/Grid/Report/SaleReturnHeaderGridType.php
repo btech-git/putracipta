@@ -78,7 +78,7 @@ class SaleReturnHeaderGridType extends AbstractType
                     'warehouse' => [SortAscending::class, SortDescending::class],
                 ],
             ])
-            ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+            ->add('pagination', PaginationType::class, ['size_choices' => [50, 100, 300, 500]])
         ;
     }
 

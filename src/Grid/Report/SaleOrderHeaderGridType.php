@@ -110,7 +110,7 @@ class SaleOrderHeaderGridType extends AbstractType
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])
-            ->add('pagination', PaginationType::class, ['size_choices' => [25, 50, 100, 500]])
+            ->add('pagination', PaginationType::class, ['size_choices' => [50, 100, 300, 500]])
         ;
     }
 
