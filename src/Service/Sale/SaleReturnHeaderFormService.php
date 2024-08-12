@@ -127,7 +127,7 @@ class SaleReturnHeaderFormService {
                 }
 
                 if ($saleReturnHeader->getId() !== null && $saleOrderDetail !== null) {
-                    $saleOrderDetail->setTotalReturn($totalReturn);
+                    $saleOrderDetail->setTotalQuantityReturn($totalReturn);
                     $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
                 }
             }
