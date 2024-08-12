@@ -20,7 +20,7 @@ class Material extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
-    #[Assert\NotBlank]
+//    #[Assert\NotBlank]
     private ?string $code = '';
 
     #[ORM\ManyToOne(inversedBy: 'materials')]
