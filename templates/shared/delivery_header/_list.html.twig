@@ -64,7 +64,7 @@
                     'saleOrderHeaderReferenceNumber': deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default, 
                     'productName': deliveryDetail.product.name|default, 
                     'productCode': deliveryDetail.product.code|default, 
-                    'unitName': deliveryDetail.unit.name})|json_encode }}">
+                    'unitName': deliveryDetail.product.unit.name})|json_encode }}">
                     <td>{{ deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
