@@ -70,7 +70,7 @@
                     <td>{{ deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ deliveryHeader.customer.company|default }}</td>
-                    <td>{{ deliveryHeader.saleOrderReferenceNumbers }}</td>
+                    <td>{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
                     <td>{{ deliveryHeader.warehouse.name|default }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                     <td>

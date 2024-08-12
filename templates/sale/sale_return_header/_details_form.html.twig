@@ -10,7 +10,9 @@
                 <th style="min-width: 150px">PO #</th>
                 <th style="min-width: 150px">Item Code</th>
                 <th style="min-width: 150px">Description</th>
-                <th style="min-width: 70px">Qty</th>
+                <th style="min-width: 70px">Qty PO </th>
+                <th style="min-width: 70px">Qty Dlv</th>
+                <th style="min-width: 70px">Qty Retur</th>
                 <th style="min-width: 110px">Satuan</th>
                 <th style="width: 0"></th>
             </tr>
@@ -28,6 +30,8 @@
                     <td data-item-field-name="productName">
                         {{ detailForm.vars.value.product.name|default }}
                     </td>
+                    <td class="text-center" data-item-field-name="saleOrderDetailQuantity">{{ detailForm.vars.value.deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-center" data-item-field-name="deliveryDetailQuantity">{{ detailForm.vars.value.deliveryDetail.quantity|default|number_format(0) }}</td>
                     <td>
                         {{ form_row(detailForm.quantity, {'label': false, 'attr': {
                             'size': 3,
