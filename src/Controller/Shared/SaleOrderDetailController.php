@@ -21,6 +21,9 @@ class SaleOrderDetailController extends AbstractController
     public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'deliveryDate' => SortDescending::class,
+        ]);
         $form = $this->createForm(SaleOrderDetailGridType::class, $criteria);
         $form->handleRequest($request);
 
