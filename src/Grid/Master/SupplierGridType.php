@@ -48,7 +48,7 @@ class SupplierGridType extends AbstractType
                     'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
-            ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+            ->add('pagination', PaginationType::class, ['size_choices' => [100, 300, 500]])
         ;
     }
 
