@@ -8,11 +8,14 @@
     <table class="table table-bordered table-striped" id="delivery-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px">
-                    Pengiriman #
+                <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear']) }}>
+                    Pengiriman # {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'saleOrderReferenceNumbers') }}>
+                    PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumbers.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
@@ -38,6 +41,9 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
@@ -53,12 +59,15 @@
                     'deliveryHeaderTransactionDate': deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '', 
                     'customerCompany': deliveryHeader.customer.company|default,
                     'deliveryDetailId': deliveryDetail.id, 
+                    'deliveryDetailQuantity': deliveryDetail.quantity|default|number_format(0), 
+                    'saleOrderDetailQuantity': deliveryDetail.saleOrderDetail.quantity|default|number_format(0), 
                     'saleOrderHeaderReferenceNumber': deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default, 
                     'productName': deliveryDetail.product.name|default, 
                     'productCode': deliveryDetail.product.code|default, 
                     'unitName': deliveryDetail.unit.name})|json_encode }}">
                     <td>{{ deliveryHeader.codeNumber }}</td>
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
                     <td>{{ deliveryHeader.customer.company|default }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                 </tr>
