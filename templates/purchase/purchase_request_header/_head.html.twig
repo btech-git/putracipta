@@ -15,7 +15,7 @@
                     Tanggal
                 </th>
                 <th style="min-width: 250px">
-                    Gudang
+                    Material
                 </th>
                 <th style="min-width: 200px">
                     Note
@@ -31,7 +31,7 @@
                 <tr>
                     <td>{{ purchaseRequestHeader.codeNumber }}</td>
                     <td>{{ purchaseRequestHeader.transactionDate ? purchaseRequestHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestHeader.warehouse.company|default }}</td>
+                    <td>{{ purchaseRequestHeader.purchaseRequestMaterialList }}</td>
                     <td>{{ purchaseRequestHeader.note }}</td>
                     <td>{{ purchaseRequestHeader.transactionStatus }}</td>
                     <td>

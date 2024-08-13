@@ -15,7 +15,7 @@
                     Tanggal
                 </th>
                 <th style="min-width: 250px">
-                    Gudang
+                    Kertas
                 </th>
                 <th style="min-width: 200px">
                     Note
@@ -31,7 +31,7 @@
                 <tr>
                     <td>{{ purchaseRequestPaperHeader.codeNumber }}</td>
                     <td>{{ purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ purchaseRequestPaperHeader.warehouse.company|default }}</td>
+                    <td>{{ purchaseRequestPaperHeader.purchaseRequestPaperList }}</td>
                     <td>{{ purchaseRequestPaperHeader.note }}</td>
                     <td>{{ purchaseRequestPaperHeader.transactionStatus }}</td>
                     <td>
