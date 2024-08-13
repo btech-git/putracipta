@@ -60,7 +60,7 @@ class InventoryRequestHeaderController extends AbstractController
     public function _head(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createFormBuilder($criteria, ['method' => 'GET', 'data_class' => DataCriteria::class, 'csrf_protection' => false])
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
                 ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
                 ->getForm();
         $form->handleRequest($request);
