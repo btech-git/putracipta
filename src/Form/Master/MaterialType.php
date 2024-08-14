@@ -7,6 +7,8 @@ use App\Entity\Master\MaterialCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MaterialType extends AbstractType
@@ -33,7 +35,7 @@ class MaterialType extends AbstractType
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
                             ->andWhere("e.isInactive = false")
-                            ->andWhere("e.materialCategory <> 1")
+                            ->andWhere("IDENTITY(e.materialCategory) <> 1")
                             ->addOrderBy('e.name', 'ASC');
                 },
             ])
@@ -54,6 +56,15 @@ class MaterialType extends AbstractType
             ])
             ->add('note')
             ->add('isInactive')
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) use ($options) {
+                $material = $event->getData();
+                if ($material->getId() !== null) {
+                    $materialSubCategory = $material->getMaterialSubCategory();
+                    if ($materialSubCategory !== null) {
+                        $event->getForm()->get('materialCategory')->setData($materialSubCategory->getMaterialCategory());
+                    }
+                }
+            })
         ;
     }
 
