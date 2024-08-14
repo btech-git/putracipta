@@ -101,8 +101,8 @@ class SaleReturnHeaderFormService {
             if ($saleReturnHeader->isIsProductExchange() === true) {
                 $totalReturn += $saleReturnDetail->getQuantity();
                 $saleOrderDetail->setTotalReturn($totalReturn);
-                $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
-                if ($saleOrderDetail->getRemainingDelivery() > 0) {
+                $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
+                if ($saleOrderDetail->getRemainingQuantityDelivery() > 0) {
                     $saleOrderDetail->setIsTransactionClosed(false);
                 }
 
@@ -128,7 +128,7 @@ class SaleReturnHeaderFormService {
 
                 if ($saleReturnHeader->getId() !== null && $saleOrderDetail !== null) {
                     $saleOrderDetail->setTotalQuantityReturn($totalReturn);
-                    $saleOrderDetail->setRemainingDelivery($saleOrderDetail->getSyncRemainingDelivery());
+                    $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
                 }
             }
         }
