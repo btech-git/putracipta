@@ -60,7 +60,7 @@ class Material extends Master
     public function getCodeNumber(): ?string 
     {
         $materialSubCategory = $this->materialSubCategory;
-        return sprintf('%s-%s-%03d', $materialSubCategory->getMaterialCategory()->getCode(), $materialSubCategory->getCode(), $this->id);
+        return sprintf('%s-%s-%03d', $materialSubCategory->getMaterialCategory()->getCode(), $materialSubCategory->getCode(), $this->codeOrdinal);
     }
 
     public function setCodeOrdinalToNext($ordinal): self
