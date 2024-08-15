@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InventoryProductReceiveHeaderRepository::class)]
 #[ORM\Table(name: 'stock_inventory_product_receive_header')]
@@ -30,6 +31,7 @@ class InventoryProductReceiveHeader extends StockHeader
     private Collection $inventoryProductReceiveDetails;
 
     #[ORM\ManyToOne(inversedBy: 'inventoryProductReceiveHeaders')]
+    #[Assert\NotNull]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
     #[ORM\Column(length: 200)]
