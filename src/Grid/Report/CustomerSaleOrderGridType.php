@@ -29,20 +29,20 @@ class CustomerSaleOrderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['saleOrderHeader:codeNumberOrdinal', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'company', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus'],
+                'field_names' => ['saleOrderHeader:codeNumberOrdinal', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'id', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus'],
                 'field_label_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => 'Code Number',
                     'saleOrderHeader:codeNumberMonth' => '',
                     'saleOrderHeader:codeNumberYear' => '',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
-                    'company' => 'Customer',
+                    'id' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'company' => [FilterEqual::class, FilterNotEqual::class],
+                    'id' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
@@ -51,29 +51,29 @@ class CustomerSaleOrderGridType extends AbstractType
                     'saleOrderHeader:codeNumberOrdinal' => IntegerType::class,
                     'saleOrderHeader:codeNumberMonth' => ChoiceType::class,
                     'saleOrderHeader:codeNumberYear' => IntegerType::class,
-                    'company' => EntityType::class,
+                    'id' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'saleOrderHeader:codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'saleOrderHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
-                    'company' => ['class' => Customer::class, 'choice_label' => 'company'],
+                    'id' => ['class' => Customer::class, 'choice_label' => 'company'],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'company', 'saleOrderHeader:referenceNumber', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberOrdinal'],
+                'field_names' => ['saleOrderHeader:transactionDate', 'id', 'saleOrderHeader:referenceNumber', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberOrdinal'],
                 'field_label_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => '',
                     'saleOrderHeader:codeNumberMonth' => '',
                     'saleOrderHeader:codeNumberYear' => 'Code Number',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
-                    'company' => 'Customer',
+                    'id' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:transactionDate' => [SortAscending::class, SortDescending::class],
-                    'company' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:referenceNumber' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:note' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:transactionStatus' => [SortAscending::class, SortDescending::class],
