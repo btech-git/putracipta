@@ -133,14 +133,23 @@ class DeliveryHeaderFormService
                 $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_FULL_DELIVERY);
             }
         }
+        
         $saleOrderReferenceNumberList = [];
+        $deliveryDetailProductCodeList = [];
+        $deliveryDetailProductList = [];
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
+            $deliveryDetailProductCodeList[] = $saleOrderDetail->getProduct()->getCode();
+            $deliveryDetailProductList[] = $saleOrderDetail->getProduct()->getName();
         }
         $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
         $deliveryHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
+        $deliveryDetailProductCodeUniqueList = array_unique(explode(', ', implode(', ', $deliveryDetailProductCodeList)));
+        $deliveryHeader->setDeliveryDetailProductCodeList(implode(', ', $deliveryDetailProductCodeUniqueList));
+        $deliveryDetailProductUniqueList = array_unique(explode(', ', implode(', ', $deliveryDetailProductList)));
+        $deliveryHeader->setDeliveryDetailProductList(implode(', ', $deliveryDetailProductUniqueList));
     }
 
     public function save(DeliveryHeader $deliveryHeader, array $options = []): void
