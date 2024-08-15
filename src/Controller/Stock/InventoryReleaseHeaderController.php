@@ -55,6 +55,10 @@ class InventoryReleaseHeaderController extends AbstractController
     public function _listOutstandingInventoryRequest(Request $request, InventoryRequestHeaderRepository $inventoryRequestHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(OutstandingInventoryRequestGridType::class, $criteria);
         $form->handleRequest($request);
 
