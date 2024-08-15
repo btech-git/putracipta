@@ -16,13 +16,14 @@
             </th>
         </tr>
         <tr>
-            <th style="text-align: center; width: 200pt"><strong>Nama Produk</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Tanggal Terima</strong></th>
             <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Tanggal PO</strong></th>
             <th style="text-align: center; width: 200pt"><strong>Customer</strong></th>
+            <th style="text-align: center; width: 200pt"><strong>Nama Produk</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Marketing</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Qty</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>ETA</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Harga</strong></th>
             <th style="text-align: center; width: 100pt"><strong>IDR</strong></th>
         </tr>
@@ -32,13 +33,14 @@
         {% for saleOrderHeader in saleOrderHeaders %}
             {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
                 <tr>
-                    <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.transactionDate|default ? saleOrderHeader.transactionDate|date('j F Y') }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.employee.name|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|round(0) }}</td>
                 </tr>
@@ -48,7 +50,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="8" style="text-align: right; font-weight: bold">Total</td>
+            <td colspan="9" style="text-align: right; font-weight: bold">Total</td>
             <td style="text-align: right; font-weight: bold">{{ grandTotal|default|round(0) }}</td>
         </tr>
     </tfoot>
