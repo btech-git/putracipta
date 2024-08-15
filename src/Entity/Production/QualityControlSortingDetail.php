@@ -27,7 +27,7 @@ class QualityControlSortingDetail extends ProductionDetail
     private ?string $quantityOrder = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalQuantitySorting = '0.00';
+    private ?string $totalQuantitySorting = '1.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $quantityGood = '0.00';
