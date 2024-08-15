@@ -20,6 +20,12 @@
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'saleOrderReferenceNumbers') }}>
                     PO # {{ grid.sort_char(form.sort.saleOrderReferenceNumbers.vars.value) }}
                 </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'deliveryDetailProductList') }}>
+                    Product Code {{ grid.sort_char(form.sort.deliveryDetailProductList.vars.value) }}
+                </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'deliveryDetailProductCodeList') }}>
+                    Product Name {{ grid.sort_char(form.sort.deliveryDetailProductCodeList.vars.value) }}
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse:name') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse:name'].vars.value) }}
                 </th>
@@ -51,6 +57,12 @@
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'deliveryDetailProductCodeList') }} value="{{ form.filter.deliveryDetailProductCodeList.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'deliveryDetailProductList') }} value="{{ form.filter.deliveryDetailProductList.1.vars.value }}" />
+                </th>
+                <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>
                         <option value="" {% if form.filter.warehouse.1.vars.value == '' %}selected="selected"{% endif %}></option>
                         {% for choice in form.filter.warehouse.1.vars.choices %}
@@ -71,6 +83,8 @@
                     <td>{{ deliveryHeader.transactionDate ? deliveryHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ deliveryHeader.customer.company|default }}</td>
                     <td>{{ deliveryHeader.saleOrderReferenceNumbers|default }}</td>
+                    <td>{{ deliveryHeader.deliveryDetailProductCodeList|default }}</td>
+                    <td>{{ deliveryHeader.deliveryDetailProductList|default }}</td>
                     <td>{{ deliveryHeader.warehouse.name|default }}</td>
                     <td>{{ deliveryHeader.note }}</td>
                     <td>
