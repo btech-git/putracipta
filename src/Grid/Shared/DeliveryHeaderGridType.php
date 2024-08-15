@@ -25,7 +25,7 @@ class DeliveryHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'deliveryDetailProductList'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -44,6 +44,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'warehouse:name' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
+                    'deliveryDetailProductList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -55,7 +56,7 @@ class DeliveryHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'deliveryDetailProductList'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -74,6 +75,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
+                    'deliveryDetailProductList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
