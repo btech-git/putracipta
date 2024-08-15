@@ -3,6 +3,7 @@
 namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Criteria\DataCriteriaPagination;
 use App\Common\Data\Operator\SortAscending;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Material;
@@ -28,6 +29,9 @@ class MaterialController extends AbstractController
         $criteria->setSort([
             'name' => SortAscending::class,
         ]);
+        $criteriaPagination = new DataCriteriaPagination();
+        $criteriaPagination->setSize(100);
+        $criteria->setPagination($criteriaPagination);
         $form = $this->createForm(MaterialGridType::class, $criteria);
         $form->handleRequest($request);
 
@@ -66,7 +70,7 @@ class MaterialController extends AbstractController
         $material = new Material();
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
-        $materialFormService->finalize($material);
+        $materialFormService->finalize($material, ['oldMaterialSubCategory' => null]);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $materialFormService->save($material);
@@ -93,9 +97,10 @@ class MaterialController extends AbstractController
     #[IsGranted('ROLE_MATERIAL_EDIT')]
     public function edit(Request $request, Material $material, MaterialFormService $materialFormService): Response
     {
+        $oldMaterialSubCategory = $material->getMaterialSubCategory();
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
-        $materialFormService->finalize($material);
+        $materialFormService->finalize($material, ['oldMaterialSubCategory' => $oldMaterialSubCategory]);
 
         if (IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $materialFormService->save($material);
