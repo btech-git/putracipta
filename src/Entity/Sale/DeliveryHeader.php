@@ -77,6 +77,12 @@ class DeliveryHeader extends SaleHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantity = '0.00';
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $deliveryDetailProductList = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $deliveryDetailProductCodeList = '';
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -333,6 +339,30 @@ class DeliveryHeader extends SaleHeader
     public function setTotalQuantity(string $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getDeliveryDetailProductList(): ?string
+    {
+        return $this->deliveryDetailProductList;
+    }
+
+    public function setDeliveryDetailProductList(string $deliveryDetailProductList): self
+    {
+        $this->deliveryDetailProductList = $deliveryDetailProductList;
+
+        return $this;
+    }
+
+    public function getDeliveryDetailProductCodeList(): ?string
+    {
+        return $this->deliveryDetailProductCodeList;
+    }
+
+    public function setDeliveryDetailProductCodeList(string $deliveryDetailProductCodeList): self
+    {
+        $this->deliveryDetailProductCodeList = $deliveryDetailProductCodeList;
 
         return $this;
     }
