@@ -12,6 +12,7 @@ use App\Grid\Sale\OutstandingSaleOrderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
+use App\Repository\Stock\InventoryRepository;
 use App\Service\Sale\DeliveryHeaderFormService;
 use App\Util\PdfGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -64,7 +65,7 @@ class DeliveryHeaderController extends AbstractController
     
     #[Route('/_list_outstanding_sale_order', name: 'app_sale_delivery_header__list_outstanding_sale_order', methods: ['GET', 'POST'])]
     #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
-    public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository): Response
+    public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository): Response
     {
         $criteria = new DataCriteria();
         $form = $this->createForm(OutstandingSaleOrderGridType::class, $criteria);
@@ -103,6 +104,7 @@ class DeliveryHeaderController extends AbstractController
             'form' => $form,
             'count' => $count,
             'saleOrderDetails' => $saleOrderDetails,
+            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository),
         ]);
     }
 
@@ -195,5 +197,14 @@ class DeliveryHeaderController extends AbstractController
             fn($html, $chrootDir) => preg_replace('/<link rel="stylesheet"(.+)href=".+">/', '<link rel="stylesheet"\1href="' . $chrootDir . 'build/memo.css">', $html),
             fn($html, $chrootDir) => preg_replace('/<img(.+)src=".+">/', '<img\1src="' . $chrootDir . 'images/Logo.jpg">', $html),
         ]);
+    }
+    
+    public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository): array
+    {
+        $products = array_map(fn($saleOrderDetail) => $saleOrderDetail->getProduct(), $saleOrderDetails);
+        $stockQuantityList = $inventoryRepository->getAllWarehouseProductStockQuantityList($products);
+        $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+        
+        return $stockQuantityListIndexed;
     }
 }
