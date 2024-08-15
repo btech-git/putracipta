@@ -84,7 +84,7 @@
                     {% for purchaseOrderDetail in row %}
                         <tr>
                             {% if purchaseOrderDetail %}
-                                <td class="left">{{ purchaseOrderDetail.material.code|default }}</td>
+                                <td class="left">{{ purchaseOrderDetail.material.codeNumber|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="left">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('d M Y') }}</td>
                                 <td class="center">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>

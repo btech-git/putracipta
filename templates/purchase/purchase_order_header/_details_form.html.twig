@@ -24,7 +24,7 @@
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.material, {'attr': {'data-item-field-name': 'materialId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.purchaseRequestDetail, {'attr': {'data-item-field-name': 'purchaseRequestDetailId'}}) }}</td>
-                    <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.code|default }}</td>
+                    <td data-item-field-name="materialCode">{{ detailForm.vars.value.material.codeNumber|default }}</td>
                     <td data-item-field-name="materialName">{{ detailForm.vars.value.material.name|default }}</td>
                     <td>
                         {{ form_row(detailForm.deliveryDate, {'label': false, 'attr': {
