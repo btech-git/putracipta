@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Grid\Shared\PurchaseOrderPaperHeaderGridType;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,6 +20,10 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function _list(Request $request, PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(PurchaseOrderPaperHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
