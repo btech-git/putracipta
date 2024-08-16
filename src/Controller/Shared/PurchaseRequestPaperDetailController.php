@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Grid\Shared\PurchaseRequestPaperDetailGridType;
 use App\Repository\Purchase\PurchaseRequestPaperDetailRepository;
@@ -20,6 +21,9 @@ class PurchaseRequestPaperDetailController extends AbstractController
     public function _list(Request $request, PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'usageDate' => SortDescending::class,
+        ]);
         $form = $this->createForm(PurchaseRequestPaperDetailGridType::class, $criteria);
         $form->handleRequest($request);
 
