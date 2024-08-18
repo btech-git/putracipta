@@ -8,6 +8,7 @@ use App\Repository\Production\QualityControlSortingHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QualityControlSortingHeaderRepository::class)]
 #[ORM\Table(name: 'production_quality_control_sorting_header')]
@@ -21,6 +22,7 @@ class QualityControlSortingHeader extends ProductionHeader
     private ?int $id = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
     #[ORM\ManyToOne]
@@ -30,6 +32,8 @@ class QualityControlSortingHeader extends ProductionHeader
     private ?string $employeeInCharge = '';
 
     #[ORM\OneToMany(mappedBy: 'qualityControlSortingHeader', targetEntity: QualityControlSortingDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $qualityControlSortingDetails;
 
     public function __construct()

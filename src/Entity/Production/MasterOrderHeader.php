@@ -71,7 +71,7 @@ class MasterOrderHeader extends ProductionHeader
     private ?string $quantityPaper = '0.00';
 
     #[ORM\Column]
-    private ?int $paperMountage = 0;
+    private ?int $paperMountage = 1;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $paperPlanoLength = '0.00';
@@ -290,7 +290,7 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProductDetail::class)]
     #[Assert\Valid]
-    #[Assert\Count(min: 0)]
+    #[Assert\Count(min: 1)]
     private Collection $masterOrderProductDetails;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProcessDetail::class)]
@@ -354,10 +354,10 @@ class MasterOrderHeader extends ProductionHeader
     private ?string $masterOrderProductNameList = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $quantityPrinting = '0.00';
+    private ?string $quantityPrinting = '1.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $quantityPrinting2 = '0.00';
+    private ?string $quantityPrinting2 = '1.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $insitSortingQuantity = '0.00';
@@ -372,7 +372,7 @@ class MasterOrderHeader extends ProductionHeader
     private ?string $totalQuantityStock = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $totalQuantityShortage = '0.00';
+    private ?string $totalQuantityShortage = '1.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantityProduction = '0.00';

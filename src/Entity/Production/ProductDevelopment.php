@@ -163,6 +163,8 @@ class ProductDevelopment extends ProductionHeader
     private ?string $transactionFileExtension = '';
 
     #[ORM\OneToMany(mappedBy: 'product_development', targetEntity: ProductDevelopmentDetail::class)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $productDevelopmentDetails;
 
     #[ORM\Column(length: 200)]
