@@ -84,6 +84,7 @@ class SaleOrderHeader extends SaleHeader
 
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetail::class)]
     #[Assert\Valid]
+    #[Assert\Count(min: 1)]
     private Collection $saleOrderDetails;
 
     #[ORM\Column(length: 20)]

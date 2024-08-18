@@ -47,6 +47,7 @@ class SaleReturnHeader extends SaleHeader
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\OneToMany(mappedBy: 'saleReturnHeader', targetEntity: SaleReturnDetail::class)]
@@ -55,6 +56,7 @@ class SaleReturnHeader extends SaleHeader
     private Collection $saleReturnDetails;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(length: 100)]
