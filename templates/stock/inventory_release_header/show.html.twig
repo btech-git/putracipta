@@ -93,7 +93,7 @@
                         <tr>
                             <td>{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
                             <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
-                            <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(2) }}</td>
                             <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
                             <td>
                                 {% if (inventoryReleasePaperDetail.inventoryRequestPaperDetail != null) %}
@@ -115,7 +115,7 @@
                         <tr>
                             <td>{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
                             <td>{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
-                            <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
+                            <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(2) }}</td>
                             <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
                             <td>
                                 {% if (inventoryReleaseMaterialDetail.inventoryRequestMaterialDetail != null) %}
