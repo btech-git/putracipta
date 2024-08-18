@@ -129,7 +129,7 @@
             </tr>
             <tr>
                 <th>Keterangan</th>
-                <td>{{ productPrototype.note }}</td>
+                <td>{{ productPrototype.note|default|nl2br }}</td>
             </tr>
             <tr>
                 <th>Is Canceled</th>

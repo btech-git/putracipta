@@ -162,6 +162,7 @@
                                             <th>Tgl Kirim</th>
                                             <th>Up Cetak</th>
                                             <th>Qty Order</th>
+                                            <th>Qty Produksi</th>
                                             <th>Stock</th>
                                             <th>Kekurangan</th>
                                         </tr>
@@ -175,6 +176,7 @@
                                                 <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                                                 <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                                                 <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                                                <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
                                                 <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                                                 <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
                                             </tr>
@@ -184,6 +186,7 @@
                                         <tr>
                                             <td style="text-align:right; font-weight: bold" colspan="5">TOTAL</td>
                                             <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
+                                            <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityProduction|default|number_format(0) }}</td>
                                             <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                                             <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
                                         </tr>

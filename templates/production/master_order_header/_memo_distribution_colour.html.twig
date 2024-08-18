@@ -112,6 +112,7 @@
                     <th>Ukuran Jadi</th>
                     <th>Tanggal Kirim</th>
                     <th>Qty Order</th>
+                    <th>Qty Produksi</th>
                     <th>Stock</th>
                     <th>Kekurangan</th>
                     <th>Up/s (Mata)</th>
@@ -131,6 +132,7 @@
                         </td>
                         <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                        <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                         <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
                         <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>

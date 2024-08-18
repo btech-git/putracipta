@@ -94,94 +94,96 @@
             </tr>
         </tbody>
     </table>
-         
-    {% if (masterOrderHeader.transactionMode == 'sale_order') %}
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th colspan='12' class='text-center bg-info'>CUSTOMER ORDER DETAILS</th>
-                </tr>
-                <tr>
-                    <th style="min-width: 150px">PO#</th>
-                    <th style="min-width: 200px">Kode Produk</th>
-                    <th style="min-width: 300px">Nama Produk</th>
-                    <th style="min-width: 80px" class="text-center">P (mm)</th>
-                    <th style="min-width: 80px" class="text-center">L (mm)</th>
-                    <th style="min-width: 80px" class="text-center">T (mm)</th>
-                    <th style="min-width: 150px" class="text-center">Tanggal Kirim</th>
-                    <th style="min-width: 100px" class="text-center">Up Cetak</th>
-                    <th style="min-width: 100px" class="text-center">Qty Order</th>
-                    <th style="min-width: 150px" class="text-center">Qty Produksi</th>
-                    <th style="min-width: 100px" class="text-center">Stock</th>
-                    <th style="min-width: 100px" class="text-center">Kekurangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
-                    {% if masterOrderProductDetail.isCanceled == false %}
-                        <tr>
-                            <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                            <td>{{ masterOrderProductDetail.product.code|default }}</td>
-                            <td>{{ masterOrderProductDetail.product.name|default }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
-                            <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
-                            <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="7" class="text-end">Total</td>
-                    <td class="text-center">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</td>
-                    <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
-                    <td class="text-center">{{ masterOrderHeader.totalQuantityProduction|default|number_format(0) }}</td>
-                    <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
-                    <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
-                </tr>
-            </tfoot>
-        </table>
-    {% else %}
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th colspan='11' class='text-center bg-info'>PRODUK BARU DETAILS</th>
-                </tr>
-                <tr>
-                    <th style="min-width: 200px">Kode Produk</th>
-                    <th style="min-width: 300px">Nama Produk</th>
-                    <th style="min-width: 80px" class="text-center">Ukuran Jadi</th>
-                    <th style="min-width: 100px" class="text-center">Qty Order</th>
-                    <th style="min-width: 100px" class="text-center">Stock</th>
-                    <th style="min-width: 100px" class="text-center">Kekurangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for masterOrderPrototypeDetail in masterOrderHeader.masterOrderPrototypeDetails %}
+        
+    <div class="table-responsive"> 
+        {% if (masterOrderHeader.transactionMode == 'sale_order') %} 
+            <table class="table table-bordered table-striped">
+                <thead>
                     <tr>
-                        <td>{{ masterOrderPrototypeDetail.product.code|default }}</td>
-                        <td>{{ masterOrderPrototypeDetail.product.name|default }}</td>
-                        <td class="text-center">{{ masterOrderPrototypeDetail.product.productLengthWidthHeightCombination|default }}</td>
-                        <td class="text-center">{{ masterOrderPrototypeDetail.quantityOrder|default|number_format(0) }}</td>
-                        <td class="text-center">{{ masterOrderPrototypeDetail.quantityStock|default|number_format(0) }}</td>
-                        <td class="text-center">{{ masterOrderPrototypeDetail.quantityShortage|default|number_format(0) }}</td>
+                        <th colspan='12' class='text-center bg-info'>CUSTOMER ORDER DETAILS</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5" class="text-end">Total</td>
-                    <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
-                </tr>
-            </tfoot>
-        </table>
-    {% endif %}
+                    <tr>
+                        <th style="min-width: 150px">PO#</th>
+                        <th style="min-width: 200px">Kode Produk</th>
+                        <th style="min-width: 300px">Nama Produk</th>
+                        <th style="min-width: 80px" class="text-center">P (mm)</th>
+                        <th style="min-width: 80px" class="text-center">L (mm)</th>
+                        <th style="min-width: 80px" class="text-center">T (mm)</th>
+                        <th style="min-width: 150px" class="text-center">Tanggal Kirim</th>
+                        <th style="min-width: 100px" class="text-center">Up Cetak</th>
+                        <th style="min-width: 100px" class="text-center">Qty Order</th>
+                        <th style="min-width: 150px" class="text-center">Qty Produksi</th>
+                        <th style="min-width: 100px" class="text-center">Stock</th>
+                        <th style="min-width: 100px" class="text-center">Kekurangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                        {% if masterOrderProductDetail.isCanceled == false %}
+                            <tr>
+                                <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                <td>{{ masterOrderProductDetail.product.code|default }}</td>
+                                <td>{{ masterOrderProductDetail.product.name|default }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(0) }}</td>
+                                <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7" class="text-end">Total</td>
+                        <td class="text-center">{{ masterOrderHeader.quantityPrinting|default|number_format(0) }}</td>
+                        <td class="text-center">{{ masterOrderHeader.totalQuantityOrder|default|number_format(0) }}</td>
+                        <td class="text-center">{{ masterOrderHeader.totalQuantityProduction|default|number_format(0) }}</td>
+                        <td class="text-center">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
+                        <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% else %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th colspan='11' class='text-center bg-info'>PRODUK BARU DETAILS</th>
+                    </tr>
+                    <tr>
+                        <th style="min-width: 200px">Kode Produk</th>
+                        <th style="min-width: 300px">Nama Produk</th>
+                        <th style="min-width: 80px" class="text-center">Ukuran Jadi</th>
+                        <th style="min-width: 100px" class="text-center">Qty Order</th>
+                        <th style="min-width: 100px" class="text-center">Stock</th>
+                        <th style="min-width: 100px" class="text-center">Kekurangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for masterOrderPrototypeDetail in masterOrderHeader.masterOrderPrototypeDetails %}
+                        <tr>
+                            <td>{{ masterOrderPrototypeDetail.product.code|default }}</td>
+                            <td>{{ masterOrderPrototypeDetail.product.name|default }}</td>
+                            <td class="text-center">{{ masterOrderPrototypeDetail.product.productLengthWidthHeightCombination|default }}</td>
+                            <td class="text-center">{{ masterOrderPrototypeDetail.quantityOrder|default|number_format(0) }}</td>
+                            <td class="text-center">{{ masterOrderPrototypeDetail.quantityStock|default|number_format(0) }}</td>
+                            <td class="text-center">{{ masterOrderPrototypeDetail.quantityShortage|default|number_format(0) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="text-end">Total</td>
+                        <td class="text-center">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% endif %}
+    </div>
     
     <table class="table table-bordered table-striped">
         <thead>

@@ -301,28 +301,6 @@
                 </div>
             </div>
         </fieldset>
-                  
-        <br />
-                                                
-        {#<div class="note">
-            <div class="table full">
-                <div class="cell col">  
-                    <div class="table full">
-                        <div class="row">
-                            <div class="cell label">Layout : </div>
-                            {% if layoutImage == true %}
-                                {% if layoutImage.transactionFileExtension == 'pdf' %}
-                                    <a target="_blank" href="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}">Layout PDF File</a>
-                                {% elseif layoutImage.transactionFileExtension == 'jpg' or layoutImage.transactionFileExtension == 'jpeg' or layoutImage.transactionFileExtension == 'png' %}
-                                    <img width="256px" src="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}" alt="Product Prototype Image" />
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>#}
                         
         <hr />
                         

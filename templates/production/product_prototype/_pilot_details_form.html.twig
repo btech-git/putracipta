@@ -17,7 +17,14 @@
                 <tr data-form-collection-target="item" {% if (detailForm.vars.value.isCanceled) %}class="d-none"{% endif %}>
                     <td>{{ form_row(detailForm.productName, {'label': false}) }}</td>
                     <td>{{ form_row(detailForm.size, {'label': false}) }}</td>
-                    <td>{{ form_row(detailForm.quantity, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.quantity, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-controller': 'dom-element',
+                            'data-action': 'change->dom-element#bind change->json-loader#load',
+                            'data-dom-element-bind-specifications-param': [
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 0)'}}
+                            ]|json_encode,
+                        }}) }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
