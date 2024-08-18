@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InventoryRequestMaterialDetailRepository::class)]
 #[ORM\Table(name: 'stock_inventory_request_material_detail')]
@@ -37,6 +38,7 @@ class InventoryRequestMaterialDetail extends StockDetail
     private Collection $inventoryReleaseMaterialDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

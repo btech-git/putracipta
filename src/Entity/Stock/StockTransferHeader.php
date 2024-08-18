@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StockTransferHeaderRepository::class)]
 #[ORM\Table(name: 'stock_stock_transfer_header')]
@@ -25,6 +26,7 @@ class StockTransferHeader extends StockHeader
     private ?int $id = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouseFrom = null;
 
     #[ORM\ManyToOne]

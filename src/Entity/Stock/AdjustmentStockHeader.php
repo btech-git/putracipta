@@ -8,6 +8,7 @@ use App\Repository\Stock\AdjustmentStockHeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AdjustmentStockHeaderRepository::class)]
 #[ORM\Table(name: 'stock_adjustment_stock_header')]
@@ -42,6 +43,9 @@ class AdjustmentStockHeader extends StockHeader
 
     #[ORM\Column(length: 200)]
     private ?string $adjustmentStockItemList = '';
+
+    #[ORM\Column(length: 200)]
+    private ?string $adjustmentStockItemCodeList = '';
 
     public function __construct()
     {
@@ -194,6 +198,18 @@ class AdjustmentStockHeader extends StockHeader
     public function setAdjustmentStockItemList(string $adjustmentStockItemList): self
     {
         $this->adjustmentStockItemList = $adjustmentStockItemList;
+
+        return $this;
+    }
+
+    public function getAdjustmentStockItemCodeList(): ?string
+    {
+        return $this->adjustmentStockItemCodeList;
+    }
+
+    public function setAdjustmentStockItemCodeList(string $adjustmentStockItemCodeList): self
+    {
+        $this->adjustmentStockItemCodeList = $adjustmentStockItemCodeList;
 
         return $this;
     }

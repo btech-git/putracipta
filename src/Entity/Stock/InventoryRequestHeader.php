@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InventoryRequestHeaderRepository::class)]
 #[ORM\Table(name: 'stock_inventory_request_header')]
@@ -18,6 +19,9 @@ class InventoryRequestHeader extends StockHeader
     public const CODE_NUMBER_CONSTANT = 'IRQ';
     public const REQUEST_MODE_MATERIAL = 'material';
     public const REQUEST_MODE_PAPER = 'paper';
+    public const REQUEST_STATUS_OPEN = 'open';
+    public const REQUEST_STATUS_PARTIAL = 'partial_release';
+    public const REQUEST_STATUS_CLOSE = 'close';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -53,13 +57,17 @@ class InventoryRequestHeader extends StockHeader
     private ?string $totalQuantityRemaining = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Division $division = null;
 
     #[ORM\Column]
     private ?bool $isRead = false;
 
     #[ORM\Column(length: 200)]
-    private ?string $inventoryRequestProductList = null;
+    private ?string $inventoryRequestProductList = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $requestStatus = self::REQUEST_STATUS_OPEN;
 
     public function __construct()
     {
@@ -304,6 +312,18 @@ class InventoryRequestHeader extends StockHeader
     public function setInventoryRequestProductList(string $inventoryRequestProductList): self
     {
         $this->inventoryRequestProductList = $inventoryRequestProductList;
+
+        return $this;
+    }
+
+    public function getRequestStatus(): ?string
+    {
+        return $this->requestStatus;
+    }
+
+    public function setRequestStatus(string $requestStatus): self
+    {
+        $this->requestStatus = $requestStatus;
 
         return $this;
     }

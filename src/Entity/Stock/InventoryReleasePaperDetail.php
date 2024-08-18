@@ -8,6 +8,7 @@ use App\Entity\StockDetail;
 use App\Repository\Stock\InventoryReleasePaperDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InventoryReleasePaperDetailRepository::class)]
 #[ORM\Table(name: 'stock_inventory_release_paper_detail')]
@@ -34,6 +35,7 @@ class InventoryReleasePaperDetail extends StockDetail
     private ?InventoryRequestPaperDetail $inventoryRequestPaperDetail = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

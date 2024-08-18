@@ -9,6 +9,7 @@ use App\Entity\Production\MasterOrderProductDetail;
 use App\Repository\Stock\InventoryProductReceiveDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InventoryProductReceiveDetailRepository::class)]
 #[ORM\Table(name: 'stock_inventory_product_receive_detail')]
@@ -41,6 +42,7 @@ class InventoryProductReceiveDetail extends StockDetail
     private ?string $quantityBoxExtraPieces = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\GreaterThan(0)]
     private ?string $quantityTotalPieces = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

@@ -38,7 +38,7 @@ class InventoryProductReceiveHeader extends StockHeader
     private ?string $productDetailLists = '';
 
     #[ORM\Column(length: 200)]
-    private ?string $productCodeLists = null;
+    private ?string $productCodeLists = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalQuantity = '0.00';

@@ -8,6 +8,7 @@ use App\Entity\StockDetail;
 use App\Repository\Stock\StockTransferMaterialDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StockTransferMaterialDetailRepository::class)]
 #[ORM\Table(name: 'stock_stock_transfer_material_detail')]
@@ -31,6 +32,7 @@ class StockTransferMaterialDetail extends StockDetail
     private ?StockTransferHeader $stockTransferHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
