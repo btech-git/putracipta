@@ -23,8 +23,8 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse') }}>
                     Gudang {{ grid.sort_char(form.sort['warehouse'].vars.value) }}
                 </th>
-                <th style="min-width: 150px">
-                    Status
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'requestStatus') }}>
+                    Status {{ grid.sort_char(form.sort.requestStatus.vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -67,7 +67,14 @@
                         {% endfor %}
                     </select>
                 </th>
-                <th></th>
+                <th>
+                    <select class="form-select" {{ grid.filter_link_item(form, 'requestStatus') }}>
+                        <option value="" {% if form.filter.requestStatus.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.requestStatus.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.requestStatus.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
                 <th></th>
             </tr>
         </thead>
