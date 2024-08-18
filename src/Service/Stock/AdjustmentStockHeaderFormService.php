@@ -116,26 +116,32 @@ class AdjustmentStockHeaderFormService
             }
         }
         $adjustmentStockItemList = [];
+        $adjustmentStockItemCodeList = [];
         foreach ($adjustmentStockHeader->getAdjustmentStockMaterialDetails() as $adjustmentStockMaterialDetail) {
             if ($adjustmentStockMaterialDetail->isIsCanceled() == false) {
                 $material = $adjustmentStockMaterialDetail->getMaterial();
                 $adjustmentStockItemList[] = $material->getName();
+                $adjustmentStockItemCodeList[] = $material->getCodeNumber();
             }
         }
         foreach ($adjustmentStockHeader->getAdjustmentStockPaperDetails() as $adjustmentStockPaperDetail) {
             if ($adjustmentStockPaperDetail->isIsCanceled() == false) {
                 $paper = $adjustmentStockPaperDetail->getPaper();
                 $adjustmentStockItemList[] = $paper->getName();
+                $adjustmentStockItemCodeList[] = $paper->getCodeNumber();
             }
         }
         foreach ($adjustmentStockHeader->getAdjustmentStockProductDetails() as $adjustmentStockProductDetail) {
             if ($adjustmentStockProductDetail->isIsCanceled() == false) {
                 $product = $adjustmentStockProductDetail->getProduct();
-                $adjustmentStockItemList[] = $product->getCode();
+                $adjustmentStockItemList[] = $product->getName();
+                $adjustmentStockItemCodeList[] = $product->getCode();
             }
         }
         $adjustmentStockItemUniqueList = array_unique(explode(', ', implode(', ', $adjustmentStockItemList)));
         $adjustmentStockHeader->setAdjustmentStockItemList(implode(', ', $adjustmentStockItemUniqueList));
+        $adjustmentStockItemCodeUniqueList = array_unique(explode(', ', implode(', ', $adjustmentStockItemCodeList)));
+        $adjustmentStockHeader->setAdjustmentStockItemCodeList(implode(', ', $adjustmentStockItemCodeUniqueList));
     }
 
     public function save(AdjustmentStockHeader $adjustmentStockHeader, array $options = []): void

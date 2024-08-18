@@ -9,6 +9,7 @@ use App\Entity\Stock\Inventory;
 use App\Entity\Stock\InventoryReleaseMaterialDetail;
 use App\Entity\Stock\InventoryReleasePaperDetail;
 use App\Entity\Stock\InventoryReleaseHeader;
+use App\Entity\Stock\InventoryRequestHeader;
 use App\Entity\Support\Idempotent;
 use App\Repository\Purchase\PurchaseOrderDetailRepository;
 use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
@@ -93,10 +94,14 @@ class InventoryReleaseHeaderFormService
                     }
                     
                     if (!empty($inventoryRequestMaterialDetail)) {
+                        $inventoryRequestHeader = $inventoryRequestMaterialDetail->getInventoryRequestHeader();
                         $inventoryRequestMaterialDetail->setQuantityRelease($totalRelease);
                         $inventoryRequestMaterialDetail->setQuantityRemaining($inventoryRequestMaterialDetail->getSyncQuantityRemaining());
+                        $inventoryRequestHeader->setTotalQuantityRelease($inventoryRequestHeader->getSyncTotalQuantityRelease());
+                        $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
+                        $requestStatus = $inventoryRequestHeader->getTotalQuantityRemaining() > '0.00' ? InventoryRequestHeader::REQUEST_STATUS_PARTIAL : InventoryRequestHeader::REQUEST_STATUS_CLOSE;
+                        $inventoryRequestHeader->setRequestStatus($requestStatus);
                     }
-
                 }
             } elseif ($inventoryReleaseHeader->getReleaseMode() === InventoryReleaseHeader::RELEASE_MODE_PAPER) {
                 $papers = array_map(fn($inventoryReleasePaperDetail) => $inventoryReleasePaperDetail->getPaper(), $inventoryReleaseHeader->getInventoryReleasePaperDetails()->toArray());
@@ -121,8 +126,13 @@ class InventoryReleaseHeaderFormService
                     }
                     
                     if (!empty($inventoryRequestPaperDetail)) {
+                        $inventoryRequestHeader = $inventoryRequestPaperDetail->getInventoryRequestHeader();
                         $inventoryRequestPaperDetail->setQuantityRelease($totalRelease);
                         $inventoryRequestPaperDetail->setQuantityRemaining($inventoryRequestPaperDetail->getSyncQuantityRemaining());
+                        $inventoryRequestHeader->setTotalQuantityRelease($inventoryRequestHeader->getSyncTotalQuantityRelease());
+                        $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
+                        $requestStatus = $inventoryRequestHeader->getTotalQuantityRemaining() > '0.00' ? InventoryRequestHeader::REQUEST_STATUS_PARTIAL : InventoryRequestHeader::REQUEST_STATUS_CLOSE;
+                        $inventoryRequestHeader->setRequestStatus($requestStatus);
                     }
                 }
             }
