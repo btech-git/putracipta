@@ -8,6 +8,11 @@
     <table class="table table-bordered table-striped" id="inventory-request-material-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 0">
+                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
+                        {'destinationsTarget': '#inventory-request-material-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
+                    ]|json_encode }}" />
+                </th>
                 <th style="min-width: 280px">
                     Permintaan #
                 </th>
@@ -28,6 +33,7 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
                 <th></th>
                 <th>
                     <input type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
@@ -52,10 +58,11 @@
                     'materialId': inventoryRequestMaterialDetail.material.id|default,
                     'materialName': inventoryRequestMaterialDetail.material.name|default,
                     'inventoryRequestMaterialDetailId': inventoryRequestMaterialDetail.id|default,
-                    'inventoryRequestMaterialDetailQuantity': inventoryRequestMaterialDetail.quantity|default|number_format(0),
+                    'inventoryRequestMaterialDetailQuantity': inventoryRequestMaterialDetail.quantity|default|number_format(2),
                     'inventoryRequestMaterialDetailMemo': inventoryRequestMaterialDetail.memo|default,
                     'unitId': inventoryRequestMaterialDetail.unit.id,
                     'unitName': inventoryRequestMaterialDetail.unit.name}|json_encode }}">
+                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber }}</td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
@@ -72,4 +79,12 @@
     </table>
 </div>
 
+<button type="button" class="btn btn-primary btn-sm"
+        data-action="event-emitter#trigger"
+        data-event-emitter-trigger-elements-target-param="#inventory-request-material-detail-table .data-table-check-row"
+        data-event-emitter-trigger-event-type-param="click"
+        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
+    Select
+</button>
+            
 {{ grid.navigation(form, count, inventoryRequestMaterialDetails) }}

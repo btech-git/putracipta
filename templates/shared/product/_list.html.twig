@@ -1,4 +1,4 @@
-{% if app.request.request.has('product_prototype') or app.request.request.has('dieline_millar') or app.request.request.has('diecut_knife') or app.request.request.has('design_code') %}
+{% if app.request.request.has('dieline_millar') or app.request.request.has('diecut_knife') or app.request.request.has('design_code') %}
     {{ include('shared/product/_list_without_check.html.twig') }}
 {% else %}
     {{ include('shared/product/_list_with_check.html.twig') }}

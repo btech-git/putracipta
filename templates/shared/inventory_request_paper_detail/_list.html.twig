@@ -8,6 +8,11 @@
     <table class="table table-bordered table-striped" id="inventory-request-paper-detail-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 0">
+                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
+                        {'destinationsTarget': '#inventory-request-paper-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
+                    ]|json_encode }}" />
+                </th>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'inventoryRequestPaperHeader:codeNumberOrdinal') }}>
                     Permintaan # {{ grid.sort_char(form.sort['inventoryRequestPaperHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
@@ -31,6 +36,7 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
                 <th>
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'inventoryRequestPaperHeader:codeNumberOrdinal') }} value="{{ form.filter['inventoryRequestPaperHeader:codeNumberOrdinal'].1.vars.value }}" />
                     <span><small>/{{ constant('App\\Entity\\Stock\\InventoryRequestHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
@@ -80,11 +86,12 @@
                     'paperId': inventoryRequestPaperDetail.paper.id|default,
                     'paperWeight': inventoryRequestPaperDetail.paper.weight|default,
                     'inventoryRequestPaperDetailId': inventoryRequestPaperDetail.id|default,
-                    'inventoryRequestPaperDetailQuantity': inventoryRequestPaperDetail.quantity|default|number_format(0),
+                    'inventoryRequestPaperDetailQuantity': inventoryRequestPaperDetail.quantity|default|number_format(2),
                     'masterOrderCodeNumber': inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default,
                     'inventoryRequestPaperDetailMemo': inventoryRequestPaperDetail.memo|default,
                     'unitId': inventoryRequestPaperDetail.unit.id,
                     'unitName': inventoryRequestPaperDetail.unit.name}|json_encode }}">
+                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber }}</td>
                     <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.pickupDate ? inventoryRequestPaperDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
@@ -101,5 +108,13 @@
         </tbody>
     </table>
 </div>
+        
+<button type="button" class="btn btn-primary btn-sm"
+        data-action="event-emitter#trigger"
+        data-event-emitter-trigger-elements-target-param="#inventory-request-paper-detail-table .data-table-check-row"
+        data-event-emitter-trigger-event-type-param="click"
+        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
+    Select
+</button>
 
 {{ grid.navigation(form, count, inventoryRequestPaperDetails) }}
