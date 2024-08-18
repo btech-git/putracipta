@@ -29,7 +29,7 @@ class InventoryRequestHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['division', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'requestMode', 'warehouse'],
+                'field_names' => ['division', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'requestMode', 'warehouse', 'requestStatus'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -47,6 +47,7 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'requestMode' => [FilterEqual::class, FilterNotEqual::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'division' => [FilterEqual::class, FilterNotEqual::class],
+                    'requestStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -55,6 +56,7 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'warehouse' => EntityType::class,
                     'division' => EntityType::class,
                     'requestMode' => ChoiceType::class,
+                    'requestStatus' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
@@ -65,10 +67,15 @@ class InventoryRequestHeaderGridType extends AbstractType
                         'Material' => InventoryRequestHeader::REQUEST_MODE_MATERIAL, 
                         'Kertas' => InventoryRequestHeader::REQUEST_MODE_PAPER
                     ]],
+                    'requestStatus' => ['choices' => [
+                        'Open' => InventoryRequestHeader::REQUEST_STATUS_OPEN, 
+                        'Close' => InventoryRequestHeader::REQUEST_STATUS_CLOSE, 
+                        'Partial' => InventoryRequestHeader::REQUEST_STATUS_PARTIAL
+                    ]],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['division', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'requestMode', 'warehouse'],
+                'field_names' => ['division', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'requestMode', 'warehouse', 'requestStatus'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -86,6 +93,7 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'requestMode' => [SortAscending::class, SortDescending::class],
                     'warehouse' => [SortAscending::class, SortDescending::class],
                     'division' => [SortAscending::class, SortDescending::class],
+                    'requestStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
