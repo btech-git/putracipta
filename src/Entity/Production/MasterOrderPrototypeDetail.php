@@ -7,6 +7,7 @@ use App\Entity\ProductionDetail;
 use App\Repository\Production\MasterOrderPrototypeDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MasterOrderPrototypeDetailRepository::class)]
 #[ORM\Table(name: 'production_master_order_prototype_detail')]
@@ -21,6 +22,7 @@ class MasterOrderPrototypeDetail extends ProductionDetail
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderPrototypeDetails')]
+    #[Assert\NotNull]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderPrototypeDetails')]

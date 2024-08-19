@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MasterOrderProductDetailRepository::class)]
 #[ORM\Table(name: 'production_master_order_product_detail')]
@@ -23,9 +24,11 @@ class MasterOrderProductDetail extends ProductionDetail
     private ?int $id = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderProductDetails')]
+    #[Assert\NotNull]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderProductDetails')]

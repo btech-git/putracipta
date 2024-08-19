@@ -7,6 +7,7 @@ use App\Entity\Master\WorkOrderCheckSheet;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\MasterOrderCheckSheetDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MasterOrderCheckSheetDetailRepository::class)]
 #[ORM\Table(name: 'production_master_order_check_sheet_detail')]
@@ -18,6 +19,7 @@ class MasterOrderCheckSheetDetail extends ProductionDetail
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderCheckSheetDetails')]
+    #[Assert\NotNull]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
     #[ORM\Column]

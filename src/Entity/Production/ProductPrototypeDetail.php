@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductPrototypeDetailRepository::class)]
 #[ORM\Table(name: 'production_product_prototype_detail')]
@@ -21,6 +22,7 @@ class ProductPrototypeDetail extends ProductionDetail
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'productPrototypeDetails')]
+    #[Assert\NotNull]
     private ?ProductPrototype $productPrototype = null;
 
     #[ORM\ManyToOne(inversedBy: 'productPrototypeDetails')]

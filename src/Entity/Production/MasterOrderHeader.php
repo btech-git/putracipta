@@ -47,6 +47,7 @@ class MasterOrderHeader extends ProductionHeader
     private ?int $id = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\Column(length: 60)]
@@ -310,6 +311,7 @@ class MasterOrderHeader extends ProductionHeader
     private ?ProductDevelopment $productDevelopment = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]
+    #[Assert\NotNull]
     private ?DesignCode $designCode = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderHeaders')]

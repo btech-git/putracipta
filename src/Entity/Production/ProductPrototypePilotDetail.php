@@ -6,6 +6,7 @@ use App\Entity\ProductionDetail;
 use App\Repository\Production\ProductPrototypePilotDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductPrototypePilotDetailRepository::class)]
 #[ORM\Table(name: 'production_product_prototype_pilot_detail')]
@@ -26,6 +27,7 @@ class ProductPrototypePilotDetail extends ProductionDetail
     private ?string $quantity = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'productPrototypePilotDetails')]
+    #[Assert\NotNull]
     private ?ProductPrototype $productPrototype = null;
 
     #[ORM\Column(length: 200)]

@@ -7,6 +7,7 @@ use App\Entity\ProductionDetail;
 use App\Repository\Production\QualityControlSortingDetailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QualityControlSortingDetailRepository::class)]
 #[ORM\Table(name: 'production_quality_control_sorting_detail')]
@@ -63,6 +64,7 @@ class QualityControlSortingDetail extends ProductionDetail
     private ?string $memo = '';
 
     #[ORM\ManyToOne(inversedBy: 'qualityControlSortingDetails')]
+    #[Assert\NotNull]
     private ?QualityControlSortingHeader $qualityControlSortingHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

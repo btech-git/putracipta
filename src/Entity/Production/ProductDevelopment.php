@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductDevelopmentRepository::class)]
 #[ORM\Table(name: 'production_product_development')]
@@ -22,12 +23,14 @@ class ProductDevelopment extends ProductionHeader
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'productDevelopments')]
+    #[Assert\NotNull]
     private ?ProductPrototype $productPrototype = null;
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $developmentTypeList = [];
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Employee $employeeDesigner = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

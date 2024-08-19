@@ -6,6 +6,7 @@ use App\Entity\Master\Product;
 use App\Entity\ProductionDetail;
 use App\Repository\Production\ProductDevelopmentDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductDevelopmentDetailRepository::class)]
 #[ORM\Table(name: 'production_product_development_detail')]
@@ -17,6 +18,7 @@ class ProductDevelopmentDetail extends ProductionDetail
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'productDevelopmentDetails')]
+    #[Assert\NotNull]
     private ?ProductDevelopment $product_development = null;
 
     #[ORM\ManyToOne(inversedBy: 'productDevelopmentDetails')]
