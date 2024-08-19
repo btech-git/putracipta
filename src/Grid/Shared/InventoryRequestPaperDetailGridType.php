@@ -45,7 +45,7 @@ class InventoryRequestPaperDetailGridType extends AbstractType
                     'inventoryRequestPaperHeader:codeNumberOrdinal' => 'Code Number',
                     'inventoryRequestPaperHeader:codeNumberMonth' => '',
                     'inventoryRequestPaperHeader:codeNumberYear' => '',
-                    'inventoryRequestPaperHeader:pickupDate' => 'Tanggal',
+                    'inventoryRequestPaperHeader:pickupDate' => 'Tanggal Pakai',
                     'inventoryRequestPaperHeader:warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
@@ -93,7 +93,7 @@ class InventoryRequestPaperDetailGridType extends AbstractType
                     'inventoryRequestPaperHeader:codeNumberOrdinal' => '',
                     'inventoryRequestPaperHeader:codeNumberMonth' => '',
                     'inventoryRequestPaperHeader:codeNumberYear' => 'Code Number',
-                    'inventoryRequestPaperHeader:pickupDate' => 'Tanggal',
+                    'inventoryRequestPaperHeader:pickupDate' => 'Tanggal Pakai',
                     'inventoryRequestPaperHeader:warehouse' => 'Gudang',
                 ],
                 'field_operators_list' => [
