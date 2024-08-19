@@ -10,10 +10,10 @@
                 <th class="d-none">Material Id</th>
                 <th style="min-width: 250px">Kode</th>
                 <th style="min-width: 250px">Nama Barang</th>
-                <th style="min-width: 50px">Qty Request</th>
-                <th style="min-width: 50px">Qty Stok</th>
+                <th style="min-width: 100px">Qty Request</th>
+                <th style="min-width: 100px">Qty Stok</th>
                 <th style="min-width: 100px">Qty</th>
-                <th style="min-width: 50px">Satuan</th>
+                <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 250px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
@@ -41,7 +41,13 @@
                         }}) }}
                     </td>
                     <td>{{ form_row(detailForm.unit, {'label': false, 'attr': {'data-item-field-name': 'unitId',}}) }}</td>
-                    <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
+                    <td>
+                        {{ form_row(detailForm.memo, {'label': false, 'attr': {
+                            'size': 3,
+                            'data-action': 'change->json-loader#load',
+                            'data-item-field-name': 'inventoryRequestMaterialDetailMemo'
+                        }}) }}
+                    </td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
