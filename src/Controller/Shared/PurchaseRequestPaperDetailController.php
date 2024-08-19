@@ -22,7 +22,7 @@ class PurchaseRequestPaperDetailController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'usageDate' => SortDescending::class,
+            'inventoryRequestPaperHeader:pickupDate' => SortDescending::class,
         ]);
         $form = $this->createForm(PurchaseRequestPaperDetailGridType::class, $criteria);
         $form->handleRequest($request);
