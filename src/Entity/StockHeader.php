@@ -80,7 +80,7 @@ abstract class StockHeader
         $cnMonth = intval($currentMonth);
         $cnYear = intval($currentYear);
         $ordinal = $this->codeNumberOrdinal;
-        if ($cnMonth > $this->codeNumberMonth || $cnYear > $this->codeNumberYear) {
+        if ($cnYear > $this->codeNumberYear) {
             $ordinal = 0;
         }
 
