@@ -86,7 +86,9 @@ class DeliveryHeaderFormService
         $deliveryHeader->setTotalQuantity($deliveryHeader->getSyncTotalQuantity());
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+            $masterOrderProductDetail = $deliveryDetail->getMasterOrderProductDetail();
             $oldDeliveryDetails = $this->deliveryDetailRepository->findBySaleOrderDetail($saleOrderDetail);
+            $oldMasterOrderProductDetails = $this->deliveryDetailRepository->findByMasterOrderProductDetail($masterOrderProductDetail);
             $totalDelivery = 0;
             foreach ($oldDeliveryDetails as $oldDeliveryDetail) {
                 if ($oldDeliveryDetail->getId() !== $deliveryDetail->getId() && $oldDeliveryDetail->isIsCanceled() === false) {
@@ -103,6 +105,19 @@ class DeliveryHeaderFormService
                 $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalQuantityDelivery());
                 $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingQuantityDelivery());
 //            }
+                
+            $totalDeliveryMasterOrder = 0;
+            foreach ($oldMasterOrderProductDetails as $oldMasterOrderProductDetail) {
+                if ($oldMasterOrderProductDetail->getId() !== $deliveryDetail->getId() && $oldMasterOrderProductDetail->isIsCanceled() === false) {
+                    $totalDeliveryMasterOrder += $oldMasterOrderProductDetail->getQuantity();
+                }
+            }
+            if ($deliveryDetail->isIsCanceled() === false) {
+                $totalDeliveryMasterOrder += $deliveryDetail->getQuantity();
+            }
+            $masterOrderProductDetail->setQuantityDelivery($totalDeliveryMasterOrder);
+            $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
+            
         }
         
         if ($deliveryHeader->getId() === null) {
