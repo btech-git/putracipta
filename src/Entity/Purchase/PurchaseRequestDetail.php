@@ -32,6 +32,7 @@ class PurchaseRequestDetail extends PurchaseDetail
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestDetails')]
+    #[Assert\NotNull]
     private ?PurchaseRequestHeader $purchaseRequestHeader = null;
 
     #[ORM\ManyToOne]

@@ -105,6 +105,7 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     private ?\DateTimeInterface $invoiceReceivedDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceHeaders')]
+    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     public function __construct()

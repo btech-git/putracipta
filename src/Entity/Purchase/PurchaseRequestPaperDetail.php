@@ -43,6 +43,7 @@ class PurchaseRequestPaperDetail extends PurchaseDetail
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestPaperDetails')]
+    #[Assert\NotNull]
     private ?PurchaseRequestPaperHeader $purchaseRequestPaperHeader = null;
 
     #[ORM\Column(length: 60)]

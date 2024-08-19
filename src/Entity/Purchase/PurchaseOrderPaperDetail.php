@@ -44,6 +44,7 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
+    #[Assert\NotNull]
     private ?PurchaseOrderPaperHeader $purchaseOrderPaperHeader = null;
 
     #[ORM\ManyToOne]

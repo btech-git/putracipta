@@ -47,6 +47,7 @@ class PurchaseReturnHeader extends PurchaseHeader
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseReturnHeader', targetEntity: PurchaseReturnDetail::class)]
@@ -55,9 +56,11 @@ class PurchaseReturnHeader extends PurchaseHeader
     private Collection $purchaseReturnDetails;
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Warehouse $warehouse = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnHeaders')]
+    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\Column]

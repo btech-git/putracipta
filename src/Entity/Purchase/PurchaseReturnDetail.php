@@ -31,6 +31,7 @@ class PurchaseReturnDetail extends PurchaseDetail
     private ?ReceiveDetail $receiveDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseReturnDetails')]
+    #[Assert\NotNull]
     private ?PurchaseReturnHeader $purchaseReturnHeader = null;
 
     #[ORM\ManyToOne]
