@@ -61,6 +61,7 @@ class DiecutKnifeFormService
         }
         $this->entityManager->flush();
     }
+    
     public function copyFrom(DiecutKnife $sourceDiecutKnife): DiecutKnife
     {
         $diecutKnife = new DiecutKnife();
