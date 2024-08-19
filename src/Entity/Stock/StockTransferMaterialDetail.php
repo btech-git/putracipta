@@ -29,6 +29,7 @@ class StockTransferMaterialDetail extends StockDetail
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'stockTransferMaterialDetails')]
+    #[Assert\NotNull]
     private ?StockTransferHeader $stockTransferHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

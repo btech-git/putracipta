@@ -32,6 +32,7 @@ class InventoryRequestMaterialDetail extends StockDetail
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'inventoryRequestMaterialDetails')]
+    #[Assert\NotNull]
     private ?InventoryRequestHeader $inventoryRequestHeader = null;
 
     #[ORM\OneToMany(mappedBy: 'inventoryRequestMaterialDetail', targetEntity: InventoryReleaseMaterialDetail::class)]

@@ -29,6 +29,7 @@ class InventoryReleasePaperDetail extends StockDetail
     private ?Unit $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'inventoryReleasePaperDetails')]
+    #[Assert\NotNull]
     private ?InventoryReleaseHeader $inventoryReleaseHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'inventoryReleasePaperDetails')]

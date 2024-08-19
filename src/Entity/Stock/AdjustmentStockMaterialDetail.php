@@ -21,6 +21,7 @@ class AdjustmentStockMaterialDetail extends StockDetail
     private ?Material $material = null;
 
     #[ORM\ManyToOne(inversedBy: 'adjustmentStockMaterialDetails')]
+    #[Assert\NotNull]
     private ?AdjustmentStockHeader $adjustmentStockHeader = null;
 
     #[ORM\Column(length: 100)]

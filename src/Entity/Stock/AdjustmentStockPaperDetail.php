@@ -21,6 +21,7 @@ class AdjustmentStockPaperDetail extends StockDetail
     private ?Paper $paper = null;
 
     #[ORM\ManyToOne(inversedBy: 'adjustmentStockPaperDetails')]
+    #[Assert\NotNull]
     private ?AdjustmentStockHeader $adjustmentStockHeader = null;
 
     #[ORM\Column(length: 100)]

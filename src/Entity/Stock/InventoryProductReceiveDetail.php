@@ -27,6 +27,7 @@ class InventoryProductReceiveDetail extends StockDetail
     private ?MasterOrderProductDetail $masterOrderProductDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'inventoryProductReceiveDetails')]
+    #[Assert\NotNull]
     private ?InventoryProductReceiveHeader $inventoryProductReceiveHeader = null;
 
     #[ORM\ManyToOne]
