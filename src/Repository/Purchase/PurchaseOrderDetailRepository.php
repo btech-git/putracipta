@@ -6,6 +6,7 @@ use App\Common\Doctrine\Repository\EntityAdd;
 use App\Common\Doctrine\Repository\EntityDataFetch;
 use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Purchase\PurchaseOrderDetail;
+use App\Entity\Purchase\PurchaseOrderHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,5 +31,22 @@ class PurchaseOrderDetailRepository extends ServiceEntityRepository
         $averagePriceList = $query->getScalarResult();
 
         return $averagePriceList;
+    }
+    
+    public function findMaterialPurchaseOrderDetails(array $materials, $startDate, $endDate): array
+    {
+        $dql = "SELECT e
+                FROM " . PurchaseOrderDetail::class . " e
+                INNER JOIN " . PurchaseOrderHeader::class . " s
+                WHERE e.material IN (:materials) AND s.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.material ASC, s.transactionDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('materials', $materials);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $purchaseOrderDetails = $query->getResult();
+
+        return $purchaseOrderDetails;
     }
 }

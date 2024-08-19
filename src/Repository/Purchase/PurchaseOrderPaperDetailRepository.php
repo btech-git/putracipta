@@ -6,6 +6,7 @@ use App\Common\Doctrine\Repository\EntityAdd;
 use App\Common\Doctrine\Repository\EntityDataFetch;
 use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
+use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,5 +31,22 @@ class PurchaseOrderPaperDetailRepository extends ServiceEntityRepository
         $averagePriceList = $query->getScalarResult();
 
         return $averagePriceList;
+    }
+    
+    public function findPaperPurchaseOrderPaperDetails(array $papers, $startDate, $endDate): array
+    {
+        $dql = "SELECT e
+                FROM " . PurchaseOrderPaperDetail::class . " e
+                INNER JOIN " . PurchaseOrderPaperHeader::class . " s
+                WHERE e.paper IN (:papers) AND s.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.paper ASC, s.transactionDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('papers', $papers);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $purchaseOrderDetails = $query->getResult();
+
+        return $purchaseOrderDetails;
     }
 }
