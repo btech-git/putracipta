@@ -34,9 +34,11 @@ class SalePaymentDetail extends SaleDetail
     private ?Account $account = null;
 
     #[ORM\ManyToOne(inversedBy: 'salePaymentDetails')]
+    #[Assert\NotNull]
     private ?SaleInvoiceHeader $saleInvoiceHeader = null;
 
     #[ORM\ManyToOne(inversedBy: 'salePaymentDetails')]
+    #[Assert\NotNull]
     private ?SalePaymentHeader $salePaymentHeader = null;
 
     #[ORM\Column(length: 20)]

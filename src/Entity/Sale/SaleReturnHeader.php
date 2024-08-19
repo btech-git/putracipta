@@ -67,6 +67,7 @@ class SaleReturnHeader extends SaleHeader
     private ?bool $isProductExchange = false;
 
     #[ORM\ManyToOne(inversedBy: 'saleReturnHeaders')]
+    #[Assert\NotNull]
     private ?DeliveryHeader $deliveryHeader = null;
 
     public function __construct()

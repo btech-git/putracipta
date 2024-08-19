@@ -33,6 +33,7 @@ class SaleReturnDetail extends SaleDetail
     private ?DeliveryDetail $deliveryDetail = null;
 
     #[ORM\ManyToOne(inversedBy: 'saleReturnDetails')]
+    #[Assert\NotNull]
     private ?SaleReturnHeader $saleReturnHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
