@@ -31,7 +31,9 @@ class UserMenuConfig
                 'MENU_REPORT_PURCHASE', 'MENU_REPORT_SALE', 'MENU_REPORT_PRODUCTION', 'MENU_REPORT_WAREHOUSE_MATERIAL', 
                 'MENU_REPORT_WAREHOUSE_FINISHED_GOODS', 'MENU_REPORT_FINANCE'
             ],
-            'MENU_REPORT_PURCHASE' => ['MENU_REPORT_PURCHASE_ORDER_MATERIAL', 'MENU_REPORT_PURCHASE_ORDER_PAPER'],
+            'MENU_REPORT_PURCHASE' => ['MENU_REPORT_PURCHASE_ORDER_MATERIAL', 'MENU_REPORT_PURCHASE_ORDER_PAPER', 'MENU_REPORT_MATERIAL_PURCHASE_ORDER',
+                'MENU_REPORT_SUPPLIER_PURCHASE_ORDER_MATERIAL', 'MENU_REPORT_PAPER_PURCHASE_ORDER', 'MENU_REPORT_SUPPLIER_PURCHASE_ORDER_PAPER'
+            ],
             'MENU_REPORT_SALE' => [
                 'MENU_REPORT_SALE_ORDER', 'MENU_REPORT_SALE_ORDER_DETAIL', 'MENU_REPORT_SALE_ORDER_SUMMARY', 'MENU_REPORT_SALE_ORDER_CUSTOMER', 'MENU_REPORT_SALE_ORDER_PRODUCT'
             ],
@@ -110,6 +112,10 @@ class UserMenuConfig
             'MENU_REPORT_PURCHASE_REQUEST_PAPER' => ['route' => 'app_report_purchase_request_paper_header_index', 'pattern' => '/^app_report_purchase_request_paper_header_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
             'MENU_REPORT_PURCHASE_ORDER_MATERIAL' => ['route' => 'app_report_purchase_order_header_index', 'pattern' => '/^app_report_purchase_order_header_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
             'MENU_REPORT_PURCHASE_ORDER_PAPER' => ['route' => 'app_report_purchase_order_paper_header_index', 'pattern' => '/^app_report_purchase_order_paper_header_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
+            'MENU_REPORT_SUPPLIER_PURCHASE_ORDER_MATERIAL' => ['route' => 'app_report_supplier_purchase_order_material_index', 'pattern' => '/^app_report_supplier_purchase_order_material_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
+            'MENU_REPORT_SUPPLIER_PURCHASE_ORDER_PAPER' => ['route' => 'app_report_supplier_purchase_order_paper_index', 'pattern' => '/^app_report_supplier_purchase_order_paper_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
+            'MENU_REPORT_MATERIAL_PURCHASE_ORDER' => ['route' => 'app_report_material_purchase_order_index', 'pattern' => '/^app_report_material_purchase_order_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
+            'MENU_REPORT_PAPER_PURCHASE_ORDER' => ['route' => 'app_report_paper_purchase_order_index', 'pattern' => '/^app_report_paper_purchase_order_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
             'MENU_REPORT_PURCHASE_INVOICE' => ['route' => 'app_report_purchase_invoice_header_index', 'pattern' => '/^app_report_purchase_invoice_header_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
             'MENU_REPORT_PURCHASE_PAYMENT' => ['route' => 'app_report_purchase_payment_header_index', 'pattern' => '/^app_report_purchase_payment_header_.+$/', 'roles' => ['ROLE_PURCHASE_REPORT']],
             'MENU_REPORT_SALE_ORDER' => ['route' => 'app_report_sale_order_header_index', 'pattern' => '/^app_report_sale_order_header_.+$/', 'roles' => ['ROLE_SALE_REPORT']],
