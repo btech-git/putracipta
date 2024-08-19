@@ -43,7 +43,7 @@ class PaperType extends AbstractType
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
                             ->andWhere("e.isInactive = false")
-                            ->andWhere("e.materialSubCategory = 1")
+                            ->andWhere("e.materialCategory = 1")
                             ->addOrderBy('e.name', 'ASC');
                 },
             ])
