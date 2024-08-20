@@ -4,6 +4,7 @@ namespace App\Controller\Master;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Master\Product;
 use App\Form\Master\ProductType;
@@ -54,6 +55,47 @@ class ProductController extends AbstractController
         return $this->render("master/product/index.html.twig");
     }
 
+    #[Route('/_head', name: 'app_master_product__head', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function _head(Request $request, ProductRepository $productRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $form->handleRequest($request);
+
+        list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
+
+        return $this->renderForm("master/product/_head.html.twig", [
+            'form' => $form,
+            'count' => $count,
+            'products' => $products,
+        ]);
+    }
+
+    #[Route('/head', name: 'app_master_product_head', methods: ['GET'])]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function head(): Response
+    {
+        return $this->render("master/product/head.html.twig");
+    }
+
+    #[Route('/{id}/read', name: 'app_master_product_read', methods: ['POST'])]
+    #[Security("is_granted('ROLE_PRODUCT_ADD') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_APPROVAL')")]
+    public function read(Request $request, Product $product, ProductRepository $productRepository): Response
+    {
+        if ($this->isCsrfTokenValid('read' . $product->getId(), $request->request->get('_token'))) {
+            $product->setIsRead(true);
+            $productRepository->add($product, true);
+        }
+
+        return $this->redirectToRoute('app_master_product_show', ['id' => $product->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
     #[Route('/new', name: 'app_master_product_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_PRODUCT_ADD')]
     public function new(Request $request, ProductFormService $productFormService): Response
