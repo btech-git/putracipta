@@ -112,7 +112,7 @@ class SaleOrderDetail extends SaleDetail
         $total = '0.00';
         
         foreach ($this->getMasterOrderProductDetails() as $masterOrderProductDetail) {
-            $total += $masterOrderProductDetail->isIsCanceled() === false ? $masterOrderProductDetail->getQuantityProduction() : '0.00';
+            $total += $masterOrderProductDetail->isIsCanceled() == false ? $masterOrderProductDetail->getQuantityProduction() : '0.00';
         }
         
         return $total;
