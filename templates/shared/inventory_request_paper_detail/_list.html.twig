@@ -22,7 +22,7 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'masterOrderHeader:codeNumberOrdinal') }}>
                     WO # {{ grid.sort_char(form.sort['masterOrderHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
+                <th style="min-width: 380px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
                 </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'paper:code') }}>
@@ -63,16 +63,16 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberYear') }} value="{{ form.filter['masterOrderHeader:codeNumberYear'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paper:code') }} value="{{ form.filter['paper:code'].1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:code') }} value="{{ form.filter['paper:code'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
                 </th>
             </tr>
         </thead>
