@@ -24,7 +24,6 @@ class MasterOrderProductDetail extends ProductionDetail
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'masterOrderProductDetails')]
