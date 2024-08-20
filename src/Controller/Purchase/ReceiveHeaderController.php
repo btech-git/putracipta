@@ -4,10 +4,14 @@ namespace App\Controller\Purchase;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
+use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Purchase\ReceiveDetail;
 use App\Entity\Purchase\ReceiveHeader;
 use App\Form\Purchase\ReceiveHeaderType;
 use App\Grid\Purchase\ReceiveHeaderGridType;
+use App\Repository\Purchase\PurchaseOrderDetailRepository;
+use App\Repository\Purchase\PurchaseOrderPaperDetailRepository;
 use App\Repository\Purchase\ReceiveHeaderRepository;
 use App\Service\Purchase\ReceiveHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -56,6 +60,57 @@ class ReceiveHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("purchase/receive_header/index.html.twig");
+    }
+
+    #[Route('/_list_outstanding_purchase_order', name: 'app_purchase_receive_header__list_outstanding_purchase_order', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT') or is_granted('ROLE_RECEIVE_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function _listOutstandingPurchaseOrder(Request $request, PurchaseOrderDetailRepository $purchaseOrderDetailRepository, PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository): Response
+    {
+        $criteria = new DataCriteria();
+        $formMaterial = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $formMaterial->handleRequest($request);
+
+        list($countMaterial, $purchaseOrderDetails) = $purchaseOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.remainingReceive > 0");
+//            $sub = $new(ReceiveDetail::class, 'r');
+//            $sub->andWhere("IDENTITY(r.purchaseOrderDetail) = {$alias}.id");
+//            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->join("{$alias}.purchaseOrderHeader", 'h');
+            $qb->andWhere("h.transactionStatus IN ('approve', 'partial_receive')");
+        });
+
+        $formPaper = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
+                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
+                ->getForm();
+        $formPaper->handleRequest($request);
+        list($countPaper, $purchaseOrderPaperDetails) = $purchaseOrderPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.remainingReceive > 0");
+//            $sub = $new(ReceiveDetail::class, 'r');
+//            $sub->andWhere("IDENTITY(r.purchaseOrderPaperDetail) = {$alias}.id");
+//            $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
+            $qb->join("{$alias}.purchaseOrderPaperHeader", 'h');
+            $qb->andWhere("h.transactionStatus IN ('partial_receive')");
+        });
+
+        return $this->renderForm("purchase/receive_header/_list_outstanding_purchase_order.html.twig", [
+            'formMaterial' => $formMaterial,
+            'formPaper' => $formPaper,
+            'countMaterial' => $countMaterial,
+            'countPaper' => $countPaper,
+            'purchaseOrderDetails' => $purchaseOrderDetails,
+            'purchaseOrderPaperDetails' => $purchaseOrderPaperDetails,
+        ]);
+    }
+
+    #[Route('/_list_outstanding_purchase_order', name: 'app_purchase_receive_header_index_outstanding_purchase_order', methods: ['GET'])]
+    #[Security("is_granted('ROLE_RECEIVE_ADD') or is_granted('ROLE_RECEIVE_EDIT') or is_granted('ROLE_RECEIVE_VIEW') or is_granted('ROLE_APPROVAL')")]
+    public function indexOutstandingPurchaseOrder(): Response
+    {
+        return $this->render("purchase/receive_header/index_outstanding_purchase_order.html.twig");
     }
 
     #[Route('/new.{_format}', name: 'app_purchase_receive_header_new', methods: ['GET', 'POST'])]
