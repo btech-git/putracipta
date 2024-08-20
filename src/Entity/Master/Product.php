@@ -77,6 +77,9 @@ class Product extends Master
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $modifiedTransactionDateTime = null;
 
+    #[ORM\Column]
+    private ?bool $isRead = false;
+
     public function __construct()
     {
         $this->designCodeProductDetails = new ArrayCollection();
@@ -347,6 +350,18 @@ class Product extends Master
     public function setModifiedTransactionDateTime(?\DateTimeInterface $modifiedTransactionDateTime): self
     {
         $this->modifiedTransactionDateTime = $modifiedTransactionDateTime;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }
