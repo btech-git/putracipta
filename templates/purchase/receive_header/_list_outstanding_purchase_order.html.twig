@@ -1,0 +1,115 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(formMaterial) }}
+
+{{ grid.info(formMaterial, countMaterial, purchaseOrderDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th style="min-width: 280px">
+                    PO #
+                </th>
+                <th style="min-width: 150px">
+                    Tanggal
+                </th>
+                <th style="min-width: 250px">
+                    Supplier
+                </th>
+                <th style="min-width: 150px">
+                    Code
+                </th>
+                <th style="min-width: 200px">
+                    Material
+                </th>
+                <th style="min-width: 150px">
+                    Quantity
+                </th>
+                <th style="min-width: 150px">
+                    Satuan
+                </th>
+                <th style="min-width: 150px">
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderDetail in purchaseOrderDetails %}
+                <tr>
+                    <td>{{ purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
+                    <td>{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate ? purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseOrderDetail.purchaseOrderHeader.supplier.company|default }}</td>
+                    <td>{{ purchaseOrderDetail.material.codeNumber|default }}</td>
+                    <td>{{ purchaseOrderDetail.material.name|default }}</td>
+                    <td>{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
+                    <td>{{ purchaseOrderDetail.material.unit.name|default }}</td>
+                    <td>{{ purchaseOrderDetail.purchaseOrderHeader.transactionStatus|default }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(formMaterial, countMaterial, purchaseOrderDetails) }}
+
+{{ grid.form(formPaper) }}
+
+{{ grid.info(formPaper, countPaper, purchaseOrderPaperDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th style="min-width: 280px">
+                    PO #
+                </th>
+                <th style="min-width: 150px">
+                    Tanggal
+                </th>
+                <th style="min-width: 250px">
+                    Supplier
+                </th>
+                <th style="min-width: 150px">
+                    Code
+                </th>
+                <th style="min-width: 200px">
+                    Kertas
+                </th>
+                <th style="min-width: 150px">
+                    Quantity
+                </th>
+                <th style="min-width: 150px">
+                    Satuan
+                </th>
+                <th style="min-width: 150px">
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchaseOrderPaperDetail in purchaseOrderPaperDetails %}
+                <tr>
+                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber }}</td>
+                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.supplier.company|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
+                    <td>{{ purchaseOrderPaperDetail.paper.unit.name|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionStatus|default }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(formPaper, countPaper, purchaseOrderPaperDetails) }}
