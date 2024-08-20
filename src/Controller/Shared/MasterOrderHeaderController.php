@@ -31,25 +31,23 @@ class MasterOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $masterOrderHeaders) = $masterOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
+            $qb->innerJoin("{$alias}.designCode", 'd');
             if (isset($request->request->get('master_order_header_grid')['filter']['customer:company']) && isset($request->request->get('master_order_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 'c');
                 $add['filter']($qb, 'c', 'company', $request->request->get('master_order_header_grid')['filter']['customer:company']);
                 $add['sort']($qb, 'c', 'company', $request->request->get('master_order_header_grid')['sort']['customer:company']);
             }
             if (isset($request->request->get('master_order_header_grid')['filter']['designCode:code']) && isset($request->request->get('master_order_header_grid')['sort']['designCode:code'])) {
-                $qb->innerJoin("{$alias}.designCode", 'd');
                 $add['filter']($qb, 'd', 'code', $request->request->get('master_order_header_grid')['filter']['designCode:code']);
                 $add['sort']($qb, 'd', 'code', $request->request->get('master_order_header_grid')['sort']['designCode:code']);
             }
             if (isset($request->request->get('master_order_header_grid')['filter']['designCode:variant']) && isset($request->request->get('master_order_header_grid')['sort']['designCode:variant'])) {
-                $qb->innerJoin("{$alias}.designCode", 'i');
-                $add['filter']($qb, 'i', 'variant', $request->request->get('master_order_header_grid')['filter']['designCode:variant']);
-                $add['sort']($qb, 'i', 'variant', $request->request->get('master_order_header_grid')['sort']['designCode:variant']);
+                $add['filter']($qb, 'd', 'variant', $request->request->get('master_order_header_grid')['filter']['designCode:variant']);
+                $add['sort']($qb, 'd', 'variant', $request->request->get('master_order_header_grid')['sort']['designCode:variant']);
             }
             if (isset($request->request->get('master_order_header_grid')['filter']['designCode:version']) && isset($request->request->get('master_order_header_grid')['sort']['designCode:version'])) {
-                $qb->innerJoin("{$alias}.designCode", 's');
-                $add['filter']($qb, 's', 'version', $request->request->get('master_order_header_grid')['filter']['designCode:version']);
-                $add['sort']($qb, 's', 'version', $request->request->get('master_order_header_grid')['sort']['designCode:version']);
+                $add['filter']($qb, 'd', 'version', $request->request->get('master_order_header_grid')['filter']['designCode:version']);
+                $add['sort']($qb, 'd', 'version', $request->request->get('master_order_header_grid')['sort']['designCode:version']);
             }
             
             if ($request->request->has('quality_control_sorting_header')) {
