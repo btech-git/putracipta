@@ -95,8 +95,14 @@
                         {{ productPrototypeCount }}
                     {% endif %}
                 </td>
-                <td></td>
-                <td></td>
+                <td>Master Produk</td>
+                <td class="text-center font-weight-bold">
+                        {% if is_granted('ROLE_PRODUCT_VIEW') or is_granted('ROLE_PRODUCT_EDIT') or is_granted('ROLE_PRODUCT_ADD') %}
+                        <a href="{{ path('app_master_product_head') }}">{{ productCount }}</a>
+                    {% else %}
+                        {{ productCount }}
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>
