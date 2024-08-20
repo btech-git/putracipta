@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Criteria\DataCriteriaPagination;
 use App\Common\Data\Operator\SortDescending;
+use App\Entity\Master\Product;
 use App\Entity\Production\ProductPrototype;
 use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
@@ -27,32 +28,32 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/test', name: 'app_test', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function test(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $materialRepository = $entityManager->getRepository(\App\Entity\Master\Material::class);
-        $materials = $materialRepository->findBy([], ['materialSubCategory' => 'ASC', 'id' => 'ASC']);
-        $lastMaterialSubCategoryId = 0;
-        $codeOrdinal = 0;
-        foreach ($materials as $material) {
-            if ($lastMaterialSubCategoryId != $material->getMaterialSubCategory()->getId()) {
-                $codeOrdinal = 0;
-            }
-            $material->setCodeOrdinal(++$codeOrdinal);
-            $lastMaterialSubCategoryId = $material->getMaterialSubCategory()->getId();
-        }
-        $content = '';
-        foreach ($materials as $material) {
-            $content .= $material->getId() . ' - ' . $material->getMaterialSubCategory()->getId() . ' - ' . $material->getCodeOrdinal() . '<br />';
-        }
-        foreach ($materials as $material) {
-            $materialRepository->add($material);
-        }
-        $entityManager->flush();
-
-        return new Response($content);
-    }
+//    #[Route('/test', name: 'app_test', methods: ['GET', 'POST'])]
+//    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+//    public function test(Request $request, EntityManagerInterface $entityManager): Response
+//    {
+//        $materialRepository = $entityManager->getRepository(\App\Entity\Master\Material::class);
+//        $materials = $materialRepository->findBy([], ['materialSubCategory' => 'ASC', 'id' => 'ASC']);
+//        $lastMaterialSubCategoryId = 0;
+//        $codeOrdinal = 0;
+//        foreach ($materials as $material) {
+//            if ($lastMaterialSubCategoryId != $material->getMaterialSubCategory()->getId()) {
+//                $codeOrdinal = 0;
+//            }
+//            $material->setCodeOrdinal(++$codeOrdinal);
+//            $lastMaterialSubCategoryId = $material->getMaterialSubCategory()->getId();
+//        }
+//        $content = '';
+//        foreach ($materials as $material) {
+//            $content .= $material->getId() . ' - ' . $material->getMaterialSubCategory()->getId() . ' - ' . $material->getCodeOrdinal() . '<br />';
+//        }
+//        foreach ($materials as $material) {
+//            $materialRepository->add($material);
+//        }
+//        $entityManager->flush();
+//
+//        return new Response($content);
+//    }
 
     #[Route('/_dashboard', name: 'app__dashboard', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -119,6 +120,11 @@ class DefaultController extends AbstractController
             $qb->andWhere("m.user = :user");
             $qb->setParameter('user', $this->getUser());
         });
+        $productRepository = $entityManager->getRepository(Product::class);
+        $productCount = $productRepository->fetchCount($criteria, function($qb, $alias) {
+            $qb->andWhere("{$alias}.isInactive = false");
+            $qb->andWhere("{$alias}.isRead = false");
+        });
 
         list($saleOrderHeaders, $saleOrderHeaderData, $saleForm, $saleCount) = $this->getSaleOrderGridData($request, $saleOrderHeaderRepository);
         list($purchaseOrderHeaders, $purchaseOrderHeaderData, $purchaseForm, $purchaseCount) = $this->getPurchaseOrderGridData($request, $purchaseOrderHeaderRepository);
@@ -136,6 +142,7 @@ class DefaultController extends AbstractController
             'saleInvoiceHeaderCount' => $saleInvoiceHeaderCount,
             'inventoryRequestHeaderCount' => $inventoryRequestHeaderCount,
             'productPrototypeCount' => $productPrototypeCount,
+            'productCount' => $productCount,
             'saleOrderHeaders' => $saleOrderHeaders,
             'saleOrderHeaderData' => $saleOrderHeaderData,
             'saleForm' => $saleForm,
