@@ -103,11 +103,11 @@ class ReceiveHeaderFormService
             $oldReceiveDetails = empty($receiveDetail->getPurchaseOrderDetail()) ? $this->receiveDetailRepository->findByPurchaseOrderPaperDetail($purchaseOrderDetailForMaterialOrPaper) : $this->receiveDetailRepository->findByPurchaseOrderDetail($purchaseOrderDetailForMaterialOrPaper);
             $totalReceive = 0;
             foreach ($oldReceiveDetails as $oldReceiveDetail) {
-                if ($oldReceiveDetail->getId() !== $receiveDetail->getId()) {
+                if ($oldReceiveDetail->getId() !== $receiveDetail->getId() && $oldReceiveDetail->isIsCanceled() === false) {
                     $totalReceive += $oldReceiveDetail->getReceivedQuantity();
                 }
             }
-            $totalReceive += $receiveDetail->getReceivedQuantity();
+            $totalReceive += $receiveDetail->isIsCanceled() === true ? '0.00' : $receiveDetail->getReceivedQuantity();
             $purchaseOrderDetailForMaterialOrPaper->setTotalReceive($totalReceive);
             $purchaseOrderDetailForMaterialOrPaper->setRemainingReceive($purchaseOrderDetailForMaterialOrPaper->getSyncRemainingReceive());
             $receiveDetail->setRemainingQuantity($purchaseOrderDetailForMaterialOrPaper->getRemainingReceive());
