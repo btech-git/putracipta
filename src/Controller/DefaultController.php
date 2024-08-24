@@ -186,6 +186,8 @@ class DefaultController extends AbstractController
             $qb->leftJoin("{$alias}.saleOrderDetails", 'd');
             $qb->leftJoin("d.masterOrderProductDetails", 'md');
             $qb->leftJoin("md.masterOrderHeader", 'mh');
+            $qb->leftJoin("md.inventoryProductReceiveDetails", 'rd');
+            $qb->leftJoin("rd.inventoryProductReceiveHeader", 'rh');
             $qb->leftJoin("md.deliveryDetails", 'dd');
             $qb->leftJoin("dd.deliveryHeader", 'dh');
             $qb->leftJoin("dd.saleInvoiceDetails", 'sd');
