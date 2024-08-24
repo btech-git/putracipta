@@ -16,14 +16,14 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'inventoryRequestMaterialHeader:codeNumberOrdinal') }}>
                     Permintaan # {{ grid.sort_char(form.sort['inventoryRequestMaterialHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'material:name') }}>
+                    Nama {{ grid.sort_char(form.sort['material:name'].vars.value) }}
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'inventoryRequestMaterialHeader:pickupDate') }}>
                     Tanggal Pakai{{ grid.sort_char(form.sort['inventoryRequestMaterialHeader:pickupDate'].vars.value) }}
                 </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'material:code') }}>
                     Kode {{ grid.sort_char(form.sort['material:code'].vars.value) }}
-                </th>
-                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'material:name') }}>
-                    Nama {{ grid.sort_char(form.sort['material:name'].vars.value) }}
                 </th>
                 <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
@@ -43,13 +43,13 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'inventoryRequestMaterialHeader:codeNumberYear') }} value="{{ form.filter['inventoryRequestMaterialHeader:codeNumberYear'].1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:name') }} value="{{ form.filter['material:name'].1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'inventoryRequestMaterialHeader:pickupDate') }} value="{{ form.filter['inventoryRequestMaterialHeader:pickupDate'].1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:code') }} value="{{ form.filter['material:code'].1.vars.value }}" />
-                </th>
-                <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:name') }} value="{{ form.filter['material:name'].1.vars.value }}" />
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
@@ -71,9 +71,9 @@
                     'unitName': inventoryRequestMaterialDetail.unit.name}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.codeNumber|default }}</td>
-                    <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
                 </tr>
             {% else %}

@@ -54,7 +54,7 @@
                     'productCode': deliveryDetail.product.code|default, 
                     'saleOrderHeaderReferenceNumber': deliveryDetail.saleOrderDetail.SaleOrderHeader.referenceNumber|default, 
                     'quantity': deliveryDetail.quantity|default|number_format(0), 
-                    'unitPrice': deliveryDetail.saleOrderDetail.unitPriceBeforeTax|default|number_format(2),
+                    'unitPrice': deliveryDetail.saleOrderDetail.unitPriceBeforeTax|default|number_format(6),
                     'total': deliveryDetail.total|default|number_format(2),
                     'unitName': deliveryDetail.unit.name}|json_encode }}">
                     <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>

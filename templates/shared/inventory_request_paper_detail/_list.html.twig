@@ -22,12 +22,12 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'inventoryRequestPaperHeader:pickupDate') }}>
                     Tanggal Pakai {{ grid.sort_char(form.sort['inventoryRequestPaperHeader:pickupDate'].vars.value) }}
                 </th>
-                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'masterOrderHeader:codeNumberOrdinal') }}>
+                {#<th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'masterOrderHeader:codeNumberOrdinal') }}>
                     WO # {{ grid.sort_char(form.sort['masterOrderHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
                 <th style="min-width: 380px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
-                </th>
+                </th>#}
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'paper:code') }}>
                     Kode Kertas {{ grid.sort_char(form.sort['paper:code'].vars.value) }}
                 </th>
@@ -54,7 +54,7 @@
                 <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'inventoryRequestPaperHeader:pickupDate') }} value="{{ form.filter['inventoryRequestPaperHeader:pickupDate'].1.vars.value }}" />
                 </th>
-                <th>
+                {#<th>
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberOrdinal') }} value="{{ form.filter['masterOrderHeader:codeNumberOrdinal'].1.vars.value }}" />
                     <span><small>/{{ constant('App\\Entity\\Production\\MasterOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
                     <select {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberMonth') }}>
@@ -67,7 +67,7 @@
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'customer:company') }} value="{{ form.filter['customer:company'].1.vars.value }}" />
-                </th>
+                </th>#}
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:code') }} value="{{ form.filter['paper:code'].1.vars.value }}" />
                 </th>
@@ -95,8 +95,8 @@
                     <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber }}</td>
                     <td>{{ inventoryRequestPaperDetail.paper.name|default }}</td>
                     <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.pickupDate ? inventoryRequestPaperDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
-                    <td>{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
-                    <td>{{ inventoryRequestPaperDetail.masterOrderHeader.customer.company|default }}</td>
+                    {#<td>{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
+                    <td>{{ inventoryRequestPaperDetail.masterOrderHeader.customer.company|default }}</td>#}
                     <td>{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
                     <td>{{ inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
                 </tr>

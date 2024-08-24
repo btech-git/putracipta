@@ -8,22 +8,22 @@
     <table class="table table-bordered table-striped" id="inventory-request-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 280px">
-                    Request #
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
+                    Permintaan # {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px">
-                    Material
+                <th style="min-width: 250px" {{ grid.sort_link_item(form, 'inventoryRequestProductList') }}>
+                    Material {{ grid.sort_char(form.sort.inventoryRequestProductList.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'departmentName') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'departmentName') }}>
                     Department {{ grid.sort_char(form.sort.departmentName.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'workOrderNumber') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'workOrderNumber') }}>
                     WO # {{ grid.sort_char(form.sort.workOrderNumber.vars.value) }}
                 </th>
-                <th role="button" {{ grid.sort_link_item(form, 'requestMode') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'requestMode') }}>
                     Jenis {{ grid.sort_char(form.sort.requestMode.vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse') }}>
@@ -33,9 +33,11 @@
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th></th>
                 <th>
-                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'inventoryRequestProductList') }} value="{{ form.filter.inventoryRequestProductList.1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'departmentName') }} value="{{ form.filter.departmentName.1.vars.value }}" />
                 </th>
