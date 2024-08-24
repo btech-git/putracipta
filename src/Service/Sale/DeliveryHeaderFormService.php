@@ -101,10 +101,10 @@ class DeliveryHeaderFormService
             $saleOrderDetail->setTotalQuantityDelivery($totalDelivery);
             $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
             
-//            if ($deliveryHeader->getId() === null) {
+            if ($deliveryHeader->getId() === null) {
                 $deliveryDetail->setDeliveredQuantity($saleOrderDetail->getTotalQuantityDelivery());
                 $deliveryDetail->setRemainingQuantity($saleOrderDetail->getRemainingQuantityDelivery());
-//            }
+            }
                 
             $totalDeliveryMasterOrder = 0;
             foreach ($oldMasterOrderProductDetails as $oldMasterOrderProductDetail) {
