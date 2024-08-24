@@ -52,6 +52,9 @@ class InventoryReleaseHeader extends StockHeader
     #[ORM\ManyToOne(inversedBy: 'inventoryReleaseHeaders')]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $inventoryReleaseItemList = '';
+
     public function __construct()
     {
         $this->inventoryReleaseMaterialDetails = new ArrayCollection();
@@ -213,6 +216,18 @@ class InventoryReleaseHeader extends StockHeader
     public function setMasterOrderHeader(?MasterOrderHeader $masterOrderHeader): self
     {
         $this->masterOrderHeader = $masterOrderHeader;
+
+        return $this;
+    }
+
+    public function getInventoryReleaseItemList(): ?string
+    {
+        return $this->inventoryReleaseItemList;
+    }
+
+    public function setInventoryReleaseItemList(string $inventoryReleaseItemList): self
+    {
+        $this->inventoryReleaseItemList = $inventoryReleaseItemList;
 
         return $this;
     }
