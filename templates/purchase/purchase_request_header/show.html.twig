@@ -120,6 +120,7 @@
                     <tr class="bg-warning">
                         <th>PO #</th>
                         <th>Tanggal</th>
+                        <th>Note</th>
                         <th>Material</th>
                         <th>Quantity</th>
                         <th>Satuan</th>
@@ -131,6 +132,7 @@
                             <tr>
                                 <td>{{ purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
                                 <td>{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ purchaseOrderDetail.purchaseOrderHeader.note|default }}</td>
                                 <td>{{ purchaseOrderDetail.material.name|default }}</td>
                                 <td class="text-center">{{ purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ purchaseOrderDetail.unit.name|default }}</td>

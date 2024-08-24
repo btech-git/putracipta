@@ -6,9 +6,9 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('reject-dialog', 'Reject Note', 'sm') }}
+    {{ dialog.start('reject-dialog', 'Reject Note', 'lg') }}
         <div class="text-center">
-            <textarea name="reject_note"></textarea>
+            <textarea name="reject_note" class="w-100" style="height: 200px"></textarea>
             <br />
             <button class="btn btn-danger btn-sm"
                     data-controller="dom-element"

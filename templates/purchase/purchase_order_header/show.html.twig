@@ -182,14 +182,16 @@
                 <tbody>
                     {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
                         {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
-                            <tr>
-                                <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
-                                <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                                <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
-                                <td>{{ receiveDetail.material.name|default }}</td>
-                                <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
-                                <td>{{ receiveDetail.unit.name|default }}</td>
-                            </tr>
+                            {% if (receiveDetail.isIsCanceled === false) %}
+                                <tr>
+                                    <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                                    <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                                    <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                                    <td>{{ receiveDetail.material.name|default }}</td>
+                                    <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
+                                    <td>{{ receiveDetail.unit.name|default }}</td>
+                                </tr>
+                            {%  endif %}
                         {% endfor %}
                     {% endfor %}
                 </tbody>
