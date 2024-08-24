@@ -94,7 +94,8 @@ class MasterOrderProductDetail extends ProductionDetail
     
     public function getSyncRemainingStockDelivery() 
     {
-        return $this->quantityInventoryReceive - $this->quantityDelivery;
+        $quantityStock = $this->quantityShortage > 0 ? $this->quantityInventoryReceive : $this->quantityProduction;
+        return $quantityStock - $this->quantityDelivery;
     }
     
     public function getDeliveryLotNumber()
