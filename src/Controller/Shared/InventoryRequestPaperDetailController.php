@@ -27,9 +27,9 @@ class InventoryRequestPaperDetailController extends AbstractController
         list($count, $inventoryRequestPaperDetails) = $inventoryRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->innerJoin("{$alias}.inventoryRequestHeader", 'h');
-            $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
+//            $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
             $qb->innerJoin("{$alias}.paper", 'p');
-            $qb->innerJoin("m.customer", 'c');
+//            $qb->innerJoin("m.customer", 'c');
             $qb->addOrderBy('h.pickupDate', 'DESC');
             if ($request->request->has('purchase_request_paper_header')) {
                 $sub = $new(PurchaseRequestPaperDetail::class, 'q');
@@ -58,22 +58,22 @@ class InventoryRequestPaperDetailController extends AbstractController
                 $add['filter']($qb, 'h', 'warehouse', $request->request->get('inventory_request_paper_detail_grid')['filter']['inventoryRequestPaperHeader:warehouse']);
                 $add['sort']($qb, 'h', 'warehouse', $request->request->get('inventory_request_paper_detail_grid')['sort']['inventoryRequestPaperHeader:warehouse']);
             }
-            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberOrdinal']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberOrdinal'])) {
-                $add['filter']($qb, 'm', 'codeNumberOrdinal', $request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberOrdinal']);
-                $add['sort']($qb, 'm', 'codeNumberOrdinal', $request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberOrdinal']);
-            }
-            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberMonth']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberMonth'])) {
-                $add['filter']($qb, 'm', 'codeNumberMonth', $request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberMonth']);
-                $add['sort']($qb, 'm', 'codeNumberMonth', $request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberMonth']);
-            }
-            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberYear']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberYear'])) {
-                $add['filter']($qb, 'm', 'codeNumberYear', $request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberYear']);
-                $add['sort']($qb, 'm', 'codeNumberYear', $request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberYear']);
-            }
-            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['customer:company']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['customer:company'])) {
-                $add['filter']($qb, 'c', 'company', $request->request->get('inventory_request_paper_detail_grid')['filter']['customer:company']);
-                $add['sort']($qb, 'c', 'company', $request->request->get('inventory_request_paper_detail_grid')['sort']['customer:company']);
-            }
+//            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberOrdinal']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberOrdinal'])) {
+//                $add['filter']($qb, 'm', 'codeNumberOrdinal', $request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberOrdinal']);
+//                $add['sort']($qb, 'm', 'codeNumberOrdinal', $request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberOrdinal']);
+//            }
+//            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberMonth']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberMonth'])) {
+//                $add['filter']($qb, 'm', 'codeNumberMonth', $request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberMonth']);
+//                $add['sort']($qb, 'm', 'codeNumberMonth', $request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberMonth']);
+//            }
+//            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberYear']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberYear'])) {
+//                $add['filter']($qb, 'm', 'codeNumberYear', $request->request->get('inventory_request_paper_detail_grid')['filter']['masterOrderHeader:codeNumberYear']);
+//                $add['sort']($qb, 'm', 'codeNumberYear', $request->request->get('inventory_request_paper_detail_grid')['sort']['masterOrderHeader:codeNumberYear']);
+//            }
+//            if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['customer:company']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['customer:company'])) {
+//                $add['filter']($qb, 'c', 'company', $request->request->get('inventory_request_paper_detail_grid')['filter']['customer:company']);
+//                $add['sort']($qb, 'c', 'company', $request->request->get('inventory_request_paper_detail_grid')['sort']['customer:company']);
+//            }
             if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['paper:code']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['paper:code'])) {
                 $add['filter']($qb, 'p', 'code', $request->request->get('inventory_request_paper_detail_grid')['filter']['paper:code']);
                 $add['sort']($qb, 'p', 'code', $request->request->get('inventory_request_paper_detail_grid')['sort']['paper:code']);
