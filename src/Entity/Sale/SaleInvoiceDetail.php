@@ -19,7 +19,7 @@ class SaleInvoiceDetail extends SaleDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]

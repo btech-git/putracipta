@@ -23,7 +23,7 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
     #[Assert\NotBlank]
 //    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
@@ -44,7 +44,7 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deliveryDate = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
     #[Assert\NotNull]
     private ?string $unitPriceBeforeTax = '0.00';
 
