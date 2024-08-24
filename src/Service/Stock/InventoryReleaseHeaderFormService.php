@@ -138,6 +138,18 @@ class InventoryReleaseHeaderFormService
             }
         }
         $inventoryReleaseHeader->setTotalQuantity($inventoryReleaseHeader->getSyncTotalQuantity());
+        
+        $inventoryReleaseItemList = [];
+        foreach ($inventoryReleaseHeader->getInventoryReleaseMaterialDetails() as $inventoryReleaseMaterialDetail) {
+            $material = $inventoryReleaseMaterialDetail->getMaterial();
+            $inventoryReleaseItemList[] = $material->getName();
+        }
+        foreach ($inventoryReleaseHeader->getInventoryReleasePaperDetails() as $inventoryReleasePaperDetail) {
+            $paper = $inventoryReleasePaperDetail->getPaper();
+            $inventoryReleaseItemList[] = $paper->getName();
+        }
+        $inventoryReleaseItemUniqueList = array_unique(explode(', ', implode(', ', $inventoryReleaseItemList)));
+        $inventoryReleaseHeader->setInventoryReleaseItemList(implode(', ', $inventoryReleaseItemUniqueList));
     }
 
     public function save(InventoryReleaseHeader $inventoryReleaseHeader, array $options = []): void
