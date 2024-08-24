@@ -29,7 +29,18 @@ class InventoryRequestHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['division', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'requestMode', 'warehouse', 'requestStatus'],
+                'field_names' => [
+                    'division', 
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'requestMode', 
+                    'warehouse', 
+                    'requestStatus', 
+                    'inventoryRequestProductList',
+                    'note'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -39,7 +50,9 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'division' => 'Divisi',
                 ],
                 'field_operators_list' => [
+                    'inventoryRequestProductList' => [FilterContain::class, FilterNotContain::class],
                     'departmentName' => [FilterContain::class, FilterNotContain::class],
+                    'note' => [FilterContain::class, FilterNotContain::class],
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
@@ -65,7 +78,7 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'division' => ['class' => Division::class, 'choice_label' => 'name'],
                     'requestMode' => ['choices' => [
                         'Material' => InventoryRequestHeader::REQUEST_MODE_MATERIAL, 
-                        'Kertas' => InventoryRequestHeader::REQUEST_MODE_PAPER
+                        'Paper' => InventoryRequestHeader::REQUEST_MODE_PAPER
                     ]],
                     'requestStatus' => ['choices' => [
                         'Open' => InventoryRequestHeader::REQUEST_STATUS_OPEN, 
@@ -75,7 +88,18 @@ class InventoryRequestHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['division', 'codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'requestMode', 'warehouse', 'requestStatus'],
+                'field_names' => [
+                    'division', 
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'requestMode', 
+                    'warehouse', 
+                    'requestStatus', 
+                    'inventoryRequestProductList',
+                    'note'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -86,6 +110,7 @@ class InventoryRequestHeaderGridType extends AbstractType
                 ],
                 'field_operators_list' => [
                     'departmentName' => [SortAscending::class, SortDescending::class],
+                    'inventoryRequestProductList' => [SortAscending::class, SortDescending::class],
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
@@ -94,6 +119,7 @@ class InventoryRequestHeaderGridType extends AbstractType
                     'warehouse' => [SortAscending::class, SortDescending::class],
                     'division' => [SortAscending::class, SortDescending::class],
                     'requestStatus' => [SortAscending::class, SortDescending::class],
+                    'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

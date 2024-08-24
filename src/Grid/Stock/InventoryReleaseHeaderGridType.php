@@ -15,6 +15,7 @@ use App\Common\Form\Type\SortType;
 use App\Entity\Master\Division;
 use App\Entity\Master\Warehouse;
 use App\Entity\StockHeader;
+use App\Entity\Stock\InventoryReleaseHeader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -28,7 +29,7 @@ class InventoryReleaseHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'division', 'warehouse', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'division', 'warehouse', 'releaseMode', 'inventoryReleaseItemList', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -44,7 +45,9 @@ class InventoryReleaseHeaderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
+                    'inventoryReleaseItemList' => [FilterContain::class, FilterNotContain::class],
                     'division' => [FilterEqual::class, FilterNotEqual::class],
+                    'releaseMode' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -52,16 +55,21 @@ class InventoryReleaseHeaderGridType extends AbstractType
                     'codeNumberYear' => IntegerType::class,
                     'warehouse' => EntityType::class,
                     'division' => EntityType::class,
+                    'releaseMode' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
                     'division' => ['class' => Division::class, 'choice_label' => 'name'],
+                    'releaseMode' => ['choices' => [
+                        'Material' => InventoryReleaseHeader::RELEASE_MODE_MATERIAL, 
+                        'Paper' => InventoryReleaseHeader::RELEASE_MODE_PAPER
+                    ]],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'division', 'note', 'warehouse'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'division', 'note', 'releaseMode', 'inventoryReleaseItemList', 'warehouse'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -78,6 +86,8 @@ class InventoryReleaseHeaderGridType extends AbstractType
                     'note' => [SortAscending::class, SortDescending::class],
                     'warehouse' => [SortAscending::class, SortDescending::class],
                     'division' => [SortAscending::class, SortDescending::class],
+                    'releaseMode' => [SortAscending::class, SortDescending::class],
+                    'inventoryReleaseItemList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
