@@ -23,6 +23,26 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/report/product_sale_order')]
 class ProductSaleOrderController extends AbstractController
 {
+    #[Route('/_product_choice_list', name: 'app_report_product_sale_order__product_choice_list', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_SALE_REPORT')]
+    public function _productChoiceList(Request $request, ProductRepository $productRepository): Response
+    {
+        $productId = '';
+        if (isset($request->request->get('product_sale_order_grid')['filter']['id'][1])) {
+            $productId = $request->request->get('product_sale_order_grid')['filter']['id'][1];
+        }
+        $customerId = '';
+        if (isset($request->request->get('product_sale_order_grid')['filter']['customer'][1])) {
+            $customerId = $request->request->get('product_sale_order_grid')['filter']['customer'][1];
+        }
+        $products = $productRepository->findBy(['isInactive' => false, 'customer' => $customerId]);
+
+        return $this->render("report/product_sale_order/_product_choice_list.html.twig", [
+            'products' => $products,
+            'productId' => $productId,
+        ]);
+    }
+
     #[Route('/_list', name: 'app_report_product_sale_order__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_SALE_REPORT')]
     public function _list(Request $request, ProductRepository $productRepository, SaleOrderDetailRepository $saleOrderDetailRepository): Response
