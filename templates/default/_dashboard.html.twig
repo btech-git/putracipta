@@ -133,10 +133,13 @@
                 <th style="min-width: 450px">
                     Product
                 </th>
-                <th style="min-width: 150px">
+                <th style="min-width: 250px">
                     MO #
                 </th>
-                <th style="min-width: 350px">
+                <th style="min-width: 250px">
+                    Penerimaan Produksi #
+                </th>
+                <th style="min-width: 250px">
                     Pengiriman #
                 </th>
                 <th style="min-width: 200px">
@@ -168,6 +171,7 @@
                 {% set currentSaleOrderHeader = saleOrderHeaderData[saleOrderHeader.id]|default(saleOrderHeader) %}
                 {% set saleOrderDetails = currentSaleOrderHeader.saleOrderDetails %}
                 {% set masterOrderProductDetails = saleOrderDetails|map(saleOrderDetail => saleOrderDetail.masterOrderProductDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set inventoryProductReceiveDetails = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.inventoryProductReceiveDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set deliveryDetails = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.deliveryDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set saleInvoiceDetails = deliveryDetails|map(deliveryDetail => deliveryDetail.saleInvoiceDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set salePaymentDetails = saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.salePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
@@ -182,6 +186,12 @@
                         {% set masterOrderHeaders = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.masterOrderHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
                         {% for masterOrderHeader in masterOrderHeaders %}
                             <a target="_blank" href="{{ path('app_production_master_order_header_show', {'id': masterOrderHeader.id}) }}">{{ masterOrderHeader.codeNumber|default }}</a>{% if loop.index < masterOrderHeaders|length %}, {% endif %} 
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% set inventoryProductReceiveHeaders = inventoryProductReceiveDetails|map(inventoryProductReceiveDetail => inventoryProductReceiveDetail.inventoryProductReceiveHeader)|reduce((a, b) => b in a ? a : a|merge([b]), []) %}
+                        {% for inventoryProductReceiveHeader in inventoryProductReceiveHeaders %}
+                            <a target="_blank" href="{{ path('app_stock_inventory_product_receive_header_show', {'id': inventoryProductReceiveHeader.id}) }}">{{ inventoryProductReceiveHeader.codeNumber|default }}</a>{% if loop.index < inventoryProductReceiveHeaders|length %}, {% endif %} 
                         {% endfor %}
                     </td>
                     <td>
