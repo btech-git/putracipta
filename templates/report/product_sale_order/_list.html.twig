@@ -43,7 +43,14 @@
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Customer</label>
                     <div class="col-sm-10 w-75">
-                        <select class="form-select" {{ grid.filter_link_item(form, 'customer') }}>
+                        <select class="form-select" id="customer-choice-list" {{ grid.filter_link_item(form, 'customer') }}
+                                data-controller="dom-element data-choice"
+                                data-action="change->dom-element#bind change->event-emitter#trigger change->data-choice#select"
+                                data-dom-element-bind-specifications-param="{{ [
+                                    {'destinationsTarget': '#product-id-text', 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode }}"
+                                data-event-emitter-trigger-elements-target-param="#product-id-text"
+                                data-event-emitter-trigger-event-type-param="change">
                             <option value="" {% if form.filter.customer.1.vars.value == '' %}selected="selected"{% endif %}></option>
                             {% for choice in form.filter.customer.1.vars.choices %}
                                 <option value="{{ choice.value }}" {% if form.filter.customer.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
@@ -56,13 +63,19 @@
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Product</label>
                     <div class="col-sm-10 w-75">
-                        <input type="text" id="{{ form.vars.id }}-text" class="form-control readonly-form-input" value="{{ product.name|default }}" readonly="readonly"
+                        <input type="hidden" id="product-id-text" {{ grid.filter_link_item(form, 'id') }} value="{{ form.filter.id.1.vars.value }}" />
+                        <div data-controller="html-loader"
+                             data-html-loader-url-value="{{ path('app_report_product_sale_order__product_choice_list') }}"
+                             data-html-loader-auto-load-value="true"
+                             data-action="customer-choice-list:data-choice:select@document->html-loader#load">
+                        </div>
+                        {#<input type="text" id="{{ form.vars.id }}-text" class="form-control readonly-form-input" value="{{ product.name|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#product-dialog"
                                data-controller="dom-element"
                                data-action="product-table:data-table:select@document->dom-element#bind"
                                data-dom-element-bind-specifications-param="{{ [
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productName'}},
-                               ]|json_encode }}" />
+                               ]|json_encode }}" />#}
                     </div>
                 </div>
             </div>
@@ -162,15 +175,6 @@
             {% endfor %}
         </tbody>
     </table>
-    {% import 'app/bootstrap_dialog.html.twig' as dialog %}
-
-    {{ dialog.start('product-dialog', 'Product List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_product__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
-    {{ dialog.end() }}
-
 </div>
 
 <div class="d-print-none">
