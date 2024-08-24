@@ -26,7 +26,9 @@
                     <td class="d-none">{{ form_widget(detailForm.paper, {'attr': {'data-item-field-name': 'paperId'}}) }}</td>
                     <td data-item-field-name="paperCode">{{ detailForm.vars.value.paper.codeNumber|default }}</td>
                     <td data-item-field-name="paperName">{{ detailForm.vars.value.paper.name|default }}</td>
-                    <td data-item-field-name="masterOrderCodeNumber">{{ detailForm.vars.value.paper.name|default }}</td>
+                    <td data-item-field-name="masterOrderCodeNumber">
+                        {{ detailForm.vars.value.inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}
+                    </td>
                     <td class="text-center" data-item-field-name="inventoryRequestPaperDetailQuantity">
                         {{ detailForm.vars.value.inventoryRequestPaperDetail.quantity|default|number_format(2) }}
                     </td>
