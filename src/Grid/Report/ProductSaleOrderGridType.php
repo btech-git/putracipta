@@ -29,20 +29,20 @@ class ProductSaleOrderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['saleOrderHeader:codeNumberOrdinal', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'name', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus', 'customer'],
+                'field_names' => ['saleOrderHeader:codeNumberOrdinal', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'id', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus', 'customer'],
                 'field_label_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => 'Code Number',
                     'saleOrderHeader:codeNumberMonth' => '',
                     'saleOrderHeader:codeNumberYear' => '',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
-                    'name' => 'Product',
+                    'id' => 'Product',
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'name' => [FilterContain::class, FilterNotContain::class],
+                    'id' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
@@ -69,20 +69,20 @@ class ProductSaleOrderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'customer', 'name', 'saleOrderHeader:referenceNumber', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberOrdinal'],
+                'field_names' => ['saleOrderHeader:transactionDate', 'customer', 'id', 'saleOrderHeader:referenceNumber', 'saleOrderHeader:note', 'saleOrderHeader:transactionStatus', 'saleOrderHeader:codeNumberYear', 'saleOrderHeader:codeNumberMonth', 'saleOrderHeader:codeNumberOrdinal'],
                 'field_label_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => '',
                     'saleOrderHeader:codeNumberMonth' => '',
                     'saleOrderHeader:codeNumberYear' => 'Code Number',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
-                    'name' => 'Product',
+                    'id' => 'Product',
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:transactionDate' => [SortAscending::class, SortDescending::class],
-                    'name' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
                     'customer' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:referenceNumber' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:note' => [SortAscending::class, SortDescending::class],
