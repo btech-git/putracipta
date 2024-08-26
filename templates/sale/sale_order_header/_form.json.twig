@@ -9,7 +9,7 @@
         {%- for saleOrderDetailForm in form.saleOrderDetails -%}
             {%- set saleOrderDetail = saleOrderDetailForm.vars.data -%}
             "{{ saleOrderDetailForm.vars.name }}": {
-                "unitPriceBeforeTax": "{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(2) }}",
+                "unitPriceBeforeTax": "{{ saleOrderDetail.unitPriceBeforeTax|default|number_format(6) }}",
                 "total": "{{ saleOrderDetail.total|default|number_format(2) }}",
                 "quantityStock": "{{ saleOrderDetail.quantityStock|default|number_format(0) }}"
             }

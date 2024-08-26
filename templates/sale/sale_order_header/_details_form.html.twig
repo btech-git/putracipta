@@ -51,13 +51,13 @@
                             'data-controller': 'dom-element',
                             'data-action': 'change->dom-element#bind change->json-loader#load', 
                             'data-dom-element-bind-specifications-param': [
-                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 2)'}}
+                                {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$helper.localizer.number($element.value, 6)'}}
                             ]|json_encode,
                         }}) }}
                     </td>
                     <td class="text-end" data-json-loader-target="placeholder"
                         data-property-path="saleOrderDetails.{{ detailForm.vars.name }}.unitPriceBeforeTax">
-                        {{ detailForm.vars.value.unitPriceBeforeTax|default|number_format(2) }}
+                        {{ detailForm.vars.value.unitPriceBeforeTax|default|number_format(6) }}
                     </td>
                     <td class="text-end" data-json-loader-target="placeholder"
                         data-property-path="saleOrderDetails.{{ detailForm.vars.name }}.total">
