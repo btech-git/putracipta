@@ -182,7 +182,7 @@
                 <tbody>
                     {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
                         {% for receiveDetail in purchaseOrderDetail.receiveDetails %}
-                            {% if (receiveDetail.isIsCanceled === false) %}
+                            {% if (receiveDetail.isIsCanceled == false) %}
                                 <tr>
                                     <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
                                     <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
