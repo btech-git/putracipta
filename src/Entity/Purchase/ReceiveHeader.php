@@ -28,7 +28,7 @@ class ReceiveHeader extends PurchaseHeader
     private ?string $supplierDeliveryCodeNumber = '';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
+//    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\ManyToOne(inversedBy: 'receiveHeaders')]
