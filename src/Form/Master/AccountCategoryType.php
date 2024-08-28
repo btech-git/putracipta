@@ -13,9 +13,8 @@ class AccountCategoryType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('isInactive')
             ->add('name')
-            ->add('accountCategory')
+            ->add('isInactive')
         ;
     }
 
