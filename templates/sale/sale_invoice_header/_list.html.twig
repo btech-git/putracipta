@@ -72,15 +72,15 @@
         <tbody>
             {% for saleInvoiceHeader in saleInvoiceHeaders %}
                 <tr>
-                    <td>{{ saleInvoiceHeader.codeNumber }}</td>
+                    <td>{{ saleInvoiceHeader.codeNumber|default }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ saleInvoiceHeader.customer.company|default }}</td>
-                    <td>{{ saleInvoiceHeader.saleOrderReferenceNumbers }}</td>
+                    <td>{{ saleInvoiceHeader.saleOrderReferenceNumbers|default }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.grandTotal|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalReturn|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.totalPayment|number_format(0) }}</td>
                     <td class="text-end">{{ saleInvoiceHeader.remainingPayment|number_format(0) }}</td>
-                    <td>{{ saleInvoiceHeader.transactionStatus }}</td>
+                    <td>{{ saleInvoiceHeader.transactionStatus|default }}</td>
                     <td>
                         {% if is_granted('ROLE_SALE_INVOICE_VIEW') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_sale_sale_invoice_header_show', {'id': saleInvoiceHeader.id}) }}"><i class="bi-search"></i></a>
