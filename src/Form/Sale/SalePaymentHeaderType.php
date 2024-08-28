@@ -20,10 +20,9 @@ class SalePaymentHeaderType extends AbstractType
         $builder
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')
-            ->add('referenceNumber')
+//            ->add('referenceNumber')
             ->add('administrationFee', FormattedNumberType::class, ['decimals' => 2])
-//            ->add('returnAmount')
-            ->add('referenceDate', FormattedDateType::class)
+//            ->add('referenceDate', FormattedDateType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('paymentType', null, [
                 'choice_label' => 'name',
