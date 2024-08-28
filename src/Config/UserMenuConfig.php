@@ -13,7 +13,7 @@ class UserMenuConfig
                 'MENU_EMPLOYEE', 'MENU_SUPPLIER', 'MENU_CUSTOMER', 'MENU_PRODUCT', 'MENU_PAPER', 'MENU_MATERIAL', 'MENU_DESIGN_CODE', 'MENU_DIECUT_KNIFE', 
                 'MENU_DIELINE_MILLAR', 'MENU_WORK_ORDER_PROCESS', 'MENU_WORK_ORDER_DISTRIBUTION', 'MENU_WORK_ORDER_CHECK_SHEET', 'MENU_MACHINE_PRINTING', 
                 'MENU_MATERIAL_CATEGORY', 'MENU_MATERIAL_SUB_CATEGORY', 'MENU_WAREHOUSE', 'MENU_TRANSPORTATION', 'MENU_UNIT', 'MENU_PAYMENT_TYPE', 
-                'MENU_CHART_OF_ACCOUNT', 'MENU_DIVISION'
+                'MENU_CHART_OF_ACCOUNT', 'MENU_ACCOUNT_CATEGORY', 'MENU_DIVISION'
             ],
             'MENU_PURCHASE' => [
                 'MENU_PURCHASE_ORDER_MATERIAL', 'MENU_PURCHASE_ORDER_PAPER', 
@@ -82,7 +82,8 @@ class UserMenuConfig
             'MENU_UNIT' => ['route' => 'app_master_unit_index', 'pattern' => '/^app_master_unit_.+$/', 'roles' => ['ROLE_UNIT_ADD', 'ROLE_UNIT_EDIT', 'ROLE_UNIT_VIEW']],
             'MENU_DIVISION' => ['route' => 'app_master_division_index', 'pattern' => '/^app_master_division_.+$/', 'roles' => ['ROLE_DIVISION_ADD', 'ROLE_DIVISION_EDIT', 'ROLE_DIVISION_VIEW']],
             'MENU_PAYMENT_TYPE' => ['route' => 'app_master_payment_type_index', 'pattern' => '/^app_master_payment_type_.+$/', 'roles' => ['ROLE_PAYMENT_TYPE_ADD', 'ROLE_PAYMENT_TYPE_EDIT', 'ROLE_PAYMENT_TYPE_VIEW']],
-            'MENU_CHART_OF_ACCOUNT' => ['route' => 'app_master_account_index', 'pattern' => '/^app_master_account_.+$/', 'roles' => ['ROLE_ACCOUNT_ADD', 'ROLE_ACCOUNT_EDIT', 'ROLE_ACCOUNT_VIEW']],
+            'MENU_CHART_OF_ACCOUNT' => ['route' => 'app_master_account_index', 'pattern' => '/^app_master_account_(?!category).+$/', 'roles' => ['ROLE_ACCOUNT_ADD', 'ROLE_ACCOUNT_EDIT', 'ROLE_ACCOUNT_VIEW']],
+            'MENU_ACCOUNT_CATEGORY' => ['route' => 'app_master_account_category_index', 'pattern' => '/^app_master_account_category_.+$/', 'roles' => ['ROLE_ACCOUNT_ADD', 'ROLE_ACCOUNT_EDIT', 'ROLE_ACCOUNT_VIEW']],
             'MENU_PURCHASE_REQUEST_MATERIAL' => ['route' => 'app_purchase_purchase_request_header_index', 'pattern' => '/^app_purchase_purchase_request_header_.+$/', 'roles' => ['ROLE_PURCHASE_REQUEST_MATERIAL_ADD', 'ROLE_PURCHASE_REQUEST_MATERIAL_EDIT', 'ROLE_PURCHASE_REQUEST_MATERIAL_VIEW']],
             'MENU_PURCHASE_REQUEST_PAPER' => ['route' => 'app_purchase_purchase_request_paper_header_index', 'pattern' => '/^app_purchase_purchase_request_paper_header_.+$/', 'roles' => ['ROLE_PURCHASE_REQUEST_PAPER_ADD', 'ROLE_PURCHASE_REQUEST_PAPER_EDIT', 'ROLE_PURCHASE_REQUEST_PAPER_VIEW']],
             'MENU_PURCHASE_ORDER_MATERIAL' => ['route' => 'app_purchase_purchase_order_header_index', 'pattern' => '/^app_purchase_purchase_order_header_.+$/', 'roles' => ['ROLE_PURCHASE_ORDER_MATERIAL_ADD', 'ROLE_PURCHASE_ORDER_MATERIAL_EDIT', 'ROLE_PURCHASE_ORDER_MATERIAL_VIEW']],
