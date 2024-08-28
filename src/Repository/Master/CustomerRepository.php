@@ -17,4 +17,9 @@ class CustomerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Customer::class);
     }
+    
+    public function findLinePoRecord()
+    {
+        return $this->find(58);
+    }
 }
