@@ -31,6 +31,10 @@
                 <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
+                <th>Tanggal Terima</th>
+                <td>{{ saleOrderHeader.orderReceiveDate ? saleOrderHeader.orderReceiveDate|date('d M Y') : '' }}</td>
+            </tr>
+            <tr>
                 <th>Jenis Order</th>
                 <td>{{ saleOrderHeader.transactionType }}</td>
             </tr>

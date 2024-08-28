@@ -9,8 +9,8 @@
         <tr>
             <th style="text-align: center" colspan="7">
                 <strong>
-                    {% set startDate = form.vars.value.filter['saleOrderHeader:transactionDate'].1|default %}
-                    {% set endDate = form.vars.value.filter['saleOrderHeader:transactionDate'].2|default %}
+                    {% set startDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].1|default %}
+                    {% set endDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].2|default %}
                     {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
                 </strong>
             </th>
@@ -39,7 +39,7 @@
                     <td style="text-align: left">{{ product.customer.company|default }}</td>
                     <td style="text-align: left">{{ product.note|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.codeNumber|default }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('j F Y') }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default }}</td>

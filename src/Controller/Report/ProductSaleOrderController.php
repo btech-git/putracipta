@@ -50,16 +50,16 @@ class ProductSaleOrderController extends AbstractController
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
-            'saleOrderHeader:transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+            'saleOrderHeader:orderReceiveDate' => [FilterBetween::class, $currentDate, $currentDate],
         ]);
         $form = $this->createForm(ProductSaleOrderGridType::class, $criteria);
         $form->handleRequest($request);
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d INNER JOIN " . SaleOrderHeader::class . " h WHERE {$alias} = d.product AND h.transactionDate BETWEEN :startDate AND :endDate)");
-            $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:transactionDate'][1]);
-            $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:transactionDate'][2]);
+            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d INNER JOIN " . SaleOrderHeader::class . " h WHERE {$alias} = d.product AND h.orderReceiveDate BETWEEN :startDate AND :endDate)");
+            $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1]);
+            $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2]);
             $qb->addOrderBy("{$alias}.name", 'ASC');
         });
         $saleOrderDetails = $this->getSaleOrderDetails($saleOrderDetailRepository, $criteria, $products);
@@ -85,8 +85,8 @@ class ProductSaleOrderController extends AbstractController
 
     private function getSaleOrderDetails(SaleOrderDetailRepository $saleOrderDetailRepository, DataCriteria $criteria, array $products): array
     {
-        $startDate = $criteria->getFilter()['saleOrderHeader:transactionDate'][1];
-        $endDate = $criteria->getFilter()['saleOrderHeader:transactionDate'][2];
+        $startDate = $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1];
+        $endDate = $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2];
         $productSaleOrderDetails = $saleOrderDetailRepository->findProductSaleOrderDetails($products, $startDate, $endDate);
         $saleOrderDetails = [];
         foreach ($productSaleOrderDetails as $productSaleOrderDetail) {

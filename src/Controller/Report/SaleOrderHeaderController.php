@@ -27,7 +27,7 @@ class SaleOrderHeaderController extends AbstractController
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
-            'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+            'orderReceiveDate' => [FilterBetween::class, $currentDate, $currentDate],
         ]);
         $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
@@ -38,6 +38,7 @@ class SaleOrderHeaderController extends AbstractController
                 $add['filter']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['filter']['customer:company']);
                 $add['sort']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['sort']['customer:company']);
             }
+            $qb->addOrderBy("{$alias}.orderReceiveDate", 'ASC');
         });
 
         if ($request->request->has('export')) {

@@ -11,10 +11,10 @@
                     <div class="col-sm-10 w-75">
                         <div class="row">
                             <div class="col">
-                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:transactionDate', [form.filter['saleOrderHeader:transactionDate'].0.vars.choices.0.value, true, false]) }} value="{{ form.filter['saleOrderHeader:transactionDate'].1.vars.value }}" />
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:orderReceiveDate', [form.filter['saleOrderHeader:orderReceiveDate'].0.vars.choices.0.value, true, false]) }} value="{{ form.filter['saleOrderHeader:orderReceiveDate'].1.vars.value }}" />
                             </div>
                             <div class="col">
-                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:transactionDate', [form.filter['saleOrderHeader:transactionDate'].0.vars.choices.0.value, false, true]) }} value="{{ form.filter['saleOrderHeader:transactionDate'].2.vars.value }}" />
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:orderReceiveDate', [form.filter['saleOrderHeader:orderReceiveDate'].0.vars.choices.0.value, false, true]) }} value="{{ form.filter['saleOrderHeader:orderReceiveDate'].2.vars.value }}" />
                             </div>
                         </div>
                     </div>
@@ -44,13 +44,9 @@
                     <label class="col-sm-2 col-form-label w-25">Customer</label>
                     <div class="col-sm-10 w-75">
                         <select class="form-select" id="customer-choice-list" {{ grid.filter_link_item(form, 'customer') }}
-                                data-controller="dom-element data-choice"
-                                data-action="change->dom-element#bind change->event-emitter#trigger change->data-choice#select"
                                 data-dom-element-bind-specifications-param="{{ [
-                                    {'destinationsTarget': '#product-id-text', 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
-                                ]|json_encode }}"
-                                data-event-emitter-trigger-elements-target-param="#product-id-text"
-                                data-event-emitter-trigger-event-type-param="change">
+                                    {'destinationsTarget': ['#' ~ form.filter.id.0.vars.id, '#' ~ form.filter.id.1.vars.id], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                ]|json_encode }}">
                             <option value="" {% if form.filter.customer.1.vars.value == '' %}selected="selected"{% endif %}></option>
                             {% for choice in form.filter.customer.1.vars.choices %}
                                 <option value="{{ choice.value }}" {% if form.filter.customer.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
@@ -63,11 +59,10 @@
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Product</label>
                     <div class="col-sm-10 w-75">
-                        <input type="hidden" id="product-id-text" {{ grid.filter_link_item(form, 'id') }} value="{{ form.filter.id.1.vars.value }}" />
+                        <input type="text" id="product-id-text" class="d-none" {{ grid.filter_link_item(form, 'id') }} value="{{ form.filter.id.1.vars.value }}" />
                         <div data-controller="html-loader"
                              data-html-loader-url-value="{{ path('app_report_product_sale_order__product_choice_list') }}"
-                             data-html-loader-auto-load-value="true"
-                             data-action="customer-choice-list:data-choice:select@document->html-loader#load">
+                             data-html-loader-auto-load-value="true">
                         </div>
                         {#<input type="text" id="{{ form.vars.id }}-text" class="form-control readonly-form-input" value="{{ product.name|default }}" readonly="readonly"
                                data-bs-toggle="modal" data-bs-target="#product-dialog"
@@ -107,8 +102,8 @@
         <div class="report-title">PT. Putracipta Karindomas</div>
         <div class="report-title">Laporan PO per Product</div>
         <div>
-            {% set startDate = form.vars.value.filter['saleOrderHeader:transactionDate'].1|default %}
-            {% set endDate = form.vars.value.filter['saleOrderHeader:transactionDate'].2|default %}
+            {% set startDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].1|default %}
+            {% set endDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].2|default %}
             {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
         </div>
     </div>
@@ -154,7 +149,7 @@
                                 {% for saleOrderDetail in saleOrderDetails[product.id] %}
                                     <tr>
                                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.codeNumber|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('j F Y') }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
                                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                         <td class="text-start">{{ saleOrderDetail.quantity|default|number_format(2) }}</td>
                                         <td class="text-start">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
