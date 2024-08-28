@@ -18,7 +18,8 @@
     {%- set field_list = fields is iterable ? fields : [fields] -%}
     {%- set filter_values_map = values_map == null ? [form.filter[field_list[0]].0.vars.choices.0.value, true] : values_map -%}
     {%- set filter_special_values_map = special_values_map == null ? {'': ['']} : special_values_map -%}
-    data-action="change->filter-link#post"
+    data-controller="dom-element"
+    data-action="change->dom-element#bind change->filter-link#post"
     data-filter-link-field-list-param="{{ field_list|json_encode }}"
     data-filter-link-values-map-param="{{ filter_values_map|json_encode }}"
     data-filter-link-special-values-map-param="{{ filter_special_values_map|json_encode }}"
