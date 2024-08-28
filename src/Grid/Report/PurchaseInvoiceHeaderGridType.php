@@ -29,7 +29,16 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplierInvoiceCodeNumber', 'supplier', 'invoiceTaxCodeNumber'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'supplierInvoiceCodeNumber', 
+                    'supplier', 
+                    'invoiceTaxCodeNumber',
+                    'transactionStatus'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -45,6 +54,7 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                     'supplierInvoiceCodeNumber' => [FilterContain::class, FilterNotContain::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'invoiceTaxCodeNumber' => [FilterContain::class, FilterNotContain::class],
+                    'transactionStatus' => [FilterContain::class, FilterNotContain::class],
                     'supplier' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
@@ -60,7 +70,16 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['supplierInvoiceCodeNumber', 'transactionDate', 'supplier', 'invoiceTaxCodeNumber', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'supplierInvoiceCodeNumber', 
+                    'supplier', 
+                    'invoiceTaxCodeNumber',
+                    'transactionStatus'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -76,6 +95,7 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                     'supplierInvoiceCodeNumber' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'invoiceTaxCodeNumber' => [SortAscending::class, SortDescending::class],
+                    'transactionStatus' => [SortAscending::class, SortDescending::class],
                     'supplier' => [SortAscending::class, SortDescending::class],
                 ],
             ])
