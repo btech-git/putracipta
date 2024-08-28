@@ -10,6 +10,7 @@ use App\Form\Sale\DeliveryHeaderType;
 use App\Grid\Sale\DeliveryHeaderGridType;
 use App\Grid\Sale\OutstandingSaleOrderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
+use App\Repository\Master\CustomerRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\InventoryRepository;
@@ -184,12 +185,13 @@ class DeliveryHeaderController extends AbstractController
 
     #[Route('/{id}/memo', name: 'app_sale_delivery_header_memo', methods: ['GET'])]
     #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
-    public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository): Response
+    public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository, CustomerRepository $customerRepository): Response
     {
         $fileName = 'delivery.pdf';
         $htmlView = $this->renderView('sale/delivery_header/memo.html.twig', [
             'deliveryHeader' => $deliveryHeader,
             'ifscCode' => $literalConfigRepository->findLiteralValue('ifscCode'),
+            'linePo' => 58, //$customerRepository->findLinePoRecord(),
         ]);
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
