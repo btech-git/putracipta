@@ -38,7 +38,7 @@ export default class extends Controller {
             setTimeout(function() {
                 selectableElement.classList.remove(selectedClass);
                 selectableElement.classList.add(activeClass);
-            }, 1000);
+            }, 500);
             const selectedIdentifier = eval(selectableElement.dataset.selectedIdentifier);
             if (!this.selectedIdentifiers.includes(selectedIdentifier)) {
                 this.selectedIdentifiers.push(selectedIdentifier);
