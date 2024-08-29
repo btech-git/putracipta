@@ -5,14 +5,13 @@
 {{ grid.info(form, count, materials) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="material-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="material-table"
+           data-controller="data-table"
+           data-data-table-selected-identifiers-target-value="#material-table-identifiers"
+           data-data-table-selected-class="table-primary"
+           data-data-table-active-class="table-active">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 0">
-                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
-                        {'destinationsTarget': '#material-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
-                    ]|json_encode }}" />
-                </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'code') }}>
                     Code {{ grid.sort_char(form.sort.code.vars.value) }}
                 </th>
@@ -27,7 +26,6 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
@@ -54,13 +52,12 @@
         </thead>
         <tbody>
             {% for material in materials %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
-                    'materialId': material.id, 
-                    'materialCode': material.code, 
-                    'materialName': material.name, 
+                <tr data-data-table-target="selectable" data-selected-identifier="{{ material.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'materialId': material.id,
+                    'materialCode': material.code,
+                    'materialName': material.name,
                     'unitId': material.unit.id,
                     'unitName': material.unit.name}|json_encode }}">
-                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ material.code }}</td>
                     <td>{{ material.name }}</td>
                     <td>{{ material.materialSubCategory.materialCategory.name|default }}</td>
@@ -74,12 +71,9 @@
         </tbody>
     </table>
 </div>
-<button type="button" class="btn btn-primary btn-sm"
-        data-action="event-emitter#trigger"
-        data-event-emitter-trigger-elements-target-param="#material-table .data-table-check-row"
-        data-event-emitter-trigger-event-type-param="click"
-        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
-    Select
-</button>
 
 {{ grid.navigation(form, count, materials) }}
+
+<button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+    Done
+</button>
