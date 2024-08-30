@@ -66,7 +66,15 @@ class SaleInvoiceHeaderGridType extends AbstractType
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
-                    'customer' => ['class' => Customer::class, 'choice_label' => 'company'],
+                    'customer' => [
+                        'class' => Customer::class, 
+                        'choice_label' => 'company',
+                        'query_builder' => function($repository) {
+                            return $repository->createQueryBuilder('e')
+                                    ->andWhere("e.isInactive = false")
+                                    ->addOrderBy('e.company', 'ASC');
+                        },
+                    ],
                 ],
             ])
             ->add('sort', SortType::class, [

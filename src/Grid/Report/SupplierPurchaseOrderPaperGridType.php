@@ -55,7 +55,15 @@ class SupplierPurchaseOrderPaperGridType extends AbstractType
                 'field_value_options_list' => [
                     'purchaseOrderPaperHeader:codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'purchaseOrderPaperHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
-                    'company' => ['class' => Supplier::class, 'choice_label' => 'company'],
+                    'company' => [
+                        'class' => Supplier::class, 
+                        'choice_label' => 'company',
+                        'query_builder' => function($repository) {
+                            return $repository->createQueryBuilder('e')
+                                    ->andWhere("e.isInactive = false")
+                                    ->addOrderBy('e.company', 'ASC');
+                        },
+                    ],
                 ],
             ])
             ->add('sort', SortType::class, [

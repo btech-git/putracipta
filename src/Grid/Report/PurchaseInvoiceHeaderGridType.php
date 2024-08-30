@@ -66,7 +66,15 @@ class PurchaseInvoiceHeaderGridType extends AbstractType
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
-                    'supplier' => ['class' => Supplier::class, 'choice_label' => 'company'],
+                    'supplier' => [
+                        'class' => Supplier::class, 
+                        'choice_label' => 'company',
+                        'query_builder' => function($repository) {
+                            return $repository->createQueryBuilder('e')
+                                    ->andWhere("e.isInactive = false")
+                                    ->addOrderBy('e.company', 'ASC');
+                        },
+                    ],
                 ],
             ])
             ->add('sort', SortType::class, [
