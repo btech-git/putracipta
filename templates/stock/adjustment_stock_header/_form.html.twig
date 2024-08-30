@@ -81,6 +81,7 @@
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
     {{ dialog.start('material-dialog', 'Material List') }}
+        <input type="hidden" id="material-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_material__list') }}"
              data-html-loader-auto-load-value="true">
