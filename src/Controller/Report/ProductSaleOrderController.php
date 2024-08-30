@@ -35,7 +35,7 @@ class ProductSaleOrderController extends AbstractController
         if (isset($request->request->get('product_sale_order_grid')['filter']['customer'][1])) {
             $customerId = $request->request->get('product_sale_order_grid')['filter']['customer'][1];
         }
-        $products = $productRepository->findBy(['isInactive' => false, 'customer' => $customerId]);
+        $products = $productRepository->findBy(['isInactive' => false, 'customer' => $customerId], ['name' => 'ASC']);
 
         return $this->render("report/product_sale_order/_product_choice_list.html.twig", [
             'products' => $products,
