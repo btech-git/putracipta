@@ -103,6 +103,7 @@ class ProductPrototype extends ProductionHeader
     private ?bool $isRead = false;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityBlade = '0.00';
 
     #[ORM\Column(length: 200)]

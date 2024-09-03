@@ -37,16 +37,20 @@ class InventoryProductReceiveDetail extends StockDetail
     private ?SaleOrderDetail $saleOrderDetail = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityBox = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityBoxExtraPieces = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     #[Assert\GreaterThan(0)]
     private ?string $quantityTotalPieces = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityPiecePerBox = '0.00';
 
     public function getSyncIsCanceled(): bool

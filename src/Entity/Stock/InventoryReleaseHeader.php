@@ -43,6 +43,7 @@ class InventoryReleaseHeader extends StockHeader
     private ?Warehouse $warehouse = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $totalQuantity = '0.00';
 
     #[ORM\ManyToOne]

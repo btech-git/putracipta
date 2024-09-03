@@ -43,30 +43,39 @@ class MasterOrderProductDetail extends ProductionDetail
     private Collection $qualityControlSortingDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityOrder = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityStock = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityShortage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityProduction = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityDelivery = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $remainingStockDelivery = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityPrinting = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityInventoryReceive = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $remainingInventoryReceive = '0.00';
 
     public function __construct()

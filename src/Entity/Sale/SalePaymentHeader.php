@@ -25,6 +25,7 @@ class SalePaymentHeader extends SaleHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $totalAmount = '0.00';
 
     #[ORM\Column(length: 60)]
@@ -49,20 +50,24 @@ class SalePaymentHeader extends SaleHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $administrationFee = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $receivedAmount = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $returnAmount = '0.00';
 
     #[ORM\Column(length: 100)]
     private ?string $saleOrderReferenceNumbers = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $totalReceivable = '0.00';
 
     public function __construct()

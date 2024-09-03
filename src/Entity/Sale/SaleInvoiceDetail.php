@@ -20,6 +20,7 @@ class SaleInvoiceDetail extends SaleDetail
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
+    #[Assert\Type('numeric')]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
@@ -34,12 +35,14 @@ class SaleInvoiceDetail extends SaleDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $return_amount = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'saleInvoiceDetails')]
     private ?DeliveryDetail $deliveryDetail = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     public function getSyncIsCanceled(): bool

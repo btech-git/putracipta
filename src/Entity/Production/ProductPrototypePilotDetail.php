@@ -24,6 +24,7 @@ class ProductPrototypePilotDetail extends ProductionDetail
     private ?string $size = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'productPrototypePilotDetails')]

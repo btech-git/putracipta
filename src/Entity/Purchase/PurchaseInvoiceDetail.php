@@ -22,6 +22,7 @@ class PurchaseInvoiceDetail extends PurchaseDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
@@ -42,6 +43,7 @@ class PurchaseInvoiceDetail extends PurchaseDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     public function getSyncIsCanceled(): bool

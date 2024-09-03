@@ -55,6 +55,7 @@ class PurchaseRequestPaperDetail extends PurchaseDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'purchaseRequestPaperDetails')]

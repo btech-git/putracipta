@@ -29,12 +29,15 @@ class MasterOrderPrototypeDetail extends ProductionDetail
     private ?ProductPrototypeDetail $productPrototypeDetail = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityOrder = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityStock = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityShortage = '0.00';
 
     public function getSyncIsCanceled(): bool

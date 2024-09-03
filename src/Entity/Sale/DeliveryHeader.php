@@ -75,6 +75,7 @@ class DeliveryHeader extends SaleHeader
     private ?bool $isUsingOutsourceDelivery = false;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $totalQuantity = '0.00';
 
     #[ORM\Column(type: Types::TEXT)]

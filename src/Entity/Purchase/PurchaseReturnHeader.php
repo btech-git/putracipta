@@ -36,14 +36,17 @@ class PurchaseReturnHeader extends PurchaseHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]

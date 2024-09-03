@@ -31,16 +31,19 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\Type('numeric')]
     private ?string $associationPrice = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\Type('numeric')]
     private ?string $weightPrice = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne(inversedBy: 'purchaseOrderPaperDetails')]
@@ -55,6 +58,7 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $weight = '0.00';
 
     #[ORM\ManyToOne]
@@ -66,10 +70,12 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $unitPriceBeforeTax = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $total = '0.00';
 
     #[ORM\Column]
@@ -81,26 +87,32 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $totalReceive = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $totalReturn = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $remainingReceive = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $length = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $width = '0.00';
 
     public function __construct()

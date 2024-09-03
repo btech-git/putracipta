@@ -26,6 +26,7 @@ class PurchaseOrderDetail extends PurchaseDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
@@ -48,10 +49,12 @@ class PurchaseOrderDetail extends PurchaseDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $unitPriceBeforeTax = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $total = '0.00';
 
     #[ORM\Column]
@@ -63,18 +66,22 @@ class PurchaseOrderDetail extends PurchaseDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $totalReceive = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $totalReturn = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $remainingReceive = '0.00';
 
     public function __construct()

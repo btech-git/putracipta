@@ -38,6 +38,7 @@ class PurchasePaymentHeader extends PurchaseHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $totalAmount = '0.00';
 
     #[ORM\Column(length: 60)]
@@ -47,6 +48,7 @@ class PurchasePaymentHeader extends PurchaseHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $currencyRate = '0.00';
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

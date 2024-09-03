@@ -25,6 +25,7 @@ class SaleOrderDetail extends SaleDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
     #[Assert\NotBlank]
+    #[Assert\Type('numeric')]
 //    #[Assert\GreaterThan(0)]
     private ?string $unitPrice = '0.00';
 
@@ -46,6 +47,7 @@ class SaleOrderDetail extends SaleDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $unitPriceBeforeTax = '0.00';
 
     #[ORM\Column]
@@ -61,32 +63,41 @@ class SaleOrderDetail extends SaleDetail
     private Collection $inventoryProductReceiveDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $minimumToleranceQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $maximumToleranceQuantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityStock = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityProduction = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityProductionRemaining = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $totalQuantityDelivery = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $totalQuantityReturn = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $remainingQuantityDelivery = '0.00';
 
     public function __construct()

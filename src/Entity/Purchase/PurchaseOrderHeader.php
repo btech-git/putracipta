@@ -43,6 +43,7 @@ class PurchaseOrderHeader extends PurchaseHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\Type('numeric')]
     private ?string $discountValue = '0.00';
 
     #[ORM\Column(length: 20)]
@@ -55,14 +56,17 @@ class PurchaseOrderHeader extends PurchaseHeader
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $taxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $subTotal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $grandTotal = '0.00';
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

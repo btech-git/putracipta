@@ -24,6 +24,7 @@ class SalePaymentDetail extends SaleDetail
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $amount = '0.00';
 
     #[ORM\Column(length: 100)]
@@ -45,15 +46,19 @@ class SalePaymentDetail extends SaleDetail
     private ?string $serviceTaxMode = self::SERVICE_TAX_MODE_NON_TAX;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $serviceTaxPercentage = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $serviceTaxNominal = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $receivableAmount = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $invoiceAmount = '0.00';
 
     public function getSyncIsCanceled(): bool

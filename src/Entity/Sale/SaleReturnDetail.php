@@ -21,6 +21,7 @@ class SaleReturnDetail extends SaleDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\NotNull]
+    #[Assert\Type('numeric')]
     private ?string $unitPrice = '0.00';
 
     #[ORM\ManyToOne]
@@ -37,6 +38,7 @@ class SaleReturnDetail extends SaleDetail
     private ?SaleReturnHeader $saleReturnHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     public function getSyncIsCanceled(): bool

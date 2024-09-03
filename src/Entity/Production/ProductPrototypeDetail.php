@@ -38,6 +38,7 @@ class ProductPrototypeDetail extends ProductionDetail
     private Collection $productDevelopmentDetails;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     public function __construct()

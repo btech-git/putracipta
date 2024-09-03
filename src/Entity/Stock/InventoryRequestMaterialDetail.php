@@ -40,12 +40,15 @@ class InventoryRequestMaterialDetail extends StockDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityRelease = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityRemaining = '0.00';
 
     #[ORM\OneToMany(mappedBy: 'inventoryRequestMaterialDetail', targetEntity: PurchaseRequestDetail::class)]

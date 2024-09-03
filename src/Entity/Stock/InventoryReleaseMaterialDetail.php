@@ -37,9 +37,11 @@ class InventoryReleaseMaterialDetail extends StockDetail
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\GreaterThan(0)]
+    #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\Type('numeric')]
     private ?string $quantityCurrent = '0.00';
 
     public function getSyncIsCanceled(): bool
