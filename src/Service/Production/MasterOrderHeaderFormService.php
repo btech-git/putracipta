@@ -90,7 +90,17 @@ class MasterOrderHeaderFormService
             if (!empty($saleOrderDetail)) {
                 $masterOrderProductDetail->setProduct($saleOrderDetail->getProduct());
                 $masterOrderProductDetail->setQuantityOrder($saleOrderDetail->getQuantity());
-                $saleOrderDetail->setQuantityProduction($saleOrderDetail->getSyncQuantityProduction());
+                $oldMasterOrderProductDetails = $this->masterOrderProductDetailRepository->findBySaleOrderDetail($saleOrderDetail);
+                $totalProduction = 0;
+                foreach ($oldMasterOrderProductDetails as $oldMasterOrderProductDetail) {
+                    if ($oldMasterOrderProductDetail->getId() !== $masterOrderProductDetail->getId() && $oldMasterOrderProductDetail->isIsCanceled() === false) {
+                        $totalProduction += $oldMasterOrderProductDetail->getQuantityProduction();
+                    }
+                }
+                if ($masterOrderProductDetail->isIsCanceled() === false) {
+                    $totalProduction += $masterOrderProductDetail->getQuantityProduction();
+                }
+                $saleOrderDetail->setQuantityProduction($totalProduction);
                 $saleOrderDetail->setQuantityProductionRemaining($saleOrderDetail->getSyncRemainingProduction());
             }
         }
