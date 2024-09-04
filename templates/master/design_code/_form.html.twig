@@ -7,7 +7,6 @@
         <div class="col">
             {{ form_row(form.customer, {
                 'attr': {
-                    'readonly': designCode.id is not null,
                     'data-controller': 'dom-element data-choice',
                     'data-action': 'DOMContentLoaded@document->dom-element#bind change->dom-element#bind change->data-choice#select',
                     'data-dom-element-bind-action-param': '
