@@ -4,8 +4,20 @@
 
 {{ grid.info(form, count, masterOrderHeaders) }}
 
+{% if app.request.request.has('inventory_request_header') %}
+    {% set selectMultiple = true %}
+{% else %}
+    {% set selectMultiple = false %}
+{% endif %}
+
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="master-order-header-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="master-order-header-table" 
+           data-controller="data-table"
+           {% if selectMultiple == true %}
+               data-data-table-selected-identifiers-target-value="#paper-table-identifiers"
+               data-data-table-selected-class="table-primary"
+               data-data-table-active-class="table-active"
+           {% endif %}>
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
@@ -65,7 +77,7 @@
         </thead>
         <tbody>
             {% for masterOrderHeader in masterOrderHeaders %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ masterOrderHeader.masterOrderProductDetails|filter(masterOrderProductDetail => not masterOrderProductDetail.isCanceled)|slice(0)|map(masterOrderProductDetail => {
+                <tr {% if selectMultiple == true %}data-data-table-target="selectable" data-selected-identifier="{{ masterOrderHeader.id }}"{% else %}data-bs-dismiss="modal"{% endif %} data-action="click->data-table#select" data-data-table-values-param="{{ masterOrderHeader.masterOrderProductDetails|filter(masterOrderProductDetail => not masterOrderProductDetail.isCanceled)|slice(0)|map(masterOrderProductDetail => {
                     'masterOrderHeaderId': masterOrderHeader.id|default, 
                     'masterOrderHeaderCodeNumber': masterOrderHeader.codeNumber|default, 
                     'masterOrderHeaderDate': masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('d M Y') : '', 

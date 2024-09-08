@@ -92,21 +92,32 @@
              data-html-loader-auto-load-value="true"
              data-action="material-table:data-table:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
     
     {{ dialog.start('paper-dialog', 'Kertas List') }}
+        <input type="hidden" id="paper-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="paper-table:data-table:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
     
     {{ dialog.start('product-dialog', 'Product List') }}
+        <input type="hidden" id="product-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="product-table:data-table:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

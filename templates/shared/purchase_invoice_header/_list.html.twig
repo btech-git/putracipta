@@ -5,14 +5,13 @@
 {{ grid.info(form, count, purchaseInvoiceHeaders) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="purchase-invoice-header-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="purchase-invoice-header-table" 
+           data-controller="data-table"
+           data-data-table-selected-identifiers-target-value="#paper-table-identifiers"
+           data-data-table-selected-class="table-primary"
+           data-data-table-active-class="table-active">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 0">
-                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
-                        {'destinationsTarget': '#purchase-invoice-header-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
-                    ]|json_encode }}" />
-                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'supplierInvoiceCodeNumber') }}>
                     Invoice # {{ grid.sort_char(form.sort.supplierInvoiceCodeNumber.vars.value) }}
                 </th>
@@ -33,7 +32,6 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplierInvoiceCodeNumber') }} value="{{ form.filter.supplierInvoiceCodeNumber.1.vars.value }}" />
                 </th>
@@ -56,14 +54,13 @@
         </thead>
         <tbody>
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-data-table-target="selectable" data-selected-identifier="{{ paper.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'purchaseInvoiceHeaderId': purchaseInvoiceHeader.id, 
                     'purchaseInvoiceHeaderSupplierInvoiceNumber': purchaseInvoiceHeader.supplierInvoiceCodeNumber, 
                     'purchaseInvoiceHeaderGrandTotal': purchaseInvoiceHeader.grandTotal|default|number_format(0), 
                     'purchaseInvoiceHeaderTotalReturn': purchaseInvoiceHeader.totalreturn|default|number_format(0), 
                     'purchaseInvoiceHeaderRemainingPayment': purchaseInvoiceHeader.remainingPayment|default|number_format(0)
                 }|json_encode }}">
-                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber }}</td>
                     <td>{{ purchaseInvoiceHeader.transactionDate ? purchaseInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|number_format(0) }}</td>
@@ -79,12 +76,5 @@
         </tbody>
     </table>
 </div>
-<button type="button" class="btn btn-primary btn-sm"
-        data-action="event-emitter#trigger"
-        data-event-emitter-trigger-elements-target-param="#purchase-invoice-header-table .data-table-check-row"
-        data-event-emitter-trigger-event-type-param="click"
-        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
-    Select
-</button>
 
 {{ grid.navigation(form, count, purchaseInvoiceHeaders) }}

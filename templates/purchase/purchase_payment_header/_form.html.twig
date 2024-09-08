@@ -111,10 +111,14 @@
     {{ dialog.end() }}
 
     {{ dialog.start('purchase-invoice-header-dialog', 'Purchase Invoice Header List') }}
+        <input type="hidden" id="purchase-invoice-header-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_invoice_header__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="supplier-table:data-table:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

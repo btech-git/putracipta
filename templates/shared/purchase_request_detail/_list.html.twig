@@ -5,14 +5,13 @@
 {{ grid.info(form, count, purchaseRequestDetails) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="purchase-request-detail-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="purchase-request-detail-table" 
+           data-controller="data-table"
+           data-data-table-selected-identifiers-target-value="#purchase-request-detail-table-identifiers"
+           data-data-table-selected-class="table-primary"
+           data-data-table-active-class="table-active">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 0">
-                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
-                        {'destinationsTarget': '#purchase-request-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
-                    ]|json_encode }}" />
-                </th>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'material:name') }}>
                     Material {{ grid.sort_char(form.sort['material:name'].vars.value) }}
                 </th>
@@ -36,7 +35,6 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:name') }} value="{{ form.filter['material:name'].1.vars.value }}" />
                 </th>
@@ -58,7 +56,7 @@
         </thead>
         <tbody>
             {% for purchaseRequestDetail in purchaseRequestDetails %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-data-table-target="selectable" data-selected-identifier="{{ purchaseRequestDetail.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'purchaseRequestDetailId': purchaseRequestDetail.id,
                     'purchaseRequestHeaderCodeNumber': purchaseRequestDetail.purchaseRequestHeader.codeNumber,
                     'purchaseRequestHeaderTransactionDate': purchaseRequestDetail.purchaseRequestHeader.transactionDate ? purchaseRequestDetail.purchaseRequestHeader.transactionDate|date('d M Y') : '',
@@ -69,7 +67,6 @@
                     'purchaseRequestDetailMemo': purchaseRequestDetail.memo,
                     'unitId': purchaseRequestDetail.unit.id,
                     'purchaseRequestDetailQuantity': purchaseRequestDetail.quantity|number_format(0)}|json_encode }}">
-                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseRequestDetail.material.name|default }}</td>
                     <td class="text-center">{{ purchaseRequestDetail.quantity|number_format(0) }}</td>
                     <td>{{ purchaseRequestDetail.unit.name|default }}</td>
@@ -86,12 +83,5 @@
         </tbody>
     </table>
 </div>
-<button type="button" class="btn btn-primary btn-sm"
-        data-action="event-emitter#trigger"
-        data-event-emitter-trigger-elements-target-param="#purchase-request-detail-table .data-table-check-row"
-        data-event-emitter-trigger-event-type-param="click"
-        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
-    Select
-</button>
 
 {{ grid.navigation(form, count, purchaseRequestDetails) }}

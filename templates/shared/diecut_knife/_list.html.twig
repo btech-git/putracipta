@@ -5,7 +5,7 @@
 {{ grid.info(form, count, diecutKnives) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="diecut-knife-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="diecut-knife-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'code') }}>
@@ -45,7 +45,7 @@
         </thead>
         <tbody>
             {% for diecutKnife in diecutKnives %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-bs-dismiss="modal" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'diecutKnifeId': diecutKnife.id, 
                     'diecutKnifeCodeNumber': diecutKnife.codeNumber, 
                     'diecutKnifeNote': diecutKnife.note}|json_encode }}">

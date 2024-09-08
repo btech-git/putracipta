@@ -76,10 +76,14 @@
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
     {{ dialog.start('master-order-header-dialog', 'Master Order List') }}
+        <input type="hidden" id="master-order-header-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_master_order_header__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 
     {{ dialog.start('material-dialog', 'Material List') }}
@@ -89,13 +93,20 @@
              data-html-loader-auto-load-value="true"
              data-action="material-table:data-table:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
     
     {{ dialog.start('paper-dialog', 'Kertas List') }}
+        <input type="hidden" id="paper-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="paper-table:data-table:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

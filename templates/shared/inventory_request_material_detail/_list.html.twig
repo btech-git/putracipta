@@ -5,14 +5,13 @@
 {{ grid.info(form, count, inventoryRequestMaterialDetails) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="inventory-request-material-detail-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="inventory-request-material-detail-table" 
+           data-controller="data-table"
+           data-data-table-selected-identifiers-target-value="#paper-table-identifiers"
+           data-data-table-selected-class="table-primary"
+           data-data-table-active-class="table-active">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 0">
-                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
-                        {'destinationsTarget': '#inventory-request-material-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
-                    ]|json_encode }}" />
-                </th>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'inventoryRequestMaterialHeader:codeNumberOrdinal') }}>
                     Permintaan # {{ grid.sort_char(form.sort['inventoryRequestMaterialHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
@@ -30,7 +29,6 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'inventoryRequestMaterialHeader:codeNumberOrdinal') }} value="{{ form.filter['inventoryRequestMaterialHeader:codeNumberOrdinal'].1.vars.value }}" />
                     <span><small>/{{ constant('App\\Entity\\Stock\\InventoryRequestHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
@@ -58,7 +56,7 @@
         </thead>
         <tbody>
             {% for inventoryRequestMaterialDetail in inventoryRequestMaterialDetails %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-data-table-target="selectable" data-selected-identifier="{{ inventoryRequestMaterialDetail.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'inventoryRequestHeaderCodeNumber': inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber, 
                     'inventoryRequestHeaderTransactionDate': inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '', 
                     'materialCode': inventoryRequestMaterialDetail.material.code|default,
@@ -69,7 +67,6 @@
                     'inventoryRequestMaterialDetailMemo': inventoryRequestMaterialDetail.memo|default,
                     'unitId': inventoryRequestMaterialDetail.unit.id,
                     'unitName': inventoryRequestMaterialDetail.unit.name}|json_encode }}">
-                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
@@ -84,13 +81,5 @@
         </tbody>
     </table>
 </div>
-
-<button type="button" class="btn btn-primary btn-sm"
-        data-action="event-emitter#trigger"
-        data-event-emitter-trigger-elements-target-param="#inventory-request-material-detail-table .data-table-check-row"
-        data-event-emitter-trigger-event-type-param="click"
-        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
-    Select
-</button>
             
 {{ grid.navigation(form, count, inventoryRequestMaterialDetails) }}

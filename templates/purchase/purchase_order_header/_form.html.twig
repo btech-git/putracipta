@@ -102,12 +102,19 @@
              data-html-loader-url-value="{{ path('app_shared_material__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 
     {{ dialog.start('purchase-request-detail-dialog', 'Purchase Request List') }}
+        <input type="hidden" id="purchase-request-detail-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_request_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

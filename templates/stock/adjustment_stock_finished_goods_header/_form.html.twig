@@ -72,24 +72,14 @@
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
 
-    {{ dialog.start('material-dialog', 'Material List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_material__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
-    {{ dialog.end() }}
-    
-    {{ dialog.start('paper-dialog', 'Kertas List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
-    {{ dialog.end() }}
-    
     {{ dialog.start('product-dialog', 'Product List') }}
+        <input type="hidden" id="product-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

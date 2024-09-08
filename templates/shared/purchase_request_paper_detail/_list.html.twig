@@ -5,14 +5,13 @@
 {{ grid.info(form, count, purchaseRequestPaperDetails) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="purchase-request-paper-detail-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="purchase-request-paper-detail-table" 
+           data-controller="data-table"
+           data-data-table-selected-identifiers-target-value="#purchase-request-paper-detail-table-identifiers"
+           data-data-table-selected-class="table-primary"
+           data-data-table-active-class="table-active">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 0">
-                    <input type="checkbox" data-controller="dom-element" data-action="dom-element#bind" data-dom-element-bind-specifications-param="{{ [
-                        {'destinationsTarget': '#purchase-request-paper-detail-table .data-table-check', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': '$element.checked'}},
-                    ]|json_encode }}" />
-                </th>
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(form, 'paper:name') }}>
                     Kertas {{ grid.sort_char(form.sort['paper:name'].vars.value) }}
                 </th>
@@ -45,7 +44,6 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
                 </th>
@@ -76,7 +74,7 @@
         </thead>
         <tbody>
             {% for purchaseRequestPaperDetail in purchaseRequestPaperDetails %}
-                <tr class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-data-table-target="selectable" data-selected-identifier="{{ purchaseRequestPaperDetail.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'purchaseRequestPaperDetailId': purchaseRequestPaperDetail.id,
                     'purchaseRequestHeaderCodeNumber': purchaseRequestPaperDetail.purchaseRequestPaperHeader.codeNumber,
                     'purchaseRequestHeaderTransactionDate': purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate ? purchaseRequestPaperDetail.purchaseRequestPaperHeader.transactionDate|date('d M Y') : '',
@@ -91,7 +89,6 @@
                     'memo': purchaseRequestPaperDetail.memo,
                     'unitId': purchaseRequestPaperDetail.unit.id,
                     'purchaseRequestPaperDetailQuantity': purchaseRequestPaperDetail.quantity|number_format(0)}|json_encode }}">
-                    <td><input type="checkbox" class="data-table-check" data-controller="dom-element" data-action="click->dom-element#doNothing:stop" /></td>
                     <td>{{ purchaseRequestPaperDetail.paper.name|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.paper.length|default }}</td>
                     <td>{{ purchaseRequestPaperDetail.paper.width|default }}</td>
@@ -111,12 +108,5 @@
         </tbody>
     </table>
 </div>
-<button type="button" class="btn btn-primary btn-sm"
-        data-action="event-emitter#trigger"
-        data-event-emitter-trigger-elements-target-param="#purchase-request-paper-detail-table .data-table-check-row"
-        data-event-emitter-trigger-event-type-param="click"
-        data-event-emitter-trigger-condition-param="$element.querySelector('.data-table-check').checked">
-    Select
-</button>
 
 {{ grid.navigation(form, count, purchaseRequestPaperDetails) }}

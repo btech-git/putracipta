@@ -5,7 +5,7 @@
 {{ grid.info(form, count, purchaseOrderPaperHeaders) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="purchase-order-paper-header-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="purchase-order-paper-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 280px" role="button">
@@ -52,7 +52,7 @@
         </thead>
         <tbody>
             {% for purchaseOrderPaperHeader in purchaseOrderPaperHeaders %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderPaperHeader.purchaseOrderPaperDetails|filter(purchaseOrderPaperDetail => not purchaseOrderPaperDetail.isCanceled)|slice(0)|map(purchaseOrderPaperDetail => {
+                <tr data-bs-dismiss="modal" data-action="click->data-table#select" data-data-table-values-param="{{ purchaseOrderPaperHeader.purchaseOrderPaperDetails|filter(purchaseOrderPaperDetail => not purchaseOrderPaperDetail.isCanceled)|slice(0)|map(purchaseOrderPaperDetail => {
                     'purchaseOrderPaperHeaderId': purchaseOrderPaperHeader.id,
                     'purchaseOrderPaperHeaderCodeNumber': purchaseOrderPaperHeader.codeNumber,
                     'purchaseOrderPaperHeaderTransactionDate': purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperHeader.transactionDate|date('d M Y') : '',

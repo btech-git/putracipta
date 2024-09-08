@@ -4,12 +4,20 @@
 
 {{ grid.info(form, count, materials) }}
 
+{% if app.request.request.has('purchase_order_header') or app.request.request.has('product_prototype') %}
+    {% set selectMultiple = false %}
+{% else %}
+    {% set selectMultiple = true %}
+{% endif %}
+
 <div class="table-responsive">
     <table class="table table-bordered table-hover" id="material-table"
            data-controller="data-table"
-           data-data-table-selected-identifiers-target-value="#material-table-identifiers"
-           data-data-table-selected-class="table-primary"
-           data-data-table-active-class="table-active">
+           {% if selectMultiple == true %}
+               data-data-table-selected-identifiers-target-value="#material-table-identifiers"
+               data-data-table-selected-class="table-primary"
+               data-data-table-active-class="table-active"
+           {% endif %}>
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'code') }}>
@@ -52,7 +60,7 @@
         </thead>
         <tbody>
             {% for material in materials %}
-                <tr data-data-table-target="selectable" data-selected-identifier="{{ material.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr {% if selectMultiple == true %}data-data-table-target="selectable" data-selected-identifier="{{ material.id }}"{% else %}data-bs-dismiss="modal"{% endif %} data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'materialId': material.id,
                     'materialCode': material.code,
                     'materialName': material.name,
@@ -73,7 +81,3 @@
 </div>
 
 {{ grid.navigation(form, count, materials) }}
-
-<button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
-    Done
-</button>

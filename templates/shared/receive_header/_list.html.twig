@@ -5,7 +5,7 @@
 {{ grid.info(form, count, receiveHeaders) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="receive-header-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="receive-header-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 280px" role="button">
@@ -57,7 +57,7 @@
         </thead>
         <tbody>
             {% for receiveHeader in receiveHeaders %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ receiveHeader.receiveDetails|filter(receiveDetail => not receiveDetail.isCanceled)|slice(0)|map(receiveDetail => {
+                <tr data-bs-dismiss="modal" data-action="click->data-table#select" data-data-table-values-param="{{ receiveHeader.receiveDetails|filter(receiveDetail => not receiveDetail.isCanceled)|slice(0)|map(receiveDetail => {
                     'receiveHeaderId': receiveHeader.id, 
                     'receiveHeaderCodeNumber': receiveHeader.codeNumber, 
                     'purchaseOrderHeaderCodeNumber': receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.codeNumber|default : receiveHeader.purchaseOrderHeader.codeNumber|default, 

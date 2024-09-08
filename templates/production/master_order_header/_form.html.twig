@@ -179,11 +179,15 @@
     {{ dialog.end() }}
 
     {{ dialog.start('sale-order-detail-dialog', 'Customer Order List') }}
+        <input type="hidden" id="sale-order-detail-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_sale_order_detail__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
     
     {{ dialog.start('purchase-order-paper-header-dialog', 'PO Paper List') }}
@@ -209,11 +213,15 @@
     {{ dialog.end() }}
     
     {{ dialog.start('product-prototype-detail-dialog', 'Produk Baru List') }}
+        <input type="hidden" id="product-prototype-detail-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product_prototype_detail__list') }}"
              data-html-loader-auto-load-value="true"
              data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
     
 </div>

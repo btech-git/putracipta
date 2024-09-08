@@ -106,33 +106,41 @@
              data-html-loader-url-value="{{ path('app_shared_material__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 
     {{ dialog.start('inventory-request-material-detail-dialog', 'Material Request List') }}
+        <input type="hidden" id="inventory-request-material-detail-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_inventory_request_material_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 
     {{ dialog.start('paper-dialog', 'Kertas List') }}
+        <input type="hidden" id="paper-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 
     {{ dialog.start('inventory-request-paper-detail-dialog', 'Paper Request List') }}
+        <input type="hidden" id="inventory-request-paper-detail-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_inventory_request_paper_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
-    {{ dialog.end() }}
-    
-    {{ dialog.start('master-order-header-dialog', 'Master Order List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_master_order_header__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

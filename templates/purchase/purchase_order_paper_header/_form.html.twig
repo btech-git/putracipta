@@ -97,16 +97,24 @@
     {{ dialog.end() }}
 
     {{ dialog.start('paper-dialog', 'Kertas List') }}
+        <input type="hidden" id="paper-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 
     {{ dialog.start('purchase-request-paper-detail-dialog', 'Purchase Request Kertas List') }}
+        <input type="hidden" id="purchase-request-paper-detail-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_purchase_request_paper_detail__list') }}"
              data-html-loader-auto-load-value="true">
         </div>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+            Done
+        </button>
     {{ dialog.end() }}
 </div>

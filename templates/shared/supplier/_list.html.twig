@@ -5,7 +5,7 @@
 {{ grid.info(form, count, suppliers) }}
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped" id="supplier-table" data-controller="data-table">
+    <table class="table table-bordered table-hover" id="supplier-table" data-controller="data-table">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'company') }}>
@@ -38,7 +38,7 @@
         </thead>
         <tbody>
             {% for supplier in suppliers %}
-                <tr data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr data-bs-dismiss="modal" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'supplierId': supplier.id, 
                     'supplierCompany': supplier.company, 
                     'currencyCode': supplier.currency.code|default,
