@@ -36,6 +36,14 @@
                 <td>{{ saleReturnHeader.customer.company }}</td>
             </tr>
             <tr>
+                <th>Nota Customer #</th>
+                <td>{{ saleReturnHeader.referenceNumber|default }}</td>
+            </tr>
+            <tr>
+                <th>Atas Faktur Pajak</th>
+                <td>{{ saleReturnHeader.taxNumber|default }}</td>
+            </tr>
+            <tr>
                 <th>Gudang</th>
                 <td>{{ saleReturnHeader.warehouse.name|default }}</td>
             </tr>

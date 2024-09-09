@@ -11,7 +11,8 @@
                 <div class="col">
                     {{ form_row(form.transactionDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
                     {{ form_row(form.warehouse, {'label': 'Gudang'}) }}
-                    {{ form_row(form.isProductExchange, {'label': 'Tukar Guling'}) }}
+                    {{ form_row(form.referenceNumber, {'label': 'Nota Customer #'}) }}
+                    {{ form_row(form.taxNumber, {'label': 'Atas Faktur Pajak'}) }}
                 </div>
                 <div class="col">
                     <div class="mb-3">
@@ -52,6 +53,7 @@
                                    {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail[0].customerCompany'}},
                                ]|json_encode }}" />
                     </div>
+                    {{ form_row(form.isProductExchange, {'label': 'Tukar Guling'}) }}
                 </div>
             </div>
             <div class="row">
