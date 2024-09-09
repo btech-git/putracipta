@@ -28,6 +28,8 @@ class SaleReturnHeaderType extends AbstractType
         $vatPercentage = $this->literalConfigRepository->findLiteralValue('vatPercentage');
         $builder
             ->add('transactionDate', FormattedDateType::class)
+            ->add('referenceNumber')
+            ->add('taxNumber')
             ->add('note')
             ->add('isProductExchange')
             ->add('warehouse', null, [
