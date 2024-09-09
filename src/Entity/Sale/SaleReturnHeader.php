@@ -50,7 +50,6 @@ class SaleReturnHeader extends SaleHeader
     private ?string $grandTotal = '0.00';
 
     #[ORM\ManyToOne]
-    #[Assert\NotNull]
     private ?Customer $customer = null;
 
     #[ORM\OneToMany(mappedBy: 'saleReturnHeader', targetEntity: SaleReturnDetail::class)]
@@ -72,6 +71,12 @@ class SaleReturnHeader extends SaleHeader
     #[ORM\ManyToOne(inversedBy: 'saleReturnHeaders')]
     #[Assert\NotNull]
     private ?DeliveryHeader $deliveryHeader = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $referenceNumber = '';
+
+    #[ORM\Column(length: 100)]
+    private ?string $taxNumber = '';
 
     public function __construct()
     {
@@ -257,6 +262,30 @@ class SaleReturnHeader extends SaleHeader
     public function setDeliveryHeader(?DeliveryHeader $deliveryHeader): self
     {
         $this->deliveryHeader = $deliveryHeader;
+
+        return $this;
+    }
+
+    public function getReferenceNumber(): ?string
+    {
+        return $this->referenceNumber;
+    }
+
+    public function setReferenceNumber(string $referenceNumber): self
+    {
+        $this->referenceNumber = $referenceNumber;
+
+        return $this;
+    }
+
+    public function getTaxNumber(): ?string
+    {
+        return $this->taxNumber;
+    }
+
+    public function setTaxNumber(string $taxNumber): self
+    {
+        $this->taxNumber = $taxNumber;
 
         return $this;
     }
