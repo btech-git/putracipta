@@ -3,7 +3,7 @@
 {% block title 'Manage Account Category' %}
 
 {% block toolbar %}
-    {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') %}
+    {% if is_granted('ROLE_ACCOUNT_ADD') %}
         <a class="btn btn-success btn-sm" href="{{ path('app_master_account_category_new') }}">Add</a>
     {% endif %}
 {% endblock %}

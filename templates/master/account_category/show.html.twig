@@ -4,7 +4,12 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_master_account_category_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_master_account_category_edit', {'id': accountCategory.id}) }}">Edit</a>
+    {% if is_granted('ROLE_ACCOUNT_EDIT') %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_master_account_category_edit', {'id': accountCategory.id}) }}">Edit</a>
+    {% endif %}
+    {% if is_granted('ROLE_ACCOUNT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_account_category_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

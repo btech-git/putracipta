@@ -7,6 +7,9 @@
     {% if is_granted('ROLE_ACCOUNT_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_master_account_edit', {'id': account.id}) }}">Edit</a>
     {% endif %}
+    {% if is_granted('ROLE_ACCOUNT_ADD') %}
+        <a class="btn btn-success btn-sm" href="{{ path('app_master_account_new') }}">Add</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
