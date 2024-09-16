@@ -74,12 +74,12 @@ class DefaultController extends AbstractController
         });
         $purchaseRequestHeaderCountApproval = $purchaseRequestHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.isRead = false");
+            $qb->andWhere("{$alias}.isViewed = false");
             $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
         });
         $purchaseRequestPaperHeaderCountApproval = $purchaseRequestPaperHeaderRepository->fetchCount($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.isRead = false");
+            $qb->andWhere("{$alias}.isViewed = false");
             $qb->andWhere("{$alias}.transactionStatus = 'Approve'");
         });
         $purchaseOrderHeaderRepository = $entityManager->getRepository(PurchaseOrderHeader::class);
