@@ -21,6 +21,14 @@ class InventoryRequestPaperDetailType extends AbstractType
             ->add('isCanceled')
             ->add('paper', EntityHiddenType::class, array('class' => Paper::class))
             ->add('masterOrderHeader', EntityHiddenType::class, ['class' => MasterOrderHeader::class])
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
         ;
     }
 

@@ -19,6 +19,14 @@ class InventoryRequestMaterialDetailType extends AbstractType
             ->add('memo')
             ->add('isCanceled')
             ->add('material', EntityHiddenType::class, array('class' => Material::class))
+            ->add('unit', null, [
+                'choice_label' => 'name', 
+                'label' => 'Satuan',
+                'query_builder' => function($repository) {
+                    return $repository->createQueryBuilder('e')
+                            ->andWhere("e.isInactive = false");
+                },
+            ])
         ;
     }
 
