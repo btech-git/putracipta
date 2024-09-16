@@ -123,10 +123,11 @@ class ProductPrototypeController extends AbstractController
         $productPrototypeFormService->initialize($productPrototype, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductPrototypeType::class, $productPrototype);
         $form->handleRequest($request);
-        $productPrototypeFormService->finalize($productPrototype);
+        $productPrototypeFormService->finalize($productPrototype, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productPrototypeFormService->save($productPrototype);
+            $productPrototypeFormService->uploadFile($productPrototype, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product-prototype');
 
             return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -134,6 +135,7 @@ class ProductPrototypeController extends AbstractController
         return $this->renderForm("production/product_prototype/new.{$_format}.twig", [
             'productPrototype' => $productPrototype,
             'form' => $form,
+            'transactionFileExists' => false,
         ]);
     }
 
@@ -156,10 +158,11 @@ class ProductPrototypeController extends AbstractController
         $productPrototypeFormService->initialize($productPrototype, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
         $form = $this->createForm(ProductPrototypeType::class, $productPrototype);
         $form->handleRequest($request);
-        $productPrototypeFormService->finalize($productPrototype);
+        $productPrototypeFormService->finalize($productPrototype, ['transactionFile' => $form->get('transactionFile')->getData()]);
 
         if ($_format === 'html' && IdempotentUtility::check($request) && $form->isSubmitted() && $form->isValid()) {
             $productPrototypeFormService->save($productPrototype);
+            $productPrototypeFormService->uploadFile($productPrototype, $form->get('transactionFile')->getData(), $this->getParameter('kernel.project_dir') . '/public/uploads/product-prototype');
 
             return $this->redirectToRoute('app_production_product_prototype_show', ['id' => $productPrototype->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -167,6 +170,7 @@ class ProductPrototypeController extends AbstractController
         return $this->renderForm("production/product_prototype/edit.{$_format}.twig", [
             'productPrototype' => $productPrototype,
             'form' => $form,
+            'transactionFileExists' => file_exists($this->getParameter('kernel.project_dir') . '/public/uploads/product-prototype/' . $productPrototype->getId() . '.' . $productPrototype->getTransactionFileExtension()),
         ]);
     }
 
