@@ -32,10 +32,6 @@
                 <td>{{ inventoryReleaseHeader.division.name|default }}</td>
             </tr>
             <tr>
-                <th>WO #</th>
-                <td>{{ inventoryReleaseHeader.masterOrderHeader.codeNumber|default }}</td>
-            </tr>
-            <tr>
                 <th>Part #</th>
                 <td>{{ inventoryReleaseHeader.partNumber|default }}</td>
             </tr>
@@ -76,8 +72,10 @@
                 <th>Kode</th>
                 {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
                     <th>Nama Kertas</th>
+                    <th>WO #</th>
                 {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
                     <th>Nama Material</th>
+                    <th></th>
                 {% endif %} 
                 <th>Qty</th>
                 <th>Satuan</th>
@@ -93,6 +91,7 @@
                         <tr>
                             <td>{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
                             <td>{{ inventoryReleasePaperDetail.paper.name|default }}</td>
+                            <td>{{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
                             <td>{{ inventoryReleasePaperDetail.quantity|default|number_format(2) }}</td>
                             <td>{{ inventoryReleasePaperDetail.unit.name|default }}</td>
                             <td>
@@ -115,6 +114,7 @@
                         <tr>
                             <td>{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
                             <td>{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
+                            <td></td>
                             <td>{{ inventoryReleaseMaterialDetail.quantity|default|number_format(2) }}</td>
                             <td>{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
                             <td>

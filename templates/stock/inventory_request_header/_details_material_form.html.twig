@@ -31,7 +31,7 @@
                             ]|json_encode,
                         }}) }}
                     </td>
-                    <td data-item-field-name="unitName">{{ detailForm.vars.value.material.unit.name|default }}</td>
+                    <td>{{ form_row(detailForm.unit, {'label': false, 'attr': {'data-item-field-name': 'unitId',}}) }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
