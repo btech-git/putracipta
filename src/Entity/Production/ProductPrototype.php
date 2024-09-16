@@ -109,6 +109,9 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(length: 200)]
     private ?string $prototypeProductCodeList = '';
 
+    #[ORM\Column(length: 20)]
+    private ?string $transactionFileExtension = '';
+
     public function __construct()
     {
         $this->productDevelopments = new ArrayCollection();
@@ -119,6 +122,11 @@ class ProductPrototype extends ProductionHeader
     public function getCodeNumberConstant(): string
     {
         return self::CODE_NUMBER_CONSTANT;
+    }
+
+    public function getFileName(): string
+    {
+        return sprintf('NPP_%d_%s_%s.%s', $this->id, $this->prototypeProductCodeList, $this->transactionDate->format('Y-m-d'), $this->transactionFileExtension);
     }
 
     public function getId(): ?int
@@ -392,6 +400,18 @@ class ProductPrototype extends ProductionHeader
     public function setPrototypeProductCodeList(string $prototypeProductCodeList): self
     {
         $this->prototypeProductCodeList = $prototypeProductCodeList;
+
+        return $this;
+    }
+
+    public function getTransactionFileExtension(): ?string
+    {
+        return $this->transactionFileExtension;
+    }
+
+    public function setTransactionFileExtension(string $transactionFileExtension): self
+    {
+        $this->transactionFileExtension = $transactionFileExtension;
 
         return $this;
     }
