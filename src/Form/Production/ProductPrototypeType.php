@@ -14,8 +14,10 @@ use App\Repository\Master\DivisionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProductPrototypeType extends AbstractType
 {
@@ -104,6 +106,22 @@ class ProductPrototypeType extends AbstractType
                 'by_reference' => false,
                 'prototype_data' => new ProductPrototypePilotDetail(),
                 'label' => false,
+            ])
+            ->add('transactionFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '12000k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPEG or PNG or PDF',
+                        'maxSizeMessage' => 'Please upload file size smaller than 10MB',
+                    ])
+                ],
             ])
         ;
     }
