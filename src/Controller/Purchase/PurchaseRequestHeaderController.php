@@ -215,6 +215,8 @@ class PurchaseRequestHeaderController extends AbstractController
             $purchaseRequestHeader->setApprovedTransactionDateTime(new \DateTime());
             $purchaseRequestHeader->setApprovedTransactionUser($this->getUser());
             $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_APPROVE);
+            $purchaseRequestHeader->setIsRead(true);
+            $purchaseRequestHeader->setIsViewed(true);
             $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was approved successfully.'));
@@ -237,6 +239,8 @@ class PurchaseRequestHeaderController extends AbstractController
             $purchaseRequestHeader->setRejectedTransactionUser($this->getUser());
             $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_REJECT);
             $purchaseRequestHeader->setRejectNote($request->request->get('reject_note'));
+            $purchaseRequestHeader->setIsRead(true);
+            $purchaseRequestHeader->setIsViewed(true);
             $purchaseRequestHeaderRepository->add($purchaseRequestHeader, true);
 
             foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {

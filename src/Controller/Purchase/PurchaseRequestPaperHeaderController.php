@@ -216,6 +216,8 @@ class PurchaseRequestPaperHeaderController extends AbstractController
             $purchaseRequestPaperHeader->setApprovedTransactionDateTime(new \DateTime());
             $purchaseRequestPaperHeader->setApprovedTransactionUser($this->getUser());
             $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_APPROVE);
+            $purchaseRequestPaperHeader->setIsRead(true);
+            $purchaseRequestPaperHeader->setIsViewed(true);
             $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The purchase was approved successfully.'));
@@ -238,6 +240,8 @@ class PurchaseRequestPaperHeaderController extends AbstractController
             $purchaseRequestPaperHeader->setRejectedTransactionUser($this->getUser());
             $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_REJECT);
             $purchaseRequestPaperHeader->setRejectNote($request->request->get('reject_note'));
+            $purchaseRequestPaperHeader->setIsRead(true);
+            $purchaseRequestPaperHeader->setIsViewed(true);
             $purchaseRequestPaperHeaderRepository->add($purchaseRequestPaperHeader, true);
 
             foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {
