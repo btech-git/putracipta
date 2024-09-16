@@ -202,6 +202,7 @@ class SaleOrderHeaderController extends AbstractController
             $saleOrderHeader->setApprovedTransactionDateTime(new \DateTime());
             $saleOrderHeader->setApprovedTransactionUser($this->getUser());
             $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_APPROVE);
+            $saleOrderHeader->setIsRead(true);
             $saleOrderHeaderRepository->add($saleOrderHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The sale was approved successfully.'));
@@ -220,6 +221,7 @@ class SaleOrderHeaderController extends AbstractController
             $saleOrderHeader->setRejectedTransactionDateTime(new \DateTime());
             $saleOrderHeader->setRejectedTransactionUser($this->getUser());
             $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_REJECT);
+            $saleOrderHeader->setIsRead(true);
             $saleOrderHeaderRepository->add($saleOrderHeader, true);
 
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The sale was rejected successfully.'));
