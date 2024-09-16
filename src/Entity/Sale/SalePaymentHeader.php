@@ -28,10 +28,6 @@ class SalePaymentHeader extends SaleHeader
     #[Assert\Type('numeric')]
     private ?string $totalAmount = '0.00';
 
-    #[ORM\Column(length: 60)]
-    #[Assert\NotNull]
-    private ?string $referenceNumber = '';
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $referenceDate = null;
 
@@ -69,6 +65,12 @@ class SalePaymentHeader extends SaleHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
     #[Assert\Type('numeric')]
     private ?string $totalReceivable = '0.00';
+
+    #[ORM\Column(length: 60)]
+    private ?string $returnTransactionNumber = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $returnTaxNumber = '';
 
     public function __construct()
     {
@@ -131,18 +133,6 @@ class SalePaymentHeader extends SaleHeader
     public function setTotalAmount(string $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
-
-        return $this;
-    }
-
-    public function getReferenceNumber(): ?string
-    {
-        return $this->referenceNumber;
-    }
-
-    public function setReferenceNumber(string $referenceNumber): self
-    {
-        $this->referenceNumber = $referenceNumber;
 
         return $this;
     }
@@ -269,6 +259,30 @@ class SalePaymentHeader extends SaleHeader
     public function setTotalReceivable(string $totalReceivable): self
     {
         $this->totalReceivable = $totalReceivable;
+
+        return $this;
+    }
+
+    public function getReturnTransactionNumber(): ?string
+    {
+        return $this->returnTransactionNumber;
+    }
+
+    public function setReturnTransactionNumber(string $returnTransactionNumber): self
+    {
+        $this->returnTransactionNumber = $returnTransactionNumber;
+
+        return $this;
+    }
+
+    public function getReturnTaxNumber(): ?string
+    {
+        return $this->returnTaxNumber;
+    }
+
+    public function setReturnTaxNumber(string $returnTaxNumber): self
+    {
+        $this->returnTaxNumber = $returnTaxNumber;
 
         return $this;
     }
