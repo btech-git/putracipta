@@ -21,7 +21,10 @@
                     Note {{ grid.sort_char(form.sort.note.vars.value) }}
                 </th>
                 <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'status') }}>
-                    Status {{ grid.sort_char(form.sort.status.vars.value) }}
+                    FA/NA {{ grid.sort_char(form.sort.status.vars.value) }}
+                </th>
+                <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'isInactive') }}>
+                    Status {{ grid.sort_char(form.sort.isInactive.vars.value) }}
                 </th>
                 <th style="min-width: 150px">Tanggal Buat</th>
                 <th style="min-width: 150px"></th>
@@ -49,6 +52,14 @@
                         {% endfor %}
                     </select>
                 </th>
+                <th>
+                    <select class="form-select" {{ grid.filter_link_item(form, 'isInactive') }}>
+                        <option value="" {% if form.filter.isInactive.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.isInactive.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.isInactive.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
                 <th></th>
                 <th></th>
             </tr>
@@ -61,6 +72,7 @@
                     <td>{{ designCode.customer.company|default }}</td>
                     <td>{{ designCode.note }}</td>
                     <td>{{ designCode.status }}</td>
+                    <td>{{ designCode.isInactive ? 'Inactive' : 'Active' }}</td>
                     <td>{{ designCode.createdTransactionDateTime ? designCode.createdTransactionDateTime|date('d M Y') : '' }}</td>
                     <td>
                         {% if is_granted('ROLE_DESIGN_CODE_VIEW') or is_granted('ROLE_DESIGN_CODE_EDIT') or is_granted('ROLE_DESIGN_CODE_ADD') %}
@@ -76,7 +88,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">No records found</td>
+                    <td colspan="8">No records found</td>
                 </tr>
             {% endfor %}
         </tbody>

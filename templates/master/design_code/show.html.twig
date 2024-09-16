@@ -89,7 +89,7 @@
                 <td>{{ designCode.dielineMillar.codeNumber|default }}</td>
             </tr>
             <tr>
-                <th>Status</th>
+                <th>FA/NA</th>
                 <td>{{ designCode.status|default }}</td>
             </tr>
             <tr>
@@ -101,8 +101,8 @@
                 <td>{{ designCode.createdTransactionDateTime ? designCode.createdTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Is Inactive</th>
-                <td>{{ designCode.isInactive ? 'Yes' : 'No' }}</td>
+                <th>Status</th>
+                <td>{{ designCode.isInactive ? 'Inactive' : 'Active' }}</td>
             </tr>
         </tbody>
     </table>
