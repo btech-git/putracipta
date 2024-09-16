@@ -144,16 +144,14 @@
         <a target="_blank" class="btn btn-success btn-sm" href="{{ path('app_production_product_prototype_memo', {'id': productPrototype.id}) }}">Print Formulir Produk Baru</a>
     </div>
     
-    {#<div class="text-center">
+    <div class="text-center">
         <h4>Layout</h4>
-        {% if layoutImage == true %}
-            {% if layoutImage.transactionFileExtension == 'pdf' %}
-                <a target="_blank" href="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}">Layout PDF File</a>
-            {% elseif layoutImage.transactionFileExtension == 'jpg' or layoutImage.transactionFileExtension == 'jpeg' or layoutImage.transactionFileExtension == 'png' %}
-                <img width="256px" src="{{ asset('uploads/product-development/' ~ layoutImage.id ~ '.' ~ layoutImage.transactionFileExtension) }}" alt="Product Prototype Image" />
-            {% endif %}
+        {% if productPrototype.transactionFileExtension == 'pdf' %}
+            <a target="_blank" href="{{ asset('uploads/product-prototype/' ~ productPrototype.fileName) }}">Layout PDF File</a>
+        {% elseif productPrototype.transactionFileExtension == 'jpg' or productPrototype.transactionFileExtension == 'jpeg' or productPrototype.transactionFileExtension == 'png' %}
+            <img width="256px" src="{{ asset('uploads/product-prototype/' ~ productPrototype.fileName) }}" alt="Product Layout Image" />
         {% endif %}
-    </div>#}
+    </div>
 
     {#{{ include('production/product_prototype/_delete_form.html.twig') }}#}
 {% endblock %}

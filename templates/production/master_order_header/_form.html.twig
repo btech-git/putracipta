@@ -178,6 +178,13 @@
         </div>
     {{ dialog.end() }}
 
+    {{ dialog.start('paper-dialog', 'Paper List') }}
+        <div data-controller="html-loader"
+             data-html-loader-url-value="{{ path('app_shared_paper__list') }}"
+             data-html-loader-auto-load-value="true">
+        </div>
+    {{ dialog.end() }}
+
     {{ dialog.start('sale-order-detail-dialog', 'Customer Order List') }}
         <input type="hidden" id="sale-order-detail-table-identifiers" />
         <div data-controller="html-loader"
