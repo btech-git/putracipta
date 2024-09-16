@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DesignCodeRepository::class)]
 #[ORM\Table(name: 'master_design_code')]
@@ -28,12 +29,14 @@ class DesignCode extends Master
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank]
     private ?string $version = '';
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $note = '';
 
     #[ORM\Column(length: 60)]
+    #[Assert\NotBlank]
     private ?string $variant = '';
 
     #[ORM\ManyToOne(inversedBy: 'designCodes')]
