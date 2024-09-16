@@ -40,15 +40,12 @@ class DielineMillarFormService
 
     public function finalize(DielineMillar $dielineMillar, array $options = []): void
     {
-        $productCodeList = array();
-        $productNameList = array();
-        foreach ($dielineMillar->getDielineMillarDetails() as $dielineMillarDetail) {
-            $product = $dielineMillarDetail->getProduct();
-            $productCodeList[] = $product->getCode();
-            $productNameList[] = $product->getName();
+        $dielineMillarDetails = $dielineMillar->getDielineMillarDetails();
+        if ($dielineMillarDetails[0] !== null) {
+            $product = $dielineMillarDetails[0]->getProduct();
+            $dielineMillar->setCode($product->getCode());
+            $dielineMillar->setName($product->getName());
         }
-        $dielineMillar->setCode(implode(', ', $productCodeList));
-        $dielineMillar->setName(implode(', ', $productNameList));
     }
 
     public function save(DielineMillar $dielineMillar, array $options = []): void
