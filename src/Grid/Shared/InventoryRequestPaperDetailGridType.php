@@ -39,7 +39,8 @@ class InventoryRequestPaperDetailGridType extends AbstractType
                     'customer:company',
                     'paper:code',
                     'paper:name',
-                    'quantity'
+                    'quantity',
+                    'memo'
                 ],
                 'field_label_list' => [
                     'inventoryRequestPaperHeader:codeNumberOrdinal' => 'Code Number',
@@ -61,6 +62,7 @@ class InventoryRequestPaperDetailGridType extends AbstractType
                     'paper:code' => [FilterContain::class, FilterNotContain::class],
                     'paper:name' => [FilterContain::class, FilterNotContain::class],
                     'quantity' => [FilterEqual::class, FilterNotEqual::class],
+                    'memo' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'inventoryRequestPaperHeader:codeNumberOrdinal' => IntegerType::class,
@@ -87,7 +89,8 @@ class InventoryRequestPaperDetailGridType extends AbstractType
                     'customer:company',
                     'paper:code',
                     'paper:name',
-                    'quantity'
+                    'quantity',
+                    'memo'
                 ],
                 'field_label_list' => [
                     'inventoryRequestPaperHeader:codeNumberOrdinal' => '',
@@ -109,6 +112,7 @@ class InventoryRequestPaperDetailGridType extends AbstractType
                     'paper:code' => [SortAscending::class, SortDescending::class],
                     'paper:name' => [SortAscending::class, SortDescending::class],
                     'quantity' => [SortAscending::class, SortDescending::class],
+                    'memo' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

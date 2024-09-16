@@ -35,7 +35,8 @@ class InventoryRequestMaterialDetailGridType extends AbstractType
                     'inventoryRequestMaterialHeader:warehouse',
                     'material:code',
                     'material:name',
-                    'quantity'
+                    'quantity',
+                    'memo'
                 ],
                 'field_label_list' => [
                     'inventoryRequestMaterialHeader:codeNumberOrdinal' => 'Code Number',
@@ -53,6 +54,7 @@ class InventoryRequestMaterialDetailGridType extends AbstractType
                     'material:code' => [FilterContain::class, FilterNotContain::class],
                     'material:name' => [FilterContain::class, FilterNotContain::class],
                     'quantity' => [FilterEqual::class, FilterNotEqual::class],
+                    'memo' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'inventoryRequestMaterialHeader:codeNumberOrdinal' => IntegerType::class,
@@ -75,7 +77,8 @@ class InventoryRequestMaterialDetailGridType extends AbstractType
                     'inventoryRequestMaterialHeader:warehouse',
                     'material:code',
                     'material:name',
-                    'quantity'
+                    'quantity',
+                    'memo'
                 ],
                 'field_label_list' => [
                     'inventoryRequestMaterialHeader:codeNumberOrdinal' => '',
@@ -93,6 +96,7 @@ class InventoryRequestMaterialDetailGridType extends AbstractType
                     'material:code' => [SortAscending::class, SortDescending::class],
                     'material:name' => [SortAscending::class, SortDescending::class],
                     'quantity' => [SortAscending::class, SortDescending::class],
+                    'memo' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
