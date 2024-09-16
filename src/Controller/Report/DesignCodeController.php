@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DesignCodeController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_design_code__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_FINANCE_REPORT')]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function _list(Request $request, DesignCodeRepository $designCodeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -46,7 +46,7 @@ class DesignCodeController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_design_code_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_FINANCE_REPORT')]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function index(): Response
     {
         return $this->render("report/design_code/index.html.twig");

@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DiecutKnifeController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_diecut_knife__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_FINANCE_REPORT')]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function _list(Request $request, DiecutKnifeRepository $diecutKnifeRepository): Response
     {
         $criteria = new DataCriteria();
@@ -46,7 +46,7 @@ class DiecutKnifeController extends AbstractController
     }
 
     #[Route('/', name: 'app_report_diecut_knife_index', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_FINANCE_REPORT')]
+    #[IsGranted('ROLE_PRODUCTION_REPORT')]
     public function index(): Response
     {
         return $this->render("report/diecut_knife/index.html.twig");
