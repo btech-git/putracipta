@@ -100,7 +100,7 @@ class SaleReturnHeaderFormService {
 
             if ($saleReturnHeader->isIsProductExchange() === true) {
                 $totalReturn += $saleReturnDetail->getQuantity();
-                $saleOrderDetail->setTotalReturn($totalReturn);
+                $saleOrderDetail->setTotalQuantityReturn($totalReturn);
                 $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
                 if ($saleOrderDetail->getRemainingQuantityDelivery() > 0) {
                     $saleOrderDetail->setIsTransactionClosed(false);
