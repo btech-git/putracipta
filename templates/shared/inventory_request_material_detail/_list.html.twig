@@ -21,11 +21,15 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'inventoryRequestMaterialHeader:pickupDate') }}>
                     Tanggal Pakai{{ grid.sort_char(form.sort['inventoryRequestMaterialHeader:pickupDate'].vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'material:code') }}>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'material:code') }}>
                     Kode {{ grid.sort_char(form.sort['material:code'].vars.value) }}
                 </th>
                 <th style="min-width: 80px" role="button" {{ grid.sort_link_item(form, 'quantity') }}>
                     Quantity {{ grid.sort_char(form.sort.quantity.vars.value) }}
+                </th>
+                <th style="min-width: 100px">Satuan</th>
+                <th style="min-width: 380px" role="button" {{ grid.sort_link_item(form, 'memo') }}>
+                    Memo {{ grid.sort_char(form.sort.memo.vars.value) }}
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -52,6 +56,10 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'quantity') }} value="{{ form.filter.quantity.1.vars.value }}" />
                 </th>
+                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'memo') }} value="{{ form.filter.memo.1.vars.value }}" />
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -64,6 +72,7 @@
                     'materialName': inventoryRequestMaterialDetail.material.name|default,
                     'inventoryRequestMaterialDetailId': inventoryRequestMaterialDetail.id|default,
                     'inventoryRequestMaterialDetailQuantity': inventoryRequestMaterialDetail.quantity|default|number_format(2),
+                    'inventoryRequestMaterialDetailQuantityRemaining': inventoryRequestMaterialDetail.quantityRemaining|default|number_format(2),
                     'inventoryRequestMaterialDetailMemo': inventoryRequestMaterialDetail.memo|default,
                     'unitId': inventoryRequestMaterialDetail.unit.id,
                     'unitName': inventoryRequestMaterialDetail.unit.name}|json_encode }}">
@@ -72,6 +81,8 @@
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.codeNumber|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.memo|default }}</td>
                 </tr>
             {% else %}
                 <tr>
