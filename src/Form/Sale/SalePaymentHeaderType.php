@@ -20,15 +20,15 @@ class SalePaymentHeaderType extends AbstractType
         $builder
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')
-//            ->add('referenceNumber')
+            ->add('returnTransactionNumber')
+            ->add('returnTaxNumber')
             ->add('administrationFee', FormattedNumberType::class, ['decimals' => 2])
-//            ->add('referenceDate', FormattedDateType::class)
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
             ->add('paymentType', null, [
                 'choice_label' => 'name',
                 'query_builder' => function($repository) {
                     return $repository->createQueryBuilder('e')
-                            ->andWhere("e.isInactive = false");
+                    ->andWhere("e.isInactive = false");
                 },
             ])
             ->add('salePaymentDetails', CollectionType::class, [
