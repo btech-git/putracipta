@@ -22,10 +22,18 @@ class OutstandingSaleOrderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['deliveryDate', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'product:code', 'product:name'],
+                'field_names' => [
+                    'deliveryDate', 
+                    'saleOrderHeader:transactionDate', 
+                    'saleOrderHeader:referenceNumber', 
+                    'customer:company', 
+                    'product:code', 
+                    'product:name'
+                ],
                 'field_label_list' => [
                     'saleOrderHeader:transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderHeader:referenceNumber' => 'PO #', 
                 ],
                 'field_operators_list' => [
                     'deliveryDate' => [FilterEqual::class, FilterNotEqual::class],
@@ -41,10 +49,18 @@ class OutstandingSaleOrderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['deliveryDate', 'saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'product:code', 'product:name'],
+                'field_names' => [
+                    'deliveryDate', 
+                    'saleOrderHeader:transactionDate', 
+                    'saleOrderHeader:referenceNumber', 
+                    'customer:company', 
+                    'product:code', 
+                    'product:name'
+                ],
                 'field_label_list' => [
                     'saleOrderHeader:transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'saleOrderHeader:referenceNumber' => 'PO #', 
                 ],
                 'field_operators_list' => [
                     'deliveryDate' => [SortAscending::class, SortDescending::class],
