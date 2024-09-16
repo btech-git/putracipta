@@ -66,6 +66,10 @@ class ProductPrototypeFormService
             $productPrototype->setMaterialName($productPrototype->getPaper()->getName());
         }
         
+        if ($options['transactionFile']) {
+            $productPrototype->setTransactionFileExtension($options['transactionFile']->guessExtension());
+        }
+        
         $prototypeProductList = [];
         $prototypeProductCodeList = [];
         foreach ($productPrototype->getProductPrototypeDetails() as $productPrototypeDetail) {
@@ -100,5 +104,16 @@ class ProductPrototypeFormService
             $this->transactionLogRepository->add($transactionLog);
             $entityManager->flush();
         });
+    }
+
+    public function uploadFile(ProductPrototype $productPrototype, $transactionFile, $uploadDirectory): void
+    {
+        if ($transactionFile) {
+            try {
+                $filename = $productPrototype->getFileName();
+                $transactionFile->move($uploadDirectory, $filename);
+            } catch (FileException $e) {
+            }
+        }
     }
 }
