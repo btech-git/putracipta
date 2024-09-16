@@ -70,79 +70,73 @@
             <th style="text-align: center; width: 100pt"><strong>Lakban besar</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Lakban kecil</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Plastik</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>PO#</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Kode Produk</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Nama Produk</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal Kirim</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Qty Order</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Stock</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Kekurangan</strong></th>
         </tr>
         <tr>
-            <th></th>
-            <th style="text-align: center"><strong>PO#</strong></th>
-            <th style="text-align: center"><strong>Kode Produk</strong></th>
-            <th style="text-align: center"><strong>Nama Produk</strong></th>
-            <th style="text-align: center"><strong>Tanggal Kirim</strong></th>
-            <th style="text-align: center"><strong>Qty Order</strong></th>
-            <th style="text-align: center"><strong>Stock</strong></th>
-            <th style="text-align: center"><strong>Kekurangan</strong></th>
-        </tr>
-        <tr>
-            <th colspan="7"></th>
+            <th colspan="20"></th>
         </tr>
     </thead>
     <tbody>
         {% for masterOrderHeader in masterOrderHeaders %}
-            <tr>
-                <td style="text-align: left">{{ masterOrderHeader.getCodeNumber|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('j M Y') }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.customer.company|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.machinePrinting.name|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.designCode.codeNumber|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.diecutKnife.codeNumber|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.dielineMillar.codeNumber|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.hotStamping|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.orderType|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.dieCutBlade|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.productDevelopment.codeNumber|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.productDevelopment.developmentTypeList|default ? masterOrderHeader.productDevelopment.developmentTypeList|join(', ') : '' }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.weightPerPiece|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.glossiness|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.mountageSize|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.quantityPrinting|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.insitPrintingPercentage|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.insitPrintingQuantity|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.insitSortingPercentage|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.insitSortingQuantity|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.quantityPaper|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.paperRequirement|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.paperMountage|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.paperTotal|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.paperPlanoLength|default }} x {{ masterOrderHeader.paperPlanoWidth|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.cuttingLengthSize1|default }} x {{ masterOrderHeader.cuttingWidthSize1|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.cuttingLengthSize2|default }} x {{ masterOrderHeader.cuttingWidthSize2|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.purchaseOrderPaperHeader.getCodeNumber|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate|default ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.purchaseOrderPaperHeader.supplier.company|default }}</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkCyanPercentage|default }}% = {{ masterOrderHeader.inkCyanWeight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkK1Color|default }} : {{ masterOrderHeader.inkK1Percentage|default }}% = {{ masterOrderHeader.inkK1Weight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight|default }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight|default }} KG</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity|default }} roll</td>
-                <td style="text-align: left">{{ masterOrderHeader.inkHotStampingSize }} cm = {{ masterOrderHeader.inkHotStampingQuantity|default }} roll</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingGlueQuantity }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight }} kg</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingRubberQuantity }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight }} pcs</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingPaperQuantity }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight }} lbr</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingBoxQuantity }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight }} pcs</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize }} roll</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize }} roll</td>
-                <td style="text-align: left">{{ masterOrderHeader.packagingPlasticQuantity }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize }} m2</td>
-            </tr>
             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
                 <tr>
-                    <td style="text-align: left"></td>
+                    <td style="text-align: left">{{ masterOrderHeader.getCodeNumber|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('j M Y') }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.customer.company|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.paper.paperNameSizeCombination|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.machinePrinting.name|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.designCode.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.diecutKnife.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.dielineMillar.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.hotStamping|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.orderType|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.printingStatus ? masterOrderHeader.printingStatus|join(', ') : '' }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.dieCutBlade|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.productDevelopment.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.productDevelopment.developmentTypeList|default ? masterOrderHeader.productDevelopment.developmentTypeList|join(', ') : '' }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.weightPerPiece|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.glossiness|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.mountageSize|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.quantityPrinting|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.insitPrintingPercentage|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.insitPrintingQuantity|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.insitSortingPercentage|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.insitSortingQuantity|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.quantityPaper|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.paperRequirement|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.paperMountage|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.paperTotal|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.paperPlanoLength|default }} x {{ masterOrderHeader.paperPlanoWidth|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.cuttingLengthSize1|default }} x {{ masterOrderHeader.cuttingWidthSize1|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.cuttingLengthSize2|default }} x {{ masterOrderHeader.cuttingWidthSize2|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.purchaseOrderPaperHeader.getCodeNumber|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.purchaseOrderPaperHeader.transactionDate|default ? masterOrderHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.purchaseOrderPaperHeader.supplier.company|default }}</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkCyanPercentage|default }}% = {{ masterOrderHeader.inkCyanWeight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkMagentaPercentage }}% = {{ masterOrderHeader.inkMagentaWeight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkYellowPercentage }}% = {{ masterOrderHeader.inkYellowWeight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkBlackPercentage }}% = {{ masterOrderHeader.inkBlackWeight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkK1Color|default }} : {{ masterOrderHeader.inkK1Percentage|default }}% = {{ masterOrderHeader.inkK1Weight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkK2Color }} : {{ masterOrderHeader.inkK2Percentage }}% = {{ masterOrderHeader.inkK2Weight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkK3Color }} : {{ masterOrderHeader.inkK3Percentage }}% = {{ masterOrderHeader.inkK3Weight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkK4Color }} : {{ masterOrderHeader.inkK4Percentage }}% = {{ masterOrderHeader.inkK4Weight|default }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkOpvPercentage }}% = {{ masterOrderHeader.inkOpvWeight|default }} KG</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkLaminatingSize }} cm = {{ masterOrderHeader.inkLaminatingQuantity|default }} roll</td>
+                    <td style="text-align: left">{{ masterOrderHeader.inkHotStampingSize }} cm = {{ masterOrderHeader.inkHotStampingQuantity|default }} roll</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingGlueQuantity }} cm/pcs = {{ masterOrderHeader.packagingGlueWeight }} kg</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingRubberQuantity }} pcs/ikat = {{ masterOrderHeader.packagingRubberWeight }} pcs</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingPaperQuantity }} pcs/pak = {{ masterOrderHeader.packagingPaperWeight }} lbr</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingBoxQuantity }} pcs/dus = {{ masterOrderHeader.packagingBoxWeight }} pcs</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingTapeLargeQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeLargeSize }} roll</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingTapeSmallQuantity }} cm/pak (dus) = {{ masterOrderHeader.packagingTapeSmallSize }} roll</td>
+                    <td style="text-align: left">{{ masterOrderHeader.packagingPlasticQuantity }} cm2/pack = {{ masterOrderHeader.packagingPlasticSize }} m2</td>
                     <td style="text-align: left">{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td style="text-align: left">{{ masterOrderProductDetail.product.code|default }}</td>
                     <td style="text-align: left">{{ masterOrderProductDetail.product.name|default }}</td>
@@ -152,15 +146,6 @@
                     <td style="text-align: center">{{ masterOrderProductDetail.quantityShortage|default }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td colspan="5" style="text-align: right"><strong>Total</strong></td>
-                <td style="text-align: center"><strong>{{ masterOrderHeader.totalQuantityOrder|default }}</strong></td>
-                <td style="text-align: center"><strong>{{ masterOrderHeader.totalQuantityStock|default }}</strong></td>
-                <td style="text-align: center"><strong>{{ masterOrderHeader.totalQuantityShortage|default }}</strong></td>
-            </tr>
-            <tr>
-                <td colspan="7"></td>
-            </tr>
         {% endfor %}
     </tbody>
 </table>
