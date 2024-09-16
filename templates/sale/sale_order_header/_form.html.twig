@@ -236,7 +236,7 @@
     {{ dialog.end() }}
 
     {{ dialog.start('product-dialog', 'Product List') }}
-        <input type="hidden" id="material-table-identifiers" />
+        <input type="hidden" id="product-table-identifiers" />
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_product__list') }}"
              data-html-loader-auto-load-value="true"
