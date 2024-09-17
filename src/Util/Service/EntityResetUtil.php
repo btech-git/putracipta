@@ -9,7 +9,7 @@ class EntityResetUtil
         if ($rootEntity->isIsCanceled()) {
             $formSync->doAfterWhileScanning($rootEntity, function($entity) {
                 $entity->setIsCanceled(true);
-                EntityModifier::reset($entity, ['id', 'isCanceled']);
+//                EntityModifier::reset($entity, ['id', 'isCanceled']);
             });
         }
     }
