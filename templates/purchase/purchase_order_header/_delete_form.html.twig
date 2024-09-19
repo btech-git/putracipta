@@ -6,4 +6,5 @@
             data-dom-element-confirm-message-param="Are you sure you want to cancel this transaction?">
         Cancel
     </button>
+    <input type="hidden" name="{{ idempotent_token_name() }}" value="{{ idempotent_token_value() }}" />
 </form>

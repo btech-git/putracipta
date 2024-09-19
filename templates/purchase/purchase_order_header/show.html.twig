@@ -11,7 +11,7 @@
     {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_ADD') %}
         <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_order_header_new') }}">Add</a>
     {% endif %}
-    {% if purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseOrderHeader) and purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderHeader) and purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_PARTIAL_RECEIVE', purchaseOrderHeader) %}
+    {% if purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseOrderHeader) and purchaseOrderHeader.transactionStatus != constant('TRANSACTION_STATUS_FULL_RECEIVE', purchaseOrderHeader) %}
         {% if is_granted('ROLE_PURCHASE_ORDER_MATERIAL_EDIT') %}
             <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_order_header_edit', {'id': purchaseOrderHeader.id}) }}">Edit</a>
         {% endif %}
