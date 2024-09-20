@@ -14,6 +14,7 @@ use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\PurchaseOrderHeaderFormSupport;
 use App\Sync\Purchase\PurchaseOrderHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -43,26 +44,32 @@ class PurchaseOrderHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($purchaseOrderHeader->getId())) {
-            $purchaseOrderHeader->setCreatedTransactionDateTime($datetime);
-            $purchaseOrderHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $purchaseOrderHeader->setIsCanceled(true);
+            $purchaseOrderHeader->setCancelledTransactionDateTime($datetime);
+            $purchaseOrderHeader->setCancelledTransactionUser($user);
         } else {
-            $purchaseOrderHeader->setModifiedTransactionDateTime($datetime);
-            $purchaseOrderHeader->setModifiedTransactionUser($user);
+            if (empty($purchaseOrderHeader->getId())) {
+                $purchaseOrderHeader->setCreatedTransactionDateTime($datetime);
+                $purchaseOrderHeader->setCreatedTransactionUser($user);
+            } else {
+                $purchaseOrderHeader->setModifiedTransactionDateTime($datetime);
+                $purchaseOrderHeader->setModifiedTransactionUser($user);
+            }
+            
+            $purchaseOrderHeader->setCodeNumberVersion($purchaseOrderHeader->getCodeNumberVersion() + 1);
         }
-        
-        $purchaseOrderHeader->setCodeNumberVersion($purchaseOrderHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseOrderHeader $purchaseOrderHeader, array $options = []): void
     {
-//        if ($options['cancelHeader']) {
-//            EntityResetUtil::reset($this->formSync, $purchaseOrderHeader);
-//        } else {
-//            foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
-//                EntityResetUtil::reset($this->formSync, $purchaseOrderDetail);
-//            }
-//        }
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $purchaseOrderHeader);
+        } else {
+            foreach ($purchaseOrderHeader->getPurchaseOrderDetails() as $purchaseOrderDetail) {
+                EntityResetUtil::reset($this->formSync, $purchaseOrderDetail);
+            }
+        }
         
         if ($purchaseOrderHeader->getTransactionDate() !== null && $purchaseOrderHeader->getId() === null) {
             $year = $purchaseOrderHeader->getTransactionDate()->format('y');
