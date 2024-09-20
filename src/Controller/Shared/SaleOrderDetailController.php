@@ -67,6 +67,7 @@ class SaleOrderDetailController extends AbstractController
                 $qb->andWhere("{$alias}.quantityProductionRemaining > 0");
             }
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->andWhere("{$alias}.isTransactionClosed = false");
             $qb->andWhere("s.transactionStatus IN ('Approve', 'partial_delivery')");
         });
 
