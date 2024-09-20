@@ -488,7 +488,9 @@ class MasterOrderHeader extends ProductionHeader
         $totalQuantity = 0;
         
         foreach ($this->masterOrderProductDetails as $detail) {
-            $totalQuantity += $detail->getQuantityStock();
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantityStock();
+            }
         }
         return $totalQuantity;
     }
@@ -500,7 +502,9 @@ class MasterOrderHeader extends ProductionHeader
         $detailsField = $this->transactionMode === self::TRANSACTION_MODE_SALE_ORDER ? 'masterOrderProductDetails' : 'masterOrderPrototypeDetails';
         
         foreach ($this->$detailsField as $detail) {
-            $totalQuantity += $detail->getQuantityShortage();
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantityShortage();
+            }
         }
         return $totalQuantity;
     }
@@ -510,7 +514,9 @@ class MasterOrderHeader extends ProductionHeader
         $totalQuantity = 0;
         
         foreach ($this->masterOrderProductDetails as $detail) {
-            $totalQuantity += $detail->getQuantityProduction();
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantityProduction();
+            }
         }
         return $totalQuantity;
     }
@@ -520,7 +526,9 @@ class MasterOrderHeader extends ProductionHeader
         $totalQuantity = 0;
         
         foreach ($this->masterOrderProductDetails as $detail) {
-            $totalQuantity += $detail->getRemainingProduction();
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getRemainingProduction();
+            }
         }
         
         return $totalQuantity;
@@ -531,7 +539,9 @@ class MasterOrderHeader extends ProductionHeader
         $totalQuantity = 0;
         
         foreach ($this->masterOrderProductDetails as $detail) {
-            $totalQuantity += $detail->getRemainingInventoryReceive();
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getRemainingInventoryReceive();
+            }
         }
         
         return $totalQuantity;
