@@ -45,7 +45,7 @@
                                 {{ form_row(form.designCode, {
                                     'attr': {
                                         'data-controller': 'dom-element',
-                                        'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                                        'data-action': 'design-code-table:data-table:select@document->dom-element#bind design-code-table:data-table:select@document->json-loader#load',
                                         'data-dom-element-bind-specifications-param': [
                                             {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
                                         ]|json_encode,
@@ -170,13 +170,6 @@
     {{ form_end(form) }}
 
     {% import 'app/bootstrap_dialog.html.twig' as dialog %}
-
-    {{ dialog.start('customer-dialog', 'Customer List') }}
-        <div data-controller="html-loader"
-             data-html-loader-url-value="{{ path('app_shared_customer__list') }}"
-             data-html-loader-auto-load-value="true">
-        </div>
-    {{ dialog.end() }}
 
     {{ dialog.start('paper-dialog', 'Paper List') }}
         <div data-controller="html-loader"

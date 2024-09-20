@@ -6,17 +6,20 @@
             {{ form_row(form.paper, {
                 'attr': {
                     'data-controller': 'dom-element',
-                    'data-action': 'design-code-table:data-table:select@document->dom-element#bind',
+                    'data-action': 'design-code-table:data-table:select@document->dom-element#bind paper-table:data-table:select@document->dom-element#bind paper-table:data-table:select@document->json-loader#load', 
                     'data-dom-element-bind-specifications-param': [
-                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperId'}},
+                        {'eventTypes': ['design-code-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperId'}},
+                        {'eventTypes': ['paper-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperId'}},
                     ]|json_encode,
                 },
             }) }}
-            <input type="text" class="form-control" value="{{ masterOrderHeader.paper.name|default }}" readonly="readonly"
+            <input type="text" class="form-control readonly-form-input" value="{{ masterOrderHeader.paper.name|default }}" readonly="readonly"
+                   data-bs-toggle="modal" data-bs-target="#paper-dialog"
                    data-controller="dom-element"
-                   data-action="design-code-table:data-table:select@document->dom-element#bind"
+                   data-action="design-code-table:data-table:select@document->dom-element#bind paper-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperName'}},
+                       {'eventTypes': ['design-code-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperName'}},
+                       {'eventTypes': ['paper-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperName'}},
                    ]|json_encode }}" />
             {{ form_errors(form.paper) }}
         </div>
@@ -24,9 +27,10 @@
             <label class="form-label">Kode Kertas</label>
             <input type="text" class="form-control" value="{{ masterOrderHeader.paper.codeNumber|default }}" readonly="readonly"
                    data-controller="dom-element"
-                   data-action="design-code-table:data-table:select@document->dom-element#bind"
+                   data-action="design-code-table:data-table:select@document->dom-element#bind paper-table:data-table:select@document->dom-element#bind"
                    data-dom-element-bind-specifications-param="{{ [
-                       {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperCodeNumber'}},
+                       {'eventTypes': ['design-code-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.paperCodeNumber'}},
+                       {'eventTypes': ['paper-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.paperCode'}},
                    ]|json_encode }}" />
         </div>
         <div class="mb-3">
