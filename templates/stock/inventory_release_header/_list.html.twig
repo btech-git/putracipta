@@ -11,20 +11,16 @@
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'codeNumberOrdinal') }}>
                     Pengeluaran # {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
                     Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
                 </th>
                 <th style="min-width: 350px" {{ grid.sort_link_item(form, 'inventoryReleaseItemList') }}>
                     Item {{ grid.sort_char(form.sort.inventoryReleaseItemList.vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'division') }}>
-                    Divisi {{ grid.sort_char(form.sort.division.vars.value) }}
-                </th>
+                <th style="min-width: 350px">WO #</th>
+                <th style="min-width: 350px">Keterangan</th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'releaseMode') }}>
                     Jenis {{ grid.sort_char(form.sort.releaseMode.vars.value) }}
-                </th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'warehouse') }}>
-                    Gudang {{ grid.sort_char(form.sort['warehouse'].vars.value) }}
                 </th>
                 <th style="min-width: 90px"></th>
             </tr>
@@ -46,14 +42,8 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'inventoryReleaseItemList') }} value="{{ form.filter.inventoryReleaseItemList.1.vars.value }}" />
                 </th>
-                <th>
-                    <select class="form-select" {{ grid.filter_link_item(form, 'division') }}>
-                        <option value="" {% if form.filter.division.1.vars.value == '' %}selected="selected"{% endif %}></option>
-                        {% for choice in form.filter.division.1.vars.choices %}
-                            <option value="{{ choice.value }}" {% if form.filter.division.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
-                        {% endfor %}
-                    </select>
-                </th>
+                <th></th>
+                <th></th>
                 <th>
                     <select class="form-select" {{ grid.filter_link_item(form, 'releaseMode') }}>
                         <option value="" {% if form.filter.releaseMode.1.vars.value == '' %}selected="selected"{% endif %}></option>
@@ -62,26 +52,27 @@
                         {% endfor %}
                     </select>
                 </th>
-                <th>
-                    <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>
-                        <option value="" {% if form.filter.warehouse.1.vars.value == '' %}selected="selected"{% endif %}></option>
-                        {% for choice in form.filter.warehouse.1.vars.choices %}
-                            <option value="{{ choice.value }}" {% if form.filter.warehouse.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
-                        {% endfor %}
-                    </select>
-                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             {% for inventoryReleaseHeader in inventoryReleaseHeaders %}
+                {% set currentInventoryReleaseHeader = inventoryReleaseHeaderData[inventoryReleaseHeader.id]|default(inventoryReleaseHeader) %}
+                {% set inventoryReleasePaperDetails = currentInventoryReleaseHeader.inventoryReleasePaperDetails %}
+                {% set inventoryReleaseMaterialDetails = currentInventoryReleaseHeader.inventoryReleaseMaterialDetails %}
                 <tr>
                     <td>{{ inventoryReleaseHeader.codeNumber }}</td>
                     <td>{{ inventoryReleaseHeader.transactionDate ? inventoryReleaseHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryReleaseHeader.inventoryReleaseItemList|default }}</td>
-                    <td>{{ inventoryReleaseHeader.division.name|default }}</td>
+                    <td>{{ inventoryReleasePaperDetails|map(inventoryReleasePaperDetail => inventoryReleasePaperDetail.inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}</td>
+                    <td>
+                        {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
+                            {{ inventoryReleasePaperDetails|map(inventoryReleasePaperDetail => inventoryReleasePaperDetail.memo)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}
+                        {% else %}
+                            {{ inventoryReleaseMaterialDetails|map(inventoryReleaseMaterialDetail => inventoryReleaseMaterialDetail.memo)|reduce((a, b) => b in a ? a : a|merge([b]), [])|join(', ') }}
+                        {%  endif %}
+                    </td>
                     <td>{{ inventoryReleaseHeader.releaseMode|default }}</td>
-                    <td>{{ inventoryReleaseHeader.warehouse.name|default }}</td>
                     <td>
                         {% if is_granted('ROLE_MATERIAL_RELEASE_VIEW') or is_granted('ROLE_MATERIAL_RELEASE_EDIT') or is_granted('ROLE_MATERIAL_RELEASE_ADD') %}
                             <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_release_header_show', {'id': inventoryReleaseHeader.id}) }}"><i class="bi-search"></i></a>

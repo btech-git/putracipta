@@ -3,6 +3,9 @@
 {% block title 'Show Permintaan Produksi' %}
 
 {% block toolbar %}
+    {% if inventoryRequestHeader.requestStatus == constant('REQUEST_STATUS_OPEN', inventoryRequestHeader) or inventoryRequestHeader.requestStatus == constant('REQUEST_STATUS_PARTIAL', inventoryRequestHeader) %}
+        <div class="d-inline-block">{{ include('stock/inventory_request_header/_complete_form.html.twig') }}</div>
+    {% endif %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_inventory_request_header_index') }}">Manage</a>
     {% if is_granted('ROLE_MATERIAL_REQUEST_EDIT') %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_request_header_edit', {'id': inventoryRequestHeader.id}) }}">Edit</a>
