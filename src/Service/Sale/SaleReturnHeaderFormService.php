@@ -4,6 +4,7 @@ namespace App\Service\Sale;
 
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderDetail;
+use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Sale\SaleReturnDetail;
 use App\Entity\Sale\SaleReturnHeader;
 use App\Entity\Stock\Inventory;
@@ -80,10 +81,12 @@ class SaleReturnHeaderFormService {
             $saleReturnDetail->setProduct($deliveryDetail->getProduct());
             $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleReturnDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
-            $saleOrderHeader->setHasReturnTransaction(true);
+            
             $saleReturnHeader->setTaxMode($saleOrderHeader->getTaxMode());
             $saleReturnHeader->setTaxPercentage($saleOrderHeader->getTaxPercentage());
 
+            $saleOrderHeader->setHasReturnTransaction(true);
+            
             $oldDeliveryDetails = [];
             $oldSaleReturnDetailsList = [];
             foreach ($oldDeliveryDetails as $oldDeliveryDetail) {
@@ -115,6 +118,14 @@ class SaleReturnHeaderFormService {
                         $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
                     }
                 }
+                
+                $totalRemainingDelivery = 0;
+                foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+                    $totalRemainingDelivery += $saleOrderDetail->getRemainingQuantityDelivery();
+                }
+                $saleOrderHeader->setTotalRemainingDelivery($totalRemainingDelivery);
+                $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_PARTIAL_DELIVERY);
+
             } else {
                 $saleInvoiceDetails = $deliveryDetail->getSaleInvoiceDetails();
                 if ($saleInvoiceDetails !== null) {
