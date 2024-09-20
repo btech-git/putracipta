@@ -67,7 +67,7 @@
                 <tr data-data-table-target="selectable" data-selected-identifier="{{ inventoryRequestMaterialDetail.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'inventoryRequestHeaderCodeNumber': inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber, 
                     'inventoryRequestHeaderTransactionDate': inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('d M Y') : '', 
-                    'materialCode': inventoryRequestMaterialDetail.material.code|default,
+                    'materialCode': inventoryRequestMaterialDetail.material.codeNumber|default,
                     'materialId': inventoryRequestMaterialDetail.material.id|default,
                     'materialName': inventoryRequestMaterialDetail.material.name|default,
                     'inventoryRequestMaterialDetailId': inventoryRequestMaterialDetail.id|default,

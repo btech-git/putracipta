@@ -4,7 +4,7 @@
 
 {{ grid.info(form, count, papers) }}
 
-{% if app.request.request.has('design_code') or app.request.request.has('product_prototype') %}
+{% if app.request.request.has('design_code') or app.request.request.has('product_prototype') or app.request.request.has('master_order_header') %}
     {% set selectMultiple = false %}
 {% else %}
     {% set selectMultiple = true %}

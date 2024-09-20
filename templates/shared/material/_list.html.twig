@@ -54,11 +54,11 @@
             {% for material in materials %}
                 <tr data-data-table-target="selectable" data-selected-identifier="{{ material.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'materialId': material.id,
-                    'materialCode': material.code,
+                    'materialCode': material.codeNumber,
                     'materialName': material.name,
                     'unitId': material.unit.id,
                     'unitName': material.unit.name}|json_encode }}">
-                    <td>{{ material.code }}</td>
+                    <td>{{ material.codeNumber }}</td>
                     <td>{{ material.name }}</td>
                     <td>{{ material.materialSubCategory.materialCategory.name|default }}</td>
                     <td>{{ material.materialSubCategory.name|default }}</td>
