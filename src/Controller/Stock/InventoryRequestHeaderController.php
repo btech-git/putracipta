@@ -7,10 +7,13 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Stock\InventoryRequestHeader;
+use App\Entity\Stock\InventoryRequestMaterialDetail;
+use App\Entity\Stock\InventoryRequestPaperDetail;
 use App\Form\Stock\InventoryRequestHeaderType;
 use App\Grid\Stock\InventoryRequestHeaderGridType;
 use App\Repository\Stock\InventoryRequestHeaderRepository;
 use App\Service\Stock\InventoryRequestHeaderFormService;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -146,6 +149,38 @@ class InventoryRequestHeaderController extends AbstractController
             'inventoryRequestHeader' => $inventoryRequestHeader,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/complete', name: 'app_stock_inventory_request_header_complete', methods: ['POST'])]
+    #[IsGranted('ROLE_MATERIAL_REQUEST_EDIT')]
+    public function complete(Request $request, InventoryRequestHeader $inventoryRequestHeader, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('complete' . $inventoryRequestHeader->getId(), $request->request->get('_token'))) {
+            $inventoryRequestHeaderRepository = $entityManager->getRepository(InventoryRequestHeader::class);
+            $inventoryRequestMaterialDetailRepository = $entityManager->getRepository(InventoryRequestMaterialDetail::class);
+            $inventoryRequestPaperDetailRepository = $entityManager->getRepository(InventoryRequestPaperDetail::class);
+            
+            $inventoryRequestHeader->setRequestStatus(InventoryRequestHeader::REQUEST_STATUS_CLOSE);
+            $inventoryRequestHeaderRepository->add($inventoryRequestHeader);
+
+            foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
+                $inventoryRequestMaterialDetail->setQuantityRemaining(0);
+                $inventoryRequestMaterialDetailRepository->add($inventoryRequestMaterialDetail);
+            }
+            
+            foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
+                $inventoryRequestPaperDetail->setQuantityRemaining(0);
+                $inventoryRequestPaperDetailRepository->add($inventoryRequestPaperDetail);
+            }
+            
+            $entityManager->flush();
+        
+            $this->addFlash('success', array('title' => 'Success!', 'message' => 'The request was completed successfully.'));
+        } else {
+            $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to completed the request.'));
+        }
+
+        return $this->redirectToRoute('app_stock_inventory_request_header_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/delete', name: 'app_stock_inventory_request_header_delete', methods: ['POST'])]
