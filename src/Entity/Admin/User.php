@@ -3,6 +3,7 @@
 namespace App\Entity\Admin;
 
 use App\Entity\PurchaseHeader;
+use App\Entity\SaleHeader;
 use App\Repository\Admin\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
