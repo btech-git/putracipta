@@ -195,11 +195,17 @@ class PurchaseRequestPaperHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_purchase_purchase_request_paper_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')]
-    public function delete(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository): Response
+    public function delete(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
-            $purchaseRequestPaperHeaderRepository->remove($purchaseRequestPaperHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
+            $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader, ['cancelTransaction' => true]);
+            $purchaseRequestPaperHeaderFormService->save($purchaseRequestPaperHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
