@@ -3,6 +3,8 @@
 namespace App\Sync\Purchase;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Purchase\PurchaseOrderPaperDetail;
+use App\Entity\Purchase\PurchaseOrderPaperHeader;
 
 class PurchaseOrderPaperHeaderFormSync
 {
@@ -10,49 +12,7 @@ class PurchaseOrderPaperHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'purchaseOrderPaperDetails' => [
-                'receiveDetails' => [
-                    'purchaseReturnDetails' => null,
-                    'purchaseInvoiceDetails' => null,
-                ],
-            ],
-            'receiveHeaders' => [
-                'receiveDetails' => [
-                    'purchaseReturnDetails' => null,
-                    'purchaseInvoiceDetails' => null,
-                ],
-                'purchaseInvoiceHeaders' => [
-                    'purchaseInvoiceDetails' => null,
-                    'purchasePaymentDetails' => null,
-                ],
-                'purchaseReturnHeaders' => [
-                    'purchaseReturnDetails' => null,
-                ],
-            ],
-            'masterOrderHeaders' => [
-                'workOrderColorMixings' => null,
-                'workOrderCuttingHeaders' => [
-                    'workOrderCuttingMaterialDetails' => null,
-                    'workOrderCuttingFinishedDetails' => null,
-                ],
-                'workOrderOffsetPrintingHeaders' => [
-                    'workOrderOffsetPrintingDetails' => null,
-                ],
-                'workOrderPrepresses' => null,
-                'workOrderVarnishHeaders' => [
-                    'workOrderVarnishSettingDetails' => null,
-                    'workOrderVarnishProductionDetails' => null,
-                ],
-                'workOrderVarnishSpotHeaders' => [
-                    'workOrderVarnishSpotSettingDetails' => null,
-                    'workOrderVarnishSpotProductionDetails' => null,
-                ],
-                'masterOrderDistributionDetails' => null,
-                'masterOrderProductDetails' => null,
-                'masterOrderProcessDetails' => null,
-                'masterOrderCheckSheetDetails' => null,
-            ],
-        ]);
+        $this->setupAssociations(PurchaseOrderPaperHeader::class);
+        $this->setupAssociations(PurchaseOrderPaperDetail::class);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Sync\Purchase;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Purchase\PurchaseReturnDetail;
+use App\Entity\Purchase\PurchaseReturnHeader;
 
 class PurchaseReturnHeaderFormSync
 {
@@ -10,8 +12,7 @@ class PurchaseReturnHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'purchaseReturnDetails' => null,
-        ]);
+        $this->setupAssociations(PurchaseReturnHeader::class);
+        $this->setupAssociations(PurchaseReturnDetail::class);
     }
 }

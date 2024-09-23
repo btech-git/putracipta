@@ -3,6 +3,8 @@
 namespace App\Sync\Purchase;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Purchase\PurchaseRequestDetail;
+use App\Entity\Purchase\PurchaseRequestHeader;
 
 class PurchaseRequestHeaderFormSync
 {
@@ -10,16 +12,7 @@ class PurchaseRequestHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'purchaseRequestDetails' => [
-                'purchaseOrderDetails' => [
-                    'receiveDetails' => [
-                        'purchaseReturnDetails' => null,
-                        'purchaseInvoiceDetails' => null,
-                    ],
-                ],
-            ],
-
-        ]);
+        $this->setupAssociations(PurchaseRequestHeader::class);
+        $this->setupAssociations(PurchaseRequestDetail::class);
     }
 }
