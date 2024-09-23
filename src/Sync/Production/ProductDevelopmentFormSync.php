@@ -3,6 +3,8 @@
 namespace App\Sync\Production;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Production\ProductDevelopmentDetail;
+use App\Entity\Production\ProductDevelopment;
 
 class ProductDevelopmentFormSync
 {
@@ -10,8 +12,7 @@ class ProductDevelopmentFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            
-        ]);
+        $this->setupAssociations(ProductDevelopment::class);
+        $this->setupAssociations(ProductDevelopmentDetail::class);
     }
 }

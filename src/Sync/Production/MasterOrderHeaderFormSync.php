@@ -3,6 +3,12 @@
 namespace App\Sync\Production;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Production\MasterOrderCheckSheetDetail;
+use App\Entity\Production\MasterOrderDistributionDetail;
+use App\Entity\Production\MasterOrderProcessDetail;
+use App\Entity\Production\MasterOrderProductDetail;
+use App\Entity\Production\MasterOrderPrototypeDetail;
+use App\Entity\Production\MasterOrderHeader;
 
 class MasterOrderHeaderFormSync
 {
@@ -10,28 +16,11 @@ class MasterOrderHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'workOrderColorMixings' => null,
-            'workOrderCuttingHeaders' => [
-                'workOrderCuttingMaterialDetails' => null,
-                'workOrderCuttingFinishedDetails' => null,
-            ],
-            'workOrderOffsetPrintingHeaders' => [
-                'workOrderOffsetPrintingDetails' => null,
-            ],
-            'workOrderPrepresses' => null,
-            'workOrderVarnishHeaders' => [
-                'workOrderVarnishSettingDetails' => null,
-                'workOrderVarnishProductionDetails' => null,
-            ],
-            'workOrderVarnishSpotHeaders' => [
-                'workOrderVarnishSpotSettingDetails' => null,
-                'workOrderVarnishSpotProductionDetails' => null,
-            ],
-            'masterOrderDistributionDetails' => null,
-            'masterOrderProductDetails' => null,
-            'masterOrderProcessDetails' => null,
-            'masterOrderCheckSheetDetails' => null,
-        ]);
+        $this->setupAssociations(MasterOrderHeader::class);
+        $this->setupAssociations(MasterOrderCheckSheetDetail::class);
+        $this->setupAssociations(MasterOrderDistributionDetail::class);
+        $this->setupAssociations(MasterOrderProcessDetail::class);
+        $this->setupAssociations(MasterOrderProductDetail::class);
+        $this->setupAssociations(MasterOrderPrototypeDetail::class);
     }
 }
