@@ -3,6 +3,9 @@
 namespace App\Sync\Stock;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Stock\InventoryReleaseMaterialDetail;
+use App\Entity\Stock\InventoryReleasePaperDetail;
+use App\Entity\Stock\InventoryReleaseHeader;
 
 class InventoryReleaseHeaderFormSync
 {
@@ -10,9 +13,8 @@ class InventoryReleaseHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'inventoryReleaseMaterialDetails' => null,
-            'inventoryReleasePaperDetails' => null,
-        ]);
+        $this->setupAssociations(InventoryReleaseHeader::class);
+        $this->setupAssociations(InventoryReleaseMaterialDetail::class);
+        $this->setupAssociations(InventoryReleasePaperDetail::class);
     }
 }

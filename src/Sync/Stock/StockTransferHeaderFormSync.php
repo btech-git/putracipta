@@ -3,6 +3,8 @@
 namespace App\Sync\Stock;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Stock\StockTransferDetail;
+use App\Entity\Stock\StockTransferHeader;
 
 class StockTransferHeaderFormSync
 {
@@ -10,10 +12,7 @@ class StockTransferHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'stockTransferMaterialDetails' => null,
-            'stockTransferPaperDetails' => null,
-            'stockTransferProductDetails' => null,
-        ]);
+        $this->setupAssociations(StockTransferHeader::class);
+        $this->setupAssociations(StockTransferDetail::class);
     }
 }

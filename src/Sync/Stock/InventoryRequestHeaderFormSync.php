@@ -3,6 +3,9 @@
 namespace App\Sync\Stock;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Stock\InventoryRequestMaterialDetail;
+use App\Entity\Stock\InventoryRequestPaperDetail;
+use App\Entity\Stock\InventoryRequestHeader;
 
 class InventoryRequestHeaderFormSync
 {
@@ -10,17 +13,8 @@ class InventoryRequestHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'inventoryRequestPaperDetails' => [
-                'inventoryReleasePaperDetails' => null,
-            ],
-            'inventoryRequestMaterialDetails' => [
-                'inventoryReleaseMaterialDetails' => null,
-            ],
-            'inventoryReleaseHeaders' => [
-                'inventoryReleaseMaterialDetails' => null,
-                'inventoryReleasePaperDetails' => null,
-            ],
-        ]);
+        $this->setupAssociations(InventoryRequestHeader::class);
+        $this->setupAssociations(InventoryRequestMaterialDetail::class);
+        $this->setupAssociations(InventoryRequestPaperDetail::class);
     }
 }
