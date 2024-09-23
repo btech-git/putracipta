@@ -179,6 +179,8 @@
         </div>
     </div>
        
+    <div class="d-inline-block">{{ include('purchase/purchase_request_header/_delete_form.html.twig') }}</div>
+    
     {#{{ include('purchase/purchase_request_header/_delete_form.html.twig') }}#}
     {% if (purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestHeader) or purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestHeader)) and is_granted('ROLE_APPROVAL') %}
         <div class="d-inline-block">{{ include('purchase/purchase_request_header/_reject_form.html.twig') }}</div>
