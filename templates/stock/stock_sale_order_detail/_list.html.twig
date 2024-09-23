@@ -17,11 +17,11 @@
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'saleOrderHeader:transactionDate') }}>
                     Tanggal PO {{ grid.sort_char(form.sort['saleOrderHeader:transactionDate'].vars.value) }}
                 </th>
-                <th style="min-width: 130px">
-                    Tanggal Kirim
+                <th style="min-width: 130px" role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
+                    Tanggal Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
                 </th>
-                <th style="min-width: 350px">
-                    Product
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'product:name') }}>
+                    Product {{ grid.sort_char(form.sort['product:name'].vars.value) }}
                 </th>
                 <th style="min-width: 100px">
                     Quantity
@@ -41,8 +41,12 @@
                 <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:transactionDate') }} value="{{ form.filter['saleOrderHeader:transactionDate'].1.vars.value }}" />
                 </th>
-                <th></th>
-                <th></th>
+                <th>
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
