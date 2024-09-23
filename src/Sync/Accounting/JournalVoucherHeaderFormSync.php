@@ -3,6 +3,8 @@
 namespace App\Sync\Accounting;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Accounting\JournalVoucherDetail;
+use App\Entity\Accounting\JournalVoucherHeader;
 
 class JournalVoucherHeaderFormSync
 {
@@ -10,8 +12,7 @@ class JournalVoucherHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'journalVoucherDetails' => null,
-        ]);
+        $this->setupAssociations(JournalVoucherHeader::class);
+        $this->setupAssociations(JournalVoucherDetail::class);
     }
 }

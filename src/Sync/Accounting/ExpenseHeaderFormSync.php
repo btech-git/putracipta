@@ -3,6 +3,8 @@
 namespace App\Sync\Accounting;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Accounting\ExpenseDetail;
+use App\Entity\Accounting\ExpenseHeader;
 
 class ExpenseHeaderFormSync
 {
@@ -10,8 +12,7 @@ class ExpenseHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'expenseDetails' => null,
-        ]);
+        $this->setupAssociations(ExpenseHeader::class);
+        $this->setupAssociations(ExpenseDetail::class);
     }
 }
