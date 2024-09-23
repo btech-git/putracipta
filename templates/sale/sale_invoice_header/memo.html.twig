@@ -52,31 +52,37 @@
                         <div class="row">
                             <div class="cell label">Email: pck_karindomas@yahoo.com</div>
                         </div>
-                        <div class="row">
+                        {#<div class="row">
                             <div class="cell label">Web: www.putraciptakarindomas.com</div>
-                        </div>
+                        </div>#}
                     </div>
                 </div>
             </div>
-            <br />
+            {#<br />
             <div class="header">
                 <h2 class="title">INVOICE</h2>
-            </div>
+            </div>#}
         </div>
-        
-        <hr />
         
         <div class="note">
             <div class="table full">
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label" style="min-width: 60px">Kepada:</div>
-                            <div class="cell value" style="max-width: 100px">{{ saleInvoiceHeader.customer.company|default }}</div>
+                            <div class="cell label" style="min-width: 60px">&nbsp;</div>
+                            <div class="cell value">{{ saleInvoiceHeader.customer.company|default }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label"></div>
+                            <div class="cell label">&nbsp;</div>
                             <div class="cell value">{{ attribute(saleInvoiceHeader.customer, 'addressTax' ~ saleInvoiceHeader.customerAddressTaxOrdinal)|default|nl2br }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">&nbsp;</div>
+                            <div class="cell value">&nbsp;</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">&nbsp;</div>
+                            <div class="cell value">&nbsp;</div>
                         </div>
                         <div class="row">
                             <div class="cell label">NPWP:</div>
@@ -85,10 +91,18 @@
                     </div>
                 </div>
                 <div class="cell col">
-                    <div class="table full">
+                        <div class="table full">
+                            <div class="row">
+                                <div class="cell label">&nbsp;</div>
+                                <div class="cell value">&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell label">&nbsp;</div>
+                                <div class="cell value">&nbsp;</div>
+                            </div>
                         <div class="row">
                             <div class="cell label" style="min-width: 130px">Invoice #</div>
-                            <div class="cell value" style="min-width: 100px">{{ saleInvoiceHeader.codeNumber|default }}</div>
+                            <div class="cell value" style="min-width: 150px">{{ saleInvoiceHeader.codeNumber|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">Tanggal Invoice</div>
@@ -99,7 +113,7 @@
                             <div class="cell value">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('d M Y') }}</div>
                         </div>
                         <div class="row">
-                            <div class="cell label">SJ #</div>
+                            <div class="cell label">Delivery #</div>
                             <div class="cell value">{{ saleInvoiceHeader.deliveryReferenceNumbers|default }}</div>
                         </div>
                     </div>
@@ -107,7 +121,7 @@
             </div>
         </div>
         
-        <br />
+        <br /><br />
         
         <table class="detail">
             <thead>
@@ -209,11 +223,11 @@
                     <td class="cell label">BCA KCU Wisma Asia</td>
                 </tr>
                 <tr>
-                    <td class="cell label">Catatan:</td>
+                    <td class="cell label"></td>
                     <td class="cell label">ACC: 0843330123</td>
                 </tr>
                 <tr>
-                    <td class="cell">{{ saleInvoiceHeader.note|default }}</td>
+                    <td class="cell"></td>
                     <td class="cell label">A/N: PT. Putracipta Karindomas</td>
                 </tr>
             </table>

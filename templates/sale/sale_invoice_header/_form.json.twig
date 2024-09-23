@@ -19,6 +19,7 @@
             "{{ saleInvoiceDetailForm.vars.name }}": {
                 "quantity": "{{ saleInvoiceDetail.quantity|default|number_format(0) }}",
                 "unitPrice": "{{ saleInvoiceDetail.unitPrice|default|number_format(6) }}",
+                "unitPriceBeforeTax": "{{ saleInvoiceDetail.unitPriceBeforeTax|default|number_format(6) }}",
                 "total": "{{ saleInvoiceDetail.total|default|number_format(2) }}"
             }
             {%- if not loop.last -%},{%- endif -%}
