@@ -131,6 +131,7 @@
                 <th>Qty Produksi</th>
                 <th>Stock</th>
                 <th>Kekurangan</th>
+                <th>Up/s (Mata)</th>
             </tr>
         </thead>
         <tbody>
@@ -150,6 +151,7 @@
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                    <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -160,6 +162,7 @@
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityProduction|default|number_format(0) }}</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityStock|default|number_format(0) }}</td>
                 <td style="text-align:right; font-weight: bold">{{ masterOrderHeader.totalQuantityShortage|default|number_format(0) }}</td>
+                <td></td>
             </tr>
         </tfoot>
     </table>
