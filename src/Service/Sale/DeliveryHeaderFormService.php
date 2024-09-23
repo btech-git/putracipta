@@ -65,7 +65,7 @@ class DeliveryHeaderFormService
         if ($deliveryHeader->getTransactionDate() !== null && $deliveryHeader->getId() === null) {
             $year = $deliveryHeader->getTransactionDate()->format('y');
             $month = $deliveryHeader->getTransactionDate()->format('m');
-            $lastDeliveryHeader = $this->deliveryHeaderRepository->findRecentBy($year, $month);
+            $lastDeliveryHeader = $this->deliveryHeaderRepository->findRecentBy($year);
             $currentDeliveryHeader = ($lastDeliveryHeader === null) ? $deliveryHeader : $lastDeliveryHeader;
             $deliveryHeader->setCodeNumberToNext($currentDeliveryHeader->getCodeNumber(), $year, $month);
         }

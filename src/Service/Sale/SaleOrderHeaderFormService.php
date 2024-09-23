@@ -14,6 +14,8 @@ use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Sale\SaleOrderHeaderFormSupport;
+use App\Sync\Sale\SaleOrderHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -21,6 +23,7 @@ class SaleOrderHeaderFormService
 {
     use SaleOrderHeaderFormSupport;
 
+    private SaleOrderHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
@@ -28,8 +31,9 @@ class SaleOrderHeaderFormService
     private SaleOrderDetailRepository $saleOrderDetailRepository;
     private InventoryRepository $inventoryRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, SaleOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -43,28 +47,48 @@ class SaleOrderHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($saleOrderHeader->getId())) {
-            $saleOrderHeader->setCreatedTransactionDateTime($datetime);
-            $saleOrderHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $saleOrderHeader->setIsCanceled(true);
+            $saleOrderHeader->setTransactionStatus(SaleOrderHeader::TRANSACTION_STATUS_CANCEL);
+            $saleOrderHeader->setCancelledTransactionDateTime($datetime);
+            $saleOrderHeader->setCancelledTransactionUser($user);
         } else {
-            $saleOrderHeader->setModifiedTransactionDateTime($datetime);
-            $saleOrderHeader->setModifiedTransactionUser($user);
+            if (empty($saleOrderHeader->getId())) {
+                $saleOrderHeader->setCreatedTransactionDateTime($datetime);
+                $saleOrderHeader->setCreatedTransactionUser($user);
+            } else {
+                $saleOrderHeader->setModifiedTransactionDateTime($datetime);
+                $saleOrderHeader->setModifiedTransactionUser($user);
+            }
+
+            $saleOrderHeader->setCodeNumberVersion($saleOrderHeader->getCodeNumberVersion() + 1);
         }
-        
-        $saleOrderHeader->setCodeNumberVersion($saleOrderHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(SaleOrderHeader $saleOrderHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $saleOrderHeader);
+        } else {
+            foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+                EntityResetUtil::reset($this->formSync, $saleOrderDetail);
+            }
+        }
+        
         if ($saleOrderHeader->getTransactionDate() !== null && $saleOrderHeader->getId() === null) {
             $year = $saleOrderHeader->getTransactionDate()->format('y');
             $month = $saleOrderHeader->getTransactionDate()->format('m');
-            $lastSaleOrderHeader = $this->saleOrderHeaderRepository->findRecentBy($year, $month);
+            $lastSaleOrderHeader = $this->saleOrderHeaderRepository->findRecentBy($year);
             $currentSaleOrderHeader = ($lastSaleOrderHeader === null) ? $saleOrderHeader : $lastSaleOrderHeader;
             $saleOrderHeader->setCodeNumberToNext($currentSaleOrderHeader->getCodeNumber(), $year, $month);
         }
         
-        $customer = $saleOrderHeader->getCustomer();
+        if ($saleOrderHeader->getTaxMode() !== $saleOrderHeader::TAX_MODE_NON_TAX) {
+            $saleOrderHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $saleOrderHeader->setTaxPercentage(0);
+        }
+        
         foreach ($saleOrderHeader->getSaleOrderDetails() as $i => $saleOrderDetail) {
             $saleOrderDetail->setIsCanceled($saleOrderDetail->getSyncIsCanceled());
             $saleOrderDetail->setRemainingQuantityDelivery($saleOrderDetail->getSyncRemainingDelivery());
@@ -94,12 +118,6 @@ class SaleOrderHeaderFormService
             }
         }
 
-        if ($saleOrderHeader->getTaxMode() !== $saleOrderHeader::TAX_MODE_NON_TAX) {
-            $saleOrderHeader->setTaxPercentage($options['vatPercentage']);
-        } else {
-            $saleOrderHeader->setTaxPercentage(0);
-        }
-        
         $saleOrderHeader->setTotalQuantity($saleOrderHeader->getSyncTotalQuantity());
         $saleOrderHeader->setSubTotal($saleOrderHeader->getSyncSubTotal());
         $saleOrderHeader->setTaxNominal($saleOrderHeader->getSyncTaxNominal());
@@ -120,11 +138,16 @@ class SaleOrderHeaderFormService
             foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
                 $this->saleOrderDetailRepository->add($saleOrderDetail);
             }
-            $this->entityManager->flush();
+            $entityManager->flush();
             $transactionLog = $this->buildTransactionLog($saleOrderHeader);
             $this->transactionLogRepository->add($transactionLog);
             $entityManager->flush();
         });
+    }
+
+    public function createSyncView(): array
+    {
+        return $this->formSync->getView();
     }
 
     public function uploadFile(SaleOrderHeader $saleOrderHeader, $transactionFile, $uploadDirectory): void

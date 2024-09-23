@@ -60,7 +60,7 @@ class SalePaymentHeaderFormService
         if ($salePaymentHeader->getTransactionDate() !== null && $salePaymentHeader->getId() === null) {
             $year = $salePaymentHeader->getTransactionDate()->format('y');
             $month = $salePaymentHeader->getTransactionDate()->format('m');
-            $lastSalePaymentHeader = $this->salePaymentHeaderRepository->findRecentBy($year, $month);
+            $lastSalePaymentHeader = $this->salePaymentHeaderRepository->findRecentBy($year);
             $currentSalePaymentHeader = ($lastSalePaymentHeader === null) ? $salePaymentHeader : $lastSalePaymentHeader;
             $salePaymentHeader->setCodeNumberToNext($currentSalePaymentHeader->getCodeNumber(), $year, $month);
 

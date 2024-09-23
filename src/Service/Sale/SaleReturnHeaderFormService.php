@@ -62,7 +62,7 @@ class SaleReturnHeaderFormService {
         if ($saleReturnHeader->getTransactionDate() !== null && $saleReturnHeader->getId() === null) {
             $year = $saleReturnHeader->getTransactionDate()->format('y');
             $month = $saleReturnHeader->getTransactionDate()->format('m');
-            $lastSaleReturnHeader = $this->saleReturnHeaderRepository->findRecentBy($year, $month);
+            $lastSaleReturnHeader = $this->saleReturnHeaderRepository->findRecentBy($year);
             $currentSaleReturnHeader = ($lastSaleReturnHeader === null) ? $saleReturnHeader : $lastSaleReturnHeader;
             $saleReturnHeader->setCodeNumberToNext($currentSaleReturnHeader->getCodeNumber(), $year, $month);
         }

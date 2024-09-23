@@ -53,7 +53,7 @@ class SaleInvoiceHeaderFormService
         if ($saleInvoiceHeader->getTransactionDate() !== null && $saleInvoiceHeader->getId() === null) {
             $year = $saleInvoiceHeader->getTransactionDate()->format('y');
             $month = $saleInvoiceHeader->getTransactionDate()->format('m');
-            $lastSaleInvoiceHeader = $this->saleInvoiceHeaderRepository->findRecentBy($year, $month);
+            $lastSaleInvoiceHeader = $this->saleInvoiceHeaderRepository->findRecentBy($year);
             $currentSaleInvoiceHeader = ($lastSaleInvoiceHeader === null) ? $saleInvoiceHeader : $lastSaleInvoiceHeader;
             $saleInvoiceHeader->setCodeNumberToNext($currentSaleInvoiceHeader->getCodeNumber(), $year, $month);
 
@@ -61,6 +61,13 @@ class SaleInvoiceHeaderFormService
         $customer = $saleInvoiceHeader->getCustomer();
         $saleInvoiceHeader->setDueDate($saleInvoiceHeader->getSyncDueDate());
         $saleInvoiceHeader->setCustomerTaxNumber($customer === null ? '' : $customer->getTaxNumber());
+        
+        if ($saleInvoiceHeader->getTaxMode() !== $saleInvoiceHeader::TAX_MODE_NON_TAX) {
+            $saleInvoiceHeader->setTaxPercentage($options['vatPercentage']);
+        } else {
+            $saleInvoiceHeader->setTaxPercentage(0);
+        }
+        
         foreach ($saleInvoiceHeader->getSaleInvoiceDetails() as $saleInvoiceDetail) {
             $deliveryDetail = $saleInvoiceDetail->getDeliveryDetail();
             $deliveryHeader = $deliveryDetail->getDeliveryHeader();
@@ -73,14 +80,10 @@ class SaleInvoiceHeaderFormService
             $saleInvoiceDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
             $saleInvoiceDetail->setUnit($deliveryDetail === null ? null : $deliveryDetail->getUnit());
             $saleInvoiceDetail->setReturnAmount($deliveryDetail->getSyncTotalReturn());
+            $saleInvoiceDetail->setUnitPriceBeforeTax($saleInvoiceDetail->getSyncUnitPriceBeforeTax());
         }
         $saleInvoiceHeader->setSubTotal($saleInvoiceHeader->getSyncSubTotal());
         $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
-        if ($saleInvoiceHeader->getTaxMode() !== $saleInvoiceHeader::TAX_MODE_NON_TAX) {
-            $saleInvoiceHeader->setTaxPercentage($options['vatPercentage']);
-        } else {
-            $saleInvoiceHeader->setTaxPercentage(0);
-        }
         $saleInvoiceHeader->setTaxNominal($saleInvoiceHeader->getSyncTaxNominal());
 //        if ($saleInvoiceHeader->getServiceTaxMode() !== $saleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX) {
 //            $saleInvoiceHeader->setServiceTaxPercentage($options['serviceTaxPercentage']);
