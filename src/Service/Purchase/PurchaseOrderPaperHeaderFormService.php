@@ -13,6 +13,8 @@ use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\PurchaseOrderPaperHeaderFormSupport;
+use App\Sync\Purchase\PurchaseOrderPaperHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -20,14 +22,16 @@ class PurchaseOrderPaperHeaderFormService
 {
     use PurchaseOrderPaperHeaderFormSupport;
 
+    private PurchaseOrderPaperHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private IdempotentRepository $idempotentRepository;
     private TransactionLogRepository $transactionLogRepository;
     private PurchaseOrderPaperHeaderRepository $purchaseOrderPaperHeaderRepository;
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, PurchaseOrderPaperHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -40,19 +44,34 @@ class PurchaseOrderPaperHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($purchaseOrderPaperHeader->getId())) {
-            $purchaseOrderPaperHeader->setCreatedTransactionDateTime($datetime);
-            $purchaseOrderPaperHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $purchaseOrderPaperHeader->setIsCanceled(true);
+            $purchaseOrderPaperHeader->setTransactionStatus(PurchaseOrderPaperHeader::TRANSACTION_STATUS_CANCEL);
+            $purchaseOrderPaperHeader->setCancelledTransactionDateTime($datetime);
+            $purchaseOrderPaperHeader->setCancelledTransactionUser($user);
         } else {
-            $purchaseOrderPaperHeader->setModifiedTransactionDateTime($datetime);
-            $purchaseOrderPaperHeader->setModifiedTransactionUser($user);
+            if (empty($purchaseOrderPaperHeader->getId())) {
+                $purchaseOrderPaperHeader->setCreatedTransactionDateTime($datetime);
+                $purchaseOrderPaperHeader->setCreatedTransactionUser($user);
+            } else {
+                $purchaseOrderPaperHeader->setModifiedTransactionDateTime($datetime);
+                $purchaseOrderPaperHeader->setModifiedTransactionUser($user);
+            }
+            
+            $purchaseOrderPaperHeader->setCodeNumberVersion($purchaseOrderPaperHeader->getCodeNumberVersion() + 1);
         }
-        
-        $purchaseOrderPaperHeader->setCodeNumberVersion($purchaseOrderPaperHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseOrderPaperHeader $purchaseOrderPaperHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $purchaseOrderPaperHeader);
+        } else {
+            foreach ($purchaseOrderPaperHeader->getPurchaseOrderPaperDetails() as $purchaseOrderPaperDetail) {
+                EntityResetUtil::reset($this->formSync, $purchaseOrderPaperDetail);
+            }
+        }
+        
         if ($purchaseOrderPaperHeader->getTransactionDate() !== null && $purchaseOrderPaperHeader->getId() === null) {
             $year = $purchaseOrderPaperHeader->getTransactionDate()->format('y');
             $month = $purchaseOrderPaperHeader->getTransactionDate()->format('m');
@@ -129,6 +148,11 @@ class PurchaseOrderPaperHeaderFormService
             $this->transactionLogRepository->add($transactionLog);
             $entityManager->flush();
         });
+    }
+    
+    public function createSyncView(): array
+    {
+        return $this->formSync->getView();
     }
 
     public function copyFrom(PurchaseOrderPaperHeader $sourcePurchaseOrderPaperHeader): PurchaseOrderPaperHeader

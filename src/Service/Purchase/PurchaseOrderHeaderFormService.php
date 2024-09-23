@@ -45,6 +45,7 @@ class PurchaseOrderHeaderFormService
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
         if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $purchaseOrderHeader->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_CANCEL);
             $purchaseOrderHeader->setIsCanceled(true);
             $purchaseOrderHeader->setCancelledTransactionDateTime($datetime);
             $purchaseOrderHeader->setCancelledTransactionUser($user);

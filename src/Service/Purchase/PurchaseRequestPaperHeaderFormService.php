@@ -12,6 +12,8 @@ use App\Repository\Purchase\PurchaseRequestPaperHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\PurchaseRequestPaperHeaderFormSupport;
+use App\Sync\Purchase\PurchaseRequestPaperHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,14 +21,16 @@ class PurchaseRequestPaperHeaderFormService
 {
     use PurchaseRequestPaperHeaderFormSupport;
     
+    private PurchaseRequestPaperHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchaseRequestPaperHeaderRepository $purchaseRequestPaperHeaderRepository;
     private PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, PurchaseRequestPaperHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -39,19 +43,34 @@ class PurchaseRequestPaperHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($purchaseRequestPaperHeader->getId())) {
-            $purchaseRequestPaperHeader->setCreatedTransactionDateTime($datetime);
-            $purchaseRequestPaperHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $purchaseRequestPaperHeader->setIsCanceled(true);
+            $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_CANCEL);
+            $purchaseRequestPaperHeader->setCancelledTransactionDateTime($datetime);
+            $purchaseRequestPaperHeader->setCancelledTransactionUser($user);
         } else {
-            $purchaseRequestPaperHeader->setModifiedTransactionDateTime($datetime);
-            $purchaseRequestPaperHeader->setModifiedTransactionUser($user);
+            if (empty($purchaseRequestPaperHeader->getId())) {
+                $purchaseRequestPaperHeader->setCreatedTransactionDateTime($datetime);
+                $purchaseRequestPaperHeader->setCreatedTransactionUser($user);
+            } else {
+                $purchaseRequestPaperHeader->setModifiedTransactionDateTime($datetime);
+                $purchaseRequestPaperHeader->setModifiedTransactionUser($user);
+            }
+
+            $purchaseRequestPaperHeader->setCodeNumberVersion($purchaseRequestPaperHeader->getCodeNumberVersion() + 1);
         }
-        
-        $purchaseRequestPaperHeader->setCodeNumberVersion($purchaseRequestPaperHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseRequestPaperHeader $purchaseRequestPaperHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $purchaseRequestPaperHeader);
+        } else {
+            foreach ($purchaseRequestPaperHeader->getPurchaseRequestPaperDetails() as $purchaseRequestPaperDetail) {
+                EntityResetUtil::reset($this->formSync, $purchaseRequestPaperDetail);
+            }
+        }
+        
         if ($purchaseRequestPaperHeader->getTransactionDate() !== null && $purchaseRequestPaperHeader->getId() === null) {
             $year = $purchaseRequestPaperHeader->getTransactionDate()->format('y');
             $month = $purchaseRequestPaperHeader->getTransactionDate()->format('m');
@@ -91,5 +110,10 @@ class PurchaseRequestPaperHeaderFormService
             $this->transactionLogRepository->add($transactionLog);
             $entityManager->flush();
         });
+    }
+    
+    public function createSyncView(): array
+    {
+        return $this->formSync->getView();
     }
 }

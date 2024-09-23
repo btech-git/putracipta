@@ -12,6 +12,8 @@ use App\Repository\Purchase\PurchaseRequestHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\PurchaseRequestHeaderFormSupport;
+use App\Sync\Purchase\PurchaseRequestHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,14 +21,16 @@ class PurchaseRequestHeaderFormService
 {
     use PurchaseRequestHeaderFormSupport;
     
+    private PurchaseRequestHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchaseRequestHeaderRepository $purchaseRequestHeaderRepository;
     private PurchaseRequestDetailRepository $purchaseRequestDetailRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, PurchaseRequestHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -39,19 +43,35 @@ class PurchaseRequestHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($purchaseRequestHeader->getId())) {
-            $purchaseRequestHeader->setCreatedTransactionDateTime($datetime);
-            $purchaseRequestHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $purchaseRequestHeader->setIsCanceled(true);
+            $purchaseRequestHeader->setTransactionStatus(PurchaseRequestHeader::TRANSACTION_STATUS_CANCEL);
+            $purchaseRequestHeader->setCancelledTransactionDateTime($datetime);
+            $purchaseRequestHeader->setCancelledTransactionUser($user);
         } else {
-            $purchaseRequestHeader->setModifiedTransactionDateTime($datetime);
-            $purchaseRequestHeader->setModifiedTransactionUser($user);
+            if (empty($purchaseRequestHeader->getId())) {
+                $purchaseRequestHeader->setCreatedTransactionDateTime($datetime);
+                $purchaseRequestHeader->setCreatedTransactionUser($user);
+            } else {
+                $purchaseRequestHeader->setModifiedTransactionDateTime($datetime);
+                $purchaseRequestHeader->setModifiedTransactionUser($user);
+            }
+
+            $purchaseRequestHeader->setCodeNumberVersion($purchaseRequestHeader->getCodeNumberVersion() + 1);
         }
         
-        $purchaseRequestHeader->setCodeNumberVersion($purchaseRequestHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseRequestHeader $purchaseRequestHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $purchaseRequestHeader);
+        } else {
+            foreach ($purchaseRequestHeader->getPurchaseRequestDetails() as $purchaseRequestDetail) {
+                EntityResetUtil::reset($this->formSync, $purchaseRequestDetail);
+            }
+        }
+        
         if ($purchaseRequestHeader->getTransactionDate() !== null && $purchaseRequestHeader->getId() === null) {
             $year = $purchaseRequestHeader->getTransactionDate()->format('y');
             $month = $purchaseRequestHeader->getTransactionDate()->format('m');
@@ -91,5 +111,10 @@ class PurchaseRequestHeaderFormService
             $this->transactionLogRepository->add($transactionLog);
             $entityManager->flush();
         });
+    }
+    
+    public function createSyncView(): array
+    {
+        return $this->formSync->getView();
     }
 }
