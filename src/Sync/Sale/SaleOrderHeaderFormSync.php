@@ -3,6 +3,8 @@
 namespace App\Sync\Sale;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Sale\SaleOrderDetail;
+use App\Entity\Sale\SaleOrderHeader;
 
 class SaleOrderHeaderFormSync
 {
@@ -10,14 +12,7 @@ class SaleOrderHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'saleOrderDetails' => [
-                'deliveryDetails' => [
-                    'saleReturnDetails' => null,
-                    'saleInvoiceDetails' => null,
-                ],
-                'masterOrderProductDetails' => null,
-            ],
-        ]);
+        $this->setupAssociations(SaleOrderHeader::class);
+        $this->setupAssociations(SaleOrderDetail::class);
     }
 }

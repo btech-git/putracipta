@@ -3,6 +3,8 @@
 namespace App\Sync\Sale;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Sale\SalePaymentDetail;
+use App\Entity\Sale\SalePaymentHeader;
 
 class SalePaymentHeaderFormSync
 {
@@ -10,8 +12,7 @@ class SalePaymentHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'salePaymentDetails' => null,
-        ]);
+        $this->setupAssociations(SalePaymentHeader::class);
+        $this->setupAssociations(SalePaymentDetail::class);
     }
 }

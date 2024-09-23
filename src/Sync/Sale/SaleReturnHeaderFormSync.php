@@ -3,6 +3,8 @@
 namespace App\Sync\Sale;
 
 use App\Common\Sync\EntitySyncScan;
+use App\Entity\Sale\SaleReturnDetail;
+use App\Entity\Sale\SaleReturnHeader;
 
 class SaleReturnHeaderFormSync
 {
@@ -10,8 +12,7 @@ class SaleReturnHeaderFormSync
 
     public function __construct()
     {
-        $this->setupRelations([
-            'saleReturnDetails' => null,
-        ]);
+        $this->setupAssociations(SaleReturnHeader::class);
+        $this->setupAssociations(SaleReturnDetail::class);
     }
 }
