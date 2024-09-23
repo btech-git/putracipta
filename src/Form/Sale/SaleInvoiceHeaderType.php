@@ -39,8 +39,9 @@ class SaleInvoiceHeaderType extends AbstractType
             ]])
             ->add('discountValue')
             ->add('taxMode', ChoiceType::class, ['choices' => [
-                '0%' => SaleInvoiceHeader::TAX_MODE_NON_TAX,
-                "{$vatPercentage}%" => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
+                'Non PPn' => SaleInvoiceHeader::TAX_MODE_NON_TAX,
+                'Exclude PPn' => SaleInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
+                'Include PPn' => SaleInvoiceHeader::TAX_MODE_TAX_INCLUSION,
             ]])
 //            ->add('serviceTaxMode', ChoiceType::class, ['choices' => [
 //                '0.00%' => SaleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX,
