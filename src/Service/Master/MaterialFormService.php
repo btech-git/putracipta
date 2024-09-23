@@ -34,6 +34,7 @@ class MaterialFormService
             $currentMaterial = ($lastMaterial === null) ? $material : $lastMaterial;
             $material->setCodeOrdinalToNext($currentMaterial->getCodeOrdinal());
         }
+        $material->setCode($material->getCodeNumber());
     }
     
     public function save(Material $material, array $options = []): void
