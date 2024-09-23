@@ -181,11 +181,19 @@ class SaleOrderHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_sale_sale_order_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_SALE_ORDER_EDIT')]
-    public function delete(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    public function delete(Request $request, SaleOrderHeader $saleOrderHeader, SaleOrderHeaderFormService $saleOrderHeaderFormService, LiteralConfigRepository $literalConfigRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
-            $saleOrderHeaderRepository->remove($saleOrderHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $saleOrderHeader->getId(), $request->request->get('_token'))) {
+            $form = $this->createForm(SaleOrderHeaderType::class, $saleOrderHeader);
+            $form->handleRequest($request);
+            $saleOrderHeaderFormService->initialize($saleOrderHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $saleOrderHeaderFormService->finalize($saleOrderHeader, ['cancelTransaction' => true, 'vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'), 'transactionFile' => $form->get('transactionFile')->getData()]);
+            $saleOrderHeaderFormService->save($saleOrderHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
