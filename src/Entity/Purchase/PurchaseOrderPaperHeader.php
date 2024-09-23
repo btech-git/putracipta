@@ -31,6 +31,7 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     public const TRANSACTION_STATUS_REJECT = 'reject';
     public const TRANSACTION_STATUS_PARTIAL_RECEIVE = 'partial_receive';
     public const TRANSACTION_STATUS_FULL_RECEIVE = 'full_receive';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

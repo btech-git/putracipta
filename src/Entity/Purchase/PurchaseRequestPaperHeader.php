@@ -22,6 +22,7 @@ class PurchaseRequestPaperHeader extends PurchaseHeader
     public const TRANSACTION_STATUS_RELEASE = 'release';
     public const TRANSACTION_STATUS_APPROVE = 'approve';
     public const TRANSACTION_STATUS_REJECT = 'reject';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
