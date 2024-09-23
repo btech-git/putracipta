@@ -26,6 +26,7 @@ class StockSaleOrderDetailController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+            $qb->innerJoin("{$alias}.product", 'p');
             $qb->innerJoin("{$alias}.saleOrderHeader", 'h');
             $qb->innerJoin("h.customer", 'c');
             $qb->addOrderBy("{$alias}.deliveryDate", 'DESC');
@@ -40,6 +41,10 @@ class StockSaleOrderDetailController extends AbstractController
             if (isset($request->request->get('stock_sale_order_detail_grid')['filter']['customer:company']) && isset($request->request->get('stock_sale_order_detail_grid')['sort']['customer:company'])) {
                 $add['filter']($qb, 'c', 'company', $request->request->get('stock_sale_order_detail_grid')['filter']['customer:company']);
                 $add['sort']($qb, 'c', 'company', $request->request->get('stock_sale_order_detail_grid')['sort']['customer:company']);
+            }
+            if (isset($request->request->get('stock_sale_order_detail_grid')['filter']['product:name']) && isset($request->request->get('stock_sale_order_detail_grid')['sort']['product:name'])) {
+                $add['filter']($qb, 'p', 'name', $request->request->get('stock_sale_order_detail_grid')['filter']['product:name']);
+                $add['sort']($qb, 'p', 'name', $request->request->get('stock_sale_order_detail_grid')['sort']['product:name']);
             }
         });
 
