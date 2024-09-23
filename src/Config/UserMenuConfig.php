@@ -41,15 +41,15 @@ class UserMenuConfig
             ],
             'MENU_REPORT_WAREHOUSE_MATERIAL' => [
                 'MENU_REPORT_PURCHASE_REQUEST_MATERIAL', 'MENU_REPORT_PURCHASE_REQUEST_PAPER', 'MENU_REPORT_PURCHASE_RECEIVE', 'MENU_REPORT_PURCHASE_RETURN', 
-                'MENU_REPORT_ADJUSTMENT_STOCK', 'MENU_REPORT_MATERIAL_RELEASE', 'MENU_REPORT_STOCK_TRANSFER', 'MENU_REPORT_INVENTORY_STOCK_MATERIAL', 
-                'MENU_REPORT_INVENTORY_STOCK_SUMMARY_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_PAPER', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PAPER'
+                'MENU_REPORT_ADJUSTMENT_STOCK', 'MENU_REPORT_INVENTORY_RELEASE_MATERIAL', 'MENU_REPORT_INVENTORY_RELEASE_PAPER', 'MENU_REPORT_STOCK_TRANSFER', 
+                'MENU_REPORT_INVENTORY_STOCK_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_PAPER', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PAPER'
             ],
             'MENU_REPORT_WAREHOUSE_FINISHED_GOODS' => [
                 'MENU_REPORT_SALE_DELIVERY', 'MENU_REPORT_SALE_RETURN', 'MENU_REPORT_PRODUCTION_RECEIVE', 'MENU_REPORT_PRODUCT_INVENTORY_RECEIVE', 
                 'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PRODUCT'
             ],
             'MENU_REPORT_PRODUCTION' => ['MENU_REPORT_NEW_PRODUCT', 'MENU_REPORT_DEVELOPMENT_PRODUCT', 'MENU_REPORT_MASTER_ORDER', 'MENU_REPORT_QUALITY_CONTROL_SORTING', 
-                'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE', 'MENU_REPORT_MATERIAL_REQUEST'
+                'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE', 'MENU_REPORT_INVENTORY_REQUEST_MATERIAL', 'MENU_REPORT_INVENTORY_REQUEST_PAPER'
             ],
             'MENU_REPORT_FINANCE' => ['MENU_REPORT_DEPOSIT', 'MENU_REPORT_EXPENSE', 'MENU_REPORT_ACCOUNT_RECEIVABLE', 'MENU_REPORT_ACCOUNT_PAYABLE', 
                 'MENU_REPORT_SALE_INVOICE', 'MENU_REPORT_SALE_PAYMENT', 'MENU_REPORT_PURCHASE_INVOICE', 'MENU_REPORT_PURCHASE_PAYMENT'
@@ -132,8 +132,10 @@ class UserMenuConfig
             'MENU_REPORT_PURCHASE_RECEIVE' => ['route' => 'app_report_receive_header_index', 'pattern' => '/^app_report_receive_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
             'MENU_REPORT_PURCHASE_RETURN' => ['route' => 'app_report_purchase_return_header_index', 'pattern' => '/^app_report_purchase_return_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
             'MENU_REPORT_ADJUSTMENT_STOCK' => ['route' => 'app_report_adjustment_stock_header_index', 'pattern' => '/^app_report_adjustment_stock_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
-            'MENU_REPORT_MATERIAL_REQUEST' => ['route' => 'app_report_inventory_request_header_index', 'pattern' => '/^app_report_inventory_request_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
-            'MENU_REPORT_MATERIAL_RELEASE' => ['route' => 'app_report_inventory_release_header_index', 'pattern' => '/^app_report_inventory_release_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
+            'MENU_REPORT_INVENTORY_REQUEST_MATERIAL' => ['route' => 'app_report_inventory_request_material_detail_index', 'pattern' => '/^app_report_inventory_request_material_detail_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
+            'MENU_REPORT_INVENTORY_REQUEST_PAPER' => ['route' => 'app_report_inventory_request_paper_detail_index', 'pattern' => '/^app_report_inventory_request_paper_detail_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
+            'MENU_REPORT_INVENTORY_RELEASE_MATERIAL' => ['route' => 'app_report_inventory_release_material_detail_index', 'pattern' => '/^app_report_inventory_release_material_detail_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
+            'MENU_REPORT_INVENTORY_RELEASE_PAPER' => ['route' => 'app_report_inventory_release_paper_detail_index', 'pattern' => '/^app_report_inventory_release_paper_detail_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
             'MENU_REPORT_STOCK_TRANSFER' => ['route' => 'app_report_stock_transfer_header_index', 'pattern' => '/^app_report_stock_transfer_header_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
             'MENU_REPORT_INVENTORY_STOCK_MATERIAL' => ['route' => 'app_report_inventory_stock_material_index', 'pattern' => '/^app_report_inventory_stock_material.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
             'MENU_REPORT_INVENTORY_STOCK_SUMMARY_MATERIAL' => ['route' => 'app_report_inventory_stock_summary_material_index', 'pattern' => '/^app_report_inventory_stock_summary_material_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
