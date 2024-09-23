@@ -22,32 +22,38 @@ class StockSaleOrderDetailGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company'],
+                'field_names' => ['saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'deliveryDate', 'product:name'],
                 'field_label_list' => [
                     'saleOrderHeader:referenceNumber' => 'PO #',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'product:name' => 'Product'
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'deliveryDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
+                    'product:name' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_options_list' => [
                     'saleOrderHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'customer:company', 'saleOrderHeader:referenceNumber'],
+                'field_names' => ['saleOrderHeader:transactionDate', 'customer:company', 'saleOrderHeader:referenceNumber', 'deliveryDate', 'product:name'],
                 'field_label_list' => [
                     'saleOrderHeader:referenceNumber' => 'PO #',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
+                    'product:name' => 'Product'
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:referenceNumber' => [SortAscending::class, SortDescending::class],
+                    'product:name' => [SortAscending::class, SortDescending::class],
+                    'deliveryDate' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
