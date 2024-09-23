@@ -20,6 +20,7 @@ class SaleInvoiceHeader extends SaleHeader
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
+    public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const SERVICE_TAX_MODE_NON_TAX = 'non_service_tax';
     public const SERVICE_TAX_MODE_TAX = 'service_tax';
     public const TRANSACTION_STATUS_INVOICING = 'invoicing';

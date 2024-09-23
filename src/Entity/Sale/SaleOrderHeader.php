@@ -33,6 +33,7 @@ class SaleOrderHeader extends SaleHeader
     public const TRANSACTION_STATUS_RELEASE = 'release';
     public const TRANSACTION_STATUS_PARTIAL_DELIVERY = 'partial_delivery';
     public const TRANSACTION_STATUS_FULL_DELIVERY = 'full_delivery';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
     public const TRANSACTION_TYPE_PRODUCTION = 'production';
     public const TRANSACTION_TYPE_INTERNAL = 'internal';
 
@@ -166,8 +167,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSyncTaxNominal(): string
     {
-        $taxNominal = $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
-        return $taxNominal;
+        return $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
     }
 
     public function getSyncSubTotal(): string

@@ -45,15 +45,26 @@ class SaleInvoiceDetail extends SaleDetail
     #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $unitPriceBeforeTax = '0.00';
+
     public function getSyncIsCanceled(): bool
     {
         $isCanceled = $this->saleInvoiceHeader->isIsCanceled() ? true : $this->isCanceled;
         return $isCanceled;
     }
 
+    public function getSyncUnitPriceBeforeTax(): string
+    {
+        return $this->saleInvoiceHeader->getTaxMode() === $this->saleInvoiceHeader::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + $this->saleInvoiceHeader->getTaxPercentage() / 100), 2) : $this->unitPrice;
+    }
+
     public function getTotal(): string
     {
-        return $this->quantity * $this->unitPrice;
+        if ($this->saleInvoiceHeader === null) {
+            return '0.00';
+        }
+        return $this->saleInvoiceHeader->getTaxMode() === $this->saleInvoiceHeader::TAX_MODE_TAX_INCLUSION ? round($this->quantity * $this->unitPrice / (1 + $this->saleInvoiceHeader->getTaxPercentage() / 100), 2) : $this->quantity * $this->unitPrice;
     }
 
     public function getId(): ?int
@@ -141,6 +152,18 @@ class SaleInvoiceDetail extends SaleDetail
     public function setQuantity(string $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getUnitPriceBeforeTax(): ?string
+    {
+        return $this->unitPriceBeforeTax;
+    }
+
+    public function setUnitPriceBeforeTax(string $unitPriceBeforeTax): self
+    {
+        $this->unitPriceBeforeTax = $unitPriceBeforeTax;
 
         return $this;
     }
