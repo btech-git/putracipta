@@ -31,6 +31,10 @@ class InventoryReleaseMaterialDetailController extends AbstractController
             $qb->innerJoin("{$alias}.inventoryReleaseHeader", 'h');
             $qb->innerJoin("{$alias}.material", 'm');
             
+            if (isset($request->request->get('inventory_release_material_detail_grid')['filter']['inventoryReleaseHeader:transactionDate']) && isset($request->request->get('inventory_release_material_detail_grid')['sort']['inventoryReleaseHeader:transactionDate'])) {
+                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('inventory_release_material_detail_grid')['filter']['inventoryReleaseHeader:transactionDate']);
+                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('inventory_release_material_detail_grid')['sort']['inventoryReleaseHeader:transactionDate']);
+            }
             if (isset($request->request->get('inventory_release_material_detail_grid')['filter']['inventoryReleaseHeader:warehouse']) && isset($request->request->get('inventory_release_material_detail_grid')['sort']['inventoryReleaseHeader:warehouse'])) {
                 $add['filter']($qb, 'h', 'warehouse', $request->request->get('inventory_release_material_detail_grid')['filter']['inventoryReleaseHeader:warehouse']);
                 $add['sort']($qb, 'h', 'warehouse', $request->request->get('inventory_release_material_detail_grid')['sort']['inventoryReleaseHeader:warehouse']);
