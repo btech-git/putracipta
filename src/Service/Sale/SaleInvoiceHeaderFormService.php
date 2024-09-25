@@ -102,7 +102,7 @@ class SaleInvoiceHeaderFormService
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
             $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
-            $deliveryReferenceNumberList[] = $deliveryHeader->getCodeNumberMemo();
+            $deliveryReferenceNumberList[] = $deliveryHeader->getCodeNumber();
         }
         $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
         $saleInvoiceHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
