@@ -26,17 +26,17 @@ class MaterialGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['name', 'codeOrdinal', 'materialSubCategory', 'materialSubCategory:materialCategory', 'isInactive'],
+                'field_names' => ['name', 'code', 'materialSubCategory', 'materialSubCategory:materialCategory', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
-                    'codeOrdinal' => 'Code',
+                    'code' => 'Code',
                     'materialSubCategory:materialCategory' => 'Category',
                     'materialSubCategory' => 'Sub Category',
                     'isInactive' => 'Inactive',
                 ],
                 'field_operators_list' => [
                     'name' => [FilterContain::class, FilterNotContain::class],
-                    'codeOrdinal' => [FilterContain::class, FilterNotContain::class],
+                    'code' => [FilterContain::class, FilterNotContain::class],
                     'materialSubCategory:materialCategory' => [FilterEqual::class, FilterNotEqual::class],
                     'materialSubCategory' => [FilterEqual::class, FilterNotEqual::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
@@ -70,17 +70,17 @@ class MaterialGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['name', 'codeOrdinal', 'materialCategory:name', 'materialSubCategory:name', 'isInactive'],
+                'field_names' => ['name', 'code', 'materialCategory:name', 'materialSubCategory:name', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
-                    'codeOrdinal' => 'Code',
+                    'code' => 'Code',
                     'materialCategory:name' => 'Category',
                     'materialSubCategory:name' => 'Sub Category',
                     'isInactive' => 'Inactive',
                 ],
                 'field_operators_list' => [
                     'name' => [SortAscending::class, SortDescending::class],
-                    'codeOrdinal' => [SortAscending::class, SortDescending::class],
+                    'code' => [SortAscending::class, SortDescending::class],
                     'materialCategory:name' => [SortAscending::class, SortDescending::class],
                     'materialSubCategory:name' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
