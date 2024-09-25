@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="memo">
-        <div class="header" style="visibility: hidden">
+        <div class="header">
             <h1 class="title">PT. Putracipta Karindomas</h1>
             <h3 class="title">Kawasan Industri Millenium</h3>
             <h3 class="title">Jl. Millenium 15A Blok I2 no. 5, Tangerang</h3>
@@ -185,6 +185,7 @@
                     <div>PO created by: {{ purchaseOrderHeader.createdTransactionUser.name|default }}</div>
                     <div>&nbsp;&nbsp;</div>
                     <div><img id="signature" width="128px" alt="Signature Image" src="{{ asset('images/purchasing.jpg') }}"></div>
+                    <div class="blank">Albert AM</div>
                 </div>
             </div>
         </div>
