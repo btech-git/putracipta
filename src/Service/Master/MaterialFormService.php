@@ -27,14 +27,16 @@ class MaterialFormService
 
     public function finalize(Material $material, array $options = []): void
     {
-        $oldMaterialSubCategory = $options['oldMaterialSubCategory'];
-        $materialSubCategory = $material->getMaterialSubCategory();
-        if ($oldMaterialSubCategory === null || $oldMaterialSubCategory->getId() !== $materialSubCategory->getId()) {
-            $lastMaterial = $this->materialRepository->findRecentBy($materialSubCategory);
-            $currentMaterial = ($lastMaterial === null) ? $material : $lastMaterial;
-            $material->setCodeOrdinalToNext($currentMaterial->getCodeOrdinal());
+        if (!empty($material->getMaterialSubCategory())) {
+            $oldMaterialSubCategory = $options['oldMaterialSubCategory'];
+            $materialSubCategory = $material->getMaterialSubCategory();
+            if ($oldMaterialSubCategory === null || $oldMaterialSubCategory->getId() !== $materialSubCategory->getId()) {
+                $lastMaterial = $this->materialRepository->findRecentBy($materialSubCategory);
+                $currentMaterial = ($lastMaterial === null) ? $material : $lastMaterial;
+                $material->setCodeOrdinalToNext($currentMaterial->getCodeOrdinal());
+            }
+            $material->setCode($material->getCodeNumber());
         }
-        $material->setCode($material->getCodeNumber());
     }
     
     public function save(Material $material, array $options = []): void
