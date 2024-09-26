@@ -18,12 +18,12 @@ class PurchaseReturnHeaderRepository extends ServiceEntityRepository
         parent::__construct($registry, PurchaseReturnHeader::class);
     }
 
-    public function findRecentBy($year, $month)
+    public function findRecentBy($year)
     {
-        $dql = 'SELECT e FROM ' . PurchaseReturnHeader::class . ' e WHERE e.codeNumberMonth = :codeNumberMonth AND e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
+        $dql = 'SELECT e FROM ' . PurchaseReturnHeader::class . ' e WHERE e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('codeNumberMonth', $month);
+//        $query->setParameter('codeNumberMonth', $month);
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
         $lastPurchaseReturnHeader = $query->getOneOrNullResult();
