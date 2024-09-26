@@ -3,16 +3,29 @@
     <div class="col border border-secondary rounded">
         <table class="table table-sm table-bordered table-striped" id="work-order-distribution-table" data-controller="data-table">
             <tbody>
+                {% set workOrderDistributionIds = designCode.designCodeDistributionDetails|filter(designCodeDistributionDetail => designCodeDistributionDetail.id is not null)|slice(0)|map(designCodeDistributionDetail => designCodeDistributionDetail.workOrderDistribution.id) %}
                 {% for workOrderDistribution in workOrderDistributions %}
-                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderDistributionId': workOrderDistribution.id, 'workOrderDistributionName': workOrderDistribution.name}|json_encode }}">
-                        <td>{{ workOrderDistribution.name }}</td>
-                    </tr>
+                    {% if workOrderDistribution.id in workOrderDistributionIds %}
+                        <tr role="button"
+                            data-controller="dom-element"
+                            data-action="click->dom-element#bind"
+                            data-dom-element-bind-specifications-param="{{ [
+                                {'destinationsTarget': '#design-code-distribution-detail-form-collection tr[data-item-identifier-value="' ~ workOrderDistribution.id ~ '"] input[type=checkbox]', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'false'}},
+                                {'destinationsTarget': '#design-code-distribution-detail-form-collection tr[data-item-identifier-value="' ~ workOrderDistribution.id ~ '"]', 'action': 'removeClass', 'descriptor': {'name': 'd-none'}},
+                            ]|json_encode }}">
+                            <td>{{ workOrderDistribution.name }}</td>
+                        </tr>
+                    {% else %}
+                        <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderDistributionId': workOrderDistribution.id, 'workOrderDistributionName': workOrderDistribution.name}|json_encode }}">
+                            <td>{{ workOrderDistribution.name }}</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
     </div>
     <div class="col border border-secondary rounded">
-        <table class="table table-bordered"
+        <table class="table table-bordered" id="design-code-distribution-detail-form-collection"
                data-controller="form-collection"
                data-form-collection-start-index-value="{{ form.designCodeDistributionDetails|length > 0 ? form.designCodeDistributionDetails|last.vars.name + 1 : 0 }}"
                data-form-collection-prototype-value="{{ _self.distribution_collection_item(form.designCodeDistributionDetails.vars.prototype, form)|e('html_attr') }}">

@@ -3,6 +3,24 @@
     <div class="col border border-secondary rounded">
         <table class="table table-sm table-bordered table-striped" id="work-order-check-sheet-table" data-controller="data-table">
             <tbody>
+                {% set workOrderCheckSheetIds = designCode.designCodeCheckSheetDetails|filter(designCodeCheckSheetDetail => designCodeCheckSheetDetail.id is not null)|slice(0)|map(designCodeCheckSheetDetail => designCodeCheckSheetDetail.workOrderCheckSheet.id) %}
+                {% for workOrderCheckSheet in workOrderCheckSheets %}
+                    {% if workOrderCheckSheet.id in workOrderCheckSheetIds %}
+                        <tr role="button"
+                            data-controller="dom-element"
+                            data-action="click->dom-element#bind"
+                            data-dom-element-bind-specifications-param="{{ [
+                                {'destinationsTarget': '#design-code-check-sheet-detail-form-collection tr[data-item-identifier-value="' ~ workOrderCheckSheet.id ~ '"] input[type=checkbox]', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'false'}},
+                                {'destinationsTarget': '#design-code-check-sheet-detail-form-collection tr[data-item-identifier-value="' ~ workOrderCheckSheet.id ~ '"]', 'action': 'removeClass', 'descriptor': {'name': 'd-none'}},
+                            ]|json_encode }}">
+                            <td>{{ workOrderCheckSheet.name }}</td>
+                        </tr>
+                    {% else %}
+                        <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderCheckSheetId': workOrderCheckSheet.id, 'workOrderCheckSheetName': workOrderCheckSheet.name}|json_encode }}">
+                            <td>{{ workOrderCheckSheet.name }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
                 {% for workOrderCheckSheet in workOrderCheckSheets %}
                     <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderCheckSheetId': workOrderCheckSheet.id, 'workOrderCheckSheetName': workOrderCheckSheet.name}|json_encode }}">
                         <td>{{ workOrderCheckSheet.name }}</td>
@@ -12,7 +30,7 @@
         </table>
     </div>
     <div class="col border border-secondary rounded">
-        <table class="table table-bordered"
+        <table class="table table-bordered" id="design-code-check-sheet-detail-form-collection"
                data-controller="form-collection"
                data-form-collection-start-index-value="{{ form.designCodeCheckSheetDetails|length > 0 ? form.designCodeCheckSheetDetails|last.vars.name + 1 : 0 }}"
                data-form-collection-prototype-value="{{ _self.check_sheet_collection_item(form.designCodeCheckSheetDetails.vars.prototype, form)|e('html_attr') }}">
