@@ -90,6 +90,10 @@ class Product extends Master
     public function getProductLengthWidthHeightCombination() {
         return $this->length . " x " . $this->width . " x " . $this->height;
     }
+    
+    public function getCodeAndName() {
+        return $this->code . ' - ' . $this->name;
+    }
 
     public function getId(): ?int
     {
