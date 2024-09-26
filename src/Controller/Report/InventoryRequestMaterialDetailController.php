@@ -30,6 +30,7 @@ class InventoryRequestMaterialDetailController extends AbstractController
         list($count, $inventoryRequestMaterialDetails) = $inventoryRequestMaterialDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->innerJoin("{$alias}.inventoryRequestHeader", 'h');
             $qb->innerJoin("{$alias}.material", 'm');
+            $qb->andWhere("{$alias}.isCanceled = false");
             
             if (isset($request->request->get('inventory_request_material_detail_grid')['filter']['inventoryRequestHeader:warehouse']) && isset($request->request->get('inventory_request_material_detail_grid')['sort']['inventoryRequestHeader:warehouse'])) {
                 $add['filter']($qb, 'h', 'warehouse', $request->request->get('inventory_request_material_detail_grid')['filter']['inventoryRequestHeader:warehouse']);

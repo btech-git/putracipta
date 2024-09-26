@@ -36,7 +36,7 @@ class SupplierPurchaseOrderPaperController extends AbstractController
 
         list($count, $suppliers) = $supplierRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT s.id FROM " . PurchaseOrderPaperHeader::class . " s WHERE {$alias} = s.supplier AND s.transactionDate BETWEEN :startDate AND :endDate)");
+            $qb->andWhere("EXISTS (SELECT s.id FROM " . PurchaseOrderPaperHeader::class . " s WHERE {$alias} = s.supplier AND s.isCanceled = false AND s.transactionDate BETWEEN :startDate AND :endDate)");
             $qb->setParameter('startDate', $criteria->getFilter()['purchaseOrderPaperHeader:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['purchaseOrderPaperHeader:transactionDate'][2]);
             $qb->addOrderBy("{$alias}.id", 'ASC');

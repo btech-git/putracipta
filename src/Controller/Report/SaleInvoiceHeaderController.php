@@ -38,6 +38,7 @@ class SaleInvoiceHeaderController extends AbstractController
                 $add['filter']($qb, 's', 'company', $request->request->get('sale_invoice_header_grid')['filter']['customer:company']);
                 $add['sort']($qb, 's', 'company', $request->request->get('sale_invoice_header_grid')['sort']['customer:company']);
             }
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

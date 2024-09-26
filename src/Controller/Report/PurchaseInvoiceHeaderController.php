@@ -38,6 +38,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
                 $add['filter']($qb, 's', 'company', $request->request->get('purchase_invoice_header_grid')['filter']['supplier:company']);
                 $add['sort']($qb, 's', 'company', $request->request->get('purchase_invoice_header_grid')['sort']['supplier:company']);
             }
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

@@ -34,6 +34,7 @@ class CustomerReceivableSummaryController extends AbstractController
 
         list($count, $saleInvoiceHeaders) = $saleInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.remainingPayment > 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

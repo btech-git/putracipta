@@ -30,6 +30,7 @@ class InventoryReleaseMaterialDetailController extends AbstractController
         list($count, $inventoryReleaseMaterialDetails) = $inventoryReleaseMaterialDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
             $qb->innerJoin("{$alias}.inventoryReleaseHeader", 'h');
             $qb->innerJoin("{$alias}.material", 'm');
+            $qb->andWhere("{$alias}.isCanceled = false");
             
             if (isset($request->request->get('inventory_release_material_detail_grid')['filter']['inventoryReleaseHeader:transactionDate']) && isset($request->request->get('inventory_release_material_detail_grid')['sort']['inventoryReleaseHeader:transactionDate'])) {
                 $add['filter']($qb, 'h', 'transactionDate', $request->request->get('inventory_release_material_detail_grid')['filter']['inventoryReleaseHeader:transactionDate']);

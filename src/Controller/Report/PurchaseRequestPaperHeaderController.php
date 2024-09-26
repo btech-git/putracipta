@@ -38,6 +38,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
                 $add['filter']($qb, 'w', 'name', $request->request->get('purchase_request_paper_header_grid')['filter']['warehouse:name']);
                 $add['sort']($qb, 'w', 'name', $request->request->get('purchase_request_paper_header_grid')['sort']['warehouse:name']);
             }
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

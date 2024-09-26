@@ -34,6 +34,7 @@ class SupplierPayableSummaryController extends AbstractController
 
         list($count, $purchaseInvoiceHeaders) = $purchaseInvoiceHeaderRepository->fetchData($criteria, function($qb, $alias) {
             $qb->andWhere("{$alias}.remainingPayment > 0");
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

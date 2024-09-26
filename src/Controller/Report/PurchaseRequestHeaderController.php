@@ -37,6 +37,7 @@ class PurchaseRequestHeaderController extends AbstractController
                 $qb->innerJoin("{$alias}.warehouse", 'w');
                 $add['sort']($qb, 'w', 'name', $request->request->get('purchase_request_header_grid')['sort']['warehouse:name']);
             }
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

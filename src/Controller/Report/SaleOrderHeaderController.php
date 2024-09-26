@@ -39,6 +39,7 @@ class SaleOrderHeaderController extends AbstractController
                 $add['sort']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['sort']['customer:company']);
             }
             $qb->addOrderBy("{$alias}.orderReceiveDate", 'ASC');
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

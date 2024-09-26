@@ -37,7 +37,7 @@ class ProductInventoryReceiveController extends AbstractController
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT d.id FROM " . InventoryProductReceiveDetail::class . " d INNER JOIN " . InventoryProductReceiveHeader::class . " h WHERE {$alias} = d.product AND h.transactionDate BETWEEN :startDate AND :endDate)");
+            $qb->andWhere("EXISTS (SELECT d.id FROM " . InventoryProductReceiveDetail::class . " d INNER JOIN " . InventoryProductReceiveHeader::class . " h WHERE {$alias} = d.product AND h.isCanceled = false AND h.transactionDate BETWEEN :startDate AND :endDate)");
             $qb->setParameter('startDate', $criteria->getFilter()['inventoryProductReceiveHeader:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['inventoryProductReceiveHeader:transactionDate'][2]);
             $qb->addOrderBy("{$alias}.name", 'ASC');

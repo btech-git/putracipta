@@ -36,7 +36,7 @@ class SupplierPurchaseOrderMaterialController extends AbstractController
 
         list($count, $suppliers) = $supplierRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT s.id FROM " . PurchaseOrderHeader::class . " s WHERE {$alias} = s.supplier AND s.transactionDate BETWEEN :startDate AND :endDate)");
+            $qb->andWhere("EXISTS (SELECT s.id FROM " . PurchaseOrderHeader::class . " s WHERE {$alias} = s.supplier AND s.isCanceled = false AND s.transactionDate BETWEEN :startDate AND :endDate)");
             $qb->setParameter('startDate', $criteria->getFilter()['purchaseOrderHeader:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['purchaseOrderHeader:transactionDate'][2]);
             $qb->addOrderBy("{$alias}.id", 'ASC');

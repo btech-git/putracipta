@@ -44,6 +44,7 @@ class SaleOrderSummaryController extends AbstractController
                 $add['sort']($qb, 'm', 'name', $request->request->get('sale_order_header_grid')['sort']['employee:name']);
             }
             $qb->addOrderBy("{$alias}.orderReceiveDate", 'ASC');
+            $qb->andWhere("{$alias}.isCanceled = false");
         });
 
         if ($request->request->has('export')) {

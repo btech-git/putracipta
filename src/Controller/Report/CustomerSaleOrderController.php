@@ -36,7 +36,7 @@ class CustomerSaleOrderController extends AbstractController
 
         list($count, $customers) = $customerRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT s.id FROM " . SaleOrderHeader::class . " s WHERE {$alias} = s.customer AND s.orderReceiveDate BETWEEN :startDate AND :endDate)");
+            $qb->andWhere("EXISTS (SELECT s.id FROM " . SaleOrderHeader::class . " s WHERE {$alias} = s.customer AND s.isCanceled = false AND s.orderReceiveDate BETWEEN :startDate AND :endDate)");
             $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2]);
             $qb->addOrderBy("{$alias}.id", 'ASC');
