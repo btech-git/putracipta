@@ -4,12 +4,64 @@
 
 {% block body %}
     <div class="memo">
-        <div class="header">
-            <h1 class="title">PT. Putracipta Karindomas</h1>
-            <h3 class="title">Kawasan Industri Millenium</h3>
-            <h3 class="title">Jl. Millenium 15A Blok I2 no. 5, Tangerang</h3>
+        <div class="note" style="font-size: 10px">
+            <div class="table full">
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label"><img src="{{ asset('images/Logo.jpg') }}" alt="logo" max-height="300px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label" style="color: blue; font-size: 14px">PT. Putracipta Karindomas</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Millenium 15A, Kawasan Industri Millenium I2 No. 05</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Peusar, Panongan</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Kab. Tangerang Banten</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">NPWP: 01.539.872.0-452.001</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell col">
+                    <div class="table full">
+                        <div class="row">
+                            <div class="cell label">Factory: Kawasan Industri Millenium</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Jl. Millenium 15A Blok I2 No. 5 Pos 12</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Cikupa - Tigaraksa - Tangerang</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Banten 15710 - Indonesia</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Tel. (62-21) 2915 9191 Fax. (62-21) 2915 9194</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell label">Email: pck_karindomas@yahoo.com</div>
+                        </div>
+                        {#<div class="row">
+                            <div class="cell label">Web: www.putraciptakarindomas.com</div>
+                        </div>#}
+                    </div>
+                </div>
+            </div>
             <br />
-            <h2 class="title">PURCHASE ORDER</h2>
+            <div class="header">
+                <h1 class="title">PURCHASE ORDER</h1>
+            </div>
         </div>
         
         <br /><hr />
@@ -79,7 +131,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% set rowspan = 25 %}
+                {% set rowspan = 20 %}
                 {% for row in purchaseOrderHeader.purchaseOrderDetails|filter(purchaseOrderDetail => not purchaseOrderDetail.isCanceled and purchaseOrderDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for purchaseOrderDetail in row %}
                         <tr>
@@ -163,15 +215,15 @@
                     <td>1. Pada waktu penagihan, PO ini harus dilampirkan</td>
                 </tr>
                 <tr>
-                    <td>01.539.872.0-452.001</td>
+                    <td>01.539.872.0-036.000</td>
                     <td>2. Barang-barang yang rusak-susut atau tidak memenuhi yang tidak ditentukan, tidak dibayar</td>
                 </tr>
                 <tr>
-                    <td>Kawasan Industri Millenium</td>
+                    <td>Jl. Millenium 15A Kawasan Industri Millenium Blok I2 no. 5</td>
                     <td>3. Pengiriman barang lebih dari yang ditentukan akan ditolak</td>
                 </tr>
                 <tr>
-                    <td>Jl. Millenium 15A Blok I2 no. 5, Tangerang</td>
+                    <td>Peusar, Panongan</td>
                     <td>4. PO ini tidak membutuhkan tanda tangan.</td>
                 </tr>
             </table>
