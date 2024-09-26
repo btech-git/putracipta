@@ -100,6 +100,9 @@ class SaleOrderDetail extends SaleDetail
     #[Assert\Type('numeric')]
     private ?string $remainingQuantityDelivery = '0.00';
 
+    #[ORM\Column(length: 100)]
+    private ?string $deliveryDateAlternate = '';
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -469,6 +472,18 @@ class SaleOrderDetail extends SaleDetail
     public function setRemainingQuantityDelivery(string $remainingQuantityDelivery): self
     {
         $this->remainingQuantityDelivery = $remainingQuantityDelivery;
+
+        return $this;
+    }
+
+    public function getDeliveryDateAlternate(): ?string
+    {
+        return $this->deliveryDateAlternate;
+    }
+
+    public function setDeliveryDateAlternate(string $deliveryDateAlternate): self
+    {
+        $this->deliveryDateAlternate = $deliveryDateAlternate;
 
         return $this;
     }
