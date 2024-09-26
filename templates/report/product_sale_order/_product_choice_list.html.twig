@@ -10,6 +10,6 @@
         data-event-emitter-trigger-event-type-param="change">
     <option value="" {% if productId == '' %}selected="selected"{% endif %}></option>
     {% for product in products %}
-        <option value="{{ product.id }}" {% if productId == product.id %}selected="selected"{% endif %}>{{ product.name }}</option>
+        <option value="{{ product.id }}" {% if productId == product.id %}selected="selected"{% endif %}>{{ product.codeAndName }}</option>
     {% endfor %}
 </select>
