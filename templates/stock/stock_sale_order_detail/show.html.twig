@@ -27,6 +27,10 @@
                 <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
+                <th>Tanggal Kirim Perubahan</th>
+                <td>{{ saleOrderDetail.deliveryDateAlternate|default }}</td>
+            </tr>
+            <tr>
                 <th>Product</th>
                 <td>{{ saleOrderDetail.product.name|default }}</td>
             </tr>

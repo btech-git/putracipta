@@ -8,7 +8,7 @@
         <fieldset class="border border-secondary rounded mb-3 p-3">
             <div class="row">
                 <div class="col">
-                    {{ form_row(form.deliveryDate, {'label': 'Tanggal Kirim', 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+                    {{ form_row(form.deliveryDateAlternate, {'label': 'Tanggal Kirim Perubahan'}) }}
                 </div>
             </div>
         </fieldset>
@@ -29,8 +29,16 @@
                         <label class="form-label">Tanggal PO</label>
                         <input type="text" class="form-control" value="{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : ''  }}" readonly="readonly" />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Kirim</label>
+                        <input type="text" class="form-control" value="{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : ''  }}" readonly="readonly" />
+                    </div>
                 </div>
                 <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Code</label>
+                        <input type="text" class="form-control" value="{{ saleOrderDetail.product.code|default }}" readonly="readonly" />
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Product</label>
                         <input type="text" class="form-control" value="{{ saleOrderDetail.product.name|default }}" readonly="readonly" />
@@ -40,7 +48,7 @@
                         <input type="text" class="form-control" value="{{ saleOrderDetail.quantity|default|number_format(2) }}" readonly="readonly" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Product</label>
+                        <label class="form-label">Satuan</label>
                         <input type="text" class="form-control" value="{{ saleOrderDetail.unit.name|default }}" readonly="readonly" />
                     </div>
                 </div>
