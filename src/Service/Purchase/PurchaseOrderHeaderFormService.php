@@ -75,7 +75,7 @@ class PurchaseOrderHeaderFormService
         if ($purchaseOrderHeader->getTransactionDate() !== null && $purchaseOrderHeader->getId() === null) {
             $year = $purchaseOrderHeader->getTransactionDate()->format('y');
             $month = $purchaseOrderHeader->getTransactionDate()->format('m');
-            $lastPurchaseOrderHeader = $this->purchaseOrderHeaderRepository->findRecentBy($year, $month);
+            $lastPurchaseOrderHeader = $this->purchaseOrderHeaderRepository->findRecentBy($year);
             $currentPurchaseOrderHeader = ($lastPurchaseOrderHeader === null) ? $purchaseOrderHeader : $lastPurchaseOrderHeader;
             $purchaseOrderHeader->setCodeNumberToNext($currentPurchaseOrderHeader->getCodeNumber(), $year, $month);
 

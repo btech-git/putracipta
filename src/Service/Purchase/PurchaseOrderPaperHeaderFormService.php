@@ -75,7 +75,7 @@ class PurchaseOrderPaperHeaderFormService
         if ($purchaseOrderPaperHeader->getTransactionDate() !== null && $purchaseOrderPaperHeader->getId() === null) {
             $year = $purchaseOrderPaperHeader->getTransactionDate()->format('y');
             $month = $purchaseOrderPaperHeader->getTransactionDate()->format('m');
-            $lastPurchaseOrderPaperHeader = $this->purchaseOrderPaperHeaderRepository->findRecentBy($year, $month);
+            $lastPurchaseOrderPaperHeader = $this->purchaseOrderPaperHeaderRepository->findRecentBy($year);
             $currentPurchaseOrderPaperHeader = ($lastPurchaseOrderPaperHeader === null) ? $purchaseOrderPaperHeader : $lastPurchaseOrderPaperHeader;
             $purchaseOrderPaperHeader->setCodeNumberToNext($currentPurchaseOrderPaperHeader->getCodeNumber(), $year, $month);
 

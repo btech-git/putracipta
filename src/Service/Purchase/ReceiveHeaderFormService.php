@@ -75,7 +75,7 @@ class ReceiveHeaderFormService
         if ($receiveHeader->getTransactionDate() !== null && $receiveHeader->getId() === null) {
             $year = $receiveHeader->getTransactionDate()->format('y');
             $month = $receiveHeader->getTransactionDate()->format('m');
-            $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year, $month);
+            $lastReceiveHeader = $this->receiveHeaderRepository->findRecentBy($year);
             $currentReceiveHeader = ($lastReceiveHeader === null) ? $receiveHeader : $lastReceiveHeader;
             $receiveHeader->setCodeNumberToNext($currentReceiveHeader->getCodeNumber(), $year, $month);
 

@@ -57,7 +57,7 @@ class PurchasePaymentHeaderFormService
         if ($purchasePaymentHeader->getTransactionDate() !== null && $purchasePaymentHeader->getId() === null) {
             $year = $purchasePaymentHeader->getTransactionDate()->format('y');
             $month = $purchasePaymentHeader->getTransactionDate()->format('m');
-            $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year, $month);
+            $lastPurchasePaymentHeader = $this->purchasePaymentHeaderRepository->findRecentBy($year);
             $currentPurchasePaymentHeader = ($lastPurchasePaymentHeader === null) ? $purchasePaymentHeader : $lastPurchasePaymentHeader;
             $purchasePaymentHeader->setCodeNumberToNext($currentPurchasePaymentHeader->getCodeNumber(), $year, $month);
 

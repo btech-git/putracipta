@@ -71,7 +71,7 @@ class PurchaseReturnHeaderFormService
         if ($purchaseReturnHeader->getTransactionDate() !== null && $purchaseReturnHeader->getId() === null) {
             $year = $purchaseReturnHeader->getTransactionDate()->format('y');
             $month = $purchaseReturnHeader->getTransactionDate()->format('m');
-            $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year, $month);
+            $lastPurchaseReturnHeader = $this->purchaseReturnHeaderRepository->findRecentBy($year);
             $currentPurchaseReturnHeader = ($lastPurchaseReturnHeader === null) ? $purchaseReturnHeader : $lastPurchaseReturnHeader;
             $purchaseReturnHeader->setCodeNumberToNext($currentPurchaseReturnHeader->getCodeNumber(), $year, $month);
 
