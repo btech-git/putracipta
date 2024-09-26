@@ -31,6 +31,7 @@ class PurchaseRequestDetailController extends AbstractController
             $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("h.transactionStatus = 'Approve'");
+            $qb->addOrderBy('h.transactionDate', 'DESC');
             
             if (isset($request->request->get('purchase_request_detail_grid')['filter']['material:name']) && isset($request->request->get('purchase_request_detail_grid')['sort']['material:name'])) {
                 $qb->innerJoin("{$alias}.material", 'm');
