@@ -3,10 +3,12 @@
 namespace App\Controller\Stock;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Form\Stock\StockSaleOrderDetailType;
 use App\Grid\Stock\StockSaleOrderDetailGridType;
 use App\Repository\Sale\SaleOrderDetailRepository;
+use App\Repository\Stock\InventoryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +21,13 @@ class StockSaleOrderDetailController extends AbstractController
 {
     #[Route('/_list', name: 'app_stock_stock_sale_order_detail__list', methods: ['GET', 'POST'])]
 //    #[Security("is_granted('ROLE_SALE_ORDER_ADD') or is_granted('ROLE_SALE_ORDER_EDIT') or is_granted('ROLE_SALE_ORDER_VIEW') or is_granted('ROLE_APPROVAL')")]
-    public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository): Response
+    public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'deliveryDate' => SortDescending::class,
+            'id' => SortDescending::class,
+        ]);
         $form = $this->createForm(StockSaleOrderDetailGridType::class, $criteria);
         $form->handleRequest($request);
 
@@ -29,7 +35,6 @@ class StockSaleOrderDetailController extends AbstractController
             $qb->innerJoin("{$alias}.product", 'p');
             $qb->innerJoin("{$alias}.saleOrderHeader", 'h');
             $qb->innerJoin("h.customer", 'c');
-            $qb->addOrderBy("{$alias}.deliveryDate", 'DESC');
             if (isset($request->request->get('stock_sale_order_detail_grid')['filter']['saleOrderHeader:transactionDate']) && isset($request->request->get('stock_sale_order_detail_grid')['sort']['saleOrderHeader:transactionDate'])) {
                 $add['filter']($qb, 'h', 'transactionDate', $request->request->get('stock_sale_order_detail_grid')['filter']['saleOrderHeader:transactionDate']);
                 $add['sort']($qb, 'h', 'transactionDate', $request->request->get('stock_sale_order_detail_grid')['sort']['saleOrderHeader:transactionDate']);
@@ -52,6 +57,7 @@ class StockSaleOrderDetailController extends AbstractController
             'form' => $form,
             'count' => $count,
             'saleOrderDetails' => $saleOrderDetails,
+            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository),
         ]);
     }
 
@@ -88,5 +94,14 @@ class StockSaleOrderDetailController extends AbstractController
             'saleOrderDetail' => $saleOrderDetail,
             'form' => $form,
         ]);
+    }
+    
+    public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository): array
+    {
+        $products = array_map(fn($saleOrderDetail) => $saleOrderDetail->getProduct(), $saleOrderDetails);
+        $stockQuantityList = $inventoryRepository->getAllWarehouseProductStockQuantityList($products);
+        $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+        
+        return $stockQuantityListIndexed;
     }
 }
