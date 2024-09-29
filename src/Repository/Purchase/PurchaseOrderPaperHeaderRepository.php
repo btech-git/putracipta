@@ -18,12 +18,12 @@ class PurchaseOrderPaperHeaderRepository extends ServiceEntityRepository
         parent::__construct($registry, PurchaseOrderPaperHeader::class);
     }
 
-    public function findRecentBy($year, $month)
+    public function findRecentBy($year)
     {
         $dql = 'SELECT e FROM ' . PurchaseOrderPaperHeader::class . ' e WHERE e.codeNumberYear = :codeNumberYear ORDER BY e.codeNumberOrdinal DESC';
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('codeNumberMonth');
+//        $query->setParameter('codeNumberMonth');
         $query->setParameter('codeNumberYear', $year);
         $query->setMaxResults(1);
         $lastPurchaseOrderPaperHeader = $query->getOneOrNullResult();

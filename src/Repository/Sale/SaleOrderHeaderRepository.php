@@ -35,8 +35,8 @@ class SaleOrderHeaderRepository extends ServiceEntityRepository
     {
         $dql = "SELECT e
                 FROM " . SaleOrderHeader::class . " e
-                WHERE e.customer IN (:customers) AND e.transactionDate BETWEEN :startDate AND :endDate
-                ORDER BY e.customer ASC, e.transactionDate ASC";
+                WHERE e.customer IN (:customers) AND e.isCanceled = false AND e.orderReceiveDate BETWEEN :startDate AND :endDate
+                ORDER BY e.customer ASC, e.orderReceiveDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('customers', $customers);
@@ -52,8 +52,8 @@ class SaleOrderHeaderRepository extends ServiceEntityRepository
         $dql = "SELECT e
                 FROM " . SaleOrderHeader::class . " e
                 INNER JOIN " . SaleOrderDetail::class . " d ON e.id = d.saleOrderHeader
-                WHERE d.product IN (:products) AND e.transactionDate BETWEEN :startDate AND :endDate
-                ORDER BY d.product ASC, e.transactionDate ASC";
+                WHERE d.product IN (:products) AND e.isCanceled = false AND e.orderReceiveDate BETWEEN :startDate AND :endDate
+                ORDER BY d.product ASC, e.orderReceiveDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('products', $products);

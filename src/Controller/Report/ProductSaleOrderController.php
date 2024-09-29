@@ -57,7 +57,7 @@ class ProductSaleOrderController extends AbstractController
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d INNER JOIN " . SaleOrderHeader::class . " h WHERE {$alias} = d.product AND h.orderReceiveDate BETWEEN :startDate AND :endDate)");
+            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d INNER JOIN " . SaleOrderHeader::class . " h WHERE {$alias} = d.product AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate)");
             $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2]);
             $qb->addOrderBy("{$alias}.name", 'ASC');

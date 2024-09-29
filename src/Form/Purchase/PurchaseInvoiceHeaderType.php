@@ -17,11 +17,11 @@ class PurchaseInvoiceHeaderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('invoiceTaxCodeNumber')
+//            ->add('invoiceTaxCodeNumber')
             ->add('supplierInvoiceCodeNumber')
             ->add('transactionDate', FormattedDateType::class)
             ->add('invoiceReceivedDate', FormattedDateType::class)
-            ->add('invoiceTaxDate', FormattedDateType::class)
+//            ->add('invoiceTaxDate', FormattedDateType::class)
             ->add('note')
             ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
             ->add('purchaseInvoiceDetails', CollectionType::class, [
