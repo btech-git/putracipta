@@ -33,7 +33,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
                 $qb->innerJoin("m.customer", 'c');
                 $add['filter']($qb, 'c', 'company', $criteria->getFilter()['customer:company']);
             }
-            $qb->andWhere("{$alias}.isInactive = false");            
+            $qb->andWhere("{$alias}.isCanceled = false");            
         });
 
         return $this->renderForm("report/inventory_product_receive_header/_list.html.twig", [
