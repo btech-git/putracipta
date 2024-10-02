@@ -4,7 +4,7 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_index') }}">Manage</a>
-    {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') %}
+    {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_EDIT') and purchaseRequestPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_CANCEL', purchaseRequestPaperHeader) and purchaseRequestPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestPaperHeader) %}
         <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_edit', {'id': purchaseRequestPaperHeader.id}) }}">Edit</a>
     {% endif %}
     {% if is_granted('ROLE_PURCHASE_REQUEST_PAPER_ADD') %}
@@ -63,6 +63,12 @@
                 <tr>
                     <th>Reject Note</th>
                     <td>{{ purchaseRequestPaperHeader.rejectNote|default }}</td>
+                </tr>
+            {% endif %}
+            {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_CANCEL', purchaseRequestPaperHeader)  %}
+                <tr>
+                    <th>Cancel Note</th>
+                    <td>{{ purchaseRequestPaperHeader.cancelNote|default }}</td>
                 </tr>
             {% endif %}
         </tbody>
@@ -177,7 +183,9 @@
         </div>
     </div>
        
-    <div class="d-inline-block">{{ include('purchase/purchase_request_paper_header/_delete_form.html.twig') }}</div>
+    {% if purchaseRequestPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_CANCEL', purchaseRequestPaperHeader) and purchaseRequestPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestPaperHeader) %}
+        <div class="d-inline-block">{{ include('purchase/purchase_request_paper_header/_delete_form.html.twig') }}</div>
+    {% endif %}
     
     {#{{ include('purchase/purchase_request_paper_header/_delete_form.html.twig') }}#}
     {% if (purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestPaperHeader) or purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestPaperHeader)) and is_granted('ROLE_APPROVAL') %}
@@ -185,7 +193,7 @@
         <div class="d-inline-block">{{ include('purchase/purchase_request_paper_header/_approve_form.html.twig') }}</div>
     {% endif %}
     
-    {% if purchaseRequestPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestPaperHeader) and purchaseRequestPaperHeader.transactionStatus != constant('TRANSACTION_STATUS_APPROVE', purchaseRequestPaperHeader) %}
+    {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestPaperHeader) %}
         {% if purchaseRequestPaperHeader.isOnHold == false %}
             <div class="d-inline-block">{{ include('purchase/purchase_request_paper_header/_hold_form.html.twig') }}</div>
         {% else %}
@@ -193,5 +201,7 @@
         {% endif %}
     {% endif %}
     
-    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_memo', {'id': purchaseRequestPaperHeader.id}) }}">Print Request</a></div>
+    {% if purchaseRequestPaperHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseRequestPaperHeader) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_request_paper_header_memo', {'id': purchaseRequestPaperHeader.id}) }}">Print Request</a></div>
+    {% endif %}
 {% endblock %}

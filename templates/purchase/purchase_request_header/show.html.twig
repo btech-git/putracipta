@@ -4,11 +4,11 @@
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_purchase_purchase_request_header_index') }}">Manage</a>
-    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') %}
-    <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_header_edit', {'id': purchaseRequestHeader.id}) }}">Edit</a>
+    {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT') and purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_CANCEL', purchaseRequestHeader) and purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestHeader) %}
+        <a class="btn btn-warning btn-sm" href="{{ path('app_purchase_purchase_request_header_edit', {'id': purchaseRequestHeader.id}) }}">Edit</a>
     {% endif %}
     {% if is_granted('ROLE_PURCHASE_REQUEST_MATERIAL_ADD') %}
-    <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_header_new') }}">Add</a>
+        <a class="btn btn-success btn-sm" href="{{ path('app_purchase_purchase_request_header_new') }}">Add</a>
     {% endif %}
 {% endblock %}
 
@@ -63,6 +63,12 @@
                 <tr>
                     <th>Reject Note</th>
                     <td>{{ purchaseRequestHeader.rejectNote|default }}</td>
+                </tr>
+            {% endif %}
+            {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_CANCEL', purchaseRequestHeader)  %}
+                <tr>
+                    <th>Cancel Note</th>
+                    <td>{{ purchaseRequestHeader.cancelNote|default }}</td>
                 </tr>
             {% endif %}
         </tbody>
@@ -179,7 +185,9 @@
         </div>
     </div>
        
-    <div class="d-inline-block">{{ include('purchase/purchase_request_header/_delete_form.html.twig') }}</div>
+    {% if purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_CANCEL', purchaseRequestHeader) and purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestHeader) %}
+        <div class="d-inline-block">{{ include('purchase/purchase_request_header/_delete_form.html.twig') }}</div>
+    {% endif %}
     
     {#{{ include('purchase/purchase_request_header/_delete_form.html.twig') }}#}
     {% if (purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestHeader) or purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', purchaseRequestHeader)) and is_granted('ROLE_APPROVAL') %}
@@ -187,7 +195,7 @@
         <div class="d-inline-block">{{ include('purchase/purchase_request_header/_approve_form.html.twig') }}</div>
     {% endif %}
     
-    {% if purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_REJECT', purchaseRequestHeader) and purchaseRequestHeader.transactionStatus != constant('TRANSACTION_STATUS_APPROVE', purchaseRequestHeader) %}
+    {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', purchaseRequestHeader) %}
         {% if purchaseRequestHeader.isOnHold == false %}
             <div class="d-inline-block">{{ include('purchase/purchase_request_header/_hold_form.html.twig') }}</div>
         {% else %}
@@ -195,5 +203,7 @@
         {% endif %}
     {% endif %}
     
-    <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_request_header_memo', {'id': purchaseRequestHeader.id}) }}">Print Request</a></div>
+    {% if purchaseRequestHeader.transactionStatus == constant('TRANSACTION_STATUS_APPROVE', purchaseRequestHeader) %}
+        <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_request_header_memo', {'id': purchaseRequestHeader.id}) }}">Print Request</a></div>
+    {% endif %}
 {% endblock %}
