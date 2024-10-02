@@ -199,7 +199,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     {
         $success = false;
         if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $purchaseRequestPaperHeader->getId(), $request->request->get('_token'))) {
-            $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser(), 'cancelNote' => $request->request->get('cancel_note')]);
             $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader, ['cancelTransaction' => true]);
             $purchaseRequestPaperHeaderFormService->save($purchaseRequestPaperHeader);
             $success = true;

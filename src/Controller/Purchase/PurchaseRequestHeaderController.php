@@ -198,7 +198,7 @@ class PurchaseRequestHeaderController extends AbstractController
     {
         $success = false;
         if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $purchaseRequestHeader->getId(), $request->request->get('_token'))) {
-            $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser(), 'cancelNote' => $request->request->get('cancel_note')]);
             $purchaseRequestHeaderFormService->finalize($purchaseRequestHeader, ['cancelTransaction' => true]);
             $purchaseRequestHeaderFormService->save($purchaseRequestHeader);
             $success = true;
