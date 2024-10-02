@@ -106,7 +106,8 @@
                 <th class="text-start">SJ #</th>
                 <th class="text-start">Tanggal Kirim</th>
                 <th class="text-start">Gudang</th>
-                <th class="text-start">Note</th>
+                <th class="text-start">Note RCV</th>
+                <th class="text-start">Note PO</th>
             </tr>
             <tr>
                 <td colspan="8">
@@ -136,6 +137,7 @@
                     <td class="text-start">{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.transactionDate ? receiveHeader.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' : receiveHeader.purchaseOrderHeader.transactionDate ? receiveHeader.purchaseOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td class="text-start">{{ receiveHeader.warehouse.name|default }}</td>
                     <td class="text-start">{{ receiveHeader.note|default }}</td>
+                    <td class="text-start">{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.note|default : receiveHeader.purchaseOrderHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
                     <td colspan="8">

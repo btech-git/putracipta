@@ -97,7 +97,7 @@
                 <th class="text-start">PO #</th>
                 <th class="text-start">Tanggal</th>
                 <th class="text-start">Supplier</th>
-                <th class="text-start">Tanggal Kirim</th>
+                <th class="text-start">Status</th>
                 <th class="text-start">Note</th>
             </tr>
             <tr>
@@ -109,7 +109,11 @@
                                 <th class="text-start">Nama Kertas</th>
                                 <th class="text-start">Qty</th>
                                 <th class="text-start">Satuan</th>
-                                <th class="text-start">Harga</th>
+                                <th class="text-start">APKI</th>
+                                <th class="text-start">H. Asosiasi</th>
+                                <th class="text-start">H. KG</th>
+                                <th class="text-start">H. Satuan</th>
+                                <th class="text-start">DPP</th>
                                 <th class="text-start">Total</th>
                             </tr>
                         </thead>
@@ -123,7 +127,7 @@
                     <td class="text-start">{{ purchaseOrderPaperHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperHeader.transactionDate|date('j F Y') }}</td>
                     <td class="text-start">{{ purchaseOrderPaperHeader.supplier.company|default }}</td>
-                    <td class="text-start">{{ purchaseOrderPaperHeader.deliveryDate|default ? purchaseOrderPaperHeader.deliveryDate|date('j F Y') }}</td>
+                    <td class="text-start">{{ purchaseOrderPaperHeader.transactionStatus|default }}</td>
                     <td class="text-start">{{ purchaseOrderPaperHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
@@ -134,28 +138,32 @@
                                     <tr>
                                         <td class="text-start">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                                         <td class="text-start">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.quantity|default }}</td>
+                                        <td class="text-center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                                         <td class="text-start">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                                        <td class="text-end">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
                                         <td class="text-end">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
                                         <td class="text-end">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Sub Total</strong></td>
+                                    <td class="text-end" colspan="9"><strong>Sub Total</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Diskon {{ purchaseOrderPaperHeader.discountValue|default|number_format(2) }}%</strong></td>
+                                    <td class="text-end" colspan="9"><strong>Diskon {{ purchaseOrderPaperHeader.discountValue|default|number_format(2) }}%</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>PPn {{ purchaseOrderPaperHeader.taxPercentage|default }}%</strong></td>
+                                    <td class="text-end" colspan="9"><strong>PPn {{ purchaseOrderPaperHeader.taxPercentage|default }}%</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Grand Total</strong></td>
+                                    <td class="text-end" colspan="9"><strong>Grand Total</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
                                 </tr>
                             </tfoot>

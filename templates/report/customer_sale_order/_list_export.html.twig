@@ -20,11 +20,13 @@
         </tr>
         <tr>
             <th style="text-align: center; width: 100pt"><strong>Customer</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>SO #</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
             <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Status</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal Kirim</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Product</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Qty</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Price</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Total</strong></th>
         </tr>
         <tr>
@@ -35,16 +37,20 @@
         {% for customer in customers %}
             {% set totalSum = '0.00' %}
             {% for saleOrderHeader in saleOrderHeaders[customer.id] %}
-                <tr>
-                    <td style="text-align: left">{{ customer.company|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.codeNumber|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.transactionStatus|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.note|default }}</td>
-                    <td style="text-align: right">{{ saleOrderHeader.grandTotal|default }}</td>
-                </tr>
-                {% set totalSum = totalSum + saleOrderHeader.grandTotal %}
+                {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                    <tr>
+                        <td style="text-align: left">{{ customer.company|default }}</td>
+                        <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
+                        <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                        <td style="text-align: left">{{ saleOrderDetailsaleOrderHeader.transactionStatus|default }}</td>
+                        <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
+                        <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
+                        <td style="text-align: left">{{ saleOrderDetail.quantity|default }}</td>
+                        <td style="text-align: left">{{ saleOrderDetail.unitPrice|default }}</td>
+                        <td style="text-align: right">{{ saleOrderDetail.total|default }}</td>
+                    </tr>
+                    {% set totalSum = totalSum + saleOrderHeader.grandTotal %}
+                {% endfor %}
             {% endfor %}
             <tr>
                 <td style="text-align: right; border-top: 1px solid" colspan="6"><strong>Grand Total</strong></td>

@@ -28,7 +28,11 @@
             <th style="text-align: center;"><strong>Nama Kertas</strong></th>
             <th style="text-align: center;"><strong>Qty</strong></th>
             <th style="text-align: center;"><strong>Satuan</strong></th>
-            <th style="text-align: center;"><strong>Harga</strong></th>
+            <th style="text-align: center;"><strong>APKI</strong></th>
+            <th style="text-align: center;"><strong>H. Asosiasi</strong></th>
+            <th style="text-align: center;"><strong>H. KG</strong></th>
+            <th style="text-align: center;"><strong>H. Satuan</strong></th>
+            <th style="text-align: center;"><strong>DPP</strong></th>
             <th style="text-align: center;"><strong>Total</strong></th>
             <th style="text-align: center"><strong>Sub Total</strong></th>
             <th style="text-align: center"><strong>Diskon {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></th>
@@ -52,7 +56,11 @@
                     <td style="text-align: left;">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                     <td style="text-align: center;">{{ purchaseOrderPaperDetail.quantity|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.associationPrice|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.weightPrice|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default }}</td>
+                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperHeader.subTotal|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperHeader.discountNominal|default }}</td>
