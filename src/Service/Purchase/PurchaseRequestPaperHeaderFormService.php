@@ -41,13 +41,14 @@ class PurchaseRequestPaperHeaderFormService
 
     public function initialize(PurchaseRequestPaperHeader $purchaseRequestPaperHeader, array $options = []): void
     {
-        list($datetime, $user) = [$options['datetime'], $options['user']];
+        list($datetime, $user, $cancelNote) = [$options['datetime'], $options['user'], $options['cancelNote']];
 
         if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
             $purchaseRequestPaperHeader->setIsCanceled(true);
             $purchaseRequestPaperHeader->setTransactionStatus(PurchaseRequestPaperHeader::TRANSACTION_STATUS_CANCEL);
             $purchaseRequestPaperHeader->setCancelledTransactionDateTime($datetime);
             $purchaseRequestPaperHeader->setCancelledTransactionUser($user);
+            $purchaseRequestPaperHeader->setCancelNote($cancelNote);
         } else {
             if (empty($purchaseRequestPaperHeader->getId())) {
                 $purchaseRequestPaperHeader->setCreatedTransactionDateTime($datetime);
