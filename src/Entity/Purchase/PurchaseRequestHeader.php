@@ -70,6 +70,9 @@ class PurchaseRequestHeader extends PurchaseHeader
     #[Assert\Type('numeric')]
     private ?string $totalQuantity = '0.00';
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $cancelNote = '';
+
     public function __construct()
     {
         $this->purchaseRequestDetails = new ArrayCollection();
@@ -254,6 +257,18 @@ class PurchaseRequestHeader extends PurchaseHeader
     public function setTotalQuantity(string $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getCancelNote(): ?string
+    {
+        return $this->cancelNote;
+    }
+
+    public function setCancelNote(string $cancelNote): self
+    {
+        $this->cancelNote = $cancelNote;
 
         return $this;
     }
