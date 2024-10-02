@@ -28,6 +28,7 @@ class InventoryRequestMaterialDetailController extends AbstractController
             $qb->innerJoin("{$alias}.inventoryRequestHeader", 'h');
             $qb->innerJoin("{$alias}.material", 'p');
             $qb->addOrderBy('h.pickupDate', 'DESC');
+            
             if ($request->request->has('purchase_request_header')) {
                 $sub = $new(PurchaseRequestDetail::class, 'q');
                 $sub->andWhere("IDENTITY(q.inventoryRequestMaterialDetail) = {$alias}.id");
