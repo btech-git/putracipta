@@ -20,8 +20,8 @@
                 <th style="min-width: 130px" role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
                     Tanggal Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
                 </th>
-                <th style="min-width: 220px">
-                    Tanggal Kirim Perubahan
+                <th style="min-width: 220px" role="button" {{ grid.sort_link_item(form, 'deliveryDateAlternate') }}>
+                    Tanggal Kirim Perubahan {{ grid.sort_char(form.sort.deliveryDateAlternate.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'product:name') }}>
                     Product {{ grid.sort_char(form.sort['product:name'].vars.value) }}
@@ -31,6 +31,7 @@
                 <th style="min-width: 100px">Qty Kirim</th>
                 <th style="min-width: 100px">Qty OS</th>
                 <th style="min-width: 80px">Satuan</th>
+                <th style="min-width: 80px">Status</th>
                 <th style="min-width: 50px"></th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
@@ -46,10 +47,13 @@
                 <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'deliveryDateAlternate') }} value="{{ form.filter.deliveryDateAlternate.1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
                 </th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -71,6 +75,7 @@
                     <td style="text-align: right">{{ saleOrderDetail.totalQuantityDelivery|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.remainingQuantityDelivery|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
+                    <td>{{ saleOrderDetail.saleOrderHeader.transactionStatus|default }}</td>
                     <td>
                         <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_sale_order_detail_edit', {'id': saleOrderDetail.id}) }}"><i class="bi-pencil"></i></a>
                     </td>
