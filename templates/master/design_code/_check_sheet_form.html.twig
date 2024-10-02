@@ -21,11 +21,6 @@
                         </tr>
                     {% endif %}
                 {% endfor %}
-                {% for workOrderCheckSheet in workOrderCheckSheets %}
-                    <tr role="button" data-action="click->data-table#select" data-data-table-values-param="{{ {'workOrderCheckSheetId': workOrderCheckSheet.id, 'workOrderCheckSheetName': workOrderCheckSheet.name}|json_encode }}">
-                        <td>{{ workOrderCheckSheet.name }}</td>
-                    </tr>
-                {% endfor %}
             </tbody>
         </table>
     </div>
