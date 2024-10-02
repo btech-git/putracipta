@@ -26,6 +26,7 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
                     Tgl Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
                 </th>
+                <th style="min-width: 150px">Rencana Kirim</th>
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 100px">Qty Stok</th>
                 <th style="min-width: 100px">Qty Kirim</th>
@@ -56,6 +57,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -67,6 +69,7 @@
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                    <td>{{ saleOrderDetail.deliveryDateAlternate|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0 }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.totalQuantityDelivery|default|number_format(0) }}</td>
