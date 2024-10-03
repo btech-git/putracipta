@@ -146,7 +146,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     public function new(Request $request, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response
     {
         $purchaseRequestPaperHeader = new PurchaseRequestPaperHeader();
-        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'cancelNote' => '']);
         $form = $this->createForm(PurchaseRequestPaperHeaderType::class, $purchaseRequestPaperHeader);
         $form->handleRequest($request);
         $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader);
@@ -176,7 +176,7 @@ class PurchaseRequestPaperHeaderController extends AbstractController
     #[IsGranted('ROLE_PURCHASE_REQUEST_PAPER_EDIT')]
     public function edit(Request $request, PurchaseRequestPaperHeader $purchaseRequestPaperHeader, PurchaseRequestPaperHeaderFormService $purchaseRequestPaperHeaderFormService, $_format = 'html'): Response
     {
-        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestPaperHeaderFormService->initialize($purchaseRequestPaperHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'cancelNote' => '']);
         $form = $this->createForm(PurchaseRequestPaperHeaderType::class, $purchaseRequestPaperHeader);
         $form->handleRequest($request);
         $purchaseRequestPaperHeaderFormService->finalize($purchaseRequestPaperHeader);

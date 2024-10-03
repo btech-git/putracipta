@@ -145,7 +145,7 @@ class PurchaseRequestHeaderController extends AbstractController
     public function new(Request $request, PurchaseRequestHeaderFormService $purchaseRequestHeaderFormService, $_format = 'html'): Response
     {
         $purchaseRequestHeader = new PurchaseRequestHeader();
-        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'cancelNote' => '']);
         $form = $this->createForm(PurchaseRequestHeaderType::class, $purchaseRequestHeader);
         $form->handleRequest($request);
         $purchaseRequestHeaderFormService->finalize($purchaseRequestHeader);
@@ -175,7 +175,7 @@ class PurchaseRequestHeaderController extends AbstractController
     #[IsGranted('ROLE_PURCHASE_REQUEST_MATERIAL_EDIT')]
     public function edit(Request $request, PurchaseRequestHeader $purchaseRequestHeader, PurchaseRequestHeaderFormService $purchaseRequestHeaderFormService, $_format = 'html'): Response
     {
-        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser()]);
+        $purchaseRequestHeaderFormService->initialize($purchaseRequestHeader, ['datetime' => new \DateTime(), 'user' => $this->getUser(), 'cancelNote' => '']);
         $form = $this->createForm(PurchaseRequestHeaderType::class, $purchaseRequestHeader);
         $form->handleRequest($request);
         $purchaseRequestHeaderFormService->finalize($purchaseRequestHeader);
