@@ -110,7 +110,7 @@
             {% set grandTotal = 0 %}
             {% for saleOrderHeader in saleOrderHeaders %}
                 {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
-                    {% if (saleOrderDetail == 0) %}
+                    {% if (saleOrderDetail.isCanceled == false) %}
                         <tr>
                             <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
                             <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
