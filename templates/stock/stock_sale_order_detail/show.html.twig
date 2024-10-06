@@ -1,6 +1,6 @@
 {% extends 'layout_page.html.twig' %}
 
-{% block title 'Show Tanggal Kirim PO Customer' %}
+{% block title 'Show Rencana Kirim PO Customer' %}
 
 {% block toolbar %}
     <a class="btn btn-primary btn-sm" href="{{ path('app_stock_stock_sale_order_detail_index') }}">Manage</a>
@@ -27,7 +27,7 @@
                 <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
             </tr>
             <tr>
-                <th>Tanggal Kirim Perubahan</th>
+                <th>Rencana Kirim PO</th>
                 <td>{{ saleOrderDetail.deliveryDateAlternate|default }}</td>
             </tr>
             <tr>
