@@ -26,7 +26,7 @@ class StockSaleOrderDetailController extends AbstractController
         $criteria = new DataCriteria();
         $criteria->setSort([
             'deliveryDate' => SortDescending::class,
-            'id' => SortDescending::class,
+//            'id' => SortDescending::class,
         ]);
         $form = $this->createForm(StockSaleOrderDetailGridType::class, $criteria);
         $form->handleRequest($request);
