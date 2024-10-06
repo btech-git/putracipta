@@ -151,7 +151,7 @@
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
                                     <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                                    <td>{{ masterOrderProductDetail.quantityPrinting|default }}</td>
+                                    <td>{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
