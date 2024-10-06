@@ -22,7 +22,14 @@ class StockSaleOrderDetailGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'saleOrderHeader:referenceNumber', 'customer:company', 'deliveryDate', 'deliveryDateAlternate', 'product:name'],
+                'field_names' => [
+                    'saleOrderHeader:transactionDate', 
+                    'saleOrderHeader:referenceNumber', 
+                    'customer:company', 
+                    'deliveryDate', 
+                    'deliveryDateAlternate', 
+                    'product:name'
+                ],
                 'field_label_list' => [
                     'saleOrderHeader:referenceNumber' => 'PO #',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
@@ -42,7 +49,14 @@ class StockSaleOrderDetailGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['saleOrderHeader:transactionDate', 'customer:company', 'saleOrderHeader:referenceNumber', 'deliveryDate', 'deliveryDateAlternate', 'product:name'],
+                'field_names' => [
+                    'saleOrderHeader:transactionDate', 
+                    'customer:company', 
+                    'saleOrderHeader:referenceNumber', 
+                    'deliveryDate', 
+                    'deliveryDateAlternate', 
+                    'product:name'
+                ],
                 'field_label_list' => [
                     'saleOrderHeader:referenceNumber' => 'PO #',
                     'saleOrderHeader:transactionDate' => 'Tanggal',
