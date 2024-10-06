@@ -4,7 +4,7 @@
             <th style="text-align: center" colspan="9"><strong>PT. Putracipta Karindomas</strong></th>
         </tr>
         <tr>
-            <th style="text-align: center" colspan="9"><strong>Laporan Sales Order</strong></th>
+            <th style="text-align: center" colspan="9"><strong>Laporan PO Customer Detail</strong></th>
         </tr>
         <tr>
             <th style="text-align: center" colspan="9">
@@ -29,21 +29,21 @@
     </thead>
     <tbody>
         {% set grandTotal = 0 %}
-        {% for saleOrderHeader in saleOrderHeaders %}
-            {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+        {% for saleOrderDetail in saleOrderDetails %}
+            {% if (saleOrderDetail.isCanceled == false) %}
                 <tr>
                     <td style="text-align: left">{{ saleOrderDetail.product.code|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.employee.name|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.referenceNumber|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.orderReceiveDate|default ? saleOrderDetail.orderReceiveDate|date('j F Y') }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.customer.company|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.employee.name|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|round(0) }}</td>
                 </tr>
                 {% set grandTotal = grandTotal + saleOrderDetail.total|default %}
-            {% endfor %}
+            {% endif %}
         {% endfor %}
     </tbody>
     <tfoot>
