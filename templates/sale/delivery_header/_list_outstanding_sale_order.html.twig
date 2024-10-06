@@ -26,7 +26,9 @@
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
                     Tgl Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
                 </th>
-                <th style="min-width: 150px">Rencana Kirim</th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'deliveryDateAlternate') }}>
+                    Rencana Kirim {{ grid.sort_char(form.sort.deliveryDateAlternate.vars.value) }}
+                </th>
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 100px">Qty Stok</th>
                 <th style="min-width: 100px">Qty Kirim</th>
@@ -52,7 +54,9 @@
                 <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'deliveryDateAlternate') }} value="{{ form.filter.deliveryDateAlternate.1.vars.value }}" />
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
