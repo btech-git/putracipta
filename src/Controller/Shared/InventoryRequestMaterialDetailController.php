@@ -28,14 +28,14 @@ class InventoryRequestMaterialDetailController extends AbstractController
             $qb->innerJoin("{$alias}.inventoryRequestHeader", 'h');
             $qb->innerJoin("{$alias}.material", 'p');
             $qb->addOrderBy('h.pickupDate', 'DESC');
+            $qb->andWhere("{$alias}.quantityRemaining > 0");
             
             if ($request->request->has('purchase_request_header')) {
                 $sub = $new(PurchaseRequestDetail::class, 'q');
                 $sub->andWhere("IDENTITY(q.inventoryRequestMaterialDetail) = {$alias}.id");
                 $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
-            } else if ($request->request->has('inventory_release_header')) {
-                $qb->andWhere("{$alias}.quantityRemaining > 0");                
             }
+            
             if (isset($request->request->get('inventory_request_material_detail_grid')['filter']['inventoryRequestMaterialHeader:codeNumberOrdinal']) && isset($request->request->get('inventory_request_material_detail_grid')['sort']['inventoryRequestMaterialHeader:codeNumberOrdinal'])) {
                 $add['filter']($qb, 'h', 'codeNumberOrdinal', $request->request->get('inventory_request_material_detail_grid')['filter']['inventoryRequestMaterialHeader:codeNumberOrdinal']);
                 $add['sort']($qb, 'h', 'codeNumberOrdinal', $request->request->get('inventory_request_material_detail_grid')['sort']['inventoryRequestMaterialHeader:codeNumberOrdinal']);

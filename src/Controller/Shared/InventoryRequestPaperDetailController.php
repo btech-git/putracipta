@@ -27,17 +27,16 @@ class InventoryRequestPaperDetailController extends AbstractController
         list($count, $inventoryRequestPaperDetails) = $inventoryRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->innerJoin("{$alias}.inventoryRequestHeader", 'h');
-//            $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
             $qb->innerJoin("{$alias}.paper", 'p');
-//            $qb->innerJoin("m.customer", 'c');
             $qb->addOrderBy('h.pickupDate', 'DESC');
+            $qb->andWhere("{$alias}.quantityRemaining > 0");
+            
             if ($request->request->has('purchase_request_paper_header')) {
                 $sub = $new(PurchaseRequestPaperDetail::class, 'q');
                 $sub->andWhere("IDENTITY(q.inventoryRequestPaperDetail) = {$alias}.id");
                 $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
-            } else if ($request->request->has('inventory_release_header')) {
-                $qb->andWhere("{$alias}.quantityRemaining > 0");                
             }
+            
             if (isset($request->request->get('inventory_request_paper_detail_grid')['filter']['inventoryRequestPaperHeader:codeNumberOrdinal']) && isset($request->request->get('inventory_request_paper_detail_grid')['sort']['inventoryRequestPaperHeader:codeNumberOrdinal'])) {
                 $add['filter']($qb, 'h', 'codeNumberOrdinal', $request->request->get('inventory_request_paper_detail_grid')['filter']['inventoryRequestPaperHeader:codeNumberOrdinal']);
                 $add['sort']($qb, 'h', 'codeNumberOrdinal', $request->request->get('inventory_request_paper_detail_grid')['sort']['inventoryRequestPaperHeader:codeNumberOrdinal']);
