@@ -28,7 +28,8 @@ class OutstandingSaleOrderGridType extends AbstractType
                     'saleOrderHeader:referenceNumber', 
                     'customer:company', 
                     'product:code', 
-                    'product:name'
+                    'product:name',
+                    'deliveryDateAlternate'
                 ],
                 'field_label_list' => [
                     'saleOrderHeader:transactionDate' => 'Tanggal',
@@ -42,6 +43,7 @@ class OutstandingSaleOrderGridType extends AbstractType
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'product:code' => [FilterContain::class, FilterNotContain::class],
                     'product:name' => [FilterContain::class, FilterContain::class],
+                    'deliveryDateAlternate' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_options_list' => [
                     'deliveryDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
@@ -55,7 +57,8 @@ class OutstandingSaleOrderGridType extends AbstractType
                     'saleOrderHeader:referenceNumber', 
                     'customer:company', 
                     'product:code', 
-                    'product:name'
+                    'product:name',
+                    'deliveryDateAlternate'
                 ],
                 'field_label_list' => [
                     'saleOrderHeader:transactionDate' => 'Tanggal',
@@ -69,6 +72,7 @@ class OutstandingSaleOrderGridType extends AbstractType
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'product:code' => [SortAscending::class, SortDescending::class],
                     'product:name' => [SortAscending::class, SortDescending::class],
+                    'deliveryDateAlternate' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
