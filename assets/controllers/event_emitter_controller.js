@@ -6,7 +6,9 @@ export default class extends Controller {
         const attributes = Array.isArray(attributeList) ? attributeList : [attributeList];
         for (const attribute of attributes) {
             const prefix = event.target.getAttribute(attribute);
-            this.dispatch(event.type, {detail: event.detail, target: event.target, prefix, bubbles: event.bubbles, cancelable: event.cancelable});
+            if (prefix) {
+                this.dispatch(event.type, {detail: event.detail, target: event.target, prefix, bubbles: event.bubbles, cancelable: event.cancelable});
+            }
         }
     }
 
