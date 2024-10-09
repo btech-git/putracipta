@@ -7,9 +7,9 @@
                         {% set workOrderProcessIds = designCode.designCodeProcessDetails|filter(designCodeProcessDetail => designCodeProcessDetail.id is not null)|slice(0)|map(designCodeProcessDetail => designCodeProcessDetail.workOrderProcess.id) %}
                         {% for workOrderProcess in workOrderProcesses %}
                             {% if workOrderProcess.id in workOrderProcessIds %}
-                                <tr role="button"
-                                    data-controller="dom-element"
-                                    data-action="click->dom-element#bind"
+                                <tr role="button" data-group="work-order-process-table-item"
+                                    data-controller="dom-element data-choice"
+                                    data-action="click->dom-element#bind click->data-choice#select"
                                     data-dom-element-bind-specifications-param="{{ [
                                         {'destinationsTarget': '#design-code-process-detail-form-collection tr[data-item-identifier-value="' ~ workOrderProcess.id ~ '"] input[type=checkbox]', 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'false'}},
                                         {'destinationsTarget': '#design-code-process-detail-form-collection tr[data-item-identifier-value="' ~ workOrderProcess.id ~ '"]', 'action': 'removeClass', 'descriptor': {'name': 'd-none'}},
@@ -27,10 +27,11 @@
             </div>
             <div class="col border border-secondary rounded">
                 <table class="table table-bordered" id="design-code-process-detail-form-collection"
-                       data-controller="form-collection"
+                       data-controller="form-collection collection-sorter"
                        data-form-collection-start-index-value="{{ form.designCodeProcessDetails|length > 0 ? form.designCodeProcessDetails|last.vars.name + 1 : 0 }}"
                        data-form-collection-start-ordinal-value="{{ form.designCodeProcessDetails|length }}"
-                       data-form-collection-prototype-value="{{ _self.process_collection_item(0, form.designCodeProcessDetails.vars.prototype, form)|e('html_attr') }}">
+                       data-form-collection-prototype-value="{{ _self.process_collection_item(0, form.designCodeProcessDetails.vars.prototype, form)|e('html_attr') }}"
+                       data-action="action-button:click->collection-sorter#reorder work-order-process-table-item:data-choice:select@document->collection-sorter#reorder work-order-process-table:data-table:select@document->collection-sorter#reorder form-collection:collection-item-added->collection-sorter#reorder form-collection:collection-item-removed->collection-sorter#reorder">
                     <thead class="table-secondary">
                         <tr>
                             <th>No.</th>
@@ -41,8 +42,8 @@
                     </thead>
                     <tbody data-form-collection-target="items" data-action="work-order-process-table:data-table:select@document->form-collection#addCollectionItem">
                         {% macro process_collection_item(ordinal, detailForm) %}
-                            <tr data-form-collection-target="item" data-item-identifier-name="workOrderProcessId" data-item-identifier-value="{{ detailForm.vars.value.workOrderProcess.id|default }}" {% if detailForm.isInactive.vars.data %}class="d-none"{% endif %}>
-                                <td data-form-collection-target="ordinal" {% if detailForm.isInactive.vars.data %}data-ordinal-ignore="true"{% endif %}>{{ ordinal + 1 }}</td>
+                            <tr data-item-sortable="sortable" data-form-collection-target="item" data-item-identifier-name="workOrderProcessId" data-item-identifier-value="{{ detailForm.vars.value.workOrderProcess.id|default }}" {% if detailForm.isInactive.vars.data %}class="d-none"{% endif %}>
+                                <td data-collection-sorter-target="ordinal">{{ ordinal + 1 }}</td>
                                 <td class="d-none">{{ form_widget(detailForm.workOrderProcess, {'attr': {'data-item-field-name': 'workOrderProcessId'}}) }}</td>
                                 <td data-item-field-name="workOrderProcessName">{{ detailForm.vars.value.workOrderProcess.name|default }}</td>
                                 <td class="text-center">
@@ -50,8 +51,8 @@
                                         <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                                     {% else %}
                                         <button type="button" class="btn btn-danger"
-                                                data-controller="dom-element"
-                                                data-action="dom-element#bind"
+                                                data-controller="dom-element action-button"
+                                                data-action="dom-element#bind action-button#click"
                                                 data-dom-element-bind-specifications-param="{{ [
                                                     {'destinationsTarget': '#' ~ detailForm.isInactive.vars.id, 'action': 'setPropertyValue', 'descriptor': {'property': 'checked', 'value': 'true'}},
                                                     {'destinations': '[$element.closest("tr")]', 'action': 'addClass', 'descriptor': {'name': 'd-none'}},
@@ -59,6 +60,8 @@
                                             <i class="bi-x-lg"></i>
                                         </button>
                                     {% endif %}
+                                    <button type="button" class="btn btn-outline-dark" data-action="collection-sorter#moveUp"><i class="bi-arrow-up"></i></button>
+                                    <button type="button" class="btn btn-outline-dark" data-action="collection-sorter#moveDown"><i class="bi-arrow-down"></i></button>
                                     <div class="d-none">
                                         {{ form_row(detailForm.isInactive) }}
                                     </div>
