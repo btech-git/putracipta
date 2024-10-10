@@ -90,13 +90,13 @@ class SaleOrderDetailGridType extends AbstractType
                     'saleOrderHeader:orderReceiveDate', 
                     'saleOrderHeader:referenceNumber', 
                     'saleOrderHeader:employee', 
-                    'saleOrderHeader:customer', 
+                    'customer:company', 
                     'product:code', 
                     'product:name'
                 ],
                 'field_label_list' => [
                     'saleOrderHeader:orderReceiveDate' => 'Tanggal',
-                    'saleOrderHeader:customer' => 'Customer',
+                    'customer:company' => 'Customer',
                     'saleOrderHeader:employee' => 'Marketing',
                     'saleOrderHeader:referenceNumber' => 'PO #', 
                     'product:code' => 'Kode Produk', 
@@ -104,7 +104,7 @@ class SaleOrderDetailGridType extends AbstractType
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:orderReceiveDate' => [SortAscending::class, SortDescending::class],
-                    'saleOrderHeader:customer' => [SortAscending::class, SortDescending::class],
+                    'customer:company' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:employee' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:referenceNumber' => [SortAscending::class, SortDescending::class],
                     'product:code' => [SortAscending::class, SortDescending::class],

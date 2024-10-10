@@ -39,35 +39,37 @@ class SaleOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'orderReceiveDate', 'referenceNumber', 'employee', 'customer', 'transactionStatus'],
+                'field_names' => [
+                    'orderReceiveDate', 
+                    'referenceNumber', 
+                    'employee', 
+                    'customer', 
+                    'transactionStatus',
+                    'product:code', 
+                    'product:name',
+                ],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => '',
                     'orderReceiveDate' => 'Tanggal',
                     'customer' => 'Customer',
                     'employee' => 'Marketing',
+                    'product:code' => 'Kode Produk', 
+                    'product:name' => 'Nama Produk',
                 ],
                 'field_operators_list' => [
-                    'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
-                    'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
-                    'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'orderReceiveDate' => [FilterBetween::class, FilterNotBetween::class],
                     'customer' => [FilterEqual::class, FilterNotEqual::class],
                     'employee' => [FilterEqual::class, FilterNotEqual::class],
                     'referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
+                    'product:code' => [FilterContain::class, FilterNotContain::class],
+                    'product:name' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
-                    'codeNumberOrdinal' => IntegerType::class,
-                    'codeNumberMonth' => ChoiceType::class,
-                    'codeNumberYear' => IntegerType::class,
                     'customer' => EntityType::class,
                     'employee' => EntityType::class,
                     'transactionStatus' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
-                    'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'orderReceiveDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'customer' => [
                         'class' => Customer::class, 
@@ -98,24 +100,30 @@ class SaleOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['orderReceiveDate', 'customer', 'employee', 'referenceNumber', 'transactionStatus', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => [
+                    'orderReceiveDate', 
+                    'customer', 
+                    'employee', 
+                    'referenceNumber', 
+                    'transactionStatus',
+                    'product:code', 
+                    'product:name'
+                ],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => '',
-                    'codeNumberMonth' => '',
-                    'codeNumberYear' => 'Code Number',
                     'orderReceiveDate' => 'Tanggal',
                     'customer' => 'Customer',
                     'employee' => 'Marketing',
+                    'product:code' => 'Kode Produk', 
+                    'product:name' => 'Nama Produk'
                 ],
                 'field_operators_list' => [
-                    'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
-                    'codeNumberMonth' => [SortAscending::class, SortDescending::class],
-                    'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'orderReceiveDate' => [SortAscending::class, SortDescending::class],
                     'customer' => [SortAscending::class, SortDescending::class],
                     'employee' => [SortAscending::class, SortDescending::class],
                     'referenceNumber' => [SortAscending::class, SortDescending::class],
                     'transactionStatus' => [SortAscending::class, SortDescending::class],
+                    'product:code' => [SortAscending::class, SortDescending::class],
+                    'product:name' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [50, 100, 300, 500]])
