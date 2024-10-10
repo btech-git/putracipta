@@ -4,6 +4,8 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
+use App\Entity\Master\Product;
+use App\Entity\Sale\SaleOrderDetail;
 use App\Grid\Report\SaleOrderHeaderGridType;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -32,7 +34,7 @@ class SaleOrderHeaderController extends AbstractController
         $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+        list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request, $criteria) {
             if (isset($request->request->get('sale_order_header_grid')['filter']['customer:company']) && isset($request->request->get('sale_order_header_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("{$alias}.customer", 's');
                 $add['filter']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['filter']['customer:company']);
@@ -40,6 +42,18 @@ class SaleOrderHeaderController extends AbstractController
             }
             $qb->addOrderBy("{$alias}.orderReceiveDate", 'ASC');
             $qb->andWhere("{$alias}.isCanceled = false");
+            
+//            $productCodeConditionString = !empty($criteria->getFilter()['product:code'][1]) ? 'AND IDENTITY(p.code) LIKE :productCode' : '';
+//            $productNameConditionString = !empty($criteria->getFilter()['product:name'][1]) ? 'AND IDENTITY(p.name) = :productName' : '';
+//            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d JOIN " . Product::class . " p WHERE {$alias} = d.saleOrderHeader AND d.isCanceled = false AND {$alias}.orderReceiveDate BETWEEN :startDate AND :endDate {$productCodeConditionString}{$productNameConditionString})");
+//            $qb->setParameter('startDate', $criteria->getFilter()['orderReceiveDate'][1]);
+//            $qb->setParameter('endDate', $criteria->getFilter()['orderReceiveDate'][2]);
+//            if (!empty($criteria->getFilter()['product:code'][1])) {
+//                $qb->setParameter('productCode', $criteria->getFilter()['product:code'][1]);
+//            }
+//            if (!empty($criteria->getFilter()['product:name'][1])) {
+//                $qb->setParameter('productName', $criteria->getFilter()['product:name'][1]);
+//            }
         });
 
         if ($request->request->has('export')) {

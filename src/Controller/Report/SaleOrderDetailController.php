@@ -32,16 +32,33 @@ class SaleOrderDetailController extends AbstractController
         $form = $this->createForm(SaleOrderDetailGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
+        list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request, $criteria) {
             $qb->innerJoin("{$alias}.saleOrderHeader", 'h');
-            if (isset($request->request->get('sale_order_detail_grid')['filter']['customer:company']) && isset($request->request->get('sale_order_detail_grid')['sort']['customer:company'])) {
+            $qb->innerJoin("{$alias}.product", 'p');
+            if (!empty($criteria->getFilter()['saleOrderHeader:orderReceiveDate'])) {
+                $add['filter']($qb, 'h', 'orderReceiveDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate']);
+            }
+            if (isset($request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:customer'])) {
+                $add['filter']($qb, 'h', 'customer', $request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:customer']);
+            }
+            if (isset($request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:employee'])) {
+                $add['filter']($qb, 'h', 'employee', $request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:employee']);
+            }
+            if (isset($request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:referenceNumber'])) {
+                $add['filter']($qb, 'h', 'referenceNumber', $request->request->get('sale_order_detail_grid')['filter']['saleOrderHeader:referenceNumber']);
+            }
+            if (isset($request->request->get('sale_order_detail_grid')['filter']['product:name'])) {
+                $add['filter']($qb, 'p', 'name', $request->request->get('sale_order_detail_grid')['filter']['product:name']);
+            }
+            if (isset($request->request->get('sale_order_detail_grid')['filter']['product:code'])) {
+                $add['filter']($qb, 'p', 'code', $request->request->get('sale_order_detail_grid')['filter']['product:code']);
+            }
+            if (isset($request->request->get('sale_order_detail_grid')['sort']['customer:company'])) {
                 $qb->innerJoin("h.customer", 'c');
-                $add['filter']($qb, 'c', 'company', $request->request->get('sale_order_detail_grid')['filter']['customer:company']);
                 $add['sort']($qb, 'c', 'company', $request->request->get('sale_order_detail_grid')['sort']['customer:company']);
             }
-            if (isset($request->request->get('sale_order_detail_grid')['filter']['employee:name']) && isset($request->request->get('sale_order_detail_grid')['sort']['employee:name'])) {
+            if (isset($request->request->get('sale_order_detail_grid')['sort']['employee:name'])) {
                 $qb->innerJoin("h.employee", 'm');
-                $add['filter']($qb, 'm', 'name', $request->request->get('sale_order_detail_grid')['filter']['employee:name']);
                 $add['sort']($qb, 'm', 'name', $request->request->get('sale_order_detail_grid')['sort']['employee:name']);
             }
             $qb->addOrderBy("h.orderReceiveDate", 'ASC');

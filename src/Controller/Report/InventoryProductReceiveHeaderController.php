@@ -28,7 +28,7 @@ class InventoryProductReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $inventoryProductReceiveHeaders) = $inventoryProductReceiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($criteria) {
-            if (!empty($criteria->getFilter()['customer:company'][1])) {
+            if (!empty($criteria->getFilter()['customer:company'])) {
                 $qb->innerJoin("{$alias}.masterOrderHeader", 'm');
                 $qb->innerJoin("m.customer", 'c');
                 $add['filter']($qb, 'c', 'company', $criteria->getFilter()['customer:company']);
