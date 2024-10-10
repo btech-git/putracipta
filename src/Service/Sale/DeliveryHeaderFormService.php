@@ -153,11 +153,13 @@ class DeliveryHeaderFormService
         $deliveryDetailProductCodeList = [];
         $deliveryDetailProductList = [];
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
-            $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
-            $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
-            $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
-            $deliveryDetailProductCodeList[] = $saleOrderDetail->getProduct()->getCode();
-            $deliveryDetailProductList[] = $saleOrderDetail->getProduct()->getName();
+            if ($deliveryDetail->isIsCanceled() === false) {
+                $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
+                $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+                $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
+                $deliveryDetailProductCodeList[] = $saleOrderDetail->getProduct()->getCode();
+                $deliveryDetailProductList[] = $saleOrderDetail->getProduct()->getName();
+            }
         }
         $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
         $deliveryHeader->setSaleOrderReferenceNumbers(implode(', ', $saleOrderReferenceNumberUniqueList));
