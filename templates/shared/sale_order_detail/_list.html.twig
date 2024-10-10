@@ -55,7 +55,7 @@
         </thead>
         <tbody>
             {% for saleOrderDetail in saleOrderDetails %}
-                <tr {% if selectMultiple == true %}data-data-table-target="selectable" data-selected-identifier="{{ saleOrderDetail.id }}"{% else %}data-bs-dismiss="modal"{% endif %} class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                <tr {% if selectMultiple == true %}data-data-table-target="selectable" data-selected-identifier="{{ saleOrderDetail.id }}"{% endif %} class="data-table-check-row" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'saleOrderHeaderCodeNumber': saleOrderDetail.saleOrderHeader.codeNumber|default,
                     'saleOrderHeaderReferenceNumber': saleOrderDetail.saleOrderHeader.referenceNumber|default,
                     'customerCompany': saleOrderDetail.saleOrderHeader.customer.company|default,
