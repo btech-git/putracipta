@@ -80,7 +80,7 @@
                     <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.codeNumber|default }}</td>
-                    <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.memo|default }}</td>
                 </tr>
