@@ -104,8 +104,8 @@
         <div class="report-title">PT. Putracipta Karindomas</div>
         <div class="report-title">Laporan Sales Order Detail</div>
         <div>
-            {% set startDate = form.vars.value.filter.orderReceiveDate.1|default %}
-            {% set endDate = form.vars.value.filter.orderReceiveDate.2|default %}
+            {% set startDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].1|default %}
+            {% set endDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].2|default %}
             {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
         </div>
     </div>
