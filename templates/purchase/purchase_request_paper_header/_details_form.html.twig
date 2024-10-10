@@ -43,7 +43,10 @@
                         }}) }}
                     </td>
                     <td>{{ form_row(detailForm.usageDate, {'label': false, 'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input'}}) }}</td>
-                    <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
+                    <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {
+                            'data-controller': 'dom-element',
+                            'data-item-field-name': 'inventoryRequestPaperDetailMemo',
+                        }}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
                             <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
