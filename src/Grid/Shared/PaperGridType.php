@@ -24,40 +24,42 @@ class PaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
+                'field_names' => ['name', 'code', 'type', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
-                    'code' => 'Code',
                     'name' => 'Nama',
                     'weight' => 'Berat (gsm)',
                     'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
-                    'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'weight' => [FilterEqual::class, FilterNotEqual::class],
+                    'code' => [FilterEqual::class, FilterNotEqual::class],
+                    'type' => [FilterEqual::class, FilterNotEqual::class],
                     'materialSubCategory:name' => [FilterContain::class, FilterNotContain::class],
                     'isInactive' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
+                    'type' => ChoiceType::class,
                     'isInactive' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
-                    'isInactive' => ['choices' => ['Yes' => true, 'No' => false]],
+                    'type' => ['choices' => ['000' => 'non', 'FSC' => 'fsc']],
+                    'isInactive' => ['choices' => ['Inactive' => true, 'Active' => false]],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'materialSubCategory:name', 'weight', 'isInactive'],
+                'field_names' => ['name', 'code', 'type', 'materialSubCategory:name', 'weight', 'isInactive'],
                 'field_label_list' => [
                     'name' => 'Nama',
                     'weight' => 'Berat (gsm)',
-                    'code' => 'Code',
                     'materialSubCategory:name' => 'Jenis',
                 ],
                 'field_operators_list' => [
-                    'code' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
                     'materialSubCategory:name' => [SortAscending::class, SortDescending::class],
                     'weight' => [SortAscending::class, SortDescending::class],
+                    'code' => [SortAscending::class, SortDescending::class],
+                    'type' => [SortAscending::class, SortDescending::class],
                     'isInactive' => [SortAscending::class, SortDescending::class],
                 ],
             ])
