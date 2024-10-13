@@ -35,16 +35,27 @@
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
+                    <span><small>-</small></span>
+                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                    <span><small>-</small></span>
+                    <select {{ grid.filter_link_item(form, 'type') }}>
+                        <option value="" {% if form.filter.type.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                        {% for choice in form.filter.type.1.vars.choices %}
+                            <option value="{{ choice.value }}" {% if form.filter.type.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>-</small></span>
+                    <input style="width: 64px" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'weight') }} value="{{ form.filter.weight.1.vars.value }}" />
                 </th>
                 <th>
-                    <input type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
                 </th>
             </tr>
         </thead>
