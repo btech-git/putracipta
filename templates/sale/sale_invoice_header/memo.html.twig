@@ -129,6 +129,7 @@
         <table class="detail">
             <thead>
                 <tr>
+                    <th class="center">No</th>
                     <th class="center">PO #</th>
                     {% if saleInvoiceHeader.isUsingFscPaper %}
                         <th class="center">FSC Code</th>
@@ -144,10 +145,12 @@
             </thead>
             <tbody>
                 {% set rowspan = 20 %}
+                {% set rownumber = 1 %}
                 {% for row in saleInvoiceHeader.saleInvoiceDetails|filter(saleInvoiceDetail => not saleInvoiceDetail.isCanceled and saleInvoiceDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for saleInvoiceDetail in row %}
                         <tr>
                             {% if saleInvoiceDetail %}
+                                <td class="center">{{ rownumber }}</td>
                                 <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 {% if saleInvoiceHeader.isUsingFscPaper %}
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
@@ -159,7 +162,9 @@
                                 <td class="left">{{ saleInvoiceDetail.unit.name|default }}</td>
                                 <td class="right">{{ saleInvoiceDetail.unitPrice|default|number_format(0) }}</td>
                                 <td class="right">{{ saleInvoiceDetail.total|default|number_format(0) }}</td>
+                                {% set rownumber = rownumber + 1 %}
                             {% else %}
+                                <td>&nbsp;</td>
                                 {% if saleInvoiceHeader.isUsingFscPaper %}
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
@@ -178,12 +183,12 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">Sub Total</td>
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">Sub Total</td>
                     <td class="right">{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
                 {% if saleInvoiceHeader.discountNominal > 0.00 %}
                     <tr>
-                        <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">
+                        <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "7" {% endif %} class="label right">
                             Diskon
                             {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
                                 {{ saleInvoiceHeader.discountValue|default }}%
@@ -193,7 +198,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "7" {% endif %} class="label right">
                         PPn 11%
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
@@ -207,7 +212,7 @@
                     </tr>
                 {% endif %}#}
                 <tr>
-                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "6" {% endif %} class="label right">Grand Total</td>
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "7" {% endif %} class="label right">Grand Total</td>
                     <td class="right">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
             </tfoot>
