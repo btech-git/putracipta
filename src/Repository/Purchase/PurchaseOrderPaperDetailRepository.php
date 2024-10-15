@@ -37,7 +37,7 @@ class PurchaseOrderPaperDetailRepository extends ServiceEntityRepository
     {
         $dql = "SELECT e
                 FROM " . PurchaseOrderPaperDetail::class . " e
-                INNER JOIN " . PurchaseOrderPaperHeader::class . " s
+                INNER JOIN e.purchaseOrderPaperHeader s
                 WHERE e.paper IN (:papers) AND s.transactionDate BETWEEN :startDate AND :endDate
                 ORDER BY e.paper ASC, s.transactionDate ASC";
 
