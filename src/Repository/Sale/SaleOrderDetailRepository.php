@@ -6,7 +6,6 @@ use App\Common\Doctrine\Repository\EntityAdd;
 use App\Common\Doctrine\Repository\EntityDataFetch;
 use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Sale\SaleOrderDetail;
-use App\Entity\Sale\SaleOrderHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,7 +36,7 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
     {
         $dql = "SELECT e
                 FROM " . SaleOrderDetail::class . " e
-                INNER JOIN " . SaleOrderHeader::class . " s
+                JOIN e.saleOrderHeader s
                 WHERE e.product IN (:products) AND s.transactionDate BETWEEN :startDate AND :endDate
                 ORDER BY e.product ASC, s.transactionDate ASC";
 
@@ -45,6 +44,58 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
         $query->setParameter('products', $products);
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
+        $saleOrderDetails = $query->getResult();
+
+        return $saleOrderDetails;
+    }
+    
+    public function findCustomerSaleOrderDetails(array $customers, $startDate, $endDate, $productCode, $productName): array
+    {
+        $productCodeConditionString = !empty($productCode) ? ' AND p.code LIKE :productCode' : '';
+        $productNameConditionString = !empty($productName) ? ' AND p.name LIKE :productName' : '';
+        $dql = "SELECT e
+                FROM " . SaleOrderDetail::class . " e
+                JOIN e.saleOrderHeader h
+                JOIN e.product p
+                WHERE h.customer IN (:customers) AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString}
+                ORDER BY h.customer ASC, h.orderReceiveDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('customers', $customers);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        if (!empty($productCode)) {
+            $query->setParameter('productCode', '%' . $productCode . '%');
+        }
+        if (!empty($productName)) {
+            $query->setParameter('productName', '%' . $productName . '%');
+        }
+        $saleOrderDetails = $query->getResult();
+
+        return $saleOrderDetails;
+    }
+    
+    public function findSaleOrderHeaderDetails(array $saleOrderHeaders, $startDate, $endDate, $productCode, $productName): array
+    {
+        $productCodeConditionString = !empty($productCode) ? ' AND p.code LIKE :productCode' : '';
+        $productNameConditionString = !empty($productName) ? ' AND p.name LIKE :productName' : '';
+        $dql = "SELECT e
+                FROM " . SaleOrderDetail::class . " e
+                JOIN e.saleOrderHeader h
+                JOIN e.product p
+                WHERE e.saleOrderHeader IN (:saleOrderHeaders) AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString}
+                ORDER BY h.id ASC, h.orderReceiveDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('saleOrderHeaders', $saleOrderHeaders);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        if (!empty($productCode)) {
+            $query->setParameter('productCode', '%' . $productCode . '%');
+        }
+        if (!empty($productName)) {
+            $query->setParameter('productName', '%' . $productName . '%');
+        }
         $saleOrderDetails = $query->getResult();
 
         return $saleOrderDetails;
