@@ -21,6 +21,9 @@ class DesignCodeProcessDetail extends Master
     #[ORM\ManyToOne(inversedBy: 'designCodeProcessDetails')]
     private ?WorkOrderProcess $workOrderProcess = null;
 
+    #[ORM\Column]
+    private ?int $processDetailOrdinal = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class DesignCodeProcessDetail extends Master
     public function setWorkOrderProcess(?WorkOrderProcess $workOrderProcess): self
     {
         $this->workOrderProcess = $workOrderProcess;
+
+        return $this;
+    }
+
+    public function getProcessDetailOrdinal(): ?int
+    {
+        return $this->processDetailOrdinal;
+    }
+
+    public function setProcessDetailOrdinal(int $processDetailOrdinal): self
+    {
+        $this->processDetailOrdinal = $processDetailOrdinal;
 
         return $this;
     }
