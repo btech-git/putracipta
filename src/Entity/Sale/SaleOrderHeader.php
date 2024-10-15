@@ -136,6 +136,7 @@ class SaleOrderHeader extends SaleHeader
     private ?string $transactionType = self::TRANSACTION_TYPE_PRODUCTION;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $orderReceiveDate = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
