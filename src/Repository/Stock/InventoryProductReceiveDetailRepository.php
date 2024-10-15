@@ -23,7 +23,7 @@ class InventoryProductReceiveDetailRepository extends ServiceEntityRepository
     {
         $dql = "SELECT e
                 FROM " . InventoryProductReceiveDetail::class . " e
-                INNER JOIN " . InventoryProductReceiveHeader::class . " s
+                INNER JOIN e.inventoryProductReceiveHeader s
                 WHERE e.product IN (:products) AND s.transactionDate BETWEEN :startDate AND :endDate
                 ORDER BY e.product ASC, s.transactionDate ASC";
 
