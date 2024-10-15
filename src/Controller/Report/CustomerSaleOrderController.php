@@ -39,7 +39,8 @@ class CustomerSaleOrderController extends AbstractController
             $qb->addOrderBy("{$alias}.id", 'ASC');
             $productCodeConditionString = !empty($criteria->getFilter()['product:code'][1]) ? ' AND p.code LIKE :productCode' : '';
             $productNameConditionString = !empty($criteria->getFilter()['product:name'][1]) ? ' AND p.name LIKE :productName' : '';
-            $qb->andWhere("EXISTS (SELECT s.id FROM " . SaleOrderDetail::class . " d JOIN d.saleOrderHeader s JOIN d.product p WHERE {$alias} = s.customer AND s.isCanceled = false AND s.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString})");
+            $referenceNumberConditionString = !empty($criteria->getFilter()['saleOrderHeader:referenceNumber'][1]) ? ' AND s.referenceNumber LIKE :referenceNumber' : '';
+            $qb->andWhere("EXISTS (SELECT s.id FROM " . SaleOrderDetail::class . " d JOIN d.saleOrderHeader s JOIN d.product p WHERE {$alias} = s.customer AND s.isCanceled = false AND s.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString}{$referenceNumberConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2]);
             if (!empty($criteria->getFilter()['product:code'][1])) {
@@ -47,6 +48,9 @@ class CustomerSaleOrderController extends AbstractController
             }
             if (!empty($criteria->getFilter()['product:name'][1])) {
                 $qb->setParameter('productName', '%' . $criteria->getFilter()['product:name'][1] . '%');
+            }
+            if (!empty($criteria->getFilter()['saleOrderHeader:referenceNumber'][1])) {
+                $qb->setParameter('referenceNumber', '%' . $criteria->getFilter()['saleOrderHeader:referenceNumber'][1] . '%');
             }
         });
         $saleOrderDetails = $this->getSaleOrderDetails($saleOrderDetailRepository, $criteria, $customers);
@@ -76,7 +80,8 @@ class CustomerSaleOrderController extends AbstractController
         $endDate = $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2];
         $productCode = isset($criteria->getFilter()['product:code'][1]) ? $criteria->getFilter()['product:code'][1] : '';
         $productName = isset($criteria->getFilter()['product:name'][1]) ? $criteria->getFilter()['product:name'][1] : '';
-        $customerSaleOrderDetails = $saleOrderDetailRepository->findCustomerSaleOrderDetails($customers, $startDate, $endDate, $productCode, $productName);
+        $referenceNumber = isset($criteria->getFilter()['saleOrderHeader:referenceNumber'][1]) ? $criteria->getFilter()['saleOrderHeader:referenceNumber'][1] : '';
+        $customerSaleOrderDetails = $saleOrderDetailRepository->findCustomerSaleOrderDetails($customers, $startDate, $endDate, $productCode, $productName, $referenceNumber);
         $saleOrderDetails = [];
         foreach ($customerSaleOrderDetails as $customerSaleOrderDetail) {
             $saleOrderDetails[$customerSaleOrderDetail->getSaleOrderHeader()->getCustomer()->getId()][] = $customerSaleOrderDetail;

@@ -15,11 +15,8 @@ use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
 use App\Entity\Master\Customer;
-use App\Entity\SaleHeader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -32,26 +29,27 @@ class CustomerSaleOrderGridType extends AbstractType
                 'field_names' => [
                     'saleOrderHeader:orderReceiveDate', 
                     'saleOrderHeader:referenceNumber', 
-                    'id', 
-                    'saleOrderHeader:note', 
                     'saleOrderHeader:transactionStatus',
                     'product:code', 
                     'product:name',
+                    'id', 
+                    'note', 
                 ],
                 'field_label_list' => [
                     'saleOrderHeader:orderReceiveDate' => 'Tanggal',
+                    'saleOrderHeader:referenceNumber' => 'PO #', 
                     'id' => 'Customer',
                     'product:code' => 'Kode Produk', 
                     'product:name' => 'Nama Produk',
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:orderReceiveDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'id' => [FilterEqual::class, FilterNotEqual::class],
                     'saleOrderHeader:referenceNumber' => [FilterContain::class, FilterNotContain::class],
-                    'saleOrderHeader:note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderHeader:transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                     'product:code' => [FilterContain::class, FilterNotContain::class],
                     'product:name' => [FilterContain::class, FilterNotContain::class],
+                    'id' => [FilterEqual::class, FilterNotEqual::class],
+                    'note' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'id' => EntityType::class,
@@ -72,27 +70,28 @@ class CustomerSaleOrderGridType extends AbstractType
             ->add('sort', SortType::class, [
                 'field_names' => [
                     'saleOrderHeader:orderReceiveDate', 
-                    'id', 
                     'saleOrderHeader:referenceNumber', 
-                    'saleOrderHeader:note', 
                     'saleOrderHeader:transactionStatus',
                     'product:code', 
-                    'product:name'
+                    'product:name',
+                    'id', 
+                    'note', 
                 ],
                 'field_label_list' => [
                     'saleOrderHeader:orderReceiveDate' => 'Tanggal',
+                    'saleOrderHeader:referenceNumber' => 'PO #', 
                     'id' => 'Customer',
                     'product:code' => 'Kode Produk', 
                     'product:name' => 'Nama Produk'
                 ],
                 'field_operators_list' => [
                     'saleOrderHeader:orderReceiveDate' => [SortAscending::class, SortDescending::class],
-                    'id' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:referenceNumber' => [SortAscending::class, SortDescending::class],
-                    'saleOrderHeader:note' => [SortAscending::class, SortDescending::class],
                     'saleOrderHeader:transactionStatus' => [SortAscending::class, SortDescending::class],
                     'product:code' => [SortAscending::class, SortDescending::class],
                     'product:name' => [SortAscending::class, SortDescending::class],
+                    'id' => [SortAscending::class, SortDescending::class],
+                    'note' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

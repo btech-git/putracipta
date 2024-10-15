@@ -49,15 +49,16 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
         return $saleOrderDetails;
     }
     
-    public function findCustomerSaleOrderDetails(array $customers, $startDate, $endDate, $productCode, $productName): array
+    public function findCustomerSaleOrderDetails(array $customers, $startDate, $endDate, $productCode, $productName, $referenceNumber): array
     {
         $productCodeConditionString = !empty($productCode) ? ' AND p.code LIKE :productCode' : '';
         $productNameConditionString = !empty($productName) ? ' AND p.name LIKE :productName' : '';
+        $referenceNumberConditionString = !empty($referenceNumber) ? ' AND h.referenceNumber LIKE :referenceNumber' : '';
         $dql = "SELECT e
                 FROM " . SaleOrderDetail::class . " e
                 JOIN e.saleOrderHeader h
                 JOIN e.product p
-                WHERE h.customer IN (:customers) AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString}
+                WHERE h.customer IN (:customers) AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString}{$referenceNumberConditionString}
                 ORDER BY h.customer ASC, h.orderReceiveDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
@@ -69,6 +70,9 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
         }
         if (!empty($productName)) {
             $query->setParameter('productName', '%' . $productName . '%');
+        }
+        if (!empty($referenceNumber)) {
+            $query->setParameter('referenceNumber', '%' . $referenceNumber . '%');
         }
         $saleOrderDetails = $query->getResult();
 
