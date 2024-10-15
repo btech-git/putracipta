@@ -7,6 +7,7 @@ use App\Common\Data\Operator\FilterBetween;
 use App\Entity\Master\Product;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Grid\Report\SaleOrderHeaderGridType;
+use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
@@ -24,7 +25,7 @@ class SaleOrderHeaderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_sale_order_header__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_SALE_REPORT')]
-    public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    public function _list(Request $request, SaleOrderHeaderRepository $saleOrderHeaderRepository, SaleOrderDetailRepository $saleOrderDetailRepository): Response
     {
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
@@ -43,18 +44,19 @@ class SaleOrderHeaderController extends AbstractController
             $qb->addOrderBy("{$alias}.orderReceiveDate", 'ASC');
             $qb->andWhere("{$alias}.isCanceled = false");
             
-//            $productCodeConditionString = !empty($criteria->getFilter()['product:code'][1]) ? 'AND IDENTITY(p.code) LIKE :productCode' : '';
-//            $productNameConditionString = !empty($criteria->getFilter()['product:name'][1]) ? 'AND IDENTITY(p.name) = :productName' : '';
-//            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d JOIN " . Product::class . " p WHERE {$alias} = d.saleOrderHeader AND d.isCanceled = false AND {$alias}.orderReceiveDate BETWEEN :startDate AND :endDate {$productCodeConditionString}{$productNameConditionString})");
-//            $qb->setParameter('startDate', $criteria->getFilter()['orderReceiveDate'][1]);
-//            $qb->setParameter('endDate', $criteria->getFilter()['orderReceiveDate'][2]);
-//            if (!empty($criteria->getFilter()['product:code'][1])) {
-//                $qb->setParameter('productCode', $criteria->getFilter()['product:code'][1]);
-//            }
-//            if (!empty($criteria->getFilter()['product:name'][1])) {
-//                $qb->setParameter('productName', $criteria->getFilter()['product:name'][1]);
-//            }
+            $productCodeConditionString = !empty($criteria->getFilter()['product:code'][1]) ? ' AND p.code LIKE :productCode' : '';
+            $productNameConditionString = !empty($criteria->getFilter()['product:name'][1]) ? ' AND p.name LIKE :productName' : '';
+            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d JOIN d.product p WHERE {$alias} = d.saleOrderHeader AND d.isCanceled = false AND {$alias}.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString})");
+            $qb->setParameter('startDate', $criteria->getFilter()['orderReceiveDate'][1]);
+            $qb->setParameter('endDate', $criteria->getFilter()['orderReceiveDate'][2]);
+            if (!empty($criteria->getFilter()['product:code'][1])) {
+                $qb->setParameter('productCode', '%' . $criteria->getFilter()['product:code'][1] . '%');
+            }
+            if (!empty($criteria->getFilter()['product:name'][1])) {
+                $qb->setParameter('productName', '%' . $criteria->getFilter()['product:name'][1] . '%');
+            }
         });
+        $saleOrderDetails = $this->getSaleOrderDetails($saleOrderDetailRepository, $criteria, $saleOrderHeaders);
 
         if ($request->request->has('export')) {
             return $this->export($form, $saleOrderHeaders);
@@ -63,6 +65,7 @@ class SaleOrderHeaderController extends AbstractController
                 'form' => $form,
                 'count' => $count,
                 'saleOrderHeaders' => $saleOrderHeaders,
+                'saleOrderDetails' => $saleOrderDetails,
             ]);
         }
     }
@@ -72,6 +75,21 @@ class SaleOrderHeaderController extends AbstractController
     public function index(): Response
     {
         return $this->render("report/sale_order_header/index.html.twig");
+    }
+
+    private function getSaleOrderDetails(SaleOrderDetailRepository $saleOrderDetailRepository, DataCriteria $criteria, array $saleOrderHeaders): array
+    {
+        $startDate = $criteria->getFilter()['orderReceiveDate'][1];
+        $endDate = $criteria->getFilter()['orderReceiveDate'][2];
+        $productCode = isset($criteria->getFilter()['product:code'][1]) ? $criteria->getFilter()['product:code'][1] : '';
+        $productName = isset($criteria->getFilter()['product:name'][1]) ? $criteria->getFilter()['product:name'][1] : '';
+        $saleOrderHeaderDetails = $saleOrderDetailRepository->findSaleOrderHeaderDetails($saleOrderHeaders, $startDate, $endDate, $productCode, $productName);
+        $saleOrderDetails = [];
+        foreach ($saleOrderHeaderDetails as $saleOrderHeaderDetail) {
+            $saleOrderDetails[$saleOrderHeaderDetail->getSaleOrderHeader()->getId()][] = $saleOrderHeaderDetail;
+        }
+
+        return $saleOrderDetails;
     }
 
     public function export(FormInterface $form, array $saleOrderHeaders): Response

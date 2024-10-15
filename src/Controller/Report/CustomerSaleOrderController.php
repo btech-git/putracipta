@@ -4,10 +4,10 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
-use App\Entity\Sale\SaleOrderHeader;
+use App\Entity\Sale\SaleOrderDetail;
 use App\Grid\Report\CustomerSaleOrderGridType;
 use App\Repository\Master\CustomerRepository;
-use App\Repository\Sale\SaleOrderHeaderRepository;
+use App\Repository\Sale\SaleOrderDetailRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -24,7 +24,7 @@ class CustomerSaleOrderController extends AbstractController
 {
     #[Route('/_list', name: 'app_report_customer_sale_order__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_SALE_REPORT')]
-    public function _list(Request $request, CustomerRepository $customerRepository, SaleOrderHeaderRepository $saleOrderHeaderRepository): Response
+    public function _list(Request $request, CustomerRepository $customerRepository, SaleOrderDetailRepository $saleOrderDetailRepository): Response
     {
         $criteria = new DataCriteria();
         $currentDate = date('Y-m-d');
@@ -36,21 +36,29 @@ class CustomerSaleOrderController extends AbstractController
 
         list($count, $customers) = $customerRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT s.id FROM " . SaleOrderHeader::class . " s WHERE {$alias} = s.customer AND s.isCanceled = false AND s.orderReceiveDate BETWEEN :startDate AND :endDate)");
+            $qb->addOrderBy("{$alias}.id", 'ASC');
+            $productCodeConditionString = !empty($criteria->getFilter()['product:code'][1]) ? ' AND p.code LIKE :productCode' : '';
+            $productNameConditionString = !empty($criteria->getFilter()['product:name'][1]) ? ' AND p.name LIKE :productName' : '';
+            $qb->andWhere("EXISTS (SELECT s.id FROM " . SaleOrderDetail::class . " d JOIN d.saleOrderHeader s JOIN d.product p WHERE {$alias} = s.customer AND s.isCanceled = false AND s.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2]);
-            $qb->addOrderBy("{$alias}.id", 'ASC');
+            if (!empty($criteria->getFilter()['product:code'][1])) {
+                $qb->setParameter('productCode', '%' . $criteria->getFilter()['product:code'][1] . '%');
+            }
+            if (!empty($criteria->getFilter()['product:name'][1])) {
+                $qb->setParameter('productName', '%' . $criteria->getFilter()['product:name'][1] . '%');
+            }
         });
-        $saleOrderHeaders = $this->getSaleOrderHeaders($saleOrderHeaderRepository, $criteria, $customers);
+        $saleOrderDetails = $this->getSaleOrderDetails($saleOrderDetailRepository, $criteria, $customers);
 
         if ($request->request->has('export')) {
-            return $this->export($form, $customers, $saleOrderHeaders);
+            return $this->export($form, $customers, $saleOrderDetails);
         } else {
             return $this->renderForm("report/customer_sale_order/_list.html.twig", [
                 'form' => $form,
                 'count' => $count,
                 'customers' => $customers,
-                'saleOrderHeaders' => $saleOrderHeaders,
+                'saleOrderDetails' => $saleOrderDetails,
             ]);
         }
     }
@@ -62,17 +70,19 @@ class CustomerSaleOrderController extends AbstractController
         return $this->render("report/customer_sale_order/index.html.twig");
     }
 
-    private function getSaleOrderHeaders(SaleOrderHeaderRepository $saleOrderHeaderRepository, DataCriteria $criteria, array $customers): array
+    private function getSaleOrderDetails(SaleOrderDetailRepository $saleOrderDetailRepository, DataCriteria $criteria, array $customers): array
     {
         $startDate = $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1];
         $endDate = $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2];
-        $customerSaleOrderHeaders = $saleOrderHeaderRepository->findCustomerSaleOrderHeaders($customers, $startDate, $endDate);
-        $saleOrderHeaders = [];
-        foreach ($customerSaleOrderHeaders as $customerSaleOrderHeader) {
-            $saleOrderHeaders[$customerSaleOrderHeader->getCustomer()->getId()][] = $customerSaleOrderHeader;
+        $productCode = isset($criteria->getFilter()['product:code'][1]) ? $criteria->getFilter()['product:code'][1] : '';
+        $productName = isset($criteria->getFilter()['product:name'][1]) ? $criteria->getFilter()['product:name'][1] : '';
+        $customerSaleOrderDetails = $saleOrderDetailRepository->findCustomerSaleOrderDetails($customers, $startDate, $endDate, $productCode, $productName);
+        $saleOrderDetails = [];
+        foreach ($customerSaleOrderDetails as $customerSaleOrderDetail) {
+            $saleOrderDetails[$customerSaleOrderDetail->getSaleOrderHeader()->getCustomer()->getId()][] = $customerSaleOrderDetail;
         }
 
-        return $saleOrderHeaders;
+        return $saleOrderDetails;
     }
 
     public function export(FormInterface $form, array $customers, array $saleOrderHeaders): Response

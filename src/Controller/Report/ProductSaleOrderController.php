@@ -57,9 +57,13 @@ class ProductSaleOrderController extends AbstractController
 
         list($count, $products) = $productRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d INNER JOIN " . SaleOrderHeader::class . " h WHERE {$alias} = d.product AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate)");
+            $referenceNumberConditionString = !empty($criteria->getFilter()['saleOrderHeader:referenceNumber'][1]) ? ' AND h.referenceNumber LIKE :referenceNumber' : '';
+            $qb->andWhere("EXISTS (SELECT d.id FROM " . SaleOrderDetail::class . " d INNER JOIN d.saleOrderHeader h WHERE {$alias} = d.product AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate{$referenceNumberConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate'][2]);
+            if (!empty($criteria->getFilter()['saleOrderHeader:referenceNumber'][1])) {
+                $qb->setParameter('referenceNumber', '%' . $criteria->getFilter()['saleOrderHeader:referenceNumber'][1] . '%');
+            }
             $qb->addOrderBy("{$alias}.name", 'ASC');
         });
         $saleOrderDetails = $this->getSaleOrderDetails($saleOrderDetailRepository, $criteria, $products);
