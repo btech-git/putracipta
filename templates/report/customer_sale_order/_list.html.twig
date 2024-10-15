@@ -20,23 +20,6 @@
                     </div>
                 </div>
             </div>
-            {#<div class="col">
-                <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Code Number</label>
-                    <div class="col-sm-10 w-75">
-                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                        <span><small>/{{ constant('App\\Entity\\Sale\\SaleOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
-                        <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
-                            {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
-                                {% set val = value == 0 ? '' : value %}
-                                <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                        <span><small>/</small></span>
-                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
-                    </div>
-                </div>
-            </div>#}
             <div class="col">
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Customer</label>
@@ -50,14 +33,25 @@
                     </div>
                 </div>
             </div>
-            {#<div class="col">
+        </div> 
+                        
+        <div class="row">
+            <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Status</label>
+                    <label class="col-sm-2 col-form-label w-25">Kode Produk</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:code') }} value="{{ form.filter['product:code'].1.vars.value }}" />
                     </div>
                 </div>
-            </div>#}
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Nama Produk</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -132,20 +126,18 @@
                         <table>
                             <tbody>
                                 {% set totalSum = '0.00' %}
-                                {% for saleOrderHeader in saleOrderHeaders[customer.id] %}
-                                    {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
-                                            <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
-                                            <td class="text-start">{{ saleOrderHeader.transactionStatus|default }}</td>
-                                            <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
-                                            <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
-                                            <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(2) }}</td>
-                                            <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
-                                            <td class="text-end">{{ saleOrderDetail.total|default|number_format(2) }}</td>
-                                        </tr>
-                                        {% set totalSum = totalSum + saleOrderHeader.grandTotal %}
-                                    {% endfor %}
+                                {% for saleOrderDetail in saleOrderDetails[customer.id] %}
+                                    <tr>
+                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.transactionStatus|default }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
+                                        <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                                    </tr>
+                                    {% set totalSum = totalSum + saleOrderDetail.saleOrderHeader.grandTotal %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

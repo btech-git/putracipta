@@ -58,7 +58,7 @@
             </div>
         </div>
                     
-        {#<div class="row">
+        <div class="row">
             <div class="col">
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Kode Produk</label>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </div>
-        </div>#}
+        </div>
     </div>
 
     <div class="d-grid">
@@ -153,7 +153,7 @@
                     <td colspan="6">
                         <table>
                             <tbody>
-                                {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                                {% for saleOrderDetail in saleOrderDetails[saleOrderHeader.id] %}
                                     <tr>
                                         <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
                                         <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
