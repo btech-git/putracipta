@@ -98,7 +98,7 @@ class DeliveryHeaderController extends AbstractController
             }
             
             $qb->andWhere("{$alias}.isCanceled = false");
-            $qb->andWhere("{$alias}.remainingQuantityDelivery > 0 AND {$alias}.isTransactionClosed = 0");
+            $qb->andWhere("{$alias}.remainingQuantityDelivery > {$alias}.minimumToleranceQuantity AND {$alias}.isTransactionClosed = 0");
         });
 
         return $this->renderForm("sale/delivery_header/_list_outstanding_sale_order.html.twig", [
