@@ -27,14 +27,24 @@ class PurchaseOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'note'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'supplier:company', 
+                    'transactionStatus',
+                    'material:code', 
+                    'material:name',
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'supplier:company' => 'Supplier',
-                    'note' => 'Note',
+                    'material:code' => 'Kode', 
+                    'material:name' => 'Nama',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
@@ -42,7 +52,9 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
+                    'transactionStatus' => [FilterContain::class, FilterNotContain::class],
+                    'material:code' => [FilterContain::class, FilterNotContain::class],
+                    'material:name' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -55,13 +67,24 @@ class PurchaseOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'supplier:company', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'supplier:company', 
+                    'transactionStatus',
+                    'material:code', 
+                    'material:name',
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'supplier:company' => 'Supplier',
+                    'material:code' => 'Kode', 
+                    'material:name' => 'Nama',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
@@ -69,7 +92,9 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
+                    'transactionStatus' => [SortAscending::class, SortDescending::class],
+                    'material:code' => [SortAscending::class, SortDescending::class],
+                    'material:name' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
