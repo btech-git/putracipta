@@ -80,7 +80,7 @@ class PurchaseInvoiceHeaderFormService
             $purchaseInvoiceDetail->setMaterial($receiveDetail->getMaterial());
             $purchaseInvoiceDetail->setPaper($receiveDetail->getPaper());
             $purchaseInvoiceDetail->setQuantity($receiveDetail->getReceivedQuantity());
-            $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
+//            $purchaseInvoiceDetail->setUnitPrice($purchaseOrderDetail->getUnitPriceBeforeTax());
             $purchaseInvoiceDetail->setUnit($receiveDetail === null ? null : $receiveDetail->getUnit());
         }
         
