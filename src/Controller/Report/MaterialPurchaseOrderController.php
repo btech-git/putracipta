@@ -37,10 +37,15 @@ class MaterialPurchaseOrderController extends AbstractController
 
         list($count, $materials) = $materialRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT d.id FROM " . PurchaseOrderDetail::class . " d INNER JOIN d.purchaseOrderHeader h WHERE {$alias} = d.material AND h.isCanceled = false AND h.transactionDate BETWEEN :startDate AND :endDate)");
+            $qb->addOrderBy("{$alias}.name", 'ASC');
+            
+            $transactionStatusConditionString = !empty($criteria->getFilter()['purchaseOrderHeader:transactionStatus'][1]) ? ' AND h.transactionStatus LIKE :transactionStatus' : '';
+            $qb->andWhere("EXISTS (SELECT d.id FROM " . PurchaseOrderDetail::class . " d INNER JOIN d.purchaseOrderHeader h WHERE {$alias} = d.material AND h.isCanceled = false AND h.transactionDate BETWEEN :startDate AND :endDate{$transactionStatusConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['purchaseOrderHeader:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['purchaseOrderHeader:transactionDate'][2]);
-            $qb->addOrderBy("{$alias}.name", 'ASC');
+            if (!empty($criteria->getFilter()['purchaseOrderHeader:transactionStatus'][1])) {
+                $qb->setParameter('transactionStatus', '%' . $criteria->getFilter()['purchaseOrderHeader:transactionStatus'][1] . '%');
+            }
         });
         $purchaseOrderDetails = $this->getPurchaseOrderDetails($purchaseOrderDetailRepository, $criteria, $materials);
 
@@ -67,7 +72,8 @@ class MaterialPurchaseOrderController extends AbstractController
     {
         $startDate = $criteria->getFilter()['purchaseOrderHeader:transactionDate'][1];
         $endDate = $criteria->getFilter()['purchaseOrderHeader:transactionDate'][2];
-        $materialPurchaseOrderDetails = $purchaseOrderDetailRepository->findMaterialPurchaseOrderDetails($materials, $startDate, $endDate);
+        $transactionStatus = isset($criteria->getFilter()['purchaseOrderHeader:transactionStatus'][1]) ? $criteria->getFilter()['purchaseOrderHeader:transactionStatus'][1] : '';
+        $materialPurchaseOrderDetails = $purchaseOrderDetailRepository->findMaterialPurchaseOrderDetails($materials, $startDate, $endDate, $transactionStatus);
         $purchaseOrderDetails = [];
         foreach ($materialPurchaseOrderDetails as $materialPurchaseOrderDetail) {
             $purchaseOrderDetails[$materialPurchaseOrderDetail->getMaterial()->getId()][] = $materialPurchaseOrderDetail;
