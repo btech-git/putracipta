@@ -6,7 +6,6 @@ use App\Common\Doctrine\Repository\EntityAdd;
 use App\Common\Doctrine\Repository\EntityDataFetch;
 use App\Common\Doctrine\Repository\EntityRemove;
 use App\Entity\Purchase\PurchaseOrderDetail;
-use App\Entity\Purchase\PurchaseOrderHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,18 +32,48 @@ class PurchaseOrderDetailRepository extends ServiceEntityRepository
         return $averagePriceList;
     }
     
-    public function findMaterialPurchaseOrderDetails(array $materials, $startDate, $endDate): array
+    public function findMaterialPurchaseOrderDetails(array $materials, $startDate, $endDate, $transactionStatus): array
     {
+        $materialCodeConditionString = !empty($transactionStatus) ? ' AND s.transactionStatus LIKE :transactionStatus' : '';
         $dql = "SELECT e
                 FROM " . PurchaseOrderDetail::class . " e
                 INNER JOIN e.purchaseOrderHeader s
-                WHERE e.material IN (:materials) AND s.transactionDate BETWEEN :startDate AND :endDate
+                WHERE e.material IN (:materials) AND s.transactionDate BETWEEN :startDate AND :endDate{$materialCodeConditionString}
                 ORDER BY e.material ASC, s.transactionDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('materials', $materials);
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
+        if (!empty($transactionStatus)) {
+            $query->setParameter('transactionStatus', '%' . $transactionStatus . '%');
+        }
+        $purchaseOrderDetails = $query->getResult();
+
+        return $purchaseOrderDetails;
+    }
+    
+    public function findPurchaseOrderHeaderDetails(array $purchaseOrderHeaders, $startDate, $endDate, $materialCode, $materialName): array
+    {
+        $materialCodeConditionString = !empty($materialCode) ? ' AND p.code LIKE :materialCode' : '';
+        $materialNameConditionString = !empty($materialName) ? ' AND p.name LIKE :materialName' : '';
+        $dql = "SELECT e
+                FROM " . PurchaseOrderDetail::class . " e
+                JOIN e.purchaseOrderHeader h
+                JOIN e.material p
+                WHERE e.purchaseOrderHeader IN (:purchaseOrderHeaders) AND h.isCanceled = false AND h.transactionDate BETWEEN :startDate AND :endDate{$materialCodeConditionString}{$materialNameConditionString}
+                ORDER BY h.id ASC, h.transactionDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('purchaseOrderHeaders', $purchaseOrderHeaders);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        if (!empty($materialCode)) {
+            $query->setParameter('materialCode', '%' . $materialCode . '%');
+        }
+        if (!empty($materialName)) {
+            $query->setParameter('materialName', '%' . $materialName . '%');
+        }
         $purchaseOrderDetails = $query->getResult();
 
         return $purchaseOrderDetails;
