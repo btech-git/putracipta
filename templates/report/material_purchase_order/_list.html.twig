@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Transaction Date</label>
+                    <label class="col-sm-2 col-form-label w-25">Tanggal</label>
                     <div class="col-sm-10 w-75">
                         <div class="row">
                             <div class="col">
@@ -20,39 +20,32 @@
                     </div>
                 </div>
             </div>
-            {#<div class="col">
+            <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Code Number</label>
+                    <label class="col-sm-2 col-form-label w-25">Status</label>
                     <div class="col-sm-10 w-75">
-                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                        <span><small>/{{ constant('App\\Entity\\Sale\\SaleOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
-                        <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
-                            {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
-                                {% set val = value == 0 ? '' : value %}
-                                <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                        <span><small>/</small></span>
-                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'purchaseOrderHeader:transactionStatus') }} value="{{ form.filter['purchaseOrderHeader:transactionStatus'].1.vars.value }}" />
                     </div>
                 </div>
-            </div>#}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Kode</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'code') }} value="{{ form.filter.code.1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
             <div class="col">
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Material</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter['name'].1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'name') }} value="{{ form.filter.name.1.vars.value }}" />
                     </div>
                 </div>
             </div>
-            {#<div class="col">
-                <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Status</label>
-                    <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
-                    </div>
-                </div>
-            </div>#}
         </div>
     </div>
 
@@ -132,8 +125,8 @@
                                         <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
                                         <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('j F Y') }}</td>
                                         <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.supplier.company|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
+                                        <td class="text-center">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
                                         <td class="text-end">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
                                     </tr>
                                     {% set totalSum = totalSum + purchaseOrderDetail.total %}

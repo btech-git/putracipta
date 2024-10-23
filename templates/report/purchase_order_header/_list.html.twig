@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Transaction Date</label>
+                    <label class="col-sm-2 col-form-label w-25">Tanggal</label>
                     <div class="col-sm-10 w-75">
                         <div class="row">
                             <div class="col">
@@ -22,7 +22,7 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Code Number</label>
+                    <label class="col-sm-2 col-form-label w-25">Transaksi #</label>
                     <div class="col-sm-10 w-75">
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
                         <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
@@ -38,6 +38,7 @@
                 </div>
             </div>
         </div>
+                    
         <div class="row">
             <div class="col">
                 <div class="my-2 row">
@@ -49,9 +50,28 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Note</label>
+                    <label class="col-sm-2 col-form-label w-25">Status</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'note') }} value="{{ form.filter.note.1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'transactionStatus') }} value="{{ form.filter.transactionStatus.1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Kode Kertas</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:code') }} value="{{ form.filter['material:code'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Nama Kertas</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:name') }} value="{{ form.filter['material:name'].1.vars.value }}" />
                     </div>
                 </div>
             </div>
