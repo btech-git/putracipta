@@ -66,6 +66,7 @@
                     'supplierDeliveryCodeNumber': receiveHeader.supplierDeliveryCodeNumber,
                     'supplierPaymentTerm': receiveHeader.supplier.paymentTerm|default,
                     'receiveDetailId': receiveDetail.id, 
+                    'purchaseOrderUnitPrice': receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.unitPrice|default|number_format(2) : receiveDetail.purchaseOrderDetail.unitPrice|default|number_format(2), 
                     'materialName': receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default, 
                     'materialCode': receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default, 
                     'unitName': receiveDetail.unit.name|default})|json_encode }}">
