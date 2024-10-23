@@ -103,11 +103,15 @@ class SaleOrderDetail extends SaleDetail
     #[ORM\Column(length: 100)]
     private ?string $deliveryDateAlternate = '';
 
+    #[ORM\OneToMany(mappedBy: 'saleOrderDetail', targetEntity: SaleOrderDetailLogData::class)]
+    private Collection $saleOrderDetailLogData;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
         $this->masterOrderProductDetails = new ArrayCollection();
         $this->inventoryProductReceiveDetails = new ArrayCollection();
+        $this->saleOrderDetailLogData = new ArrayCollection();
     }
 
     public function getSyncIsCanceled(): bool
@@ -484,6 +488,36 @@ class SaleOrderDetail extends SaleDetail
     public function setDeliveryDateAlternate(string $deliveryDateAlternate): self
     {
         $this->deliveryDateAlternate = $deliveryDateAlternate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaleOrderDetailLogData>
+     */
+    public function getSaleOrderDetailLogData(): Collection
+    {
+        return $this->saleOrderDetailLogData;
+    }
+
+    public function addSaleOrderDetailLogData(SaleOrderDetailLogData $saleOrderDetailLogData): self
+    {
+        if (!$this->saleOrderDetailLogData->contains($saleOrderDetailLogData)) {
+            $this->saleOrderDetailLogData->add($saleOrderDetailLogData);
+            $saleOrderDetailLogData->setSaleOrderDetail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleOrderDetailLogData(SaleOrderDetailLogData $saleOrderDetailLogData): self
+    {
+        if ($this->saleOrderDetailLogData->removeElement($saleOrderDetailLogData)) {
+            // set the owning side to null (unless already changed)
+            if ($saleOrderDetailLogData->getSaleOrderDetail() === $this) {
+                $saleOrderDetailLogData->setSaleOrderDetail(null);
+            }
+        }
 
         return $this;
     }

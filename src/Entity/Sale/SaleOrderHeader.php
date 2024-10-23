@@ -145,9 +145,13 @@ class SaleOrderHeader extends SaleHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $totalRemainingDelivery = '0.00';
 
+    #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetailLogData::class)]
+    private Collection $saleOrderDetailLogData;
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
+        $this->saleOrderDetailLogData = new ArrayCollection();
     }
 
     public function getCodeNumberConstant(): string
@@ -539,6 +543,36 @@ class SaleOrderHeader extends SaleHeader
     public function setTotalRemainingDelivery(string $totalRemainingDelivery): self
     {
         $this->totalRemainingDelivery = $totalRemainingDelivery;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaleOrderDetailLogData>
+     */
+    public function getSaleOrderDetailLogData(): Collection
+    {
+        return $this->saleOrderDetailLogData;
+    }
+
+    public function addSaleOrderDetailLogData(SaleOrderDetailLogData $saleOrderDetailLogData): self
+    {
+        if (!$this->saleOrderDetailLogData->contains($saleOrderDetailLogData)) {
+            $this->saleOrderDetailLogData->add($saleOrderDetailLogData);
+            $saleOrderDetailLogData->setSaleOrderHeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleOrderDetailLogData(SaleOrderDetailLogData $saleOrderDetailLogData): self
+    {
+        if ($this->saleOrderDetailLogData->removeElement($saleOrderDetailLogData)) {
+            // set the owning side to null (unless already changed)
+            if ($saleOrderDetailLogData->getSaleOrderHeader() === $this) {
+                $saleOrderDetailLogData->setSaleOrderHeader(null);
+            }
+        }
 
         return $this;
     }
