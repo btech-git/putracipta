@@ -148,7 +148,7 @@
                 {% set rownumber = 1 %}
                 {% for row in saleInvoiceHeader.saleInvoiceDetails|filter(saleInvoiceDetail => not saleInvoiceDetail.isCanceled and saleInvoiceDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for saleInvoiceDetail in row %}
-                        <tr style="font-size: 9px">
+                        <tr style="font-size: 10px">
                             {% if saleInvoiceDetail %}
                                 <td class="center">{{ rownumber }}</td>
                                 <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
