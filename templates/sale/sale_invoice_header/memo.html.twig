@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="memo">
-        <div class="note" visibility: hidden">
+        <div class="note" style="visibility: hidden">
             <div class="table full">
                 <div class="cell col">
                     <div class="table full">
@@ -129,18 +129,18 @@
         <table class="detail">
             <thead>
                 <tr>
-                    <th class="center">No</th>
-                    <th class="center">PO #</th>
+                    <th class="center" style="width: 3%">No</th>
+                    <th class="center" style="width: 10%">PO #</th>
                     {% if saleInvoiceHeader.isUsingFscPaper %}
-                        <th class="center">FSC Code</th>
-                        <th class="center">WO #</th>
+                        <th class="center" style="width: 5%">FSC Code</th>
+                        <th class="center" style="width: 10%">WO #</th>
                     {% endif %}
-                    <th class="center">Code</th>
+                    <th class="center" style="width: 7%">Code</th>
                     <th class="center">Description</th>
-                    <th class="center">Qty</th>
-                    <th class="center">Unit</th>
-                    <th class="center">Price</th>
-                    <th class="center">Total</th>
+                    <th class="center" style="width: 10%">Qty</th>
+                    <th class="center" style="width: 5%">Unit</th>
+                    <th class="center" style="width: 10%">Price</th>
+                    <th class="center" style="width: 15%">Total</th>
                 </tr>
             </thead>
             <tbody>
