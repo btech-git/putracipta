@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="memo">
-        <div class="note" style="font-size: 6px; visibility: hidden">
+        <div class="note" visibility: hidden">
             <div class="table full">
                 <div class="cell col">
                     <div class="table full">
@@ -148,7 +148,7 @@
                 {% set rownumber = 1 %}
                 {% for row in saleInvoiceHeader.saleInvoiceDetails|filter(saleInvoiceDetail => not saleInvoiceDetail.isCanceled and saleInvoiceDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for saleInvoiceDetail in row %}
-                        <tr>
+                        <tr style="font-size: 9px">
                             {% if saleInvoiceDetail %}
                                 <td class="center">{{ rownumber }}</td>
                                 <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
