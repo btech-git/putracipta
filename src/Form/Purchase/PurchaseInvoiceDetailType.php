@@ -3,6 +3,7 @@
 namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
+use App\Common\Form\Type\FormattedNumberType;
 use App\Entity\Purchase\PurchaseInvoiceDetail;
 use App\Entity\Purchase\ReceiveDetail;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +15,7 @@ class PurchaseInvoiceDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isCanceled')
+            ->add('unitPrice', FormattedNumberType::class, ['decimals' => 2])
             ->add('receiveDetail', EntityHiddenType::class, ['class' => ReceiveDetail::class])
         ;
     }
