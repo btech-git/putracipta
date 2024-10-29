@@ -63,7 +63,8 @@ class SaleOrderHeaderGridType extends AbstractType
                         'Rejected' => SaleOrderHeader::TRANSACTION_STATUS_REJECT,
                         'Released' => SaleOrderHeader::TRANSACTION_STATUS_RELEASE,
                         'Internal' => SaleOrderHeader::TRANSACTION_TYPE_INTERNAL,
-                        'On production' => SaleOrderHeader::TRANSACTION_TYPE_PRODUCTION
+                        'On production' => SaleOrderHeader::TRANSACTION_TYPE_PRODUCTION,
+                        'Canceled' => SaleOrderHeader::TRANSACTION_STATUS_CANCEL,
                     ]],
                 ],
             ])
