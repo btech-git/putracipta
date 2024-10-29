@@ -22,12 +22,12 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Code Number</label>
+                    <label class="col-sm-2 col-form-label w-25">Transaction #</label>
                     <div class="col-sm-10 w-75">
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
                         <span><small>/{{ constant('App\\Entity\\Sale\\SalePaymentHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
                         <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
-                            {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% for value, label in constant('App\\Entity\\SaleHeader::MONTH_ROMAN_NUMERALS') %}
                                 {% set val = value == 0 ? '' : value %}
                                 <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
                             {% endfor %}
@@ -49,9 +49,18 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">PO #</label>
+                    <label class="col-sm-2 col-form-label w-25">Invoice #</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderReferenceNumbers') }} value="{{ form.filter.saleOrderReferenceNumbers.1.vars.value }}" />
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'saleInvoiceHeader:codeNumberOrdinal') }} value="{{ form.filter['saleInvoiceHeader:codeNumberOrdinal'].1.vars.value }}" />
+                        <span><small>/{{ constant('App\\Entity\\Sale\\SaleInvoiceHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                        <select {{ grid.filter_link_item(form, 'saleInvoiceHeader:codeNumberMonth') }}>
+                            {% for value, label in constant('App\\Entity\\SaleHeader::MONTH_ROMAN_NUMERALS') %}
+                                {% set val = value == 0 ? '' : value %}
+                                <option value="{{ val }}" {% if form.filter['saleInvoiceHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <span><small>/</small></span>
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'saleInvoiceHeader:codeNumberYear') }} value="{{ form.filter['saleInvoiceHeader:codeNumberYear'].1.vars.value }}" />
                     </div>
                 </div>
             </div>
@@ -134,7 +143,7 @@
                     <td colspan="7">
                         <table>
                             <tbody>
-                                {% for salePaymentDetail in salePaymentHeader.salePaymentDetails %}
+                                {% for salePaymentDetail in salePaymentDetails[salePaymentHeader.id] %}
                                     <tr>
                                         <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.codeNumber|default }}</td>
                                         <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.transactionDate|default ? salePaymentDetail.saleInvoiceHeader.transactionDate|date('j M Y') }}</td>

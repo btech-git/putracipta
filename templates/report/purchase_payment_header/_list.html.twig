@@ -54,9 +54,9 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Giro/Cek #</label>
+                    <label class="col-sm-2 col-form-label w-25">Invoice #</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'referenceNumber') }} value="{{ form.filter.referenceNumber.1.vars.value }}" />
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'purchaseInvoiceHeader:supplierInvoiceCodeNumber') }} value="{{ form.filter['purchaseInvoiceHeader:supplierInvoiceCodeNumber'].1.vars.value }}" />
                     </div>
                 </div>
             </div>
