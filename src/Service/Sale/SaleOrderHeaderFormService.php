@@ -4,11 +4,13 @@ namespace App\Service\Sale;
 
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Sale\SaleOrderDetail;
+use App\Entity\Sale\SaleOrderDetailLogData;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Entity\Support\TransactionLog;
 use App\Repository\Sale\SaleOrderDetailRepository;
+use App\Repository\Sale\SaleOrderDetailLogDataRepository;
 use App\Repository\Sale\SaleOrderHeaderRepository;
 use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
@@ -29,6 +31,7 @@ class SaleOrderHeaderFormService
     private IdempotentRepository $idempotentRepository;
     private SaleOrderHeaderRepository $saleOrderHeaderRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
+    private SaleOrderDetailLogDataRepository $saleOrderDetailLogDataRepository;
     private InventoryRepository $inventoryRepository;
 
     public function __construct(RequestStack $requestStack, SaleOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
@@ -40,6 +43,7 @@ class SaleOrderHeaderFormService
         $this->idempotentRepository = $entityManager->getRepository(Idempotent::class);
         $this->saleOrderHeaderRepository = $entityManager->getRepository(SaleOrderHeader::class);
         $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
+        $this->saleOrderDetailLogDataRepository = $entityManager->getRepository(SaleOrderDetailLogData::class);
         $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
     }
 
@@ -142,6 +146,7 @@ class SaleOrderHeaderFormService
             foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
                 $this->saleOrderDetailRepository->add($saleOrderDetail);
             }
+            $this->addSaleOrderDetailLogs($saleOrderHeader);
             $entityManager->flush();
             $transactionLog = $this->buildTransactionLog($saleOrderHeader);
             $this->transactionLogRepository->add($transactionLog);
@@ -179,5 +184,25 @@ class SaleOrderHeaderFormService
             $saleOrderHeader->addSaleOrderDetail($saleOrderDetail);
         }
         return $saleOrderHeader;
+    }
+
+    public function addSaleOrderDetailLogs(SaleOrderHeader $saleOrderHeader): void
+    {
+        foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+            $saleOrderDetailLogData = new SaleOrderDetailLogData();
+            $saleOrderDetailLogData->setUnitPrice($saleOrderDetail->getUnitPrice());
+            $saleOrderDetailLogData->setProduct($saleOrderDetail->getProduct());
+            $saleOrderDetailLogData->setUnit($saleOrderDetail->getUnit());
+            $saleOrderDetailLogData->setSaleOrderHeader($saleOrderDetail->getSaleOrderHeader());
+            $saleOrderDetailLogData->setSaleOrderDetail($saleOrderDetail);
+            $saleOrderDetailLogData->setDeliveryDate($saleOrderDetail->getDeliveryDate());
+            $saleOrderDetailLogData->setUnitPriceBeforeTax($saleOrderDetail->getUnitPriceBeforeTax());
+            $saleOrderDetailLogData->setIsTransactionClosed($saleOrderDetail->isIsTransactionClosed());
+            $saleOrderDetailLogData->setLinePo($saleOrderDetail->getLinePo());
+            $saleOrderDetailLogData->setMinimumToleranceQuantity($saleOrderDetail->getMinimumToleranceQuantity());
+            $saleOrderDetailLogData->setMaximumToleranceQuantity($saleOrderDetail->getMaximumToleranceQuantity());
+            $saleOrderDetailLogData->setQuantity($saleOrderDetail->getQuantity());
+            $this->saleOrderDetailLogDataRepository->add($saleOrderDetailLogData);
+        }
     }
 }
