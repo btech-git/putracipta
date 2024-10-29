@@ -27,14 +27,25 @@ class SalePaymentHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'customer:company', 
+                    'saleInvoiceHeader:codeNumberOrdinal', 
+                    'saleInvoiceHeader:codeNumberMonth', 
+                    'saleInvoiceHeader:codeNumberYear', 
+                ],
                 'field_label_list' => [
-                    'codeNumberOrdinal' => 'Code Number',
+                    'codeNumberOrdinal' => 'Transaction #',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
-                    'saleOrderReferenceNumbers' => 'PO #',
+                    'saleInvoiceHeader:codeNumberOrdinal' => 'Invoice #', 
+                    'saleInvoiceHeader:codeNumberMonth' => '', 
+                    'saleInvoiceHeader:codeNumberYear' => '', 
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
@@ -42,28 +53,41 @@ class SalePaymentHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
-                    'note' => [FilterContain::class, FilterNotContain::class],
-                    'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
+                    'saleInvoiceHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
+                    'saleInvoiceHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
+                    'saleInvoiceHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'saleInvoiceHeader:codeNumberOrdinal' => IntegerType::class,
+                    'saleInvoiceHeader:codeNumberMonth' => ChoiceType::class,
+                    'saleInvoiceHeader:codeNumberYear' => IntegerType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
+                    'saleInvoiceHeader:codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'customer:company', 
+                    'saleInvoiceHeader:codeNumberOrdinal', 
+                    'saleInvoiceHeader:codeNumberMonth', 
+                    'saleInvoiceHeader:codeNumberYear', 
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
-                    'saleOrderReferenceNumbers' => 'PO #',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
@@ -71,8 +95,9 @@ class SalePaymentHeaderGridType extends AbstractType
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
-                    'note' => [SortAscending::class, SortDescending::class],
-                    'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
+                    'saleInvoiceHeader:codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'saleInvoiceHeader:codeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'saleInvoiceHeader:codeNumberYear' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [50, 100, 300, 500]])

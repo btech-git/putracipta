@@ -29,13 +29,20 @@ class PurchasePaymentHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier', 'referenceNumber'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'supplier', 
+                    'purchaseInvoiceHeader:supplierInvoiceCodeNumber'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
-                    'referenceNumber' => 'Giro/Cek #',
+                    'purchaseInvoiceHeader:supplierInvoiceCodeNumber' => 'Invoice #',
                     'supplier' => 'Supplier',
                 ],
                 'field_operators_list' => [
@@ -43,7 +50,7 @@ class PurchasePaymentHeaderGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'referenceNumber' => [FilterContain::class, FilterNotContain::class],
+                    'purchaseInvoiceHeader:supplierInvoiceCodeNumber' => [FilterContain::class, FilterNotContain::class],
                     'supplier' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
@@ -67,13 +74,20 @@ class PurchasePaymentHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'supplier', 'referenceNumber', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'transactionDate', 
+                    'supplier', 
+                    'purchaseInvoiceHeader:supplierInvoiceCodeNumber'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
-                    'referenceNumber' => 'Giro/Cek #',
+                    'purchaseInvoiceHeader:supplierInvoiceCodeNumber' => 'Invoice #',
                     'supplier' => 'Supplier',
                 ],
                 'field_operators_list' => [
@@ -82,7 +96,7 @@ class PurchasePaymentHeaderGridType extends AbstractType
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier' => [SortAscending::class, SortDescending::class],
-                    'referenceNumber' => [SortAscending::class, SortDescending::class],
+                    'purchaseInvoiceHeader:supplierInvoiceCodeNumber' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
