@@ -45,7 +45,7 @@ class SaleInvoiceDetail extends SaleDetail
     #[Assert\Type('numeric')]
     private ?string $quantity = '0.00';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 6)]
     private ?string $unitPriceBeforeTax = '0.00';
 
     public function getSyncIsCanceled(): bool
