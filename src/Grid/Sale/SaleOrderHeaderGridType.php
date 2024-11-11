@@ -26,19 +26,28 @@ class SaleOrderHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'referenceNumber', 'customer:company', 'note', 'transactionStatus'],
+                'field_names' => [
+                    'codeNumberOrdinal', 
+                    'codeNumberMonth', 
+                    'codeNumberYear', 
+                    'orderReceiveDate', 
+                    'referenceNumber', 
+                    'customer:company', 
+                    'note', 
+                    'transactionStatus'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'transactionDate' => 'Tanggal',
+                    'orderReceiveDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
-                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'orderReceiveDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'referenceNumber' => [FilterContain::class, FilterNotContain::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
@@ -52,7 +61,7 @@ class SaleOrderHeaderGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
-                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'orderReceiveDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'transactionStatus' => ['choices' => [
                         'Approved' => SaleOrderHeader::TRANSACTION_STATUS_APPROVE, 
                         'Completed' => SaleOrderHeader::TRANSACTION_STATUS_DONE,
@@ -69,19 +78,28 @@ class SaleOrderHeaderGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'customer:company', 'referenceNumber', 'note', 'transactionStatus', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => [
+                    'orderReceiveDate', 
+                    'customer:company', 
+                    'referenceNumber', 
+                    'note', 
+                    'transactionStatus', 
+                    'codeNumberYear', 
+                    'codeNumberMonth', 
+                    'codeNumberOrdinal'
+                ],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
-                    'transactionDate' => 'Tanggal',
+                    'orderReceiveDate' => 'Tanggal',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
-                    'transactionDate' => [SortAscending::class, SortDescending::class],
+                    'orderReceiveDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'referenceNumber' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
