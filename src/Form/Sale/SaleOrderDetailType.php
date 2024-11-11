@@ -16,7 +16,7 @@ class SaleOrderDetailType extends AbstractType
     {
         $builder
             ->add('quantity', FormattedNumberType::class, ['decimals' => 2])
-            ->add('unitPrice', FormattedNumberType::class, ['decimals' => 2])
+            ->add('unitPrice', FormattedNumberType::class, ['decimals' => 6])
             ->add('deliveryDate', null, ['widget' => 'single_text'])
             ->add('product', EntityHiddenType::class, array('class' => Product::class))
             ->add('unit', null, [
