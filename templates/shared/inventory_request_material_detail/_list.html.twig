@@ -76,7 +76,7 @@
                     'inventoryRequestMaterialDetailMemo': inventoryRequestMaterialDetail.memo|default,
                     'unitId': inventoryRequestMaterialDetail.unit.id,
                     'unitName': inventoryRequestMaterialDetail.unit.name}|json_encode }}">
-                    <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber }}</td>
+                    <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
                     <td>{{ inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate ? inventoryRequestMaterialDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestMaterialDetail.material.codeNumber|default }}</td>

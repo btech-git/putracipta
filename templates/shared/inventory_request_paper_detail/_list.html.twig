@@ -80,8 +80,8 @@
                     'inventoryRequestPaperDetailMemo': inventoryRequestPaperDetail.memo|default,
                     'unitId': inventoryRequestPaperDetail.unit.id,
                     'unitName': inventoryRequestPaperDetail.unit.name}|json_encode }}">
-                    <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber }}</td>
-                    <td>{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber }}</td>
+                    <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber|default }}</td>
+                    <td>{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
                     <td>{{ inventoryRequestPaperDetail.paper.name|default }}</td>
                     <td>{{ inventoryRequestPaperDetail.inventoryRequestHeader.pickupDate ? inventoryRequestPaperDetail.inventoryRequestHeader.pickupDate|date('d M Y') : '' }}</td>
                     <td>{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>

@@ -55,7 +55,7 @@
                     'unitPrice': deliveryDetail.saleOrderDetail.unitPriceBeforeTax|default|number_format(6),
                     'total': deliveryDetail.total|default|number_format(2),
                     'unitName': deliveryDetail.unit.name}|json_encode }}">
-                    <td>{{ deliveryDetail.deliveryHeader.codeNumber }}</td>
+                    <td>{{ deliveryDetail.deliveryHeader.codeNumber|default }}</td>
                     <td>{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td>{{ deliveryDetail.product.code|default }}</td>
                     <td>{{ deliveryDetail.product.name|default }}</td>
