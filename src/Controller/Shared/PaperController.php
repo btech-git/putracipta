@@ -4,6 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortAscending;
+use App\Entity\Stock\Inventory;
 use App\Grid\Shared\PaperGridType;
 use App\Repository\Master\PaperRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,6 +39,12 @@ class PaperController extends AbstractController
                 $add['sort']($qb, 's', 'name', $request->request->get('paper_grid')['sort']['materialSubCategory:name']);
             }
             $qb->andWhere("{$alias}.isInactive = false");
+            
+            if (isset($request->request->get('stock_transfer_header')['warehouseFrom'])) {
+                $warehouseFromId = $request->request->get('stock_transfer_header')['warehouseFrom'];
+                $qb->andWhere("0 < (SELECT COALESCE(SUM(i.quantityIn - i.quantityOut), 0) FROM " . Inventory::class . " i WHERE {$alias} = i.paper AND i.isReversed = false AND IDENTITY(i.warehouse) = :warehouseFromId)");
+                $qb->setParameter('warehouseFromId', $warehouseFromId);
+            }
         });
 
         return $this->renderForm("shared/paper/_list.html.twig", [

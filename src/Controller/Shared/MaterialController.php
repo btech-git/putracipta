@@ -4,6 +4,7 @@ namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortAscending;
+use App\Entity\Stock\Inventory;
 use App\Grid\Shared\MaterialGridType;
 use App\Repository\Master\MaterialRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -39,6 +40,12 @@ class MaterialController extends AbstractController
                 $add['sort']($qb, 'c', 'name', $request->request->get('material_grid')['sort']['materialCategory:name']);
             }
             $qb->andWhere("{$alias}.isInactive = false");
+            
+            if (isset($request->request->get('stock_transfer_header')['warehouseFrom'])) {
+                $warehouseFromId = $request->request->get('stock_transfer_header')['warehouseFrom'];
+                $qb->andWhere("0 < (SELECT COALESCE(SUM(i.quantityIn - i.quantityOut), 0) FROM " . Inventory::class . " i WHERE {$alias} = i.material AND i.isReversed = false AND IDENTITY(i.warehouse) = :warehouseFromId)");
+                $qb->setParameter('warehouseFromId', $warehouseFromId);
+            }
         });
 
         return $this->renderForm("shared/material/_list.html.twig", [
