@@ -63,12 +63,18 @@ class MasterOrderHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($masterOrderHeader->getId())) {
-            $masterOrderHeader->setCreatedTransactionDateTime($datetime);
-            $masterOrderHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $masterOrderHeader->setIsCanceled(true);
+            $masterOrderHeader->setCancelledTransactionDateTime($datetime);
+            $masterOrderHeader->setCancelledTransactionUser($user);
         } else {
-            $masterOrderHeader->setModifiedTransactionDateTime($datetime);
-            $masterOrderHeader->setModifiedTransactionUser($user);
+            if (empty($masterOrderHeader->getId())) {
+                $masterOrderHeader->setCreatedTransactionDateTime($datetime);
+                $masterOrderHeader->setCreatedTransactionUser($user);
+            } else {
+                $masterOrderHeader->setModifiedTransactionDateTime($datetime);
+                $masterOrderHeader->setModifiedTransactionUser($user);
+            }
         }
     }
 
