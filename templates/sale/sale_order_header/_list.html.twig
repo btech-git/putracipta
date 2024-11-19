@@ -11,8 +11,11 @@
                 <th style="min-width: 280px" role="button"{{ grid.sort_link_item(form, ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear']) }}>
                     SO # {{ grid.sort_char(form.sort.codeNumberOrdinal.vars.value) }}
                 </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort.transactionDate.vars.value) }}
+                </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'orderReceiveDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort.orderReceiveDate.vars.value) }}
+                    Tanggal Terima {{ grid.sort_char(form.sort.orderReceiveDate.vars.value) }}
                 </th>
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'customer:company') }}>
                     Customer {{ grid.sort_char(form.sort['customer:company'].vars.value) }}
@@ -41,6 +44,9 @@
                     <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
                 </th>
                 <th>
+                    <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate') }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                </th>
+                <th>
                     <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'orderReceiveDate') }} value="{{ form.filter.orderReceiveDate.1.vars.value }}" />
                 </th>
                 <th>
@@ -67,6 +73,7 @@
             {% for saleOrderHeader in saleOrderHeaders %}
                 <tr>
                     <td>{{ saleOrderHeader.codeNumber }}</td>
+                    <td>{{ saleOrderHeader.transactionDate ? saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ saleOrderHeader.orderReceiveDate ? saleOrderHeader.orderReceiveDate|date('d M Y') : '' }}</td>
                     <td>{{ saleOrderHeader.customer.company|default }}</td>
                     <td>{{ saleOrderHeader.referenceNumber }}</td>
