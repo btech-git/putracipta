@@ -87,7 +87,7 @@ class SaleOrderDetailRepository extends ServiceEntityRepository
                 FROM " . SaleOrderDetail::class . " e
                 JOIN e.saleOrderHeader h
                 JOIN e.product p
-                WHERE e.saleOrderHeader IN (:saleOrderHeaders) AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate{$productCodeConditionString}{$productNameConditionString}
+                WHERE e.saleOrderHeader IN (:saleOrderHeaders) AND h.isCanceled = false AND h.orderReceiveDate BETWEEN :startDate AND :endDate AND e.isCanceled = false{$productCodeConditionString}{$productNameConditionString}
                 ORDER BY h.id ASC, h.orderReceiveDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
