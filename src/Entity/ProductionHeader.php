@@ -53,6 +53,12 @@ abstract class ProductionHeader
     #[ORM\Column(type: Types::SMALLINT)]
     protected ?int $codeNumberVersion = 0;
 
+    #[ORM\ManyToOne]
+    private ?User $cancelledTransactionUser = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $cancelledTransactionDateTime = null;
+
     public abstract function getCodeNumberConstant(): string;
 
     public function getCodeNumber(): string
@@ -214,6 +220,30 @@ abstract class ProductionHeader
     public function setNote(string $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getCancelledTransactionUser(): ?User
+    {
+        return $this->cancelledTransactionUser;
+    }
+
+    public function setCancelledTransactionUser(?User $cancelledTransactionUser): self
+    {
+        $this->cancelledTransactionUser = $cancelledTransactionUser;
+
+        return $this;
+    }
+
+    public function getCancelledTransactionDateTime(): ?\DateTimeInterface
+    {
+        return $this->cancelledTransactionDateTime;
+    }
+
+    public function setCancelledTransactionDateTime(?\DateTimeInterface $cancelledTransactionDateTime): self
+    {
+        $this->cancelledTransactionDateTime = $cancelledTransactionDateTime;
 
         return $this;
     }
