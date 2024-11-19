@@ -30,6 +30,7 @@ class SaleOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal', 
                     'codeNumberMonth', 
                     'codeNumberYear', 
+                    'transactionDate',
                     'orderReceiveDate', 
                     'referenceNumber', 
                     'customer:company', 
@@ -40,13 +41,14 @@ class SaleOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
-                    'orderReceiveDate' => 'Tanggal',
+                    'orderReceiveDate' => 'Tanggal Terima',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
+                    'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'orderReceiveDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'referenceNumber' => [FilterContain::class, FilterNotContain::class],
@@ -61,6 +63,7 @@ class SaleOrderHeaderGridType extends AbstractType
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
+                    'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'orderReceiveDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'transactionStatus' => ['choices' => [
                         'Approved' => SaleOrderHeader::TRANSACTION_STATUS_APPROVE, 
@@ -80,6 +83,7 @@ class SaleOrderHeaderGridType extends AbstractType
             ->add('sort', SortType::class, [
                 'field_names' => [
                     'orderReceiveDate', 
+                    'transactionDate',
                     'customer:company', 
                     'referenceNumber', 
                     'note', 
@@ -92,13 +96,14 @@ class SaleOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
-                    'orderReceiveDate' => 'Tanggal',
+                    'orderReceiveDate' => 'Tanggal Terima',
                     'customer:company' => 'Customer',
                 ],
                 'field_operators_list' => [
                     'codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
+                    'transactionDate' => [SortAscending::class, SortDescending::class],
                     'orderReceiveDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'referenceNumber' => [SortAscending::class, SortDescending::class],
