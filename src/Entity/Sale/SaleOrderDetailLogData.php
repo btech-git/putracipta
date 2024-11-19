@@ -66,6 +66,14 @@ class SaleOrderDetailLogData extends SaleDetail
     #[Assert\GreaterThan(0)]
     private ?string $quantity = '0.00';
 
+    public function getTotal(): string
+    {
+        if ($this->saleOrderHeader === null) {
+            return '0.00';
+        }
+        return $this->saleOrderHeader->getTaxMode() === $this->saleOrderHeader::TAX_MODE_TAX_INCLUSION ? round($this->quantity * $this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100), 2) : $this->quantity * $this->unitPrice;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
