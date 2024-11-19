@@ -219,11 +219,19 @@ class MasterOrderHeaderController extends AbstractController
     
     #[Route('/{id}/delete', name: 'app_production_master_order_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_MASTER_ORDER_EDIT')]
-    public function delete(Request $request, MasterOrderHeader $masterOrderHeader, MasterOrderHeaderRepository $masterOrderHeaderRepository): Response
+    public function delete(Request $request, MasterOrderHeader $masterOrderHeader, MasterOrderHeaderFormService $masterOrderHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $masterOrderHeader->getId(), $request->request->get('_token'))) {
-            $masterOrderHeaderRepository->remove($masterOrderHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $masterOrderHeader->getId(), $request->request->get('_token'))) {
+            $form = $this->createForm(MasterOrderHeaderType::class, $masterOrderHeader);
+            $form->handleRequest($request);
+            $masterOrderHeaderFormService->initialize($masterOrderHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $masterOrderHeaderFormService->finalize($masterOrderHeader, ['cancelTransaction' => true, 'transactionFile' => $form->get('transactionFile')->getData()]);
+            $masterOrderHeaderFormService->save($masterOrderHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
