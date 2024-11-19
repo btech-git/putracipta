@@ -14,6 +14,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Master\Customer;
 use App\Entity\Master\Warehouse;
 use App\Entity\SaleHeader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -29,13 +30,12 @@ class DeliveryHeaderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'customer:company', 'saleOrderReferenceNumbers', 'note'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'warehouse', 'customer', 'saleOrderReferenceNumbers', 'note'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => '',
                     'transactionDate' => 'Tanggal',
-                    'customer:company' => 'Customer',
                     'saleOrderReferenceNumbers' => 'PO #',
                     'warehouse' => 'Gudang',
                 ],
@@ -44,7 +44,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'customer:company' => [FilterContain::class, FilterNotContain::class],
+                    'customer' => [FilterEqual::class, FilterNotEqual::class],
                     'warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'note' => [FilterContain::class, FilterNotContain::class],
                     'saleOrderReferenceNumbers' => [FilterContain::class, FilterNotContain::class],
@@ -54,21 +54,30 @@ class DeliveryHeaderGridType extends AbstractType
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
                     'warehouse' => EntityType::class,
+                    'customer' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(SaleHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
+                    'customer' => [
+                        'class' => Customer::class, 
+                        'choice_label' => 'company',
+                        'query_builder' => function($repository) {
+                            return $repository->createQueryBuilder('e')
+                                    ->andWhere("e.isInactive = false")
+                                    ->addOrderBy('e.company', 'ASC');
+                        },
+                    ],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'warehouse:name', 'customer:company', 'saleOrderReferenceNumbers', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => ['transactionDate', 'warehouse:name', 'customer', 'saleOrderReferenceNumbers', 'note', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
                     'codeNumberYear' => 'Code Number',
                     'transactionDate' => 'Tanggal',
-                    'customer:company' => 'Customer',
                     'warehouse:name' => 'Gudang',
                     'saleOrderReferenceNumbers' => 'PO #',
                 ],
@@ -77,7 +86,7 @@ class DeliveryHeaderGridType extends AbstractType
                     'codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
-                    'customer:company' => [SortAscending::class, SortDescending::class],
+                    'customer' => [SortAscending::class, SortDescending::class],
                     'warehouse:name' => [SortAscending::class, SortDescending::class],
                     'note' => [SortAscending::class, SortDescending::class],
                     'saleOrderReferenceNumbers' => [SortAscending::class, SortDescending::class],
