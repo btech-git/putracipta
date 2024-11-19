@@ -1,0 +1,53 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>Laporan Customer Order</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7">
+                <strong>
+                    {% set startDate = form.vars.value.filter.orderReceiveDate.1|default %}
+                    {% set endDate = form.vars.value.filter.orderReceiveDate.2|default %}
+                    {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+                </strong>
+            </th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt"><strong>SO #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Customer</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Status</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Kode Produk</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Nama Produk</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Qty</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Satuan</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Harga</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Total</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for saleOrderHeader in saleOrderHeaders %}
+            {% for saleOrderDetailLogDataRow in saleOrderHeader.saleOrderDetailLogData %}
+                <tr>
+                    <td style="text-align: left">{{ saleOrderHeader.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                    <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
+                    <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
+                    <td style="text-align: left">{{ saleOrderHeader.transactionStatus|default }}</td>
+                    <td style="text-align: left">{{ saleOrderHeader.note|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetailLogDataRow.product.code|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetailLogDataRow.product.name|default }}</td>
+                    <td style="text-align: center">{{ saleOrderDetailLogDataRow.quantity|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetailLogDataRow.unit.name|default }}</td>
+                    <td style="text-align: right">{{ saleOrderDetailLogDataRow.unitPrice|default }}</td>
+                    <td style="text-align: right">{{ saleOrderDetailLogDataRow.total|default|round(0) }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>

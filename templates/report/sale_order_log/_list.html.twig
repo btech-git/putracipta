@@ -83,7 +83,7 @@
             <div class="col text-center">
                 <button type="submit" class="btn btn-primary btn-sm"
                         data-controller="redirection"
-                        data-redirection-url-value="{{ path('app_report_sale_order_header__list') }}"
+                        data-redirection-url-value="{{ path('app_report_sale_order_log__list') }}"
                         data-redirection-form-target-value="form[name={{ form.vars.name }}]"
                         data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
                         data-action="redirection#redirect">
@@ -101,7 +101,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Sales Order</div>
+        <div class="report-title">Laporan Customer Order</div>
         <div>
             {% set startDate = form.vars.value.filter.orderReceiveDate.1|default %}
             {% set endDate = form.vars.value.filter.orderReceiveDate.2|default %}
@@ -153,36 +153,18 @@
                     <td colspan="6">
                         <table>
                             <tbody>
-                                {% for saleOrderDetail in saleOrderDetails[saleOrderHeader.id] %}
+                                {% for saleOrderDetailLogData in saleOrderDetailLogDatas[saleOrderHeader.id] %}
                                     <tr>
-                                        <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
-                                        <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.unit.name|default }}</td>
-                                        <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                                        <td class="text-start">{{ saleOrderDetailLogData.product.code|default }}</td>
+                                        <td class="text-start">{{ saleOrderDetailLogData.product.name|default }}</td>
+                                        <td class="text-start">{{ saleOrderDetailLogData.deliveryDate|default ? saleOrderDetailLogData.deliveryDate|date('j F Y') }}</td>
+                                        <td class="text-center">{{ saleOrderDetailLogData.quantity|default|number_format(0) }}</td>
+                                        <td class="text-start">{{ saleOrderDetailLogData.unit.name|default }}</td>
+                                        <td class="text-end">{{ saleOrderDetailLogData.unitPrice|default|number_format(2) }}</td>
+                                        <td class="text-end">{{ saleOrderDetailLogData.total|default|number_format(2) }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
-                            <tfoot class="border-top-solid-normal">
-                                <tr>
-                                    <td class="text-end" colspan="6"><strong>Sub Total</strong></td>
-                                    <td class="text-end"><strong>{{ saleOrderHeader.subTotal|default|number_format(0) }}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end" colspan="6"><strong>Diskon {{ saleOrderHeader.discountValue|default|number_format(2) }}%</strong></td>
-                                    <td class="text-end"><strong>{{ saleOrderHeader.discountNominal|default|number_format(0) }}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end" colspan="6"><strong>PPn {{ saleOrderHeader.taxPercentage|default }}%</strong></td>
-                                    <td class="text-end"><strong>{{ saleOrderHeader.taxNominal|default|number_format(0) }}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end" colspan="6"><strong>Grand Total</strong></td>
-                                    <td class="text-end"><strong>{{ saleOrderHeader.grandTotal|default|number_format(0) }}</strong></td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </td>
                 </tr>
