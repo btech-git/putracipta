@@ -1,0 +1,42 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>Rencana Kirim PO Customer</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt"><strong>Customer</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Tanggal PO</strong></th>
+            <th style="text-align: center; width: 200pt"><strong>Tanggal Kirim</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Rencana Kirim</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Product</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Qty Order</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>Qty Stok</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Qty Kirim</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Qty OS</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Satuan</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Status</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for saleOrderDetail in saleOrderDetails %}
+            <tr>
+                <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.deliveryDateAlternate|default }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
+                <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
+                <td style="text-align: right">{{ stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0 }}</td>
+                <td style="text-align: right">{{ saleOrderDetail.totalQuantityDelivery|default|number_format(0) }}</td>
+                <td style="text-align: right">{{ saleOrderDetail.remainingQuantityDelivery|default|number_format(0) }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.unit.name|default }}</td>
+                <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.transactionStatus|default }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

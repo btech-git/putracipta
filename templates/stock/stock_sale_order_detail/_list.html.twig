@@ -4,6 +4,23 @@
 
 {{ grid.info(form, count, saleOrderDetails) }}
 
+<div class="d-grid">
+    <div class="row">
+        <div class="col text-center">
+            <button type="submit" class="btn btn-primary btn-sm"
+                    data-controller="redirection"
+                    data-redirection-url-value="{{ path('app_stock_stock_sale_order_detail__list') }}"
+                    data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                    data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                    data-action="redirection#redirect">
+                Export
+            </button>
+        </div>
+    </div>
+</div>
+
+<hr />
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
