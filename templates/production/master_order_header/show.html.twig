@@ -86,7 +86,7 @@
                 <th>Edited Date</th>
                 <td>{{ masterOrderHeader.modifiedTransactionDateTime ? masterOrderHeader.modifiedTransactionDateTime|date('d M Y H:i:s') : '' }}</td>
             </tr>
-            <tr>
+            <tr {{ masterOrderHeader.isCanceled ? "class='text-center bg-danger'" : '' }}>
                 <th>Transaction Canceled?</th>
                 <td>{{ masterOrderHeader.isCanceled ? 'Yes' : 'No' }}</td>
                 <th></th>
@@ -393,11 +393,13 @@
         </tbody>
     </table>
 
-    {#{{ include('production/master_order_header/_delete_form.html.twig') }}#}
     <br />
+    
     <div class="d-inline-block">
         <a target="_blank" class="btn btn-outline-dark btn-sm" href="{{ path('app_production_master_order_header_memo_master_order', {'id': masterOrderHeader.id}) }}">Print Master Order</a>
         <a target="_blank" class="btn btn-outline-dark btn-sm" href="{{ path('app_production_master_order_header_memo_work_order', {'id': masterOrderHeader.id}) }}">Print SPK</a>
+        <br /><br />
+        {{ include('production/master_order_header/_delete_form.html.twig') }}
         {#<a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_production_master_order_header_memo_work_order_color_mixing', {'id': masterOrderHeader.id}) }}">Print WO Color Mixing</a>#}
     </div>
     
