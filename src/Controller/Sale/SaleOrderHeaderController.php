@@ -30,7 +30,7 @@ class SaleOrderHeaderController extends AbstractController
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
-            'transactionDate' => SortDescending::class,
+            'orderReceiveDate' => SortDescending::class,
         ]);
         $form = $this->createForm(SaleOrderHeaderGridType::class, $criteria);
         $form->handleRequest($request);
