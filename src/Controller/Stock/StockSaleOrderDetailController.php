@@ -9,11 +9,16 @@ use App\Form\Stock\StockSaleOrderDetailType;
 use App\Grid\Stock\StockSaleOrderDetailGridType;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\InventoryRepository;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/stock/stock_sale_order_detail')]
@@ -53,12 +58,16 @@ class StockSaleOrderDetailController extends AbstractController
             }
         });
 
-        return $this->renderForm("stock/stock_sale_order_detail/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'saleOrderDetails' => $saleOrderDetails,
-            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository),
-        ]);
+        if ($request->request->has('export')) {
+            return $this->export($form, $saleOrderDetails);
+        } else {
+            return $this->renderForm("stock/stock_sale_order_detail/_list.html.twig", [
+                'form' => $form,
+                'count' => $count,
+                'saleOrderDetails' => $saleOrderDetails,
+                'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository),
+            ]);
+        }
     }
 
     #[Route('/', name: 'app_stock_stock_sale_order_detail_index', methods: ['GET'])]
@@ -94,6 +103,29 @@ class StockSaleOrderDetailController extends AbstractController
             'saleOrderDetail' => $saleOrderDetail,
             'form' => $form,
         ]);
+    }
+
+    public function export(FormInterface $form, array $saleOrderDetails): Response
+    {
+        $htmlString = $this->renderView("stock/stock_sale_order_detail/_list_export.html.twig", [
+            'form' => $form->createView(),
+            'saleOrderDetails' => $saleOrderDetails,
+        ]);
+
+        $reader = new Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $response =  new StreamedResponse(function() use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $filename = 'rencana kirim po.xlsx';
+        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
     }
     
     public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository): array
