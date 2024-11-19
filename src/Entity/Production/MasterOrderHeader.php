@@ -478,7 +478,9 @@ class MasterOrderHeader extends ProductionHeader
         $totalQuantity = 0;
         
         foreach ($this->masterOrderProductDetails as $detail) {
-            $totalQuantity += $detail->getQuantityOrder();
+            if (!$detail->isIsCanceled()) {
+                $totalQuantity += $detail->getQuantityOrder();
+            }
         }
         return $totalQuantity;
     }
