@@ -6,7 +6,7 @@
     {% if constant == 'all' %}
         {% set types = masterOrderHeader.masterOrderCheckSheetDetails|map(masterOrderCheckSheetDetail => masterOrderCheckSheetDetail.workOrderCheckSheet.memoConstantName) %}
         {% for type in types %}
-            {% if type != '' %}
+            {% if type != '' and type != 'printing_inspection' and type != 'wip_inspection' %}
                 {{ include('production/master_order_header/_memo_check_sheet_' ~ type ~ '.html.twig') }}
             {% endif %}
         {% endfor %}
@@ -21,7 +21,7 @@
     {{ encore_entry_link_tags('memo') }}
     <style>
         @media print {
-            {% if constant == 'printing_inspection' %}@page { size: landscape; }{% endif %}
+            {% if constant == 'printing_inspection' or constant == 'wip_inspection' %}@page { size: landscape; }{% endif %}
             div.memo { page-break-after: always }
         }
 
