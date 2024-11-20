@@ -78,6 +78,9 @@ class MasterOrderProductDetail extends ProductionDetail
     #[Assert\Type('numeric')]
     private ?string $remainingInventoryReceive = '0.00';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $totalQuantityReturn = '0.00';
+
     public function __construct()
     {
         $this->inventoryProductReceiveDetails = new ArrayCollection();
@@ -104,7 +107,7 @@ class MasterOrderProductDetail extends ProductionDetail
     public function getSyncRemainingStockDelivery() 
     {
         $quantityStock = $this->quantityShortage > 0 ? $this->quantityInventoryReceive : $this->quantityProduction;
-        return $quantityStock - $this->quantityDelivery;
+        return $quantityStock - $this->quantityDelivery + $this->totalQuantityReturn;
     }
     
     public function getDeliveryLotNumber()
@@ -347,6 +350,18 @@ class MasterOrderProductDetail extends ProductionDetail
     public function setRemainingInventoryReceive(string $remainingInventoryReceive): self
     {
         $this->remainingInventoryReceive = $remainingInventoryReceive;
+
+        return $this;
+    }
+
+    public function getTotalQuantityReturn(): ?string
+    {
+        return $this->totalQuantityReturn;
+    }
+
+    public function setTotalQuantityReturn(string $totalQuantityReturn): self
+    {
+        $this->totalQuantityReturn = $totalQuantityReturn;
 
         return $this;
     }
