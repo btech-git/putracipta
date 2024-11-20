@@ -146,18 +146,18 @@ class SaleOrderDetail extends SaleDetail
         return $this->saleOrderHeader->getTaxMode() === $this->saleOrderHeader::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + $this->saleOrderHeader->getTaxPercentage() / 100), 6) : $this->unitPrice;
     }
 
-    public function getSyncTotalQuantityReturn(): string
-    {
-        $total = 0;
-        
-        foreach ($this->getDeliveryDetails() as $deliveryDetail) {
-            foreach ($deliveryDetail->getSaleReturnDetails() as $saleReturnDetail) {
-                $total += $saleReturnDetail->isIsCanceled() === false ? $saleReturnDetail->getQuantity() : 0;
-            }
-        }
-        
-        return $total;
-    }
+//    public function getSyncTotalQuantityReturn(): string
+//    {
+//        $total = 0;
+//        
+//        foreach ($this->getDeliveryDetails() as $deliveryDetail) {
+//            foreach ($deliveryDetail->getSaleReturnDetails() as $saleReturnDetail) {
+//                $total += $saleReturnDetail->isIsCanceled() === false ? $saleReturnDetail->getQuantity() : 0;
+//            }
+//        }
+//        
+//        return $total;
+//    }
 
     public function getSyncMinimumToleranceQuantity(): string
     {
