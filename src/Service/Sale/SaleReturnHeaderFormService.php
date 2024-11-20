@@ -77,6 +77,7 @@ class SaleReturnHeaderFormService {
             $deliveryDetail = $saleReturnDetail->getDeliveryDetail();
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $saleOrderHeader = $saleOrderDetail->getSaleOrderHeader();
+            $masterOrderProductDetail = $deliveryDetail->getMasterOrderProductDetail();
 
             $saleReturnDetail->setProduct($deliveryDetail->getProduct());
             $saleReturnDetail->setUnitPrice($saleOrderDetail->getUnitPriceBeforeTax());
@@ -109,6 +110,9 @@ class SaleReturnHeaderFormService {
                     $saleOrderDetail->setIsTransactionClosed(false);
                 }
 
+                $masterOrderProductDetail->setTotalQuantityReturn($totalReturn);
+                $masterOrderProductDetail->setRemainingStockDelivery($masterOrderProductDetail->getSyncRemainingStockDelivery());
+                
                 $saleInvoiceDetails = $deliveryDetail->getSaleInvoiceDetails();
                 if ($saleReturnHeader->getId() !== null && $saleInvoiceDetails !== null) {
                     foreach ($saleInvoiceDetails as $saleInvoiceDetail) {
