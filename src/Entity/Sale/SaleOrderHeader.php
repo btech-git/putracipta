@@ -148,6 +148,9 @@ class SaleOrderHeader extends SaleHeader
     #[ORM\OneToMany(mappedBy: 'saleOrderHeader', targetEntity: SaleOrderDetailLogData::class)]
     private Collection $saleOrderDetailLogData;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $saleOrderProductList = '';
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -573,6 +576,18 @@ class SaleOrderHeader extends SaleHeader
                 $saleOrderDetailLogData->setSaleOrderHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSaleOrderProductList(): ?string
+    {
+        return $this->saleOrderProductList;
+    }
+
+    public function setSaleOrderProductList(string $saleOrderProductList): self
+    {
+        $this->saleOrderProductList = $saleOrderProductList;
 
         return $this;
     }
