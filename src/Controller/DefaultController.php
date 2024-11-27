@@ -28,33 +28,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends AbstractController
 {
-//    #[Route('/test', name: 'app_test', methods: ['GET', 'POST'])]
-//    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-//    public function test(Request $request, EntityManagerInterface $entityManager): Response
-//    {
-//        $materialRepository = $entityManager->getRepository(\App\Entity\Master\Material::class);
-//        $materials = $materialRepository->findBy([], ['materialSubCategory' => 'ASC', 'id' => 'ASC']);
-//        $lastMaterialSubCategoryId = 0;
-//        $codeOrdinal = 0;
-//        foreach ($materials as $material) {
-//            if ($lastMaterialSubCategoryId != $material->getMaterialSubCategory()->getId()) {
-//                $codeOrdinal = 0;
-//            }
-//            $material->setCodeOrdinal(++$codeOrdinal);
-//            $lastMaterialSubCategoryId = $material->getMaterialSubCategory()->getId();
-//        }
-//        $content = '';
-//        foreach ($materials as $material) {
-//            $content .= $material->getId() . ' - ' . $material->getMaterialSubCategory()->getId() . ' - ' . $material->getCodeOrdinal() . '<br />';
-//        }
-//        foreach ($materials as $material) {
-//            $materialRepository->add($material);
-//        }
-//        $entityManager->flush();
-//
-//        return new Response($content);
-//    }
-
     #[Route('/_dashboard', name: 'app__dashboard', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function _dashboard(Request $request, EntityManagerInterface $entityManager): Response
