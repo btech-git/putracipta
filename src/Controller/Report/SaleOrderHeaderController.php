@@ -4,7 +4,6 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
-use App\Entity\Master\Product;
 use App\Entity\Sale\SaleOrderDetail;
 use App\Grid\Report\SaleOrderHeaderGridType;
 use App\Repository\Sale\SaleOrderDetailRepository;
@@ -36,11 +35,6 @@ class SaleOrderHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $saleOrderHeaders) = $saleOrderHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request, $criteria) {
-            if (isset($request->request->get('sale_order_header_grid')['filter']['customer:company']) && isset($request->request->get('sale_order_header_grid')['sort']['customer:company'])) {
-                $qb->innerJoin("{$alias}.customer", 's');
-                $add['filter']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['filter']['customer:company']);
-                $add['sort']($qb, 's', 'company', $request->request->get('sale_order_header_grid')['sort']['customer:company']);
-            }
             $qb->addOrderBy("{$alias}.orderReceiveDate", 'ASC');
             $qb->andWhere("{$alias}.isCanceled = false");
             

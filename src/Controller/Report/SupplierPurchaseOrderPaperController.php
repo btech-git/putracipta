@@ -36,10 +36,23 @@ class SupplierPurchaseOrderPaperController extends AbstractController
 
         list($count, $suppliers) = $supplierRepository->fetchData($criteria, function($qb, $alias) use ($criteria) {
             $qb->andWhere("{$alias}.isInactive = false");
-            $qb->andWhere("EXISTS (SELECT s.id FROM " . PurchaseOrderPaperHeader::class . " s WHERE {$alias} = s.supplier AND s.isCanceled = false AND s.transactionDate BETWEEN :startDate AND :endDate)");
+            $qb->addOrderBy("{$alias}.id", 'ASC');
+            
+            $codeNumberOrdinalConditionString = !empty($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberOrdinal'][1]) ? ' AND s.codeNumberOrdinal = :codeNumberOrdinal' : '';
+            $codeNumberMonthConditionString = !empty($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberMonth'][1]) ? ' AND s.codeNumberMonth = :codeNumberMonth' : '';
+            $codeNumberYearConditionString = !empty($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberYear'][1]) ? ' AND s.codeNumberYear = :codeNumberYear' : '';
+            $qb->andWhere("EXISTS (SELECT s.id FROM " . PurchaseOrderPaperHeader::class . " s WHERE {$alias} = s.supplier AND s.isCanceled = false AND s.transactionDate BETWEEN :startDate AND :endDate{$codeNumberOrdinalConditionString}{$codeNumberMonthConditionString}{$codeNumberYearConditionString})");
             $qb->setParameter('startDate', $criteria->getFilter()['purchaseOrderPaperHeader:transactionDate'][1]);
             $qb->setParameter('endDate', $criteria->getFilter()['purchaseOrderPaperHeader:transactionDate'][2]);
-            $qb->addOrderBy("{$alias}.id", 'ASC');
+            if (!empty($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberOrdinal'][1])) {
+                $qb->setParameter('codeNumberOrdinal', $criteria->getFilter()['purchaseOrderPaperHeader:codeNumberOrdinal'][1]);
+            }
+            if (!empty($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberMonth'][1])) {
+                $qb->setParameter('codeNumberMonth', $criteria->getFilter()['purchaseOrderPaperHeader:codeNumberMonth'][1]);
+            }
+            if (!empty($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberYear'][1])) {
+                $qb->setParameter('codeNumberYear', $criteria->getFilter()['purchaseOrderPaperHeader:codeNumberYear'][1]);
+            }
         });
         $purchaseOrderPaperHeaders = $this->getPurchaseOrderPaperHeaders($purchaseOrderPaperHeaderRepository, $criteria, $suppliers);
 
@@ -66,7 +79,10 @@ class SupplierPurchaseOrderPaperController extends AbstractController
     {
         $startDate = $criteria->getFilter()['purchaseOrderPaperHeader:transactionDate'][1];
         $endDate = $criteria->getFilter()['purchaseOrderPaperHeader:transactionDate'][2];
-        $supplierPurchaseOrderPaperHeaders = $purchaseOrderPaperHeaderRepository->findSupplierPurchaseOrderPaperHeaders($suppliers, $startDate, $endDate);
+        $codeNumberOrdinal = isset($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberOrdinal'][1]) ? $criteria->getFilter()['purchaseOrderPaperHeader:codeNumberOrdinal'][1] : '';
+        $codeNumberMonth = isset($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberMonth'][1]) ? $criteria->getFilter()['purchaseOrderPaperHeader:codeNumberMonth'][1] : '';
+        $codeNumberYear = isset($criteria->getFilter()['purchaseOrderPaperHeader:codeNumberYear'][1]) ? $criteria->getFilter()['purchaseOrderPaperHeader:codeNumberYear'][1] : '';
+        $supplierPurchaseOrderPaperHeaders = $purchaseOrderPaperHeaderRepository->findSupplierPurchaseOrderPaperHeaders($suppliers, $startDate, $endDate, $codeNumberOrdinal, $codeNumberMonth, $codeNumberYear);
         $purchaseOrderPaperHeaders = [];
         foreach ($supplierPurchaseOrderPaperHeaders as $supplierPurchaseOrderPaperHeader) {
             $purchaseOrderPaperHeaders[$supplierPurchaseOrderPaperHeader->getSupplier()->getId()][] = $supplierPurchaseOrderPaperHeader;

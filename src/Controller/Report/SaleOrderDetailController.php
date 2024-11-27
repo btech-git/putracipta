@@ -98,7 +98,7 @@ class SaleOrderDetailController extends AbstractController
             $writer->save('php://output');
         });
 
-        $filename = 'sale_order_detail.xlsx';
+        $filename = 'po_customer_detail.xlsx';
         $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/vnd.ms-excel');
         $response->headers->set('Content-Disposition', $dispositionHeader);
