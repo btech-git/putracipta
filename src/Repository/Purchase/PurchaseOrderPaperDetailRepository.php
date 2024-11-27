@@ -32,17 +32,19 @@ class PurchaseOrderPaperDetailRepository extends ServiceEntityRepository
         return $averagePriceList;
     }
     
-    public function findPaperPurchaseOrderPaperDetails(array $papers, $startDate, $endDate, $supplierCompany, $materialSubCategoryCode): array
+    public function findPaperPurchaseOrderPaperDetails(array $papers, $startDate, $endDate, $supplierCompany, $materialSubCategoryCode, $codeNumberOrdinal, $codeNumberMonth, $codeNumberYear): array
     {
-        $supplierNameConditionString = !empty($supplierCompany) ? ' AND s.company LIKE :supplierCompany' : '';
+        $supplierNameConditionString = !empty($supplierCompany) ? ' AND h.supplier = :supplierCompany' : '';
         $materialSubCategoryCodeConditionString = !empty($materialSubCategoryCode) ? ' AND c.code LIKE :materialSubCategoryCode' : '';
+        $codeNumberOrdinalConditionString = !empty($codeNumberOrdinal) ? ' AND h.codeNumberOrdinal = :codeNumberOrdinal' : '';
+        $codeNumberMonthConditionString = !empty($codeNumberMonth) ? ' AND h.codeNumberMonth = :codeNumberMonth' : '';
+        $codeNumberYearConditionString = !empty($codeNumberYear) ? ' AND h.codeNumberYear = :codeNumberYear' : '';
         $dql = "SELECT e
                 FROM " . PurchaseOrderPaperDetail::class . " e
                 JOIN e.purchaseOrderPaperHeader h
                 JOIN e.paper p 
                 JOIN p.materialSubCategory c
-                JOIN h.supplier s
-                WHERE e.paper IN (:papers) AND h.transactionDate BETWEEN :startDate AND :endDate{$supplierNameConditionString}{$materialSubCategoryCodeConditionString}
+                WHERE e.paper IN (:papers) AND h.transactionDate BETWEEN :startDate AND :endDate{$supplierNameConditionString}{$materialSubCategoryCodeConditionString}{$codeNumberOrdinalConditionString}{$codeNumberMonthConditionString}{$codeNumberYearConditionString}
                 ORDER BY e.paper ASC, h.transactionDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
@@ -50,10 +52,19 @@ class PurchaseOrderPaperDetailRepository extends ServiceEntityRepository
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
         if (!empty($supplierCompany)) {
-            $query->setParameter('supplierCompany', '%' . $supplierCompany . '%');
+            $query->setParameter('supplierCompany', $supplierCompany);
         }
         if (!empty($materialSubCategoryCode)) {
             $query->setParameter('materialSubCategoryCode', '%' . $materialSubCategoryCode . '%');
+        }
+        if (!empty($codeNumberOrdinal)) {
+            $query->setParameter('codeNumberOrdinal', $codeNumberOrdinal);
+        }
+        if (!empty($codeNumberMonth)) {
+            $query->setParameter('codeNumberMonth', $codeNumberMonth);
+        }
+        if (!empty($codeNumberYear)) {
+            $query->setParameter('codeNumberYear', $codeNumberYear);
         }
         $purchaseOrderDetails = $query->getResult();
 

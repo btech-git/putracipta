@@ -32,21 +32,33 @@ class PurchaseOrderDetailRepository extends ServiceEntityRepository
         return $averagePriceList;
     }
     
-    public function findMaterialPurchaseOrderDetails(array $materials, $startDate, $endDate, $transactionStatus): array
+    public function findMaterialPurchaseOrderDetails(array $materials, $startDate, $endDate, $supplier, $codeNumberOrdinal, $codeNumberMonth, $codeNumberYear): array
     {
-        $materialCodeConditionString = !empty($transactionStatus) ? ' AND s.transactionStatus LIKE :transactionStatus' : '';
+        $codeNumberOrdinalConditionString = !empty($codeNumberOrdinal) ? ' AND s.codeNumberOrdinal LIKE :codeNumberOrdinal' : '';
+        $codeNumberMonthConditionString = !empty($codeNumberMonth) ? ' AND s.codeNumberMonth = :codeNumberMonth' : '';
+        $codeNumberYearConditionString = !empty($codeNumberYear) ? ' AND s.codeNumberYear = :codeNumberYear' : '';
+        $supplierConditionString = !empty($supplier) ? ' AND s.supplier = :supplier' : '';
         $dql = "SELECT e
                 FROM " . PurchaseOrderDetail::class . " e
                 INNER JOIN e.purchaseOrderHeader s
-                WHERE e.material IN (:materials) AND s.transactionDate BETWEEN :startDate AND :endDate{$materialCodeConditionString}
+                WHERE e.material IN (:materials) AND s.transactionDate BETWEEN :startDate AND :endDate{$supplierConditionString}{$codeNumberOrdinalConditionString}{$codeNumberMonthConditionString}{$codeNumberYearConditionString}
                 ORDER BY e.material ASC, s.transactionDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('materials', $materials);
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
-        if (!empty($transactionStatus)) {
-            $query->setParameter('transactionStatus', '%' . $transactionStatus . '%');
+        if (!empty($supplier)) {
+            $query->setParameter('supplier', $supplier);
+        }
+        if (!empty($codeNumberOrdinal)) {
+            $query->setParameter('codeNumberOrdinal', '%' . $codeNumberOrdinal . '%');
+        }
+        if (!empty($codeNumberMonth)) {
+            $query->setParameter('codeNumberMonth', $codeNumberMonth);
+        }
+        if (!empty($codeNumberYear)) {
+            $query->setParameter('codeNumberYear', $codeNumberYear);
         }
         $purchaseOrderDetails = $query->getResult();
 

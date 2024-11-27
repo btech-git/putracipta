@@ -31,17 +31,29 @@ class PurchaseOrderPaperHeaderRepository extends ServiceEntityRepository
         return $lastPurchaseOrderPaperHeader;
     }
     
-    public function findSupplierPurchaseOrderPaperHeaders(array $suppliers, $startDate, $endDate): array
+    public function findSupplierPurchaseOrderPaperHeaders(array $suppliers, $startDate, $endDate, $codeNumberOrdinal, $codeNumberMonth, $codeNumberYear): array
     {
+        $codeNumberOrdinalConditionString = !empty($codeNumberOrdinal) ? ' AND e.codeNumberOrdinal = :codeNumberOrdinal' : '';
+        $codeNumberMonthConditionString = !empty($codeNumberMonth) ? ' AND e.codeNumberMonth = :codeNumberMonth' : '';
+        $codeNumberYearConditionString = !empty($codeNumberYear) ? ' AND e.codeNumberYear = :codeNumberYear' : '';
         $dql = "SELECT e
                 FROM " . PurchaseOrderPaperHeader::class . " e
-                WHERE e.supplier IN (:suppliers) AND e.transactionDate BETWEEN :startDate AND :endDate
+                WHERE e.supplier IN (:suppliers) AND e.transactionDate BETWEEN :startDate AND :endDate{$codeNumberOrdinalConditionString}{$codeNumberMonthConditionString}{$codeNumberYearConditionString}
                 ORDER BY e.supplier ASC, e.transactionDate ASC";
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('suppliers', $suppliers);
         $query->setParameter('startDate', $startDate);
         $query->setParameter('endDate', $endDate);
+        if (!empty($codeNumberOrdinal)) {
+            $query->setParameter('codeNumberOrdinal', $codeNumberOrdinal);
+        }
+        if (!empty($codeNumberMonth)) {
+            $query->setParameter('codeNumberMonth', $codeNumberMonth);
+        }
+        if (!empty($codeNumberYear)) {
+            $query->setParameter('codeNumberYear', $codeNumberYear);
+        }
         $purchaseOrderPaperHeaders = $query->getResult();
 
         return $purchaseOrderPaperHeaders;
