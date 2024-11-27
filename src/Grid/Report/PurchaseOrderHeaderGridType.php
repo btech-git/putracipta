@@ -14,6 +14,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Purchase\PurchaseOrderHeader;
 use App\Entity\PurchaseHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -52,7 +53,7 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
-                    'transactionStatus' => [FilterContain::class, FilterNotContain::class],
+                    'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                     'material:code' => [FilterContain::class, FilterNotContain::class],
                     'material:name' => [FilterContain::class, FilterNotContain::class],
                 ],
@@ -60,10 +61,21 @@ class PurchaseOrderHeaderGridType extends AbstractType
                     'codeNumberOrdinal' => IntegerType::class,
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
+                    'transactionStatus' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'transactionStatus' => ['choices' => [
+                        'Draft' => PurchaseOrderHeader::TRANSACTION_STATUS_DRAFT, 
+                        'Hold' => PurchaseOrderHeader::TRANSACTION_STATUS_HOLD,
+                        'Release' => PurchaseOrderHeader::TRANSACTION_STATUS_RELEASE,
+                        'Approved' => PurchaseOrderHeader::TRANSACTION_STATUS_APPROVE,
+                        'Reject' => PurchaseOrderHeader::TRANSACTION_STATUS_REJECT,
+                        'Partial Receive' => PurchaseOrderHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE,
+                        'Full Receive' => PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE,
+                        'Cancel' => PurchaseOrderHeader::TRANSACTION_STATUS_CANCEL,
+                    ]],
                 ],
             ])
             ->add('sort', SortType::class, [

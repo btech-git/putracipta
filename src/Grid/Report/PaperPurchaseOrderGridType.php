@@ -14,8 +14,12 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Master\Supplier;
+use App\Entity\PurchaseHeader;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,6 +30,9 @@ class PaperPurchaseOrderGridType extends AbstractType
         $builder
             ->add('filter', FilterType::class, [
                 'field_names' => [
+                    'purchaseOrderPaperHeader:codeNumberOrdinal', 
+                    'purchaseOrderPaperHeader:codeNumberMonth', 
+                    'purchaseOrderPaperHeader:codeNumberYear', 
                     'purchaseOrderPaperHeader:transactionDate', 
                     'name', 
                     'code', 
@@ -35,26 +42,46 @@ class PaperPurchaseOrderGridType extends AbstractType
                     'supplier:company', 
                 ],
                 'field_label_list' => [
+                    'purchaseOrderPaperHeader:codeNumberOrdinal' => 'Code Number',
+                    'purchaseOrderPaperHeader:codeNumberMonth' => '',
+                    'purchaseOrderPaperHeader:codeNumberYear' => '',
                     'purchaseOrderPaperHeader:transactionDate' => 'Tanggal',
                     'materialSubCategory:code' => 'Category', 
                     'supplier:company' => 'Supplier', 
                     'name' => 'Paper',
                 ],
                 'field_operators_list' => [
+                    'purchaseOrderPaperHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
+                    'purchaseOrderPaperHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
+                    'purchaseOrderPaperHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'purchaseOrderPaperHeader:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'materialSubCategory:code' => [FilterContain::class, FilterNotContain::class],
-                    'supplier:company' => [FilterContain::class, FilterNotContain::class],
+                    'supplier:company' => [FilterEqual::class, FilterNotEqual::class],
                     'code' => [FilterEqual::class, FilterNotEqual::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
                     'type' => [FilterEqual::class, FilterNotEqual::class],
                     'weight' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
+                    'purchaseOrderPaperHeader:codeNumberOrdinal' => IntegerType::class,
+                    'purchaseOrderPaperHeader:codeNumberMonth' => ChoiceType::class,
+                    'purchaseOrderPaperHeader:codeNumberYear' => IntegerType::class,
                     'type' => ChoiceType::class,
+                    'supplier:company' => EntityType::class,
                 ],
                 'field_value_options_list' => [
+                    'purchaseOrderPaperHeader:codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'purchaseOrderPaperHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'type' => ['choices' => ['000' => 'non', 'FSC' => 'fsc']],
+                    'supplier:company' => [
+                        'class' => Supplier::class, 
+                        'choice_label' => 'company',
+                        'query_builder' => function($repository) {
+                            return $repository->createQueryBuilder('e')
+                                    ->andWhere("e.isInactive = false")
+                                    ->addOrderBy('e.company', 'ASC');
+                        },
+                    ],
                 ],
             ])
             ->add('sort', SortType::class, [
@@ -66,14 +93,23 @@ class PaperPurchaseOrderGridType extends AbstractType
                     'weight',
                     'materialSubCategory:code', 
                     'supplier:company', 
+                    'purchaseOrderPaperHeader:codeNumberYear', 
+                    'purchaseOrderPaperHeader:codeNumberMonth', 
+                    'purchaseOrderPaperHeader:codeNumberOrdinal'
                 ],
                 'field_label_list' => [
+                    'purchaseOrderPaperHeader:codeNumberOrdinal' => '',
+                    'purchaseOrderPaperHeader:codeNumberMonth' => '',
+                    'purchaseOrderPaperHeader:codeNumberYear' => 'Code Number',
                     'purchaseOrderPaperHeader:transactionDate' => 'Tanggal',
                     'materialSubCategory:code' => 'Category', 
                     'supplier:company' => 'Supplier', 
                     'name' => 'Paper',
                 ],
                 'field_operators_list' => [
+                    'purchaseOrderPaperHeader:codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderPaperHeader:codeNumberMonth' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderPaperHeader:codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'purchaseOrderPaperHeader:transactionDate' => [SortAscending::class, SortDescending::class],
                     'materialSubCategory:code' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],

@@ -4,10 +4,8 @@ namespace App\Grid\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
-use App\Common\Data\Operator\FilterContain;
 use App\Common\Data\Operator\FilterEqual;
 use App\Common\Data\Operator\FilterNotBetween;
-use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\FilterNotEqual;
 use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
@@ -29,7 +27,13 @@ class SupplierPurchaseOrderMaterialGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['purchaseOrderHeader:codeNumberOrdinal', 'purchaseOrderHeader:codeNumberMonth', 'purchaseOrderHeader:codeNumberYear', 'purchaseOrderHeader:transactionDate', 'company', 'purchaseOrderHeader:note', 'purchaseOrderHeader:transactionStatus'],
+                'field_names' => [
+                    'purchaseOrderHeader:codeNumberOrdinal', 
+                    'purchaseOrderHeader:codeNumberMonth', 
+                    'purchaseOrderHeader:codeNumberYear', 
+                    'purchaseOrderHeader:transactionDate', 
+                    'company', 
+                ],
                 'field_label_list' => [
                     'purchaseOrderHeader:codeNumberOrdinal' => 'Code Number',
                     'purchaseOrderHeader:codeNumberMonth' => '',
@@ -43,8 +47,6 @@ class SupplierPurchaseOrderMaterialGridType extends AbstractType
                     'purchaseOrderHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'purchaseOrderHeader:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'company' => [FilterEqual::class, FilterNotEqual::class],
-                    'purchaseOrderHeader:note' => [FilterContain::class, FilterNotContain::class],
-                    'purchaseOrderHeader:transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'purchaseOrderHeader:codeNumberOrdinal' => IntegerType::class,
@@ -67,7 +69,13 @@ class SupplierPurchaseOrderMaterialGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['purchaseOrderHeader:transactionDate', 'company', 'purchaseOrderHeader:note', 'purchaseOrderHeader:transactionStatus', 'purchaseOrderHeader:codeNumberYear', 'purchaseOrderHeader:codeNumberMonth', 'purchaseOrderHeader:codeNumberOrdinal'],
+                'field_names' => [
+                    'purchaseOrderHeader:transactionDate', 
+                    'company', 
+                    'purchaseOrderHeader:codeNumberYear', 
+                    'purchaseOrderHeader:codeNumberMonth', 
+                    'purchaseOrderHeader:codeNumberOrdinal'
+                ],
                 'field_label_list' => [
                     'purchaseOrderHeader:codeNumberOrdinal' => '',
                     'purchaseOrderHeader:codeNumberMonth' => '',
@@ -81,8 +89,6 @@ class SupplierPurchaseOrderMaterialGridType extends AbstractType
                     'purchaseOrderHeader:codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'purchaseOrderHeader:transactionDate' => [SortAscending::class, SortDescending::class],
                     'company' => [SortAscending::class, SortDescending::class],
-                    'purchaseOrderHeader:note' => [SortAscending::class, SortDescending::class],
-                    'purchaseOrderHeader:transactionStatus' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

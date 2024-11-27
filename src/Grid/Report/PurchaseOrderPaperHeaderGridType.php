@@ -14,6 +14,7 @@ use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Form\Type\SortType;
+use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Entity\PurchaseHeader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -58,7 +59,7 @@ class PurchaseOrderPaperHeaderGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterBetween::class, FilterNotBetween::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
-                    'transactionStatus' => [FilterContain::class, FilterNotContain::class],
+                    'transactionStatus' => [FilterEqual::class, FilterNotEqual::class],
                     'paper:code' => [FilterEqual::class, FilterNotEqual::class],
                     'paper:name' => [FilterContain::class, FilterNotContain::class],
                     'paper:weight' => [FilterEqual::class, FilterNotEqual::class],
@@ -70,11 +71,22 @@ class PurchaseOrderPaperHeaderGridType extends AbstractType
                     'codeNumberMonth' => ChoiceType::class,
                     'codeNumberYear' => IntegerType::class,
                     'paper:type' => ChoiceType::class,
+                    'transactionStatus' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'paper:type' => ['choices' => ['000' => 'non', 'FSC' => 'fsc']],
+                    'transactionStatus' => ['choices' => [
+                        'Draft' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_DRAFT, 
+                        'Hold' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_HOLD,
+                        'Release' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_RELEASE,
+                        'Approved' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_APPROVE,
+                        'Reject' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_REJECT,
+                        'Partial Receive' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE,
+                        'Full Receive' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_FULL_RECEIVE,
+                        'Cancel' => PurchaseOrderPaperHeader::TRANSACTION_STATUS_CANCEL,
+                    ]],
                 ],
             ])
             ->add('sort', SortType::class, [
