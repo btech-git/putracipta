@@ -132,6 +132,15 @@ class SaleOrderHeaderFormService
         $saleOrderHeader->setGrandTotal($saleOrderHeader->getSyncGrandTotal());
         $saleOrderHeader->setTotalRemainingDelivery($saleOrderHeader->getSyncTotalRemainingDelivery());
 
+        $saleDetailProductList = [];
+        foreach ($saleOrderHeader->getSaleOrderDetails() as $saleOrderDetail) {
+            if ($saleOrderDetail->isIsCanceled() === false) {
+                $saleDetailProductList[] = $saleOrderDetail->getProduct()->getCode();
+            }
+        }
+        $saleDetailProductUniqueList = array_unique(explode(', ', implode(', ', $saleDetailProductList)));
+        $saleOrderHeader->setSaleOrderProductList(implode(', ', $saleDetailProductUniqueList));
+        
         if ($options['transactionFile']) {
             $saleOrderHeader->setTransactionFileExtension($options['transactionFile']->guessExtension());
         }
