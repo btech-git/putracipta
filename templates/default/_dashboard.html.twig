@@ -130,8 +130,8 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(saleForm, 'customer:company') }}>
                     Customer {{ grid.sort_char(saleForm.sort['customer:company'].vars.value) }}
                 </th>
-                <th style="min-width: 450px">
-                    Product
+                <th style="min-width: 450px" role="button" {{ grid.sort_link_item(saleForm, 'saleOrderProductList') }}>
+                    Product {{ grid.sort_char(saleForm.sort.saleOrderProductList.vars.value) }}
                 </th>
                 <th style="min-width: 250px">
                     MO #
@@ -159,7 +159,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(saleForm, 'customer:company') }} value="{{ saleForm.filter['customer:company'].1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(saleForm, 'saleOrderProductList') }} value="{{ saleForm.filter.saleOrderProductList.1.vars.value }}" />
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -244,8 +246,8 @@
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(purchaseForm, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(purchaseForm.sort['supplier:company'].vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Material
+                <th style="min-width: 450px" role="button" {{ grid.sort_link_item(purchaseForm, 'purchaseOrderMaterialList') }}>
+                    Material {{ grid.sort_char(purchaseForm.sort.purchaseOrderMaterialList.vars.value) }}
                 </th>
                 <th style="min-width: 350px">
                     Penerimaan #
@@ -276,7 +278,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(purchaseForm, 'supplier:company') }} value="{{ purchaseForm.filter['supplier:company'].1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(purchaseForm, 'purchaseOrderMaterialList') }} value="{{ purchaseForm.filter.purchaseOrderMaterialList.1.vars.value }}" />
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -346,8 +350,8 @@
                 <th style="min-width: 250px" role="button" {{ grid.sort_link_item(purchasePaperForm, 'supplier:company') }}>
                     Supplier {{ grid.sort_char(purchasePaperForm.sort['supplier:company'].vars.value) }}
                 </th>
-                <th style="min-width: 280px">
-                    Kertas
+                <th style="min-width: 450px" role="button" {{ grid.sort_link_item(purchasePaperForm, 'purchaseOrderPaperList') }}>
+                    Kertas {{ grid.sort_char(purchasePaperForm.sort.purchaseOrderPaperList.vars.value) }}
                 </th>
                 <th style="min-width: 350px">
                     Penerimaan #
@@ -377,7 +381,9 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(purchasePaperForm, 'supplier:company') }} value="{{ purchasePaperForm.filter['supplier:company'].1.vars.value }}" />
                 </th>
-                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(purchasePaperForm, 'purchaseOrderPaperList') }} value="{{ purchasePaperForm.filter.purchaseOrderPaperList.1.vars.value }}" />
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>

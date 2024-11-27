@@ -16,15 +16,16 @@
             </th>
         </tr>
         <tr>
-            <th style="text-align: center; width: 200pt"><strong>Kode Produk</strong></th>
-            <th style="text-align: center; width: 200pt"><strong>Nama Produk</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Tanggal Terima</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>PO #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal PO</strong></th>
             <th style="text-align: center; width: 200pt"><strong>Customer</strong></th>
-            <th style="text-align: center; width: 100pt"><strong>Marketing</strong></th>
+            <th style="text-align: center; width: 200pt"><strong>Produk</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Qty</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>ETA</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Harga</strong></th>
             <th style="text-align: center; width: 100pt"><strong>Total</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Marketing</strong></th>
         </tr>
     </thead>
     <tbody>
@@ -32,15 +33,16 @@
         {% for saleOrderDetail in saleOrderDetails %}
             {% if (saleOrderDetail.isCanceled == false) %}
                 <tr>
-                    <td style="text-align: left">{{ saleOrderDetail.product.code|default }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('j F Y') }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.employee.name|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|round(0) }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.employee.name|default }}</td>
                 </tr>
                 {% set grandTotal = grandTotal + saleOrderDetail.total|default %}
             {% endif %}

@@ -102,7 +102,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Sales Order Detail</div>
+        <div class="report-title">Laporan PO Customer Detail</div>
         <div>
             {% set startDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].1|default %}
             {% set endDate = form.vars.value.filter['saleOrderHeader:orderReceiveDate'].2|default %}
@@ -115,15 +115,16 @@
     <table class="report-data">
         <thead class="border-top-solid-bold border-bottom-solid-bold">
             <tr>
-                <th class="text-start">Kode Produk</th>
-                <th class="text-start">Nama Produk</th>
-                <th class="text-start">PO #</th>
                 <th class="text-start">Tanggal Terima</th>
+                <th class="text-start">PO #</th>
+                <th class="text-start">Tanggal PO</th>
                 <th class="text-start">Customer</th>
-                <th class="text-start">Marketing</th>
+                <th class="text-start">Produk</th>
                 <th class="text-start">Qty</th>
+                <th class="text-start">ETA</th>
                 <th class="text-start">Harga</th>
                 <th class="text-start">Total</th>
+                <th class="text-start">Marketing</th>
             </tr>
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
@@ -131,15 +132,16 @@
             {% for saleOrderDetail in saleOrderDetails %}
                 {% if (saleOrderDetail.isCanceled == false) %}
                     <tr>
-                        <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
-                        <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
-                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('j M Y') }}</td>
                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
-                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.employee.name|default }}</td>
+                        <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
                         <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
+                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j M Y') }}</td>
                         <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
                         <td class="text-end">{{ saleOrderDetail.total|default|number_format(2) }}</td>
+                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.employee.name|default }}</td>
                     </tr>
                 {% endif %}
                 {% set grandTotal = grandTotal + saleOrderDetail.total|default %}

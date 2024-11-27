@@ -11,10 +11,10 @@
                     <div class="col-sm-10 w-75">
                         <div class="row">
                             <div class="col">
-                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate', [form.filter['transactionDate'].0.vars.choices.0.value, true, false]) }} value="{{ form.filter.transactionDate.1.vars.value }}" />
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'qualityControlSortingHeader:transactionDate', [form.filter['qualityControlSortingHeader:transactionDate'].0.vars.choices.0.value, true, false]) }} value="{{ form.filter['qualityControlSortingHeader:transactionDate'].1.vars.value }}" />
                             </div>
                             <div class="col">
-                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'transactionDate', [form.filter['transactionDate'].0.vars.choices.0.value, false, true]) }} value="{{ form.filter.transactionDate.2.vars.value }}" />
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'qualityControlSortingHeader:transactionDate', [form.filter['qualityControlSortingHeader:transactionDate'].0.vars.choices.0.value, false, true]) }} value="{{ form.filter['qualityControlSortingHeader:transactionDate'].2.vars.value }}" />
                             </div>
                         </div>
                     </div>
@@ -22,22 +22,46 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Code Number</label>
+                    <label class="col-sm-2 col-form-label w-25">WO #</label>
                     <div class="col-sm-10 w-75">
-                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
-                        <span><small>/{{ constant('App\\Entity\\Production\\QualityControlSortingHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
-                        <select {{ grid.filter_link_item(form, 'codeNumberMonth') }}>
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberOrdinal') }} value="{{ form.filter['masterOrderHeader:codeNumberOrdinal'].1.vars.value }}" />
+                        <span><small>/{{ constant('App\\Entity\\Production\\MasterOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                        <select {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberMonth') }}>
                             {% for value, label in constant('App\\Entity\\ProductionHeader::MONTH_ROMAN_NUMERALS') %}
                                 {% set val = value == 0 ? '' : value %}
-                                <option value="{{ val }}" {% if form.filter.codeNumberMonth.1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                                <option value="{{ val }}" {% if form.filter['masterOrderHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
                             {% endfor %}
                         </select>
                         <span><small>/</small></span>
-                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberYear') }} value="{{ form.filter.codeNumberYear.1.vars.value }}" />
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'masterOrderHeader:codeNumberYear') }} value="{{ form.filter['masterOrderHeader:codeNumberYear'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Customer</label>
+                    <div class="col-sm-10 w-75">
+                        <select class="form-select" {{ grid.filter_link_item(form, 'qualityControlSortingHeader:customer') }}>
+                            <option value="" {% if form.filter['qualityControlSortingHeader:customer'].1.vars.value == '' %}selected="selected"{% endif %}></option>
+                            {% for choice in form.filter['qualityControlSortingHeader:customer'].1.vars.choices %}
+                                <option value="{{ choice.value }}" {% if form.filter['qualityControlSortingHeader:customer'].1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Nama Produk</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
                     </div>
                 </div>
             </div>
         </div>
+                
     </div>
 
     <div class="d-grid">
@@ -98,28 +122,26 @@
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for qualityControlSorting in qualityControlSortings %}
-                {% for qualityControlSortingDetail in qualityControlSorting.qualityControlSortingDetails %}
-                    <tr>
-                        <td class="text-start">{{ qualityControlSorting.codeNumber|default }}</td>
-                        <td class="text-start">{{ qualityControlSorting.transactionDate|default ? qualityControlSorting.transactionDate|date('j M Y') }}</td>
-                        <td class="text-start">{{ qualityControlSorting.customer.company|default }}</td>
-                        <td class="text-start">{{ qualityControlSorting.masterOrderHeader.codeNumber|default }}</td>
-                        <td class="text-start">{{ qualityControlSortingDetail.product.code|default }}</td>
-                        <td class="text-start">{{ qualityControlSortingDetail.product.name|default }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityOrder|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityGood|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectPrinting|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectCoating|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectCutting|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectDiecutting|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectGlueing|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectFinishing|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRejectOthers|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.totalQuantitySorting|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.totalQuantityReject|default|number_format(2) }}</td>
-                        <td class="text-center">{{ qualityControlSortingDetail.quantityRemaining|default|number_format(2) }}</td>
-                    </tr>
-                {% endfor %}
+                <tr>
+                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.transactionDate|default ? qualityControlSorting.qualityControlSortingHeader.transactionDate|date('j M Y') }}</td>
+                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.customer.company|default }}</td>
+                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.masterOrderHeader.codeNumber|default }}</td>
+                    <td class="text-start">{{ qualityControlSorting.product.code|default }}</td>
+                    <td class="text-start">{{ qualityControlSorting.product.name|default }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityOrder|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityGood|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectPrinting|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectCoating|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectCutting|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectDiecutting|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectGlueing|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectFinishing|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRejectOthers|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.totalQuantitySorting|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.totalQuantityReject|default|number_format(2) }}</td>
+                    <td class="text-center">{{ qualityControlSorting.quantityRemaining|default|number_format(2) }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
