@@ -25,7 +25,7 @@ class DashboardPurchaseOrderPaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'supplier:company', 'purchaseOrderPaperList'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => 'Code Number',
                     'codeNumberMonth' => '',
@@ -39,6 +39,7 @@ class DashboardPurchaseOrderPaperGridType extends AbstractType
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'supplier:company' => [FilterContain::class, FilterNotContain::class],
+                    'purchaseOrderPaperList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'codeNumberOrdinal' => IntegerType::class,
@@ -51,7 +52,7 @@ class DashboardPurchaseOrderPaperGridType extends AbstractType
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'supplier:company', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
+                'field_names' => ['transactionDate', 'supplier:company', 'purchaseOrderPaperList', 'codeNumberYear', 'codeNumberMonth', 'codeNumberOrdinal'],
                 'field_label_list' => [
                     'codeNumberOrdinal' => '',
                     'codeNumberMonth' => '',
@@ -65,6 +66,7 @@ class DashboardPurchaseOrderPaperGridType extends AbstractType
                     'codeNumberYear' => [SortAscending::class, SortDescending::class],
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'supplier:company' => [SortAscending::class, SortDescending::class],
+                    'purchaseOrderPaperList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])

@@ -22,7 +22,7 @@ class DashboardSaleOrderGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['transactionDate', 'referenceNumber', 'customer:company'],
+                'field_names' => ['transactionDate', 'referenceNumber', 'customer:company', 'saleOrderProductList'],
                 'field_label_list' => [
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
@@ -31,13 +31,14 @@ class DashboardSaleOrderGridType extends AbstractType
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'customer:company' => [FilterContain::class, FilterNotContain::class],
                     'referenceNumber' => [FilterContain::class, FilterNotContain::class],
+                    'saleOrderProductList' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_options_list' => [
                     'transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['transactionDate', 'customer:company', 'referenceNumber'],
+                'field_names' => ['transactionDate', 'customer:company', 'referenceNumber', 'saleOrderProductList'],
                 'field_label_list' => [
                     'transactionDate' => 'Tanggal',
                     'customer:company' => 'Customer',
@@ -46,6 +47,7 @@ class DashboardSaleOrderGridType extends AbstractType
                     'transactionDate' => [SortAscending::class, SortDescending::class],
                     'customer:company' => [SortAscending::class, SortDescending::class],
                     'referenceNumber' => [SortAscending::class, SortDescending::class],
+                    'saleOrderProductList' => [SortAscending::class, SortDescending::class],
                 ],
             ])
             ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
