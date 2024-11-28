@@ -4,6 +4,7 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
+use App\Common\Data\Operator\SortDescending;
 use App\Entity\Production\QualityControlSortingDetail;
 use App\Grid\Report\QualityControlSortingGridType;
 use App\Repository\Production\QualityControlSortingDetailRepository;
@@ -29,6 +30,10 @@ class QualityControlSortingController extends AbstractController
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
             'qualityControlSortingHeader:transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+            'qualityControlSortingHeader:customer' => [''],
+        ]);
+        $criteria->setSort([
+            'qualityControlSortingHeader:customer' => '',
         ]);
         $form = $this->createForm(QualityControlSortingGridType::class, $criteria);
         $form->handleRequest($request);
@@ -39,6 +44,10 @@ class QualityControlSortingController extends AbstractController
             $qb->addOrderBy("h.transactionDate", 'ASC');
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("h.isCanceled = false");
+            
+            $add['filter']($qb, 'h', 'transactionDate', $criteria->getFilter()['qualityControlSortingHeader:transactionDate']);
+            $add['filter']($qb, 'h', 'customer', $criteria->getFilter()['qualityControlSortingHeader:customer']);
+            $add['sort']($qb, 'h', 'customer', $criteria->getSort()['qualityControlSortingHeader:customer']);
             
             if (isset($request->request->get('quality_control_sorting_grid')['filter']['masterOrderHeader:codeNumberOrdinal']) && isset($request->request->get('quality_control_sorting_grid')['sort']['masterOrderHeader:codeNumberOrdinal'])) {
                 $add['filter']($qb, 'm', 'codeNumberOrdinal', $request->request->get('quality_control_sorting_grid')['filter']['masterOrderHeader:codeNumberOrdinal']);
@@ -52,14 +61,14 @@ class QualityControlSortingController extends AbstractController
                 $add['filter']($qb, 'm', 'codeNumberYear', $request->request->get('quality_control_sorting_grid')['filter']['masterOrderHeader:codeNumberYear']);
                 $add['sort']($qb, 'm', 'codeNumberYear', $request->request->get('quality_control_sorting_grid')['sort']['masterOrderHeader:codeNumberYear']);
             }
-            if (isset($request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:transactionDate']) && isset($request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:transactionDate'])) {
-                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:transactionDate']);
-                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:transactionDate']);
-            }
-            if (isset($request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:customer']) && isset($request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:customer'])) {
-                $add['filter']($qb, 'h', 'customer', $request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:customer']);
-                $add['sort']($qb, 'h', 'customer', $request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:customer']);
-            }
+//            if (isset($request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:transactionDate']) && isset($request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:transactionDate'])) {
+//                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:transactionDate']);
+//                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:transactionDate']);
+//            }
+//            if (isset($request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:customer']) && isset($request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:customer'])) {
+//                $add['filter']($qb, 'h', 'customer', $request->request->get('quality_control_sorting_grid')['filter']['qualityControlSortingHeader:customer']);
+//                $add['sort']($qb, 'h', 'customer', $request->request->get('quality_control_sorting_grid')['sort']['qualityControlSortingHeader:customer']);
+//            }
             if (isset($request->request->get('quality_control_sorting_grid')['filter']['product:name']) && isset($request->request->get('quality_control_sorting_grid')['sort']['product:name'])) {
                 $qb->innerJoin("{$alias}.product", 'p');
                 $add['filter']($qb, 'p', 'name', $request->request->get('quality_control_sorting_grid')['filter']['product:name']);
