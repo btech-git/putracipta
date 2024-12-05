@@ -63,8 +63,8 @@ class SaleOrderDetailController extends AbstractController
             }
             if ($request->request->has('delivery_header')) {
                 $qb->andWhere("{$alias}.remainingQuantityDelivery > {$alias}.minimumToleranceQuantity");
-            } else if ($request->request->has('master_order_header')) {
-                $qb->andWhere("{$alias}.quantityProductionRemaining > 0");
+//            } else if ($request->request->has('master_order_header')) {
+//                $qb->andWhere("{$alias}.quantityProductionRemaining > 0");
             }
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("{$alias}.isTransactionClosed = false");
