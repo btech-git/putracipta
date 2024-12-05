@@ -179,7 +179,7 @@ class SaleInvoiceHeader extends SaleHeader
 
     public function getSyncGrandTotal(): string
     {
-        return $this->getSubTotalAfterDiscount() + $this->taxNominal; // - $this->serviceTaxNominal;
+        return round($this->getSubTotalAfterDiscount() + $this->taxNominal, 0); // - $this->serviceTaxNominal;
     }
 
     public function getSyncDueDate(): ?\DateTimeInterface
