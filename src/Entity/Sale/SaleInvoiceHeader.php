@@ -152,7 +152,7 @@ class SaleInvoiceHeader extends SaleHeader
 
     public function getSyncTaxNominal(): string
     {
-        return $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
+        return round($this->getSubTotalAfterDiscount() * $this->taxPercentage / 100, 0);
     }
 
     public function getSyncTotalReturn(): string
