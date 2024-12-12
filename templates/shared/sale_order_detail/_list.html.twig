@@ -30,8 +30,11 @@
                 <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'product:name') }}>
                     Name {{ grid.sort_char(form.sort['product:name'].vars.value) }}
                 </th>
-                <th style="min-width: 100px" role="button">
+                <th style="min-width: 100px">
                     Quantity
+                </th>
+                <th style="min-width: 150px">
+                    Sisa Produksi
                 </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'unit:name') }}>
                     Satuan {{ grid.sort_char(form.sort['unit:name'].vars.value) }}
@@ -47,6 +50,13 @@
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
+                </th>
+                <th></th>
+                <th>
+                    <select {{ grid.filter_link_item(form, 'quantityProductionRemaining') }}>
+                        <option value="" {% if form.filter.quantityProductionRemaining.1.vars.value == '' %}selected="selected"{% endif %}>All</option>
+                        <option value="0" {% if form.filter.quantityProductionRemaining.1.vars.value == '0' %}selected="selected"{% endif %}>Outstanding</option>
+                    </select>
                 </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'unit:name') }} value="{{ form.filter['unit:name'].1.vars.value }}" />
@@ -79,6 +89,7 @@
                     <td>{{ saleOrderDetail.product.code|default }}</td>
                     <td>{{ saleOrderDetail.product.name|default }}</td>
                     <td class="text-end">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
+                    <td class="text-end">{{ saleOrderDetail.quantityProductionRemaining|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
                 </tr>
             {% else %}
