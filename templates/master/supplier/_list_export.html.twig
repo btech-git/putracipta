@@ -1,0 +1,44 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>Data Supplier</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt"><strong>Code</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Company</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat</strong></th>
+            <th style="text-align: center; width: 200pt"><strong>Phone</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>Fax</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Email</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>NPWP</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 1</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 2</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 3</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 4</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 5</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for supplier in suppliers %}
+            <tr>
+                <td style="text-align: left">{{ supplier.code|default }}</td>
+                <td style="text-align: left">{{ supplier.company|default }}</td>
+                <td style="text-align: left">{{ supplier.address|default }}</td>
+                <td style="text-align: left">{{ supplier.phone|default }}</td>
+                <td style="text-align: left">{{ supplier.fax|default }}</td>
+                <td style="text-align: left">{{ supplier.email|default }}</td>
+                <td style="text-align: left">{{ supplier.tax_number|default }}</td>
+                <td style="text-align: left">{{ supplier.note|default }}</td>
+                <td style="text-align: left">{{ supplier.name|default }}</td>
+                <td style="text-align: left">{{ supplier.name2|default }}</td>
+                <td style="text-align: left">{{ supplier.name3|default }}</td>
+                <td style="text-align: left">{{ supplier.name4|default }}</td>
+                <td style="text-align: left">{{ supplier.name5|default }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

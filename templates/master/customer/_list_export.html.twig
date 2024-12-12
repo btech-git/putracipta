@@ -1,0 +1,102 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="7"><strong>Data Customer</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt"><strong>Code</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Company</strong></th>
+            <th style="text-align: center; width: 200pt"><strong>Phone</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Email</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>NPWP</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 1</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 2</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 3</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 4</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 5</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 6</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 7</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 8</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 9</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 10</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 11</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 12</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 13</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 14</strong></th>
+            <th style="text-align: center; width: 150pt"><strong>PIC 15</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat Invoice </strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat NPWP 1</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat NPWP 2</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat NPWP 3</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat NPWP 4</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Alamat NPWP 5</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 1</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 2</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 3</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 4</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 5</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 6</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 7</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 8</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 9</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 10</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 11</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 12</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 13</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 14</strong></th>
+            <th style="text-align: center; width: 300pt"><strong>Alamat Kirim 15</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customers %}
+            <tr>
+                <td style="text-align: left">{{ customer.code|default }}</td>
+                <td style="text-align: left">{{ customer.company|default }}</td>
+                <td style="text-align: left">{{ customer.phone|default }}</td>
+                <td style="text-align: left">{{ customer.email|default }}</td>
+                <td style="text-align: left">{{ customer.tax_number|default }}</td>
+                <td style="text-align: left">{{ customer.note|default }}</td>
+                <td style="text-align: left">{{ customer.name|default }}</td>
+                <td style="text-align: left">{{ customer.name2|default }}</td>
+                <td style="text-align: left">{{ customer.name3|default }}</td>
+                <td style="text-align: left">{{ customer.name4|default }}</td>
+                <td style="text-align: left">{{ customer.name5|default }}</td>
+                <td style="text-align: left">{{ customer.name6|default }}</td>
+                <td style="text-align: left">{{ customer.name7|default }}</td>
+                <td style="text-align: left">{{ customer.name8|default }}</td>
+                <td style="text-align: left">{{ customer.name9|default }}</td>
+                <td style="text-align: left">{{ customer.name10|default }}</td>
+                <td style="text-align: left">{{ customer.name11|default }}</td>
+                <td style="text-align: left">{{ customer.name12|default }}</td>
+                <td style="text-align: left">{{ customer.name13|default }}</td>
+                <td style="text-align: left">{{ customer.name14|default }}</td>
+                <td style="text-align: left">{{ customer.name15|default }}</td>
+                <td style="text-align: left">{{ customer.address_invoice|default }}</td>
+                <td style="text-align: left">{{ customer.address_tax1|default }}</td>
+                <td style="text-align: left">{{ customer.address_tax2|default }}</td>
+                <td style="text-align: left">{{ customer.address_tax3|default }}</td>
+                <td style="text-align: left">{{ customer.address_tax4|default }}</td>
+                <td style="text-align: left">{{ customer.address_tax5|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery1|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery2|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery3|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery4|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery5|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery6|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery7|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery8|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery9|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery10|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery11|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery12|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery13|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery14|default }}</td>
+                <td style="text-align: left">{{ customer.address_delivery15|default }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
