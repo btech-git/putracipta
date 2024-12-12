@@ -5,6 +5,8 @@ namespace App\Grid\Shared;
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterContain;
 use App\Common\Data\Operator\FilterEqual;
+use App\Common\Data\Operator\FilterGreater;
+use App\Common\Data\Operator\FilterLessEqual;
 use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\FilterNotEqual;
 use App\Common\Data\Operator\SortAscending;
@@ -22,7 +24,7 @@ class SaleOrderDetailGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'saleOrderHeader:referenceNumber', 'product:name', 'product:code', 'unit:name'],
+                'field_names' => ['codeNumberOrdinal', 'codeNumberMonth', 'codeNumberYear', 'transactionDate', 'saleOrderHeader:referenceNumber', 'product:name', 'product:code', 'unit:name', 'quantityProductionRemaining'],
                 'field_label_list' => [
                     'unit:name' => 'Satuan',
                     'product:name' => 'Material',
@@ -34,6 +36,7 @@ class SaleOrderDetailGridType extends AbstractType
                     'codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'quantityProductionRemaining' => [FilterGreater::class, FilterLessEqual::class],
                     'unit:name' => [FilterContain::class, FilterNotContain::class],
                     'product:name' => [FilterContain::class, FilterNotContain::class],
                     'product:code' => [FilterContain::class, FilterNotContain::class],
