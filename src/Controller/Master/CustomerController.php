@@ -9,11 +9,16 @@ use App\Form\Master\CustomerType;
 use App\Grid\Master\CustomerGridType;
 use App\Repository\Master\CustomerRepository;
 use App\Service\Master\CustomerFormService;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/master/customer')]
@@ -29,11 +34,15 @@ class CustomerController extends AbstractController
 
         list($count, $customers) = $customerRepository->fetchData($criteria);
 
-        return $this->renderForm("master/customer/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'customers' => $customers,
-        ]);
+        if ($request->request->has('export')) {
+            return $this->export($form, $customers);
+        } else {
+            return $this->renderForm("master/customer/_list.html.twig", [
+                'form' => $form,
+                'count' => $count,
+                'customers' => $customers,
+            ]);
+        }
     }
 
     #[Route('/', name: 'app_master_customer_index', methods: ['GET'])]
@@ -104,5 +113,28 @@ class CustomerController extends AbstractController
         }
 
         return $this->redirectToRoute('app_master_customer_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function export(FormInterface $form, array $customers): Response
+    {
+        $htmlString = $this->renderView("master/customer/_list_export.html.twig", [
+            'form' => $form->createView(),
+            'customers' => $customers,
+        ]);
+
+        $reader = new Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $response =  new StreamedResponse(function() use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $filename = 'customer_pck.xlsx';
+        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
     }
 }

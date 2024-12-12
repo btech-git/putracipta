@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Common\Data\Operator\FilterGreater;
 use App\Common\Data\Operator\SortDescending;
 use App\Grid\Shared\SaleOrderDetailGridType;
 use App\Repository\Master\WarehouseRepository;
@@ -22,6 +23,9 @@ class SaleOrderDetailController extends AbstractController
     public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setFilter([
+            'quantityProductionRemaining' => [FilterGreater::class, 0],
+        ]);
         $criteria->setSort([
             'deliveryDate' => SortDescending::class,
         ]);

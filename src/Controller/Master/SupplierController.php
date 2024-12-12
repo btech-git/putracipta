@@ -10,11 +10,16 @@ use App\Grid\Master\SupplierGridType;
 use App\Repository\Master\SupplierRepository;
 use App\Repository\Purchase\PurchaseOrderHeaderRepository;
 use App\Service\Master\SupplierFormService;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/master/supplier')]
@@ -30,11 +35,15 @@ class SupplierController extends AbstractController
 
         list($count, $suppliers) = $supplierRepository->fetchData($criteria);
 
-        return $this->renderForm("master/supplier/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'suppliers' => $suppliers,
-        ]);
+        if ($request->request->has('export')) {
+            return $this->export($form, $suppliers);
+        } else {
+            return $this->renderForm("master/supplier/_list.html.twig", [
+                'form' => $form,
+                'count' => $count,
+                'suppliers' => $suppliers,
+            ]);
+        }
     }
 
     #[Route('/', name: 'app_master_supplier_index', methods: ['GET'])]
@@ -108,5 +117,28 @@ class SupplierController extends AbstractController
         }
 
         return $this->redirectToRoute('app_master_supplier_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function export(FormInterface $form, array $suppliers): Response
+    {
+        $htmlString = $this->renderView("master/supplier/_list_export.html.twig", [
+            'form' => $form->createView(),
+            'suppliers' => $suppliers,
+        ]);
+
+        $reader = new Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $response =  new StreamedResponse(function() use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $filename = 'supplier_pck.xlsx';
+        $dispositionHeader = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
     }
 }
