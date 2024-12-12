@@ -1,5 +1,5 @@
 <div class="memo">
-    <div class="header" style="font-size: 10px; text-align: left">
+    <div class="header" style="font-size: 10px; text-align: left; height: 100px">
         <div class="table full">
             <div class="cell col">
                 <div class="table full">
@@ -132,6 +132,27 @@
                     </div>
                 </div>
             </div>
+            <div class="cell col">
+                <table class="detail" style="width: 95%">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Urutan Proses</th>
+                        </tr>
+                        <tr>
+                            <th>No</th>
+                            <th>Proses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
+                            <tr>
+                                <td style="text-align: center; width: 5%">{{ loop.index }}</td>
+                                <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -164,27 +185,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="cell col">
-                    <table class="detail" style="width: 95%">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Urutan Proses</th>
-                            </tr>
-                            <tr>
-                                <th>No</th>
-                                <th>Proses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for masterOrderProcessDetail in masterOrderHeader.masterOrderProcessDetails %}
-                                <tr>
-                                    <td style="text-align: center; width: 5%">{{ loop.index }}</td>
-                                    <td>{{ masterOrderProcessDetail.workOrderProcess.name|default }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </fieldset>
@@ -209,7 +209,7 @@
             </tr>
         </thead>
         <tfoot>
-            {% for row in 0..25 %}
+            {% for row in 0..8 %}
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
@@ -246,7 +246,7 @@
             </tr>
         </thead>
         <tfoot>
-            {% for row in 0..35 %}
+            {% for row in 0..12 %}
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
