@@ -36,7 +36,7 @@ class DeliveryHeaderFormService
     private SaleOrderDetailRepository $saleOrderDetailRepository;
     private InventoryRepository $inventoryRepository;
 
-    public function __construct(RequestStack $requestStack, SaleOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, DeliveryHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
         $this->formSync = $formSync;
         $this->requestStack = $requestStack;
