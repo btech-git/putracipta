@@ -17,6 +17,7 @@ use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Sale\DeliveryHeaderFormSupport;
+use App\Sync\Sale\DeliveryHeaderFormSync;
 use App\Util\Service\EntityResetUtil;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +27,7 @@ class DeliveryHeaderFormService
 {
     use DeliveryHeaderFormSupport;
 
+    private DeliveryHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
@@ -34,8 +36,9 @@ class DeliveryHeaderFormService
     private SaleOrderDetailRepository $saleOrderDetailRepository;
     private InventoryRepository $inventoryRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, SaleOrderHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
