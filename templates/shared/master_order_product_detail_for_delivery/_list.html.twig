@@ -23,6 +23,7 @@
             {% for masterOrderProductDetail in masterOrderProductDetails %}
                 <tr data-data-table-target="selectable" data-selected-identifier="{{ saleOrderDetailData.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'saleOrderHeaderReferenceNumber': saleOrderHeaderData.referenceNumber|default,
+                    'saleOrderHeaderIsUsingFscPaper': saleOrderDetailData.saleOrderHeader.isUsingFscPaper|default ? 'Yes' : 'No',
                     'saleOrderDetailId': saleOrderDetailData.id|default,
                     'saleOrderDetailProduct': saleOrderDetailData.product|default,
                     'saleOrderDetailLinePo': saleOrderDetailData.linePo|default,

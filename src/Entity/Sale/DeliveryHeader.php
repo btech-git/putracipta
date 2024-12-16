@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class DeliveryHeader extends SaleHeader
 {
     public const CODE_NUMBER_CONSTANT = 'DLV';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]

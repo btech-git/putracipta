@@ -210,7 +210,7 @@
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Satuan</th>
-                        <th>Status</th>
+                        <th>Cancel?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -223,7 +223,7 @@
                                 <td>{{ deliveryDetail.product.name|default }}</td>
                                 <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ deliveryDetail.unit.name|default }}</td>
-                                <td>{{ deliveryDetail.deliveryHeader.isCanceled ? 'Yes' : 'No' }}</td>
+                                <td>{{ deliveryDetail.isCanceled ? 'Yes' : 'No' }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -274,7 +274,6 @@
         
     <div class="d-inline-block">{{ include('sale/sale_order_header/_delete_form.html.twig') }}</div>
     
-    {#<div class="d-inline-block">{{ include('sale/sale_order_header/_delete_form.html.twig') }}</div>#}
     {% if saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_DRAFT', saleOrderHeader) or saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_RELEASE', saleOrderHeader) or saleOrderHeader.transactionStatus == constant('TRANSACTION_STATUS_HOLD', saleOrderHeader) %}
         {% if saleOrderHeader.isOnHold == false %}
             {% if is_granted('ROLE_APPROVAL') %}

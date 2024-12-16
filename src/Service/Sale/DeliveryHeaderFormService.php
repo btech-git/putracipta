@@ -49,12 +49,19 @@ class DeliveryHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($deliveryHeader->getId())) {
-            $deliveryHeader->setCreatedTransactionDateTime($datetime);
-            $deliveryHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $deliveryHeader->setIsCanceled(true);
+            $deliveryHeader->setTransactionStatus(DeliveryHeader::TRANSACTION_STATUS_CANCEL);
+            $deliveryHeader->setCancelledTransactionDateTime($datetime);
+            $deliveryHeader->setCancelledTransactionUser($user);
         } else {
-            $deliveryHeader->setModifiedTransactionDateTime($datetime);
-            $deliveryHeader->setModifiedTransactionUser($user);
+            if (empty($deliveryHeader->getId())) {
+                $deliveryHeader->setCreatedTransactionDateTime($datetime);
+                $deliveryHeader->setCreatedTransactionUser($user);
+            } else {
+                $deliveryHeader->setModifiedTransactionDateTime($datetime);
+                $deliveryHeader->setModifiedTransactionUser($user);
+            }
         }
         
         $deliveryHeader->setCodeNumberVersion($deliveryHeader->getCodeNumberVersion() + 1);
@@ -62,6 +69,14 @@ class DeliveryHeaderFormService
 
     public function finalize(DeliveryHeader $deliveryHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $deliveryHeader);
+        } else {
+            foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
+                EntityResetUtil::reset($this->formSync, $deliveryDetail);
+            }
+        }
+        
         if ($deliveryHeader->getTransactionDate() !== null && $deliveryHeader->getId() === null) {
             $year = $deliveryHeader->getTransactionDate()->format('y');
             $month = $deliveryHeader->getTransactionDate()->format('m');

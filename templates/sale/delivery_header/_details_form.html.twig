@@ -25,7 +25,7 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="customer-table:data-table:select@document->form-collection#clearCollectionItems master-order-product-detail-for-delivery-table:data-table:select@document->form-collection#addCollectionItem master-order-product-detail-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="customer-table:data-table:select@document->form-collection#clearCollectionItems master-order-product-detail-for-delivery-table:data-table:select@document->form-collection#addCollectionItem master-order-product-detail-for-delivery-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" data-item-identifier-name="masterOrderProductDetailId" data-item-identifier-value="{{ detailForm.vars.value.masterOrderProductDetail.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleOrderDetail, {'attr': {'data-item-field-name': 'saleOrderDetailId'}}) }}</td>

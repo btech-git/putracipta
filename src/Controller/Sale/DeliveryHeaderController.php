@@ -170,15 +170,24 @@ class DeliveryHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_sale_delivery_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_DELIVERY_EDIT')]
-    public function delete(Request $request, DeliveryHeader $deliveryHeader, DeliveryHeaderRepository $deliveryHeaderRepository): Response
+    public function delete(Request $request, DeliveryHeader $deliveryHeader, DeliveryHeaderFormService $deliveryHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $deliveryHeader->getId(), $request->request->get('_token'))) {
-            $deliveryHeaderRepository->remove($deliveryHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $deliveryHeader->getId(), $request->request->get('_token'))) {
+            $form = $this->createForm(DeliveryHeaderType::class, $deliveryHeader);
+            $form->handleRequest($request);
+            $deliveryHeaderFormService->initialize($deliveryHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $deliveryHeaderFormService->finalize($deliveryHeader, ['cancelTransaction' => true,]);
+            $deliveryHeaderFormService->save($deliveryHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));
         }
+
 
         return $this->redirectToRoute('app_sale_delivery_header_index', [], Response::HTTP_SEE_OTHER);
     }
