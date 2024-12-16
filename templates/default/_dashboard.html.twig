@@ -174,7 +174,7 @@
                 {% set saleOrderDetails = currentSaleOrderHeader.saleOrderDetails %}
                 {% set masterOrderProductDetails = saleOrderDetails|map(saleOrderDetail => saleOrderDetail.masterOrderProductDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set inventoryProductReceiveDetails = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.inventoryProductReceiveDetails)|reduce((a, b) => a|merge(b), []) %}
-                {% set deliveryDetails = masterOrderProductDetails|map(masterOrderProductDetail => masterOrderProductDetail.deliveryDetails)|reduce((a, b) => a|merge(b), []) %}
+                {% set deliveryDetails = saleOrderDetails|map(saleOrderDetail => saleOrderDetail.deliveryDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set saleInvoiceDetails = deliveryDetails|map(deliveryDetail => deliveryDetail.saleInvoiceDetails)|reduce((a, b) => a|merge(b), []) %}
                 {% set salePaymentDetails = saleInvoiceDetails|map(saleInvoiceDetail => saleInvoiceDetail.saleInvoiceHeader.salePaymentDetails)|reduce((a, b) => a|merge(b), []) %}
                 <tr>
