@@ -153,7 +153,7 @@
                                 <td class="center">{{ rownumber }}</td>
                                 <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 {% if saleInvoiceHeader.isUsingFscPaper %}
-                                    <td class="center">{{ deliveryDetail.fscCode|default }}</td>
+                                    <td class="center">{{ saleInvoiceDetail.deliveryDetail.fscCode|default }}</td>
                                     <td class="left"></td>
                                 {% endif %}
                                 <td class="left">{{ saleInvoiceDetail.product.code|default }}</td>
@@ -188,7 +188,7 @@
                 </tr>
                 {% if saleInvoiceHeader.discountNominal > 0.00 %}
                     <tr>
-                        <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "7" {% endif %} class="label right">
+                        <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">
                             Diskon
                             {% if saleInvoiceHeader.discountValueType == constant('DISCOUNT_VALUE_TYPE_PERCENTAGE', saleInvoiceHeader) %}
                                 {{ saleInvoiceHeader.discountValue|default }}%
@@ -198,7 +198,7 @@
                     </tr>
                 {% endif %}
                 <tr>
-                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "7" {% endif %} class="label right">
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">
                         PPn 11%
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
@@ -212,7 +212,7 @@
                     </tr>
                 {% endif %}#}
                 <tr>
-                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"8"{% else %} "7" {% endif %} class="label right">Grand Total</td>
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">Grand Total</td>
                     <td class="right">{{ saleInvoiceHeader.grandTotal|default|number_format(0) }}</td>
                 </tr>
             </tfoot>
