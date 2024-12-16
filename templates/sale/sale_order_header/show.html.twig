@@ -210,6 +210,7 @@
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Satuan</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -222,11 +223,12 @@
                                 <td>{{ deliveryDetail.product.name|default }}</td>
                                 <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ deliveryDetail.unit.name|default }}</td>
+                                <td>{{ deliveryDetail.deliveryHeader.isCanceled ? 'Yes' : 'No' }}</td>
                             </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="6">No Records Found</td>
+                            <td colspan="7">No Records Found</td>
                         </tr>
                     {% endfor %}
                 </tbody>

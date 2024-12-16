@@ -55,7 +55,7 @@ class InventoryProductReceiveHeaderFormService
         if ($inventoryProductReceiveHeader->getTransactionDate() !== null && $inventoryProductReceiveHeader->getId() === null) {
             $year = $inventoryProductReceiveHeader->getTransactionDate()->format('y');
             $month = $inventoryProductReceiveHeader->getTransactionDate()->format('m');
-            $lastInventoryProductReceiveHeader = $this->inventoryProductReceiveHeaderRepository->findRecentBy($year, $month);
+            $lastInventoryProductReceiveHeader = $this->inventoryProductReceiveHeaderRepository->findRecentBy($year);
             $currentInventoryProductReceiveHeader = ($lastInventoryProductReceiveHeader === null) ? $inventoryProductReceiveHeader : $lastInventoryProductReceiveHeader;
             $inventoryProductReceiveHeader->setCodeNumberToNext($currentInventoryProductReceiveHeader->getCodeNumber(), $year, $month);
         }
