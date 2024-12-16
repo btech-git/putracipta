@@ -85,6 +85,9 @@ class DeliveryHeader extends SaleHeader
     #[ORM\Column(type: Types::TEXT)]
     private ?string $deliveryDetailProductCodeList = '';
 
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = null;
+
     public function __construct()
     {
         $this->deliveryDetails = new ArrayCollection();
@@ -365,6 +368,18 @@ class DeliveryHeader extends SaleHeader
     public function setDeliveryDetailProductCodeList(string $deliveryDetailProductCodeList): self
     {
         $this->deliveryDetailProductCodeList = $deliveryDetailProductCodeList;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
 
         return $this;
     }
