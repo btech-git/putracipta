@@ -23,9 +23,11 @@ class SaleOrderDetailController extends AbstractController
     public function _list(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
-//        $criteria->setFilter([
-//            'quantityProductionRemaining' => [FilterGreater::class, 0],
-//        ]);
+        if ($request->request->has('master_order_header')) {
+            $criteria->setFilter([
+                'quantityProductionRemaining' => [FilterGreater::class, 0],
+            ]);
+        }
         $criteria->setSort([
             'deliveryDate' => SortDescending::class,
         ]);

@@ -38,6 +38,7 @@ class MasterOrderProductDetailForDeliveryController extends AbstractController
 
         $saleOrderHeaderData = [
             'referenceNumber' => isset($request->request->get('SaleOrderHeader')['reference_number']) ? $request->request->get('SaleOrderHeader')['reference_number'] : '',
+            'isUsingFscPaper' => isset($request->request->get('SaleOrderHeader')['is_using_fsc_paper']) ? $request->request->get('SaleOrderHeader')['is_using_fsc_paper'] : '',
         ];
         $saleOrderDetailData = [
             'id' => isset($request->request->get('SaleOrderDetail')['id']) ? $request->request->get('SaleOrderDetail')['id'] : '',
