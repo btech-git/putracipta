@@ -86,7 +86,7 @@ class DeliveryHeader extends SaleHeader
     private ?string $deliveryDetailProductCodeList = '';
 
     #[ORM\Column(length: 60)]
-    private ?string $transactionStatus = null;
+    private ?string $transactionStatus = '';
 
     public function __construct()
     {
