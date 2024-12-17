@@ -139,6 +139,18 @@
         </fieldset>
         
         <div>
+            <input type="hidden" name="SaleOrderHeader[reference_number]"
+                   data-controller="dom-element",
+                   data-action="sale-order-detail-table:data-table:select@document->dom-element#bind",
+                   data-dom-element-bind-specifications-param="{{ [
+                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderReferenceNumber'}},
+                    ]|json_encode }}" />
+            <input type="hidden" name="SaleOrderHeader[is_using_fsc_paper]"
+                   data-controller="dom-element",
+                   data-action="sale-order-detail-table:data-table:select@document->dom-element#bind",
+                   data-dom-element-bind-specifications-param="{{ [
+                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderIsUsingFscPaper'}},
+                    ]|json_encode }}" />
             <input type="hidden" name="SaleOrderDetail[id]"
                    data-controller="dom-element",
                    data-action="sale-order-detail-table:data-table:select@document->dom-element#bind",
@@ -150,12 +162,6 @@
                    data-action="sale-order-detail-table:data-table:select@document->dom-element#bind",
                    data-dom-element-bind-specifications-param="{{ [
                         {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.productId'}},
-                    ]|json_encode }}" />
-            <input type="hidden" name="SaleOrderHeader[reference_number]"
-                   data-controller="dom-element",
-                   data-action="sale-order-detail-table:data-table:select@document->dom-element#bind",
-                   data-dom-element-bind-specifications-param="{{ [
-                        {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.saleOrderHeaderReferenceNumber'}},
                     ]|json_encode }}" />
             <input type="hidden" name="SaleOrderDetail[line_po]"
                    data-controller="dom-element",
