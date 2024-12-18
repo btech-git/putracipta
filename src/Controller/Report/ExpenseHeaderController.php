@@ -4,6 +4,7 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
+use App\Common\Data\Operator\SortDescending;
 use App\Grid\Report\ExpenseHeaderGridType;
 use App\Repository\Accounting\ExpenseHeaderRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -28,6 +29,9 @@ class ExpenseHeaderController extends AbstractController
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
             'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
         ]);
         $form = $this->createForm(ExpenseHeaderGridType::class, $criteria);
         $form->handleRequest($request);

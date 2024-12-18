@@ -4,6 +4,7 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
+use App\Common\Data\Operator\SortDescending;
 use App\Grid\Report\DepositHeaderGridType;
 use App\Repository\Accounting\DepositHeaderRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -28,6 +29,9 @@ class DepositHeaderController extends AbstractController
         $currentDate = date('Y-m-d');
         $criteria->setFilter([
             'transactionDate' => [FilterBetween::class, $currentDate, $currentDate],
+        ]);
+        $criteria->setSort([
+            'transactionDate' => SortDescending::class,
         ]);
         $form = $this->createForm(DepositHeaderGridType::class, $criteria);
         $form->handleRequest($request);
