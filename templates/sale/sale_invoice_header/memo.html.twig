@@ -154,7 +154,7 @@
                                 <td class="left">{{ saleInvoiceDetail.deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                                 {% if saleInvoiceHeader.isUsingFscPaper %}
                                     <td class="center">{{ saleInvoiceDetail.deliveryDetail.fscCode|default }}</td>
-                                    <td class="left"></td>
+                                    <td class="left">{{ saleInvoiceDetail.deliveryDetail.masterOrderProductDetail.masterOrderHeader.codeNumberOrdinal|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ saleInvoiceDetail.product.code|default }}</td>
                                 <td class="left">{{ saleInvoiceDetail.product.name|default }}</td>
