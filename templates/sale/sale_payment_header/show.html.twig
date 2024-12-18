@@ -17,7 +17,7 @@
         <tbody>
             <tr>
                 <th>Payment #</th>
-                <td>{{ salePaymentHeader.getCodeNumber }}</td>
+                <td>{{ salePaymentHeader.getCodeNumber|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal</th>
@@ -25,11 +25,11 @@
             </tr>
             <tr>
                 <th>Customer</th>
-                <td>{{ salePaymentHeader.customer.company }}</td>
+                <td>{{ salePaymentHeader.customer.company|default }}</td>
             </tr>
             <tr>
                 <th>Cek / Giro #</th>
-                <td>{{ salePaymentHeader.referenceNumber }}</td>
+                <td>{{ salePaymentHeader.referenceNumber|default }}</td>
             </tr>
             <tr>
                 <th>Tanggal Cek / Giro</th>
@@ -37,11 +37,11 @@
             </tr>
             <tr>
                 <th>Jenis Pembayaran</th>
-                <td>{{ salePaymentHeader.paymentType.name }}</td>
+                <td>{{ salePaymentHeader.paymentType.name|default }}</td>
             </tr>
             <tr>
                 <th>Note</th>
-                <td>{{ salePaymentHeader.note }}</td>
+                <td>{{ salePaymentHeader.note|default }}</td>
             </tr>
             <tr>
                 <th>User Created</th>
@@ -92,7 +92,7 @@
                             {% if salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_NON_TAX', salePaymentDetail) %}
                                 0.00%
                             {% elseif salePaymentDetail.serviceTaxMode == constant('SERVICE_TAX_MODE_TAX', salePaymentDetail) %}
-                                {{ salePaymentDetail.serviceTaxPercentage }}%
+                                {{ salePaymentDetail.serviceTaxPercentage|default }}%
                             {% endif %}
                         </td>
                         <td style="text-align: right">{{ salePaymentDetail.serviceTaxNominal|default|number_format(2) }}</td>
