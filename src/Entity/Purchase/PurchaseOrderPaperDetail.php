@@ -132,7 +132,7 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
         return $isClosed;
     }
 
-    public function getSyncRemainingReceive(): int
+    public function getSyncRemainingReceive(): string
     {
         return $this->quantity - $this->totalReceive + $this->totalReturn;
     }
