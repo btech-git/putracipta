@@ -32,6 +32,7 @@
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(form, 'materialSubCategory:name') }}>
                     Jenis{{ grid.sort_char(form.sort['materialSubCategory:name'].vars.value) }}
                 </th>
+                <th>Note</th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
                 <th>
@@ -57,6 +58,7 @@
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'materialSubCategory:name') }} value="{{ form.filter['materialSubCategory:name'].1.vars.value }}" />
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -75,6 +77,7 @@
                     <td>{{ paper.name }}</td>
                     <td>{{ paper.weight }}</td>
                     <td>{{ paper.materialSubCategory.name|default }}</td>
+                    <td>{{ paper.note }}</td>
                 </tr>
             {% else %}
                 <tr>
