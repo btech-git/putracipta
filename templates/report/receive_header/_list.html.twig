@@ -49,7 +49,7 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Kertas/Material</label>
+                    <label class="col-sm-2 col-form-label w-25">Gudang</label>
                     <div class="col-sm-10 w-75">
                         <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>
                             <option value="" {% if form.filter.warehouse.1.vars.value == '' %}selected="selected"{% endif %}></option>
@@ -146,7 +146,7 @@
                                 {% for receiveDetail in receiveHeader.receiveDetails %}
                                     <tr>
                                         <td class="text-start">{{ receiveDetail.material is null ? receiveDetail.paper.codeNumber|default : receiveDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ receiveDetail.material is null ? receiveDetail.paper.paperNameSizeCombination|default : receiveDetail.material.name|default }}</td>
+                                        <td class="text-start">{{ receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default }}</td>
                                         <td class="text-center">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity|default|number_format(0) : receiveDetail.purchaseOrderDetail.quantity|default|number_format(0) }}</td>
                                         <td class="text-center">{{ receiveDetail.receivedQuantity|default|number_format(0) }}</td>
                                         <td class="text-start">{{ receiveDetail.unit.name|default }}</td>
