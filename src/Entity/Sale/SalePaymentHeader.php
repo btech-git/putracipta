@@ -72,6 +72,9 @@ class SalePaymentHeader extends SaleHeader
     #[ORM\Column(length: 60)]
     private ?string $returnTaxNumber = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $serviceTaxAmount = '0.00';
+
     public function __construct()
     {
         $this->salePaymentDetails = new ArrayCollection();
@@ -117,7 +120,7 @@ class SalePaymentHeader extends SaleHeader
     
     public function getSyncReceivedAmount(): string
     {
-        return $this->totalAmount - $this->administrationFee - $this->returnAmount;
+        return $this->totalAmount - $this->administrationFee - $this->returnAmount - $this->serviceTaxAmount;
     }
     
     public function getId(): ?int
@@ -283,6 +286,18 @@ class SalePaymentHeader extends SaleHeader
     public function setReturnTaxNumber(string $returnTaxNumber): self
     {
         $this->returnTaxNumber = $returnTaxNumber;
+
+        return $this;
+    }
+
+    public function getServiceTaxAmount(): ?string
+    {
+        return $this->serviceTaxAmount;
+    }
+
+    public function setServiceTaxAmount(string $serviceTaxAmount): self
+    {
+        $this->serviceTaxAmount = $serviceTaxAmount;
 
         return $this;
     }
