@@ -9,6 +9,7 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\PurchaseOrderPaperDetail;
 use App\Entity\Purchase\PurchaseOrderPaperHeader;
 use App\Form\Purchase\PurchaseOrderPaperHeaderType;
+use App\Grid\Purchase\OutstandingPurchaseOrderPaperGridType;
 use App\Grid\Purchase\PurchaseOrderPaperHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Purchase\PurchaseOrderPaperHeaderRepository;
@@ -64,18 +65,21 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function _listOutstandingPurchaseRequestPaper(Request $request, PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository): Response
     {
         $criteria = new DataCriteria();
-        $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
-                ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
-                ->getForm();
+        $form = $this->createForm(OutstandingPurchaseOrderPaperGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $purchaseRequestPaperDetails) = $purchaseRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+        list($count, $purchaseRequestPaperDetails) = $purchaseRequestPaperDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
             $qb->andWhere("{$alias}.isCanceled = false");
             $sub = $new(PurchaseOrderPaperDetail::class, 'p');
             $sub->andWhere("IDENTITY(p.purchaseRequestPaperDetail) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
             $qb->join("{$alias}.purchaseRequestPaperHeader", 'h');
             $qb->andWhere("h.transactionStatus = 'Approve'");
+            
+            if (isset($request->request->get('outstanding_purchase_order_paper_grid')['filter']['purchaseOrderPaperHeader:transactionDate']) && isset($request->request->get('outstanding_purchase_order_paper_grid')['sort']['purchaseOrderPaperHeader:transactionDate'])) {
+                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('outstanding_purchase_order_paper_grid')['filter']['purchaseOrderPaperHeader:transactionDate']);
+                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('outstanding_purchase_order_paper_grid')['sort']['purchaseOrderPaperHeader:transactionDate']);
+            }
         });
 
         return $this->renderForm("purchase/purchase_order_paper_header/_list_outstanding_purchase_request_paper.html.twig", [

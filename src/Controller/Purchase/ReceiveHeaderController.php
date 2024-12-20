@@ -4,7 +4,6 @@ namespace App\Controller\Purchase;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
-use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Purchase\ReceiveHeader;
 use App\Form\Purchase\ReceiveHeaderType;
@@ -115,7 +114,7 @@ class ReceiveHeaderController extends AbstractController
             $qb->andWhere("{$alias}.remainingReceive > 0");
             $qb->join("{$alias}.purchaseOrderPaperHeader", 'h');
             $qb->join("{$alias}.paper", 'p');
-            $qb->andWhere("h.transactionStatus IN ('partial_receive')");
+            $qb->andWhere("h.transactionStatus IN ('partial_receive', 'approve')");
             if (isset($request->request->get('purchase_order_paper_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberOrdinal']) && isset($request->request->get('purchase_order_paper_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberOrdinal'])) {
                 $add['filter']($qb, 'h', 'codeNumberOrdinal', $request->request->get('purchase_order_paper_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberOrdinal']);
                 $add['sort']($qb, 'h', 'codeNumberOrdinal', $request->request->get('purchase_order_paper_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberOrdinal']);
