@@ -113,6 +113,14 @@
                 <td style="text-align: right"><strong>{{ salePaymentHeader.administrationFee|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
+                <td colspan="8" style="text-align: right"><strong>Nota Retur</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.returnAmount|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align: right"><strong>PPh 23</strong></td>
+                <td style="text-align: right"><strong>{{ salePaymentHeader.serviceTaxAmount|default|number_format(2) }}</strong></td>
+            </tr>
+            <tr>
                 <td colspan="8" style="text-align: right"><strong>Jumlah Terima</strong></td>
                 <td style="text-align: right"><strong>{{ salePaymentHeader.receivedAmount|default|number_format(2) }}</strong></td>
             </tr>

@@ -83,17 +83,24 @@
                 </td>
                 <td></td>
             </tr>
-            {#<tr>
-                <td class="text-end" colspan="4">Total Retur</td>
-                <td>
-                    {{ form_row(form.returnAmount, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
-                </td>
-                <td></td>
-            </tr>#}
             <tr>
                 <td class="text-end font-weight-bolder" colspan="7">Admin Fee</td>
                 <td>
                     {{ form_row(form.administrationFee, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-end font-weight-bolder" colspan="7">Nota Retur</td>
+                <td>
+                    {{ form_row(form.returnAmount, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-end font-weight-bolder" colspan="7">PPh 23</td>
+                <td>
+                    {{ form_row(form.serviceTaxAmount, {'label': false, 'attr': {'data-action': 'change->json-loader#load', 'size': 3}}) }}
                 </td>
                 <td></td>
             </tr>
