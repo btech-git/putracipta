@@ -21,6 +21,8 @@ class SalePaymentHeaderType extends AbstractType
             ->add('transactionDate', FormattedDateType::class)
             ->add('note')
             ->add('returnTransactionNumber')
+            ->add('returnAmount', FormattedNumberType::class, ['decimals' => 2])
+            ->add('serviceTaxAmount', FormattedNumberType::class, ['decimals' => 2])
             ->add('returnTaxNumber')
             ->add('administrationFee', FormattedNumberType::class, ['decimals' => 2])
             ->add('customer', EntityHiddenType::class, ['class' => Customer::class])
