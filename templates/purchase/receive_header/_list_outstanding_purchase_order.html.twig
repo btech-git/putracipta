@@ -7,7 +7,7 @@
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="table-primary">
+            <tr class="table-primary" {{ grid.sort_link(formMaterial) }}>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(formMaterial, ['purchaseOrderHeader:codeNumberOrdinal', 'purchaseOrderHeader:codeNumberMonth', 'purchaseOrderHeader:codeNumberYear']) }}>
                     PO # {{ grid.sort_char(formMaterial.sort['purchaseOrderHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
@@ -95,7 +95,7 @@
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="table-primary">
+            <tr class="table-primary" {{ grid.sort_link(formPaper) }}>
                 <th style="min-width: 280px" role="button" {{ grid.sort_link_item(formPaper, ['purchaseOrderPaperHeader:codeNumberOrdinal', 'purchaseOrderPaperHeader:codeNumberMonth', 'purchaseOrderPaperHeader:codeNumberYear']) }}>
                     PO # {{ grid.sort_char(formPaper.sort['purchaseOrderPaperHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
@@ -119,6 +119,12 @@
                 </th>
                 <th style="min-width: 100px" role="button" {{ grid.sort_link_item(formPaper, 'purchaseOrderPaperHeader:transactionStatus') }}>
                     Status {{ grid.sort_char(formPaper.sort['purchaseOrderPaperHeader:transactionStatus'].vars.value) }}
+                </th>
+                <th style="min-width: 150px">
+                    Note PO
+                </th>
+                <th style="min-width: 150px">
+                    Memo Request
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(formPaper) }}>
@@ -151,12 +157,14 @@
                 </th>
                 <th></th>
                 <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperDetails %}
                 <tr>
-                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber }}</td>
+                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                     <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.supplier.company|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
@@ -164,6 +172,8 @@
                     <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                     <td>{{ purchaseOrderPaperDetail.paper.unit.name|default }}</td>
                     <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionStatus|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.note|default }}</td>
+                    <td>{{ purchaseOrderPaperDetail.purchaseRequestPaperDetail.memo|default }}</td>
                 </tr>
             {% else %}
                 <tr>
