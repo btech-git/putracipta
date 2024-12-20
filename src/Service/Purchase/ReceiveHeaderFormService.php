@@ -129,12 +129,12 @@ class ReceiveHeaderFormService
         }
         
         if ($purchaseOrderHeaderForMaterialOrPaper !== null) {
-            if ($totalRemaining > 0) {
+            $purchaseOrderHeaderForMaterialOrPaper->setTotalRemainingReceive($purchaseOrderHeaderForMaterialOrPaper->getSyncTotalRemainingReceive());
+            if ($purchaseOrderHeaderForMaterialOrPaper->getTotalRemainingReceive() > 0) {
                 $purchaseOrderHeaderForMaterialOrPaper->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_PARTIAL_RECEIVE);
             } else {
                 $purchaseOrderHeaderForMaterialOrPaper->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
             }
-            $purchaseOrderHeaderForMaterialOrPaper->setTotalRemainingReceive($purchaseOrderHeaderForMaterialOrPaper->getSyncTotalRemainingReceive());
         }
     }
 
