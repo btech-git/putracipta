@@ -17,7 +17,7 @@ trait SalePaymentHeaderFormSupport
             'transactionDate' => $salePaymentHeader->getTransactionDate(),
             'paymentType' => $salePaymentHeader->getPaymentType()->getName(),
             'totalAmount' => $salePaymentHeader->getTotalAmount(),
-            'referenceNumber' => $salePaymentHeader->getReferenceNumber(),
+//            'referenceNumber' => $salePaymentHeader->getReferenceNumber(),
             'referenceDate' => $salePaymentHeader->getReferenceDate(),
             'administrationFee' => $salePaymentHeader->getAdministrationFee(),
             'receivedAmount' => $salePaymentHeader->getReceivedAmount(),
