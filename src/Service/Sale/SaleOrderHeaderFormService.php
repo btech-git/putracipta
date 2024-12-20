@@ -102,7 +102,7 @@ class SaleOrderHeaderFormService
             $saleOrderDetail->setMinimumToleranceQuantity($saleOrderDetail->getSyncMinimumToleranceQuantity());
             $saleOrderDetail->setMaximumToleranceQuantity($saleOrderDetail->getSyncMaximumToleranceQuantity());
             
-            if ($saleOrderDetail->getDeliveryDate() !== null && $saleOrderHeader->getId() !== null) {
+            if ($saleOrderDetail->getDeliveryDate() !== null) {
                 $saleOrderDetail->setDeliveryDateAlternate($saleOrderDetail->getDeliveryDate()->format('Y-m-d'));
             }
             
