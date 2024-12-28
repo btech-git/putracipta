@@ -26,12 +26,10 @@ class SalePaymentDetailType extends AbstractType
         $serviceTaxPercentage = $this->literalConfigRepository->findLiteralValue('serviceTaxPercentage');
         $builder
             ->add('amount', FormattedNumberType::class, ['decimals' => 2])
-            ->add('memo')
             ->add('serviceTaxMode', ChoiceType::class, ['choices' => [
                 '0.00%' => SalePaymentDetail::SERVICE_TAX_MODE_NON_TAX,
                 "{$serviceTaxPercentage}%" => SalePaymentDetail::SERVICE_TAX_MODE_TAX,
             ]])
-//            ->add('serviceTaxNominal')
             ->add('isCanceled')
             ->add('account', null, [
                 'choice_label' => 'name',
