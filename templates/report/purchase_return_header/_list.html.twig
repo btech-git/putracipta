@@ -116,15 +116,17 @@
                         <table>
                             <tbody>
                                 {% for purchaseReturnDetail in purchaseReturnHeader.purchaseReturnDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.codeNumber|default : purchaseReturnDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.paperNameSizeCombination|default : purchaseReturnDetail.material.name|default }}</td>
-                                        <td class="text-center">{{ purchaseReturnDetail.receiveDetail.receivedQuantity|default|number_format(0) }}</td>
-                                        <td class="text-center">{{ purchaseReturnDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ purchaseReturnDetail.unit.name|default }}</td>
-                                        <td class="text-end">{{ purchaseReturnDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseReturnDetail.total|default|number_format(2) }}</td>
-                                    </tr>
+                                    {% if (purchaseReturnDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.codeNumber|default : purchaseReturnDetail.material.code|default }}</td>
+                                            <td class="text-start">{{ purchaseReturnDetail.material is null ? purchaseReturnDetail.paper.paperNameSizeCombination|default : purchaseReturnDetail.material.name|default }}</td>
+                                            <td class="text-center">{{ purchaseReturnDetail.receiveDetail.receivedQuantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ purchaseReturnDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ purchaseReturnDetail.unit.name|default }}</td>
+                                            <td class="text-end">{{ purchaseReturnDetail.unitPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseReturnDetail.total|default|number_format(2) }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

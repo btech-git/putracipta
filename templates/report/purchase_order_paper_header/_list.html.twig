@@ -171,18 +171,20 @@
                         <table>
                             <tbody>
                                 {% for purchaseOrderPaperDetail in purchaseOrderPaperHeader.purchaseOrderPaperDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
-                                        <td class="text-center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
-                                    </tr>
+                                    {% if (purchaseOrderPaperDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                                            <td class="text-center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.associationPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.weightPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

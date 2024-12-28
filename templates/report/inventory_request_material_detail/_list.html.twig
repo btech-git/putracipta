@@ -115,18 +115,20 @@
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for inventoryRequestMaterialDetail in inventoryRequestMaterialDetails %}
-                <tr>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|default ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.requestMode|default }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.note|default }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.material.code|default }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.material.name|default }}</td>
-                    <td class="text-center">{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
-                    <td class="text-start">{{ inventoryRequestMaterialDetail.memo|default }}</td>
-                </tr>
+                {% if (inventoryRequestMaterialDetail.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|default ? inventoryRequestMaterialDetail.inventoryRequestHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.warehouse.name|default }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.requestMode|default }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.inventoryRequestHeader.note|default }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.material.code|default }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.material.name|default }}</td>
+                        <td class="text-center">{{ inventoryRequestMaterialDetail.quantity|default|number_format(0) }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
+                        <td class="text-start">{{ inventoryRequestMaterialDetail.memo|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

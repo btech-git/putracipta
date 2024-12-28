@@ -144,14 +144,16 @@
                         <table>
                             <tbody>
                                 {% for salePaymentDetail in salePaymentDetails[salePaymentHeader.id] %}
-                                    <tr>
-                                        <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.codeNumber|default }}</td>
-                                        <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.transactionDate|default ? salePaymentDetail.saleInvoiceHeader.transactionDate|date('j M Y') }}</td>
-                                        <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.dueDate|default ? salePaymentDetail.saleInvoiceHeader.dueDate|date('j M Y') }}</td>
-                                        <td class="text-start">{{ salePaymentDetail.memo|default }}</td>
-                                        <td class="text-end">{{ salePaymentDetail.saleInvoiceHeader.grandTotal|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
-                                    </tr>
+                                    {% if (salePaymentDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.codeNumber|default }}</td>
+                                            <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.transactionDate|default ? salePaymentDetail.saleInvoiceHeader.transactionDate|date('j M Y') }}</td>
+                                            <td class="text-start">{{ salePaymentDetail.saleInvoiceHeader.dueDate|default ? salePaymentDetail.saleInvoiceHeader.dueDate|date('j M Y') }}</td>
+                                            <td class="text-start">{{ salePaymentDetail.memo|default }}</td>
+                                            <td class="text-end">{{ salePaymentDetail.saleInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ salePaymentDetail.amount|default|number_format(2) }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

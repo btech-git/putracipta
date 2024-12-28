@@ -116,19 +116,21 @@
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for inventoryRequestPaperDetail in inventoryRequestPaperDetails %}
-                <tr>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|default ? inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.requestMode|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.note|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.paper.name|default }}</td>
-                    <td class="text-center">{{ inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.unit.name|default }}</td>
-                    <td class="text-start">{{ inventoryRequestPaperDetail.memo|default }}</td>
-                </tr>
+                {% if (inventoryRequestPaperDetail.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|default ? inventoryRequestPaperDetail.inventoryRequestHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.warehouse.name|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.requestMode|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.inventoryRequestHeader.note|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.paper.name|default }}</td>
+                        <td class="text-center">{{ inventoryRequestPaperDetail.quantity|default|number_format(0) }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.unit.name|default }}</td>
+                        <td class="text-start">{{ inventoryRequestPaperDetail.memo|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

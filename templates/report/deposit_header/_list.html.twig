@@ -112,13 +112,15 @@
                         <table>
                             <tbody>
                                 {% for depositDetail in depositHeader.depositDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ depositDetail.account.code|default }}</td>
-                                        <td class="text-start">{{ depositDetail.account.name|default }}</td>
-                                        <td class="text-start">{{ depositDetail.description|default }}</td>
-                                        <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
-                                        <td class="text-start">{{ depositDetail.memo|default }}</td>
-                                    </tr>
+                                    {% if (depositDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ depositDetail.account.code|default }}</td>
+                                            <td class="text-start">{{ depositDetail.account.name|default }}</td>
+                                            <td class="text-start">{{ depositDetail.description|default }}</td>
+                                            <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
+                                            <td class="text-start">{{ depositDetail.memo|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

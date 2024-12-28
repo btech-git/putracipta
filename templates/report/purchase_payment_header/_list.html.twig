@@ -142,14 +142,16 @@
                         <table>
                             <tbody>
                                 {% for purchasePaymentDetail in purchasePaymentHeader.purchasePaymentDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ purchasePaymentDetail.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
-                                        <td class="text-start">{{ purchasePaymentDetail.purchaseInvoiceHeader.transactionDate|default ? purchasePaymentDetail.purchaseInvoiceHeader.transactionDate|date('j M Y') }}</td>
-                                        <td class="text-start">{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate|default ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('j M Y') }}</td>
-                                        <td class="text-start">{{ purchasePaymentDetail.memo|default }}</td>
-                                        <td class="text-end">{{ purchasePaymentDetail.purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
-                                    </tr>
+                                    {% if (purchasePaymentDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchasePaymentDetail.purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
+                                            <td class="text-start">{{ purchasePaymentDetail.purchaseInvoiceHeader.transactionDate|default ? purchasePaymentDetail.purchaseInvoiceHeader.transactionDate|date('j M Y') }}</td>
+                                            <td class="text-start">{{ purchasePaymentDetail.purchaseInvoiceHeader.dueDate|default ? purchasePaymentDetail.purchaseInvoiceHeader.dueDate|date('j M Y') }}</td>
+                                            <td class="text-start">{{ purchasePaymentDetail.memo|default }}</td>
+                                            <td class="text-end">{{ purchasePaymentDetail.purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchasePaymentDetail.amount|default|number_format(2) }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

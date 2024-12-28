@@ -112,13 +112,15 @@
                         <table>
                             <tbody>
                                 {% for expenseDetail in expenseHeader.expenseDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ expenseDetail.account.code|default }}</td>
-                                        <td class="text-start">{{ expenseDetail.account.name|default }}</td>
-                                        <td class="text-start">{{ expenseDetail.description|default }}</td>
-                                        <td class="text-end">{{ expenseDetail.amount|default|number_format(2) }}</td>
-                                        <td class="text-start">{{ expenseDetail.memo|default }}</td>
-                                    </tr>
+                                    {% if (expenseDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ expenseDetail.account.code|default }}</td>
+                                            <td class="text-start">{{ expenseDetail.account.name|default }}</td>
+                                            <td class="text-start">{{ expenseDetail.description|default }}</td>
+                                            <td class="text-end">{{ expenseDetail.amount|default|number_format(2) }}</td>
+                                            <td class="text-start">{{ expenseDetail.memo|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

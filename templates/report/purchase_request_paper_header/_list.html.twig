@@ -114,15 +114,17 @@
                         <table>
                             <tbody>
                                 {% for purchaseRequestPaperDetail in purchaseRequestPaperHeader.purchaseRequestPaperDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestPaperDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ purchaseRequestPaperDetail.unit.name|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestPaperDetail.usageDate|default ? purchaseRequestPaperDetail.usageDate|date('j M Y') }}</td>
-                                        <td class="text-end">{{ purchaseRequestPaperDetail.memo|default }}</td>
-                                        <td class="text-end">{{ purchaseRequestPaperDetail.transactionStatus|default }}</td>
-                                    </tr>
+                                    {% if (purchaseRequestPaperDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseRequestPaperDetail.paper.codeNumber|default }}</td>
+                                            <td class="text-start">{{ purchaseRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                            <td class="text-start">{{ purchaseRequestPaperDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ purchaseRequestPaperDetail.unit.name|default }}</td>
+                                            <td class="text-start">{{ purchaseRequestPaperDetail.usageDate|default ? purchaseRequestPaperDetail.usageDate|date('j M Y') }}</td>
+                                            <td class="text-end">{{ purchaseRequestPaperDetail.memo|default }}</td>
+                                            <td class="text-end">{{ purchaseRequestPaperDetail.transactionStatus|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

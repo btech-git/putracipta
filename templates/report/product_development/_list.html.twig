@@ -116,11 +116,13 @@
                         <table>
                             <tbody>
                                 {% for productDevelopmentDetail in productDevelopment.productDevelopmentDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ productDevelopmentDetail.product.code|default }}</td>
-                                        <td class="text-start">{{ productDevelopmentDetail.product.name|default }}</td>
-                                        <td class="text-start">{{ productDevelopmentDetail.product.productLengthWidthHeightCombination|default }}</td>
-                                    </tr>
+                                    {% if (productDevelopmentDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ productDevelopmentDetail.product.code|default }}</td>
+                                            <td class="text-start">{{ productDevelopmentDetail.product.name|default }}</td>
+                                            <td class="text-start">{{ productDevelopmentDetail.product.productLengthWidthHeightCombination|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>

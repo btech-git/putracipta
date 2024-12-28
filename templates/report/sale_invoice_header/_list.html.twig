@@ -152,14 +152,16 @@
                         <table>
                             <tbody>
                                 {% for saleInvoiceDetail in saleInvoiceHeader.saleInvoiceDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ saleInvoiceDetail.deliveryDetail.product.code|default }}</td>
-                                        <td class="text-start">{{ saleInvoiceDetail.deliveryDetail.product.name|default }}</td>
-                                        <td class="text-start">{{ saleInvoiceDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ saleInvoiceDetail.unit.name|default }}</td>
-                                        <td class="text-end">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
-                                    </tr>
+                                    {% if (saleInvoiceDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ saleInvoiceDetail.deliveryDetail.product.code|default }}</td>
+                                            <td class="text-start">{{ saleInvoiceDetail.deliveryDetail.product.name|default }}</td>
+                                            <td class="text-start">{{ saleInvoiceDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ saleInvoiceDetail.unit.name|default }}</td>
+                                            <td class="text-end">{{ saleInvoiceDetail.unitPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ saleInvoiceDetail.total|default|number_format(2) }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

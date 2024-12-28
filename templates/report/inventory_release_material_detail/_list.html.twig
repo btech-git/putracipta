@@ -122,18 +122,20 @@
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for inventoryReleaseMaterialDetail in inventoryReleaseMaterialDetails %}
-                <tr>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.transactionDate|default ? inventoryReleaseMaterialDetail.inventoryReleaseHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.releaseMode|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.note|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
-                    <td class="text-center">{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
-                    <td class="text-start">{{ inventoryReleaseMaterialDetail.memo|default }}</td>
-                </tr>
+                {% if (inventoryReleaseMaterialDetail.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.transactionDate|default ? inventoryReleaseMaterialDetail.inventoryReleaseHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.warehouse.name|default }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.releaseMode|default }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.inventoryReleaseHeader.note|default }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
+                        <td class="text-center">{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
+                        <td class="text-start">{{ inventoryReleaseMaterialDetail.memo|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

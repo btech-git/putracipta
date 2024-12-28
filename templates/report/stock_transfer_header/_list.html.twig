@@ -116,36 +116,42 @@
                             <tbody>
                                 {% if (stockTransferHeader.transferMode == 'paper') %}
                                     {% for stockTransferPaperDetail in stockTransferHeader.stockTransferPaperDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ stockTransferPaperDetail.paper.codeNumber|default }}</td>
-                                            <td class="text-start">{{ stockTransferPaperDetail.paper.name|default }}</td>
-                                            <td class="text-center">{{ stockTransferPaperDetail.quantityCurrent|default|number_format(2) }}</td>
-                                            <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(2) }}</td>
-                                            <td class="text-start">{{ stockTransferPaperDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ stockTransferPaperDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (stockTransferPaperDetail.isCanceled == false) %}
+                                                                <tr>
+                                                                    <td class="text-start">{{ stockTransferPaperDetail.paper.codeNumber|default }}</td>
+                                                                    <td class="text-start">{{ stockTransferPaperDetail.paper.name|default }}</td>
+                                                                    <td class="text-center">{{ stockTransferPaperDetail.quantityCurrent|default|number_format(2) }}</td>
+                                                                    <td class="text-center">{{ stockTransferPaperDetail.quantity|default|number_format(2) }}</td>
+                                                                    <td class="text-start">{{ stockTransferPaperDetail.unit.name|default }}</td>
+                                                                    <td class="text-start">{{ stockTransferPaperDetail.memo|default }}</td>
+                                                                </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% elseif (stockTransferHeader.transferMode == 'material') %} 
                                     {% for stockTransferMaterialDetail in stockTransferHeader.stockTransferMaterialDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ stockTransferMaterialDetail.material.code|default }}</td>
-                                            <td class="text-start">{{ stockTransferMaterialDetail.material.name|default }}</td>
-                                            <td class="text-center">{{ stockTransferMaterialDetail.quantityCurrent|default|number_format(2) }}</td>
-                                            <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(2) }}</td>
-                                            <td class="text-start">{{ stockTransferMaterialDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ stockTransferMaterialDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (stockTransferMaterialDetail.isCanceled == false) %}
+                                            <tr>
+                                                <td class="text-start">{{ stockTransferMaterialDetail.material.code|default }}</td>
+                                                <td class="text-start">{{ stockTransferMaterialDetail.material.name|default }}</td>
+                                                <td class="text-center">{{ stockTransferMaterialDetail.quantityCurrent|default|number_format(2) }}</td>
+                                                <td class="text-center">{{ stockTransferMaterialDetail.quantity|default|number_format(2) }}</td>
+                                                <td class="text-start">{{ stockTransferMaterialDetail.unit.name|default }}</td>
+                                                <td class="text-start">{{ stockTransferMaterialDetail.memo|default }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% elseif (stockTransferHeader.transferMode == 'product') %} 
                                     {% for stockTransferProductDetail in stockTransferHeader.stockTransferProductDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ stockTransferProductDetail.product.code|default }}</td>
-                                            <td class="text-start">{{ stockTransferProductDetail.product.name|default }}</td>
-                                            <td class="text-center">{{ stockTransferProductDetail.quantityCurrent|default|number_format(2) }}</td>
-                                            <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(2) }}</td>
-                                            <td class="text-start">{{ stockTransferProductDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ stockTransferProductDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (stockTransferProductDetail.isCanceled == false) %}
+                                            <tr>
+                                                <td class="text-start">{{ stockTransferProductDetail.product.code|default }}</td>
+                                                <td class="text-start">{{ stockTransferProductDetail.product.name|default }}</td>
+                                                <td class="text-center">{{ stockTransferProductDetail.quantityCurrent|default|number_format(2) }}</td>
+                                                <td class="text-center">{{ stockTransferProductDetail.quantity|default|number_format(2) }}</td>
+                                                <td class="text-start">{{ stockTransferProductDetail.unit.name|default }}</td>
+                                                <td class="text-start">{{ stockTransferProductDetail.memo|default }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %} 
                             </tbody>

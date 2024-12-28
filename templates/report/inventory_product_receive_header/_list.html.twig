@@ -119,15 +119,17 @@
                         <table>
                             <tbody>
                                 {% for inventoryProductReceiveDetail in inventoryProductReceiveHeader.inventoryProductReceiveDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ inventoryProductReceiveDetail.product.code|default }}</td>
-                                        <td class="text-start">{{ inventoryProductReceiveDetail.product.name|default }}</td>
-                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantityBox|default|number_format(0) }}</td>
-                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(0) }}</td>
-                                        <td class="text-center">{{ inventoryProductReceiveDetail.quantityTotalPieces|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
-                                        <td class="text-start">{{ inventoryProductReceiveDetail.memo|default }}</td>
-                                    </tr>
+                                    {% if (inventoryProductReceiveDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ inventoryProductReceiveDetail.product.code|default }}</td>
+                                            <td class="text-start">{{ inventoryProductReceiveDetail.product.name|default }}</td>
+                                            <td class="text-center">{{ inventoryProductReceiveDetail.quantityBox|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ inventoryProductReceiveDetail.quantityBoxExtraPieces|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ inventoryProductReceiveDetail.quantityTotalPieces|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ inventoryProductReceiveDetail.product.unit.name|default }}</td>
+                                            <td class="text-start">{{ inventoryProductReceiveDetail.memo|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>

@@ -158,16 +158,18 @@
                             <tbody>
                                 {% set totalSum = '0.00' %}
                                 {% for purchaseOrderPaperDetail in purchaseOrderPaperDetails[paper.id] %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('j F Y') }}</td>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.supplier.company|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderPaperDetail.deliveryDate|default ? purchaseOrderPaperDetail.deliveryDate|date('j F Y') }}</td>
-                                        <td class="text-center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
-                                    </tr>
-                                    {% set totalSum = totalSum + purchaseOrderPaperDetail.total %}
+                                    {% if (purchaseOrderPaperDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('j F Y') }}</td>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.supplier.company|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.deliveryDate|default ? purchaseOrderPaperDetail.deliveryDate|date('j F Y') }}</td>
+                                            <td class="text-center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.unitPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderPaperDetail.total|default|number_format(2) }}</td>
+                                        </tr>
+                                        {% set totalSum = totalSum + purchaseOrderPaperDetail.total %}
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

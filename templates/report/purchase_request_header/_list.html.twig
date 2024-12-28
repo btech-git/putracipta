@@ -114,15 +114,17 @@
                         <table>
                             <tbody>
                                 {% for purchaseRequestDetail in purchaseRequestHeader.purchaseRequestDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseRequestDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.material.name|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.unit.name|default }}</td>
-                                        <td class="text-start">{{ purchaseRequestDetail.usageDate|default ? purchaseRequestDetail.usageDate|date('j M Y') }}</td>
-                                        <td class="text-end">{{ purchaseRequestDetail.memo|default }}</td>
-                                        <td class="text-end">{{ purchaseRequestDetail.transactionStatus|default }}</td>
-                                    </tr>
+                                    {% if (purchaseRequestDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseRequestDetail.material.code|default }}</td>
+                                            <td class="text-start">{{ purchaseRequestDetail.material.name|default }}</td>
+                                            <td class="text-start">{{ purchaseRequestDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ purchaseRequestDetail.unit.name|default }}</td>
+                                            <td class="text-start">{{ purchaseRequestDetail.usageDate|default ? purchaseRequestDetail.usageDate|date('j M Y') }}</td>
+                                            <td class="text-end">{{ purchaseRequestDetail.memo|default }}</td>
+                                            <td class="text-end">{{ purchaseRequestDetail.transactionStatus|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

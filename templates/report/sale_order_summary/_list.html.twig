@@ -108,17 +108,19 @@
             {% set totalTax = 0 %}
             {% set grandTotal = 0 %}
             {% for saleOrderHeader in saleOrderHeaders %}
-                <tr>
-                    <td class="text-start">{{ saleOrderHeader.customer.company|default }}</td>
-                    <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
-                    <td class="text-end">{{ saleOrderHeader.subTotal|default|number_format(0) }}</td>
-                    <td class="text-end">{{ saleOrderHeader.taxNominal|default|number_format(2) }}</td>
-                    <td class="text-end">{{ saleOrderHeader.grandTotal|default|number_format(2) }}</td>
-                </tr>
-                {% set totalAmount = totalAmount + saleOrderHeader.subTotal|default %}
-                {% set totalTax = totalTax + saleOrderHeader.taxNominal|default %}
-                {% set grandTotal = grandTotal + saleOrderHeader.grandTotal|default %}
+                {% if (saleOrderHeader.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ saleOrderHeader.customer.company|default }}</td>
+                        <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
+                        <td class="text-end">{{ saleOrderHeader.subTotal|default|number_format(0) }}</td>
+                        <td class="text-end">{{ saleOrderHeader.taxNominal|default|number_format(2) }}</td>
+                        <td class="text-end">{{ saleOrderHeader.grandTotal|default|number_format(2) }}</td>
+                    </tr>
+                    {% set totalAmount = totalAmount + saleOrderHeader.subTotal|default %}
+                    {% set totalTax = totalTax + saleOrderHeader.taxNominal|default %}
+                    {% set grandTotal = grandTotal + saleOrderHeader.grandTotal|default %}
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

@@ -145,15 +145,17 @@
                             <tbody>
                                 {% set totalSum = '0.00' %}
                                 {% for purchaseOrderDetail in purchaseOrderDetails[material.id] %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('j F Y') }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.supplier.company|default }}</td>
-                                        <td class="text-center">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
-                                    </tr>
-                                    {% set totalSum = totalSum + purchaseOrderDetail.total %}
+                                    {% if (purchaseOrderDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.codeNumber|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.transactionDate|default ? purchaseOrderDetail.purchaseOrderHeader.transactionDate|date('j F Y') }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.purchaseOrderHeader.supplier.company|default }}</td>
+                                            <td class="text-center">{{ purchaseOrderDetail.quantity|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
+                                        </tr>
+                                        {% set totalSum = totalSum + purchaseOrderDetail.total %}
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

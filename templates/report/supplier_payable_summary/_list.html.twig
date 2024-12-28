@@ -117,22 +117,24 @@
             {% set totalReturn = 0 %}
             {% set totalRemaining = 0 %}
             {% for purchaseInvoiceHeader in purchaseInvoiceHeaders %}
-                <tr>
-                    <td class="text-start">{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.transactionDate|default ? purchaseInvoiceHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.supplier.paymentTerm|default }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.dueDate|default ? purchaseInvoiceHeader.dueDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.supplier.company|default }}</td>
-                    <td class="text-start">{{ purchaseInvoiceHeader.supplier.currency.code|default }}</td>
-                    <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
-                    <td class="text-end">{{ purchaseInvoiceHeader.totalPayment|default|number_format(2) }}</td>
-                    <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</td>
-                    <td class="text-end">{{ purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
-                </tr>
-                {% set totalAmount = totalAmount + purchaseInvoiceHeader.grandTotal|default %}
-                {% set totalPayment = totalPayment + purchaseInvoiceHeader.totalPayment|default %}
-                {% set totalReturn = totalReturn + purchaseInvoiceHeader.totalReturn|default %}
-                {% set totalRemaining = totalRemaining + purchaseInvoiceHeader.remainingPayment|default %}
+                {% if (purchaseInvoiceHeader.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ purchaseInvoiceHeader.supplierInvoiceCodeNumber|default }}</td>
+                        <td class="text-start">{{ purchaseInvoiceHeader.transactionDate|default ? purchaseInvoiceHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ purchaseInvoiceHeader.supplier.paymentTerm|default }}</td>
+                        <td class="text-start">{{ purchaseInvoiceHeader.dueDate|default ? purchaseInvoiceHeader.dueDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ purchaseInvoiceHeader.supplier.company|default }}</td>
+                        <td class="text-start">{{ purchaseInvoiceHeader.supplier.currency.code|default }}</td>
+                        <td class="text-end">{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                        <td class="text-end">{{ purchaseInvoiceHeader.totalPayment|default|number_format(2) }}</td>
+                        <td class="text-end">{{ purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</td>
+                        <td class="text-end">{{ purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
+                    </tr>
+                    {% set totalAmount = totalAmount + purchaseInvoiceHeader.grandTotal|default %}
+                    {% set totalPayment = totalPayment + purchaseInvoiceHeader.totalPayment|default %}
+                    {% set totalReturn = totalReturn + purchaseInvoiceHeader.totalReturn|default %}
+                    {% set totalRemaining = totalRemaining + purchaseInvoiceHeader.remainingPayment|default %}
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

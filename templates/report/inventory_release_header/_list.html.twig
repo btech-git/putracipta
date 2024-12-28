@@ -122,25 +122,29 @@
                             <tbody>
                                 {% if (inventoryReleaseHeader.releaseMode == 'paper') %}
                                     {% for inventoryReleasePaperDetail in inventoryReleaseHeader.inventoryReleasePaperDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
-                                            <td class="text-start">{{ inventoryReleasePaperDetail.paper.name|default }}</td>
-                                            <td class="text-center">{{ inventoryReleasePaperDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td class="text-center">{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
-                                            <td class="text-start">{{ inventoryReleasePaperDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ inventoryReleasePaperDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (inventoryReleasePaperDetail.isCanceled == false) %}
+                                            <tr>
+                                                <td class="text-start">{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
+                                                <td class="text-start">{{ inventoryReleasePaperDetail.paper.name|default }}</td>
+                                                <td class="text-center">{{ inventoryReleasePaperDetail.quantityCurrent|default|number_format(0) }}</td>
+                                                <td class="text-center">{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
+                                                <td class="text-start">{{ inventoryReleasePaperDetail.unit.name|default }}</td>
+                                                <td class="text-start">{{ inventoryReleasePaperDetail.memo|default }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% elseif (inventoryReleaseHeader.releaseMode == 'material') %} 
                                     {% for inventoryReleaseMaterialDetail in inventoryReleaseHeader.inventoryReleaseMaterialDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
-                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
-                                            <td class="text-center">{{ inventoryReleaseMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
-                                            <td class="text-center">{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
-                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ inventoryReleaseMaterialDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (inventoryReleaseMaterialDetail.isCanceled == false) %}
+                                            <tr>
+                                                <td class="text-start">{{ inventoryReleaseMaterialDetail.material.code|default }}</td>
+                                                <td class="text-start">{{ inventoryReleaseMaterialDetail.material.name|default }}</td>
+                                                <td class="text-center">{{ inventoryReleaseMaterialDetail.quantityCurrent|default|number_format(0) }}</td>
+                                                <td class="text-center">{{ inventoryReleaseMaterialDetail.quantity|default|number_format(0) }}</td>
+                                                <td class="text-start">{{ inventoryReleaseMaterialDetail.unit.name|default }}</td>
+                                                <td class="text-start">{{ inventoryReleaseMaterialDetail.memo|default }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %} 
                             </tbody>

@@ -116,21 +116,23 @@
             {% set totalReturn = 0 %}
             {% set totalRemaining = 0 %}
             {% for saleInvoiceHeader in saleInvoiceHeaders %}
-                <tr>
-                    <td class="text-start">{{ saleInvoiceHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ saleInvoiceHeader.transactionDate|default ? saleInvoiceHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ saleInvoiceHeader.customer.paymentTerm|default }}</td>
-                    <td class="text-start">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ saleInvoiceHeader.customer.company|default }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.totalPayment|default|number_format(2) }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.totalReturn|default|number_format(2) }}</td>
-                    <td class="text-end">{{ saleInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
-                </tr>
-                {% set totalAmount = totalAmount + saleInvoiceHeader.grandTotal|default %}
-                {% set totalPayment = totalPayment + saleInvoiceHeader.totalPayment|default %}
-                {% set totalReturn = totalReturn + saleInvoiceHeader.totalReturn|default %}
-                {% set totalRemaining = totalRemaining + saleInvoiceHeader.remainingPayment|default %}
+                {% if (saleInvoiceHeader.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ saleInvoiceHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ saleInvoiceHeader.transactionDate|default ? saleInvoiceHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ saleInvoiceHeader.customer.paymentTerm|default }}</td>
+                        <td class="text-start">{{ saleInvoiceHeader.dueDate|default ? saleInvoiceHeader.dueDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ saleInvoiceHeader.customer.company|default }}</td>
+                        <td class="text-end">{{ saleInvoiceHeader.grandTotal|default|number_format(2) }}</td>
+                        <td class="text-end">{{ saleInvoiceHeader.totalPayment|default|number_format(2) }}</td>
+                        <td class="text-end">{{ saleInvoiceHeader.totalReturn|default|number_format(2) }}</td>
+                        <td class="text-end">{{ saleInvoiceHeader.remainingPayment|default|number_format(2) }}</td>
+                    </tr>
+                    {% set totalAmount = totalAmount + saleInvoiceHeader.grandTotal|default %}
+                    {% set totalPayment = totalPayment + saleInvoiceHeader.totalPayment|default %}
+                    {% set totalReturn = totalReturn + saleInvoiceHeader.totalReturn|default %}
+                    {% set totalRemaining = totalRemaining + saleInvoiceHeader.remainingPayment|default %}
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

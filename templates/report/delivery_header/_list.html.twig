@@ -151,20 +151,22 @@
                         <table>
                             <tbody>
                                 {% for deliveryDetail in deliveryHeader.deliveryDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                        <td class="text-start">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|default ? deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('j M Y') }}</td>
-                                        <td class="text-start">{{ deliveryDetail.product.code|default }}</td>
-                                        <td class="text-start">{{ deliveryDetail.product.name|default }}</td>
-                                        <td class="text-start">{{ deliveryDetail.fscCode|default }}</td>
-                                        <td class="text-start">{{ deliveryDetail.lotNumber|default }}</td>
-                                        <td class="text-center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
-                                        <td class="text-center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
-                                        <td class="text-center">{{ deliveryDetail.quantityCurrent|default|number_format(0) }}</td>
-                                        <td class="text-start">{{ deliveryDetail.unit.name|default }}</td>
-                                        <td class="text-start">{{ deliveryDetail.packaging|default }}</td>
-                                    </tr>
+                                    {% if (deliveryDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                            <td class="text-start">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|default ? deliveryDetail.saleOrderDetail.saleOrderHeader.transactionDate|date('j M Y') }}</td>
+                                            <td class="text-start">{{ deliveryDetail.product.code|default }}</td>
+                                            <td class="text-start">{{ deliveryDetail.product.name|default }}</td>
+                                            <td class="text-start">{{ deliveryDetail.fscCode|default }}</td>
+                                            <td class="text-start">{{ deliveryDetail.lotNumber|default }}</td>
+                                            <td class="text-center">{{ deliveryDetail.saleOrderDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ deliveryDetail.remainingQuantity|default|number_format(0) }}</td>
+                                            <td class="text-center">{{ deliveryDetail.quantityCurrent|default|number_format(0) }}</td>
+                                            <td class="text-start">{{ deliveryDetail.unit.name|default }}</td>
+                                            <td class="text-start">{{ deliveryDetail.packaging|default }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

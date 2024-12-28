@@ -121,23 +121,27 @@
                             <tbody>
                                 {% if (inventoryRequestHeader.requestMode == 'paper') %}
                                     {% for inventoryRequestPaperDetail in inventoryRequestHeader.inventoryRequestPaperDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
-                                            <td class="text-start">{{ inventoryRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
-                                            <td class="text-center">{{ inventoryRequestPaperDetail.quantity|default|number_format(2) }}</td>
-                                            <td class="text-start">{{ inventoryRequestPaperDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ inventoryRequestPaperDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (inventoryRequestPaperDetail.isCanceled == false) %}
+                                            <tr>
+                                                <td class="text-start">{{ inventoryRequestPaperDetail.paper.codeNumber|default }}</td>
+                                                <td class="text-start">{{ inventoryRequestPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                                <td class="text-center">{{ inventoryRequestPaperDetail.quantity|default|number_format(2) }}</td>
+                                                <td class="text-start">{{ inventoryRequestPaperDetail.unit.name|default }}</td>
+                                                <td class="text-start">{{ inventoryRequestPaperDetail.memo|default }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% elseif (inventoryRequestHeader.requestMode == 'material') %} 
                                     {% for inventoryRequestMaterialDetail in inventoryRequestHeader.inventoryRequestMaterialDetails %}
-                                        <tr>
-                                            <td class="text-start">{{ inventoryRequestMaterialDetail.material.code|default }}</td>
-                                            <td class="text-start">{{ inventoryRequestMaterialDetail.material.name|default }}</td>
-                                            <td class="text-center">{{ inventoryRequestMaterialDetail.quantity|default|number_format(2) }}</td>
-                                            <td class="text-start">{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
-                                            <td class="text-start">{{ inventoryRequestMaterialDetail.memo|default }}</td>
-                                        </tr>
+                                        {% if (inventoryRequestMaterialDetail.isCanceled == false) %}
+                                            <tr>
+                                                <td class="text-start">{{ inventoryRequestMaterialDetail.material.code|default }}</td>
+                                                <td class="text-start">{{ inventoryRequestMaterialDetail.material.name|default }}</td>
+                                                <td class="text-center">{{ inventoryRequestMaterialDetail.quantity|default|number_format(2) }}</td>
+                                                <td class="text-start">{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
+                                                <td class="text-start">{{ inventoryRequestMaterialDetail.memo|default }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %} 
                             </tbody>

@@ -122,26 +122,28 @@
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for qualityControlSorting in qualityControlSortings %}
-                <tr>
-                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.transactionDate|default ? qualityControlSorting.qualityControlSortingHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.customer.company|default }}</td>
-                    <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.masterOrderHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ qualityControlSorting.product.code|default }}</td>
-                    <td class="text-start">{{ qualityControlSorting.product.name|default }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityOrder|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityGood|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectPrinting|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectCoating|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectCutting|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectDiecutting|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectGlueing|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectFinishing|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRejectOthers|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.totalQuantitySorting|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.totalQuantityReject|default|number_format(2) }}</td>
-                    <td class="text-center">{{ qualityControlSorting.quantityRemaining|default|number_format(2) }}</td>
-                </tr>
+                {% if (qualityControlSorting.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.transactionDate|default ? qualityControlSorting.qualityControlSortingHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.customer.company|default }}</td>
+                        <td class="text-start">{{ qualityControlSorting.qualityControlSortingHeader.masterOrderHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ qualityControlSorting.product.code|default }}</td>
+                        <td class="text-start">{{ qualityControlSorting.product.name|default }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityOrder|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityGood|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectPrinting|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectCoating|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectCutting|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectDiecutting|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectGlueing|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectFinishing|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRejectOthers|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.totalQuantitySorting|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.totalQuantityReject|default|number_format(2) }}</td>
+                        <td class="text-center">{{ qualityControlSorting.quantityRemaining|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>

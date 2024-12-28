@@ -158,14 +158,16 @@
                         <table>
                             <tbody>
                                 {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
-                                    <tr>
-                                        <td class="text-start">{{ purchaseOrderDetail.material.code|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.material.name|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.quantity|default }}</td>
-                                        <td class="text-start">{{ purchaseOrderDetail.unit.name|default }}</td>
-                                        <td class="text-end">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
-                                        <td class="text-end">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
-                                    </tr>
+                                    {% if (purchaseOrderDetail.isCanceled == false) %}
+                                        <tr>
+                                            <td class="text-start">{{ purchaseOrderDetail.material.code|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.material.name|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.quantity|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.unit.name|default }}</td>
+                                            <td class="text-end">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
+                                            <td class="text-end">{{ purchaseOrderDetail.total|default|number_format(2) }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                             <tfoot class="border-top-solid-normal">

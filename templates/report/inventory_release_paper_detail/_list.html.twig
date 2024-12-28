@@ -122,19 +122,21 @@
         </thead>
         <tbody class="border-top-solid-bold border-bottom-solid-bold">
             {% for inventoryReleasePaperDetail in inventoryReleasePaperDetails %}
-                <tr>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.transactionDate|default ? inventoryReleasePaperDetail.inventoryReleaseHeader.transactionDate|date('j M Y') }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.warehouse.name|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.releaseMode|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.note|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.paper.name|default }}</td>
-                    <td class="text-center">{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.unit.name|default }}</td>
-                    <td class="text-start">{{ inventoryReleasePaperDetail.memo|default }}</td>
-                </tr>
+                {% if (inventoryReleasePaperDetail.isCanceled == false) %}
+                    <tr>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.transactionDate|default ? inventoryReleasePaperDetail.inventoryReleaseHeader.transactionDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.warehouse.name|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.releaseMode|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.inventoryReleaseHeader.note|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.inventoryRequestPaperDetail.masterOrderHeader.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.paper.codeNumber|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.paper.name|default }}</td>
+                        <td class="text-center">{{ inventoryReleasePaperDetail.quantity|default|number_format(0) }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.unit.name|default }}</td>
+                        <td class="text-start">{{ inventoryReleasePaperDetail.memo|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
