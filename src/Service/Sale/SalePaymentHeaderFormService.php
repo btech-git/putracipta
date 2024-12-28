@@ -93,6 +93,7 @@ class SalePaymentHeaderFormService
             $salePaymentDetail->setInvoiceAmount($salePaymentDetail->getSyncInvoiceAmount());
             $salePaymentDetail->setServiceTaxNominal($salePaymentDetail->getSyncServiceTaxNominal());
             $salePaymentDetail->setReceivableAmount($salePaymentDetail->getSyncReceivableAmount());
+            $salePaymentDetail->setMemo($saleInvoiceHeader->getNote());
         }
         $salePaymentHeader->setTotalAmount($salePaymentHeader->getSyncTotalAmount());
         $salePaymentHeader->setTotalReceivable($salePaymentHeader->getSyncTotalReceivable());
