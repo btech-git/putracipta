@@ -22,7 +22,7 @@
                 <tr data-form-collection-target="item" data-item-identifier-name="saleInvoiceHeaderId" data-item-identifier-value="{{ detailForm.vars.value.saleInvoiceHeader.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.saleInvoiceHeader, {'attr': {'data-item-field-name': 'saleInvoiceHeaderId'}}) }}</td>
                     <td data-item-field-name="saleInvoiceHeaderCodeNumber">{{ detailForm.vars.value.saleInvoiceHeader.codeNumber|default }}</td>
-                    <td>{{ form_row(detailForm.memo, {'label': false}) }}</td>
+                    <td data-item-field-name="saleInvoiceHeaderNote">{{ detailForm.vars.value.memo|default }}</td>
                     <td>{{ form_row(detailForm.account, {'label': false}) }}</td>
                     <td class="text-end" data-item-field-name="saleInvoiceHeaderRemainingPayment">{{ detailForm.vars.value.invoiceAmount|default|number_format(0) }}</td>
                     <td>{{ form_row(detailForm.serviceTaxMode, {'label': false, 'attr': {'data-action': 'change->json-loader#load'}}) }}</td>
