@@ -78,6 +78,7 @@
                 <tr data-data-table-target="selectable" data-selected-identifier="{{ saleInvoiceHeader.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
                     'saleInvoiceHeaderId': saleInvoiceHeader.id, 
                     'saleInvoiceHeaderCodeNumber': saleInvoiceHeader.codeNumber, 
+                    'saleInvoiceHeaderNote': saleInvoiceHeader.note, 
                     'saleInvoiceHeaderRemainingPayment': saleInvoiceHeader.remainingPayment|number_format(0)}|json_encode }}">
                     <td>{{ saleInvoiceHeader.codeNumber|default }}</td>
                     <td>{{ saleInvoiceHeader.transactionDate ? saleInvoiceHeader.transactionDate|date('d M Y') : '' }}</td>
