@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ReceiveHeader extends PurchaseHeader
 {
     public const CODE_NUMBER_CONSTANT = 'RCV';
+    public const TRANSACTION_TYPE_MATERIAL = 'material';
+    public const TRANSACTION_TYPE_PAPER = 'paper';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -70,6 +72,9 @@ class ReceiveHeader extends PurchaseHeader
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\Type('numeric')]
     private ?string $totalQuantity = '0.00';
+
+    #[ORM\Column(length: 20)]
+    private ?string $transactionType = '';
 
     public function __construct()
     {
@@ -305,6 +310,18 @@ class ReceiveHeader extends PurchaseHeader
     public function setTotalQuantity(string $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getTransactionType(): ?string
+    {
+        return $this->transactionType;
+    }
+
+    public function setTransactionType(string $transactionType): self
+    {
+        $this->transactionType = $transactionType;
 
         return $this;
     }
