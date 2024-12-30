@@ -23,10 +23,18 @@
                 <tr data-form-collection-target="item" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.purchaseOrderDetail, {'attr': {'data-item-field-name': 'purchaseOrderDetailId'}}) }}</td>
                     <td class="d-none">{{ form_widget(detailForm.purchaseOrderPaperDetail, {'attr': {'data-item-field-name': 'purchaseOrderPaperDetailId'}}) }}</td>
-                    <td data-item-field-name="materialOrPaperCode">{{ detailForm.vars.value.material ? detailForm.vars.value.material.code|default : detailForm.vars.value.paper.codeNumber|default }}</td>
-                    <td data-item-field-name="materialOrPaperName">{{ detailForm.vars.value.material ? detailForm.vars.value.material.name|default : detailForm.vars.value.paper.name|default }}</td>
-                    <td class="text-center" data-item-field-name="purchaseOrderDetailQuantity">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
-                    <td class="text-center" data-item-field-name="purchaseOrderDetailRemainingReceive">{{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(0) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(0) }}</td>
+                    <td data-item-field-name="materialOrPaperCode">
+                        {{ detailForm.vars.value.material ? detailForm.vars.value.material.code|default : detailForm.vars.value.paper.codeNumber|default }}
+                    </td>
+                    <td data-item-field-name="materialOrPaperName">
+                        {{ detailForm.vars.value.material ? detailForm.vars.value.material.name|default : detailForm.vars.value.paper.name|default }}
+                    </td>
+                    <td class="text-center" data-item-field-name="purchaseOrderDetailQuantity">
+                        {{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.quantity|default|number_format(2) : detailForm.vars.value.purchaseOrderPaperDetail.quantity|default|number_format(2) }}
+                    </td>
+                    <td class="text-center" data-item-field-name="purchaseOrderDetailRemainingReceive">
+                        {{ detailForm.vars.value.purchaseOrderDetail ? detailForm.vars.value.purchaseOrderDetail.remainingReceive|default|number_format(2) : detailForm.vars.value.purchaseOrderPaperDetail.remainingReceive|default|number_format(2) }}
+                    </td>
                     <td>
                         {{ form_row(detailForm.receivedQuantity, {'label': false, 'attr': {
                             'size': 3,
