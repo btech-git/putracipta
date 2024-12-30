@@ -136,6 +136,9 @@ class ReceiveHeaderFormService
                 $purchaseOrderHeaderForMaterialOrPaper->setTransactionStatus(PurchaseOrderHeader::TRANSACTION_STATUS_FULL_RECEIVE);
             }
         }
+        
+        $transactionTypeConstant = $receiveHeader->getPurchaseOrderHeader() === null ? 'paper' : 'material';
+        $receiveHeader->setTransactionType($transactionTypeConstant);
     }
 
     public function save(ReceiveHeader $receiveHeader, array $options = []): void
