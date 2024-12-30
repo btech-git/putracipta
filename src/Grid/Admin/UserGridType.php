@@ -3,8 +3,8 @@
 namespace App\Grid\Admin;
 
 use App\Common\Data\Criteria\DataCriteria;
-use App\Common\Data\Operator\FilterEqual;
-use App\Common\Data\Operator\FilterNotEqual;
+use App\Common\Data\Operator\FilterContain;
+use App\Common\Data\Operator\FilterNotContain;
 use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\FilterType;
@@ -22,7 +22,7 @@ class UserGridType extends AbstractType
             ->add('filter', FilterType::class, [
                 'field_names' => ['username'],
                 'field_operators_list' => [
-                    'username' => [FilterEqual::class, FilterNotEqual::class],
+                    'username' => [FilterContain::class, FilterNotContain::class],
                 ],
             ])
             ->add('sort', SortType::class, [
