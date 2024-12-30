@@ -49,12 +49,12 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Gudang</label>
+                    <label class="col-sm-2 col-form-label w-25">Jenis</label>
                     <div class="col-sm-10 w-75">
-                        <select class="form-select" {{ grid.filter_link_item(form, 'warehouse') }}>
-                            <option value="" {% if form.filter.warehouse.1.vars.value == '' %}selected="selected"{% endif %}></option>
-                            {% for choice in form.filter.warehouse.1.vars.choices %}
-                                <option value="{{ choice.value }}" {% if form.filter.warehouse.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                        <select class="form-select" {{ grid.filter_link_item(form, 'transactionType') }}>
+                            <option value="" {% if form.filter.transactionType.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                            {% for choice in form.filter.transactionType.1.vars.choices %}
+                                <option value="{{ choice.value }}" {% if form.filter.transactionType.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -110,7 +110,7 @@
                 <th class="text-start">Note PO</th>
             </tr>
             <tr>
-                <td colspan="8">
+                <td colspan="9">
                     <table>
                         <thead>
                             <tr>
@@ -140,7 +140,7 @@
                     <td class="text-start">{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.note|default : receiveHeader.purchaseOrderHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="8">
+                    <td colspan="9">
                         <table>
                             <tbody>
                                 {% for receiveDetail in receiveHeader.receiveDetails %}
