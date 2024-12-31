@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PurchaseOrderPaperDetailRepository::class)]
 #[ORM\Table(name: 'purchase_purchase_order_paper_detail')]
-#[UniqueEntity('purchaseRequestPaperDetail')]
+//#[UniqueEntity('purchaseRequestPaperDetail')]
 class PurchaseOrderPaperDetail extends PurchaseDetail
 {
     #[ORM\Id]
