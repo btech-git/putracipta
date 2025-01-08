@@ -102,11 +102,19 @@ class DepositHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_accounting_deposit_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_DEPOSIT_EDIT')]
-    public function delete(Request $request, DepositHeader $depositHeader, DepositHeaderRepository $depositHeaderRepository): Response
+    public function delete(Request $request, DepositHeader $depositHeader, DepositHeaderFormService $depositHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $depositHeader->getId(), $request->request->get('_token'))) {
-            $depositHeaderRepository->remove($depositHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $depositHeader->getId(), $request->request->get('_token'))) {
+            $form = $this->createForm(DepositHeaderType::class, $depositHeader);
+            $form->handleRequest($request);
+            $depositHeaderFormService->initialize($depositHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $depositHeaderFormService->finalize($depositHeader, ['cancelTransaction' => true]);
+            $depositHeaderFormService->save($depositHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));

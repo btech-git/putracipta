@@ -102,11 +102,19 @@ class ExpenseHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_accounting_expense_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_EXPENSE_EDIT')]
-    public function delete(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderRepository $expenseHeaderRepository): Response
+    public function delete(Request $request, ExpenseHeader $expenseHeader, ExpenseHeaderFormService $expenseHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $expenseHeader->getId(), $request->request->get('_token'))) {
-            $expenseHeaderRepository->remove($expenseHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $expenseHeader->getId(), $request->request->get('_token'))) {
+            $form = $this->createForm(ExpenseHeaderType::class, $expenseHeader);
+            $form->handleRequest($request);
+            $expenseHeaderFormService->initialize($expenseHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $expenseHeaderFormService->finalize($expenseHeader, ['cancelTransaction' => true]);
+            $expenseHeaderFormService->save($expenseHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));

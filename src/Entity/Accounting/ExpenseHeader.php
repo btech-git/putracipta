@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ExpenseHeader extends AccountingHeader
 {
     public const CODE_NUMBER_CONSTANT = 'EXP';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -14,7 +14,9 @@ use App\Repository\Accounting\DepositHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Accounting\DepositHeaderFormSupport;
+use App\Sync\Accounting\DepositHeaderFormSync;
 use App\Util\Service\AccountingLedgerUtil;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -22,6 +24,7 @@ class DepositHeaderFormService
 {
     use DepositHeaderFormSupport;
 
+    private DepositHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
@@ -29,8 +32,9 @@ class DepositHeaderFormService
     private DepositHeaderRepository $depositHeaderRepository;
     private DepositDetailRepository $depositDetailRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, DepositHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -44,17 +48,32 @@ class DepositHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($depositHeader->getId())) {
-            $depositHeader->setCreatedTransactionDateTime($datetime);
-            $depositHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $depositHeader->setIsCanceled(true);
+            $depositHeader->setTransactionStatus(DepositHeader::TRANSACTION_STATUS_CANCEL);
+            $depositHeader->setCancelledTransactionDateTime($datetime);
+            $depositHeader->setCancelledTransactionUser($user);
         } else {
-            $depositHeader->setModifiedTransactionDateTime($datetime);
-            $depositHeader->setModifiedTransactionUser($user);
+            if (empty($depositHeader->getId())) {
+                $depositHeader->setCreatedTransactionDateTime($datetime);
+                $depositHeader->setCreatedTransactionUser($user);
+            } else {
+                $depositHeader->setModifiedTransactionDateTime($datetime);
+                $depositHeader->setModifiedTransactionUser($user);
+            }
         }
     }
 
     public function finalize(DepositHeader $depositHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $depositHeader);
+        } else {
+            foreach ($depositHeader->getDepositDetails() as $depositDetail) {
+                EntityResetUtil::reset($this->formSync, $depositDetail);
+            }
+        }
+        
         if ($depositHeader->getTransactionDate() !== null && $depositHeader->getId() === null) {
             $year = $depositHeader->getTransactionDate()->format('y');
             $month = $depositHeader->getTransactionDate()->format('m');

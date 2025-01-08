@@ -14,7 +14,9 @@ use App\Repository\Accounting\ExpenseHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Accounting\ExpenseHeaderFormSupport;
+use App\Sync\Accounting\ExpenseHeaderFormSync;
 use App\Util\Service\AccountingLedgerUtil;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -22,6 +24,7 @@ class ExpenseHeaderFormService
 {
     use ExpenseHeaderFormSupport;
 
+    private ExpenseHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
@@ -29,8 +32,9 @@ class ExpenseHeaderFormService
     private ExpenseHeaderRepository $expenseHeaderRepository;
     private ExpenseDetailRepository $expenseDetailRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, ExpenseHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -44,17 +48,32 @@ class ExpenseHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($expenseHeader->getId())) {
-            $expenseHeader->setCreatedTransactionDateTime($datetime);
-            $expenseHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $expenseHeader->setIsCanceled(true);
+            $expenseHeader->setTransactionStatus(ExpenseHeader::TRANSACTION_STATUS_CANCEL);
+            $expenseHeader->setCancelledTransactionDateTime($datetime);
+            $expenseHeader->setCancelledTransactionUser($user);
         } else {
-            $expenseHeader->setModifiedTransactionDateTime($datetime);
-            $expenseHeader->setModifiedTransactionUser($user);
+            if (empty($expenseHeader->getId())) {
+                $expenseHeader->setCreatedTransactionDateTime($datetime);
+                $expenseHeader->setCreatedTransactionUser($user);
+            } else {
+                $expenseHeader->setModifiedTransactionDateTime($datetime);
+                $expenseHeader->setModifiedTransactionUser($user);
+            }
         }
     }
 
     public function finalize(ExpenseHeader $expenseHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $expenseHeader);
+        } else {
+            foreach ($expenseHeader->getExpenseDetails() as $expenseDetail) {
+                EntityResetUtil::reset($this->formSync, $expenseDetail);
+            }
+        }
+        
         if ($expenseHeader->getTransactionDate() !== null && $expenseHeader->getId() === null) {
             $year = $expenseHeader->getTransactionDate()->format('y');
             $month = $expenseHeader->getTransactionDate()->format('m');

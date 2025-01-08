@@ -32,34 +32,34 @@ class SupplierPurchaseOrderPaperGridType extends AbstractType
                     'purchaseOrderPaperHeader:codeNumberMonth', 
                     'purchaseOrderPaperHeader:codeNumberYear', 
                     'purchaseOrderPaperHeader:transactionDate', 
-                    'company',
+                    'id',
                 ],
                 'field_label_list' => [
                     'purchaseOrderPaperHeader:codeNumberOrdinal' => 'Code Number',
                     'purchaseOrderPaperHeader:codeNumberMonth' => '',
                     'purchaseOrderPaperHeader:codeNumberYear' => '',
                     'purchaseOrderPaperHeader:transactionDate' => 'Tanggal',
-                    'company' => 'Supplier',
+                    'id' => 'Supplier',
                 ],
                 'field_operators_list' => [
                     'purchaseOrderPaperHeader:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
                     'purchaseOrderPaperHeader:codeNumberMonth' => [FilterEqual::class, FilterNotEqual::class],
                     'purchaseOrderPaperHeader:codeNumberYear' => [FilterEqual::class, FilterNotEqual::class],
                     'purchaseOrderPaperHeader:transactionDate' => [FilterBetween::class, FilterNotBetween::class],
-                    'company' => [FilterEqual::class, FilterNotEqual::class],
+                    'id' => [FilterEqual::class, FilterNotEqual::class],
                 ],
                 'field_value_type_list' => [
                     'purchaseOrderPaperHeader:codeNumberOrdinal' => IntegerType::class,
                     'purchaseOrderPaperHeader:codeNumberMonth' => ChoiceType::class,
                     'purchaseOrderPaperHeader:codeNumberYear' => IntegerType::class,
-                    'company' => EntityType::class,
+                    'id' => EntityType::class,
                 ],
                 'field_value_options_list' => [
                     'purchaseOrderPaperHeader:codeNumberMonth' => ['choices' => array_flip(PurchaseHeader::MONTH_ROMAN_NUMERALS)],
                     'purchaseOrderPaperHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
-                    'company' => [
+                    'id' => [
                         'class' => Supplier::class, 
-                        'choice_label' => 'company',
+                        'choice_label' => 'id',
                         'query_builder' => function($repository) {
                             return $repository->createQueryBuilder('e')
                                     ->andWhere("e.isInactive = false")
