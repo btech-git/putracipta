@@ -106,7 +106,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Purchase Order</div>
+        <div class="report-title">Laporan Pembelian Material</div>
         <div>
             {% set startDate = form.vars.value.filter.transactionDate.1|default %}
             {% set endDate = form.vars.value.filter.transactionDate.2|default %}
@@ -126,13 +126,14 @@
                 <th class="text-start">Note</th>
             </tr>
             <tr>
-                <td colspan="6">
+                <td colspan="5">
                     <table>
                         <thead>
                             <tr>
                                 <th class="text-start">Kode</th>
                                 <th class="text-start">Nama Produk</th>
                                 <th class="text-start">Tanggal Kirim</th>
+                                <th class="text-start">Memo</th>
                                 <th class="text-start">Qty</th>
                                 <th class="text-start">Satuan</th>
                                 <th class="text-start">Harga</th>
@@ -149,12 +150,11 @@
                     <td class="text-start">{{ purchaseOrderHeader.codeNumber|default }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.transactionDate|default ? purchaseOrderHeader.transactionDate|date('j F Y') }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.supplier.company|default }}</td>
-                    <td class="text-start">{{ purchaseOrderHeader.deliveryDate|default ? purchaseOrderHeader.deliveryDate|date('j F Y') }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.transactionStatus|default }}</td>
                     <td class="text-start">{{ purchaseOrderHeader.note|default }}</td>
                 </tr>
                 <tr class="border-bottom-dotted-bold">
-                    <td colspan="6">
+                    <td colspan="5">
                         <table>
                             <tbody>
                                 {% for purchaseOrderDetail in purchaseOrderHeader.purchaseOrderDetails %}
@@ -162,6 +162,8 @@
                                         <tr>
                                             <td class="text-start">{{ purchaseOrderDetail.material.code|default }}</td>
                                             <td class="text-start">{{ purchaseOrderDetail.material.name|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('j F Y') }}</td>
+                                            <td class="text-start">{{ purchaseOrderDetail.purchaseRequestDetail.memo|default }}</td>
                                             <td class="text-start">{{ purchaseOrderDetail.quantity|default }}</td>
                                             <td class="text-start">{{ purchaseOrderDetail.unit.name|default }}</td>
                                             <td class="text-end">{{ purchaseOrderDetail.unitPrice|default|number_format(2) }}</td>
@@ -172,19 +174,19 @@
                             </tbody>
                             <tfoot class="border-top-solid-normal">
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Sub Total</strong></td>
+                                    <td class="text-end" colspan="7"><strong>Sub Total</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderHeader.subTotal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Diskon {{ purchaseOrderHeader.discountValue|default|number_format(2) }}%</strong></td>
+                                    <td class="text-end" colspan="7"><strong>Diskon {{ purchaseOrderHeader.discountValue|default|number_format(2) }}%</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderHeader.discountNominal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>PPn {{ purchaseOrderHeader.taxPercentage|default }}%</strong></td>
+                                    <td class="text-end" colspan="7"><strong>PPn {{ purchaseOrderHeader.taxPercentage|default }}%</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderHeader.taxNominal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="5"><strong>Grand Total</strong></td>
+                                    <td class="text-end" colspan="7"><strong>Grand Total</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderHeader.grandTotal|default|number_format(2) }}</strong></td>
                                 </tr>
                             </tfoot>

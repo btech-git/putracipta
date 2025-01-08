@@ -117,7 +117,7 @@
 <div class="report">
     <div class="report-header">
         <div class="report-title">PT. Putracipta Karindomas</div>
-        <div class="report-title">Laporan Purchase Order Kertas</div>
+        <div class="report-title">Laporan Pembelian Kertas</div>
         <div>
             {% set startDate = form.vars.value.filter.transactionDate.1|default %}
             {% set endDate = form.vars.value.filter.transactionDate.2|default %}
@@ -143,6 +143,7 @@
                             <tr>
                                 <th class="text-start">Kode</th>
                                 <th class="text-start">Nama Kertas</th>
+                                <th class="text-start">Memo</th>
                                 <th class="text-start">Qty</th>
                                 <th class="text-start">Satuan</th>
                                 <th class="text-start">APKI</th>
@@ -175,6 +176,7 @@
                                         <tr>
                                             <td class="text-start">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                                             <td class="text-start">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                                            <td class="text-start">{{ purchaseOrderPaperDetail.purchaseRequestPaperDetail.memo|default }}</td>
                                             <td class="text-center">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                                             <td class="text-start">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                                             <td class="text-end">{{ purchaseOrderPaperDetail.apkiValue|default|number_format(2) }}</td>
@@ -189,19 +191,19 @@
                             </tbody>
                             <tfoot class="border-top-solid-normal">
                                 <tr>
-                                    <td class="text-end" colspan="9"><strong>Sub Total</strong></td>
+                                    <td class="text-end" colspan="10"><strong>Sub Total</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="9"><strong>Diskon {{ purchaseOrderPaperHeader.discountValue|default|number_format(2) }}%</strong></td>
+                                    <td class="text-end" colspan="10"><strong>Diskon {{ purchaseOrderPaperHeader.discountValue|default|number_format(2) }}%</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="9"><strong>PPn {{ purchaseOrderPaperHeader.taxPercentage|default }}%</strong></td>
+                                    <td class="text-end" colspan="10"><strong>PPn {{ purchaseOrderPaperHeader.taxPercentage|default }}%</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.taxNominal|default|number_format(2) }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-end" colspan="9"><strong>Grand Total</strong></td>
+                                    <td class="text-end" colspan="10"><strong>Grand Total</strong></td>
                                     <td class="text-end"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
                                 </tr>
                             </tfoot>

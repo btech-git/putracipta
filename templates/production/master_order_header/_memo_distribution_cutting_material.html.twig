@@ -68,8 +68,12 @@
                         <div class="cell value">: {{ masterOrderHeader.paperPlanoLength|default|number_format(1) }} x {{ masterOrderHeader.paperPlanoWidth|default|number_format(1) }} cm</div>
                     </div>
                     <div class="row">
-                        <div class="cell label">Uk. Potong</div>
-                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize1|default|number_format(1) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(1) }} cm</div>
+                        <div class="cell label">Uk. Potong 1</div>
+                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize1|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize1|default|number_format(2) }} cm</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Uk. Potong 2</div>
+                        <div class="cell value">: {{ masterOrderHeader.cuttingLengthSize2|default|number_format(2) }} x {{ masterOrderHeader.cuttingWidthSize2|default|number_format(2) }} cm</div>
                     </div>
                 </div>
             </div>
