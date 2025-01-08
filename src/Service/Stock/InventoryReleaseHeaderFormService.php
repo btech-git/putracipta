@@ -101,6 +101,7 @@ class InventoryReleaseHeaderFormService
                         $inventoryRequestHeader->setTotalQuantityRemaining($inventoryRequestHeader->getSyncTotalQuantityRemaining());
                         $requestStatus = $inventoryRequestHeader->getTotalQuantityRemaining() > '0.00' ? InventoryRequestHeader::REQUEST_STATUS_PARTIAL : InventoryRequestHeader::REQUEST_STATUS_CLOSE;
                         $inventoryRequestHeader->setRequestStatus($requestStatus);
+                        $inventoryRequestHeader->setIsRead(true);
                     }
                 }
             } elseif ($inventoryReleaseHeader->getReleaseMode() === InventoryReleaseHeader::RELEASE_MODE_PAPER) {
