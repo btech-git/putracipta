@@ -76,6 +76,7 @@ class SalePaymentHeaderFormService
                 }
             }
             $totalPayment += $salePaymentDetail->getAmount();
+            $saleInvoiceHeader->setIsRead(true);
             $saleInvoiceHeader->setTotalPayment($totalPayment);
             $saleInvoiceHeader->setRemainingPayment($saleInvoiceHeader->getSyncRemainingPayment());
             $remainingTolerance = $this->literalConfigRepository->findLiteralValue('paymentRemainingTolerance');

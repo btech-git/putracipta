@@ -83,6 +83,7 @@ class PurchasePaymentHeaderFormService
             } else {
                 $purchaseInvoiceHeader->setTransactionStatus(PurchaseInvoiceHeader::TRANSACTION_STATUS_FULL_PAYMENT);
             }
+            $purchaseInvoiceHeader->setIsRead(true);
         }
         $supplierInvoiceCodeNumberList = [];
         foreach ($purchasePaymentHeader->getPurchasePaymentDetails() as $purchasePaymentDetail) {
