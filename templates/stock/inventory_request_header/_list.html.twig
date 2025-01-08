@@ -91,7 +91,7 @@
                     <td>{{ inventoryRequestHeader.requestStatus|default }}</td>
                     <td>
                         {% if is_granted('ROLE_MATERIAL_REQUEST_VIEW') or is_granted('ROLE_MATERIAL_REQUEST_EDIT') or is_granted('ROLE_MATERIAL_REQUEST_ADD') %}
-                            <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_request_header_read', {'id': inventoryRequestHeader.id}) }}"><i class="bi-search"></i></a>
+                            <a class="btn btn-info btn-sm" href="{{ path('app_stock_inventory_request_header_index', {'id': inventoryRequestHeader.id}) }}"><i class="bi-search"></i></a>
                         {% endif %}
                         {% if is_granted('ROLE_MATERIAL_REQUEST_EDIT') %}
                             <a class="btn btn-warning btn-sm" href="{{ path('app_stock_inventory_request_header_edit', {'id': inventoryRequestHeader.id}) }}"><i class="bi-pencil"></i></a>
