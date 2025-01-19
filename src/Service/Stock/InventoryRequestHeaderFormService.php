@@ -74,11 +74,11 @@ class InventoryRequestHeaderFormService
         $inventoryRequestItemList = [];
         foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
             $material = $inventoryRequestMaterialDetail->getMaterial();
-            $inventoryRequestItemList[] = $material->getName();
+            $inventoryRequestItemList[] = $material->getCode();
         }
         foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
             $paper = $inventoryRequestPaperDetail->getPaper();
-            $inventoryRequestItemList[] = $paper->getName();
+            $inventoryRequestItemList[] = $paper->getCode();
         }
         $inventoryRequestItemUniqueList = array_unique(explode(', ', implode(', ', $inventoryRequestItemList)));
         $inventoryRequestHeader->setInventoryRequestProductList(implode(', ', $inventoryRequestItemUniqueList));
