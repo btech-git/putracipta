@@ -129,6 +129,11 @@
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
+                <td colspan="5" style="text-align: right"><strong>DPP</strong></td>
+                <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotalCoretax|default|number_format(2) }}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
                 <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseInvoiceHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
             </tr>

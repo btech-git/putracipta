@@ -161,6 +161,10 @@
                     <td colspan="6" class="label right">Sub Total</td>
                     <td class="right">{{ purchaseOrderHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
+                <tr>
+                    <td colspan="6" class="label right">DPP</td>
+                    <td class="right">{{ purchaseOrderHeader.subTotalCoretax|default|number_format(0) }}</td>
+                </tr>
                 {% if purchaseOrderHeader.discountNominal > 0.00 %}
                     <tr>
                         <td colspan="6" class="label right">
