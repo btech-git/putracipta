@@ -143,6 +143,7 @@
                                 <td>{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
+                                <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.isCanceled ? 'Yes' : 'No' }}</td>
                             </tr>
                         {% endfor %}
                     {% endfor %}
