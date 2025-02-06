@@ -220,7 +220,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotalCoretax - $this->getDiscountNominal();
+        return $this->subTotal - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
