@@ -203,7 +203,7 @@
                 {% endif %}
                 <tr>
                     <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">
-                        PPn 11%
+                        PPn {{ saleInvoiceHeader.taxPercentage|default }}%
                     </td>
                     <td class="right">{{ saleInvoiceHeader.taxNominal|default|number_format(0) }}</td>
                 </tr>
