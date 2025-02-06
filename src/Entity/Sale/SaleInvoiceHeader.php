@@ -139,6 +139,9 @@ class SaleInvoiceHeader extends SaleHeader
     #[Assert\LessThan(6)]
     private ?int $customerAddressTaxOrdinal = 0;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $subTotalCoretax = '0.00';
+
     public function __construct()
     {
         $this->salePaymentDetails = new ArrayCollection();
@@ -177,6 +180,11 @@ class SaleInvoiceHeader extends SaleHeader
         return $subTotal;
     }
 
+    public function getSyncSubTotalCoretax(): string
+    {
+        return round($this->getSubTotal() * 11 / 12, 0);
+    }
+
     public function getSyncGrandTotal(): string
     {
         return round($this->getSubTotalAfterDiscount() + $this->taxNominal, 0); // - $this->serviceTaxNominal;
@@ -205,7 +213,7 @@ class SaleInvoiceHeader extends SaleHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotal - $this->getDiscountNominal();
+        return $this->subTotalCoretax - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
@@ -545,6 +553,18 @@ class SaleInvoiceHeader extends SaleHeader
     public function setCustomerAddressTaxOrdinal(int $customerAddressTaxOrdinal): self
     {
         $this->customerAddressTaxOrdinal = $customerAddressTaxOrdinal;
+
+        return $this;
+    }
+
+    public function getSubTotalCoretax(): ?string
+    {
+        return $this->subTotalCoretax;
+    }
+
+    public function setSubTotalCoretax(string $subTotalCoretax): self
+    {
+        $this->subTotalCoretax = $subTotalCoretax;
 
         return $this;
     }

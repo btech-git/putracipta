@@ -83,6 +83,7 @@ class SaleInvoiceHeaderFormService
             $saleInvoiceDetail->setUnitPriceBeforeTax($saleInvoiceDetail->getSyncUnitPriceBeforeTax());
         }
         $saleInvoiceHeader->setSubTotal($saleInvoiceHeader->getSyncSubTotal());
+        $saleInvoiceHeader->setSubTotalCoretax($saleInvoiceHeader->getSyncSubTotalCoretax());
         $saleInvoiceHeader->setTotalReturn($saleInvoiceHeader->getSyncTotalReturn());
         $saleInvoiceHeader->setTaxNominal($saleInvoiceHeader->getSyncTaxNominal());
 //        if ($saleInvoiceHeader->getServiceTaxMode() !== $saleInvoiceHeader::SERVICE_TAX_MODE_NON_TAX) {

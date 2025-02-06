@@ -1,6 +1,7 @@
 {
     "totalQuantity": "{{ saleOrderHeader.totalQuantity|default|number_format(0) }}",
     "subTotal": "{{ saleOrderHeader.subTotal|default|number_format(2) }}",
+    "subTotalCoretax": "{{ saleOrderHeader.subTotalCoretax|default|number_format(2) }}",
     "discountNominal": "{{ saleOrderHeader.discountNominal|default|number_format(2) }}",
     "taxNominal": "{{ saleOrderHeader.taxNominal|default|number_format(2) }}",
     "shippingFee": "{{ saleOrderHeader.shippingFee|default|number_format(2) }}",

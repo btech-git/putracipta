@@ -151,6 +151,9 @@ class SaleOrderHeader extends SaleHeader
     #[ORM\Column(type: Types::TEXT)]
     private ?string $saleOrderProductList = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $subTotalCoretax = '0.00';
+
     public function __construct()
     {
         $this->saleOrderDetails = new ArrayCollection();
@@ -175,7 +178,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSyncTaxNominal(): string
     {
-        return $this->getSubTotalAfterDiscount() * $this->taxPercentage / 100;
+        return round($this->getSubTotalAfterDiscount() * $this->taxPercentage / 100, 0);
     }
 
     public function getSyncSubTotal(): string
@@ -187,6 +190,11 @@ class SaleOrderHeader extends SaleHeader
             }
         }
         return $subTotal;
+    }
+
+    public function getSyncSubTotalCoretax(): string
+    {
+        return round($this->getSubTotal() * 11 / 12, 0);
     }
 
     public function getSyncGrandTotal(): string
@@ -212,7 +220,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotal - $this->getDiscountNominal();
+        return $this->subTotalCoretax - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
@@ -588,6 +596,18 @@ class SaleOrderHeader extends SaleHeader
     public function setSaleOrderProductList(string $saleOrderProductList): self
     {
         $this->saleOrderProductList = $saleOrderProductList;
+
+        return $this;
+    }
+
+    public function getSubTotalCoretax(): ?string
+    {
+        return $this->subTotalCoretax;
+    }
+
+    public function setSubTotalCoretax(string $subTotalCoretax): self
+    {
+        $this->subTotalCoretax = $subTotalCoretax;
 
         return $this;
     }

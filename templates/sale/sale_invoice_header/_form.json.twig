@@ -7,6 +7,7 @@
 {
     "dueDate": "{{ saleInvoiceHeader.dueDate ? saleInvoiceHeader.dueDate|date('d M Y') : '' }}",
     "subTotal": "{{ saleInvoiceHeader.subTotal|default|number_format(2) }}",
+    "subTotalCoretax": "{{ saleInvoiceHeader.subTotalCoretax|default|number_format(2) }}",
     "discountInfo": "{{ discountInfo|trim|replace({'\n': ''}) }}",
     "discountNominal": "{{ saleInvoiceHeader.discountNominal|default|number_format(2) }}",
     "taxNominal": "{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}",

@@ -186,6 +186,10 @@
                     <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">Sub Total</td>
                     <td class="right">{{ saleInvoiceHeader.subTotal|default|number_format(0) }}</td>
                 </tr>
+                <tr>
+                    <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">DPP</td>
+                    <td class="right">{{ saleInvoiceHeader.subTotalCoretax|default|number_format(0) }}</td>
+                </tr>
                 {% if saleInvoiceHeader.discountNominal > 0.00 %}
                     <tr>
                         <td colspan={% if saleInvoiceHeader.isUsingFscPaper %}"9"{% else %} "7" {% endif %} class="label right">
