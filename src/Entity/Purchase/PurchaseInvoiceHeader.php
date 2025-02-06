@@ -115,6 +115,9 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $subTotalCoretax = '0.00';
+
     public function __construct()
     {
         $this->purchaseInvoiceDetails = new ArrayCollection();
@@ -143,10 +146,14 @@ class PurchaseInvoiceHeader extends PurchaseHeader
         return $subTotal;
     }
 
+    public function getSyncSubTotalCoretax(): string
+    {
+        return round($this->getSubTotal() * 11 / 12, 0);
+    }
+
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = $this->getSubTotalAfterDiscount() + $this->taxNominal;
-        return $grandTotal;
+        return round($this->getSubTotal() - $this->getDiscountNominal() + $this->taxNominal, 0);
     }
 
     public function getSyncDueDate(): ?\DateTimeInterface
@@ -452,6 +459,18 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     public function setReceiveHeader(?ReceiveHeader $receiveHeader): self
     {
         $this->receiveHeader = $receiveHeader;
+
+        return $this;
+    }
+
+    public function getSubTotalCoretax(): ?string
+    {
+        return $this->subTotalCoretax;
+    }
+
+    public function setSubTotalCoretax(string $subTotalCoretax): self
+    {
+        $this->subTotalCoretax = $subTotalCoretax;
 
         return $this;
     }

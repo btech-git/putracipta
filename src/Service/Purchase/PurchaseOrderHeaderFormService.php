@@ -115,6 +115,7 @@ class PurchaseOrderHeaderFormService
         $supplier = $purchaseOrderHeader->getSupplier();
         $purchaseOrderHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
         $purchaseOrderHeader->setSubTotal($purchaseOrderHeader->getSyncSubTotal());
+        $purchaseOrderHeader->setSubTotalCoretax($purchaseOrderHeader->getSyncSubTotalCoretax());
         $purchaseOrderHeader->setTaxNominal($purchaseOrderHeader->getSyncTaxNominal());
         $purchaseOrderHeader->setGrandTotal($purchaseOrderHeader->getSyncGrandTotal());
         $purchaseOrderHeader->setTotalRemainingReceive($purchaseOrderHeader->getSyncTotalRemainingReceive());

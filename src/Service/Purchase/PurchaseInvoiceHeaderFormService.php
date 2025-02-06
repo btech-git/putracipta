@@ -85,6 +85,7 @@ class PurchaseInvoiceHeaderFormService
         }
         
         $purchaseInvoiceHeader->setSubTotal($purchaseInvoiceHeader->getSyncSubTotal());
+        $purchaseInvoiceHeader->setSubTotalCoretax($purchaseInvoiceHeader->getSyncSubTotalCoretax());
         $purchaseInvoiceHeader->setTaxNominal($purchaseInvoiceHeader->getSyncTaxNominal());
         $purchaseInvoiceHeader->setGrandTotal($purchaseInvoiceHeader->getSyncGrandTotal());
         

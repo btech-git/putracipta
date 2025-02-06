@@ -28,7 +28,7 @@ class PurchaseRequestDetailController extends AbstractController
             $sub->andWhere("IDENTITY(p.purchaseRequestDetail) = {$alias}.id");
             $qb->leftJoin("{$alias}.purchaseOrderDetails", 'd');
             $qb->join("{$alias}.purchaseRequestHeader", 'h');
-            $qb->andWhere($qb->expr()->orX('d.isCanceled = true', $qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
+            $qb->andWhere($qb->expr()->orX($qb->expr()->not($qb->expr()->exists($sub->getDQL()))));
             $qb->andWhere("{$alias}.isCanceled = false");
             $qb->andWhere("h.transactionStatus = 'Approve'");
             $qb->addOrderBy('h.transactionDate', 'DESC');

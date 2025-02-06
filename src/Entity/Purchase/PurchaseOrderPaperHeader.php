@@ -122,6 +122,9 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     #[ORM\Column(type: Types::TEXT)]
     private ?string $purchaseOrderPaperList = '';
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
+    private ?string $subTotalCoretax = '0.00';
+
     public function __construct()
     {
         $this->purchaseOrderPaperDetails = new ArrayCollection();
@@ -151,10 +154,14 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
         return $subTotal;
     }
 
+    public function getSyncSubTotalCoretax(): string
+    {
+        return round($this->getSubTotal() * 11 / 12, 0);
+    }
+
     public function getSyncGrandTotal(): string
     {
-        $grandTotal = round($this->getSubTotalAfterDiscount() + $this->taxNominal, 0);
-        return $grandTotal;
+        return round($this->getSubTotal() - $this->getDiscountNominal() + $this->taxNominal, 0);
     }
 
     public function getSyncTotalRemainingReceive(): int
@@ -175,7 +182,7 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotal - $this->getDiscountNominal();
+        return $this->subTotalCoretax - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
@@ -497,6 +504,18 @@ class PurchaseOrderPaperHeader extends PurchaseHeader
     public function setPurchaseOrderPaperList(string $purchaseOrderPaperList): self
     {
         $this->purchaseOrderPaperList = $purchaseOrderPaperList;
+
+        return $this;
+    }
+
+    public function getSubTotalCoretax(): ?string
+    {
+        return $this->subTotalCoretax;
+    }
+
+    public function setSubTotalCoretax(string $subTotalCoretax): self
+    {
+        $this->subTotalCoretax = $subTotalCoretax;
 
         return $this;
     }

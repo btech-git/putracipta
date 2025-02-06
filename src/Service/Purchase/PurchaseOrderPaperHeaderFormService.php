@@ -119,6 +119,7 @@ class PurchaseOrderPaperHeaderFormService
         $supplier = $purchaseOrderPaperHeader->getSupplier();
         $purchaseOrderPaperHeader->setCurrency($supplier === null ? null : $supplier->getCurrency());
         $purchaseOrderPaperHeader->setSubTotal($purchaseOrderPaperHeader->getSyncSubTotal());
+        $purchaseOrderPaperHeader->setSubTotalCoretax($purchaseOrderPaperHeader->getSyncSubTotalCoretax());
         $purchaseOrderPaperHeader->setTaxNominal($purchaseOrderPaperHeader->getSyncTaxNominal());
         $purchaseOrderPaperHeader->setGrandTotal($purchaseOrderPaperHeader->getSyncGrandTotal());
         $purchaseOrderPaperHeader->setTotalRemainingReceive($purchaseOrderPaperHeader->getSyncTotalRemainingReceive());

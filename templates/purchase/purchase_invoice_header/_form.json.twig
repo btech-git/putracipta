@@ -16,6 +16,7 @@
 {
     "dueDate": "{{ purchaseInvoiceHeader.dueDate ? purchaseInvoiceHeader.dueDate|date('d M Y') : '' }}",
     "subTotal": "{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}",
+    "subTotalCoretax": "{{ purchaseInvoiceHeader.subTotalCoretax|default|number_format(2) }}",
     "discountInfo": "{{ discountInfo|trim|replace({'\n': ''}) }}",
     "discountNominal": "{{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}",
     "taxInfo": "{{ taxInfo|trim|replace({'\n': ''}) }}",
