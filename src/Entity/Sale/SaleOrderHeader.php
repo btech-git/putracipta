@@ -199,7 +199,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSyncGrandTotal(): string
     {
-        return round($this->getSubTotalAfterDiscount() + $this->taxNominal, 0);
+        return round($this->getSubTotal() - $this->getDiscountNominal() + $this->taxNominal, 0);
     }
 
     public function getSyncTotalRemainingDelivery(): int
@@ -220,7 +220,7 @@ class SaleOrderHeader extends SaleHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotal - $this->getDiscountNominal();
+        return $this->subTotalCoretax - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
