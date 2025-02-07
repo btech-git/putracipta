@@ -134,13 +134,7 @@
             </tr>
             <tr>
                 <td colspan="7" style="text-align: right">
-                    <strong>
-                        {% if saleInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', saleInvoiceHeader) %}
-                            Non PPn 0%
-                        {% elseif saleInvoiceHeader.taxMode == constant('TAX_MODE_TAX_EXCLUSION', saleInvoiceHeader) %}
-                            PPn {{ saleInvoiceHeader.taxPercentage }}%
-                        {% endif %}
-                    </strong>
+                    <strong>PPn {{ vatPercentage }}%</strong>
                 </td>
                 <td style="text-align: right"><strong>{{ saleInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
             </tr>

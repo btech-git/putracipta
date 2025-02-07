@@ -154,10 +154,11 @@ class SaleInvoiceHeaderController extends AbstractController
 
     #[Route('/{id}', name: 'app_sale_sale_invoice_header_show', methods: ['GET'])]
     #[Security("is_granted('ROLE_SALE_INVOICE_ADD') or is_granted('ROLE_SALE_INVOICE_EDIT') or is_granted('ROLE_SALE_INVOICE_VIEW')")]
-    public function show(SaleInvoiceHeader $saleInvoiceHeader): Response
+    public function show(SaleInvoiceHeader $saleInvoiceHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         return $this->render('sale/sale_invoice_header/show.html.twig', [
             'saleInvoiceHeader' => $saleInvoiceHeader,
+            'vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'),
         ]);
     }
 
@@ -224,6 +225,7 @@ class SaleInvoiceHeaderController extends AbstractController
         $htmlView = $this->render('sale/sale_invoice_header/memo.html.twig', [
             'saleInvoiceHeader' => $saleInvoiceHeader,
             'ifscCode' => $literalConfigRepository->findLiteralValue('ifscCode'),
+            'vatPercentage' => $literalConfigRepository->findLiteralValue('vatPercentage'),
         ]);
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
