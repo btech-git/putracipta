@@ -80,6 +80,10 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
+                        <div class="cell label">Customer</div>
+                        <div class="cell value">: {{ masterOrderHeader.customer.company|default }}</div>
+                    </div>
+                    <div class="row">
                         <div class="cell label">No MO</div>
                         <div class="cell value">: {{ masterOrderHeader.getCodeNumber|default }}</div>
                     </div>
@@ -93,7 +97,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Kertas</div>
-                        <div class="cell value">: {{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim {{ masterOrderHeader.paperRequirement|default|number_format(0) }} dreek</div>
+                        <div class="cell value">: {{ masterOrderHeader.quantityPaper|default|number_format(2) }} rim {{ masterOrderHeader.paperTotal|default|number_format(0) }} dreek</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Jumlah Up</div>
@@ -112,11 +116,44 @@
                 <div class="cell col">
                     <div class="table full">
                         <div class="row">
-                            <div class="cell label">Gambar </div>
+                            <div class="cell label">Gambar </div> <br />
                             <div style="min-width: 64px; min-height: 64px">
                                 <img id="upload" width="256px" alt="Layout Model Image" src="{{ asset('uploads/master-order/' ~ masterOrderHeader.fileName) }}">
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="cell col">
+                    <div class="table full">
+                        <table class="detail">
+                            <thead>
+                                <tr>
+                                    <th>PO#</th>
+                                    <th>Kode</th>
+                                    <th>Nama Produk</th>
+                                    <th>Ukuran Jadi</th>
+                                    <th>Qty Produksi</th>
+                                    <th>Up/s (Mata)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                    <tr>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                                        <td>
+                                            {{ masterOrderProductDetail.saleOrderDetail.product.length|default|number_format(2) }} x 
+                                            {{ masterOrderProductDetail.saleOrderDetail.product.width|default|number_format(2) }} x 
+                                            {{ masterOrderProductDetail.saleOrderDetail.product.height|default|number_format(2) }}
+                                        </td>
+                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
+                                        <td style="text-align:center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
@@ -171,8 +208,8 @@
                 <th class="text-center" style="width: 10%" rowspan="2">Shift #</th>
                 <th class="text-center" style="width: 10%" rowspan="2">Tanggal Potong</th>
                 <th class="text-center" style="width: 8%" colspan="2">Jam</th>
-                <th class="text-center" style="width: 8%" rowspan="2">Qty Rim</th>
-                <th class="text-center" style="width: 12%" rowspan="2">Qty Dreek</th>
+                <th class="text-center" style="width: 8%" rowspan="2">Qty Dreek</th>
+                <th class="text-center" style="width: 12%" rowspan="2">Qty Pcs</th>
                 <th class="text-center" rowspan="2">Keterangan</th>
                 <th style="width: 15%" rowspan="2"></th>
             </tr>

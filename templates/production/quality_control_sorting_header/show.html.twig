@@ -71,6 +71,7 @@
                 <tr>
                     <th class="text-center" style="min-width: 150px">Item Code</th>
                     <th class="text-center" style="min-width: 350px">Item Name</th>
+                    <th class="text-center" style="min-width: 150px">PO #</th>
                     <th class="text-center" style="min-width: 100px">Qty Order</th>
                     <th class="text-center" style="min-width: 100px">Qty Bagus</th>
                     <th class="text-center" style="min-width: 150px">Qty Reject Cetak</th>
@@ -93,6 +94,7 @@
                         <tr>
                             <td>{{ qualityControlSortingDetail.product.code|default }}</td>
                             <td>{{ qualityControlSortingDetail.product.name|default }}</td>
+                            <td>{{ qualityControlSortingDetail.masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                             <td>{{ qualityControlSortingDetail.quantityOrder|default|number_format(2) }}</td>
                             <td>{{ qualityControlSortingDetail.quantityGood|default|number_format(2) }}</td>
                             <td>{{ qualityControlSortingDetail.quantityRejectPrinting|default|number_format(2) }}</td>
