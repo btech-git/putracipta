@@ -172,7 +172,9 @@
                                 {% for saleOrderDetail in saleOrderDetails[product.id] %}
                                     <tr>
                                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                                        <td class="text-start">
+                                            {{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('d-m-Y') }}
+                                        </td>
                                         <td class="text-start">{{ saleOrderDetail.quantity|default|number_format(2) }}</td>
                                         <td class="text-start">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>
                                         <td class="text-end">{{ saleOrderDetail.total|default|number_format(2) }}</td>

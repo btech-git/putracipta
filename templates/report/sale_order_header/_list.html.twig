@@ -144,7 +144,7 @@
             {% for saleOrderHeader in saleOrderHeaders %}
                 <tr>
                     <td class="text-start">{{ saleOrderHeader.codeNumber|default }}</td>
-                    <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                    <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-Y') }}</td>
                     <td class="text-start">{{ saleOrderHeader.customer.company|default }}</td>
                     <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
                     <td class="text-start">{{ saleOrderHeader.transactionStatus|default }}</td>
@@ -158,7 +158,7 @@
                                     <tr>
                                         <td class="text-start">{{ saleOrderDetail.product.code|default }}</td>
                                         <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('d-m-Y') }}</td>
                                         <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
                                         <td class="text-start">{{ saleOrderDetail.unit.name|default }}</td>
                                         <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>

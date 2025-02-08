@@ -33,13 +33,17 @@
         {% for saleOrderDetail in saleOrderDetails %}
             {% if (saleOrderDetail.isCanceled == false) %}
                 <tr>
-                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('j F Y') }}</td>
+                    <td style="text-align: left">
+                        {{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('d-m-Y') }}
+                    </td>
+                    <td style="text-align: left">
+                        {{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.transactionDate|default ? saleOrderDetail.saleOrderHeader.transactionDate|date('d-m-Y') }}
+                    </td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>
-                    <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
+                    <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('d-m-Y') }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.unitPrice|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.total|default|round(0) }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.employee.name|default }}</td>

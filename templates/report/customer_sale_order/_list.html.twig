@@ -148,9 +148,11 @@
                                 {% for saleOrderDetail in saleOrderDetails[customer.id] %}
                                     <tr>
                                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('j F Y') }}</td>
+                                        <td class="text-start">
+                                            {{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('d-m-Y') }}
+                                        </td>
                                         <td class="text-start">{{ saleOrderDetail.saleOrderHeader.transactionStatus|default }}</td>
-                                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('j F Y') }}</td>
+                                        <td class="text-start">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('d-m-Y') }}</td>
                                         <td class="text-start">{{ saleOrderDetail.product.name|default }}</td>
                                         <td class="text-center">{{ saleOrderDetail.quantity|default|number_format(2) }}</td>
                                         <td class="text-end">{{ saleOrderDetail.unitPrice|default|number_format(2) }}</td>

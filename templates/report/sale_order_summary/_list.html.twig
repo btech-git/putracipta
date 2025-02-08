@@ -111,7 +111,7 @@
                 {% if (saleOrderHeader.isCanceled == false) %}
                     <tr>
                         <td class="text-start">{{ saleOrderHeader.customer.company|default }}</td>
-                        <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('j M Y') }}</td>
+                        <td class="text-start">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-Y') }}</td>
                         <td class="text-start">{{ saleOrderHeader.referenceNumber|default }}</td>
                         <td class="text-end">{{ saleOrderHeader.subTotal|default|number_format(0) }}</td>
                         <td class="text-end">{{ saleOrderHeader.taxNominal|default|number_format(2) }}</td>
