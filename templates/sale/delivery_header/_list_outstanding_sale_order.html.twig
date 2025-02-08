@@ -75,7 +75,9 @@
                     <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
                     <td>{{ saleOrderDetail.deliveryDateAlternate|default }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
-                    <td style="text-align: right">{{ stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0 }}</td>
+                    <td style="text-align: right">
+                        {{ stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0 }}
+                    </td>
                     <td style="text-align: right">{{ saleOrderDetail.totalQuantityDelivery|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.remainingQuantityDelivery|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
