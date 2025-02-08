@@ -179,7 +179,7 @@ class PurchaseInvoiceHeader extends PurchaseHeader
 
     public function getSubTotalAfterDiscount(): string
     {
-        return $this->subTotal - $this->getDiscountNominal();
+        return $this->subTotalCoretax - $this->getDiscountNominal();
     }
 
     public function getId(): ?int
