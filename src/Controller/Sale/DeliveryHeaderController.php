@@ -11,6 +11,7 @@ use App\Grid\Sale\DeliveryHeaderGridType;
 use App\Grid\Sale\OutstandingSaleOrderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Master\CustomerRepository;
+use App\Repository\Master\WarehouseRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use App\Repository\Stock\InventoryRepository;
@@ -66,7 +67,7 @@ class DeliveryHeaderController extends AbstractController
     
     #[Route('/_list_outstanding_sale_order', name: 'app_sale_delivery_header__list_outstanding_sale_order', methods: ['GET', 'POST'])]
     #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
-    public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository): Response
+    public function _listOutstandingSaleOrder(Request $request, SaleOrderDetailRepository $saleOrderDetailRepository, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): Response
     {
         $criteria = new DataCriteria();
         $form = $this->createForm(OutstandingSaleOrderGridType::class, $criteria);
@@ -105,7 +106,7 @@ class DeliveryHeaderController extends AbstractController
             'form' => $form,
             'count' => $count,
             'saleOrderDetails' => $saleOrderDetails,
-            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository),
+            'stockQuantityList' => $this->getStockQuantityList($saleOrderDetails, $inventoryRepository, $warehouseRepository),
         ]);
     }
 
@@ -210,10 +211,11 @@ class DeliveryHeaderController extends AbstractController
         ]);
     }
     
-    public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository): array
+    public function getStockQuantityList(array $saleOrderDetails, InventoryRepository $inventoryRepository, WarehouseRepository $warehouseRepository): array
     {
         $products = array_map(fn($saleOrderDetail) => $saleOrderDetail->getProduct(), $saleOrderDetails);
-        $stockQuantityList = $inventoryRepository->getAllWarehouseProductStockQuantityList($products);
+        $warehouse = $warehouseRepository->findFinishedGoodsRecord();
+        $stockQuantityList = $inventoryRepository->getProductStockQuantityList($warehouse, $products);
         $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
         
         return $stockQuantityListIndexed;
