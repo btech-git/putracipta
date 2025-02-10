@@ -90,6 +90,7 @@
             <tr class="bg-info">
                 <th>Item Code</th>
                 <th>Description</th>
+                <th>Memo</th>
                 <th>Tanggal Kirim</th>
                 <th>Quantity</th>
                 <th>Satuan</th>
@@ -110,6 +111,7 @@
                     <tr>
                         <td>{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                         <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                        <td>{{ purchaseOrderPaperDetail.purchaseRequestPaperDetail.memo|default }}</td>
                         <td>{{ purchaseOrderPaperDetail.deliveryDate ? purchaseOrderPaperDetail.deliveryDate|date('d M Y') : '' }}</td>
                         <td style="text-align: right">{{ purchaseOrderPaperDetail.quantity|default|number_format(2) }}</td>
                         <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
