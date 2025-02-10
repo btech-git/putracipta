@@ -184,6 +184,11 @@ class SaleOrderHeaderFormService
     {
         $saleOrderHeader = new SaleOrderHeader();
         $saleOrderHeader->setCustomer($sourceSaleOrderHeader->getCustomer());
+        $saleOrderHeader->setTransactionDate($sourceSaleOrderHeader->getTransactionDate());
+        $saleOrderHeader->setOrderReceiveDate($sourceSaleOrderHeader->getOrderReceiveDate());
+        $saleOrderHeader->setEmployee($sourceSaleOrderHeader->getEmployee());
+        $saleOrderHeader->setDeliveryAddressOrdinal($sourceSaleOrderHeader->getDeliveryAddressOrdinal());
+        $saleOrderHeader->setCustomerName($sourceSaleOrderHeader->getCustomerName());
         $saleOrderHeader->setIsUsingFscPaper($sourceSaleOrderHeader->isIsUsingFscPaper());
         foreach ($sourceSaleOrderHeader->getSaleOrderDetails() as $sourceSaleOrderDetail) {
             $saleOrderDetail = new SaleOrderDetail();
