@@ -59,7 +59,7 @@ class SupplierPurchaseOrderPaperGridType extends AbstractType
                     'purchaseOrderPaperHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'id' => [
                         'class' => Supplier::class, 
-                        'choice_label' => 'id',
+                        'choice_label' => 'company',
                         'query_builder' => function($repository) {
                             return $repository->createQueryBuilder('e')
                                     ->andWhere("e.isInactive = false")
