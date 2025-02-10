@@ -26,6 +26,7 @@
             <th style="text-align: center; width: 100pt">Note</th>
             <th style="text-align: center;">Kode</th>
             <th style="text-align: center;">Nama Produk</th>
+            <th style="text-align: center;">Memo</th>
             <th style="text-align: center;">Tanggal Kirim</th>
             <th style="text-align: center;">Qty</th>
             <th style="text-align: center;">Satuan</th>
@@ -51,6 +52,7 @@
                     <td style="text-align: left;">{{ purchaseOrderHeader.note|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderDetail.material.code|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderDetail.material.name|default }}</td>
+                    <td style="text-align: left;">{{ purchaseOrderDetail.purchaseRequestDetail.memo|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderDetail.deliveryDate|default ? purchaseOrderDetail.deliveryDate|date('j F Y') }}</td>
                     <td style="text-align: left;">{{ purchaseOrderDetail.quantity|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderDetail.unit.name|default }}</td>

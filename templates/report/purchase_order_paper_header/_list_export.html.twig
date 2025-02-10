@@ -26,6 +26,7 @@
             <th style="text-align: center; width: 100pt"><strong>Note</strong></th>
             <th style="text-align: center;"><strong>Kode</strong></th>
             <th style="text-align: center;"><strong>Nama Kertas</strong></th>
+            <th style="text-align: center;"><strong>Memo</strong></th>
             <th style="text-align: center;"><strong>Qty</strong></th>
             <th style="text-align: center;"><strong>Satuan</strong></th>
             <th style="text-align: center;"><strong>APKI</strong></th>
@@ -54,6 +55,7 @@
                     <td style="text-align: left;">{{ purchaseOrderPaperHeader.note|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderPaperDetail.paper.codeNumber|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderPaperDetail.paper.name|default }}</td>
+                    <td style="text-align: left;">{{ purchaseOrderPaperDetail.purchaseRequestPaperDetail.memo|default }}</td>
                     <td style="text-align: center;">{{ purchaseOrderPaperDetail.quantity|default }}</td>
                     <td style="text-align: left;">{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                     <td style="text-align: right">{{ purchaseOrderPaperDetail.apkiValue|default }}</td>
