@@ -67,14 +67,16 @@
         </thead>
         <tbody>
             {% for depositDetail in depositHeader.depositDetails %}
-                <tr>
-                    <td>{{ depositDetail.account.code|default }}</td>
-                    <td>{{ depositDetail.account.name|default }}</td>
-                    <td>{{ depositDetail.account.accountCategory.name|default }}</td>
-                    <td>{{ depositDetail.description|default }}</td>
-                    <td>{{ depositDetail.memo|default }}</td>
-                    <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
-                </tr>
+                {% if depositDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ depositDetail.account.code|default }}</td>
+                        <td>{{ depositDetail.account.name|default }}</td>
+                        <td>{{ depositDetail.account.accountCategory.name|default }}</td>
+                        <td>{{ depositDetail.description|default }}</td>
+                        <td>{{ depositDetail.memo|default }}</td>
+                        <td class="text-end">{{ depositDetail.amount|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>

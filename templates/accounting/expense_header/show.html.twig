@@ -67,14 +67,16 @@
         </thead>
         <tbody>
             {% for expenseDetail in expenseHeader.expenseDetails %}
-                <tr>
-                    <td>{{ expenseDetail.account.code|default }}</td>
-                    <td>{{ expenseDetail.account.name|default }}</td>
-                    <td>{{ expenseDetail.account.accountCategory.name|default }}</td>
-                    <td>{{ expenseDetail.description|default }}</td>
-                    <td>{{ expenseDetail.memo|default }}</td>
-                    <td class="text-end">{{ expenseDetail.amount|default|number_format(2) }}</td>
-                </tr>
+                {% if expenseDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ expenseDetail.account.code|default }}</td>
+                        <td>{{ expenseDetail.account.name|default }}</td>
+                        <td>{{ expenseDetail.account.accountCategory.name|default }}</td>
+                        <td>{{ expenseDetail.description|default }}</td>
+                        <td>{{ expenseDetail.memo|default }}</td>
+                        <td class="text-end">{{ expenseDetail.amount|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
         <tfoot>
