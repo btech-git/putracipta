@@ -196,15 +196,60 @@
                 
     <ul class="nav nav-tabs" id="delivery-sale-return-tab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="delivery-header-tab" data-bs-toggle="tab" data-bs-target="#delivery-header-tab-pane" type="button" role="tab" aria-controls="delivery-header-tab-pane" aria-selected="true">Pengiriman</button>
+            <button class="nav-link active" id="master-order-header-tab" data-bs-toggle="tab" data-bs-target="#master-order-header-tab-pane" type="button" role="tab" aria-controls="master-order-header-tab-pane" aria-selected="true">Master Order</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="delivery-header-tab" data-bs-toggle="tab" data-bs-target="#delivery-header-tab-pane" type="button" role="tab" aria-controls="delivery-header-tab-pane" aria-selected="true">Pengiriman</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="sale-return-header-tab" data-bs-toggle="tab" data-bs-target="#sale-return-header-tab-pane" type="button" role="tab" aria-controls="sale-return-header-tab-pane" aria-selected="false">Retur</button>
         </li>
     </ul>
-                
+               
     <div class="tab-content" id="delivery-sale-return-tab-content">
-        <div class="tab-pane fade show active" id="delivery-header-tab-pane" role="tabpanel" aria-labelledby="delivery-header-tab" tabindex="0">
+        <div class="tab-pane fade show active" id="master-order-header-tab-pane" role="tabpanel" aria-labelledby="master-order-header-tab" tabindex="0">
+            <legend class="float-none w-auto text-dark px-1">Data Master Order</legend>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="bg-warning">
+                        <th>MO #</th>
+                        <th>Tanggal</th>
+                        <th>Code</th>
+                        <th>Product</th>
+                        <th>Ukuran</th>
+                        <th>Quantity Produksi</th>
+                        <th>Quantity Stok</th>
+                        <th>Quantity Kekurangan</th>
+                        <th>Up Cetak</th>
+                        <th>Cancel?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
+                        {% for masterOrderProductDetail in saleOrderDetail.masterOrderProductDetails %}
+                            <tr>
+                                <td>{{ masterOrderProductDetail.masterOrderHeader.codeNumber|default }}</td>
+                                <td>{{ masterOrderProductDetail.masterOrderHeader.transactionDate ? masterOrderProductDetail.masterOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                                <td>{{ masterOrderProductDetail.product.code|default }}</td>
+                                <td>{{ masterOrderProductDetail.product.name|default }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.product.productLengthWidthHeightCombination|default }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                                <td class="text-center">{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
+                                <td>{{ masterOrderProductDetail.isCanceled ? 'Yes' : 'No' }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7">No Records Found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+                     
+        <div class="tab-pane fade" id="delivery-header-tab-pane" role="tabpanel" aria-labelledby="delivery-header-tab" tabindex="0">
             <legend class="float-none w-auto text-dark px-1">Data Pengiriman</legend>
             <table class="table table-bordered table-striped">
                 <thead>
