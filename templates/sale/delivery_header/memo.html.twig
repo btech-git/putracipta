@@ -124,21 +124,21 @@
             </div>
         </div>
         
-        <table class="detail">
+        <table class="detail" style="font-size: 9px">
             <thead>
                 <tr>
                     <th class="center">No.</th>
                     <th class="center">Product Name</th>
-                    <th class="center">Code No.</th>
-                    <th class="center" style="min-width: 70px">Lot no.</th>
+                    <th class="center" style="min-width: 90px">Code No.</th>
+                    <th class="center" style="min-width: 40px">Lot no.</th>
                     <th class="center" style="max-width: 90px">WO no. / Tgl Prod</th>
                     {% if deliveryHeader.customer.id == linePo %}
                         <th class="center" style="max-width: 70px">Line PO</th>
                     {% endif %}
                     {% if deliveryHeader.isUsingFscPaper %}
-                        <th class="center" style="max-width: 70px">FSC Code</th>
+                        <th class="center" style="max-width: 40px">FSC Code</th>
                     {% endif %}
-                    <th class="center">Customer PO</th>
+                    <th class="center" style="max-width: 60px">Customer PO</th>
                     <th class="center" style="max-width: 90px">Qty</th>
                     <th class="center" style="min-width: 120px">Packing</th>
                 </tr>
@@ -164,7 +164,6 @@
                 {% endfor %}
                 {% set number = 1 %}
                 {% for row in details|batch(rowspan, '') %}
-                {#{% for row in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0)|batch(rowspan, '') %}#}
                     {% for deliveryDetail in row %}
                         <tr>
                             {% if deliveryDetail %}
@@ -183,8 +182,7 @@
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                {#<td class="center">{{ quantitySums[deliveryDetail.product.id ~ '_']|default|number_format(0) }}</td>#}
-                                <td class="center">{{ deliveryDetail.quantity|default|number_format(0) }}</td>
+                                <td class="center">{{ quantitySums[deliveryDetail.saleOrderDetail.id ~ '_']|default|number_format(0) }}</td>
                                 <td class="left">{{ deliveryDetail.packaging|default }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
@@ -209,7 +207,14 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan={% if deliveryHeader.isUsingFscPaper or deliveryHeader.customer.id == linePo %}"7"{% else %}"6"{% endif %} class="label right">Total</td>
+                    <td colspan="5"></td>
+                    {% if deliveryHeader.customer.id == linePo %}
+                        <td></td>
+                    {% endif %}
+                    {% if deliveryHeader.isUsingFscPaper %}
+                        <td></td>
+                    {% endif %}
+                    <td>TOTAL</td>
                     <td class="center">{{ deliveryHeader.totalQuantity|default|number_format(0) }}</td>
                     <td></td>
                 </tr>
