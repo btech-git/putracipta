@@ -153,12 +153,13 @@
             <table class="detail">
                 <thead>
                     <tr>
-                        <th colspan='3' class='center'>PRODUCTS</th>
+                        <th colspan='4' class='center'>PRODUCTS</th>
                     </tr>
                     <tr>
                         <th class="center">Item Code</th>
                         <th class="center">Item Name</th>
                         <th class="center">Quantity (pcs)</th>
+                        <th class="center">Material</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -167,6 +168,7 @@
                         <td>{{ productPrototypeDetail.product.code|default }}</td>
                         <td>{{ productPrototypeDetail.product.name|default }}</td>
                         <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
+                        <td>{{ productPrototypeDetail.product.material|default }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -179,10 +181,10 @@
                 <div class="table full">
                     <div class="cell col">
                         <div class="table full">
-                            <div class="row">
+                            {#<div class="row">
                                 <div class="cell label">Material Kertas</div>
                                 <div class="cell value">{{ productPrototype.paper.paperNameSizeCombination|default }} Gram</div>
-                            </div>
+                            </div>#}
                             <div class="row">
                                 <div class="cell label">Warna / Pantone</div>
                                 <div class="cell value">{{ productPrototype.color }}</div>
