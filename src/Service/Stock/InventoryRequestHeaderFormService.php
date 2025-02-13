@@ -75,13 +75,13 @@ class InventoryRequestHeaderFormService
         foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
             if ($inventoryRequestMaterialDetail->isIsCanceled() == false) {
                 $material = $inventoryRequestMaterialDetail->getMaterial();
-                $inventoryRequestItemList[] = $material->getCode();
+                $inventoryRequestItemList[] = $material->getCodeNumber();
             }
         }
         foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
             if ($inventoryRequestPaperDetail->isIsCanceled() == false) {
                 $paper = $inventoryRequestPaperDetail->getPaper();
-                $inventoryRequestItemList[] = $paper->getCode();
+                $inventoryRequestItemList[] = $paper->getCodeNumber();
             }
         }
         $inventoryRequestItemUniqueList = array_unique(explode(', ', implode(', ', $inventoryRequestItemList)));
