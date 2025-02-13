@@ -51,7 +51,7 @@
                     <td style="text-align: left;">{{ receiveHeader.warehouse.name|default }}</td>
                     <td style="text-align: left;">{{ receiveHeader.note|default }}</td>
                     <td style="text-align: left;">{{ receiveDetail.material is null ? receiveDetail.paper.codeNumber|default : receiveDetail.material.code|default }}</td>
-                    <td style="text-align: left;">{{ receiveDetail.material is null ? receiveDetail.paper.paperNameSizeCombination|default : receiveDetail.material.name|default }}</td>
+                    <td style="text-align: left;">{{ receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default }}</td>
                     <td style="text-align: center;">{{ receiveDetail.purchaseOrderDetail is null ? receiveDetail.purchaseOrderPaperDetail.quantity|default : receiveDetail.purchaseOrderDetail.quantity|default }}</td>
                     <td style="text-align: center;">{{ receiveDetail.receivedQuantity|default }}</td>
                     <td style="text-align: left;">{{ receiveDetail.unit.name|default }}</td>
