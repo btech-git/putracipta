@@ -73,12 +73,16 @@ class InventoryRequestHeaderFormService
         
         $inventoryRequestItemList = [];
         foreach ($inventoryRequestHeader->getInventoryRequestMaterialDetails() as $inventoryRequestMaterialDetail) {
-            $material = $inventoryRequestMaterialDetail->getMaterial();
-            $inventoryRequestItemList[] = $material->getCode();
+            if ($inventoryRequestMaterialDetail->isIsCanceled() == false) {
+                $material = $inventoryRequestMaterialDetail->getMaterial();
+                $inventoryRequestItemList[] = $material->getCode();
+            }
         }
         foreach ($inventoryRequestHeader->getInventoryRequestPaperDetails() as $inventoryRequestPaperDetail) {
-            $paper = $inventoryRequestPaperDetail->getPaper();
-            $inventoryRequestItemList[] = $paper->getCode();
+            if ($inventoryRequestPaperDetail->isIsCanceled() == false) {
+                $paper = $inventoryRequestPaperDetail->getPaper();
+                $inventoryRequestItemList[] = $paper->getCode();
+            }
         }
         $inventoryRequestItemUniqueList = array_unique(explode(', ', implode(', ', $inventoryRequestItemList)));
         $inventoryRequestHeader->setInventoryRequestProductList(implode(', ', $inventoryRequestItemUniqueList));
