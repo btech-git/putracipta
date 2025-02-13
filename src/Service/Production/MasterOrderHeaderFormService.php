@@ -271,6 +271,10 @@ class MasterOrderHeaderFormService
         $masterOrderHeader->setPackagingTapeLargeQuantity($sourceMasterOrderHeader->getPackagingTapeLargeQuantity());
         $masterOrderHeader->setPackagingTapeSmallQuantity($sourceMasterOrderHeader->getPackagingTapeSmallQuantity());
         $masterOrderHeader->setLayoutModelFileExtension($sourceMasterOrderHeader->getLayoutModelFileExtension());
+        $masterOrderHeader->setCuttingLengthSize1($sourceMasterOrderHeader->getCuttingLengthSize1());
+        $masterOrderHeader->setCuttingWidthSize1($sourceMasterOrderHeader->getCuttingWidthSize1());
+        $masterOrderHeader->setCuttingLengthSize2($sourceMasterOrderHeader->getCuttingLengthSize2());
+        $masterOrderHeader->setCuttingWidthSize2($sourceMasterOrderHeader->getCuttingWidthSize2());
         foreach ($sourceMasterOrderHeader->getMasterOrderProcessDetails() as $sourceMasterOrderProcessDetail) {
             $masterOrderProcessDetail = new MasterOrderProcessDetail();
             $masterOrderProcessDetail->setDesignCodeProcessDetail($sourceMasterOrderProcessDetail->getDesignCodeProcessDetail());
