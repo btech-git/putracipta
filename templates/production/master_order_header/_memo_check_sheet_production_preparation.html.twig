@@ -67,6 +67,10 @@
                         <div class="cell label">Warna</div>
                         <div class="cell value">: {{ masterOrderHeader.color }} / {{ masterOrderHeader.pantone }} + {{ masterOrderHeader.colorPantoneAdditional }}</div>
                     </div>
+                    <div class="row">
+                        <div class="cell label">Keterangan</div>
+                        <div class="cell value">: {{ masterOrderHeader.note|default }}</div>
+                    </div>
                 </div>
             </div>
             <div class="cell col">

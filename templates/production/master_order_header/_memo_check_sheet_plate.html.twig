@@ -1,13 +1,13 @@
 <div class="memo">
     <div class="header" style="font-size: 10px; text-align: left; height: 100px">
         <div class="table full">
-            {#<div class="cell col">
+            <div class="cell col">
                 <div class="table full">
                     <div class="row">
                         <div class="cell label"><img id="logo" alt="logo" max-height="300px" src="{{ asset('images/Logo.jpg') }}"></div>
                     </div>
                 </div>
-            </div>#}
+            </div>
             <div class="cell col">
                 <div class="table full">
                     {#<div class="row">
@@ -78,6 +78,10 @@
                     <div class="row">
                         <div class="cell label">Jumlah Plat</div>
                         <div class="cell value">: _____________ Lembar</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Keterangan</div>
+                        <div class="cell value">: {{ masterOrderHeader.note|default }}</div>
                     </div>
                 </div>
             </div>

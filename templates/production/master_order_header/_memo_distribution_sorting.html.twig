@@ -65,7 +65,7 @@
                     </div>
                     <div class="row">
                         <div class="cell label">Up/s</div>
-                        <div class="cell value">: {{ masterOrderHeader.quantityPrinting }}</div>
+                        <div class="cell value">: {{ masterOrderHeader.quantityPrinting|default }}</div>
                     </div>
                 </div>
             </div>
@@ -82,6 +82,10 @@
                     <div class="row">
                         <div class="cell label"></div>
                         <div class="cell value">: _______________________ pcs</div>
+                    </div>
+                    <div class="row">
+                        <div class="cell label">Keterangan</div>
+                        <div class="cell value">: {{ masterOrderHeader.note|default }}</div>
                     </div>
                 </div>
             </div>
