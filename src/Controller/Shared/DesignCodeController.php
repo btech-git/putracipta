@@ -7,10 +7,8 @@ use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
 use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Master\DesignCodeProductDetail;
-use App\Entity\Production\MasterOrderHeader;
 use App\Grid\Shared\DesignCodeGridType;
 use App\Repository\Master\DesignCodeRepository;
-use App\Repository\Production\ProductPrototypeDetailRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +21,7 @@ class DesignCodeController extends AbstractController
 {
     #[Route('/_list', name: 'app_shared_design_code__list', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function _list(Request $request, DesignCodeRepository $designCodeRepository, SaleOrderDetailRepository $saleOrderDetailRepository, ProductPrototypeDetailRepository $productPrototypeDetailRepository): Response
+    public function _list(Request $request, DesignCodeRepository $designCodeRepository, SaleOrderDetailRepository $saleOrderDetailRepository): Response
     {
         $criteria = new DataCriteria();
         $criteria->setSort([
@@ -33,7 +31,7 @@ class DesignCodeController extends AbstractController
         $form = $this->createForm(DesignCodeGridType::class, $criteria);
         $form->handleRequest($request);
 
-        list($count, $designCodes) = $designCodeRepository->fetchData($criteria, function($qb, $alias) use ($request, $saleOrderDetailRepository, $productPrototypeDetailRepository) {
+        list($count, $designCodes) = $designCodeRepository->fetchData($criteria, function($qb, $alias) use ($request, $saleOrderDetailRepository) {
             
             $customerId = '';
             if (isset($request->request->get('master_order_header')['customer'])) {
@@ -44,12 +42,7 @@ class DesignCodeController extends AbstractController
 
             $products = [];
             if (isset($request->request->get('master_order_header')['masterOrderProductDetails'])) {
-                if ($request->request->get('master_order_header')['transactionMode'] == MasterOrderHeader::TRANSACTION_MODE_SALE_ORDER) {
                 $products = array_map(fn($item) => $saleOrderDetailRepository->find($item['saleOrderDetail'])->getProduct(), $request->request->get('master_order_header')['masterOrderProductDetails']);
-                } 
-                if ($request->request->get('master_order_header')['transactionMode'] == MasterOrderHeader::TRANSACTION_MODE_PRODUCT_PROTOTYPE) {
-                $products = array_map(fn($item) => $productPrototypeDetailRepository->find($item['productPrototypeDetail'])->getProduct(), $request->request->get('master_order_header')['masterOrderProductDetails']);
-                }
             }
 
             $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
