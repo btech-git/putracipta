@@ -7,6 +7,7 @@ use App\Common\Data\Operator\SortAscending;
 use App\Common\Data\Operator\SortDescending;
 use App\Entity\Master\DesignCodeProcessDetail;
 use App\Entity\Master\DesignCodeProductDetail;
+use App\Entity\Production\MasterOrderHeader;
 use App\Grid\Shared\DesignCodeGridType;
 use App\Repository\Master\DesignCodeRepository;
 use App\Repository\Production\ProductPrototypeDetailRepository;
@@ -43,9 +44,12 @@ class DesignCodeController extends AbstractController
 
             $products = [];
             if (isset($request->request->get('master_order_header')['masterOrderProductDetails'])) {
+                if ($request->request->get('master_order_header')['transactionMode'] == MasterOrderHeader::TRANSACTION_MODE_SALE_ORDER) {
                 $products = array_map(fn($item) => $saleOrderDetailRepository->find($item['saleOrderDetail'])->getProduct(), $request->request->get('master_order_header')['masterOrderProductDetails']);
-            } else {
+                } 
+                if ($request->request->get('master_order_header')['transactionMode'] == MasterOrderHeader::TRANSACTION_MODE_PRODUCT_PROTOTYPE) {
                 $products = array_map(fn($item) => $productPrototypeDetailRepository->find($item['productPrototypeDetail'])->getProduct(), $request->request->get('master_order_header')['masterOrderProductDetails']);
+                }
             }
 
             $qb->andWhere("IDENTITY({$alias}.customer) = :customerId");
