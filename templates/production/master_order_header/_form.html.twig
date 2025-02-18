@@ -1,6 +1,6 @@
 <div data-controller="event-emitter json-loader"
-     data-action="data-table:select->event-emitter#forward data-choice:select->event-emitter#forward form-collection:collection-item-removed->event-emitter#forward"
-     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id', 'form-collection:collection-item-removed': 'id'}|json_encode }}"
+     data-action="data-table:select->event-emitter#forward data-choice:select->event-emitter#forward form-collection:collection-item-added->event-emitter#forward form-collection:collection-item-removed->event-emitter#forward"
+     data-event-emitter-attributes-list-param="{{ {'data-table:select': 'id', 'data-choice:select': 'id', 'form-collection:collection-item-added': 'id', 'form-collection:collection-item-removed': 'id'}|json_encode }}"
      data-json-loader-url-value="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_format': 'json'})) }}"
      data-json-loader-form-target-value="{{ "form[name=#{form.vars.name}]" }}">
 
@@ -205,7 +205,7 @@
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
              data-html-loader-auto-load-value="true"
-             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load sale-order-detail-table:data-table:select@document->html-loader#load sale-order-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load product-prototype-detail-table:data-table:select@document->html-loader#load product-prototype-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load">
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load sale-order-detail-form-collection:form-collection:collection-item-added@document->html-loader#load sale-order-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load product-prototype-detail-form-collection:form-collection:collection-item-added@document->html-loader#load product-prototype-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 
