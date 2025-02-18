@@ -131,22 +131,22 @@
         {% if (is_granted('ROLE_MARKETING')) %}
             <tfoot>
                 <tr>
-                    <td colspan="10" style="text-align: right"><strong>Sub Total</strong></td>
+                    <td colspan="11" style="text-align: right"><strong>Sub Total</strong></td>
                     <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotal|default|number_format(2) }}</strong></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="10" style="text-align: right"><strong>DPP</strong></td>
+                    <td colspan="11" style="text-align: right"><strong>DPP</strong></td>
                     <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.subTotalCoretax|default|number_format(2) }}</strong></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="10" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
+                    <td colspan="11" style="text-align: right"><strong>Disc {{ purchaseOrderPaperHeader.discountValue|default }}%</strong></td>
                     <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.discountNominal|default|number_format(2) }}</strong></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="10" style="text-align: right">
+                    <td colspan="11" style="text-align: right">
                         <strong>
                             {% if purchaseOrderPaperHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseOrderPaperHeader) %}
                                 Non PPn 0%
@@ -161,7 +161,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="10" style="text-align: right"><strong>Grand Total</strong></td>
+                    <td colspan="11" style="text-align: right"><strong>Grand Total</strong></td>
                     <td style="text-align: right"><strong>{{ purchaseOrderPaperHeader.grandTotal|default|number_format(2) }}</strong></td>
                     <td></td>
                 </tr>

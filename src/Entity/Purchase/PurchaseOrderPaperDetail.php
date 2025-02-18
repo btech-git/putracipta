@@ -153,7 +153,7 @@ class PurchaseOrderPaperDetail extends PurchaseDetail
 
     public function getSyncUnitPriceBeforeTax(): string
     {
-        return $this->purchaseOrderPaperHeader->getTaxMode() === $this->purchaseOrderPaperHeader::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + $this->purchaseOrderPaperHeader->getTaxPercentage() / 100), 2) : $this->unitPrice;
+        return $this->purchaseOrderPaperHeader->getTaxMode() === $this->purchaseOrderPaperHeader::TAX_MODE_TAX_INCLUSION ? round($this->unitPrice / (1 + 11 / 100), 2) : $this->unitPrice;
     }
 
     public function getSyncTotal(): string
