@@ -45,17 +45,21 @@
                                 {{ form_row(form.designCode, {
                                     'attr': {
                                         'data-controller': 'dom-element',
-                                        'data-action': 'design-code-table:data-table:select@document->dom-element#bind design-code-table:data-table:select@document->json-loader#load',
+                                        'data-action': form.transactionMode.vars.id ~ ':data-choice:select@document->dom-element#bind ' ~ form.customer.vars.id ~ ':data-choice:select@document->dom-element#bind design-code-table:data-table:select@document->dom-element#bind design-code-table:data-table:select@document->json-loader#load',
                                         'data-dom-element-bind-specifications-param': [
-                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
+                                            {'eventTypes': [form.transactionMode.vars.id ~ ':data-choice:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                            {'eventTypes': [form.customer.vars.id ~ ':data-choice:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                            {'eventTypes': ['design-code-table:data-table:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeId'}},
                                         ]|json_encode,
                                     },
                                 }) }}
                                 <input type="text" id="{{ form.designCode.vars.id }}-text" class="form-control readonly-form-input {% if not form.designCode.vars.valid %}is-invalid{% endif %}" value="{{ masterOrderHeader.designCode.codeNumber|default }}" readonly="readonly"
                                        data-bs-toggle="modal" data-bs-target="#design-code-dialog"
                                        data-controller="dom-element"
-                                       data-action="design-code-table:data-table:select@document->dom-element#bind"
+                                       data-action="{{ form.transactionMode.vars.id }}:data-choice:select@document->dom-element#bind {{ form.customer.vars.id }}:data-choice:select@document->dom-element#bind design-code-table:data-table:select@document->dom-element#bind"
                                        data-dom-element-bind-specifications-param="{{ [
+                                           {'eventTypes': [form.transactionMode.vars.id ~ ':data-choice:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
+                                           {'eventTypes': [form.customer.vars.id ~ ':data-choice:select'], 'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '""'}},
                                            {'action': 'setPropertyValue', 'descriptor': {'property': 'value', 'value': '$event.detail.designCodeData.designCodeNumber'}},
                                        ]|json_encode }}" />
                             </div>
@@ -201,7 +205,7 @@
         <div data-controller="html-loader"
              data-html-loader-url-value="{{ path('app_shared_design_code__list') }}"
              data-html-loader-auto-load-value="true"
-             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load sale-order-detail-table:data-table:select@document->html-loader#load sale-order-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load">
+             data-action="{{ form.customer.vars.id }}:data-choice:select@document->html-loader#load sale-order-detail-table:data-table:select@document->html-loader#load sale-order-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load product-prototype-detail-table:data-table:select@document->html-loader#load product-prototype-detail-form-collection:form-collection:collection-item-removed@document->html-loader#load">
         </div>
     {{ dialog.end() }}
 

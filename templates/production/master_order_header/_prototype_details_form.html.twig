@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-bordered"
+    <table class="table table-bordered" id="product-prototype-detail-form-collection"
        data-controller="form-collection"
        data-form-collection-start-index-value="{{ form.masterOrderPrototypeDetails|length > 0 ? form.masterOrderPrototypeDetails|last.vars.name + 1 : 0 }}"
        data-form-collection-prototype-value="{{ _self.collection_item(form.masterOrderPrototypeDetails.vars.prototype, form)|e('html_attr') }}"
@@ -17,7 +17,7 @@
                 <th style="min-width: 0"></th>
             </tr>
         </thead>
-        <tbody data-form-collection-target="items" data-action="{{ form.transactionMode.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems product-prototype-detail-table:data-table:select@document->form-collection#addCollectionItem product-prototype-detail-table:data-table:select@document->json-loader#load">
+        <tbody data-form-collection-target="items" data-action="{{ form.transactionMode.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems {{ form.customer.vars.id }}:data-choice:select@document->form-collection#clearCollectionItems product-prototype-detail-table:data-table:select@document->form-collection#addCollectionItem product-prototype-detail-table:data-table:select@document->json-loader#load">
             {% macro collection_item(detailForm, form) %}
                 <tr data-form-collection-target="item" data-item-identifier-name="productPrototypeDetailId" data-item-identifier-value="{{ detailForm.vars.value.productPrototypeDetail.id|default }}" {% if detailForm.isCanceled.vars.data %}class="d-none"{% endif %}>
                     <td class="d-none">{{ form_widget(detailForm.productPrototypeDetail, {'attr': {'data-item-field-name': 'productPrototypeDetailId'}}) }}</td>
