@@ -24,6 +24,13 @@ class ProductPrototypeDetailController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $productPrototypeDetails) = $productPrototypeDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) use ($request) {
+            $customerId = '';
+            $qb->innerJoin("{$alias}.productPrototype", 'pp');
+            if (isset($request->request->get('master_order_header')['customer'])) {
+                $customerId = $request->request->get('master_order_header')['customer'];
+            }
+            $qb->andWhere("IDENTITY(pp.customer) = :customerId");
+            $qb->setParameter('customerId', $customerId);
             
             $qb->innerJoin("{$alias}.product", 'p');
             if (isset($request->request->get('product_prototype_detail_grid')['filter']['product:code']) && isset($request->request->get('product_prototype_detail_grid')['sort']['product:code'])) {
