@@ -136,12 +136,14 @@
                         </thead>
                         <tbody>
                             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
-                                <tr>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                                </tr>
+                                {% if (masterOrderProductDetail.isCanceled == false) %}
+                                    <tr>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>

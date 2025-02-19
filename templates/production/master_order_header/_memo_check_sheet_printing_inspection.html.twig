@@ -150,17 +150,19 @@
                         </thead>
                         <tbody>
                             {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
-                                <tr>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
-                                    <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
-                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
-                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
-                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
-                                    <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
-                                    <td>{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
-                                </tr>
+                                {% if (masterOrderProductDetail.isCanceled == false) %}
+                                    <tr>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.code|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.product.name|default }}</td>
+                                        <td>{{ masterOrderProductDetail.saleOrderDetail.deliveryDate ? masterOrderProductDetail.saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityOrder|default|number_format(0) }}</td>
+                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityProduction|default|number_format(0) }}</td>
+                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityStock|default|number_format(0) }}</td>
+                                        <td style="text-align:right">{{ masterOrderProductDetail.quantityShortage|default|number_format(0) }}</td>
+                                        <td>{{ masterOrderProductDetail.quantityPrinting|default|number_format(0) }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
