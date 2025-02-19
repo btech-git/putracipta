@@ -181,11 +181,17 @@ class PurchaseInvoiceHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_purchase_purchase_invoice_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_PURCHASE_INVOICE_EDIT')]
-    public function delete(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository): Response
+    public function delete(Request $request, PurchaseInvoiceHeader $purchaseInvoiceHeader, PurchaseInvoiceHeaderFormService $purchaseInvoiceHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $purchaseInvoiceHeader->getId(), $request->request->get('_token'))) {
-            $purchaseInvoiceHeaderRepository->remove($purchaseInvoiceHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $purchaseInvoiceHeader->getId(), $request->request->get('_token'))) {
+            $purchaseInvoiceHeaderFormService->initialize($purchaseInvoiceHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $purchaseInvoiceHeaderFormService->finalize($purchaseInvoiceHeader, ['cancelTransaction' => true]);
+            $purchaseInvoiceHeaderFormService->save($purchaseInvoiceHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));

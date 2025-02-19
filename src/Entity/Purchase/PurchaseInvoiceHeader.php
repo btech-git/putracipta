@@ -24,6 +24,7 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     public const TRANSACTION_STATUS_INVOICING = 'invoicing';
     public const TRANSACTION_STATUS_PARTIAL_PAYMENT = 'partial_payment';
     public const TRANSACTION_STATUS_FULL_PAYMENT = 'full_payment';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

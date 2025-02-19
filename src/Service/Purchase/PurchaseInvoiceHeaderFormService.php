@@ -12,6 +12,8 @@ use App\Repository\Purchase\PurchaseInvoiceHeaderRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\PurchaseInvoiceHeaderFormSupport;
+use App\Sync\Purchase\PurchaseInvoiceHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,14 +21,16 @@ class PurchaseInvoiceHeaderFormService
 {
     use PurchaseInvoiceHeaderFormSupport;
     
+    private PurchaseInvoiceHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
     private PurchaseInvoiceHeaderRepository $purchaseInvoiceHeaderRepository;
     private PurchaseInvoiceDetailRepository $purchaseInvoiceDetailRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, PurchaseInvoiceHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -39,19 +43,34 @@ class PurchaseInvoiceHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($purchaseInvoiceHeader->getId())) {
-            $purchaseInvoiceHeader->setCreatedTransactionDateTime($datetime);
-            $purchaseInvoiceHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $purchaseInvoiceHeader->setTransactionStatus(PurchaseInvoiceHeader::TRANSACTION_STATUS_CANCEL);
+            $purchaseInvoiceHeader->setIsCanceled(true);
+            $purchaseInvoiceHeader->setCancelledTransactionDateTime($datetime);
+            $purchaseInvoiceHeader->setCancelledTransactionUser($user);
         } else {
-            $purchaseInvoiceHeader->setModifiedTransactionDateTime($datetime);
-            $purchaseInvoiceHeader->setModifiedTransactionUser($user);
+            if (empty($purchaseInvoiceHeader->getId())) {
+                $purchaseInvoiceHeader->setCreatedTransactionDateTime($datetime);
+                $purchaseInvoiceHeader->setCreatedTransactionUser($user);
+            } else {
+                $purchaseInvoiceHeader->setModifiedTransactionDateTime($datetime);
+                $purchaseInvoiceHeader->setModifiedTransactionUser($user);
+            }
+
+            $purchaseInvoiceHeader->setCodeNumberVersion($purchaseInvoiceHeader->getCodeNumberVersion() + 1);
         }
-        
-        $purchaseInvoiceHeader->setCodeNumberVersion($purchaseInvoiceHeader->getCodeNumberVersion() + 1);
     }
 
     public function finalize(PurchaseInvoiceHeader $purchaseInvoiceHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $purchaseInvoiceHeader);
+        } else {
+            foreach ($purchaseInvoiceHeader->getPurchaseInvoiceDetails() as $purchaseInvoiceDetail) {
+                EntityResetUtil::reset($this->formSync, $purchaseInvoiceDetail);
+            }
+        }
+        
         if ($purchaseInvoiceHeader->getTransactionDate() !== null && $purchaseInvoiceHeader->getId() === null) {
             $year = $purchaseInvoiceHeader->getTransactionDate()->format('y');
             $month = $purchaseInvoiceHeader->getTransactionDate()->format('m');

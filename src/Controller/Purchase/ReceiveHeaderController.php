@@ -221,11 +221,17 @@ class ReceiveHeaderController extends AbstractController
 
     #[Route('/{id}/delete', name: 'app_purchase_receive_header_delete', methods: ['POST'])]
     #[IsGranted('ROLE_RECEIVE_EDIT')]
-    public function delete(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderRepository $receiveHeaderRepository): Response
+    public function delete(Request $request, ReceiveHeader $receiveHeader, ReceiveHeaderFormService $receiveHeaderFormService): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $receiveHeader->getId(), $request->request->get('_token'))) {
-            $receiveHeaderRepository->remove($receiveHeader, true);
+        $success = false;
+        if (IdempotentUtility::check($request) && $this->isCsrfTokenValid('delete' . $receiveHeader->getId(), $request->request->get('_token'))) {
+            $receiveHeaderFormService->initialize($receiveHeader, ['cancelTransaction' => true, 'datetime' => new \DateTime(), 'user' => $this->getUser()]);
+            $receiveHeaderFormService->finalize($receiveHeader, ['cancelTransaction' => true]);
+            $receiveHeaderFormService->save($receiveHeader);
+            $success = true;
+        }
 
+        if ($success) {
             $this->addFlash('success', array('title' => 'Success!', 'message' => 'The record was deleted successfully.'));
         } else {
             $this->addFlash('danger', array('title' => 'Error!', 'message' => 'Failed to delete the record.'));

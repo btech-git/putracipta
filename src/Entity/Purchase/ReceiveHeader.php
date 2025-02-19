@@ -19,6 +19,8 @@ class ReceiveHeader extends PurchaseHeader
     public const CODE_NUMBER_CONSTANT = 'RCV';
     public const TRANSACTION_TYPE_MATERIAL = 'material';
     public const TRANSACTION_TYPE_PAPER = 'paper';
+    public const TRANSACTION_STATUS_RECEIVE = 'received';
+    public const TRANSACTION_STATUS_CANCEL = 'cancelled';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -75,6 +77,9 @@ class ReceiveHeader extends PurchaseHeader
 
     #[ORM\Column(length: 20)]
     private ?string $transactionType = '';
+
+    #[ORM\Column(length: 60)]
+    private ?string $transactionStatus = self::TRANSACTION_STATUS_RECEIVE;
 
     public function __construct()
     {
@@ -322,6 +327,18 @@ class ReceiveHeader extends PurchaseHeader
     public function setTransactionType(string $transactionType): self
     {
         $this->transactionType = $transactionType;
+
+        return $this;
+    }
+
+    public function getTransactionStatus(): ?string
+    {
+        return $this->transactionStatus;
+    }
+
+    public function setTransactionStatus(string $transactionStatus): self
+    {
+        $this->transactionStatus = $transactionStatus;
 
         return $this;
     }

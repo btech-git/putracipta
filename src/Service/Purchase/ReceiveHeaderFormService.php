@@ -23,6 +23,8 @@ use App\Repository\Stock\InventoryRepository;
 use App\Repository\Support\IdempotentRepository;
 use App\Repository\Support\TransactionLogRepository;
 use App\Support\Purchase\ReceiveHeaderFormSupport;
+use App\Sync\Purchase\ReceiveHeaderFormSync;
+use App\Util\Service\EntityResetUtil;
 use App\Util\Service\InventoryUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,6 +33,7 @@ class ReceiveHeaderFormService
 {
     use ReceiveHeaderFormSupport;
     
+    private ReceiveHeaderFormSync $formSync;
     private EntityManagerInterface $entityManager;
     private TransactionLogRepository $transactionLogRepository;
     private IdempotentRepository $idempotentRepository;
@@ -42,8 +45,9 @@ class ReceiveHeaderFormService
     private PurchaseOrderPaperDetailRepository $purchaseOrderPaperDetailRepository;
     private InventoryRepository $inventoryRepository;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, ReceiveHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
+        $this->formSync = $formSync;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->transactionLogRepository = $entityManager->getRepository(TransactionLog::class);
@@ -61,17 +65,32 @@ class ReceiveHeaderFormService
     {
         list($datetime, $user) = [$options['datetime'], $options['user']];
 
-        if (empty($receiveHeader->getId())) {
-            $receiveHeader->setCreatedTransactionDateTime($datetime);
-            $receiveHeader->setCreatedTransactionUser($user);
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            $receiveHeader->setTransactionStatus(ReceiveHeader::TRANSACTION_STATUS_CANCEL);
+            $receiveHeader->setIsCanceled(true);
+            $receiveHeader->setCancelledTransactionDateTime($datetime);
+            $receiveHeader->setCancelledTransactionUser($user);
         } else {
-            $receiveHeader->setModifiedTransactionDateTime($datetime);
-            $receiveHeader->setModifiedTransactionUser($user);
+            if (empty($receiveHeader->getId())) {
+                $receiveHeader->setCreatedTransactionDateTime($datetime);
+                $receiveHeader->setCreatedTransactionUser($user);
+            } else {
+                $receiveHeader->setModifiedTransactionDateTime($datetime);
+                $receiveHeader->setModifiedTransactionUser($user);
+            }
         }
     }
 
     public function finalize(ReceiveHeader $receiveHeader, array $options = []): void
     {
+        if (isset($options['cancelTransaction']) && $options['cancelTransaction'] === true) {
+            EntityResetUtil::reset($this->formSync, $receiveHeader);
+        } else {
+            foreach ($receiveHeader->getReceiveDetails() as $receiveDetail) {
+                EntityResetUtil::reset($this->formSync, $receiveDetail);
+            }
+        }
+        
         if ($receiveHeader->getTransactionDate() !== null && $receiveHeader->getId() === null) {
             $year = $receiveHeader->getTransactionDate()->format('y');
             $month = $receiveHeader->getTransactionDate()->format('m');
