@@ -22,7 +22,7 @@
             </div>
             <div class="col">
                 <div class="my-2 row">
-                    <label class="col-sm-2 col-form-label w-25">Transaction #</label>
+                    <label class="col-sm-2 col-form-label w-25">Penerimaan #</label>
                     <div class="col-sm-10 w-75">
                         <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'codeNumberOrdinal') }} value="{{ form.filter.codeNumberOrdinal.1.vars.value }}" />
                         <span><small>/{{ constant('App\\Entity\\Purchase\\ReceiveHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
@@ -43,7 +43,12 @@
                 <div class="my-2 row">
                     <label class="col-sm-2 col-form-label w-25">Supplier</label>
                     <div class="col-sm-10 w-75">
-                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'supplier:company') }} value="{{ form.filter['supplier:company'].1.vars.value }}" />
+                        <select class="form-select" {{ grid.filter_link_item(form, 'supplier') }}>
+                            <option value="" {% if form.filter.supplier.1.vars.value == '' %}selected="selected"{% endif %}></option>
+                            {% for choice in form.filter.supplier.1.vars.choices %}
+                                <option value="{{ choice.value }}" {% if form.filter.supplier.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
             </div>
@@ -57,6 +62,42 @@
                                 <option value="{{ choice.value }}" {% if form.filter.transactionType.1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">PO Material</label>
+                    <div class="col-sm-10 w-75">
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderHeader:codeNumberOrdinal') }} value="{{ form.filter['purchaseOrderHeader:codeNumberOrdinal'].1.vars.value }}" />
+                        <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                        <select {{ grid.filter_link_item(form, 'purchaseOrderHeader:codeNumberMonth') }}>
+                            {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                                {% set val = value == 0 ? '' : value %}
+                                <option value="{{ val }}" {% if form.filter['purchaseOrderHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <span><small>/</small></span>
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderHeader:codeNumberYear') }} value="{{ form.filter['purchaseOrderHeader:codeNumberYear'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">PO Kertas</label>
+                    <div class="col-sm-10 w-75">
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderPaperHeader:codeNumberOrdinal') }} value="{{ form.filter['purchaseOrderPaperHeader:codeNumberOrdinal'].1.vars.value }}" />
+                        <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderPaperHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                        <select {{ grid.filter_link_item(form, 'purchaseOrderPaperHeader:codeNumberMonth') }}>
+                            {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                                {% set val = value == 0 ? '' : value %}
+                                <option value="{{ val }}" {% if form.filter['purchaseOrderPaperHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <span><small>/</small></span>
+                        <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderPaperHeader:codeNumberYear') }} value="{{ form.filter['purchaseOrderPaperHeader:codeNumberYear'].1.vars.value }}" />
                     </div>
                 </div>
             </div>

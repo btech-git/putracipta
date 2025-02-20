@@ -33,12 +33,33 @@ class ReceiveHeaderController extends AbstractController
         $form->handleRequest($request);
 
         list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add) use ($request) {
-            if (isset($request->request->get('receive_header_grid')['filter']['supplier:company']) && isset($request->request->get('receive_header_grid')['sort']['supplier:company'])) {
-                $qb->innerJoin("{$alias}.supplier", 's');
-                $add['filter']($qb, 's', 'company', $request->request->get('receive_header_grid')['filter']['supplier:company']);
-                $add['sort']($qb, 's', 'company', $request->request->get('receive_header_grid')['sort']['supplier:company']);
-            }
             $qb->andWhere("{$alias}.isCanceled = false");
+            $qb->leftJoin("{$alias}.purchaseOrderHeader", 'm');
+            $qb->leftJoin("{$alias}.purchaseOrderPaperHeader", 'p');
+            if (isset($request->request->get('receive_header_grid')['filter']['purchaseOrderHeader:codeNumberOrdinal']) && isset($request->request->get('receive_header_grid')['sort']['purchaseOrderHeader:codeNumberOrdinal'])) {
+                $add['filter']($qb, 'm', 'codeNumberOrdinal', $request->request->get('receive_header_grid')['filter']['purchaseOrderHeader:codeNumberOrdinal']);
+                $add['sort']($qb, 'm', 'codeNumberOrdinal', $request->request->get('receive_header_grid')['sort']['purchaseOrderHeader:codeNumberOrdinal']);
+            }
+            if (isset($request->request->get('receive_header_grid')['filter']['purchaseOrderHeader:codeNumberMonth']) && isset($request->request->get('receive_header_grid')['sort']['purchaseOrderHeader:codeNumberMonth'])) {
+                $add['filter']($qb, 'm', 'codeNumberMonth', $request->request->get('receive_header_grid')['filter']['purchaseOrderHeader:codeNumberMonth']);
+                $add['sort']($qb, 'm', 'codeNumberMonth', $request->request->get('receive_header_grid')['sort']['purchaseOrderHeader:codeNumberMonth']);
+            }
+            if (isset($request->request->get('receive_header_grid')['filter']['purchaseOrderHeader:codeNumberYear']) && isset($request->request->get('receive_header_grid')['sort']['purchaseOrderHeader:codeNumberYear'])) {
+                $add['filter']($qb, 'm', 'codeNumberYear', $request->request->get('receive_header_grid')['filter']['purchaseOrderHeader:codeNumberYear']);
+                $add['sort']($qb, 'm', 'codeNumberYear', $request->request->get('receive_header_grid')['sort']['purchaseOrderHeader:codeNumberYear']);
+            }
+            if (isset($request->request->get('receive_header_grid')['filter']['purchaseOrderPaperHeader:codeNumberOrdinal']) && isset($request->request->get('receive_header_grid')['sort']['purchaseOrderPaperHeader:codeNumberOrdinal'])) {
+                $add['filter']($qb, 'p', 'codeNumberOrdinal', $request->request->get('receive_header_grid')['filter']['purchaseOrderPaperHeader:codeNumberOrdinal']);
+                $add['sort']($qb, 'p', 'codeNumberOrdinal', $request->request->get('receive_header_grid')['sort']['purchaseOrderPaperHeader:codeNumberOrdinal']);
+            }
+            if (isset($request->request->get('receive_header_grid')['filter']['purchaseOrderPaperHeader:codeNumberMonth']) && isset($request->request->get('receive_header_grid')['sort']['purchaseOrderPaperHeader:codeNumberMonth'])) {
+                $add['filter']($qb, 'p', 'codeNumberMonth', $request->request->get('receive_header_grid')['filter']['purchaseOrderPaperHeader:codeNumberMonth']);
+                $add['sort']($qb, 'p', 'codeNumberMonth', $request->request->get('receive_header_grid')['sort']['purchaseOrderPaperHeader:codeNumberMonth']);
+            }
+            if (isset($request->request->get('receive_header_grid')['filter']['purchaseOrderPaperHeader:codeNumberYear']) && isset($request->request->get('receive_header_grid')['sort']['purchaseOrderPaperHeader:codeNumberYear'])) {
+                $add['filter']($qb, 'p', 'codeNumberYear', $request->request->get('receive_header_grid')['filter']['purchaseOrderPaperHeader:codeNumberYear']);
+                $add['sort']($qb, 'p', 'codeNumberYear', $request->request->get('receive_header_grid')['sort']['purchaseOrderPaperHeader:codeNumberYear']);
+            }
         });
 
         if ($request->request->has('export')) {

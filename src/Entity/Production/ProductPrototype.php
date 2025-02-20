@@ -96,9 +96,6 @@ class ProductPrototype extends ProductionHeader
     #[ORM\Column(length: 100)]
     private ?string $materialName = '';
 
-    #[ORM\Column(length: 200)]
-    private ?string $prototypeProductList = '';
-
     #[ORM\Column]
     private ?bool $isRead = false;
 
@@ -111,6 +108,9 @@ class ProductPrototype extends ProductionHeader
 
     #[ORM\Column(length: 20)]
     private ?string $transactionFileExtension = '';
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $prototypeProductList = '';
 
     public function __construct()
     {
@@ -356,18 +356,6 @@ class ProductPrototype extends ProductionHeader
         return $this;
     }
 
-    public function getPrototypeProductList(): ?string
-    {
-        return $this->prototypeProductList;
-    }
-
-    public function setPrototypeProductList(string $prototypeProductList): self
-    {
-        $this->prototypeProductList = $prototypeProductList;
-
-        return $this;
-    }
-
     public function isIsRead(): ?bool
     {
         return $this->isRead;
@@ -412,6 +400,18 @@ class ProductPrototype extends ProductionHeader
     public function setTransactionFileExtension(string $transactionFileExtension): self
     {
         $this->transactionFileExtension = $transactionFileExtension;
+
+        return $this;
+    }
+
+    public function getPrototypeProductList(): ?string
+    {
+        return $this->prototypeProductList;
+    }
+
+    public function setPrototypeProductList(string $prototypeProductList): self
+    {
+        $this->prototypeProductList = $prototypeProductList;
 
         return $this;
     }
