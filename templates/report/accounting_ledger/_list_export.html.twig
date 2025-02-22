@@ -1,0 +1,71 @@
+<table>
+    <thead>
+        <tr>
+            <th style="text-align: center" colspan="11"><strong>PT. Putracipta Karindomas</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="11"><strong>Laporan Jurnal Accounting</strong></th>
+        </tr>
+        <tr>
+            <th style="text-align: center" colspan="11">
+                <strong>
+                    {% set startDate = form.vars.value.filter['accountingLedger:transactionDate'].1|default %}
+                    {% set endDate = form.vars.value.filter['accountingLedger:transactionDate'].2|default %}
+                    {{ startDate ? startDate|date('j F Y') }} &nbsp;&ndash;&nbsp; {{ endDate ? endDate|date('j F Y') }}
+                </strong>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="11"></th>
+        </tr>
+        <tr>
+            <th style="text-align: center; width: 100pt"><strong>Kode</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>COA</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Category</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Saldo Awal</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Transaction #</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Tanggal</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Subject</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Note</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Debit</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Credit</strong></th>
+            <th style="text-align: center; width: 100pt"><strong>Saldo</strong></th>
+        </tr>
+        <tr>
+            <th colspan="11"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set totalDebit = '0.00' %}
+        {% set totalCredit = '0.00' %}
+        {% for account in accounts %}
+            {% set beginningBalance = beginningBalanceList[account.id]|default(0) %}
+            {% set currentBalance = beginningBalance %}
+            {% for accountingLedger in accountingLedgers[account.id] %}
+                {% set currentBalance = currentBalance + accountingLedger.debitAmount - accountingLedger.creditAmount %}
+                <tr>
+                    <td style="text-align: left">{{ accountingLedger.account.code|default }}</td>
+                    <td style="text-align: left">{{ accountingLedger.account.name|default }}</td>
+                    <td style="text-align: left">{{ accountingLedger.account.accountCategory.name|default }}</td>
+                    <td style="text-align: left">{{ beginningBalance|default }}</td>
+                    <td style="text-align: left">{{ accountingLedger.codeNumber|default }}</td>
+                    <td style="text-align: left">{{ accountingLedger.transactionDate|default ? accountingLedger.transactionDate|date('j M Y') }}</td>
+                    <td style="text-align: left">{{ accountingLedger.transactionSubject|default }}</td>
+                    <td style="text-align: left">{{ accountingLedger.note|default }}</td>
+                    <td style="text-align: right">{{ accountingLedger.debitAmount|default }}</td>
+                    <td style="text-align: right">{{ accountingLedger.creditAmount|default }}</td>
+                    <td style="text-align: right">{{ currentBalance|default }}</td>
+                </tr>
+                {% set totalDebit = totalDebit + accountingLedger.debitAmount|default %}
+                {% set totalCredit = totalCredit + accountingLedger.creditAmount|default %}
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td style="font-weight: bold; text-align: right" colspan="8">Total</td>
+            <td style="font-weight: bold; text-align: right">{{ totalDebit|default }}</td>
+            <td style="font-weight: bold; text-align: right">{{ totalCredit|default }}</td>
+        </tr>
+    </tfoot>
+</table>

@@ -52,7 +52,7 @@ class UserMenuConfig
                 'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE', 'MENU_REPORT_INVENTORY_REQUEST_MATERIAL', 'MENU_REPORT_INVENTORY_REQUEST_PAPER'
             ],
             'MENU_REPORT_FINANCE' => ['MENU_REPORT_DEPOSIT', 'MENU_REPORT_EXPENSE', 'MENU_REPORT_ACCOUNT_RECEIVABLE', 'MENU_REPORT_ACCOUNT_PAYABLE', 
-                'MENU_REPORT_SALE_INVOICE', 'MENU_REPORT_SALE_PAYMENT', 'MENU_REPORT_PURCHASE_INVOICE', 'MENU_REPORT_PURCHASE_PAYMENT'
+                'MENU_REPORT_SALE_INVOICE', 'MENU_REPORT_SALE_PAYMENT', 'MENU_REPORT_PURCHASE_INVOICE', 'MENU_REPORT_PURCHASE_PAYMENT', 'MENU_REPORT_ACCOUNTING_LEDGER'
             ],
             'MENU_TRANSACTION_LOG' => [],
         ];
@@ -158,6 +158,7 @@ class UserMenuConfig
             'MENU_REPORT_EXPENSE' => ['route' => 'app_report_expense_header_index', 'pattern' => '/^app_report_expense_header_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_REPORT_ACCOUNT_RECEIVABLE' => ['route' => 'app_report_customer_receivable_summary_index', 'pattern' => '/^app_report_customer_receivable_summary_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_REPORT_ACCOUNT_PAYABLE' => ['route' => 'app_report_supplier_payable_summary_index', 'pattern' => '/^app_report_supplier_payable_summary_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
+            'MENU_REPORT_ACCOUNTING_LEDGER' => ['route' => 'app_report_accounting_ledger_index', 'pattern' => '/^app_report_accounting_ledger_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_TRANSACTION_LOG' => ['route' => 'app_report_transaction_log_index', 'roles' => ['ROLE_ADMIN']],
         ];
     }

@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'accounting_accounting_ledger')]
 class AccountingLedger
 {
+    public const MONTH_ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -51,6 +53,13 @@ class AccountingLedger
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAccountingLedgerDateTime = null;
+
+    public function getCodeNumber(): string
+    {
+        $numerals = self::MONTH_ROMAN_NUMERALS;
+
+        return sprintf('%04d/%s/%s/%02d', intval($this->transactionCodeNumberOrdinal), $this->getTransactionType(), $numerals[intval($this->transactionCodeNumberMonth)], intval($this->transactionCodeNumberYear));
+    }
 
     public function getId(): ?int
     {
