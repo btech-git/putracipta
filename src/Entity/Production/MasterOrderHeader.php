@@ -341,7 +341,7 @@ class MasterOrderHeader extends ProductionHeader
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProductDetail::class)]
     #[Assert\Valid]
-    #[Assert\Count(min: 1)]
+//    #[Assert\Count(min: 1)]
     private Collection $masterOrderProductDetails;
 
     #[ORM\OneToMany(mappedBy: 'masterOrderHeader', targetEntity: MasterOrderProcessDetail::class)]
