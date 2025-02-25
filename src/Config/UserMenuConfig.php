@@ -46,7 +46,7 @@ class UserMenuConfig
             ],
             'MENU_REPORT_WAREHOUSE_FINISHED_GOODS' => [
                 'MENU_REPORT_SALE_DELIVERY', 'MENU_REPORT_SALE_RETURN', 'MENU_REPORT_PRODUCTION_RECEIVE', 'MENU_REPORT_PRODUCT_INVENTORY_RECEIVE', 
-                'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PRODUCT'
+                'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PRODUCT', 'MENU_REPORT_DELIVERY_PLANNING'
             ],
             'MENU_REPORT_PRODUCTION' => ['MENU_REPORT_NEW_PRODUCT', 'MENU_REPORT_DEVELOPMENT_PRODUCT', 'MENU_REPORT_MASTER_ORDER', 'MENU_REPORT_QUALITY_CONTROL_SORTING', 
                 'MENU_REPORT_DIELINE_MILLAR', 'MENU_REPORT_DESIGN_CODE', 'MENU_REPORT_DIECUT_KNIFE', 'MENU_REPORT_INVENTORY_REQUEST_MATERIAL', 'MENU_REPORT_INVENTORY_REQUEST_PAPER'
@@ -147,6 +147,7 @@ class UserMenuConfig
             'MENU_REPORT_PRODUCT_INVENTORY_RECEIVE' => ['route' => 'app_report_product_inventory_receive_index', 'pattern' => '/^app_report_product_inventory_receive_.+$/', 'roles' => ['ROLE_INVENTORY_FINISHED_GOODS_REPORT']],
             'MENU_REPORT_INVENTORY_STOCK_FINISHED_GOODS' => ['route' => 'app_report_inventory_stock_product_index', 'pattern' => '/^app_report_inventory_stock_product_.+$/', 'roles' => ['ROLE_INVENTORY_FINISHED_GOODS_REPORT']],
             'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PRODUCT' => ['route' => 'app_report_inventory_stock_summary_product_index', 'pattern' => '/^app_report_inventory_stock_summary_product_.+$/', 'roles' => ['ROLE_INVENTORY_FINISHED_GOODS_REPORT']],
+            'MENU_REPORT_DELIVERY_PLANNING' => ['route' => 'app_report_delivery_planning_index', 'pattern' => '/^app_report_delivery_planning_.+$/', 'roles' => ['ROLE_INVENTORY_FINISHED_GOODS_REPORT']],
             'MENU_REPORT_NEW_PRODUCT' => ['route' => 'app_report_product_prototype_index', 'pattern' => '/^app_report_product_prototype_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_DEVELOPMENT_PRODUCT' => ['route' => 'app_report_product_development_index', 'pattern' => '/^app_report_product_development_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
             'MENU_REPORT_MASTER_ORDER' => ['route' => 'app_report_master_order_header_index', 'pattern' => '/^app_report_master_order_header_.+$/', 'roles' => ['ROLE_PRODUCTION_REPORT']],
