@@ -1,5 +1,187 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.ifscCode) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.vatPercentage) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.serviceTaxPercentage) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.paymentRemainingTolerance) }}
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.diecutApprovalNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.diecutApprovalRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.diecutApprovalDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.checklistDiecutNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistDiecutRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistDiecutDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.clearanceDiecutNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.clearanceDiecutRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.clearanceDiecutDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.checklistGlueingNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistGlueingRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistGlueingDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.packingHandoverNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.packingHandoverRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.packingHandoverDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.outgoingQualitySheetNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.outgoingQualitySheetRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.outgoingQualitySheetDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.formPlateNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.formPlateRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.formPlateDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.checklistPrepressNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistPrepressRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistPrepressDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.printingApprovalNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingApprovalRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingApprovalDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.checklistPrintingNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistPrintingRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistPrintingDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.printingInspectionNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingInspectionRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.printingInspectionDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.checklistProductionNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistProductionRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistProductionDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.checklistSortingNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistSortingRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.checklistSortingDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.qualityInspectionNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.qualityInspectionRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.qualityInspectionDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
     <div class="d-grid">
         <div class="row">
             <div class="col text-center">
