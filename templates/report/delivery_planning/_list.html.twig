@@ -1,0 +1,189 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<div class="d-print-none">
+    {{ grid.form(form) }}
+
+    {{ grid.info(form, count, saleOrderDetails) }}
+
+    <div class="my-3 px-3 bg-light" {{ grid.filter_link(form) }}>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Tanggal Kirim</label>
+                    <div class="col-sm-10 w-75">
+                        <div class="row">
+                            <div class="col">
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate', [form.filter.deliveryDate.0.vars.choices.0.value, true, false]) }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
+                            </div>
+                            <div class="col">
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate', [form.filter.deliveryDate.0.vars.choices.0.value, false, true]) }} value="{{ form.filter.deliveryDate.2.vars.value }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Tanggal PO</label>
+                    <div class="col-sm-10 w-75">
+                        <div class="row">
+                            <div class="col">
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:transactionDate', [form.filter['saleOrderHeader:transactionDate'].0.vars.choices.0.value, true, false]) }} value="{{ form.filter['saleOrderHeader:transactionDate'].1.vars.value }}" />
+                            </div>
+                            <div class="col">
+                                <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:transactionDate', [form.filter['saleOrderHeader:transactionDate'].0.vars.choices.0.value, false, true]) }} value="{{ form.filter['saleOrderHeader:transactionDate'].2.vars.value }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">PO #</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderHeader:referenceNumber') }} value="{{ form.filter['saleOrderHeader:referenceNumber'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Rencana Kirim</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'deliveryDateAlternate') }} value="{{ form.filter.deliveryDateAlternate.1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Customer</label>
+                    <div class="col-sm-10 w-75">
+                        <select class="form-select" {{ grid.filter_link_item(form, 'saleOrderHeader:customer') }}>
+                            <option value="" {% if form.filter['saleOrderHeader:customer'].1.vars.value == '' %}selected="selected"{% endif %}></option>
+                            {% for choice in form.filter['saleOrderHeader:customer'].1.vars.choices %}
+                                <option value="{{ choice.value }}" {% if form.filter['saleOrderHeader:customer'].1.vars.value == choice.value %}selected="selected"{% endif %}>{{ choice.label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="my-2 row">
+                    <label class="col-sm-2 col-form-label w-25">Product</label>
+                    <div class="col-sm-10 w-75">
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-grid">
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary btn-sm"
+                        data-controller="redirection"
+                        data-redirection-url-value="{{ path('app_report_delivery_planning__list') }}"
+                        data-redirection-form-target-value="form[name={{ form.vars.name }}]"
+                        data-redirection-extra-values-param="{{ {export: 'export'}|json_encode }}"
+                        data-action="redirection#redirect">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary" {{ grid.sort_link(form) }}>
+                    <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'saleOrderHeader:customer') }}>
+                        Customer {{ grid.sort_char(form.sort['saleOrderHeader:customer'].vars.value) }}
+                    </th>
+                    <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'saleOrderHeader:referenceNumber') }}>
+                        PO # {{ grid.sort_char(form.sort['saleOrderHeader:referenceNumber'].vars.value) }}
+                    </th>
+                    <th style="min-width: 130px" role="button" {{ grid.sort_link_item(form, 'saleOrderHeader:transactionDate') }}>
+                        Tanggal PO {{ grid.sort_char(form.sort['saleOrderHeader:transactionDate'].vars.value) }}
+                    </th>
+                    <th style="min-width: 130px" role="button" {{ grid.sort_link_item(form, 'deliveryDate') }}>
+                        Tanggal Kirim {{ grid.sort_char(form.sort.deliveryDate.vars.value) }}
+                    </th>
+                    <th style="min-width: 220px" role="button" {{ grid.sort_link_item(form, 'deliveryDateAlternate') }}>
+                        Rencana Kirim {{ grid.sort_char(form.sort.deliveryDateAlternate.vars.value) }}
+                    </th>
+                    <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'product:name') }}>
+                        Product {{ grid.sort_char(form.sort['product:name'].vars.value) }}
+                    </th>
+                    <th style="min-width: 100px">Qty Order</th>
+                    <th style="min-width: 100px">Qty Stok</th>
+                    <th style="min-width: 100px">Qty Kirim</th>
+                    <th style="min-width: 100px">Qty OS</th>
+                    <th style="min-width: 80px">Satuan</th>
+                    <th style="min-width: 80px">Status</th>
+                    <th style="min-width: 50px"></th>
+                </tr>
+                <tr class="table-light" {{ grid.filter_link(form) }}>
+                    <th>
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderHeader:customer') }} value="{{ form.filter['saleOrderHeader:customer'].1.vars.value }}" />
+                    </th>
+                    <th>
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'saleOrderHeader:referenceNumber') }} value="{{ form.filter['saleOrderHeader:referenceNumber'].1.vars.value }}" />
+                    </th>
+                    <th>
+                        <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'saleOrderHeader:transactionDate') }} value="{{ form.filter['saleOrderHeader:transactionDate'].1.vars.value }}" />
+                    </th>
+                    <th>
+                        <input class="form-control readonly-form-input" type="text" data-controller="flatpickr-element" {{ grid.filter_link_item(form, 'deliveryDate') }} value="{{ form.filter.deliveryDate.1.vars.value }}" />
+                    </th>
+                    <th>
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'deliveryDateAlternate') }} value="{{ form.filter.deliveryDateAlternate.1.vars.value }}" />
+                    </th>
+                    <th>
+                        <input class="form-control" type="text" {{ grid.filter_link_item(form, 'product:name') }} value="{{ form.filter['product:name'].1.vars.value }}" />
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for saleOrderDetail in saleOrderDetails %}
+                    <tr>
+                        <td>{{ saleOrderDetail.saleOrderHeader.customer.company|default }}</td>
+                        <td>{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
+                        <td>{{ saleOrderDetail.saleOrderHeader.transactionDate ? saleOrderDetail.saleOrderHeader.transactionDate|date('d M Y') : '' }}</td>
+                        <td>{{ saleOrderDetail.deliveryDate ? saleOrderDetail.deliveryDate|date('d M Y') : '' }}</td>
+                        <td>{{ saleOrderDetail.deliveryDateAlternate|default }}</td>
+                        <td>{{ saleOrderDetail.product.name|default }}</td>
+                        <td style="text-align: right">{{ saleOrderDetail.quantity|default|number_format(0) }}</td>
+                        <td style="text-align: right">{{ stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0 }}</td>
+                        <td style="text-align: right">{{ saleOrderDetail.totalQuantityDelivery|default|number_format(0) }}</td>
+                        <td style="text-align: right">{{ saleOrderDetail.remainingQuantityDelivery|default|number_format(0) }}</td>
+                        <td>{{ saleOrderDetail.unit.name|default }}</td>
+                        <td>{{ saleOrderDetail.saleOrderHeader.transactionStatus|default }}</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_stock_stock_sale_order_detail_edit', {'id': saleOrderDetail.id}) }}"><i class="bi-pencil"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="12">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="d-print-none">
+    {{ grid.navigation(form, count, saleOrderDetails) }}
+</div>
