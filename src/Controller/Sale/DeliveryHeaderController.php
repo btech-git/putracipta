@@ -195,7 +195,7 @@ class DeliveryHeaderController extends AbstractController
 
     #[Route('/{id}/memo', name: 'app_sale_delivery_header_memo', methods: ['GET'])]
     #[Security("is_granted('ROLE_DELIVERY_ADD') or is_granted('ROLE_DELIVERY_EDIT') or is_granted('ROLE_DELIVERY_VIEW')")]
-    public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository, CustomerRepository $customerRepository): Response
+    public function memo(DeliveryHeader $deliveryHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'delivery.pdf';
         $htmlView = $this->renderView('sale/delivery_header/memo.html.twig', [
