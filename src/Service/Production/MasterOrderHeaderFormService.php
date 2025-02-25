@@ -166,6 +166,13 @@ class MasterOrderHeaderFormService
                 $saleOrderReferenceNumberList[] = $saleOrderHeader->getReferenceNumber();
             }
         }
+        foreach ($masterOrderHeader->getMasterOrderPrototypeDetails() as $masterOrderPrototypeDetail) {
+            $productPrototypeDetail = $masterOrderPrototypeDetail->getProductPrototypeDetail();
+            if (!empty($productPrototypeDetail)) {
+                $productPrototype = $productPrototypeDetail->getProductPrototype();
+                $saleOrderReferenceNumberList[] = $productPrototype->getCodeNumber();
+            }
+        }
         $saleOrderReferenceNumberUniqueList = array_unique(explode(', ', implode(', ', $saleOrderReferenceNumberList)));
         $masterOrderHeader->setSaleOrderReferenceNumberList(implode(', ', $saleOrderReferenceNumberUniqueList));
         
@@ -174,6 +181,13 @@ class MasterOrderHeaderFormService
         foreach ($masterOrderHeader->getMasterOrderProductDetails() as $masterOrderProductDetail) {
             if ($masterOrderProductDetail->isIsCanceled() == false) {
                 $product = $masterOrderProductDetail->getProduct();
+                $masterOrderProductList[] = $product->getCode();
+                $masterOrderProductNameList[] = $product->getName();
+            }
+        }
+        foreach ($masterOrderHeader->getMasterOrderPrototypeDetails() as $masterOrderPrototypeDetail) {
+            if ($masterOrderPrototypeDetail->isIsCanceled() == false) {
+                $product = $masterOrderPrototypeDetail->getProduct();
                 $masterOrderProductList[] = $product->getCode();
                 $masterOrderProductNameList[] = $product->getName();
             }
