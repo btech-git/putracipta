@@ -66,11 +66,11 @@ class InventoryRequestHeader extends StockHeader
     #[ORM\Column]
     private ?bool $isRead = false;
 
-    #[ORM\Column(length: 200)]
-    private ?string $inventoryRequestProductList = '';
-
     #[ORM\Column(length: 20)]
     private ?string $requestStatus = self::REQUEST_STATUS_OPEN;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $inventoryRequestProductList = '';
 
     public function __construct()
     {
@@ -307,18 +307,6 @@ class InventoryRequestHeader extends StockHeader
         return $this;
     }
 
-    public function getInventoryRequestProductList(): ?string
-    {
-        return $this->inventoryRequestProductList;
-    }
-
-    public function setInventoryRequestProductList(string $inventoryRequestProductList): self
-    {
-        $this->inventoryRequestProductList = $inventoryRequestProductList;
-
-        return $this;
-    }
-
     public function getRequestStatus(): ?string
     {
         return $this->requestStatus;
@@ -327,6 +315,18 @@ class InventoryRequestHeader extends StockHeader
     public function setRequestStatus(string $requestStatus): self
     {
         $this->requestStatus = $requestStatus;
+
+        return $this;
+    }
+
+    public function getInventoryRequestProductList(): ?string
+    {
+        return $this->inventoryRequestProductList;
+    }
+
+    public function setInventoryRequestProductList(string $inventoryRequestProductList): self
+    {
+        $this->inventoryRequestProductList = $inventoryRequestProductList;
 
         return $this;
     }
