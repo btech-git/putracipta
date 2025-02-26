@@ -173,7 +173,7 @@
                                         <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
                                         <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                                         <td>{{ receiveDetail.material.name|default }}</td>
-                                        <td>{{ receiveDetail.quantity|default|number_format(0) }}</td>
+                                        <td>{{ receiveDetail.receivedQuantity|default|number_format(0) }}</td>
                                         <td>{{ receiveDetail.unit.name|default }}</td>
                                     </tr>
                                 {% endfor %}
