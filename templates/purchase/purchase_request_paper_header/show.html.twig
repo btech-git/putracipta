@@ -141,7 +141,7 @@
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('d M Y') : '' }}</td>
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.note|default }}</td>
-                                <td>{{ purchaseOrderPaperDetail.paper.paperNameSizeCombination|default }}</td>
+                                <td>{{ purchaseOrderPaperDetail.paper.name|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.quantity|default|number_format(0) }}</td>
                                 <td>{{ purchaseOrderPaperDetail.unit.name|default }}</td>
                                 <td>{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.isCanceled ? 'Cancelled' : 'Active' }}</td>
@@ -172,7 +172,7 @@
                                     <tr>
                                         <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
                                         <td>{{ receiveDetail.receiveHeader.transactionDate|default ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                                        <td>{{ receiveDetail.material.name|default }}</td>
+                                        <td>{{ receiveDetail.paper.name|default }}</td>
                                         <td>{{ receiveDetail.receivedQuantity|default|number_format(0) }}</td>
                                         <td>{{ receiveDetail.unit.name|default }}</td>
                                     </tr>
