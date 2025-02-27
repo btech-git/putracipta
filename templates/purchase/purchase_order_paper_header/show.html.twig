@@ -199,7 +199,7 @@
                                     <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
                                     <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
                                     <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
-                                    <td>{{ receiveDetail.paper.paperNameSizeCombination|default }}</td>
+                                    <td>{{ receiveDetail.paper.name|default }}</td>
                                     <td style="text-align: center">{{ receiveDetail.receivedQuantity|default }}</td>
                                     <td>{{ receiveDetail.unit.name|default }}</td>
                                 </tr>
@@ -230,7 +230,7 @@
                                     <td>{{ purchaseReturnDetail.purchaseReturnHeader.codeNumber|default }}</td>
                                     <td>{{ purchaseReturnDetail.purchaseReturnHeader.transactionDate ? purchaseReturnDetail.purchaseReturnHeader.transactionDate|date('d M Y') : '' }}</td>
                                     <td>{{ purchaseReturnDetail.purchaseReturnHeader.warehouse.name|default }}</td>
-                                    <td>{{ purchaseReturnDetail.paper.paperNameSizeCombination|default }}</td>
+                                    <td>{{ purchaseReturnDetail.paper.name|default }}</td>
                                     <td class="text-center">{{ purchaseReturnDetail.quantity|default|number_format(0) }}</td>
                                     <td>{{ purchaseReturnDetail.unit.name|default }}</td>
                                 </tr>
