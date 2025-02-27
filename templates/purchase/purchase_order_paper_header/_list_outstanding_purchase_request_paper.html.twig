@@ -9,8 +9,8 @@
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
                 <th style="min-width: 150px">Request Paper #</th>
-                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'purchaseOrderPaperHeader:transactionDate') }}>
-                    Tanggal {{ grid.sort_char(form.sort['purchaseOrderPaperHeader:transactionDate'].vars.value) }}
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'purchaseRequestPaperHeader:transactionDate') }}>
+                    Tanggal {{ grid.sort_char(form.sort['purchaseRequestPaperHeader:transactionDate'].vars.value) }}
                 </th>
                 <th style="min-width: 150px">Gudang</th>
                 <th style="min-width: 150px">Paper Code</th>
