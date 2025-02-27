@@ -65,6 +65,9 @@ class PurchaseOrderPaperHeaderController extends AbstractController
     public function _listOutstandingPurchaseRequestPaper(Request $request, PurchaseRequestPaperDetailRepository $purchaseRequestPaperDetailRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'purchaseRequestPaperHeader:transactionDate' => SortDescending::class,
+        ]);
         $form = $this->createForm(OutstandingPurchaseOrderPaperGridType::class, $criteria);
         $form->handleRequest($request);
 
@@ -75,10 +78,11 @@ class PurchaseOrderPaperHeaderController extends AbstractController
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
             $qb->join("{$alias}.purchaseRequestPaperHeader", 'h');
             $qb->andWhere("h.transactionStatus = 'Approve'");
+            $qb->addOrderBy('h.transactionDate', 'DESC');
             
-            if (isset($request->request->get('outstanding_purchase_order_paper_grid')['filter']['purchaseOrderPaperHeader:transactionDate']) && isset($request->request->get('outstanding_purchase_order_paper_grid')['sort']['purchaseOrderPaperHeader:transactionDate'])) {
-                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('outstanding_purchase_order_paper_grid')['filter']['purchaseOrderPaperHeader:transactionDate']);
-                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('outstanding_purchase_order_paper_grid')['sort']['purchaseOrderPaperHeader:transactionDate']);
+            if (isset($request->request->get('outstanding_purchase_order_paper_grid')['filter']['purchaseRequestPaperHeader:transactionDate']) && isset($request->request->get('outstanding_purchase_order_paper_grid')['sort']['purchaseRequestPaperHeader:transactionDate'])) {
+                $add['filter']($qb, 'h', 'transactionDate', $request->request->get('outstanding_purchase_order_paper_grid')['filter']['purchaseRequestPaperHeader:transactionDate']);
+                $add['sort']($qb, 'h', 'transactionDate', $request->request->get('outstanding_purchase_order_paper_grid')['sort']['purchaseRequestPaperHeader:transactionDate']);
             }
         });
 

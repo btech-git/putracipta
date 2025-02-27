@@ -64,6 +64,9 @@ class PurchaseOrderHeaderController extends AbstractController
     public function _listOutstandingPurchaseRequest(Request $request, PurchaseRequestDetailRepository $purchaseRequestDetailRepository): Response
     {
         $criteria = new DataCriteria();
+        $criteria->setSort([
+            'purchaseRequestHeader:transactionDate' => SortDescending::class,
+        ]);
         $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
                 ->add('pagination', PaginationType::class, ['size_choices' => [10, 20, 50, 100]])
                 ->getForm();
@@ -76,6 +79,7 @@ class PurchaseOrderHeaderController extends AbstractController
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
             $qb->join("{$alias}.purchaseRequestHeader", 'h');
             $qb->andWhere("h.transactionStatus = 'Approve'");
+            $qb->addOrderBy('h.transactionDate', 'DESC');
         });
 
         return $this->renderForm("purchase/purchase_order_header/_list_outstanding_purchase_request.html.twig", [
