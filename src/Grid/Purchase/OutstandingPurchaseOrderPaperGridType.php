@@ -23,33 +23,33 @@ class OutstandingPurchaseOrderPaperGridType extends AbstractType
         $builder
             ->add('filter', FilterType::class, [
                 'field_names' => [
-                    'purchaseOrderPaperHeader:transactionDate', 
+                    'purchaseRequestPaperHeader:transactionDate', 
                     'paper:code', 
                     'paper:name',
                 ],
                 'field_label_list' => [
-                    'purchaseOrderPaperHeader:transactionDate' => 'Tanggal',
+                    'purchaseRequestPaperHeader:transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
-                    'purchaseOrderPaperHeader:transactionDate' => [FilterEqual::class, FilterNotEqual::class],
+                    'purchaseRequestPaperHeader:transactionDate' => [FilterEqual::class, FilterNotEqual::class],
                     'paper:code' => [FilterContain::class, FilterNotContain::class],
                     'paper:name' => [FilterContain::class, FilterContain::class],
                 ],
                 'field_value_options_list' => [
-                    'purchaseOrderPaperHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
+                    'purchaseRequestPaperHeader:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                 ],
             ])
             ->add('sort', SortType::class, [
                 'field_names' => [
-                    'purchaseOrderPaperHeader:transactionDate', 
+                    'purchaseRequestPaperHeader:transactionDate', 
                     'paper:code', 
                     'paper:name',
                 ],
                 'field_label_list' => [
-                    'purchaseOrderPaperHeader:transactionDate' => 'Tanggal',
+                    'purchaseRequestPaperHeader:transactionDate' => 'Tanggal',
                 ],
                 'field_operators_list' => [
-                    'purchaseOrderPaperHeader:transactionDate' => [SortAscending::class, SortDescending::class],
+                    'purchaseRequestPaperHeader:transactionDate' => [SortAscending::class, SortDescending::class],
                     'paper:code' => [SortAscending::class, SortDescending::class],
                     'paper:name' => [SortAscending::class, SortDescending::class],
                 ],
