@@ -8,6 +8,7 @@ use App\Common\Idempotent\IdempotentUtility;
 use App\Entity\Production\MasterOrderHeader;
 use App\Form\Production\MasterOrderHeaderType;
 use App\Grid\Production\MasterOrderHeaderGridType;
+use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Master\WorkOrderCheckSheetRepository;
 use App\Repository\Master\WorkOrderDistributionRepository;
 use App\Repository\Master\WorkOrderProcessRepository;
@@ -209,11 +210,12 @@ class MasterOrderHeaderController extends AbstractController
     
     #[Route('/{id}/{constant}/memo_check_sheet', name: 'app_production_master_order_header_memo_check_sheet', methods: ['GET'])]
     #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
-    public function memoCheckSheet(MasterOrderHeader $masterOrderHeader, string $constant): Response
+    public function memoCheckSheet(MasterOrderHeader $masterOrderHeader, string $constant, LiteralConfigRepository $literalConfigRepository): Response
     {
         return $this->render('production/master_order_header/memo_check_sheet.html.twig', [
             'masterOrderHeader' => $masterOrderHeader,
             'constant' => $constant,
+            'literalConfig' => $literalConfigRepository->find(1),
         ]);
     }
     

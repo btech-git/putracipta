@@ -21,19 +21,19 @@
             <div class="cell col">
                 <div class="table full">
                     <div class="row">
-                            <div class="cell label">No Dokumen</div>
-                            <div class="cell label">:</div>
-                            <div class="cell label">F/PCK/PPIC/8.1-11</div>
+                        <div class="cell label">No Dokumen</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">{{ literalConfig.sortingNumber|default }}</div>
                     </div>
                     <div class="row">
-                            <div class="cell label">Revisi</div>
-                            <div class="cell label">:</div>
-                            <div class="cell label">0</div>
+                        <div class="cell label">Revisi</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">{{ literalConfig.sortingRevision|default }}</div>
                     </div>
                     <div class="row">
-                            <div class="cell label">Tanggal</div>
-                            <div class="cell label">:</div>
-                        <div class="cell label">01-Jul-20</div>
+                        <div class="cell label">Tanggal</div>
+                        <div class="cell label">:</div>
+                        <div class="cell label">{{ literalConfig.sortingDate ? literalConfig.sortingDate|date('d M Y') : '' }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Halaman</div>

@@ -23,17 +23,17 @@
                     <div class="row">
                         <div class="cell label">No Dokumen</div>
                         <div class="cell label">:</div>
-                        <div class="cell label">F/PCK/PPIC/8.1-2</div>
+                        <div class="cell label">{{ literalConfig.cuttingMaterialNumber|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Revisi</div>
                         <div class="cell label">:</div>
-                        <div class="cell label">0</div>
+                        <div class="cell label">{{ literalConfig.cuttingMaterialRevision|default }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Tanggal</div>
                         <div class="cell label">:</div>
-                        <div class="cell label">01-Jul-20</div>
+                        <div class="cell label">{{ literalConfig.cuttingMaterialDate ? literalConfig.cuttingMaterialDate|date('d M Y') : '' }}</div>
                     </div>
                     <div class="row">
                         <div class="cell label">Halaman</div>
