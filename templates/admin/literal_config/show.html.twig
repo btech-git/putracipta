@@ -2,31 +2,597 @@
 
 {% block title 'Show Literal Config' %}
 
-{% block toolbar %}
-    <a class="btn btn-primary btn-sm" href="{{ path('app_admin_literal_config_index') }}">Manage</a>
-    <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id}) }}">Edit</a>
-{% endblock %}
-
 {% block content %}
-    <table class="table table-bordered table-striped">
-        <tbody>
-            <tr>
-                <th>Ifsc Number</th>
-                <td>{{ literalConfig.ifscCode }}</td>
-            </tr>
-            <tr>
-                <th>VAT %</th>
-                <td>{{ literalConfig.vatPercentage }}</td>
-            </tr>
-            <tr>
-                <th>PPh 23 (%)</th>
-                <td>{{ literalConfig.serviceTaxPercentage }}</td>
-            </tr>
-            <tr>
-                <th>Toleransi Sisa Pembayaran</th>
-                <td>{{ literalConfig.paymentRemainingTolerance|default|number_format(2) }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>FSC Code</th>
+                    <th>VAT (%)</th>
+                    <th>PPh 23 (%)</th>
+                    <th>Toleransi Sisa Pembayaran</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.ifscCode }}</td>
+                    <td>{{ literalConfig.vatPercentage }}</td>
+                    <td>{{ literalConfig.serviceTaxPercentage }}</td>
+                    <td>{{ literalConfig.paymentRemainingTolerance|default|number_format(2) }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'general'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                     
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>MASTER ORDER #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.masterOrderNumber }}</td>
+                    <td>{{ literalConfig.masterOrderRevision }}</td>
+                    <td>{{ literalConfig.masterOrderDate ? literalConfig.masterOrderDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'master_order'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                   
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.workOrderNumber }}</td>
+                    <td>{{ literalConfig.workOrderRevision }}</td>
+                    <td>{{ literalConfig.workOrderDate ? literalConfig.workOrderDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'work_order'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                  
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>DIECUT & EMBOSS APPROVAL #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.diecutApprovalNumber }}</td>
+                    <td>{{ literalConfig.diecutApprovalRevision }}</td>
+                    <td>{{ literalConfig.diecutApprovalDate ? literalConfig.diecutApprovalDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'emboss'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>CHECKLIST DIECUT #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.checklistDiecutNumber }}</td>
+                    <td>{{ literalConfig.checklistDiecutRevision }}</td>
+                    <td>{{ literalConfig.checklistDiecutDate ? literalConfig.checklistDiecutDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'checklist_diecut'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>CHECKLIST LINE CLEARANCE DIECUT #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.clearanceDiecutNumber }}</td>
+                    <td>{{ literalConfig.clearanceDiecutRevision }}</td>
+                    <td>{{ literalConfig.clearanceDiecutDate ? literalConfig.clearanceDiecutDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'clearance_diecut'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>GLUEING LINE CLEARANCE CHECKLIST #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.checklistGlueingNumber }}</td>
+                    <td>{{ literalConfig.checklistGlueingRevision }}</td>
+                    <td>{{ literalConfig.checklistGlueingDate ? literalConfig.checklistGlueingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'glueing'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>SERAH TERIMA PACKING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.packingHandoverNumber }}</td>
+                    <td>{{ literalConfig.packingHandoverRevision }}</td>
+                    <td>{{ literalConfig.packingHandoverDate ? literalConfig.packingHandoverDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'packing_handover'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>OUTGOING QUALITY SHEET #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.outgoingQualitySheetNumber }}</td>
+                    <td>{{ literalConfig.outgoingQualitySheetRevision }}</td>
+                    <td>{{ literalConfig.outgoingQualitySheetDate ? literalConfig.outgoingQualitySheetDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'outgoing'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+               
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>PREPRESS CHECK LIST #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.checklistPrepressNumber }}</td>
+                    <td>{{ literalConfig.checklistPrepressRevision }}</td>
+                    <td>{{ literalConfig.checklistPrepressDate ? literalConfig.checklistPrepressDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'checklist_prepress'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>PRINTING APPROVAL #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.printingApprovalNumber }}</td>
+                    <td>{{ literalConfig.printingApprovalRevision }}</td>
+                    <td>{{ literalConfig.printingApprovalDate ? literalConfig.printingApprovalDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'printing_approval'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>CHECKLIST PRINTING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.checklistPrintingNumber }}</td>
+                    <td>{{ literalConfig.checklistPrintingRevision }}</td>
+                    <td>{{ literalConfig.checklistPrintingDate ? literalConfig.checklistPrintingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'printing_checklist'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>PRINTING QUALITY INSPECTION SHEET #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.printingInspectionNumber }}</td>
+                    <td>{{ literalConfig.printingInspectionRevision }}</td>
+                    <td>{{ literalConfig.printingInspectionDate ? literalConfig.printingInspectionDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'printing_inspection'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>CHECKLIST PERSIAPAN PRODUKSI #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.checklistProductionNumber }}</td>
+                    <td>{{ literalConfig.checklistProductionRevision }}</td>
+                    <td>{{ literalConfig.checklistProductionDate ? literalConfig.checklistProductionDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'production'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>CHECKLIST LINE CLEARANCE SORTIR #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.checklistSortingNumber }}</td>
+                    <td>{{ literalConfig.checklistSortingRevision }}</td>
+                    <td>{{ literalConfig.checklistSortingDate ? literalConfig.checklistSortingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'clearance_sorting'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WIP QUALITY INSPECTION SHEET #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.qualityInspectionNumber }}</td>
+                    <td>{{ literalConfig.qualityInspectionRevision }}</td>
+                    <td>{{ literalConfig.qualityInspectionDate ? literalConfig.qualityInspectionDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'quality_inspection'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER COLOR MIXING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.colorMixingNumber }}</td>
+                    <td>{{ literalConfig.colorMixingRevision }}</td>
+                    <td>{{ literalConfig.colorMixingDate ? literalConfig.colorMixingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'color_mixing'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER POTONG BAHAN/JADI #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.cuttingMaterialNumber }}</td>
+                    <td>{{ literalConfig.cuttingMaterialRevision }}</td>
+                    <td>{{ literalConfig.cuttingMaterialDate ? literalConfig.cuttingMaterialDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'cutting_material'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER DIECUT BOBST/MANUAL #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.diecutBobstNumber }}</td>
+                    <td>{{ literalConfig.diecutBobstRevision }}</td>
+                    <td>{{ literalConfig.diecutBobstDate ? literalConfig.diecutBobstDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'diecut_bobst'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER FINISHING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.finishingNumber }}</td>
+                    <td>{{ literalConfig.finishingRevision }}</td>
+                    <td>{{ literalConfig.finishingDate ? literalConfig.finishingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'finishing'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER MESIN LEM #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.glueingMachineNumber }}</td>
+                    <td>{{ literalConfig.glueingMachineRevision }}</td>
+                    <td>{{ literalConfig.glueingMachineDate ? literalConfig.glueingMachineDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'glueing_machine'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER HOT STAMPING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.hotStampingNumber }}</td>
+                    <td>{{ literalConfig.hotStampingRevision }}</td>
+                    <td>{{ literalConfig.hotStampingDate ? literalConfig.hotStampingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'hot_stamping'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER PACKING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.packingNumber }}</td>
+                    <td>{{ literalConfig.packingRevision }}</td>
+                    <td>{{ literalConfig.packingDate ? literalConfig.packingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'packing'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER PREPRESS #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.prepressNumber }}</td>
+                    <td>{{ literalConfig.prepressRevision }}</td>
+                    <td>{{ literalConfig.prepressDate ? literalConfig.prepressDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'prepress'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER OFFSET PRINTING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.offsetPrintingNumber }}</td>
+                    <td>{{ literalConfig.offsetPrintingRevision }}</td>
+                    <td>{{ literalConfig.offsetPrintingDate ? literalConfig.offsetPrintingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'offset_printing'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER SORTIR #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.sortingNumber }}</td>
+                    <td>{{ literalConfig.sortingRevision }}</td>
+                    <td>{{ literalConfig.sortingDate ? literalConfig.sortingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'order_sorting'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER STITCHING (JAHIT KAWAT) #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.stitchingNumber }}</td>
+                    <td>{{ literalConfig.stitchingRevision }}</td>
+                    <td>{{ literalConfig.stitchingDate ? literalConfig.stitchingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'stitching'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>WORK ORDER COATING #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.coatingNumber }}</td>
+                    <td>{{ literalConfig.coatingRevision }}</td>
+                    <td>{{ literalConfig.coatingDate ? literalConfig.coatingDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'coating'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
