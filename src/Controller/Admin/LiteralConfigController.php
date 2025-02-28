@@ -16,28 +16,29 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/literal_config')]
 class LiteralConfigController extends AbstractController
 {
-    #[Route('/_list', name: 'app_admin_literal_config__list', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_SETTING')]
-    public function _list(Request $request, LiteralConfigRepository $literalConfigRepository): Response
-    {
-        $criteria = new DataCriteria();
-        $form = $this->createForm(LiteralConfigGridType::class, $criteria);
-        $form->handleRequest($request);
-
-        list($count, $literalConfigs) = $literalConfigRepository->fetchData($criteria);
-
-        return $this->renderForm("admin/literal_config/_list.html.twig", [
-            'form' => $form,
-            'count' => $count,
-            'literalConfigs' => $literalConfigs,
-        ]);
-    }
+//    #[Route('/_list', name: 'app_admin_literal_config__list', methods: ['GET', 'POST'])]
+//    #[IsGranted('ROLE_SETTING')]
+//    public function _list(Request $request, LiteralConfigRepository $literalConfigRepository): Response
+//    {
+//        $criteria = new DataCriteria();
+//        $form = $this->createForm(LiteralConfigGridType::class, $criteria);
+//        $form->handleRequest($request);
+//
+//        list($count, $literalConfigs) = $literalConfigRepository->fetchData($criteria);
+//
+//        return $this->renderForm("admin/literal_config/_list.html.twig", [
+//            'form' => $form,
+//            'count' => $count,
+//            'literalConfigs' => $literalConfigs,
+//        ]);
+//    }
 
     #[Route('/', name: 'app_admin_literal_config_index', methods: ['GET'])]
     #[IsGranted('ROLE_SETTING')]
     public function index(): Response
     {
-        return $this->render("admin/literal_config/index.html.twig");
+        return $this->redirectToRoute('app_admin_literal_config_show', ['id' => 1], Response::HTTP_SEE_OTHER);
+//        return $this->render("admin/literal_config/index.html.twig");
     }
 
 //    #[Route('/new', name: 'app_admin_literal_config_new', methods: ['GET', 'POST'])]
@@ -69,9 +70,9 @@ class LiteralConfigController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_literal_config_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/{group}/edit', name: 'app_admin_literal_config_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_SETTING')]
-    public function edit(Request $request, LiteralConfig $literalConfig, LiteralConfigRepository $literalConfigRepository): Response
+    public function edit(Request $request, LiteralConfig $literalConfig, string $group, LiteralConfigRepository $literalConfigRepository): Response
     {
         $form = $this->createForm(LiteralConfigType::class, $literalConfig);
         $form->handleRequest($request);
@@ -85,6 +86,7 @@ class LiteralConfigController extends AbstractController
         return $this->renderForm('admin/literal_config/edit.html.twig', [
             'literalConfig' => $literalConfig,
             'form' => $form,
+            'group' => $group,
         ]);
     }
 
