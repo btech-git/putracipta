@@ -42,7 +42,7 @@
                     <td style="text-align: left">{{ product.note|default }}</td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.codeNumber|default }}</td>
                     <td style="text-align: left">
-                        {{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('d-m-Y') }}
+                        {{ saleOrderDetail.saleOrderHeader.orderReceiveDate|default ? saleOrderDetail.saleOrderHeader.orderReceiveDate|date('d-m-y') }}
                     </td>
                     <td style="text-align: left">{{ saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
                     <td style="text-align: center">{{ saleOrderDetail.quantity|default }}</td>

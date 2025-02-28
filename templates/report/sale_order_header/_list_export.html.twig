@@ -35,7 +35,7 @@
             {% for saleOrderDetail in saleOrderHeader.saleOrderDetails %}
                 <tr>
                     <td style="text-align: left">{{ saleOrderHeader.codeNumber|default }}</td>
-                    <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-Y') }}</td>
+                    <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-y') }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
                     <td style="text-align: left">{{ saleOrderHeader.transactionStatus|default }}</td>

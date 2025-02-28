@@ -41,9 +41,9 @@
                     <tr>
                         <td style="text-align: left">{{ customer.company|default }}</td>
                         <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
-                        <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-Y') }}</td>
+                        <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-y') }}</td>
                         <td style="text-align: left">{{ saleOrderDetailsaleOrderHeader.transactionStatus|default }}</td>
-                        <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('d-m-Y') }}</td>
+                        <td style="text-align: left">{{ saleOrderDetail.deliveryDate|default ? saleOrderDetail.deliveryDate|date('d-m-y') }}</td>
                         <td style="text-align: left">{{ saleOrderDetail.product.name|default }}</td>
                         <td style="text-align: left">{{ saleOrderDetail.quantity|default }}</td>
                         <td style="text-align: left">{{ saleOrderDetail.unitPrice|default }}</td>

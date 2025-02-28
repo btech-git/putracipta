@@ -34,7 +34,7 @@
             <tr>
                 <td style="text-align: center">{{ runningNumber|default }}</td>
                 <td style="text-align: left">{{ saleOrderHeader.customer.company|default }}</td>
-                <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-Y') }}</td>
+                <td style="text-align: left">{{ saleOrderHeader.orderReceiveDate|default ? saleOrderHeader.orderReceiveDate|date('d-m-y') }}</td>
                 <td style="text-align: left">{{ saleOrderHeader.referenceNumber|default }}</td>
                 <td style="text-align: right">{{ saleOrderHeader.subTotal|default }}</td>
                 <td style="text-align: right">{{ saleOrderHeader.taxNominal|default }}</td>
