@@ -73,6 +73,7 @@ class MasterOrderHeader extends ProductionHeader
     private ?string $quantityPaper = '0.00';
 
     #[ORM\Column]
+    #[Assert\GreaterThan(0)]
     private ?int $paperMountage = 1;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
