@@ -10,7 +10,6 @@ use App\Form\Sale\DeliveryHeaderType;
 use App\Grid\Sale\DeliveryHeaderGridType;
 use App\Grid\Sale\OutstandingSaleOrderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
-use App\Repository\Master\CustomerRepository;
 use App\Repository\Master\WarehouseRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
