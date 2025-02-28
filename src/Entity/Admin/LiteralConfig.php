@@ -153,6 +153,132 @@ class LiteralConfig
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $qualityInspectionDate = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $masterOrderNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $masterOrderRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $masterOrderDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $workOrderNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $workOrderRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $workOrderDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $colorMixingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $colorMixingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $colorMixingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $cuttingMaterialNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $cuttingMaterialRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $cuttingMaterialDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $diecutBobstNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $diecutBobstRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $diecutBobstDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $finishingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $finishingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $finishingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $glueingMachineNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $glueingMachineRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $glueingMachineDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $hotStampingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $hotStampingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $hotStampingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $packingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $packingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $packingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $prepressNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $prepressRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $prepressDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $offsetPrintingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $offsetPrintingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $offsetPrintingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $sortingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $sortingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $sortingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $stitchingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $stitchingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $stitchingDate = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $coatingNumber = '';
+
+    #[ORM\Column(length: 20)]
+    private ?string $coatingRevision = '';
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $coatingDate = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -706,6 +832,510 @@ class LiteralConfig
     public function setQualityInspectionDate(?\DateTimeInterface $qualityInspectionDate): self
     {
         $this->qualityInspectionDate = $qualityInspectionDate;
+
+        return $this;
+    }
+
+    public function getMasterOrderNumber(): ?string
+    {
+        return $this->masterOrderNumber;
+    }
+
+    public function setMasterOrderNumber(string $masterOrderNumber): self
+    {
+        $this->masterOrderNumber = $masterOrderNumber;
+
+        return $this;
+    }
+
+    public function getMasterOrderRevision(): ?string
+    {
+        return $this->masterOrderRevision;
+    }
+
+    public function setMasterOrderRevision(string $masterOrderRevision): self
+    {
+        $this->masterOrderRevision = $masterOrderRevision;
+
+        return $this;
+    }
+
+    public function getMasterOrderDate(): ?\DateTimeInterface
+    {
+        return $this->masterOrderDate;
+    }
+
+    public function setMasterOrderDate(?\DateTimeInterface $masterOrderDate): self
+    {
+        $this->masterOrderDate = $masterOrderDate;
+
+        return $this;
+    }
+
+    public function getWorkOrderNumber(): ?string
+    {
+        return $this->workOrderNumber;
+    }
+
+    public function setWorkOrderNumber(string $workOrderNumber): self
+    {
+        $this->workOrderNumber = $workOrderNumber;
+
+        return $this;
+    }
+
+    public function getWorkOrderRevision(): ?string
+    {
+        return $this->workOrderRevision;
+    }
+
+    public function setWorkOrderRevision(string $workOrderRevision): self
+    {
+        $this->workOrderRevision = $workOrderRevision;
+
+        return $this;
+    }
+
+    public function getWorkOrderDate(): ?\DateTimeInterface
+    {
+        return $this->workOrderDate;
+    }
+
+    public function setWorkOrderDate(?\DateTimeInterface $workOrderDate): self
+    {
+        $this->workOrderDate = $workOrderDate;
+
+        return $this;
+    }
+
+    public function getColorMixingNumber(): ?string
+    {
+        return $this->colorMixingNumber;
+    }
+
+    public function setColorMixingNumber(string $colorMixingNumber): self
+    {
+        $this->colorMixingNumber = $colorMixingNumber;
+
+        return $this;
+    }
+
+    public function getColorMixingRevision(): ?string
+    {
+        return $this->colorMixingRevision;
+    }
+
+    public function setColorMixingRevision(string $colorMixingRevision): self
+    {
+        $this->colorMixingRevision = $colorMixingRevision;
+
+        return $this;
+    }
+
+    public function getColorMixingDate(): ?\DateTimeInterface
+    {
+        return $this->colorMixingDate;
+    }
+
+    public function setColorMixingDate(?\DateTimeInterface $colorMixingDate): self
+    {
+        $this->colorMixingDate = $colorMixingDate;
+
+        return $this;
+    }
+
+    public function getCuttingMaterialNumber(): ?string
+    {
+        return $this->cuttingMaterialNumber;
+    }
+
+    public function setCuttingMaterialNumber(string $cuttingMaterialNumber): self
+    {
+        $this->cuttingMaterialNumber = $cuttingMaterialNumber;
+
+        return $this;
+    }
+
+    public function getCuttingMaterialRevision(): ?string
+    {
+        return $this->cuttingMaterialRevision;
+    }
+
+    public function setCuttingMaterialRevision(string $cuttingMaterialRevision): self
+    {
+        $this->cuttingMaterialRevision = $cuttingMaterialRevision;
+
+        return $this;
+    }
+
+    public function getCuttingMaterialDate(): ?\DateTimeInterface
+    {
+        return $this->cuttingMaterialDate;
+    }
+
+    public function setCuttingMaterialDate(?\DateTimeInterface $cuttingMaterialDate): self
+    {
+        $this->cuttingMaterialDate = $cuttingMaterialDate;
+
+        return $this;
+    }
+
+    public function getDiecutBobstNumber(): ?string
+    {
+        return $this->diecutBobstNumber;
+    }
+
+    public function setDiecutBobstNumber(string $diecutBobstNumber): self
+    {
+        $this->diecutBobstNumber = $diecutBobstNumber;
+
+        return $this;
+    }
+
+    public function getDiecutBobstRevision(): ?string
+    {
+        return $this->diecutBobstRevision;
+    }
+
+    public function setDiecutBobstRevision(string $diecutBobstRevision): self
+    {
+        $this->diecutBobstRevision = $diecutBobstRevision;
+
+        return $this;
+    }
+
+    public function getDiecutBobstDate(): ?\DateTimeInterface
+    {
+        return $this->diecutBobstDate;
+    }
+
+    public function setDiecutBobstDate(?\DateTimeInterface $diecutBobstDate): self
+    {
+        $this->diecutBobstDate = $diecutBobstDate;
+
+        return $this;
+    }
+
+    public function getFinishingNumber(): ?string
+    {
+        return $this->finishingNumber;
+    }
+
+    public function setFinishingNumber(string $finishingNumber): self
+    {
+        $this->finishingNumber = $finishingNumber;
+
+        return $this;
+    }
+
+    public function getFinishingRevision(): ?string
+    {
+        return $this->finishingRevision;
+    }
+
+    public function setFinishingRevision(string $finishingRevision): self
+    {
+        $this->finishingRevision = $finishingRevision;
+
+        return $this;
+    }
+
+    public function getFinishingDate(): ?\DateTimeInterface
+    {
+        return $this->finishingDate;
+    }
+
+    public function setFinishingDate(?\DateTimeInterface $finishingDate): self
+    {
+        $this->finishingDate = $finishingDate;
+
+        return $this;
+    }
+
+    public function getGlueingMachineNumber(): ?string
+    {
+        return $this->glueingMachineNumber;
+    }
+
+    public function setGlueingMachineNumber(string $glueingMachineNumber): self
+    {
+        $this->glueingMachineNumber = $glueingMachineNumber;
+
+        return $this;
+    }
+
+    public function getGlueingMachineRevision(): ?string
+    {
+        return $this->glueingMachineRevision;
+    }
+
+    public function setGlueingMachineRevision(string $glueingMachineRevision): self
+    {
+        $this->glueingMachineRevision = $glueingMachineRevision;
+
+        return $this;
+    }
+
+    public function getGlueingMachineDate(): ?\DateTimeInterface
+    {
+        return $this->glueingMachineDate;
+    }
+
+    public function setGlueingMachineDate(?\DateTimeInterface $glueingMachineDate): self
+    {
+        $this->glueingMachineDate = $glueingMachineDate;
+
+        return $this;
+    }
+
+    public function getHotStampingNumber(): ?string
+    {
+        return $this->hotStampingNumber;
+    }
+
+    public function setHotStampingNumber(string $hotStampingNumber): self
+    {
+        $this->hotStampingNumber = $hotStampingNumber;
+
+        return $this;
+    }
+
+    public function getHotStampingRevision(): ?string
+    {
+        return $this->hotStampingRevision;
+    }
+
+    public function setHotStampingRevision(string $hotStampingRevision): self
+    {
+        $this->hotStampingRevision = $hotStampingRevision;
+
+        return $this;
+    }
+
+    public function getHotStampingDate(): ?\DateTimeInterface
+    {
+        return $this->hotStampingDate;
+    }
+
+    public function setHotStampingDate(?\DateTimeInterface $hotStampingDate): self
+    {
+        $this->hotStampingDate = $hotStampingDate;
+
+        return $this;
+    }
+
+    public function getPackingNumber(): ?string
+    {
+        return $this->packingNumber;
+    }
+
+    public function setPackingNumber(string $packingNumber): self
+    {
+        $this->packingNumber = $packingNumber;
+
+        return $this;
+    }
+
+    public function getPackingRevision(): ?string
+    {
+        return $this->packingRevision;
+    }
+
+    public function setPackingRevision(string $packingRevision): self
+    {
+        $this->packingRevision = $packingRevision;
+
+        return $this;
+    }
+
+    public function getPackingDate(): ?\DateTimeInterface
+    {
+        return $this->packingDate;
+    }
+
+    public function setPackingDate(?\DateTimeInterface $packingDate): self
+    {
+        $this->packingDate = $packingDate;
+
+        return $this;
+    }
+
+    public function getPrepressNumber(): ?string
+    {
+        return $this->prepressNumber;
+    }
+
+    public function setPrepressNumber(string $prepressNumber): self
+    {
+        $this->prepressNumber = $prepressNumber;
+
+        return $this;
+    }
+
+    public function getPrepressRevision(): ?string
+    {
+        return $this->prepressRevision;
+    }
+
+    public function setPrepressRevision(string $prepressRevision): self
+    {
+        $this->prepressRevision = $prepressRevision;
+
+        return $this;
+    }
+
+    public function getPrepressDate(): ?\DateTimeInterface
+    {
+        return $this->prepressDate;
+    }
+
+    public function setPrepressDate(?\DateTimeInterface $prepressDate): self
+    {
+        $this->prepressDate = $prepressDate;
+
+        return $this;
+    }
+
+    public function getOffsetPrintingNumber(): ?string
+    {
+        return $this->offsetPrintingNumber;
+    }
+
+    public function setOffsetPrintingNumber(string $offsetPrintingNumber): self
+    {
+        $this->offsetPrintingNumber = $offsetPrintingNumber;
+
+        return $this;
+    }
+
+    public function getOffsetPrintingRevision(): ?string
+    {
+        return $this->offsetPrintingRevision;
+    }
+
+    public function setOffsetPrintingRevision(string $offsetPrintingRevision): self
+    {
+        $this->offsetPrintingRevision = $offsetPrintingRevision;
+
+        return $this;
+    }
+
+    public function getOffsetPrintingDate(): ?\DateTimeInterface
+    {
+        return $this->offsetPrintingDate;
+    }
+
+    public function setOffsetPrintingDate(?\DateTimeInterface $offsetPrintingDate): self
+    {
+        $this->offsetPrintingDate = $offsetPrintingDate;
+
+        return $this;
+    }
+
+    public function getSortingNumber(): ?string
+    {
+        return $this->sortingNumber;
+    }
+
+    public function setSortingNumber(string $sortingNumber): self
+    {
+        $this->sortingNumber = $sortingNumber;
+
+        return $this;
+    }
+
+    public function getSortingRevision(): ?string
+    {
+        return $this->sortingRevision;
+    }
+
+    public function setSortingRevision(string $sortingRevision): self
+    {
+        $this->sortingRevision = $sortingRevision;
+
+        return $this;
+    }
+
+    public function getSortingDate(): ?\DateTimeInterface
+    {
+        return $this->sortingDate;
+    }
+
+    public function setSortingDate(?\DateTimeInterface $sortingDate): self
+    {
+        $this->sortingDate = $sortingDate;
+
+        return $this;
+    }
+
+    public function getStitchingNumber(): ?string
+    {
+        return $this->stitchingNumber;
+    }
+
+    public function setStitchingNumber(string $stitchingNumber): self
+    {
+        $this->stitchingNumber = $stitchingNumber;
+
+        return $this;
+    }
+
+    public function getStitchingRevision(): ?string
+    {
+        return $this->stitchingRevision;
+    }
+
+    public function setStitchingRevision(string $stitchingRevision): self
+    {
+        $this->stitchingRevision = $stitchingRevision;
+
+        return $this;
+    }
+
+    public function getStitchingDate(): ?\DateTimeInterface
+    {
+        return $this->stitchingDate;
+    }
+
+    public function setStitchingDate(?\DateTimeInterface $stitchingDate): self
+    {
+        $this->stitchingDate = $stitchingDate;
+
+        return $this;
+    }
+
+    public function getCoatingNumber(): ?string
+    {
+        return $this->coatingNumber;
+    }
+
+    public function setCoatingNumber(string $coatingNumber): self
+    {
+        $this->coatingNumber = $coatingNumber;
+
+        return $this;
+    }
+
+    public function getCoatingRevision(): ?string
+    {
+        return $this->coatingRevision;
+    }
+
+    public function setCoatingRevision(string $coatingRevision): self
+    {
+        $this->coatingRevision = $coatingRevision;
+
+        return $this;
+    }
+
+    public function getCoatingDate(): ?\DateTimeInterface
+    {
+        return $this->coatingDate;
+    }
+
+    public function setCoatingDate(?\DateTimeInterface $coatingDate): self
+    {
+        $this->coatingDate = $coatingDate;
 
         return $this;
     }
