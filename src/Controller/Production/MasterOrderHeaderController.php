@@ -166,11 +166,12 @@ class MasterOrderHeaderController extends AbstractController
 
     #[Route('/{id}/memo_master_order', name: 'app_production_master_order_header_memo_master_order', methods: ['GET'])]
     #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
-    public function memoMasterOrder(MasterOrderHeader $masterOrderHeader): Response
+    public function memoMasterOrder(MasterOrderHeader $masterOrderHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'master_order.pdf';
         $htmlView = $this->renderView('production/master_order_header/memo_master_order.html.twig', [
             'masterOrderHeader' => $masterOrderHeader,
+            'literalConfig' => $literalConfigRepository->find(1),
         ]);
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
@@ -183,11 +184,12 @@ class MasterOrderHeaderController extends AbstractController
     
     #[Route('/{id}/memo_work_order', name: 'app_production_master_order_header_memo_work_order', methods: ['GET'])]
     #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
-    public function memoWorkOrder(MasterOrderHeader $masterOrderHeader): Response
+    public function memoWorkOrder(MasterOrderHeader $masterOrderHeader, LiteralConfigRepository $literalConfigRepository): Response
     {
         $fileName = 'work_order.pdf';
         $htmlView = $this->renderView('production/master_order_header/memo_work_order.html.twig', [
             'masterOrderHeader' => $masterOrderHeader,
+            'literalConfig' => $literalConfigRepository->find(1),
         ]);
 
         $pdfGenerator = new PdfGenerator($this->getParameter('kernel.project_dir') . '/public/');
@@ -200,11 +202,12 @@ class MasterOrderHeaderController extends AbstractController
     
     #[Route('/{id}/{constant}/memo_distribution', name: 'app_production_master_order_header_memo_distribution', methods: ['GET'])]
     #[Security("is_granted('ROLE_MASTER_ORDER_ADD') or is_granted('ROLE_MASTER_ORDER_EDIT') or is_granted('ROLE_MASTER_ORDER_VIEW')")]
-    public function memoDistribution(MasterOrderHeader $masterOrderHeader, string $constant): Response
+    public function memoDistribution(MasterOrderHeader $masterOrderHeader, string $constant, LiteralConfigRepository $literalConfigRepository): Response
     {
         return $this->render('production/master_order_header/memo_distribution.html.twig', [
             'masterOrderHeader' => $masterOrderHeader,
             'constant' => $constant,
+            'literalConfig' => $literalConfigRepository->find(1),
         ]);
     }
     
