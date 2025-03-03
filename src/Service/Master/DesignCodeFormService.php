@@ -47,7 +47,7 @@ class DesignCodeFormService
 
         if (empty($designCode->getId())) {
             if ($sourceDesignCode !== null) {
-                $sourceDesignCode->setStatus(DesignCode::STATUS_NA);
+//                $sourceDesignCode->setStatus(DesignCode::STATUS_NA);
             }
             $designCode->setStatus(DesignCode::STATUS_FA);
             $designCode->setCreatedTransactionDateTime($datetime);
