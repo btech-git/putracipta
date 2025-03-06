@@ -11,6 +11,7 @@
                 <th style="min-width: 250px">Nama Barang</th>
                 <th style="min-width: 150px">Qty</th>
                 <th style="min-width: 50px">Satuan</th>
+                <th style="min-width: 150px">WO #</th>
                 <th style="min-width: 250px">Keterangan</th>
                 <th style="min-width: 0"></th>
             </tr>
@@ -32,6 +33,7 @@
                         }}) }}
                     </td>
                     <td>{{ form_row(detailForm.unit, {'label': false, 'attr': {'data-item-field-name': 'unitId',}}) }}</td>
+                    <td>{{ form_row(detailForm.workOrderNumber, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>{{ form_row(detailForm.memo, {'label': false, 'attr': {'size': 3}}) }}</td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}

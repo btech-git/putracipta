@@ -84,6 +84,7 @@
                 {% endif %} 
                 <th>Qty</th>
                 <th>Satuan</th>
+                <th>WO #</th>
                 <th>Keterangan</th>
                 {% if (inventoryRequestHeader.requestMode == 'paper') %}
                     <th>MO #</th>
@@ -114,6 +115,7 @@
                             <td>{{ inventoryRequestMaterialDetail.material.name|default }}</td>
                             <td>{{ inventoryRequestMaterialDetail.quantity|default|number_format(2) }}</td>
                             <td>{{ inventoryRequestMaterialDetail.unit.name|default }}</td>
+                            <td>{{ inventoryRequestMaterialDetail.workOrderNumber|default }}</td>
                             <td>{{ inventoryRequestMaterialDetail.memo|default }}</td>
                         </tr>
                     {% endif %} 

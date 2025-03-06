@@ -54,6 +54,9 @@ class InventoryRequestMaterialDetail extends StockDetail
     #[ORM\OneToMany(mappedBy: 'inventoryRequestMaterialDetail', targetEntity: PurchaseRequestDetail::class)]
     private Collection $purchaseRequestDetails;
 
+    #[ORM\Column(length: 100)]
+    private ?string $workOrderNumber = '';
+
     public function __construct()
     {
         $this->inventoryReleaseMaterialDetails = new ArrayCollection();
@@ -216,6 +219,18 @@ class InventoryRequestMaterialDetail extends StockDetail
                 $purchaseRequestDetail->setInventoryRequestMaterialDetail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWorkOrderNumber(): ?string
+    {
+        return $this->workOrderNumber;
+    }
+
+    public function setWorkOrderNumber(string $workOrderNumber): self
+    {
+        $this->workOrderNumber = $workOrderNumber;
 
         return $this;
     }
