@@ -58,10 +58,10 @@
                     </div>
                 </div>
             </div>
-            {#<br />
+            <br />
             <div class="header">
                 <h2 class="title">INVOICE</h2>
-            </div>#}
+            </div>
         </div>
         
         <br />
@@ -72,7 +72,7 @@
                     <div class="table full">
                         <div class="row">
                             <div class="cell label" style="min-width: 60px">&nbsp;</div>
-                            <div class="cell value">{{ saleInvoiceHeader.customer.company|default }}</div>
+                            <div class="cell value" style="min-width: 400px">{{ saleInvoiceHeader.customer.company|default }}</div>
                         </div>
                         <div class="row">
                             <div class="cell label">&nbsp;</div>
@@ -228,18 +228,16 @@
             <table class="detail">
                 <tr>
                     <td class="cell label">Terbilang:</td>
-                    <td class="cell label">Pembayaran dengan BG / Cek dapat ditransfer ke:</td>
+                    <td class="cell label" style="width: 45%">Pembayaran dengan BG / Cek dapat ditransfer ke:</td>
                 </tr>
                 <tr>
-                    <td class="cell">{{ saleInvoiceHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</td>
+                    <td class="cell" rowspan="3">{{ saleInvoiceHeader.grandTotal|default|number_format(0, '.', '')|say|capitalize }} rupiah.</td>
                     <td class="cell label">BCA KCU Wisma Asia</td>
                 </tr>
                 <tr>
-                    <td class="cell label"></td>
                     <td class="cell label">ACC: 0843330123</td>
                 </tr>
                 <tr>
-                    <td class="cell"></td>
                     <td class="cell label">A/N: PT. Putracipta Karindomas</td>
                 </tr>
             </table>
