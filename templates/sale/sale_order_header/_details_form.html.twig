@@ -7,15 +7,15 @@
         <thead class="table-secondary">
             <tr>
                 <th class="d-none">Product Id</th>
-                <th style="min-width: 250px">Item Code</th>
-                <th style="min-width: 250px">Description</th>
+                <th style="min-width: 150px">Item Code</th>
+                <th style="min-width: 200px">Description</th>
                 <th style="min-width: 150px">Tgl Kirim</th>
-                <th style="min-width: 150px">Stok</th>
+                <th style="min-width: 100px">Stok</th>
                 <th style="min-width: 150px">Qty</th>
                 <th style="min-width: 100px">Satuan</th>
                 <th style="min-width: 150px">Harga</th>
-                <th style="min-width: 150px">DPP</th>
-                <th style="min-width: 150px">Total</th>
+                <th style="min-width: 100px">DPP</th>
+                <th style="min-width: 100px">Total</th>
                 <th style="width: 0">Close</th>
                 <th style="width: 0"></th>
             </tr>
@@ -70,9 +70,9 @@
                     </td>
                     <td>
                         {% if (detailForm.vars.value.id == null) %}
-                            <button type="button" class="btn btn-outline-dark" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
+                            <button type="button" class="btn btn-outline-dark btn-sm" data-action="form-collection#removeCollectionItem"><i class="bi-x-lg"></i></button>
                         {% else %}
-                            <button type="button" class="btn btn-danger"
+                            <button type="button" class="btn btn-danger btn-sm"
                                     data-controller="dom-element"
                                     data-action="dom-element#bind json-loader#load"
                                     data-dom-element-bind-specifications-param="{{ [
