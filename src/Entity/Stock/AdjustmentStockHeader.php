@@ -76,18 +76,6 @@ class AdjustmentStockHeader extends StockHeader
         return $this;
     }
 
-    public function removeAdjustmentStockDetail(AdjustmentStockDetail $adjustmentStockDetail): self
-    {
-        if ($this->adjustmentStockDetails->removeElement($adjustmentStockDetail)) {
-            // set the owning side to null (unless already changed)
-            if ($adjustmentStockDetail->getAdjustmentStockHeader() === $this) {
-                $adjustmentStockDetail->setAdjustmentStockHeader(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAdjustmentMode(): ?string
     {
         return $this->adjustmentMode;
