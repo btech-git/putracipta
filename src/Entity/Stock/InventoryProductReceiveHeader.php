@@ -34,10 +34,10 @@ class InventoryProductReceiveHeader extends StockHeader
     #[Assert\NotNull]
     private ?MasterOrderHeader $masterOrderHeader = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $productDetailLists = '';
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $productCodeLists = '';
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
