@@ -146,7 +146,7 @@
             <tbody>
                 {% set rowspan = 15 %}
                 
-                {% set quantitySums = {} %}
+                {#{% set quantitySums = {} %}
                 {% set ids = {} %}
                 {% for detail in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0) %}
                     {% set sum = (quantitySums[detail.saleOrderDetail.id ~ '_'] is defined ? quantitySums[detail.saleOrderDetail.id ~ '_'] : 0) + detail.quantity %}
@@ -161,9 +161,9 @@
                         {% set details = details|merge([detail]) %}
                         {% set saleOrderDetailIds = saleOrderDetailIds|merge([detail.saleOrderDetail.id]) %}
                     {% endif %}
-                {% endfor %}
+                {% endfor %}#}
                 {% set number = 1 %}
-                {% for row in details|batch(rowspan, '') %}
+                {% for row in deliveryHeader.deliveryDetails|filter(deliveryDetail => not deliveryDetail.isCanceled and deliveryDetail.quantity > 0)|batch(rowspan, '') %}
                     {% for deliveryDetail in row %}
                         <tr>
                             {% if deliveryDetail %}
@@ -182,7 +182,10 @@
                                     <td class="center">{{ deliveryDetail.fscCode|default }}</td>
                                 {% endif %}
                                 <td class="left">{{ deliveryDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}</td>
-                                <td class="center">{{ quantitySums[deliveryDetail.saleOrderDetail.id ~ '_']|default|number_format(0) }}</td>
+                                <td class="center">
+                                    {{ deliveryDetail.quantity|default|number_format(0) }}
+                                    {#{{ quantitySums[deliveryDetail.saleOrderDetail.id ~ '_']|default|number_format(0) }}#}
+                                </td>
                                 <td class="left">{{ deliveryDetail.packaging|default }}</td>
                             {% else %}
                                 <td>&nbsp;</td>
