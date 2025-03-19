@@ -150,7 +150,7 @@
         </fieldset>
                     
         <fieldset class="border border-secondary rounded mb-3 p-3">  
-            {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentTypeList %}
+            {% if constant('ep', productPrototype) in productPrototype.developmentTypeList %}
                 <table class="detail">
                     <thead>
                         <tr>
@@ -180,11 +180,11 @@
                 </table>
             {% endif %}
 
-            {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}
+            {% if constant('ep', productPrototype) not in productPrototype.developmentTypeList %}
                 <table class="detail">
                     <thead>
                         <tr>
-                            <th colspan='5' class='center'>ITEM</th>
+                            <th colspan='4' class='center'>ITEM</th>
                         </tr>
                         <tr>
                             <th class="center">Item Name</th>

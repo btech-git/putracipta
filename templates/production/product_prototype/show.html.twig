@@ -54,7 +54,7 @@
         </tbody>
     </table>
              
-    {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentTypeList %}
+    {% if constant('ep', productPrototype) in productPrototype.developmentTypeList %}
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -84,7 +84,7 @@
         </table>
     {% endif %}
                
-    {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}
+    {% if constant('ep', productPrototype) not in productPrototype.developmentTypeList %}
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
