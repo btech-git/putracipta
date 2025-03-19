@@ -150,33 +150,63 @@
         </fieldset>
                     
         <fieldset class="border border-secondary rounded mb-3 p-3">  
-            <table class="detail">
-                <thead>
-                    <tr>
-                        <th colspan='5' class='center'>PRODUCTS</th>
-                    </tr>
-                    <tr>
-                        <th class="center">Item Code</th>
-                        <th class="center">Item Name</th>
-                        <th class="text-center">Ukuran Jadi</th>
-                        <th class="center">Quantity (pcs)</th>
-                        <th class="center">Material</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
-                        {% if productPrototypeDetail.isCanceled == false %}
-                            <tr>
-                                <td>{{ productPrototypeDetail.product.code|default }}</td>
-                                <td>{{ productPrototypeDetail.product.name|default }}</td>
-                                <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
-                                <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
-                                <td>{{ productPrototypeDetail.product.material|default }}</td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentTypeList %}
+                <table class="detail">
+                    <thead>
+                        <tr>
+                            <th colspan='5' class='center'>PRODUCTS</th>
+                        </tr>
+                        <tr>
+                            <th class="center">Item Code</th>
+                            <th class="center">Item Name</th>
+                            <th class="text-center">Ukuran Jadi</th>
+                            <th class="center">Quantity (pcs)</th>
+                            <th class="center">Material</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
+                            {% if productPrototypeDetail.isCanceled == false %}
+                                <tr>
+                                    <td>{{ productPrototypeDetail.product.code|default }}</td>
+                                    <td>{{ productPrototypeDetail.product.name|default }}</td>
+                                    <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+                                    <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
+                                    <td>{{ productPrototypeDetail.product.material|default }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}
+                <table class="detail">
+                    <thead>
+                        <tr>
+                            <th colspan='5' class='center'>ITEM</th>
+                        </tr>
+                        <tr>
+                            <th class="center">Item Name</th>
+                            <th class="text-center">Ukuran Jadi</th>
+                            <th class="center">Quantity (pcs)</th>
+                            <th class="center">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for productPrototypePilotDetail in productPrototype.productPrototypePilotDetails %}
+                            {% if productPrototypePilotDetail.isCanceled == false %}
+                                <tr>
+                                    <td>{{ productPrototypePilotDetail.productName|default }}</td>
+                                    <td>{{ productPrototypePilotDetail.product.size }}</td>
+                                    <td>{{ productPrototypePilotDetail.quantity|default|number_format(2) }}</td>
+                                    <td>{{ productPrototypePilotDetail.memo|default }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </fieldset>
                 
         <fieldset class="border border-secondary rounded mb-3 p-3">
