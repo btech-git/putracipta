@@ -153,7 +153,7 @@
             <table class="detail">
                 <thead>
                     <tr>
-                        <th colspan='4' class='center'>PRODUCTS</th>
+                        <th colspan='5' class='center'>PRODUCTS</th>
                     </tr>
                     <tr>
                         <th class="center">Item Code</th>
@@ -165,13 +165,15 @@
                 </thead>
                 <tbody>
                     {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
-                    <tr>
-                        <td>{{ productPrototypeDetail.product.code|default }}</td>
-                        <td>{{ productPrototypeDetail.product.name|default }}</td>
-                        <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
-                        <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
-                        <td>{{ productPrototypeDetail.product.material|default }}</td>
-                    </tr>
+                        {% if productPrototypeDetail.isCanceled == false %}
+                            <tr>
+                                <td>{{ productPrototypeDetail.product.code|default }}</td>
+                                <td>{{ productPrototypeDetail.product.name|default }}</td>
+                                <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+                                <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
+                                <td>{{ productPrototypeDetail.product.material|default }}</td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -183,10 +185,10 @@
                 <div class="table full">
                     <div class="cell col">
                         <div class="table full">
-                            {#<div class="row">
-                                <div class="cell label">Material Kertas</div>
-                                <div class="cell value">{{ productPrototype.paper.paperNameSizeCombination|default }} Gram</div>
-                            </div>#}
+                            <div class="row">
+                                <div class="cell label">Material Name</div>
+                                <div class="cell value">{{ productPrototype.materialName|default }}</div>
+                            </div>
                             <div class="row">
                                 <div class="cell label">Warna / Pantone</div>
                                 <div class="cell value">{{ productPrototype.color }}</div>

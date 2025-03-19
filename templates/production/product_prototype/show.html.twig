@@ -69,13 +69,15 @@
         </thead>
         <tbody>
             {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
-            <tr>
-                <td>{{ productPrototypeDetail.product.code|default }}</td>
-                <td>{{ productPrototypeDetail.product.name|default }}</td>
-                <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
-                <td>{{ productPrototypeDetail.product.material|default }}</td>
-                <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
-            </tr>
+                {% if productPrototypeDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ productPrototypeDetail.product.code|default }}</td>
+                        <td>{{ productPrototypeDetail.product.name|default }}</td>
+                        <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+                        <td>{{ productPrototypeDetail.product.material|default }}</td>
+                        <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
