@@ -82,9 +82,7 @@
                 {% endfor %}
             </tbody>
         </table>
-    {% endif %}
-               
-    {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}
+    {% else %}
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
