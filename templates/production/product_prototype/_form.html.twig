@@ -21,7 +21,7 @@
             </div>
         </fieldset>
                  
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}d-none{% endif %}" id="detail-product-prototype-pilot-container">
+        {#<fieldset class="border border-secondary rounded mb-3 p-3 {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}d-none{% endif %}" id="detail-product-prototype-pilot-container">
             <legend class="float-none w-auto text-dark px-1">Pilot</legend>
             <button type="button" class="btn btn-sm btn-outline-dark"
                     id="new-product_prototype-pilot-detail-button"
@@ -30,9 +30,9 @@
                 Add Details
             </button>
             {{ include('production/product_prototype/_pilot_details_form.html.twig') }}
-        </fieldset>
+        </fieldset>#}
 
-        <fieldset class="border border-secondary rounded mb-3 p-3 {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) in productPrototype.developmentTypeList %}d-none{% endif %}" id="detail-product-prototype-container">
+        <fieldset class="border border-secondary rounded mb-3 p-3" id="detail-product-prototype-container">
             <legend class="float-none w-auto text-dark px-1">Products</legend>
             <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#product-dialog">Add Product</button>
             {{ include('production/product_prototype/_details_form.html.twig') }}
@@ -45,7 +45,7 @@
                     {#{ form_row(form.developmentTypeList, {'label': 'Proses Development'}) }}#}
                     <fieldset class="mb-3">
                         <legend class="col-form-label required">Proses Development</legend>
-                        {{ form_row(form.developmentTypeList.children.0, {
+                        {#{{ form_row(form.developmentTypeList.children.0, {
                             'row_attr': {'class': 'mb-0'},
                             'attr': {
                                 'data-controller': 'dom-element',
@@ -61,7 +61,8 @@
                                     {'destinationsTarget': "#material-name-product-prototype-container", 'action': 'removeClass', 'descriptor': {'name': 'd-none'}, 'condition': '$element.checked'},
                                 ]|json_encode,
                             },
-                        }) }}
+                        }) }}#}
+                        {{ form_row(form.developmentTypeList.children.0, {'row_attr': {'class': 'mb-0'}}) }}
                         {{ form_row(form.developmentTypeList.children.1, {'row_attr': {'class': 'mb-0'}}) }}
                         {{ form_row(form.developmentTypeList.children.2, {'row_attr': {'class': 'mb-0'}}) }}
                         {{ form_row(form.developmentTypeList.children.3, {'row_attr': {'class': 'mb-0'}}) }}

@@ -54,61 +54,33 @@
         </tbody>
     </table>
              
-    {% if constant('DEVELOPMENT_TYPE_EP', productPrototype) not in productPrototype.developmentTypeList %}
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th colspan='5' class='text-center bg-info'>PRODUCTS</th>
-                </tr>
-                <tr>
-                    <th class="text-center">Item Code</th>
-                    <th class="text-center">Item Name</th>
-                    <th class="text-center">Ukuran Jadi</th>
-                    <th class="text-center">Kertas</th>
-                    <th class="text-center">Quantity (pcs)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
-                    {% if productPrototypeDetail.isCanceled == false %}
-                        <tr>
-                            <td>{{ productPrototypeDetail.product.code|default }}</td>
-                            <td>{{ productPrototypeDetail.product.name|default }}</td>
-                            <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
-                            <td>{{ productPrototypeDetail.product.material|default }}</td>
-                            <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th colspan='4' class='text-center bg-info'>ITEM</th>
-                </tr>
-                <tr>
-                    <th class="text-center">Item Name</th>
-                    <th class="text-center">Ukuran Jadi</th>
-                    <th class="text-center">Quantity (pcs)</th>
-                    <th class="text-center">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for productPrototypePilotDetail in productPrototype.productPrototypePilotDetails %}
-                    {% if productPrototypePilotDetail.isCanceled == false %}
-                        <tr>
-                            <td>{{ productPrototypePilotDetail.productName|default }}</td>
-                            <td>{{ productPrototypePilotDetail.product.size }}</td>
-                            <td>{{ productPrototypePilotDetail.quantity|default|number_format(2) }}</td>
-                            <td>{{ productPrototypePilotDetail.memo|default }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan='5' class='text-center bg-info'>PRODUCTS</th>
+            </tr>
+            <tr>
+                <th class="text-center">Item Code</th>
+                <th class="text-center">Item Name</th>
+                <th class="text-center">Ukuran Jadi</th>
+                <th class="text-center">Kertas</th>
+                <th class="text-center">Quantity (pcs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for productPrototypeDetail in productPrototype.productPrototypeDetails %}
+                {% if productPrototypeDetail.isCanceled == false %}
+                    <tr>
+                        <td>{{ productPrototypeDetail.product.code|default }}</td>
+                        <td>{{ productPrototypeDetail.product.name|default }}</td>
+                        <td>{{ productPrototypeDetail.product.productLengthWidthHeightCombination }}</td>
+                        <td>{{ productPrototypeDetail.product.material|default }}</td>
+                        <td>{{ productPrototypeDetail.quantity|default|number_format(2) }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
     
     <table class="table table-bordered table-striped">
         <thead>
