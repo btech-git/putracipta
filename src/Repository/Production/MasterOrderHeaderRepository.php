@@ -29,4 +29,20 @@ class MasterOrderHeaderRepository extends ServiceEntityRepository
 
         return $lastMasterOrder;
     }
+    
+    public function findPaperFscMasterOrderHeaders(array $papers, $startDate, $endDate): array
+    {
+        $dql = "SELECT e
+                FROM " . MasterOrderHeader::class . " e
+                WHERE e.paper IN (:papers) AND e.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.paper ASC, e.transactionDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('papers', $papers);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $masterOrderHeaders = $query->getResult();
+
+        return $masterOrderHeaders;
+    }
 }

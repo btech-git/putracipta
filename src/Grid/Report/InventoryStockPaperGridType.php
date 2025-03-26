@@ -29,13 +29,25 @@ class InventoryStockPaperGridType extends AbstractType
     {
         $builder
             ->add('filter', FilterType::class, [
-                'field_names' => ['code', 'name', 'inventory:codeNumberOrdinal', 'inventory:codeNumberMonth', 'inventory:codeNumberYear', 'inventory:transactionDate', 'inventory:warehouse'],
+                'field_names' => [
+                    'code', 
+                    'name', 
+                    'type', 
+                    'weight', 
+                    'materialSubCategory:name', 
+                    'inventory:codeNumberOrdinal', 
+                    'inventory:codeNumberMonth', 
+                    'inventory:codeNumberYear', 
+                    'inventory:transactionDate', 
+                    'inventory:warehouse'
+                ],
                 'field_label_list' => [
                     'inventory:codeNumberOrdinal' => 'Code Number',
                     'inventory:codeNumberMonth' => '',
                     'inventory:codeNumberYear' => '',
                     'inventory:transactionDate' => 'Tanggal',
                     'inventory:warehouse' => 'Gudang',
+                    'materialSubCategory:name' => 'Category', 
                 ],
                 'field_operators_list' => [
                     'inventory:codeNumberOrdinal' => [FilterEqual::class, FilterNotEqual::class],
@@ -45,31 +57,51 @@ class InventoryStockPaperGridType extends AbstractType
                     'inventory:warehouse' => [FilterEqual::class, FilterNotEqual::class],
                     'code' => [FilterContain::class, FilterNotContain::class],
                     'name' => [FilterContain::class, FilterNotContain::class],
+                    'weight' => [FilterEqual::class, FilterNotEqual::class],
+                    'type' => [FilterEqual::class, FilterNotEqual::class],
+                    'materialSubCategory:name' => [FilterContain::class, FilterNotContain::class],
                 ],
                 'field_value_type_list' => [
                     'inventory:codeNumberOrdinal' => IntegerType::class,
                     'inventory:codeNumberMonth' => ChoiceType::class,
                     'inventory:codeNumberYear' => IntegerType::class,
                     'inventory:warehouse' => EntityType::class,
+                    'type' => ChoiceType::class,
                 ],
                 'field_value_options_list' => [
                     'inventory:codeNumberMonth' => ['choices' => array_flip(StockHeader::MONTH_ROMAN_NUMERALS)],
                     'inventory:transactionDate' => ['attr' => ['data-controller' => 'flatpickr-element']],
                     'inventory:warehouse' => ['class' => Warehouse::class, 'choice_label' => 'name'],
+                    'type' => ['choices' => ['000' => 'non', 'FSC' => 'fsc']],
                 ],
             ])
             ->add('sort', SortType::class, [
-                'field_names' => ['code', 'name', 'inventory:transactionDate', 'inventory:warehouse', 'inventory:codeNumberYear', 'inventory:codeNumberMonth', 'inventory:codeNumberOrdinal'],
+                'field_names' => [
+                    'code', 
+                    'name', 
+                    'type', 
+                    'weight', 
+                    'materialSubCategory:name', 
+                    'inventory:transactionDate', 
+                    'inventory:warehouse', 
+                    'inventory:codeNumberYear', 
+                    'inventory:codeNumberMonth', 
+                    'inventory:codeNumberOrdinal'
+                ],
                 'field_label_list' => [
                     'inventory:codeNumberOrdinal' => '',
                     'inventory:codeNumberMonth' => '',
                     'inventory:codeNumberYear' => 'Code Number',
                     'inventory:transactionDate' => 'Tanggal',
                     'inventory:warehouse' => 'Gudang',
+                    'materialSubCategory:name' => 'Category',
                 ],
                 'field_operators_list' => [
                     'code' => [SortAscending::class, SortDescending::class],
                     'name' => [SortAscending::class, SortDescending::class],
+                    'weight' => [SortAscending::class, SortDescending::class],
+                    'type' => [SortAscending::class, SortDescending::class],
+                    'materialSubCategory:name' => [SortAscending::class, SortDescending::class],
                     'inventory:codeNumberOrdinal' => [SortAscending::class, SortDescending::class],
                     'inventory:codeNumberMonth' => [SortAscending::class, SortDescending::class],
                     'inventory:codeNumberYear' => [SortAscending::class, SortDescending::class],

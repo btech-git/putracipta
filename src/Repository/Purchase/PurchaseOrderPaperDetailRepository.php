@@ -70,6 +70,23 @@ class PurchaseOrderPaperDetailRepository extends ServiceEntityRepository
 
         return $purchaseOrderDetails;
     }
+     
+    public function findPaperFscPurchaseOrderPaperDetails(array $papers, $startDate, $endDate): array
+    {
+        $dql = "SELECT e
+                FROM " . PurchaseOrderPaperDetail::class . " e
+                JOIN e.purchaseOrderPaperHeader h
+                WHERE e.paper IN (:papers) AND h.transactionDate BETWEEN :startDate AND :endDate
+                ORDER BY e.paper ASC, h.transactionDate ASC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('papers', $papers);
+        $query->setParameter('startDate', $startDate);
+        $query->setParameter('endDate', $endDate);
+        $purchaseOrderDetails = $query->getResult();
+
+        return $purchaseOrderDetails;
+    }
     
     public function findPurchaseOrderPaperHeaderDetails(array $purchaseOrderPaperHeaders, $startDate, $endDate, $paperCode, $paperName, $paperType, $paperWeight, $materialSubCategoryCode): array
     {

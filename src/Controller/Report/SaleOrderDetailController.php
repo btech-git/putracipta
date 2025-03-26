@@ -4,7 +4,7 @@ namespace App\Controller\Report;
 
 use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\FilterBetween;
-use App\Common\Data\Operator\SortDescending;
+use App\Common\Data\Operator\SortAscending;
 use App\Grid\Report\SaleOrderDetailGridType;
 use App\Repository\Sale\SaleOrderDetailRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -31,7 +31,7 @@ class SaleOrderDetailController extends AbstractController
             'saleOrderHeader:orderReceiveDate' => [FilterBetween::class, $currentDate, $currentDate],
         ]);
         $criteria->setSort([
-            'saleOrderHeader:orderReceiveDate' => SortDescending::class,
+            'saleOrderHeader:orderReceiveDate' => SortAscending::class,
         ]);
         $form = $this->createForm(SaleOrderDetailGridType::class, $criteria);
         $form->handleRequest($request);
@@ -39,7 +39,6 @@ class SaleOrderDetailController extends AbstractController
         list($count, $saleOrderDetails) = $saleOrderDetailRepository->fetchData($criteria, function($qb, $alias, $add) use ($request, $criteria) {
             $qb->innerJoin("{$alias}.saleOrderHeader", 'h');
             $qb->innerJoin("{$alias}.product", 'p');
-            $qb->addOrderBy("h.orderReceiveDate", 'DESC');
             if (!empty($criteria->getFilter()['saleOrderHeader:orderReceiveDate'])) {
                 $add['filter']($qb, 'h', 'orderReceiveDate', $criteria->getFilter()['saleOrderHeader:orderReceiveDate']);
             }
