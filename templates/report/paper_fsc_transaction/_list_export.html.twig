@@ -4,7 +4,7 @@
             <th style="text-align: center" colspan="7"><strong>PT. Putracipta Karindomas</strong></th>
         </tr>
         <tr>
-            <th style="text-align: center" colspan="7"><strong>Laporan PO per Paper</strong></th>
+            <th style="text-align: center" colspan="7"><strong>Laporan Transaksi Kertas FSC</strong></th>
         </tr>
         <tr>
             <th style="text-align: center" colspan="7">
@@ -32,28 +32,73 @@
     </thead>
     <tbody>
         {% for paper in papers %}
-            {% set totalSum = '0.00' %}
+            <tr>
+                <td colspan="9">KEDATANGAN</td>
+            </tr>
             {% for purchaseOrderPaperDetail in purchaseOrderPaperDetails[paper.id] %}
-                <tr>
-                    <td style="text-align: left">{{ paper.codeNumber|default }}</td>
-                    <td style="text-align: left">{{ paper.name|default }}</td>
-                    <td style="text-align: left">{{ paper.materialSubCategory.name|default }}</td>
-                    <td style="text-align: left">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
-                    <td style="text-align: left">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('j F Y') }}</td>
-                    <td style="text-align: left">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.supplier.company|default }}</td>
-                    <td style="text-align: center">{{ purchaseOrderPaperDetail.quantity|default }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default }}</td>
-                    <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default }}</td>
-                </tr>
-                {% set totalSum = totalSum + purchaseOrderPaperDetail.total %}
+                {% if (purchaseOrderPaperDetail.isCanceled == false) %}
+                    <tr>
+                        <td style="text-align: left">{{ paper.codeNumber|default }}</td>
+                        <td style="text-align: left">{{ paper.name|default }}</td>
+                        <td style="text-align: left">{{ paper.materialSubCategory.name|default }}</td>
+                        <td style="text-align: left">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.codeNumber|default }}</td>
+                        <td style="text-align: left">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|default ? purchaseOrderPaperDetail.purchaseOrderPaperHeader.transactionDate|date('j F Y') }}</td>
+                        <td style="text-align: left">{{ purchaseOrderPaperDetail.purchaseOrderPaperHeader.supplier.company|default }}</td>
+                        <td style="text-align: center">{{ purchaseOrderPaperDetail.quantity|default }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.unitPrice|default }}</td>
+                        <td style="text-align: right">{{ purchaseOrderPaperDetail.total|default }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             <tr>
-                <td style="text-align: right; border-top: 1px solid" colspan="8"><strong>Grand Total</strong></td>
-                <td style="text-align: right; border-top: 1px solid"><strong>{{ totalSum|default }}</strong></td>
+                <td colspan="9">PEMAKAIAN</td>
             </tr>
-            <tr>
-                <td colspan="9"></td>
-            </tr>
+            {% for masterOrderHeader in masterOrderHeaders[paper.id] %}
+                {% if (masterOrderHeader.isCanceled == false) %}
+                    <tr>
+                        <td style="text-align: left">{{ paper.codeNumber|default }}</td>
+                        <td style="text-align: left">{{ paper.name|default }}</td>
+                        <td style="text-align: left">{{ paper.materialSubCategory.name|default }}</td>
+                        <td style="text-align: left">{{ masterOrderHeader.codeNumber|default }}</td>
+                        <td style="text-align: left">{{ masterOrderHeader.transactionDate|default ? masterOrderHeader.transactionDate|date('j F Y') }}</td>
+                        <td style="text-align: left">
+                            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                {{ masterOrderProductDetail.saleOrderDetail.saleOrderHeader.referenceNumber|default }}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: center">
+                            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                {% for deliveryDetail in masterOrderProductDetail.deliveryDetails %}
+                                    {{ deliveryDetail.deliveryHeader.codeNumber|default }}
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                {% for deliveryDetail in masterOrderProductDetail.deliveryDetails %}
+                                    {{ deliveryDetail.deliveryHeader.transactionDate|default ? deliveryDetail.deliveryHeader.transactionDate|date('j F Y') }}
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: right">
+                            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                {% for deliveryDetail in masterOrderProductDetail.deliveryDetails %}
+                                    {{ deliveryDetail.deliveredQuantity|default }}
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for masterOrderProductDetail in masterOrderHeader.masterOrderProductDetails %}
+                                {% for deliveryDetail in masterOrderProductDetail.deliveryDetails %}
+                                    {% for saleInvoiceDetail in deliveryDetail.saleInvoiceDetails %}
+                                        {{ saleInvoiceDetail.saleInvoiceHeader.codeNumber|default }}
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
     </tbody>
 </table>
