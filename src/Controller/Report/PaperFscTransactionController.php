@@ -67,7 +67,7 @@ class PaperFscTransactionController extends AbstractController
         $masterOrderHeaders = $this->getMasterOrderHeaders($masterOrderHeaderRepository, $criteria, $papers);
 
         if ($request->request->has('export')) {
-            return $this->export($form, $papers, $purchaseOrderPaperDetails);
+            return $this->export($form, $papers, $purchaseOrderPaperDetails, $masterOrderHeaders);
         } else {
             return $this->renderForm("report/paper_fsc_transaction/_list.html.twig", [
                 'form' => $form,
@@ -112,12 +112,13 @@ class PaperFscTransactionController extends AbstractController
         return $masterOrderHeaders;
     }
 
-    public function export(FormInterface $form, array $papers, array $purchaseOrderPaperDetails): Response
+    public function export(FormInterface $form, array $papers, array $purchaseOrderPaperDetails, array $masterOrderHeaders): Response
     {
         $htmlString = $this->renderView("report/paper_fsc_transaction/_list_export.html.twig", [
             'form' => $form->createView(),
             'papers' => $papers,
             'purchaseOrderPaperDetails' => $purchaseOrderPaperDetails,
+            'masterOrderHeaders' => $masterOrderHeaders,
         ]);
 
         $reader = new Html();
