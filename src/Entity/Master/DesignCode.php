@@ -200,7 +200,7 @@ class DesignCode extends Master
 
     public function getCodeNumber(): string
     {
-        return str_pad($this->customer->getCode(), 3, '0', STR_PAD_LEFT) . '-P' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-V' . str_pad($this->variant, 3, '0', STR_PAD_LEFT) . '-R' . $this->version;
+        return str_pad($this->customer->getCode(), 3, '0', STR_PAD_LEFT) . '-P' . str_pad($this->code, 3, '0', STR_PAD_LEFT) . '-V' . $this->variant . '-R' . $this->version;
     }
     
     public function getColorPantoneAdditional() 
