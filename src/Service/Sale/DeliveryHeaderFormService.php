@@ -89,17 +89,18 @@ class DeliveryHeaderFormService
             $deliveryHeader->setCodeNumberToNext($currentDeliveryHeader->getCodeNumber(), $year, $month);
         }
         $transportation = $deliveryHeader->getTransportation();
-        if ($deliveryHeader->isIsUsingOutsourceDelivery() === false && $transportation !== null) {
-            $deliveryHeader->setVehicleName($transportation->getName());
-            
-            if (!empty($transportation)) {
+        if ($deliveryHeader->isIsUsingOutsourceDelivery() === false) {
+            if ($transportation !== null) {
+                $deliveryHeader->setVehicleName($transportation->getName());
                 $deliveryHeader->setVehiclePlateNumber($transportation->getPlateNumber());
             } else {
+                $deliveryHeader->setVehicleName('');
                 $deliveryHeader->setVehiclePlateNumber('');
-                
             }
+            
 //            $deliveryHeader->setVehicleDriverName($deliveryHeader->getEmployee()->getName());
         }
+            
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
             $saleOrderDetail = $deliveryDetail->getSaleOrderDetail();
             $deliveryDetail->setProduct($saleOrderDetail->getProduct());
