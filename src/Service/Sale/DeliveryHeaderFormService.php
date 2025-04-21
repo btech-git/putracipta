@@ -91,7 +91,13 @@ class DeliveryHeaderFormService
         $transportation = $deliveryHeader->getTransportation();
         if ($deliveryHeader->isIsUsingOutsourceDelivery() === false && $transportation !== null) {
             $deliveryHeader->setVehicleName($transportation->getName());
-            $deliveryHeader->setVehiclePlateNumber($transportation->getPlateNumber());
+            
+            if (!empty($transportation)) {
+                $deliveryHeader->setVehiclePlateNumber($transportation->getPlateNumber());
+            } else {
+                $deliveryHeader->setVehiclePlateNumber('');
+                
+            }
 //            $deliveryHeader->setVehicleDriverName($deliveryHeader->getEmployee()->getName());
         }
         foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
