@@ -18,9 +18,9 @@ trait EntityDataFetch
         $lastPageNumber = $count === 0 ? 1 : ceil($count / $pagination->getSize());
         if ($pagination->getNumber() < 1) {
             $pagination->setNumber(1);
-        } else if ($pagination->getNumber() > $lastPageNumber) {
-            $pagination->setNumber($lastPageNumber);
-        }
+        }// else if ($pagination->getNumber() > $lastPageNumber) {
+//            $pagination->setNumber($lastPageNumber);
+//        }
         $objects = $this->fetchObjects($criteria, $callback, $alias);
 
         return [$count, $objects];
