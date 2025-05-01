@@ -42,7 +42,8 @@ class UserMenuConfig
             'MENU_REPORT_WAREHOUSE_MATERIAL' => [
                 'MENU_REPORT_PURCHASE_REQUEST_MATERIAL', 'MENU_REPORT_PURCHASE_REQUEST_PAPER', 'MENU_REPORT_PURCHASE_RECEIVE', 'MENU_REPORT_PURCHASE_RETURN', 
                 'MENU_REPORT_ADJUSTMENT_STOCK', 'MENU_REPORT_INVENTORY_RELEASE_MATERIAL', 'MENU_REPORT_INVENTORY_RELEASE_PAPER', 'MENU_REPORT_STOCK_TRANSFER', 
-                'MENU_REPORT_INVENTORY_STOCK_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_PAPER', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PAPER'
+                'MENU_REPORT_INVENTORY_STOCK_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_SUMMARY_MATERIAL', 'MENU_REPORT_INVENTORY_STOCK_PAPER', 
+                'MENU_REPORT_INVENTORY_STOCK_SUMMARY_PAPER', 'MENU_REPORT_PAPER_TRANSACTION'
             ],
             'MENU_REPORT_WAREHOUSE_FINISHED_GOODS' => [
                 'MENU_REPORT_SALE_DELIVERY', 'MENU_REPORT_SALE_RETURN', 'MENU_REPORT_PRODUCTION_RECEIVE', 'MENU_REPORT_PRODUCT_INVENTORY_RECEIVE', 
@@ -160,6 +161,7 @@ class UserMenuConfig
             'MENU_REPORT_ACCOUNT_RECEIVABLE' => ['route' => 'app_report_customer_receivable_summary_index', 'pattern' => '/^app_report_customer_receivable_summary_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_REPORT_ACCOUNT_PAYABLE' => ['route' => 'app_report_supplier_payable_summary_index', 'pattern' => '/^app_report_supplier_payable_summary_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
             'MENU_REPORT_ACCOUNTING_LEDGER' => ['route' => 'app_report_accounting_ledger_index', 'pattern' => '/^app_report_accounting_ledger_.+$/', 'roles' => ['ROLE_FINANCE_REPORT']],
+            'MENU_REPORT_PAPER_TRANSACTION' => ['route' => 'app_report_paper_transaction_flow_index', 'pattern' => '/^app_report_paper_transaction_flow_.+$/', 'roles' => ['ROLE_INVENTORY_MATERIAL_REPORT']],
             'MENU_TRANSACTION_LOG' => ['route' => 'app_report_transaction_log_index', 'roles' => ['ROLE_ADMIN']],
         ];
     }

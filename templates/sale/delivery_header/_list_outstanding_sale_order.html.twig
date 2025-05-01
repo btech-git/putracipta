@@ -32,6 +32,7 @@
                 <th style="min-width: 100px">Qty Order</th>
                 <th style="min-width: 100px">Qty Stok</th>
                 <th style="min-width: 100px">Qty Kirim</th>
+                <th style="min-width: 100px">Qty Retur</th>
                 <th style="min-width: 100px">Qty OS</th>
                 <th style="min-width: 80px">Satuan</th>
             </tr>
@@ -62,6 +63,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -79,6 +81,7 @@
                         {{ stockQuantityList[saleOrderDetail.product.id] is defined ? stockQuantityList[saleOrderDetail.product.id]|number_format(0) : 0 }}
                     </td>
                     <td style="text-align: right">{{ saleOrderDetail.totalQuantityDelivery|default|number_format(0) }}</td>
+                    <td style="text-align: right">{{ saleOrderDetail.totalQuantityReturn|default|number_format(0) }}</td>
                     <td style="text-align: right">{{ saleOrderDetail.remainingQuantityDelivery|default|number_format(0) }}</td>
                     <td>{{ saleOrderDetail.unit.name|default }}</td>
                 </tr>

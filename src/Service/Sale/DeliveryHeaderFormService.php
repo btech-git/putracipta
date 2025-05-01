@@ -3,6 +3,7 @@
 namespace App\Service\Sale;
 
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Master\Warehouse;
 use App\Entity\Sale\SaleOrderHeader;
 use App\Entity\Sale\DeliveryDetail;
 use App\Entity\Sale\DeliveryHeader;
@@ -10,6 +11,7 @@ use App\Entity\Sale\SaleOrderDetail;
 use App\Entity\Stock\Inventory;
 use App\Entity\Support\Idempotent;
 use App\Entity\Support\TransactionLog;
+use App\Repository\Master\WarehouseRepository;
 use App\Repository\Sale\DeliveryDetailRepository;
 use App\Repository\Sale\DeliveryHeaderRepository;
 use App\Repository\Sale\SaleOrderDetailRepository;
@@ -35,6 +37,7 @@ class DeliveryHeaderFormService
     private DeliveryDetailRepository $deliveryDetailRepository;
     private SaleOrderDetailRepository $saleOrderDetailRepository;
     private InventoryRepository $inventoryRepository;
+    private WarehouseRepository $warehouseRepository;
 
     public function __construct(RequestStack $requestStack, DeliveryHeaderFormSync $formSync, EntityManagerInterface $entityManager)
     {
@@ -47,6 +50,7 @@ class DeliveryHeaderFormService
         $this->deliveryDetailRepository = $entityManager->getRepository(DeliveryDetail::class);
         $this->saleOrderDetailRepository = $entityManager->getRepository(SaleOrderDetail::class);
         $this->inventoryRepository = $entityManager->getRepository(Inventory::class);
+        $this->warehouseRepository = $entityManager->getRepository(Warehouse::class);
     }
 
     public function initialize(DeliveryHeader $deliveryHeader, array $options = []): void
@@ -193,6 +197,19 @@ class DeliveryHeaderFormService
         $deliveryHeader->setDeliveryDetailProductCodeList(implode(', ', $deliveryDetailProductCodeUniqueList));
         $deliveryDetailProductUniqueList = array_unique(explode(', ', implode(', ', $deliveryDetailProductList)));
         $deliveryHeader->setDeliveryDetailProductList(implode(', ', $deliveryDetailProductUniqueList));
+        
+        $products = array_map(fn($deliveryDetail) => $deliveryDetail->getProduct(), $deliveryHeader->getDeliveryDetails()->toArray());
+        $warehouse = $this->warehouseRepository->findFinishedGoodsRecord();
+        $stockQuantityList = $this->inventoryRepository->getProductStockQuantityList($warehouse, $products);
+        $stockQuantityListIndexed = array_column($stockQuantityList, 'stockQuantity', 'productId');
+        foreach ($deliveryHeader->getDeliveryDetails() as $deliveryDetail) {
+            if ($deliveryDetail->isIsCanceled() === false) {
+                $product = $deliveryDetail->getProduct();
+                if ($product !== null) {
+                    $deliveryDetail->setQuantityStockInventory($stockQuantityListIndexed[$product->getId()]);
+                }
+            }
+        }
     }
 
     public function save(DeliveryHeader $deliveryHeader, array $options = []): void

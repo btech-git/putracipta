@@ -3,6 +3,7 @@
 namespace App\Controller\Shared;
 
 use App\Common\Data\Criteria\DataCriteria;
+use App\Entity\Stock\Inventory;
 use App\Grid\Shared\MasterOrderProductDetailForDeliveryGridType;
 use App\Repository\Master\WarehouseRepository;
 use App\Repository\Production\MasterOrderProductDetailRepository;
@@ -33,6 +34,7 @@ class MasterOrderProductDetailForDeliveryController extends AbstractController
                 $qb->setParameter('productId', $productId);
             }
             $qb->andWhere("{$alias}.remainingStockDelivery > 0");
+//            $qb->andWhere("0 < (SELECT COALESCE(SUM(i.quantityIn - i.quantityOut), 0) FROM " . Inventory::class . " i WHERE IDENTITY({$alias}.product) = IDENTITY(i.product) AND i.isReversed = false AND IDENTITY(i.warehouse) = 2)");
             $qb->andWhere("{$alias}.isCanceled = false");
         });
 

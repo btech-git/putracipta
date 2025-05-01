@@ -1,0 +1,8 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+<select class="form-select" {{ grid.filter_link_item(form, '_paper:id') }}>
+    <option value="" {% if paperId == '' %}selected="selected"{% endif %}></option>
+    {% for paper in papers %}
+        <option value="{{ paper.id }}" {% if paperId == paper.id %}selected="selected"{% endif %}>{{ paper.name }}</option>
+    {% endfor %}
+</select>

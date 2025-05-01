@@ -96,14 +96,24 @@ class DeliveryDetail extends SaleDetail
     }
 
     #[Assert\Callback]
-    public function validateQuantityRemaining(ExecutionContextInterface $context, $payload)
+    public function validateQuantityRemainingDelivery(ExecutionContextInterface $context, $payload)
     {
         if ($this->deliveryHeader->getId() === null) {
             if ($this->saleOrderDetail->getMaximumToleranceQuantity() > $this->saleOrderDetail->getRemainingQuantityDelivery()) {
-                $context->buildViolation('Quantity must be < max quantity tolerance')->atPath('quantity')->addViolation();
+                $context->buildViolation('Quantity must be <= max quantity tolerance')->atPath('quantity')->addViolation();
             }
         }
     }
+
+//    #[Assert\Callback]
+//    public function validateQuantityStockDelivery(ExecutionContextInterface $context, $payload)
+//    {
+//        if ($this->deliveryHeader->getId() === null) {
+//            if ($this->getQuantity() > $this->getQuantityStockInventory()) {
+//                $context->buildViolation('Quantity must be <= quantity stock')->atPath('quantity')->addViolation();
+//            }
+//        }
+//    }
 
     public function getSyncIsCanceled(): bool
     {

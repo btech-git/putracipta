@@ -52,6 +52,7 @@ class Paper extends Master
     private ?string $note = '';
 
     #[ORM\ManyToOne(inversedBy: 'papers')]
+    #[Assert\NotNull]
     private ?MaterialSubCategory $materialSubCategory = null;
 
     #[ORM\Column(length: 60)]

@@ -1,0 +1,64 @@
+{% extends 'layout_page.html.twig' %}
+
+{% block title 'Report Paper Transaction' %}
+
+{% block content %}
+    <div data-controller="html-loader"
+         data-html-loader-url-value="{{ path('app_report_paper_transaction_flow__list') }}"
+         data-html-loader-auto-load-value="true">
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('report') }}
+    <link rel="stylesheet" href="{{ asset('../node_modules/bootstrap-icons/font/bootstrap-icons.css') }}">
+    <style>
+        div#purchase-table-container > table.report-data > thead > tr > th:nth-child(1),
+        div#purchase-table-container > table.report-data > tbody > tr > td:nth-child(1) { min-width: 200px }
+        div#purchase-table-container > table.report-data > thead > tr > th:nth-child(2),
+        div#purchase-table-container > table.report-data > tbody > tr > td:nth-child(2) { min-width: 200px }
+        div#purchase-table-container > table.report-data > thead > tr > th:nth-child(3),
+        div#purchase-table-container > table.report-data > tbody > tr > td:nth-child(3) { min-width: 200px }
+        
+        div#purchase-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(1),
+        div#purchase-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(1) { min-width: 200px }
+        div#purchase-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(2),
+        div#purchase-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(2) { min-width: 200px }
+        div#purchase-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(3),
+        div#purchase-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(3) { min-width: 200px }
+        div#purchase-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(4),
+        div#purchase-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(4) { min-width: 200px }
+        div#purchase-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(5),
+        div#purchase-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(5) { min-width: 200px }
+        
+        div#production-table-container > table.report-data > thead > tr > th:nth-child(1),
+        div#production-table-container > table.report-data > tbody > tr > td:nth-child(1) { min-width: 200px }
+        div#production-table-container > table.report-data > thead > tr > th:nth-child(2),
+        div#production-table-container > table.report-data > tbody > tr > td:nth-child(2) { min-width: 200px }
+        
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(1),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(1) { min-width: 200px }
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th:nth-child(2),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td:nth-child(2) { min-width: 200px }
+        
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th > table > thead > tr > th:nth-child(1),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td:nth-child(1) { min-width: 200px }
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th > table > thead > tr > th:nth-child(2),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td:nth-child(2) { min-width: 200px }
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th > table > thead > tr > th:nth-child(3),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td:nth-child(3) { min-width: 200px }
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th > table > thead > tr > th:nth-child(4),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td:nth-child(4) { min-width: 200px }
+        div#production-table-container > table.report-data > thead > tr > th > table > thead > tr > th > table > thead > tr > th:nth-child(5),
+        div#production-table-container > table.report-data > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td:nth-child(5) { min-width: 200px }
+        
+        .report table.report-data table
+        {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1em;
+        }
+    </style>
+{% endblock %}
