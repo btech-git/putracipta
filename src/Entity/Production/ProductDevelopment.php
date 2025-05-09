@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'production_product_development')]
 class ProductDevelopment extends ProductionHeader
 {
-    public const CODE_NUMBER_CONSTANT = 'RNP';
+    public const CODE_NUMBER_CONSTANT = 'RND';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]

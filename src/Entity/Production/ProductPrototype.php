@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'production_product_prototype')]
 class ProductPrototype extends ProductionHeader
 {
-    public const CODE_NUMBER_CONSTANT = 'RNP';
+    public const CODE_NUMBER_CONSTANT = 'PP';
     public const DATA_SOURCE_HARD_FA = 'hard_fa';
     public const DATA_SOURCE_EMAIL = 'email';
     public const DATA_SOURCE_CD = 'cd';
