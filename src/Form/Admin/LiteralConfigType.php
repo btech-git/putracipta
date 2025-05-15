@@ -98,6 +98,9 @@ class LiteralConfigType extends AbstractType
             ->add('coatingNumber', null, ['label' => 'WORK ORDER COATING #'])
             ->add('coatingRevision', null, ['label' => 'Revisi'])
             ->add('coatingDate', FormattedDateType::class, ['label' => 'Tanggal'])
+            ->add('formPlateNumber', null, ['label' => 'FORM PLATE #'])
+            ->add('formPlateRevision', null, ['label' => 'Revisi'])
+            ->add('formPlateDate', FormattedDateType::class, ['label' => 'Tanggal'])
         ;
     }
 

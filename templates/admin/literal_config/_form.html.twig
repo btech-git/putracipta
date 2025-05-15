@@ -338,6 +338,18 @@
         </div>
     </div>        
          
+    <div class="row {{ group == 'form_plate' ? '' : 'd-none' }}">
+        <div class="col">
+            {{ form_row(form.formPlateNumber) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.formPlateRevision) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.formPlateDate, {'attr': {'data-controller': 'flatpickr-element', 'class': 'readonly-form-input', 'data-flatpickr-element-options-value': {'dateFormat': 'j M Y'}|json_encode}}) }}
+        </div>
+    </div>        
+         
     <div class="d-grid">
         <div class="row">
             <div class="col text-center">

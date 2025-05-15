@@ -593,6 +593,27 @@
                 </tr>
             </tbody>
         </table>
+                    
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="table-primary">
+                    <th>FORM PLATE #</th>
+                    <th style="width: 50px">Revisi</th>
+                    <th style="width: 200px">Tanggal</th>
+                    <th style="width: 50px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ literalConfig.formPlateNumber }}</td>
+                    <td>{{ literalConfig.formPlateRevision }}</td>
+                    <td>{{ literalConfig.formPlateDate ? literalConfig.formPlateDate|date('d M Y') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ path('app_admin_literal_config_edit', {'id': literalConfig.id, 'group': 'form_plate'}) }}">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}
