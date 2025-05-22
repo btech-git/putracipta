@@ -1,0 +1,87 @@
+{% import 'app/data_grid.html.twig' as grid %}
+
+{{ grid.form(form) }}
+
+{{ grid.info(form, count, receiveDetails) }}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="receive-detail-table" 
+           data-controller="data-table"
+               data-data-table-selected-identifiers-target-value="#receive-table-identifiers"
+               data-data-table-selected-class="table-primary"
+               data-data-table-active-class="table-active">
+        <thead>
+            <tr class="table-primary" {{ grid.sort_link(form) }}>
+                <th style="min-width: 150px">
+                    Penerimaan #
+                </th>
+                <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'receiveHeader:supplierDeliveryCodeNumber') }}>
+                    SJ # {{ grid.sort_char(form.sort['receiveHeader:supplierDeliveryCodeNumber'].vars.value) }}
+                </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'material:code') }}>
+                    Code {{ grid.sort_char(form.sort['material:code'].vars.value) }}
+                </th>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'material:name') }}>
+                    Material {{ grid.sort_char(form.sort['material:name'].vars.value) }}
+                </th>
+                <th style="min-width: 200px" role="button" {{ grid.sort_link_item(form, 'paper:code') }}>
+                    Code {{ grid.sort_char(form.sort['material:code'].vars.value) }}
+                </th>
+                <th style="min-width: 350px" role="button" {{ grid.sort_link_item(form, 'paper:name') }}>
+                    Paper {{ grid.sort_char(form.sort['material:name'].vars.value) }}
+                </th>
+                <th style="min-width: 100px">
+                    Quantity
+                </th>
+            </tr>
+            <tr class="table-light" {{ grid.filter_link(form) }}>
+                <th></th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'receiveHeader:supplierDeliveryCodeNumber') }} value="{{ form.filter['receiveHeader:supplierDeliveryCodeNumber'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:code') }} value="{{ form.filter['material:code'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'material:name') }} value="{{ form.filter['material:name'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:code') }} value="{{ form.filter['paper:code'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input class="form-control" type="text" {{ grid.filter_link_item(form, 'paper:name') }} value="{{ form.filter['paper:name'].1.vars.value }}" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for receiveDetail in receiveDetails %}
+                <tr data-data-table-target="selectable" data-selected-identifier="{{ receiveDetail.id }}" data-action="click->data-table#select" data-data-table-values-param="{{ {
+                    'receiveDetailId': receiveDetail.id, 
+                    'materialPaperName': receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default, 
+                    'materialPaperCode': receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default, 
+                    'receiveHeaderSupplierDeliveryCodeNumber': receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default, 
+                    'quantity': receiveDetail.receivedQuantity|default|number_format(0), 
+                    'unitPrice': receiveDetail.purchaseOrderPaperDetail is null ? receiveDetail.purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) : receiveDetail.purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2),
+                    'total': receiveDetail.total|default|number_format(2),
+                    'unitName': receiveDetail.unit.name}|json_encode }}">
+                    <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                    <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                    {#<td>{{ receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default }}</td>
+                    <td>{{ receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default }}</td>#}
+                    <td>{{ receiveDetail.material is null ? '' : receiveDetail.material.code|default }}</td>
+                    <td>{{ receiveDetail.material is null ? '' : receiveDetail.material.name|default }}</td>
+                    <td>{{ receiveDetail.paper is null ? '' : receiveDetail.paper.code|default }}</td>
+                    <td>{{ receiveDetail.paper is null ? '' : receiveDetail.paper.name|default }}</td>
+                    <td class="text-end">{{ receiveDetail.receivedQuantity|default|number_format(2) }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{{ grid.navigation(form, count, receiveDetails) }}

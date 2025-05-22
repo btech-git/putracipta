@@ -17,6 +17,7 @@ class PurchaseInvoiceDetailType extends AbstractType
         $builder
             ->add('unitPrice', FormattedNumberType::class, ['decimals' => 2])
             ->add('receiveDetail', EntityHiddenType::class, ['class' => ReceiveDetail::class])
+            ->add('isCanceled')
         ;
     }
 

@@ -4,10 +4,11 @@ namespace App\Form\Purchase;
 
 use App\Common\Form\Type\EntityHiddenType;
 use App\Common\Form\Type\FormattedDateType;
+use App\Entity\Master\Supplier;
 use App\Entity\Purchase\PurchaseInvoiceDetail;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
-use App\Entity\Purchase\ReceiveHeader;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,8 +23,17 @@ class PurchaseInvoiceHeaderType extends AbstractType
             ->add('transactionDate', FormattedDateType::class)
             ->add('invoiceReceivedDate', FormattedDateType::class)
 //            ->add('invoiceTaxDate', FormattedDateType::class)
+            ->add('discountValueType', ChoiceType::class, ['choices' => [
+                'Percentage' => PurchaseInvoiceHeader::DISCOUNT_VALUE_TYPE_PERCENTAGE,
+                'Nominal' => PurchaseInvoiceHeader::DISCOUNT_VALUE_TYPE_NOMINAL,
+            ]])
+            ->add('discountValue')
+            ->add('taxMode', ChoiceType::class, ['choices' => [
+                'Non PPn' => PurchaseInvoiceHeader::TAX_MODE_NON_TAX,
+                'PPn' => PurchaseInvoiceHeader::TAX_MODE_TAX_EXCLUSION,
+            ]])
             ->add('note')
-            ->add('receiveHeader', EntityHiddenType::class, ['class' => ReceiveHeader::class])
+            ->add('supplier', EntityHiddenType::class, ['class' => Supplier::class])
             ->add('purchaseInvoiceDetails', CollectionType::class, [
                 'entry_type' => PurchaseInvoiceDetailType::class,
                 'allow_add' => true,

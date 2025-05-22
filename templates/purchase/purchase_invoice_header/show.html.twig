@@ -40,18 +40,6 @@
                 <td>{{ purchaseInvoiceHeader.supplier.company }}</td>
             </tr>
             <tr>
-                <th>PO #</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader is null ? purchaseInvoiceHeader.receiveHeader.purchaseOrderPaperHeader.getCodeNumber|default : purchaseInvoiceHeader.receiveHeader.purchaseOrderHeader.getCodeNumber|default }}</td>
-            </tr>
-            <tr>
-                <th>Penerimaan #</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.getCodeNumber|default }}</td>
-            </tr>
-            <tr>
-                <th>Supplier SJ #</th>
-                <td>{{ purchaseInvoiceHeader.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
-            </tr>
-            <tr>
                 <th>TOP (hari)</th>
                 <td>{{ purchaseInvoiceHeader.supplier.paymentTerm|default }}</td>
             </tr>
@@ -100,7 +88,10 @@
 
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="bg-info">
+            <tr>
+                <th>PO #</th>
+                <th>Penerimaan #</th>
+                <th>Supplier SJ #</th>
                 <th>Kode</th>
                 <th>Nama Material</th>
                 <th>Quantity</th>
@@ -113,6 +104,9 @@
             {% for purchaseInvoiceDetail in purchaseInvoiceHeader.purchaseInvoiceDetails %}
                 {% if purchaseInvoiceDetail.isCanceled == false and purchaseInvoiceDetail.quantity > 0 %}
                     <tr>
+                        <td>{{ purchaseInvoiceDetail.receiveDetail.receiveHeader.purchaseOrderHeader is null ? purchaseInvoiceDetail.receiveDetail.receiveHeader.purchaseOrderPaperHeader.getCodeNumber|default : purchaseInvoiceDetail.receiveDetail.receiveHeader.purchaseOrderHeader.getCodeNumber|default }}</td>
+                        <td>{{ purchaseInvoiceDetail.receiveDetail.receiveHeader.getCodeNumber|default }}</td>
+                        <td>{{ purchaseInvoiceDetail.receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
                         <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.codeNumber|default : purchaseInvoiceDetail.material.code|default }}</td>
                         <td>{{ purchaseInvoiceDetail.material is null ? purchaseInvoiceDetail.paper.name|default : purchaseInvoiceDetail.material.name|default }}</td>
                         <td style="text-align: center">{{ purchaseInvoiceDetail.quantity|default|number_format(2) }}</td>
@@ -125,20 +119,20 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Sub Total</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Sub Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>DPP</strong></td>
+                <td colspan="8" style="text-align: right"><strong>DPP</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.subTotalCoretax|default|number_format(2) }}</strong></td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Disc {{ purchaseInvoiceHeader.discountValue|default }}%</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Disc {{ purchaseInvoiceHeader.discountValue|default }}%</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.discountNominal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right">
+                <td colspan="8" style="text-align: right">
                     <strong>
                         {% if purchaseInvoiceHeader.taxMode == constant('TAX_MODE_NON_TAX', purchaseInvoiceHeader) %}
                             Non PPn 0%
@@ -152,19 +146,19 @@
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.taxNominal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Grand Total</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Grand Total</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.grandTotal|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Total Payment</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Total Payment</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.totalPayment|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Total Return</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Total Return</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.totalReturn|default|number_format(2) }}</strong></td>
             </tr>
             <tr>
-                <td colspan="5" style="text-align: right"><strong>Remaining Payment</strong></td>
+                <td colspan="8" style="text-align: right"><strong>Remaining Payment</strong></td>
                 <td style="text-align: right"><strong>{{ purchaseInvoiceHeader.remainingPayment|default|number_format(2) }}</strong></td>
             </tr>
         </tfoot>

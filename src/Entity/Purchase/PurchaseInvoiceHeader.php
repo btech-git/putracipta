@@ -20,7 +20,6 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     public const DISCOUNT_VALUE_TYPE_NOMINAL = 'nominal';
     public const TAX_MODE_NON_TAX = 'non_tax';
     public const TAX_MODE_TAX_EXCLUSION = 'tax_exclusion';
-    public const TAX_MODE_TAX_INCLUSION = 'tax_inclusion';
     public const TRANSACTION_STATUS_INVOICING = 'invoicing';
     public const TRANSACTION_STATUS_PARTIAL_PAYMENT = 'partial_payment';
     public const TRANSACTION_STATUS_FULL_PAYMENT = 'full_payment';
@@ -88,6 +87,7 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     private ?string $remainingPayment = '0.00';
 
     #[ORM\ManyToOne]
+    #[Assert\NotNull]
     private ?Supplier $supplier = null;
 
     #[ORM\OneToMany(mappedBy: 'purchaseInvoiceHeader', targetEntity: PurchaseInvoiceDetail::class)]
@@ -113,7 +113,6 @@ class PurchaseInvoiceHeader extends PurchaseHeader
     private ?\DateTimeInterface $invoiceReceivedDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchaseInvoiceHeaders')]
-    #[Assert\NotNull]
     private ?ReceiveHeader $receiveHeader = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 2)]
