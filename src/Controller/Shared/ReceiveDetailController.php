@@ -28,6 +28,8 @@ class ReceiveDetailController extends AbstractController
             $qb->innerJoin("{$alias}.receiveHeader", 'h');
             $qb->leftJoin("{$alias}.material", 'm');
             $qb->leftJoin("{$alias}.paper", 'p');
+            $qb->leftJoin("h.purchaseOrderHeader", 'pm');
+            $qb->leftJoin("h.purchaseOrderPaperHeader", 'pp');
             
             if (isset($request->request->get('purchase_invoice_header')['supplier'])) {
                 $supplierId = $request->request->get('purchase_invoice_header')['supplier'];
@@ -58,6 +60,36 @@ class ReceiveDetailController extends AbstractController
             if (isset($request->request->get('receive_detail_grid')['filter']['receiveHeader:supplierDeliveryCodeNumber']) && isset($request->request->get('receive_detail_grid')['sort']['receiveHeader:supplierDeliveryCodeNumber'])) {
                 $add['filter']($qb, 'h', 'referenceNumber', $request->request->get('receive_detail_grid')['filter']['receiveHeader:supplierDeliveryCodeNumber']);
                 $add['sort']($qb, 'h', 'referenceNumber', $request->request->get('receive_detail_grid')['sort']['receiveHeader:supplierDeliveryCodeNumber']);
+            }
+            
+            if (isset($request->request->get('receive_detail_grid')['filter']['purchaseOrderHeader:codeNumberOrdinal']) && isset($request->request->get('receive_detail_grid')['sort']['purchaseOrderHeader:codeNumberOrdinal'])) {
+                $add['filter']($qb, 'pm', 'codeNumberOrdinal', $request->request->get('receive_detail_grid')['filter']['purchaseOrderHeader:codeNumberOrdinal']);
+                $add['sort']($qb, 'pm', 'codeNumberOrdinal', $request->request->get('receive_detail_grid')['sort']['purchaseOrderHeader:codeNumberOrdinal']);
+            }
+            
+            if (isset($request->request->get('receive_detail_grid')['filter']['purchaseOrderHeader:codeNumberMonth']) && isset($request->request->get('receive_detail_grid')['sort']['purchaseOrderHeader:codeNumberMonth'])) {
+                $add['filter']($qb, 'pm', 'codeNumberMonth', $request->request->get('receive_detail_grid')['filter']['purchaseOrderHeader:codeNumberMonth']);
+                $add['sort']($qb, 'pm', 'codeNumberMonth', $request->request->get('receive_detail_grid')['sort']['purchaseOrderHeader:codeNumberMonth']);
+            }
+            
+            if (isset($request->request->get('receive_detail_grid')['filter']['purchaseOrderHeader:codeNumberYear']) && isset($request->request->get('receive_detail_grid')['sort']['purchaseOrderHeader:codeNumberYear'])) {
+                $add['filter']($qb, 'pm', 'codeNumberYear', $request->request->get('receive_detail_grid')['filter']['purchaseOrderHeader:codeNumberYear']);
+                $add['sort']($qb, 'pm', 'codeNumberYear', $request->request->get('receive_detail_grid')['sort']['purchaseOrderHeader:codeNumberYear']);
+            }
+            
+            if (isset($request->request->get('receive_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberOrdinal']) && isset($request->request->get('receive_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberOrdinal'])) {
+                $add['filter']($qb, 'pp', 'codeNumberOrdinal', $request->request->get('receive_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberOrdinal']);
+                $add['sort']($qb, 'pp', 'codeNumberOrdinal', $request->request->get('receive_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberOrdinal']);
+            }
+            
+            if (isset($request->request->get('receive_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberMonth']) && isset($request->request->get('receive_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberMonth'])) {
+                $add['filter']($qb, 'pp', 'codeNumberMonth', $request->request->get('receive_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberMonth']);
+                $add['sort']($qb, 'pp', 'codeNumberMonth', $request->request->get('receive_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberMonth']);
+            }
+            
+            if (isset($request->request->get('receive_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberYear']) && isset($request->request->get('receive_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberYear'])) {
+                $add['filter']($qb, 'pp', 'codeNumberYear', $request->request->get('receive_detail_grid')['filter']['purchaseOrderPaperHeader:codeNumberYear']);
+                $add['sort']($qb, 'pp', 'codeNumberYear', $request->request->get('receive_detail_grid')['sort']['purchaseOrderPaperHeader:codeNumberYear']);
             }
             
             $sub = $new(PurchaseInvoiceDetail::class, 'pi');

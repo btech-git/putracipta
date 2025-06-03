@@ -12,8 +12,11 @@
                data-data-table-active-class="table-active">
         <thead>
             <tr class="table-primary" {{ grid.sort_link(form) }}>
-                <th style="min-width: 150px">
-                    Penerimaan #
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'purchaseOrderHeader:codeNumberOrdinal') }}>
+                    PO Material # {{ grid.sort_char(form.sort['purchaseOrderHeader:codeNumberOrdinal'].vars.value) }}
+                </th>
+                <th style="min-width: 280px" role="button" {{ grid.sort_link_item(form, 'purchaseOrderPaperHeader:codeNumberOrdinal') }}>
+                    PO Paper # {{ grid.sort_char(form.sort['purchaseOrderPaperHeader:codeNumberOrdinal'].vars.value) }}
                 </th>
                 <th style="min-width: 150px" role="button" {{ grid.sort_link_item(form, 'receiveHeader:supplierDeliveryCodeNumber') }}>
                     SJ # {{ grid.sort_char(form.sort['receiveHeader:supplierDeliveryCodeNumber'].vars.value) }}
@@ -35,7 +38,30 @@
                 </th>
             </tr>
             <tr class="table-light" {{ grid.filter_link(form) }}>
-                <th></th>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderHeader:codeNumberOrdinal') }} value="{{ form.filter['purchaseOrderHeader:codeNumberOrdinal'].1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(form, 'purchaseOrderHeader:codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter['purchaseOrderHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderHeader:codeNumberYear') }} value="{{ form.filter['purchaseOrderHeader:codeNumberYear'].1.vars.value }}" />
+                </th>
+                <th>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderPaperHeader:codeNumberOrdinal') }} value="{{ form.filter['purchaseOrderPaperHeader:codeNumberOrdinal'].1.vars.value }}" />
+                    <span><small>/{{ constant('App\\Entity\\Purchase\\PurchaseOrderPaperHeader::CODE_NUMBER_CONSTANT') }}/</small></span>
+                    <select {{ grid.filter_link_item(form, 'purchaseOrderPaperHeader:codeNumberMonth') }}>
+                        {% for value, label in constant('App\\Entity\\PurchaseHeader::MONTH_ROMAN_NUMERALS') %}
+                            {% set val = value == 0 ? '' : value %}
+                            <option value="{{ val }}" {% if form.filter['purchaseOrderPaperHeader:codeNumberMonth'].1.vars.value == val %}selected="selected"{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <span><small>/</small></span>
+                    <input style="width: 64px" type="number" {{ grid.filter_link_item(form, 'purchaseOrderPaperHeader:codeNumberYear') }} value="{{ form.filter['purchaseOrderPaperHeader:codeNumberYear'].1.vars.value }}" />
+                </th>
                 <th>
                     <input class="form-control" type="text" {{ grid.filter_link_item(form, 'receiveHeader:supplierDeliveryCodeNumber') }} value="{{ form.filter['receiveHeader:supplierDeliveryCodeNumber'].1.vars.value }}" />
                 </th>
@@ -65,13 +91,12 @@
                     'unitPrice': receiveDetail.purchaseOrderPaperDetail is null ? receiveDetail.purchaseOrderDetail.unitPriceBeforeTax|default|number_format(2) : receiveDetail.purchaseOrderPaperDetail.unitPriceBeforeTax|default|number_format(2),
                     'total': receiveDetail.total|default|number_format(2),
                     'unitName': receiveDetail.unit.name}|json_encode }}">
-                    <td>{{ receiveDetail.receiveHeader.codeNumber|default }}</td>
+                    <td>{{ receiveDetail.receiveHeader.purchaseOrderHeader.codeNumber|default }}</td>
+                    <td>{{ receiveDetail.receiveHeader.purchaseOrderPaperHeader.codeNumber|default }}</td>
                     <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
-                    {#<td>{{ receiveDetail.material is null ? receiveDetail.paper.code|default : receiveDetail.material.code|default }}</td>
-                    <td>{{ receiveDetail.material is null ? receiveDetail.paper.name|default : receiveDetail.material.name|default }}</td>#}
                     <td>{{ receiveDetail.material is null ? '' : receiveDetail.material.code|default }}</td>
                     <td>{{ receiveDetail.material is null ? '' : receiveDetail.material.name|default }}</td>
-                    <td>{{ receiveDetail.paper is null ? '' : receiveDetail.paper.code|default }}</td>
+                    <td>{{ receiveDetail.paper is null ? '' : receiveDetail.paper.codeNumber|default }}</td>
                     <td>{{ receiveDetail.paper is null ? '' : receiveDetail.paper.name|default }}</td>
                     <td class="text-end">{{ receiveDetail.receivedQuantity|default|number_format(2) }}</td>
                 </tr>
