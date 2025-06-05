@@ -6,12 +6,13 @@ use App\Common\Data\Criteria\DataCriteria;
 use App\Common\Data\Operator\SortDescending;
 use App\Common\Form\Type\PaginationType;
 use App\Common\Idempotent\IdempotentUtility;
+use App\Entity\Purchase\PurchaseInvoiceDetail;
 use App\Entity\Purchase\PurchaseInvoiceHeader;
 use App\Form\Purchase\PurchaseInvoiceHeaderType;
 use App\Grid\Purchase\PurchaseInvoiceHeaderGridType;
 use App\Repository\Admin\LiteralConfigRepository;
 use App\Repository\Purchase\PurchaseInvoiceHeaderRepository;
-use App\Repository\Purchase\ReceiveHeaderRepository;
+use App\Repository\Purchase\ReceiveDetailRepository;
 use App\Service\Purchase\PurchaseInvoiceHeaderFormService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -58,7 +59,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
 
     #[Route('/_list_outstanding_receive_header', name: 'app_purchase_purchase_invoice_header__list_outstanding_receive_header', methods: ['GET', 'POST'])]
     #[Security("is_granted('ROLE_PURCHASE_INVOICE_ADD') or is_granted('ROLE_PURCHASE_INVOICE_EDIT') or is_granted('ROLE_PURCHASE_INVOICE_VIEW')")]
-    public function _listOutstandingReceiveHeader(Request $request, ReceiveHeaderRepository $receiveHeaderRepository): Response
+    public function _listOutstandingReceiveHeader(Request $request, ReceiveDetailRepository $receiveDetailRepository): Response
     {
         $criteria = new DataCriteria();
         $form = $this->createFormBuilder($criteria, ['data_class' => DataCriteria::class, 'csrf_protection' => false])
@@ -66,9 +67,9 @@ class PurchaseInvoiceHeaderController extends AbstractController
                 ->getForm();
         $form->handleRequest($request);
 
-        list($count, $receiveHeaders) = $receiveHeaderRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
-            $sub = $new(PurchaseInvoiceHeader::class, 's');
-            $sub->andWhere("IDENTITY(s.receiveHeader) = {$alias}.id");
+        list($count, $receiveDetails) = $receiveDetailRepository->fetchData($criteria, function($qb, $alias, $add, $new) {
+            $sub = $new(PurchaseInvoiceDetail::class, 's');
+            $sub->andWhere("IDENTITY(s.receiveDetail) = {$alias}.id");
             $qb->andWhere($qb->expr()->not($qb->expr()->exists($sub->getDQL())));
             $qb->andWhere("{$alias}.isCanceled = false");
         });
@@ -76,7 +77,7 @@ class PurchaseInvoiceHeaderController extends AbstractController
         return $this->renderForm("purchase/purchase_invoice_header/_list_outstanding_receive_header.html.twig", [
             'form' => $form,
             'count' => $count,
-            'receiveHeaders' => $receiveHeaders,
+            'receiveDetails' => $receiveDetails,
         ]);
     }
 

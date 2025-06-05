@@ -2,7 +2,7 @@
 
 {{ grid.form(form) }}
 
-{{ grid.info(form, count, receiveHeaders) }}
+{{ grid.info(form, count, receiveDetails) }}
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
@@ -13,16 +13,18 @@
                 <th style="min-width: 250px">Supplier</th>
                 <th style="min-width: 150px">PO #</th>
                 <th style="min-width: 250px">Supplier SJ #</th>
+                <th style="min-width: 150px">Material/Paper</th>
             </tr>
         </thead>
         <tbody>
-            {% for receiveHeader in receiveHeaders %}
+            {% for receiveDetail in receiveDetails %}
                 <tr>
-                    <td>{{ receiveHeader.codeNumber }}</td>
-                    <td>{{ receiveHeader.transactionDate ? receiveHeader.transactionDate|date('d M Y') : '' }}</td>
-                    <td>{{ receiveHeader.supplier.company|default }}</td>
-                    <td>{{ receiveHeader.purchaseOrderHeader is null ? receiveHeader.purchaseOrderPaperHeader.codeNumber|default : receiveHeader.purchaseOrderHeader.codeNumber|default }}</td>
-                    <td>{{ receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                    <td>{{ receiveDetail.receiveHeader.codeNumber }}</td>
+                    <td>{{ receiveDetail.receiveHeader.transactionDate ? receiveDetail.receiveHeader.transactionDate|date('d M Y') : '' }}</td>
+                    <td>{{ receiveDetail.receiveHeader.supplier.company|default }}</td>
+                    <td>{{ receiveDetail.receiveHeader.purchaseOrderHeader is null ? receiveDetail.receiveHeader.purchaseOrderPaperHeader.codeNumber|default : receiveDetail.receiveHeader.purchaseOrderHeader.codeNumber|default }}</td>
+                    <td>{{ receiveDetail.receiveHeader.supplierDeliveryCodeNumber|default }}</td>
+                    <td>{{ receiveDetail.paper is null ? receiveDetail.material.name|default : receiveDetail.paper.name|default }}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -33,4 +35,4 @@
     </table>
 </div>
 
-{{ grid.navigation(form, count, receiveHeaders) }}
+{{ grid.navigation(form, count, receiveDetails) }}
