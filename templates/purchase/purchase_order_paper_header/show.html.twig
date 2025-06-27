@@ -257,7 +257,11 @@
         {% endif %}
     {% endif %}
     
-    {% if (is_granted('ROLE_MARKETING')) %}
-        <div class="d-inline-block"><a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">Print PO Kertas</a></div>
+    {% if (is_granted('ROLE_MARKETING') or is_granted('ROLE_PURCHASE')) %}
+        <div class="d-inline-block">
+            <a target="_blank" class="btn btn-info btn-sm" href="{{ path('app_purchase_purchase_order_paper_header_memo', {'id': purchaseOrderPaperHeader.id}) }}">
+                Print PO Kertas
+            </a>
+        </div>
     {% endif %}
 {% endblock %}
